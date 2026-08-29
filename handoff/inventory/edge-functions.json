@@ -1,0 +1,515 @@
+{
+  "generated_from": "supabase/functions",
+  "count": 33,
+  "functions": [
+    {
+      "name": "ai-assistant",
+      "dir": "supabase/functions/ai-assistant",
+      "secrets": [
+        "LOVABLE_API_KEY",
+        "SUPABASE_ANON_KEY",
+        "SUPABASE_SERVICE_ROLE_KEY",
+        "SUPABASE_URL"
+      ],
+      "cron": false,
+      "webhook": false,
+      "usesServiceRole": true,
+      "usesAi": true,
+      "sendsEmail": false,
+      "lines": 211
+    },
+    {
+      "name": "anamnesis-reminder-cron",
+      "dir": "supabase/functions/anamnesis-reminder-cron",
+      "secrets": [
+        "CRON_SECRET",
+        "RESEND_API_KEY",
+        "SUPABASE_SERVICE_ROLE_KEY",
+        "SUPABASE_URL"
+      ],
+      "cron": true,
+      "webhook": false,
+      "usesServiceRole": true,
+      "usesAi": false,
+      "sendsEmail": true,
+      "lines": 100
+    },
+    {
+      "name": "auth-email-hook",
+      "dir": "supabase/functions/auth-email-hook",
+      "secrets": [
+        "LOVABLE_API_KEY",
+        "SUPABASE_SERVICE_ROLE_KEY",
+        "SUPABASE_URL"
+      ],
+      "cron": false,
+      "webhook": true,
+      "usesServiceRole": true,
+      "usesAi": true,
+      "sendsEmail": false,
+      "lines": 319
+    },
+    {
+      "name": "create-booking-payment",
+      "dir": "supabase/functions/create-booking-payment",
+      "secrets": [
+        "SUPABASE_ANON_KEY",
+        "SUPABASE_SERVICE_ROLE_KEY",
+        "SUPABASE_URL"
+      ],
+      "cron": false,
+      "webhook": false,
+      "usesServiceRole": true,
+      "usesAi": false,
+      "sendsEmail": false,
+      "lines": 166
+    },
+    {
+      "name": "crisis-screening",
+      "dir": "supabase/functions/crisis-screening",
+      "secrets": [
+        "LOVABLE_API_KEY",
+        "SUPABASE_ANON_KEY",
+        "SUPABASE_SERVICE_ROLE_KEY",
+        "SUPABASE_URL"
+      ],
+      "cron": false,
+      "webhook": false,
+      "usesServiceRole": true,
+      "usesAi": true,
+      "sendsEmail": false,
+      "lines": 150
+    },
+    {
+      "name": "decrypt-note",
+      "dir": "supabase/functions/decrypt-note",
+      "secrets": [
+        "SUPABASE_ANON_KEY",
+        "SUPABASE_SERVICE_ROLE_KEY",
+        "SUPABASE_URL"
+      ],
+      "cron": false,
+      "webhook": false,
+      "usesServiceRole": true,
+      "usesAi": false,
+      "sendsEmail": false,
+      "lines": 73
+    },
+    {
+      "name": "encrypt-note",
+      "dir": "supabase/functions/encrypt-note",
+      "secrets": [
+        "SUPABASE_ANON_KEY",
+        "SUPABASE_SERVICE_ROLE_KEY",
+        "SUPABASE_URL"
+      ],
+      "cron": false,
+      "webhook": false,
+      "usesServiceRole": true,
+      "usesAi": false,
+      "sendsEmail": false,
+      "lines": 92
+    },
+    {
+      "name": "find-matches",
+      "dir": "supabase/functions/find-matches",
+      "secrets": [
+        "SUPABASE_ANON_KEY",
+        "SUPABASE_URL"
+      ],
+      "cron": false,
+      "webhook": false,
+      "usesServiceRole": false,
+      "usesAi": false,
+      "sendsEmail": false,
+      "lines": 301
+    },
+    {
+      "name": "generate-certificate",
+      "dir": "supabase/functions/generate-certificate",
+      "secrets": [
+        "RESEND_API_KEY",
+        "SUPABASE_ANON_KEY",
+        "SUPABASE_SERVICE_ROLE_KEY",
+        "SUPABASE_URL"
+      ],
+      "cron": false,
+      "webhook": false,
+      "usesServiceRole": true,
+      "usesAi": false,
+      "sendsEmail": true,
+      "lines": 317
+    },
+    {
+      "name": "generate-clinical-brief",
+      "dir": "supabase/functions/generate-clinical-brief",
+      "secrets": [
+        "LOVABLE_API_KEY",
+        "SUPABASE_ANON_KEY",
+        "SUPABASE_SERVICE_ROLE_KEY",
+        "SUPABASE_URL"
+      ],
+      "cron": false,
+      "webhook": false,
+      "usesServiceRole": true,
+      "usesAi": true,
+      "sendsEmail": false,
+      "lines": 82
+    },
+    {
+      "name": "generate-org-invoice",
+      "dir": "supabase/functions/generate-org-invoice",
+      "secrets": [
+        "SUPABASE_ANON_KEY",
+        "SUPABASE_URL"
+      ],
+      "cron": false,
+      "webhook": false,
+      "usesServiceRole": false,
+      "usesAi": false,
+      "sendsEmail": false,
+      "lines": 246
+    },
+    {
+      "name": "handle-email-suppression",
+      "dir": "supabase/functions/handle-email-suppression",
+      "secrets": [
+        "LOVABLE_API_KEY",
+        "SUPABASE_SERVICE_ROLE_KEY",
+        "SUPABASE_URL"
+      ],
+      "cron": false,
+      "webhook": true,
+      "usesServiceRole": true,
+      "usesAi": true,
+      "sendsEmail": false,
+      "lines": 163
+    },
+    {
+      "name": "handle-email-unsubscribe",
+      "dir": "supabase/functions/handle-email-unsubscribe",
+      "secrets": [
+        "SUPABASE_SERVICE_ROLE_KEY",
+        "SUPABASE_URL"
+      ],
+      "cron": false,
+      "webhook": true,
+      "usesServiceRole": true,
+      "usesAi": false,
+      "sendsEmail": false,
+      "lines": 126
+    },
+    {
+      "name": "journal-synthesize",
+      "dir": "supabase/functions/journal-synthesize",
+      "secrets": [
+        "LOVABLE_API_KEY",
+        "SUPABASE_ANON_KEY",
+        "SUPABASE_URL"
+      ],
+      "cron": false,
+      "webhook": false,
+      "usesServiceRole": false,
+      "usesAi": true,
+      "sendsEmail": false,
+      "lines": 122
+    },
+    {
+      "name": "notify-intake-trigger",
+      "dir": "supabase/functions/notify-intake-trigger",
+      "secrets": [
+        "RESEND_API_KEY",
+        "SUPABASE_ANON_KEY",
+        "SUPABASE_SERVICE_ROLE_KEY",
+        "SUPABASE_URL"
+      ],
+      "cron": false,
+      "webhook": false,
+      "usesServiceRole": true,
+      "usesAi": false,
+      "sendsEmail": true,
+      "lines": 125
+    },
+    {
+      "name": "notify-proposal-response",
+      "dir": "supabase/functions/notify-proposal-response",
+      "secrets": [
+        "PUBLIC_APP_URL",
+        "RESEND_API_KEY",
+        "SUPABASE_ANON_KEY",
+        "SUPABASE_SERVICE_ROLE_KEY",
+        "SUPABASE_URL"
+      ],
+      "cron": false,
+      "webhook": false,
+      "usesServiceRole": true,
+      "usesAi": false,
+      "sendsEmail": true,
+      "lines": 252
+    },
+    {
+      "name": "ops-director",
+      "dir": "supabase/functions/ops-director",
+      "secrets": [
+        "LOVABLE_API_KEY",
+        "SUPABASE_ANON_KEY",
+        "SUPABASE_URL"
+      ],
+      "cron": false,
+      "webhook": false,
+      "usesServiceRole": false,
+      "usesAi": true,
+      "sendsEmail": false,
+      "lines": 65
+    },
+    {
+      "name": "ops-generate-protocol",
+      "dir": "supabase/functions/ops-generate-protocol",
+      "secrets": [
+        "LOVABLE_API_KEY",
+        "SUPABASE_ANON_KEY",
+        "SUPABASE_SERVICE_ROLE_KEY",
+        "SUPABASE_URL"
+      ],
+      "cron": false,
+      "webhook": false,
+      "usesServiceRole": true,
+      "usesAi": true,
+      "sendsEmail": false,
+      "lines": 170
+    },
+    {
+      "name": "ops-task-watcher",
+      "dir": "supabase/functions/ops-task-watcher",
+      "secrets": [
+        "CRON_SECRET",
+        "SUPABASE_SERVICE_ROLE_KEY",
+        "SUPABASE_URL"
+      ],
+      "cron": false,
+      "webhook": false,
+      "usesServiceRole": true,
+      "usesAi": false,
+      "sendsEmail": false,
+      "lines": 74
+    },
+    {
+      "name": "preview-transactional-email",
+      "dir": "supabase/functions/preview-transactional-email",
+      "secrets": [
+        "LOVABLE_API_KEY"
+      ],
+      "cron": false,
+      "webhook": false,
+      "usesServiceRole": false,
+      "usesAi": true,
+      "sendsEmail": false,
+      "lines": 97
+    },
+    {
+      "name": "process-email-queue",
+      "dir": "supabase/functions/process-email-queue",
+      "secrets": [
+        "LOVABLE_API_KEY",
+        "LOVABLE_SEND_URL",
+        "SUPABASE_SERVICE_ROLE_KEY",
+        "SUPABASE_URL"
+      ],
+      "cron": false,
+      "webhook": false,
+      "usesServiceRole": true,
+      "usesAi": true,
+      "sendsEmail": false,
+      "lines": 364
+    },
+    {
+      "name": "propose-session",
+      "dir": "supabase/functions/propose-session",
+      "secrets": [
+        "RESEND_API_KEY",
+        "SITE_URL",
+        "SUPABASE_ANON_KEY",
+        "SUPABASE_SERVICE_ROLE_KEY",
+        "SUPABASE_URL"
+      ],
+      "cron": false,
+      "webhook": false,
+      "usesServiceRole": true,
+      "usesAi": false,
+      "sendsEmail": true,
+      "lines": 303
+    },
+    {
+      "name": "provision-psychologist",
+      "dir": "supabase/functions/provision-psychologist",
+      "secrets": [
+        "RESEND_API_KEY",
+        "SUPABASE_ANON_KEY",
+        "SUPABASE_SERVICE_ROLE_KEY",
+        "SUPABASE_URL",
+        "VITE_SUPABASE_PUBLISHABLE_KEY",
+        "VITE_SUPABASE_URL"
+      ],
+      "cron": false,
+      "webhook": false,
+      "usesServiceRole": true,
+      "usesAi": false,
+      "sendsEmail": true,
+      "lines": 392
+    },
+    {
+      "name": "recommend",
+      "dir": "supabase/functions/recommend",
+      "secrets": [
+        "SUPABASE_ANON_KEY",
+        "SUPABASE_URL"
+      ],
+      "cron": false,
+      "webhook": false,
+      "usesServiceRole": false,
+      "usesAi": false,
+      "sendsEmail": false,
+      "lines": 101
+    },
+    {
+      "name": "send-meeting-link",
+      "dir": "supabase/functions/send-meeting-link",
+      "secrets": [
+        "RESEND_API_KEY",
+        "SITE_URL",
+        "SUPABASE_ANON_KEY",
+        "SUPABASE_SERVICE_ROLE_KEY",
+        "SUPABASE_URL"
+      ],
+      "cron": false,
+      "webhook": false,
+      "usesServiceRole": true,
+      "usesAi": false,
+      "sendsEmail": true,
+      "lines": 350
+    },
+    {
+      "name": "send-notification",
+      "dir": "supabase/functions/send-notification",
+      "secrets": [
+        "LOVABLE_API_KEY",
+        "RESEND_API_KEY",
+        "SUPABASE_SERVICE_ROLE_KEY",
+        "SUPABASE_URL"
+      ],
+      "cron": false,
+      "webhook": false,
+      "usesServiceRole": true,
+      "usesAi": true,
+      "sendsEmail": true,
+      "lines": 176
+    },
+    {
+      "name": "send-proposal-notification",
+      "dir": "supabase/functions/send-proposal-notification",
+      "secrets": [
+        "RESEND_API_KEY"
+      ],
+      "cron": false,
+      "webhook": false,
+      "usesServiceRole": false,
+      "usesAi": false,
+      "sendsEmail": true,
+      "lines": 213
+    },
+    {
+      "name": "send-rejection-email",
+      "dir": "supabase/functions/send-rejection-email",
+      "secrets": [
+        "RESEND_API_KEY",
+        "SUPABASE_ANON_KEY",
+        "SUPABASE_SERVICE_ROLE_KEY",
+        "SUPABASE_URL"
+      ],
+      "cron": false,
+      "webhook": false,
+      "usesServiceRole": true,
+      "usesAi": false,
+      "sendsEmail": true,
+      "lines": 206
+    },
+    {
+      "name": "send-transactional-email",
+      "dir": "supabase/functions/send-transactional-email",
+      "secrets": [
+        "SUPABASE_SERVICE_ROLE_KEY",
+        "SUPABASE_URL"
+      ],
+      "cron": false,
+      "webhook": false,
+      "usesServiceRole": true,
+      "usesAi": false,
+      "sendsEmail": false,
+      "lines": 428
+    },
+    {
+      "name": "session-reminders-cron",
+      "dir": "supabase/functions/session-reminders-cron",
+      "secrets": [
+        "CRON_SECRET",
+        "RESEND_API_KEY",
+        "SUPABASE_SERVICE_ROLE_KEY",
+        "SUPABASE_URL",
+        "WHATSAPP_API_TOKEN",
+        "WHATSAPP_PHONE_NUMBER_ID",
+        "WHATSAPP_REMINDER_TEMPLATE"
+      ],
+      "cron": true,
+      "webhook": false,
+      "usesServiceRole": true,
+      "usesAi": false,
+      "sendsEmail": true,
+      "lines": 350
+    },
+    {
+      "name": "session-summary",
+      "dir": "supabase/functions/session-summary",
+      "secrets": [
+        "LOVABLE_API_KEY",
+        "SUPABASE_ANON_KEY",
+        "SUPABASE_URL"
+      ],
+      "cron": false,
+      "webhook": false,
+      "usesServiceRole": false,
+      "usesAi": true,
+      "sendsEmail": false,
+      "lines": 145
+    },
+    {
+      "name": "simulate-payment-webhook",
+      "dir": "supabase/functions/simulate-payment-webhook",
+      "secrets": [
+        "PAYMENT_ENV",
+        "SUPABASE_ANON_KEY",
+        "SUPABASE_SERVICE_ROLE_KEY",
+        "SUPABASE_URL"
+      ],
+      "cron": false,
+      "webhook": true,
+      "usesServiceRole": true,
+      "usesAi": false,
+      "sendsEmail": false,
+      "lines": 301
+    },
+    {
+      "name": "verify-application",
+      "dir": "supabase/functions/verify-application",
+      "secrets": [
+        "SUPABASE_SERVICE_ROLE_KEY",
+        "SUPABASE_URL"
+      ],
+      "cron": false,
+      "webhook": false,
+      "usesServiceRole": true,
+      "usesAi": false,
+      "sendsEmail": false,
+      "lines": 157
+    }
+  ]
+}
