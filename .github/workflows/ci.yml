@@ -39,6 +39,11 @@ jobs:
           # even though bun installs: every gate script runs on node.
           node-version-file: .nvmrc
           check-latest: false
+          # bun.lock is this repository's lockfile. setup-node@v5 turns its
+          # package-manager cache on by default, and that cache only knows
+          # package-lock.json / npm-shrinkwrap.json / yarn.lock, so it aborts
+          # the job before install. Bun is cached by oven-sh/setup-bun below.
+          package-manager-cache: false
       - uses: oven-sh/setup-bun@v2
         with:
           bun-version: latest
@@ -161,6 +166,11 @@ jobs:
         with:
           node-version-file: .nvmrc
           check-latest: false
+          # bun.lock is this repository's lockfile. setup-node@v5 turns its
+          # package-manager cache on by default, and that cache only knows
+          # package-lock.json / npm-shrinkwrap.json / yarn.lock, so it aborts
+          # the job before install. Bun is cached by oven-sh/setup-bun below.
+          package-manager-cache: false
       - uses: oven-sh/setup-bun@v2
         with:
           bun-version: latest
