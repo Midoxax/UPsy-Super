@@ -2,7 +2,7 @@ name: Production check
 
 # Verifies the deployed site, not the build output.
 #
-# Everything in ci.yml inspects dist/. Nothing proved that what a visitor
+# Everything in ci.yml inspects .output/. Nothing proved that what a visitor
 # receives matches it — and the two can differ completely. Security headers
 # only exist if the server actually sends them; a misconfigured route or a
 # half-finished deploy can leave the origin serving 404s while every build

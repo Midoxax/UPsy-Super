@@ -2,7 +2,7 @@
 /**
  * Production verification — asserts the deployed site, not the build output.
  *
- * Every other gate in this repository inspects `dist/`. None of them prove
+ * Every other gate in this repository inspects `.output/`. None of them prove
  * anything about what a user actually receives, because the two can differ in
  * ways that matter enormously:
  *

@@ -7,10 +7,11 @@
  * users while every other gate stays green.
  *
  * The app renders on the server (TanStack Start -> Cloudflare Worker), so the
- * build emits two trees rather than an index.html:
+ * build emits two trees rather than an index.html. Nitro writes them under
+ * .output/, which is what `vite build` produces and what wrangler deploys:
  *
- *   dist/server/  the Worker: index.mjs plus its route chunks and wrangler.json
- *   dist/client/  everything the browser fetches: hashed assets and static files
+ *   .output/server/  the Worker: index.mjs plus its route chunks and wrangler.json
+ *   .output/public/  everything the browser fetches: hashed assets and static files
  *
  * There is deliberately no index.html to inspect any more — every document is
  * produced per request by the Worker. Metadata is therefore verified against
@@ -30,34 +31,34 @@ import { resolve, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..");
-const DIST = resolve(ROOT, "dist");
-const CLIENT = resolve(DIST, "client");
-const SERVER = resolve(DIST, "server");
+const OUT = resolve(ROOT, ".output");
+const CLIENT = resolve(OUT, "public");
+const SERVER = resolve(OUT, "server");
 
 const failures = [];
 const warnings = [];
 const fail = (m) => failures.push(m);
 const warn = (m) => warnings.push(m);
 
-if (!existsSync(DIST)) {
-  console.error("No dist/ — run `npm run build` first.");
+if (!existsSync(OUT)) {
+  console.error("No .output/ — run `npm run build` first.");
   process.exit(1);
 }
-for (const [label, dir] of [["client", CLIENT], ["server", SERVER]]) {
+for (const [label, dir] of [["public", CLIENT], ["server", SERVER]]) {
   if (!existsSync(dir)) {
-    console.error(`dist/${label}/ missing — the build produced no ${label} output.`);
+    console.error(`.output/${label}/ missing — the build produced no ${label} output.`);
     process.exit(1);
   }
 }
 
 // 1. The Worker is deployable: an entry module and the config wrangler reads.
 const workerEntry = resolve(SERVER, "index.mjs");
-if (!existsSync(workerEntry)) fail("dist/server/index.mjs missing — no Worker entry to deploy");
-else if (statSync(workerEntry).size === 0) fail("dist/server/index.mjs is empty");
+if (!existsSync(workerEntry)) fail(".output/server/index.mjs missing — no Worker entry to deploy");
+else if (statSync(workerEntry).size === 0) fail(".output/server/index.mjs is empty");
 
 const wranglerConfig = resolve(SERVER, "wrangler.json");
 if (!existsSync(wranglerConfig)) {
-  fail("dist/server/wrangler.json missing — `npm run deploy` has nothing to point at");
+  fail(".output/server/wrangler.json missing — `npm run deploy` has nothing to point at");
 } else {
   try {
     const cfg = JSON.parse(readFileSync(wranglerConfig, "utf8"));
@@ -76,15 +77,15 @@ if (!existsSync(wranglerConfig)) {
 // 2. The browser has something to fetch.
 const assetsDir = resolve(CLIENT, "assets");
 if (!existsSync(assetsDir)) {
-  fail("dist/client/assets/ missing — no bundled assets were emitted");
+  fail(".output/public/assets/ missing — no bundled assets were emitted");
 } else {
   const assets = readdirSync(assetsDir);
   const js = assets.filter((f) => f.endsWith(".js"));
   const css = assets.filter((f) => f.endsWith(".css"));
-  if (js.length === 0) fail("no JavaScript emitted into dist/client/assets/");
-  if (css.length === 0) warn("no stylesheet emitted into dist/client/assets/");
+  if (js.length === 0) fail("no JavaScript emitted into .output/public/assets/");
+  if (css.length === 0) warn("no stylesheet emitted into .output/public/assets/");
   const empty = assets.filter((f) => statSync(resolve(assetsDir, f)).size === 0);
-  for (const f of empty) fail(`dist/client/assets/${f} is empty`);
+  for (const f of empty) fail(`.output/public/assets/${f} is empty`);
   console.log(`  ${assets.length} client assets (${js.length} js, ${css.length} css)`);
 }
 

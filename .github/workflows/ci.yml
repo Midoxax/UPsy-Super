@@ -207,7 +207,7 @@ jobs:
           # setsid + nohup detach the server from this step's shell, so it
           # survives into the steps that actually need it. A plain `&` is a
           # child of the step process and can be reaped when the step ends.
-          setsid nohup bunx wrangler dev --config dist/server/wrangler.json \
+          setsid nohup bunx wrangler dev --config .output/server/wrangler.json \
             --local --ip 127.0.0.1 --port 4173 > /tmp/wrangler.log 2>&1 &
           for i in $(seq 1 60); do
             if [ "$(curl -s -o /dev/null -w '%{http_code}' http://127.0.0.1:4173/)" = "200" ]; then

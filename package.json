@@ -28,9 +28,9 @@
     "verify": "npm run check:runtime && npm run check:env && npm run check:deploy && npm run check:supabase && npm run typecheck && npm run test && npm run build && npm run check:bundle && npm run check:build",
     "preview": "vite preview",
     "format": "prettier --write .",
-    "deploy": "npm run build && npx wrangler deploy --config dist/server/wrangler.json",
-    "deploy:preview": "npm run build && npx wrangler versions upload --config dist/server/wrangler.json",
-    "preview:cf": "npm run build && npx wrangler dev --config dist/server/wrangler.json",
+    "deploy": "npm run build && npx wrangler deploy --config .output/server/wrangler.json",
+    "deploy:preview": "npm run build && npx wrangler versions upload --config .output/server/wrangler.json",
+    "preview:cf": "npm run build && npx wrangler dev --config .output/server/wrangler.json",
     "check:deploy": "node scripts/check-deploy-config.mjs"
   },
   "overrides": {
