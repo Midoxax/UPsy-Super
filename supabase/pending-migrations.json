@@ -1,0 +1,19 @@
+{
+  "$comment": [
+    "Tables a migration in this repository creates, which the generated types in",
+    "src/integrations/supabase/types.ts have not yet corroborated.",
+    "",
+    "An entry here is an admission that the repository cannot currently prove a",
+    "migration reached the database. It is not a permanent exemption:",
+    "scripts/check-supabase-sync.mjs fails once a listed table appears in",
+    "regenerated types, which forces the entry to be removed and the table back",
+    "under the gate.",
+    "",
+    "To clear an entry: apply the migration, regenerate types with",
+    "`supabase gen types typescript --project-id <id> > src/integrations/supabase/types.ts`,",
+    "then delete the entry in the same commit.",
+    "",
+    "Empty is the healthy state: every migration is corroborated by the database."
+  ],
+  "pending": []
+}

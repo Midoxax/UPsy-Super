@@ -1,0 +1,75 @@
+name: Rollback (Cloudflare Workers)
+
+# One-click revert of the production Worker to its previous deployment.
+# `wrangler rollback` tells Cloudflare to point the active Worker at the
+# previous deployment — no rebuild, no new version. The build step here exists
+# only to regenerate dist/server/wrangler.json (which carries the Worker name);
+# the built bundle is not deployed.
+#
+# Required repository secret: CI_WEBHOOK_SECRET (so the rollback is recorded in
+# the admin Operations log). Deploy secrets (CLOUDFLARE_API_TOKEN,
+# CLOUDFLARE_ACCOUNT_ID, VITE_SUPABASE_URL, VITE_SUPABASE_PUBLISHABLE_KEY) are
+# the same ones deploy.yml uses.
+on:
+  workflow_dispatch:
+    inputs:
+      reason:
+        description: "Why is this rollback being run?"
+        required: false
+        default: "manual"
+
+jobs:
+  rollback:
+    name: Rollback production Worker
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version-file: .nvmrc
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - run: bun install --frozen-lockfile
+
+      - name: Build (config only)
+        env:
+          VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
+          VITE_SUPABASE_PUBLISHABLE_KEY: ${{ secrets.VITE_SUPABASE_PUBLISHABLE_KEY }}
+          VITE_SITE_URL: ${{ secrets.VITE_SITE_URL }}
+        run: bun run build
+
+      - name: Record rollback start
+        if: ${{ secrets.CI_WEBHOOK_SECRET != '' }}
+        env:
+          CI_WEBHOOK_SECRET: ${{ secrets.CI_WEBHOOK_SECRET }}
+          SITE_URL: ${{ secrets.VITE_SITE_URL }}
+        run: |
+          curl -fsS -X POST "$SITE_URL/api/public/ci-events" \
+            -H "Authorization: Bearer $CI_WEBHOOK_SECRET" \
+            -H "Content-Type: application/json" \
+            -d "{\"event\":\"rollback_started\",\"level\":\"warn\",\"source\":\"deploy\",\"message\":\"Production rollback triggered: ${{ github.event.inputs.reason }}\",\"release\":\"${{ github.sha }}\",\"metadata\":{\"actor\":\"${{ github.actor }}\",\"reason\":\"${{ github.event.inputs.reason }}\"}}" || true
+
+      - name: Rollback to previous deployment
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: bunx wrangler rollback --config dist/server/wrangler.json
+
+      - name: Smoke test
+        env:
+          PROD_URL: ${{ secrets.VITE_SITE_URL }}
+        run: node scripts/check-production.mjs
+
+      - name: Record rollback complete
+        if: always()
+        env:
+          CI_WEBHOOK_SECRET: ${{ secrets.CI_WEBHOOK_SECRET }}
+          SITE_URL: ${{ secrets.VITE_SITE_URL }}
+        run: |
+          STATUS="${{ job.status }}"
+          curl -fsS -X POST "$SITE_URL/api/public/ci-events" \
+            -H "Authorization: Bearer $CI_WEBHOOK_SECRET" \
+            -H "Content-Type: application/json" \
+            -d "{\"event\":\"rollback_${STATUS}\",\"level\":\"$([ \"$STATUS\" = success ] && echo info || echo error)\",\"source\":\"deploy\",\"message\":\"Production rollback $STATUS\",\"release\":\"${{ github.sha }}\",\"metadata\":{\"actor\":\"${{ github.actor }}\"}}" || true

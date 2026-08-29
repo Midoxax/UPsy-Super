@@ -1,0 +1,81 @@
+<!-- @dsCard group="Foundations" -->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>U.Psy — Color Foundations</title>
+<style>
+  :root {
+    --background: 36 41% 95%;
+    --foreground: 0 0% 10%;
+    --card: 0 0% 100%;
+    --muted-foreground: 0 0% 32%;
+    --border: 36 20% 86%;
+    --warm-gold: 45 96% 48%;
+    --warm-maroon: 350 76% 24%;
+    --warm-crimson: 348 80% 13%;
+    --gold-accent: 42 100% 50%;
+    --gold-highlight: 39 100% 48%;
+    --burgundy: 348 82% 26%;
+    --crimson: 349 63% 37%;
+    --charcoal: 0 0% 10%;
+    --clinical-blue: 215 60% 38%;
+    --lavender: 260 30% 70%;
+    --turquoise: 174 60% 45%;
+    --radius-card: 20px;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 32px;
+    background: hsl(var(--background));
+    color: hsl(var(--foreground));
+    font-family: 'Manrope', system-ui, -apple-system, sans-serif;
+  }
+  h1 { font-family: 'Fraunces', 'Cormorant Garamond', Georgia, serif; font-weight: 600; letter-spacing: -0.02em; margin: 0 0 24px; }
+  h2 { font-size: 15px; text-transform: uppercase; letter-spacing: 0.06em; color: hsl(var(--muted-foreground)); margin: 32px 0 12px; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 16px; }
+  .swatch {
+    border-radius: var(--radius-card);
+    border: 1px solid hsl(var(--border));
+    background: hsl(var(--card));
+    overflow: hidden;
+  }
+  .fill { height: 80px; }
+  .label { padding: 10px 14px; font-size: 13px; }
+  .label .name { font-weight: 600; }
+  .label .value { color: hsl(var(--muted-foreground)); font-family: 'JetBrains Mono', monospace; font-size: 11px; }
+</style>
+</head>
+<body>
+  <h1>U.Psy — Color Foundations (Light / "Frosted Crystal Museum")</h1>
+
+  <h2>Primary Palette</h2>
+  <div class="grid">
+    <div class="swatch"><div class="fill" style="background: hsl(var(--warm-gold))"></div><div class="label"><div class="name">Primary (Gold)</div><div class="value">#F2B705</div></div></div>
+    <div class="swatch"><div class="fill" style="background: hsl(var(--warm-maroon))"></div><div class="label"><div class="name">Secondary / Accent (Maroon)</div><div class="value">#6D0F22</div></div></div>
+    <div class="swatch"><div class="fill" style="background: hsl(var(--warm-crimson))"></div><div class="label"><div class="name">Warm Crimson</div><div class="value">#3D0611</div></div></div>
+    <div class="swatch"><div class="fill" style="background: hsl(var(--background))"></div><div class="label"><div class="name">Background (Ivory)</div><div class="value">#F8F4EE</div></div></div>
+  </div>
+
+  <h2>Brand Anchors</h2>
+  <div class="grid">
+    <div class="swatch"><div class="fill" style="background: hsl(var(--burgundy))"></div><div class="label"><div class="name">Burgundy</div><div class="value">#7A0C20</div></div></div>
+    <div class="swatch"><div class="fill" style="background: hsl(var(--gold-accent))"></div><div class="label"><div class="name">Gold Accent</div><div class="value">#FFB300</div></div></div>
+    <div class="swatch"><div class="fill" style="background: hsl(var(--gold-highlight))"></div><div class="label"><div class="name">Gold Highlight</div><div class="value">#F4A300</div></div></div>
+    <div class="swatch"><div class="fill" style="background: hsl(var(--crimson))"></div><div class="label"><div class="name">Crimson</div><div class="value">#A3263A</div></div></div>
+  </div>
+
+  <h2>Supporting Accents</h2>
+  <div class="grid">
+    <div class="swatch"><div class="fill" style="background: hsl(var(--clinical-blue))"></div><div class="label"><div class="name">Clinical Blue</div><div class="value">#2E5E99</div></div></div>
+    <div class="swatch"><div class="fill" style="background: hsl(var(--lavender))"></div><div class="label"><div class="name">Lavender</div><div class="value">#A89EC8</div></div></div>
+    <div class="swatch"><div class="fill" style="background: hsl(var(--turquoise))"></div><div class="label"><div class="name">Turquoise</div><div class="value">#2EB8A8</div></div></div>
+  </div>
+
+  <h2>Dark Base</h2>
+  <div class="grid">
+    <div class="swatch"><div class="fill" style="background: hsl(var(--charcoal))"></div><div class="label" style="background:#1A1A1A; color:#eee"><div class="name">Charcoal</div><div class="value">#1A1A1A</div></div></div>
+  </div>
+</body>
+</html>

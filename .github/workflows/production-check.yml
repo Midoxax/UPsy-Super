@@ -1,0 +1,98 @@
+name: Production check
+
+# Verifies the deployed site, not the build output.
+#
+# Everything in ci.yml inspects dist/. Nothing proved that what a visitor
+# receives matches it — and the two can differ completely. Security headers
+# only exist if the server actually sends them; a misconfigured route or a
+# half-finished deploy can leave the origin serving 404s while every build
+# gate stays green. This runs unauthenticated from a runner with real egress,
+# which is the vantage point of an actual user.
+#
+# Hosting is Cloudflare Workers, deployed by .github/workflows/deploy.yml.
+# The Vercel-era machinery this file used to carry — deployment_status
+# filtering, per-deployment preview URLs, Deployment Protection warnings —
+# is gone: none of it describes how the site is served any more.
+#
+# The daily schedule is deliberately absent until the first successful
+# Cloudflare deploy. A scheduled job against an origin that nothing has
+# deployed to yet is red every morning for a reason that is not a defect, and
+# a gate that is always red is a gate everyone learns to ignore. Run it from
+# the Actions tab (or let deploy.yml call it) until the cutover is done, then
+# uncomment the cron below.
+
+on:
+  workflow_dispatch:
+    inputs:
+      url:
+        description: "URL to verify (defaults to the production alias in package.json)"
+        required: false
+        type: string
+  workflow_call:
+    inputs:
+      url:
+        required: false
+        type: string
+  # schedule:
+  #   # Re-enable once deploy.yml has shipped to Cloudflare at least once.
+  #   - cron: "0 6 * * *"
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version-file: .nvmrc
+          check-latest: false
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Resolve target URL
+        id: target
+        env:
+          # vars.PROD_URL wins when set, so the target can change without a
+          # commit. The committed package.json "homepage" is the fallback, on
+          # purpose: this job previously hard-failed when the repository
+          # variable was unset, which meant the only check that verifies what
+          # visitors actually receive was disabled by a dashboard field nobody
+          # had filled in.
+          MANUAL_URL: ${{ inputs.url }}
+          PROD_ALIAS: ${{ vars.PROD_URL }}
+        run: |
+          COMMITTED="$(node -p "require('./package.json').homepage || ''")"
+          URL="${MANUAL_URL:-${PROD_ALIAS:-$COMMITTED}}"
+          if [ -z "$URL" ]; then
+            echo "::error::No target. Set \"homepage\" in package.json, or the PROD_URL repository variable, or pass a url via workflow_dispatch."
+            exit 1
+          fi
+          echo "url=$URL" >> "$GITHUB_OUTPUT"
+          echo "Verifying $URL"
+
+      - name: Verify production
+        env:
+          PROD_URL: ${{ steps.target.outputs.url }}
+        run: node scripts/check-production.mjs
+
+      # Needs egress to *.supabase.co, so it lives here rather than in ci.yml
+      # where a sandboxed runner would skip it every time. Answers the question
+      # the offline schema check cannot: whether a committed migration is
+      # actually in the database, or whether the types are merely stale.
+      # Reads no rows — it selects zero and asks only whether the relation
+      # resolves.
+      - name: Verify migrations reached the database
+        run: node scripts/check-database.mjs
+
+      # Only worth installing a browser if the site is reachable and public.
+      - name: Install browser
+        run: |
+          bun install --frozen-lockfile
+          bun add --no-save playwright @axe-core/playwright
+          bunx playwright install --with-deps chromium
+
+      - name: Accessibility audit against production
+        env:
+          BASE: ${{ steps.target.outputs.url }}
+        run: node tests/audit/run.mjs

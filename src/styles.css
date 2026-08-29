@@ -1,0 +1,871 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  /* ── Fonts (Editorial luxe: Fraunces + Cormorant + Manrope) ── */
+  --font-sans: 'Manrope', system-ui, -apple-system, sans-serif;
+  --font-display: 'Fraunces', 'Cormorant Garamond', Georgia, serif;
+  --font-serif: 'Fraunces', 'Cormorant Garamond', Georgia, serif;
+  --font-cormorant: 'Cormorant Garamond', Georgia, serif;
+  --font-arabic: 'Amiri', serif;
+  /* Legacy aliases (kept so no existing class breaks) */
+  --font-fraunces: 'Fraunces', 'Cormorant Garamond', Georgia, serif;
+  --font-outfit: 'Manrope', system-ui, sans-serif;
+  --font-manrope: 'Manrope', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+
+  /* ── Brand Colors ── */
+  --color-u-burgundy: hsl(var(--burgundy));
+  --color-u-charcoal: hsl(var(--charcoal));
+  --color-u-gold: hsl(var(--gold-accent));
+  --color-u-gold-highlight: hsl(var(--gold-highlight));
+  --color-u-crimson: hsl(var(--crimson));
+  --color-u-clinical: hsl(var(--clinical-blue));
+  --color-u-clinical-light: hsl(var(--clinical-light));
+  --color-u-lavender: hsl(var(--lavender));
+  --color-u-turquoise: hsl(var(--turquoise));
+  --color-u-white: hsl(var(--white));
+  --color-u-black: hsl(var(--black));
+  --color-u-gray-50: hsl(var(--gray-50));
+  --color-u-gray-100: hsl(var(--gray-100));
+  --color-u-gray-200: hsl(var(--gray-200));
+  --color-u-gray-300: hsl(var(--gray-300));
+  --color-u-gray-400: hsl(var(--gray-400));
+  --color-u-gray-500: hsl(var(--gray-500));
+  --color-u-gray-600: hsl(var(--gray-600));
+  --color-u-gray-700: hsl(var(--gray-700));
+  --color-u-gray-800: hsl(var(--gray-800));
+
+  /* ── Semantic Colors ── */
+  --color-border: hsl(var(--border));
+  --color-input: hsl(var(--input));
+  --color-ring: hsl(var(--ring));
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+  --color-secondary: hsl(var(--secondary));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
+  --color-destructive: hsl(var(--destructive));
+  --color-destructive-foreground: hsl(var(--destructive-foreground));
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+  --color-accent: hsl(var(--accent));
+  --color-accent-foreground: hsl(var(--accent-foreground));
+  --color-popover: hsl(var(--popover));
+  --color-popover-foreground: hsl(var(--popover-foreground));
+  --color-card: hsl(var(--card));
+  --color-card-foreground: hsl(var(--card-foreground));
+
+  /* ── Layout ── */
+  --max-width-container: var(--max-width);
+  --spacing-gutter: var(--gutter);
+  --spacing-section: var(--section-spacing);
+  --spacing-section-mobile: var(--section-spacing-mobile);
+
+  /* ── Radii ── */
+  --radius-u-btn: var(--radius-btn);
+  --radius-u-card: var(--radius-card);
+  --radius-u-input: var(--radius-input);
+  --radius-u-sm: var(--radius-btn);
+  --radius-u-lg: var(--radius-card);
+  --radius-lg: var(--radius);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-sm: calc(var(--radius) - 4px);
+
+  /* ── Shadows ── */
+  --shadow-glass: var(--glass-shadow);
+  --shadow-glass-hover: var(--glass-shadow-hover);
+  --shadow-soft: var(--shadow-soft);
+  --shadow-gold: var(--shadow-gold);
+
+  /* ── Animations ── */
+  --animate-accordion-down: accordion-down 0.2s ease-out;
+  --animate-accordion-up: accordion-up 0.2s ease-out;
+
+  @keyframes accordion-down {
+    from { height: 0; }
+    to { height: var(--radix-accordion-content-height); }
+  }
+  @keyframes accordion-up {
+    from { height: var(--radix-accordion-content-height); }
+    to { height: 0; }
+  }
+}
+
+/* Container behaviour from the v3 config: centered, 2rem padding, 1400px cap */
+@utility container {
+  margin-inline: auto;
+  padding-inline: 2rem;
+  width: 100%;
+  @media (width >= 1400px) {
+    max-width: 1400px;
+  }
+}
+
+/* Lenis smooth scroll baseline */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+/* U.Psy Liquid-Glass Design System
+   Brand palette preserved from original card.
+   Standard Tailwind convention: :root = light, .dark = dark.
+   Glass effects use backdrop-filter for true glassmorphism.
+*/
+
+@layer base {
+  :root {
+    /* ── Brand Palette (shared) ── */
+    --burgundy: 348 82% 26%;       /* #7A0C20 */
+    --charcoal: 0 0% 10%;          /* #1A1A1A */
+    --gold-accent: 42 100% 50%;    /* #FFB300 */
+    --gold-highlight: 39 100% 48%; /* #F4A300 */
+    --crimson: 349 63% 37%;        /* #A3263A */
+    --clinical-blue: 215 60% 38%;  /* #2E5E99 */
+    --clinical-light: 215 40% 52%; /* #5A84B5 */
+    --lavender: 260 30% 70%;       /* #A89EC8 */
+    --turquoise: 174 60% 45%;      /* #2EB8A8 */
+    --white: 0 0% 100%;
+    --black: 0 0% 7%;              /* #121212 */
+
+    /* ── Neutral Scale ── */
+    --gray-50: 0 0% 96%;
+    --gray-100: 0 0% 90%;
+    --gray-200: 0 0% 80%;
+    --gray-300: 0 0% 62%;
+    --gray-400: 0 0% 45%;
+    --gray-500: 0 0% 30%;
+    --gray-600: 0 0% 20%;
+    --gray-700: 0 0% 14%;
+    --gray-800: 0 0% 11%;
+
+    /* ── Light Theme Palette (Frosted Crystal Museum — luxe editorial) ── */
+    --light-blue: 220 72% 50%;       /* legacy alias */
+    --light-purple: 262 60% 50%;     /* legacy alias */
+    --light-green: 160 60% 32%;      /* legacy alias */
+    --warm-maroon: 350 76% 24%;      /* #6D0F22 - emotional burgundy */
+    --warm-crimson: 348 80% 13%;     /* #3D0611 - cinematic shadow */
+    --warm-beige: 36 41% 95%;        /* #F8F4EE - ivory pearl canvas */
+    --warm-gold: 45 96% 48%;         /* #F2B705 - identity gold */
+
+    /* ── Brand Aliases (for decorative components) ── */
+    --upsy-maroon: var(--warm-maroon);
+    --upsy-beige: var(--warm-beige);
+    --upsy-gold: var(--warm-gold);
+
+    /* ── Light Semantic Tokens (Frosted Crystal Museum) ── */
+    --background: 36 41% 95%;                /* ivory pearl #F8F4EE */
+    --foreground: 0 0% 10%;                  /* ink black #1A1A1A */
+    --card: 0 0% 100%;                       /* pure white card */
+    --card-foreground: 0 0% 10%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 10%;
+    --primary: var(--warm-gold);             /* gold = CTA / identity */
+    --primary-foreground: 0 0% 10%;
+    --secondary: var(--warm-maroon);         /* burgundy = emotional accent */
+    --secondary-foreground: 36 41% 97%;
+    --muted: 36 25% 92%;
+    --muted-foreground: 0 0% 32%;
+    --accent: var(--warm-maroon);
+    --accent-foreground: 36 41% 97%;
+    /* Darkened from 0 84% 60% (#EF4444). That value is fine behind white text
+       on a button, but as *text* on our ivory surfaces it measured 3.65:1 —
+       under the 4.5:1 AA floor, and it is what the crisis-services warning in
+       the footer is rendered in. This shade clears AA as text and still pairs
+       safely with --destructive-foreground as a fill. */
+    --destructive: 0 74% 42%;
+    --destructive-foreground: var(--white);
+    --border: 36 20% 86%;
+    --input: 36 20% 92%;
+    --ring: var(--warm-gold);
+
+    /* ── Layout Tokens ── */
+    --radius-btn: 14px;
+    --radius-card: 20px;
+    --radius-input: 12px;
+    --radius: 0.5rem;
+    --max-width: 1200px;
+    --gutter: 24px;
+    --section-spacing: 80px;
+    --section-spacing-mobile: 56px;
+
+    /* ── Typography Scale (Conversion overhaul) ── */
+    --text-display: 68px;
+    --text-h1: 44px;
+    --text-h1-mobile: 34px;
+    --text-h2: 32px;
+    --text-h2-mobile: 26px;
+    --text-h3: 22px;
+    --text-h3-mobile: 20px;
+    --text-body: 17px;
+    --text-body-mobile: 16px;
+    --text-small: 15px;
+    --font-display: 'Fraunces', 'Cormorant Garamond', Georgia, serif;
+    --font-serif-alt: 'Cormorant Garamond', 'Fraunces', Georgia, serif;
+    --font-sans: 'Manrope', system-ui, -apple-system, sans-serif;
+    --font-arabic: 'Amiri', serif;
+    --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+
+    /* ── Light Liquid-Glass Tokens (Crystal Museum) ── */
+    --glass-bg: rgba(255,255,255,0.40);
+    --glass-border-color: rgba(255,255,255,0.60);
+    --glass-shadow: 0 32px 64px -16px rgba(61,6,17,0.08);
+    --glass-shadow-hover: 0 40px 80px -20px rgba(61,6,17,0.14), 0 0 0 1px rgba(242,183,5,0.25);
+
+    /* ── Light Atmosphere (museum ambient glows) ── */
+    --liquid-atmosphere:
+      radial-gradient(50% 50% at 10% 15%, rgba(109,15,34,0.06), transparent 60%),
+      radial-gradient(45% 45% at 95% 90%, rgba(242,183,5,0.10), transparent 60%),
+      radial-gradient(40% 40% at 60% 50%, rgba(255,255,255,0.50), transparent 70%),
+      hsl(var(--background));
+
+    /* ── Gradient Tokens ── */
+    --gradient-gold: linear-gradient(135deg, hsl(var(--gold-accent)), hsl(var(--gold-highlight)));
+    --gradient-burgundy: linear-gradient(135deg, hsl(var(--burgundy)), hsl(var(--crimson)));
+    --gradient-divider: linear-gradient(90deg, transparent 0%, hsl(var(--light-purple) / 0.4) 50%, transparent 100%);
+
+    /* ── Shadows ── */
+    --shadow-soft: 0 4px 20px rgba(61,6,17,0.06);
+    --shadow-gold: 0 20px 40px -10px rgba(242,183,5,0.40);
+
+    /* ── Motion Tokens ── */
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-calm: all 0.5s cubic-bezier(0.25, 0.1, 0.25, 1);
+    --duration-ui: 300ms;
+    --duration-emphasis: 500ms;
+    --duration-ambient: 800ms;
+    --ease-calm: cubic-bezier(0.25, 0.1, 0.25, 1);
+    --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  /* ── Dark Theme ── */
+  .dark {
+    --background: var(--charcoal);
+    --foreground: var(--gray-100);
+    --card: 0 0% 13%;
+    --card-foreground: var(--gray-100);
+    --popover: 0 0% 12%;
+    --popover-foreground: var(--gray-100);
+    --primary: var(--gold-accent);
+    --primary-foreground: var(--black);
+    --secondary: var(--burgundy);
+    --secondary-foreground: var(--white);
+    --muted: var(--gray-700);
+    --muted-foreground: var(--gray-300);
+    --accent: var(--burgundy);
+    --accent-foreground: var(--white);
+    --destructive: 0 84% 60%;
+    --destructive-foreground: var(--white);
+    --border: 0 0% 18%;
+    --input: var(--gray-700);
+    --ring: var(--gold-accent);
+
+    /* ── Dark Liquid-Glass ── */
+    --glass-bg: rgba(255,255,255,0.06);
+    --glass-border-color: rgba(255,255,255,0.1);
+    --glass-shadow: 0 20px 40px rgba(0,0,0,0.35);
+    --glass-shadow-hover: 0 24px 56px rgba(0,0,0,0.45), 0 0 0 1px rgba(255,179,0,0.12);
+
+    /* ── Dark Atmosphere ── */
+    --liquid-atmosphere:
+      radial-gradient(circle at 20% 30%, rgba(163,38,58,0.25), transparent 40%),
+      radial-gradient(circle at 80% 70%, rgba(122,12,32,0.3), transparent 45%),
+      hsl(var(--charcoal));
+
+    /* ── Dark Shadows ── */
+    --shadow-soft: 0 4px 20px rgba(0,0,0,0.3);
+    --shadow-gold: 0 0 24px rgba(255,179,0,0.2);
+
+    /* ── Dark Brand Aliases ── */
+    --upsy-maroon: var(--burgundy);
+    --upsy-beige: 0 0% 14%;
+    --upsy-gold: var(--gold-accent);
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: var(--font-sans);
+    font-size: 17px;
+    line-height: 1.65;
+    letter-spacing: -0.005em;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    font-feature-settings: "ss01";
+  }
+
+  /* Editorial luxe headings site-wide — Fraunces carries the magazine energy */
+  h1, h2, h3, .text-display, .text-h1, .text-h2, .text-h3 {
+    font-family: var(--font-display);
+    font-weight: 400;
+    letter-spacing: -0.02em;
+  }
+
+  /* Tabular numerals for price/data */
+  .font-mono, [data-numeric] {
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* ── Typography Classes ── */
+  .text-display {
+    font-size: var(--text-display);
+    line-height: 1.05;
+    font-weight: 600;
+    letter-spacing: -0.03em;
+    color: hsl(var(--foreground));
+  }
+
+  .text-h1 {
+    font-size: var(--text-h1);
+    line-height: 1.08;
+    font-weight: 600;
+    letter-spacing: -0.025em;
+    color: hsl(var(--foreground));
+  }
+
+  .text-h2 {
+    font-size: var(--text-h2);
+    line-height: 1.15;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    color: hsl(var(--foreground));
+  }
+
+  .text-h3 {
+    font-size: var(--text-h3);
+    line-height: 1.3;
+    font-weight: 500;
+    letter-spacing: -0.015em;
+    color: hsl(var(--foreground));
+  }
+
+  .text-body {
+    font-size: var(--text-body);
+    line-height: 1.65;
+    font-weight: 400;
+    color: hsl(var(--foreground));
+    max-width: 68ch;
+  }
+
+  .text-small {
+    font-size: var(--text-small);
+    line-height: 1.6;
+    font-weight: 400;
+    color: hsl(var(--muted-foreground));
+  }
+
+  @media (max-width: 768px) {
+    .text-display { font-size: 44px; }
+    .text-h1 { font-size: var(--text-h1-mobile); }
+    .text-h2 { font-size: var(--text-h2-mobile); }
+    .text-h3 { font-size: var(--text-h3-mobile); }
+    .text-body { font-size: var(--text-body-mobile); }
+  }
+
+  /* ── Layout ── */
+  .container-custom {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 0 var(--gutter);
+  }
+
+  .section-spacing {
+    padding: var(--section-spacing) 0;
+  }
+
+  @media (max-width: 768px) {
+    .section-spacing {
+      padding: var(--section-spacing-mobile) 0;
+    }
+  }
+
+  /* ── Liquid-Glass Card (with true glassmorphism) ── */
+  .glass-card {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border-color);
+    border-radius: var(--radius-card);
+    box-shadow: var(--glass-shadow);
+    backdrop-filter: blur(24px) saturate(140%);
+    -webkit-backdrop-filter: blur(24px) saturate(140%);
+    padding: 28px;
+    transition:
+      transform var(--duration-ui) var(--ease-calm),
+      box-shadow var(--duration-emphasis) var(--ease-calm),
+      border-color var(--duration-emphasis) var(--ease-calm);
+  }
+
+  .glass-card:hover {
+    transform: translateY(-6px) scale(1.02);
+    box-shadow: var(--glass-shadow-hover);
+    border-color: hsl(var(--primary) / 0.35);
+  }
+
+  /* ── Luxe italic accent (Cormorant Garamond — softer counterpoint to Fraunces) ── */
+  .accent-italic {
+    font-family: 'Cormorant Garamond', 'Fraunces', Georgia, serif;
+    font-style: italic;
+    font-weight: 500;
+    letter-spacing: -0.005em;
+  }
+
+  /* ── Arabic script scoping ── */
+  :lang(ar), [dir="rtl"] {
+    font-family: var(--font-arabic);
+  }
+  :lang(ar) h1, :lang(ar) h2, :lang(ar) h3,
+  [dir="rtl"] h1, [dir="rtl"] h2, [dir="rtl"] h3 {
+    font-family: var(--font-arabic);
+    font-weight: 700;
+  }
+
+  .glass-card:active {
+    transform: translateY(-2px) scale(0.99);
+  }
+
+  /* ── Atmospheric Background ── */
+  .liquid-bg {
+    background: var(--liquid-atmosphere);
+  }
+
+  /* ── Hero Background ── */
+  .hero-neural-bg {
+    position: relative;
+    overflow: hidden;
+    background: var(--liquid-atmosphere);
+  }
+
+  .hero-neural-bg::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background:
+      radial-gradient(ellipse at 30% 20%, hsl(var(--secondary) / 0.15), transparent 50%),
+      radial-gradient(ellipse at 70% 80%, hsl(var(--secondary) / 0.2), transparent 50%);
+    pointer-events: none;
+  }
+
+  .hero-neural-bg::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-image: url('/src/assets/neural-network-bg.webp');
+    background-size: cover;
+    background-position: center;
+    opacity: 0.06;
+    pointer-events: none;
+    mix-blend-mode: screen;
+  }
+
+  .dark .hero-neural-bg::after {
+    mix-blend-mode: screen;
+    opacity: 0.06;
+  }
+
+  :root .hero-neural-bg::after {
+    mix-blend-mode: multiply;
+    opacity: 0.04;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .hero-neural-bg::after {
+      animation: neural-parallax 40s ease-in-out infinite;
+    }
+  }
+
+  @keyframes neural-parallax {
+    0%, 100% { transform: translateY(0) scale(1.05); opacity: 0.06; }
+    50% { transform: translateY(-20px) scale(1.08); opacity: 0.10; }
+  }
+
+  .hero-neural-bg > * {
+    position: relative;
+    z-index: 10;
+  }
+
+  /* ── Hover Effects ── */
+  .hover-lift {
+    transition:
+      transform var(--duration-ui) var(--ease-calm),
+      box-shadow var(--duration-emphasis) var(--ease-calm);
+  }
+  .hover-lift:hover {
+    transform: translateY(-6px) scale(1.02);
+    box-shadow: var(--glass-shadow-hover);
+  }
+  .hover-lift:active {
+    transform: translateY(-2px) scale(0.98);
+  }
+
+  .hover-glow:hover {
+    box-shadow: var(--shadow-gold);
+  }
+
+  /* ── U.Psy Motion Language ── */
+
+  /* Float — hero objects, icons */
+  @keyframes upsy-float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+  }
+  .motion-float {
+    animation: upsy-float 6s var(--ease-calm) infinite;
+  }
+
+  /* Pulse — emotional states, AI tools */
+  @keyframes upsy-pulse {
+    0%, 100% { transform: scale(1); opacity: 0.85; }
+    50% { transform: scale(1.06); opacity: 1; }
+  }
+  .motion-pulse {
+    animation: upsy-pulse 3s var(--ease-calm) infinite;
+  }
+
+  /* Breathe — loading states */
+  @keyframes upsy-breathe {
+    0%, 100% { transform: scale(0.92); opacity: 0.4; }
+    50% { transform: scale(1.08); opacity: 1; }
+  }
+  .motion-breathe {
+    animation: upsy-breathe 2.4s var(--ease-calm) infinite;
+  }
+
+  /* Brand breath — 4-7-8 box-breathing cadence (19s cycle). */
+  @keyframes upsy-breath {
+    0%, 100% { transform: scale(1); opacity: 0.92; }
+    21%      { transform: scale(1.045); opacity: 1; }
+    58%      { transform: scale(1.045); opacity: 1; }
+  }
+  .motion-breath {
+    animation: upsy-breath 19s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+    will-change: transform, opacity;
+  }
+
+  /* Aurora drift — ambient burgundy/gold backdrop. */
+  @keyframes upsy-aurora-drift {
+    0%   { transform: translate3d(0, 0, 0) rotate(0deg); }
+    33%  { transform: translate3d(2%, -1.5%, 0) rotate(8deg); }
+    66%  { transform: translate3d(-1.5%, 2%, 0) rotate(-6deg); }
+    100% { transform: translate3d(0, 0, 0) rotate(0deg); }
+  }
+  .motion-aurora-drift {
+    animation: upsy-aurora-drift 40s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+    will-change: transform;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .motion-breath,
+    .motion-aurora-drift,
+    .motion-breathe,
+    .motion-pulse,
+    .motion-orbit,
+    .motion-flow {
+      animation: none !important;
+    }
+  }
+
+  /* Orbit — cognitive/learning metaphors */
+  @keyframes upsy-orbit {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+  .motion-orbit {
+    animation: upsy-orbit 12s linear infinite;
+  }
+
+  /* Flow — data/insights wave */
+  @keyframes upsy-flow {
+    0% { transform: translateX(-20px); opacity: 0.3; }
+    50% { transform: translateX(0); opacity: 1; }
+    100% { transform: translateX(20px); opacity: 0.3; }
+  }
+  .motion-flow {
+    animation: upsy-flow 8s var(--ease-calm) infinite;
+  }
+
+  /* Fade-rise — page/section entrance */
+  @keyframes upsy-fade-rise {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .motion-fade-rise {
+    animation: upsy-fade-rise var(--duration-emphasis) var(--ease-calm) both;
+  }
+
+  /* Session reminder pulse ring */
+  @keyframes upsy-ring-pulse {
+    0% { box-shadow: 0 0 0 0 rgba(255,179,0,0.4); }
+    70% { box-shadow: 0 0 0 12px rgba(255,179,0,0); }
+    100% { box-shadow: 0 0 0 0 rgba(255,179,0,0); }
+  }
+  .motion-ring-pulse {
+    animation: upsy-ring-pulse 2s var(--ease-calm) infinite;
+  }
+
+  /* Gold shimmer for completion states */
+  @keyframes upsy-shimmer {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+  }
+  .motion-shimmer {
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(255,179,0,0.15) 50%,
+      transparent 100%
+    );
+    background-size: 200% 100%;
+    animation: upsy-shimmer 3s var(--ease-calm) infinite;
+  }
+
+  /* ── Link Underline ── */
+  .link-underline {
+    position: relative;
+  }
+  .link-underline::after {
+    content: '';
+    position: absolute;
+    width: 100%; height: 2px;
+    bottom: -2px; left: 0;
+    background: hsl(var(--gold-accent));
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.3s ease;
+  }
+  .link-underline:hover::after {
+    transform: scaleX(1);
+    transform-origin: left;
+  }
+
+  /* ── Focus States (WCAG 2.4.7 / 1.4.11 compliant) ── */
+  :focus {
+    outline: none;
+  }
+  :focus-visible {
+    outline: 3px solid hsl(var(--ring));
+    outline-offset: 2px;
+    box-shadow:
+      0 0 0 2px hsl(var(--background)),
+      0 0 0 5px hsl(var(--ring) / 0.5);
+    border-radius: 6px;
+    transition: box-shadow 0.15s ease, outline-color 0.15s ease;
+  }
+  /* Keep intrinsic border-radius on shapes that already round themselves */
+  button:focus-visible,
+  a:focus-visible,
+  [role="button"]:focus-visible,
+  input:focus-visible,
+  select:focus-visible,
+  textarea:focus-visible,
+  summary:focus-visible {
+    border-radius: inherit;
+  }
+
+  /* ── Glassmorphism Utility ── */
+  .glass-effect {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border-color);
+    box-shadow: var(--glass-shadow);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+  }
+
+  /* ── Glass Input ── */
+  .glass-input {
+    background: hsl(var(--input) / 0.5);
+    border: 1px solid hsl(var(--border));
+    border-radius: var(--radius-input);
+    padding: 14px;
+    color: hsl(var(--foreground));
+    transition: border-color 0.2s ease;
+  }
+  .glass-input:focus {
+    border-color: hsl(var(--primary) / 0.5);
+  }
+  .glass-input:focus-visible {
+    border-color: hsl(var(--ring));
+  }
+
+  /* ── Premium Card Float ── */
+  .card-float {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border-color);
+    border-radius: var(--radius-card);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    transition: transform 0.2s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+  }
+  .card-float:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--glass-shadow-hover);
+    border-color: rgba(255,179,0,0.15);
+  }
+
+  /* ── Reduced Motion ── */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+    .hover-lift:hover { transform: none; }
+  }
+
+  /* ── Route-Based Theme Tokens (preserved) ── */
+  body[data-theme="clinic"] {
+    --theme-accent: var(--burgundy);
+  }
+  body[data-theme="performance"] {
+    --theme-accent: var(--gold-accent);
+  }
+  body[data-theme="institutions"] {
+    --theme-accent: var(--burgundy);
+  }
+  body[data-theme="accreditation"] {
+    --theme-accent: var(--gold-accent);
+  }
+  body[data-theme="innovation"] {
+    --theme-accent: var(--gold-accent);
+  }
+  body[data-theme="skool"] {
+    --theme-accent: var(--gold-accent);
+  }
+  body[data-theme="default"] {
+    --theme-accent: var(--gold-accent);
+  }
+
+  .theme-accent {
+    color: hsl(var(--theme-accent));
+  }
+
+  /* ── Mega Menu (legacy compat) ── */
+  @keyframes megaMenuSlide {
+  }
+
+  /* ── Interactive Card Effects ── */
+  .card-tilt {
+    perspective: 800px;
+  }
+  .card-tilt > * {
+    transition: transform 0.35s ease;
+  }
+  .card-tilt:hover > * {
+    transform: rotateY(-2deg) rotateX(1deg) translateY(-4px);
+  }
+
+  /* ── Horizontal scroll carousel (mobile) ── */
+  .scroll-carousel {
+    @apply flex gap-4 overflow-x-auto snap-x snap-mandatory pb-4 -mx-4 px-4;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .scroll-carousel::-webkit-scrollbar {
+    display: none;
+  }
+  .scroll-carousel > * {
+    @apply snap-start flex-shrink-0;
+    width: 80%;
+    max-width: 320px;
+    from { opacity: 0; transform: translateY(-8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .mega-menu { animation: megaMenuSlide 300ms ease-out; }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   MARKETING NIGHT MODE — Deep-night default for public pages.
+   Scoped by `.marketing-night` wrapper on Index/marketing routes.
+   Preserves Maroon/Beige/Gold identity, just inverted for cinema.
+   ═══════════════════════════════════════════════════════════════ */
+.marketing-night {
+  --background: 348 40% 5%;          /* near-black burgundy */
+  --foreground: 36 30% 96%;          /* ivory text */
+  --card: 348 30% 8%;
+  --card-foreground: 36 30% 96%;
+  --popover: 348 30% 8%;
+  --popover-foreground: 36 30% 96%;
+  --primary: 45 96% 60%;             /* luminous gold */
+  --primary-foreground: 348 60% 8%;
+  --secondary: 350 76% 40%;          /* deep maroon */
+  --secondary-foreground: 36 30% 96%;
+  --muted: 348 20% 14%;
+  --muted-foreground: 36 15% 70%;
+  --accent: 350 76% 45%;
+  --accent-foreground: 36 30% 96%;
+  --border: 36 20% 22%;
+  --input: 348 20% 14%;
+  --ring: 45 96% 60%;
+  --upsy-maroon: 350 76% 40%;
+  --upsy-beige: 36 30% 96%;
+  --upsy-gold: 45 96% 60%;
+  --glass-bg: rgba(30, 8, 14, 0.55);
+  --glass-border-color: rgba(242, 183, 5, 0.14);
+  --glass-shadow: 0 32px 80px -20px rgba(0, 0, 0, 0.6);
+  --glass-shadow-hover: 0 40px 100px -20px rgba(242, 183, 5, 0.25), 0 0 0 1px rgba(242, 183, 5, 0.35);
+  --liquid-atmosphere:
+    radial-gradient(60% 55% at 15% 10%, rgba(163, 38, 58, 0.35), transparent 60%),
+    radial-gradient(50% 50% at 90% 95%, rgba(242, 183, 5, 0.12), transparent 60%),
+    radial-gradient(70% 60% at 50% 50%, rgba(30, 8, 14, 0.9), transparent 80%),
+    hsl(var(--background));
+  background: var(--liquid-atmosphere);
+  color: hsl(var(--foreground));
+}
+
+.marketing-night .glass-card {
+  background: linear-gradient(135deg, rgba(255,255,255,0.04), rgba(255,255,255,0.01));
+  border: 1px solid rgba(242, 183, 5, 0.12);
+  backdrop-filter: blur(20px) saturate(140%);
+}
+
+/* Grain overlay for cinematic depth */
+.marketing-night::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.035;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.6'/></svg>");
+}
+
+/* Aurora sweep — living background */
+@keyframes aurora-sweep {
+  0%, 100% { transform: translate3d(-10%, -5%, 0) rotate(-8deg); opacity: 0.55; }
+  50%      { transform: translate3d(10%, 5%, 0) rotate(8deg); opacity: 0.85; }
+}
+.marketing-night .aurora-layer {
+  position: absolute;
+  inset: -20% -10%;
+  pointer-events: none;
+  background:
+    radial-gradient(45% 35% at 30% 40%, hsl(350 76% 45% / 0.45), transparent 60%),
+    radial-gradient(40% 30% at 70% 60%, hsl(45 96% 55% / 0.22), transparent 60%);
+  filter: blur(60px);
+  animation: aurora-sweep 22s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
+/* Gold text gradient utility for hero highlight words */
+.text-gold-gradient {
+  background: linear-gradient(120deg, hsl(45 96% 65%), hsl(38 96% 52%), hsl(45 96% 70%));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}

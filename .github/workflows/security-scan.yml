@@ -1,0 +1,81 @@
+name: Security scan
+
+# Daily + on-PR security gate. Runs the static migration-safety scan (catches
+# CREATE TABLE without RLS/GRANT — the exact regression the Supabase linter
+# flags), committed-secret check, and a dependency audit, then posts a summary
+# to the admin Operations log via /api/public/ci-events so regressions
+# surface before launch.
+#
+# Required repository secret: CI_WEBHOOK_SECRET (shared with rollback.yml).
+on:
+  schedule:
+    - cron: "17 3 * * *"   # daily 03:17 UTC
+  pull_request:
+    paths:
+      - "supabase/migrations/**"
+      - "package.json"
+      - "bun.lock"
+  workflow_dispatch:
+
+jobs:
+  scan:
+    name: Static + dependency scan
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version-file: .nvmrc
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - run: bun install --frozen-lockfile
+
+      - name: Committed secret check
+        id: secrets
+        continue-on-error: true
+        run: node scripts/check-env-safety.mjs
+
+      - name: Migration safety scan
+        id: migrations
+        continue-on-error: true
+        run: node scripts/check-migrations-safety.mjs
+
+      - name: Dependency audit (high+)
+        id: audit
+        continue-on-error: true
+        run: bun audit --severity high || true
+
+      - name: Summarise
+        id: summary
+        run: |
+          {
+            echo "SECRETS=${{ steps.secrets.outcome }}"
+            echo "MIGRATIONS=${{ steps.migrations.outcome }}"
+            echo "AUDIT=${{ steps.audit.outcome }}"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Post findings to Operations log
+        if: ${{ secrets.CI_WEBHOOK_SECRET != '' && (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch') }}
+        env:
+          CI_WEBHOOK_SECRET: ${{ secrets.CI_WEBHOOK_SECRET }}
+          SITE_URL: ${{ secrets.VITE_SITE_URL }}
+        run: |
+          SECRETS="${{ steps.summary.outputs.SECRETS }}"
+          MIGRATIONS="${{ steps.summary.outputs.MIGRATIONS }}"
+          AUDIT="${{ steps.summary.outputs.AUDIT }}"
+          LEVEL="info"
+          [ "$SECRETS" = failure ] && LEVEL="error"
+          [ "$MIGRATIONS" = failure ] && LEVEL="error"
+          [ "$AUDIT" = failure ] && LEVEL="warn"
+          MSG="security scan — secrets:$SECRETS migrations:$MIGRATIONS audit:$AUDIT"
+          curl -fsS -X POST "$SITE_URL/api/public/ci-events" \
+            -H "Authorization: Bearer $CI_WEBHOOK_SECRET" \
+            -H "Content-Type: application/json" \
+            -d "{\"event\":\"security_scan\",\"level\":\"$LEVEL\",\"source\":\"deploy\",\"message\":\"$MSG\",\"release\":\"${{ github.sha }}\",\"metadata\":{\"secrets\":\"$SECRETS\",\"migrations\":\"$MIGRATIONS\",\"audit\":\"$AUDIT\",\"actor\":\"${{ github.actor }}\"}}" || true
+
+      - name: Fail on regression
+        if: ${{ steps.summary.outputs.MIGRATIONS == 'failure' || steps.summary.outputs.SECRETS == 'failure' }}
+        run: |
+          echo "::error::Security scan found regressions (migrations or committed secrets)."
+          exit 1

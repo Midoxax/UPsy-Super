@@ -1,0 +1,231 @@
+name: CI
+
+# Every merge gate the repository has, in one place. Before this, nothing
+# stopped a type error, an accessibility regression or a committed credential
+# from reaching main — the only automation was a daily curl against six URLs,
+# which runs *after* a bad deploy is already live.
+#
+# Package manager: bun. There is no package-lock.json in this repository, so
+# `npm ci` cannot run here — bun.lock is the committed lockfile and the only
+# one kept in sync. Every job installs with `bun install --frozen-lockfile`,
+# which is the exact equivalent of `npm ci`: it refuses to run if the lockfile
+# and package.json disagree, rather than quietly resolving something new.
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  # A superseded run tells you nothing; cancel it and save the minutes.
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  # The audit drives a real browser; never let the installer fetch its own copy.
+  PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: "1"
+
+jobs:
+  static:
+    name: Types, lint, secrets
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          # Single source of truth. Never hardcode a version here: a literal
+          # would silently diverge from .nvmrc and engines.node, which is the
+          # drift that broke this pipeline once already. Node is still needed
+          # even though bun installs: every gate script runs on node.
+          node-version-file: .nvmrc
+          check-latest: false
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - run: bun install --frozen-lockfile
+
+      # Asserts .nvmrc and engines.node agree, and that the interpreter running
+      # this job matches them, before any tooling can fail obscurely downstream.
+      - name: Runtime contract
+        run: node scripts/check-runtime.mjs
+
+      # Cheapest and highest-signal check in the pipeline: a tracked .env is
+      # one careless commit away from leaking a live service-role key.
+      - name: Committed secret check
+        run: node scripts/check-env-safety.mjs
+
+      # Hosting is now owned by this repository (Cloudflare Workers, deployed by
+      # .github/workflows/deploy.yml). This asserts the pieces a cutover depends
+      # on — the documented env contract, no leftover SPA catch-all rewrite, the
+      # deploy scripts — none of which a build failure would ever surface.
+      - name: Deploy config gate
+        run: node scripts/check-deploy-config.mjs
+
+      # Kept for as long as a vercel.json may reappear: an invalid `source`
+      # pattern is rejected before the build starts, so no other gate sees it.
+      # No-ops when the file is absent.
+      - name: Vercel route config
+        run: node scripts/check-vercel-config.mjs
+
+      # A migration can be merged and deployed without ever reaching a
+      # database, and until this landed nothing noticed: the Supabase GitHub
+      # integration was pointed at a directory that does not exist in this
+      # repository, on a different project from the one the app connects to.
+      # This asserts the repo half of that wiring and diffs the migrations
+      # against the generated types, which are the only in-repo evidence of
+      # what the database actually contains.
+      - name: Supabase wiring and schema sync
+        run: node scripts/check-supabase-sync.mjs
+
+      # One tsconfig covers the app now; there is no tsconfig.app.json since
+      # the move to TanStack Start. Pointing -p at a file that does not exist
+      # is how this step failed silently-but-loudly for weeks.
+      - name: Type check
+        run: bunx tsc --noEmit -p tsconfig.json
+
+      # The other half of the backend.
+      #
+      # tsconfig.json includes only `src`, so `tsc` never sees
+      # supabase/functions — 33 Deno functions, including every one that sends
+      # mail, screens for crisis, or generates a clinical brief. Nothing in this
+      # pipeline has ever type-checked them. A wrong import path or a renamed
+      # export surfaces when a patient does not receive an appointment reminder,
+      # which is the worst possible place to discover it.
+      - name: Set up Deno
+        uses: denoland/setup-deno@v2
+        with:
+          deno-version: v2.x
+
+      # Non-blocking on arrival, deliberately. These files have never been
+      # checked, so the size of the backlog is unknown, and a gate that is red
+      # the day it lands gets switched off along with everything it would have
+      # caught. Read the output, fix what it finds, then drop
+      # continue-on-error — same ratchet as lint.
+      # --node-modules-dir=auto because the functions import npm packages by
+      # bare specifier (`npm:resend@2.0.0`). Without it Deno 2 refuses to
+      # resolve them and aborts on the first file it meets.
+      - name: Type check edge functions
+        run: deno check --node-modules-dir=auto supabase/functions/*/index.ts supabase/functions/_shared/*.ts
+        continue-on-error: true
+
+      # Behavioural coverage. Every other gate checks the shape of the output;
+      # these assert what the code actually does — i18n fallback resolution,
+      # theme resolution, and route authorization. Each suite is mutation-
+      # verified: breaking the implementation fails a test.
+      - name: Unit tests
+        run: bun run test
+
+      # Not blocking yet: the repo carries ~450 pre-existing lint problems,
+      # so failing on them would make CI red on arrival and train people to
+      # ignore it. Ratchet this to a hard failure once the backlog is cleared.
+      - name: Lint
+        run: bun run lint
+        continue-on-error: true
+
+      # Blocks on high/critical advisories only. Moderate and low are reported
+      # by the same command without failing, because transitive dev-only
+      # advisories are constant background noise and would make this gate
+      # meaningless. `bun audit` is the lockfile-native equivalent of the npm
+      # command this replaced — npm cannot audit a tree it did not install.
+      #
+      # The advisory service being unreachable is not the same event as an
+      # advisory existing, and conflating them either hides real findings or
+      # turns a registry outage into a red build on an unchanged commit. A
+      # transport failure is reported as a warning; only an actual advisory
+      # fails the job.
+      - name: Security audit
+        run: |
+          set +e
+          output="$(bun audit --audit-level=high --prod 2>&1)"
+          status=$?
+          echo "$output"
+          if [ "$status" -ne 0 ]; then
+            if echo "$output" | grep -qiE 'audit request failed|status (4|5)[0-9][0-9]|ENOTFOUND|ECONNREFUSED'; then
+              echo "::warning::Advisory service unreachable — dependency audit skipped, not passed"
+              exit 0
+            fi
+            echo "::error::High or critical advisory in production dependencies"
+            exit 1
+          fi
+      - name: Security audit (full report, non-blocking)
+        run: bun audit || true
+
+
+  audit:
+    name: Build and browser audit
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version-file: .nvmrc
+          check-latest: false
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - run: bun install --frozen-lockfile
+
+      - name: Runtime contract
+        run: node scripts/check-runtime.mjs
+
+      - name: Build
+        run: bun run build
+
+      # Catches a build that succeeds but ships something unservable: a missing
+      # Worker entry, an unreplaced {{TOKEN}} placeholder, or an absent
+      # robots.txt/sitemap that would quietly cost indexing. Runs before the
+      # server starts, because there is no point serving a broken artefact.
+      - name: Verify production output
+        run: node scripts/verify-build.mjs
+
+      # Installed just-in-time rather than declared: nothing else in the repo
+      # needs a browser driver, and CI fetches it in seconds.
+      - name: Install audit tooling
+        run: |
+          bun add --no-save playwright @axe-core/playwright
+          bunx playwright install --with-deps chromium
+
+      # The app renders on the server, so `vite preview` (a static file server)
+      # cannot serve it — it would hand the audit a 404 for every route. The
+      # built artefact is a Cloudflare Worker, so wrangler runs it locally,
+      # exactly as production will. --local keeps everything on the runner: no
+      # Cloudflare account, no API token, no network round trip.
+      - name: Serve production build
+        run: |
+          # setsid + nohup detach the server from this step's shell, so it
+          # survives into the steps that actually need it. A plain `&` is a
+          # child of the step process and can be reaped when the step ends.
+          setsid nohup bunx wrangler dev --config dist/server/wrangler.json \
+            --local --ip 127.0.0.1 --port 4173 > /tmp/wrangler.log 2>&1 &
+          for i in $(seq 1 60); do
+            if [ "$(curl -s -o /dev/null -w '%{http_code}' http://127.0.0.1:4173/)" = "200" ]; then
+              echo "preview up"; exit 0
+            fi
+            sleep 1
+          done
+          echo "preview server never became ready"; cat /tmp/wrangler.log; exit 1
+
+
+      # Ratchet: budgets are pinned to today's output, so any growth on the
+      # critical path fails and has to be justified by raising the number in
+      # the same PR. Landing an optimisation means lowering it in the same PR
+      # so the win cannot be silently spent again later. Needs the running
+      # server: the document that references the entry chunks is rendered, not
+      # emitted to disk.
+      - name: Bundle budget
+        env:
+          BASE: http://127.0.0.1:4173
+        run: node scripts/check-bundle-size.mjs
+
+      # Gates on critical findings — crashes, blank pages, critical WCAG
+      # violations. Serious and moderate findings are printed on every run but
+      # do not block: the codebase carries ~14 serious ones, mostly a
+      # light-mode contrast token whose fix is a brand decision, and a gate
+      # that is red the day it lands gets switched off.
+      # Set AUDIT_FAIL_ON=serious to ratchet up once that backlog is clear.
+      - name: Accessibility and responsive audit
+        env:
+          BASE: http://127.0.0.1:4173
+        run: node tests/audit/run.mjs

@@ -1,0 +1,31 @@
+# U.Psy
+
+> U.Psy is Morocco's performance psychology platform — find accredited psychologists, take clinical self-assessments, and access tailored mental health programs.
+
+U.Psy connects individuals, athletes, and organizations with accredited psychologists across Morocco. The platform offers evidence-based clinical services (CBT, EMDR, Schema Therapy, ACT), validated self-assessments (GAD-7, PHQ-9), and B2B programs for workplace mental health.
+
+## Pages
+
+- [Home](/): Platform overview, featured psychologists, and self-assessment entry points.
+- [About](/about): Mission, clinical approach, and team.
+- [Founder](/founder): Mehdi Felji, founder of U.Psy.
+- [Services](/services): Clinical services including CBT, EMDR, Schema Therapy, and assessments.
+- [Consulting for Organizations](/services/consulting-for-organizations): Workplace mental health programs.
+- [Find a Psychologist](/psychologists): Directory of accredited psychologists in Morocco.
+- [Get Matched](/get-matched): Guided matching with a psychologist.
+- [Assessment Lab](/assessment-lab): Clinical self-assessments (GAD-7, PHQ-9, and more).
+- [Free Score](/free-score): Quick free mental wellbeing score.
+- [Learn](/learn): Courses and learning paths.
+- [Resources](/resources): Articles, guides, worksheets, and toolkits.
+- [Blog](/blog): Articles on mental health, therapy, and wellbeing.
+- [For Athletes](/for-athletes): Sport psychology programs.
+- [For Organizations](/for-organizations): B2B mental health offerings.
+- [Moroccan Umbrella](/moroccan-umbrella): National network of accredited Moroccan psychologists.
+- [Psychologues Sans Frontières](/psf): Humanitarian psychology sub-brand.
+- [Contact](/contact): Reach the U.Psy team.
+
+## Optional
+
+- [Legal & Privacy](/legal): Terms and Moroccan Law 09-08 privacy notice.
+- [Brand Guidelines](/brand)
+- [Pricing for Specialists](/pricing-specialists)
