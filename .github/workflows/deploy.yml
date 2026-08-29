@@ -1,0 +1,116 @@
+name: Deploy (Cloudflare Workers)
+
+# Independent hosting path from Phase 0 of docs/runbooks/00-exit-and-ownership.md.
+# The build target is already Cloudflare (nitro `cloudflare-module` preset), so
+# this workflow is the whole hosting story: GitHub is the source of truth,
+# Cloudflare serves upsy.ma, and Lovable becomes one optional editor.
+#
+# Required repository secrets:
+#   CLOUDFLARE_API_TOKEN   — token with "Edit Cloudflare Workers" permission
+#   CLOUDFLARE_ACCOUNT_ID
+#   VITE_SUPABASE_URL / VITE_SUPABASE_PUBLISHABLE_KEY / VITE_SUPABASE_PROJECT_ID
+#   VITE_SITE_URL          — canonical origin, e.g. https://www.upsy.ma
+# Optional: VITE_SENTRY_DSN, VITE_POSTHOG_KEY, VITE_POSTHOG_HOST
+#
+# Server-only secrets (SUPABASE_SERVICE_ROLE_KEY, RESEND_API_KEY, …) are set on
+# the Worker itself with `wrangler secret put`, never in this file.
+#
+# Installs with bun: bun.lock is the committed lockfile and there is no
+# package-lock.json, so `npm ci` has nothing to install from.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: Deploy target
+        type: choice
+        options: [production, preview]
+        default: preview
+
+concurrency:
+  group: deploy-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    name: Build and deploy
+    runs-on: ubuntu-latest
+    environment: ${{ github.event.inputs.environment || 'production' }}
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version-file: .nvmrc
+          # bun.lock is this repository's lockfile. setup-node@v5 turns its
+          # package-manager cache on by default, and that cache only knows
+          # package-lock.json / npm-shrinkwrap.json / yarn.lock, so it aborts
+          # the job before install. Bun is cached by oven-sh/setup-bun below.
+          package-manager-cache: false
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - run: bun install --frozen-lockfile
+
+      # Fails before any Cloudflare call if the env contract or routing config
+      # drifted — a bad deploy is far more expensive than a failed job.
+      - name: Deploy config gate
+        run: node scripts/check-deploy-config.mjs
+
+      # Names the missing secret instead of letting wrangler fail eight minutes
+      # later with an opaque authentication error, or — worse — letting the
+      # build succeed with an empty Supabase URL baked into the client bundle.
+      - name: Required secrets present
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
+          VITE_SUPABASE_PUBLISHABLE_KEY: ${{ secrets.VITE_SUPABASE_PUBLISHABLE_KEY }}
+          VITE_SITE_URL: ${{ secrets.VITE_SITE_URL }}
+        run: |
+          missing=""
+          for name in CLOUDFLARE_API_TOKEN CLOUDFLARE_ACCOUNT_ID VITE_SUPABASE_URL VITE_SUPABASE_PUBLISHABLE_KEY VITE_SITE_URL; do
+            eval "value=\${$name}"
+            [ -n "$value" ] || missing="$missing $name"
+          done
+          if [ -n "$missing" ]; then
+            echo "::error::Missing repository secret(s):$missing — add them under Settings > Secrets and variables > Actions."
+            exit 1
+          fi
+          echo "All required deploy secrets are set."
+
+      - name: Build
+        env:
+          VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
+          VITE_SUPABASE_PUBLISHABLE_KEY: ${{ secrets.VITE_SUPABASE_PUBLISHABLE_KEY }}
+          VITE_SUPABASE_PROJECT_ID: ${{ secrets.VITE_SUPABASE_PROJECT_ID }}
+          VITE_SITE_URL: ${{ secrets.VITE_SITE_URL }}
+          VITE_SENTRY_DSN: ${{ secrets.VITE_SENTRY_DSN }}
+          VITE_POSTHOG_KEY: ${{ secrets.VITE_POSTHOG_KEY }}
+          VITE_POSTHOG_HOST: ${{ secrets.VITE_POSTHOG_HOST }}
+          VITE_APP_VERSION: ${{ github.sha }}
+        run: bun run build
+
+      - name: Verify production output
+        run: node scripts/verify-build.mjs
+
+      - name: Deploy to Cloudflare Workers
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          if [ "${{ github.event.inputs.environment }}" = "preview" ]; then
+            bunx wrangler versions upload --config .output/server/wrangler.json
+          else
+            bunx wrangler deploy --config .output/server/wrangler.json
+          fi
+
+      # A deploy that returns 200 on "/" but 500 on an SSR route is the failure
+      # mode this catches; the workflow should go red, not the users' browsers.
+      - name: Smoke test
+        if: ${{ github.event.inputs.environment != 'preview' }}
+        env:
+          PROD_URL: ${{ secrets.VITE_SITE_URL }}
+        run: node scripts/check-production.mjs

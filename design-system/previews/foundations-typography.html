@@ -1,0 +1,39 @@
+<!-- @dsCard group="Foundations" -->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>U.Psy — Typography Scale</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Fraunces:wght@400;500;600&family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root { --background: 36 41% 95%; --foreground: 0 0% 10%; --muted-foreground: 0 0% 32%; --border: 36 20% 86%; }
+  body {
+    margin: 0; padding: 32px;
+    background: hsl(var(--background)); color: hsl(var(--foreground));
+    font-family: 'Manrope', system-ui, sans-serif;
+  }
+  .row { padding: 20px 0; border-bottom: 1px solid hsl(var(--border)); display: flex; align-items: baseline; gap: 24px; }
+  .row:last-child { border-bottom: none; }
+  .meta { width: 220px; flex-shrink: 0; font-size: 12px; color: hsl(var(--muted-foreground)); font-family: 'JetBrains Mono', monospace; line-height: 1.6; }
+  .sample { flex: 1; }
+  .display   { font-family: 'Fraunces', serif; font-weight: 600; font-size: 68px; line-height: 1.05; letter-spacing: -0.03em; }
+  .h1        { font-family: 'Fraunces', serif; font-weight: 600; font-size: 44px; line-height: 1.08; letter-spacing: -0.025em; }
+  .h2        { font-family: 'Fraunces', serif; font-weight: 600; font-size: 32px; line-height: 1.15; letter-spacing: -0.02em; }
+  .h3        { font-family: 'Fraunces', serif; font-weight: 500; font-size: 22px; line-height: 1.3; letter-spacing: -0.015em; }
+  .body-text { font-family: 'Manrope', sans-serif; font-weight: 400; font-size: 17px; line-height: 1.65; max-width: 68ch; }
+  .small     { font-family: 'Manrope', sans-serif; font-weight: 400; font-size: 15px; line-height: 1.6; color: hsl(var(--muted-foreground)); }
+  .accent-italic { font-family: 'Cormorant Garamond', serif; font-style: italic; font-weight: 500; font-size: 24px; letter-spacing: -0.005em; }
+</style>
+</head>
+<body>
+  <div class="row"><div class="meta">Display<br>Fraunces 600<br>68px / 1.05</div><div class="sample display">Start with a 2-minute check-in</div></div>
+  <div class="row"><div class="meta">H1<br>Fraunces 600<br>44px / 1.08</div><div class="sample h1">Book accredited psychologists</div></div>
+  <div class="row"><div class="meta">H2<br>Fraunces 600<br>32px / 1.15</div><div class="sample h2">Section anchor heading</div></div>
+  <div class="row"><div class="meta">H3<br>Fraunces 500<br>22px / 1.3</div><div class="sample h3">Sub-structure heading</div></div>
+  <div class="row"><div class="meta">Body<br>Manrope 400<br>17px / 1.65</div><div class="sample body-text">You're making progress. Keep going. Calm, supportive, and quietly confident—like someone who listens before they speak.</div></div>
+  <div class="row"><div class="meta">Small<br>Manrope 400<br>15px / 1.6</div><div class="sample small">Labels, captions, and meta info use this size in muted foreground.</div></div>
+  <div class="row"><div class="meta">Accent italic<br>Cormorant Garamond 500 italic</div><div class="sample accent-italic">a softer editorial counterpoint</div></div>
+</body>
+</html>

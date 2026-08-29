@@ -1,0 +1,1156 @@
+{
+  "generated_from": "supabase/migrations",
+  "count": 106,
+  "migrations": [
+    {
+      "file": "20251003175922_77f45553-8e6f-45f8-8ea7-d48abb69bd6d.sql",
+      "tables_created": [
+        "specialties",
+        "languages",
+        "psychologist_profiles",
+        "psychologist_specialties",
+        "psychologist_languages"
+      ],
+      "enables_rls": true,
+      "has_grants": false,
+      "creates_policies": true,
+      "security_definer": 0,
+      "bytes": 4177
+    },
+    {
+      "file": "20251003180142_b37df4dc-ec31-4082-a576-75b40b528a2c.sql",
+      "tables_created": [],
+      "enables_rls": false,
+      "has_grants": false,
+      "creates_policies": false,
+      "security_definer": 1,
+      "bytes": 242
+    },
+    {
+      "file": "20251003180956_2141d94c-fb2c-4c4b-aac2-1b325153ca1b.sql",
+      "tables_created": [
+        "leads",
+        "subscriptions"
+      ],
+      "enables_rls": true,
+      "has_grants": false,
+      "creates_policies": true,
+      "security_definer": 0,
+      "bytes": 2610
+    },
+    {
+      "file": "20251003182230_c413e338-c89d-4fec-b414-3e52255e6a9f.sql",
+      "tables_created": [
+        "user_roles"
+      ],
+      "enables_rls": true,
+      "has_grants": false,
+      "creates_policies": true,
+      "security_definer": 4,
+      "bytes": 2297
+    },
+    {
+      "file": "20251003182328_3bb61f8b-0aa4-40e8-b7fd-04a0970cc645.sql",
+      "tables_created": [
+        "psychologist_applications"
+      ],
+      "enables_rls": true,
+      "has_grants": false,
+      "creates_policies": true,
+      "security_definer": 0,
+      "bytes": 1426
+    },
+    {
+      "file": "20251003182708_af03d6c8-1658-43c5-80f0-a3586b8d7fe2.sql",
+      "tables_created": [
+        "client_matching_requests"
+      ],
+      "enables_rls": true,
+      "has_grants": false,
+      "creates_policies": true,
+      "security_definer": 0,
+      "bytes": 996
+    },
+    {
+      "file": "20251003183251_205eb783-3797-45c5-97b8-322845d726fc.sql",
+      "tables_created": [],
+      "enables_rls": false,
+      "has_grants": false,
+      "creates_policies": true,
+      "security_definer": 0,
+      "bytes": 861
+    },
+    {
+      "file": "20251004011014_249d1f76-6f8e-4b90-a7bd-2b0317d92652.sql",
+      "tables_created": [],
+      "enables_rls": false,
+      "has_grants": false,
+      "creates_policies": false,
+      "security_definer": 0,
+      "bytes": 1404
+    },
+    {
+      "file": "20251004011305_f9e732c9-590e-4116-9126-d6bcc8db40fc.sql",
+      "tables_created": [],
+      "enables_rls": false,
+      "has_grants": false,
+      "creates_policies": false,
+      "security_definer": 2,
+      "bytes": 681
+    },
+    {
+      "file": "20251004014943_fb744458-d152-4e9d-be87-dff1f1154610.sql",
+      "tables_created": [],
+      "enables_rls": false,
+      "has_grants": false,
+      "creates_policies": false,
+      "security_definer": 1,
+      "bytes": 2431
+    },
+    {
+      "file": "20251005172215_ce8c6b7f-d75e-45b1-82fe-f9fc03eb3f53.sql",
+      "tables_created": [],
+      "enables_rls": false,
+      "has_grants": false,
+      "creates_policies": true,
+      "security_definer": 0,
+      "bytes": 1154
+    },
+    {
+      "file": "20251103150009_a002bfe9-92a0-4c70-a526-ff8ff97f605b.sql",
+      "tables_created": [
+        "proposal_requests"
+      ],
+      "enables_rls": true,
+      "has_grants": false,
+      "creates_policies": true,
+      "security_definer": 0,
+      "bytes": 1248
+    },
+    {
+      "file": "20260219094701_db19542b-1c65-44f0-9d6a-0c252bf4e482.sql",
+      "tables_created": [
+        "contact_submissions"
+      ],
+      "enables_rls": true,
+      "has_grants": false,
+      "creates_policies": true,
+      "security_definer": 0,
+      "bytes": 1144
+    },
+    {
+      "file": "20260308200532_c986a9f1-435b-479c-a0ce-1686dbdc9add.sql",
+      "tables_created": [],
+      "enables_rls": false,
+      "has_grants": false,
+      "creates_policies": false,
+      "security_definer": 1,
+      "bytes": 2511
+    },
+    {
+      "file": "20260308201515_6c85304b-4f67-4f3c-a887-d032dec969ec.sql",
+      "tables_created": [
+        "therapy_approaches",
+        "psychologist_therapy_approaches",
+        "availability_slots"
+      ],
+      "enables_rls": true,
+      "has_grants": false,
+      "creates_policies": true,
+      "security_definer": 1,
+      "bytes": 5985
+    },
+    {
+      "file": "20260308202515_3f565b9a-3a29-4cab-802a-493b2d313170.sql",
+      "tables_created": [
+        "profiles",
+        "assessments",
+        "assessment_questions",
+        "assessment_results",
+        "mood_entries",
+        "athlete_profiles",
+        "athlete_training_sessions",
+        "organization_profiles",
+        "organization_diagnostics",
+        "courses",
+        "course_modules",
+        "course_enrollments",
+        "ai_conversations",
+        "ai_messages"
+      ],
+      "enables_rls": true,
+      "has_grants": false,
+      "creates_policies": true,
+      "security_definer": 1,
+      "bytes": 16166
+    },
+    {
+      "file": "20260308203644_f8dcc06a-c7c5-4e0f-844d-e5fc497521e9.sql",
+      "tables_created": [
+        "sessions"
+      ],
+      "enables_rls": true,
+      "has_grants": false,
+      "creates_policies": true,
+      "security_definer": 0,
+      "bytes": 1896
+    },
+    {
+      "file": "20260308204017_0f6fec1f-7807-4424-9dc2-25d24306f155.sql",
+      "tables_created": [
+        "reviews"
+      ],
+      "enables_rls": true,
+      "has_grants": false,
+      "creates_policies": true,
+      "security_definer": 0,
+      "bytes": 1440
+    },
+    {
+      "file": "20260308204428_12502c1a-6fec-47c5-8f64-eb803ca49fc7.sql",
+      "tables_created": [],
+      "enables_rls": false,
+      "has_grants": false,
+      "creates_policies": false,
+      "security_definer": 1,
+      "bytes": 4596
+    },
+    {
+      "file": "20260308210715_eedef824-6943-45f0-ba1d-08b1c5cfe57d.sql",
+      "tables_created": [],
+      "enables_rls": false,
+      "has_grants": false,
+      "creates_policies": true,
+      "security_definer": 0,
+      "bytes": 259
+    },
+    {
+      "file": "20260308211627_e6bc63fe-b318-439f-84ee-5bb8220d933a.sql",
+      "tables_created": [
+        "certificates"
+      ],
+      "enables_rls": true,
+      "has_grants": false,
+      "creates_policies": true,
+      "security_definer": 0,
+      "bytes": 1630
+    },
+    {
+      "file": "20260308215113_6428c019-3d8c-43c4-bb81-48a75d576020.sql",
+      "tables_created": [
+        "translation_overrides"
+      ],
+      "enables_rls": true,
+      "has_grants": false,
+      "creates_policies": true,
+      "security_definer": 0,
+      "bytes": 879
+    },
+    {
+      "file": "20260323021032_e96bd609-42c1-49e6-a7da-358d3573a509.sql",
+      "tables_created": [],
+      "enables_rls": false,
+      "has_grants": false,
+      "creates_policies": false,
+      "security_definer": 0,
+      "bytes": 121
+    },
+    {
+      "file": "20260327204401_6e6bf0f3-2481-4e4f-b5ac-b4838d22ca2e.sql",
+      "tables_created": [],
+      "enables_rls": false,
+      "has_grants": false,
+      "creates_policies": true,
+      "security_definer": 0,
+      "bytes": 1665
+    },
+    {
+      "file": "20260328092915_fb34bf9a-8a6d-40a7-aadf-c212e9043c7d.sql",
+      "tables_created": [],
+      "enables_rls": false,
+      "has_grants": false,
+      "creates_policies": true,
+      "security_definer": 0,
+      "bytes": 969
+    },
+    {
+      "file": "20260331212737_bf00f099-460a-4b0e-aa26-6b4bc4f82de6.sql",
+      "tables_created": [],
+      "enables_rls": false,
+      "has_grants": true,
+      "creates_policies": true,
+      "security_definer": 0,
+      "bytes": 3572
+    },
+    {
+      "file": "20260331212750_09ee3439-4279-47a3-b716-114c1a819b8f.sql",
+      "tables_created": [],
+      "enables_rls": false,
+      "has_grants": false,
+      "creates_policies": false,
+      "security_definer": 1,
+      "bytes": 128
+    },
+    {
+      "file": "20260404112540_459a66f7-581f-42bf-aed9-ce6311d96f31.sql",
+      "tables_created": [],
+      "enables_rls": false,
+      "has_grants": false,
+      "creates_policies": true,
+      "security_definer": 0,
+      "bytes": 1581
+    },
+    {
+      "file": "20260405092050_b38e51bc-0929-4ff7-9594-a282e52979ef.sql",
+      "tables_created": [
+        "documents",
+        "journal_entries",
+        "session_notes"
+      ],
+      "enables_rls": true,
+      "has_grants": false,
+      "creates_policies": true,
+      "security_definer": 0,
+      "bytes": 4607
+    },
+    {
+      "file": "20260409091932_e1d13a4c-78a6-4f49-ad03-a437e9513e55.sql",
+      "tables_created": [
+        "bookings",
+        "gamification_levels",
+        "gamification_badges",
+        "user_progress",
+        "user_badges",
+        "ai_chat_history",
+        "organization_accounts",
+        "organization_members",
+        "wellness_programs",
+        "organization_invoices"
+      ],
+      "enables_rls": true,
+      "has_grants": false,
+      "creates_policies": true,
+      "security_definer": 2,
+      "bytes": 18198
+    },
+    {
+      "file": "20260409091948_960dd430-7e12-484e-8c0e-7a2b031e1da1.sql",
+      "tables_created": [],
+      "enables_rls": false,
+      "has_grants": false,
+      "creates_policies": false,
+      "security_definer": 0,
+      "bytes": 270
+    },
+    {
+      "file": "20260418141938_9d307273-0947-4a4e-8227-5d370b7a444a.sql",
+      "tables_created": [
+        "audit_log",
+        "psychologist_encryption_keys"
+      ],
+      "enables_rls": true,
+      "has_grants": false,
+      "creates_policies": true,
+      "security_definer": 1,
+      "bytes": 5805
+    },
+    {
+      "file": "20260418142302_d6b0fd25-5b51-448c-b208-9f122edc3dba.sql",
+      "tables_created": [],
+      "enables_rls": false,
+      "has_grants": true,
+      "creates_policies": false,
+      "security_definer": 1,
+      "bytes": 3150
+    },
+    {
+      "file": "20260418143129_597cbbaf-de3e-4dd0-974b-890927947123.sql",
+      "tables_created": [
+        "org_pulse_surveys",
+        "org_pulse_responses",
+        "org_aggregate_reports"
+      ],
+      "enables_rls": true,
+      "has_grants": false,
+      "creates_policies": true,
+      "security_definer": 2,
+      "bytes": 7428
+    },
+    {
+      "file": "20260418143514_7430a2de-7f90-4689-a886-c9b7f1014138.sql",
+      "tables_created": [
+        "growth_leads",
+        "referrals"
+      ],
+      "enables_rls": true,
+      "has_grants": false,
+      "creates_policies": true,
+      "security_definer": 0,
+      "bytes": 2979
+    },
+    {
+      "file": "20260418143524_568b3141-0027-4fc5-bd0b-0cc09d421718.sql",
+      "tables_created": [],
+      "enables_rls": false,
+      "has_grants": false,
+      "creates_policies": false,
+      "security_definer": 1,
+      "bytes": 232
+    },
+    {
+      "file": "20260418145500_71f181e0-9c9d-4e75-a455-7a5bd9037175.sql",
+      "tables_created": [],
+      "enables_rls": false,
+      "has_grants": false,
+      "creates_policies": false,
+      "security_definer": 0,
+      "bytes": 848
+    },
+    {
+      "file": "20260420205510_14d4a28d-3834-49e1-91c5-92642c83187c.sql",
+      "tables_created": [
+        "platform_pricing_config",
+        "platform_pricing_history"
+      ],
+      "enables_rls": true,
+      "has_grants": false,
+      "creates_policies": true,
+      "security_definer": 1,
+      "bytes": 4208
+    },
+    {
+      "file": "20260420212228_2f9aaeff-a428-4409-aa3b-27f3b6f38a93.sql",
+      "tables_created": [
+        "accreditation_decisions"
+      ],
+      "enables_rls": true,
+      "has_grants": false,
+      "creates_policies": true,
+      "security_definer": 1,
+      "bytes": 7210
+    },
+    {
+      "file": "20260420224135_9682d805-cad4-4180-8b5d-85a457cd6a90.sql",
+      "tables_created": [
+        "payment_transactions",
+        "payment_payouts"
+      ],
+      "enables_rls": true,
+      "has_grants": false,
+      "creates_policies": true,
+      "security_definer": 0,
+      "bytes": 3785
+    },
+    {
+      "file": "20260420224816_f1d1a2b6-f1d0-41bc-97c1-53cdb4b242bd.sql",
+      "tables_created": [
+        "session_events"
+      ],
+      "enables_rls": true,
+      "has_grants": false,
+      "creates_policies": true,
+      "security_definer": 1,
+      "bytes": 2633
+    },
+    {
+      "file": "20260420225224_2fe7c74f-4135-4d9f-8860-6649f164e48a.sql",
+      "tables_created": [],
+      "enables_rls": false,
+      "has_grants": true,
+      "creates_policies": true,
+      "security_definer": 1,
+      "bytes": 1357
+    },
+    {
+      "file": "20260420225259_d27bf99b-9073-405e-b9a4-890d9c538db9.sql",
+      "tables_created": [],
+      "enables_rls": false,
+      "has_grants": false,
+      "creates_policies": true,
+      "security_definer": 0,
+      "bytes": 1209
+    },
+    {
+      "file": "20260420225311_6b5a2c64-8cf3-4d8d-87f0-2339fec7aee1.sql",
+      "tables_created": [],
+      "enables_rls": false,
+      "has_grants": false,
+      "creates_policies": false,
+      "security_definer": 0,
+      "bytes": 68
+    },
+    {
+      "file": "20260420232517_02e4c2a8-f10d-4218-89d4-e5dc972b20c6.sql",
+      "tables_created": [
+        "organization_applications"
+      ],
+      "enables_rls": true,
+      "has_grants": false,
+      "creates_policies": true,
+      "security_definer": 0,
+      "bytes": 2144
+    },
+    {
+      "file": "20260421103257_8b636db4-8478-4c7b-92df-48a4577e3401.sql",
+      "tables_created": [
+        "client_anamneses"
+      ],
+      "enables_rls": true,
+      "has_grants": false,
+      "creates_policies": true,
+      "security_definer": 0,
+      "bytes": 3348
+    },
+    {
+      "file": "20260421114122_a734b0c5-bf61-4ed2-ab1f-1993940e0a1e.sql",
+      "tables_created": [
+        "provisioning_attempts",
+        "anamnesis_reminders"
+      ],
+      "enables_rls": true,
+      "has_grants": false,
+      "creates_policies": true,
+      "security_definer": 1,
+      "bytes": 4340
+    },
+    {
+      "file": "20260421115250_09fedb61-379b-465a-a993-860ebee2717a.sql",
+      "tables_created": [],
+      "enables_rls": false,
+      "has_grants": false,
+      "creates_policies": false,
+      "security_definer": 0,
+      "bytes": 156
+    },
+    {
+      "file": "20260421142236_bc5fcca8-6976-4e12-8ad6-ac56977d671d.sql",
+      "tables_created": [],
+      "enables_rls": false,
+      "has_grants": false,
+      "creates_policies": false,
+      "security_definer": 6,
+      "bytes": 5350
+    },
+    {
+      "file": "20260421144717_769da8c3-f8fb-44c3-9ad8-c23479b35513.sql",
+      "tables_created": [],
+      "enables_rls": false,
+      "has_grants": false,
+      "creates_policies": false,
+      "security_definer": 7,
+      "bytes": 9350
+    },
+    {
+      "file": "20260421155255_da1506c2-884e-41e3-9bb4-34c579cbb68d.sql",
+      "tables_created": [],
+      "enables_rls": false,
+      "has_grants": true,
+      "creates_policies": true,
+      "security_definer": 2,
+      "bytes": 3672
+    },
+    {
+      "file": "20260421160026_cf2f26f1-5e24-4400-9e00-f8329cc0e7a8.sql",
+      "tables_created": [],
+      "enables_rls": false,
+      "has_grants": true,
+      "creates_policies": false,
+      "security_definer": 2,
+      "bytes": 4096
+    },
+    {
+      "file": "20260424080506_030e6c09-d2d4-4442-a3d7-4147be9d1226.sql",
+      "tables_created": [],
+      "enables_rls": false,
+      "has_grants": false,
+      "creates_policies": true,
+      "security_definer": 1,
+      "bytes": 1813
+    },
+    {
+      "file": "20260424140614_e08fee1d-ec04-4aa3-9a9e-69150ada2e64.sql",
+      "tables_created": [],
+      "enables_rls": false,
+      "has_grants": false,
+      "creates_policies": true,
+      "security_definer": 0,
+      "bytes": 1390
+    },
+    {
+      "file": "20260424141705_14c56856-e709-4b22-a4e1-fcc9cddce29a.sql",
+      "tables_created": [],
+      "enables_rls": false,
+      "has_grants": true,
+      "creates_policies": true,
+      "security_definer": 1,
+      "bytes": 1422
+    },
+    {
+      "file": "20260425081846_64226638-3732-461a-9085-7074f4f3bc23.sql",
+      "tables_created": [
+        "edge_rate_limits"
+      ],
+      "enables_rls": true,
+      "has_grants": true,
+      "creates_policies": false,
+      "security_definer": 2,
+      "bytes": 1833
+    },
+    {
+      "file": "20260429212332_fb6a1bc9-a6cd-4c72-a7c9-cfc1c6f0104e.sql",
+      "tables_created": [
+        "resource_topics",
+        "resources",
+        "resource_completions",
+        "daily_challenges",
+        "user_daily_challenges"
+      ],
+      "enables_rls": true,
+      "has_grants": true,
+      "creates_policies": true,
+      "security_definer": 3,
+      "bytes": 10812
+    },
+    {
+      "file": "20260429213425_861755f3-5ee5-4087-84e4-600c082ee52c.sql",
+      "tables_created": [],
+      "enables_rls": false,
+      "has_grants": false,
+      "creates_policies": true,
+      "security_definer": 0,
+      "bytes": 705
+    },
+    {
+      "file": "20260429215525_3ec56e3b-847a-4f68-b861-68678368788c.sql",
+      "tables_created": [
+        "specialist_payouts",
+        "notifications",
+        "notification_preferences"
+      ],
+      "enables_rls": true,
+      "has_grants": false,
+      "creates_policies": true,
+      "security_definer": 2,
+      "bytes": 6004
+    },
+    {
+      "file": "20260429221001_fee65da6-3193-4cdb-95ba-902adc006690.sql",
+      "tables_created": [],
+      "enables_rls": false,
+      "has_grants": false,
+      "creates_policies": false,
+      "security_definer": 1,
+      "bytes": 1138
+    },
+    {
+      "file": "20260429222132_58447393-24d4-4391-a874-3e9087f5336a.sql",
+      "tables_created": [
+        "specialist_plans",
+        "subscription_invoices",
+        "support_tickets",
+        "support_ticket_messages"
+      ],
+      "enables_rls": true,
+      "has_grants": false,
+      "creates_policies": true,
+      "security_definer": 4,
+      "bytes": 13880
+    },
+    {
+      "file": "20260429223833_2df6e17e-68ee-4090-b9d4-56866ff3f818.sql",
+      "tables_created": [],
+      "enables_rls": false,
+      "has_grants": false,
+      "creates_policies": false,
+      "security_definer": 1,
+      "bytes": 1761
+    },
+    {
+      "file": "20260430154133_cd5fed72-efc4-477c-b90f-93d06a8381de.sql",
+      "tables_created": [
+        "specialist_boosts",
+        "course_purchases",
+        "all_access_subscriptions",
+        "session_credit_packs",
+        "session_credits_ledger",
+        "assessment_premium_reports",
+        "ai_subscriptions",
+        "ai_usage_meter",
+        "certificate_verifications",
+        "athlete_subscriptions",
+        "coupons",
+        "coupon_redemptions",
+        "referral_credits",
+        "org_subscription_plans",
+        "sector_reports"
+      ],
+      "enables_rls": true,
+      "has_grants": false,
+      "creates_policies": true,
+      "security_definer": 7,
+      "bytes": 20912
+    },
+    {
+      "file": "20260430160343_c4b6250e-eeb7-42f1-b2dd-dd2fa85d3fdb.sql",
+      "tables_created": [
+        "booking_reminders_sent"
+      ],
+      "enables_rls": true,
+      "has_grants": false,
+      "creates_policies": true,
+      "security_definer": 1,
+      "bytes": 2115
+    },
+    {
+      "file": "20260501174043_ba796ad6-e8c0-4d4f-98ca-93da14f4421e.sql",
+      "tables_created": [
+        "push_subscriptions"
+      ],
+      "enables_rls": true,
+      "has_grants": false,
+      "creates_policies": true,
+      "security_definer": 0,
+      "bytes": 823
+    },
+    {
+      "file": "20260501181341_56d0a79a-a966-4733-8d42-cd99f01e7d1b.sql",
+      "tables_created": [],
+      "enables_rls": false,
+      "has_grants": false,
+      "creates_policies": false,
+      "security_definer": 1,
+      "bytes": 419
+    },
+    {
+      "file": "20260501210147_ca981a26-2b2d-43ca-9395-5207299fd331.sql",
+      "tables_created": [
+        "treatment_plans",
+        "homework_assignments",
+        "discharge_summaries"
+      ],
+      "enables_rls": true,
+      "has_grants": false,
+      "creates_policies": true,
+      "security_definer": 0,
+      "bytes": 5233
+    },
+    {
+      "file": "20260502121223_b2703832-fddc-477c-9add-72d428efda6d.sql",
+      "tables_created": [],
+      "enables_rls": false,
+      "has_grants": false,
+      "creates_policies": true,
+      "security_definer": 1,
+      "bytes": 4252
+    },
+    {
+      "file": "20260502121240_b8fd358e-d222-4a69-a4ef-0a794e4535a7.sql",
+      "tables_created": [],
+      "enables_rls": false,
+      "has_grants": false,
+      "creates_policies": false,
+      "security_definer": 1,
+      "bytes": 345
+    },
+    {
+      "file": "20260505224313_1dc6fa8f-e65a-4346-8cd5-1f806f62552a.sql",
+      "tables_created": [
+        "intake_clinical_briefs",
+        "crisis_alerts"
+      ],
+      "enables_rls": true,
+      "has_grants": false,
+      "creates_policies": true,
+      "security_definer": 0,
+      "bytes": 5658
+    },
+    {
+      "file": "20260508194603_8fc69de4-701d-443e-a4bb-01032ff422b4.sql",
+      "tables_created": [],
+      "enables_rls": false,
+      "has_grants": false,
+      "creates_policies": true,
+      "security_definer": 0,
+      "bytes": 822
+    },
+    {
+      "file": "20260508195139_d147ed51-d106-4916-85cb-10d04fc3fd59.sql",
+      "tables_created": [],
+      "enables_rls": false,
+      "has_grants": false,
+      "creates_policies": true,
+      "security_definer": 1,
+      "bytes": 2552
+    },
+    {
+      "file": "20260508195516_email_infra.sql",
+      "tables_created": [
+        "email_send_log",
+        "email_send_state",
+        "suppressed_emails",
+        "email_unsubscribe_tokens"
+      ],
+      "enables_rls": true,
+      "has_grants": true,
+      "creates_policies": true,
+      "security_definer": 5,
+      "bytes": 11343
+    },
+    {
+      "file": "20260521092604_c941f93a-8095-4c8e-821f-8d7648d06e28.sql",
+      "tables_created": [],
+      "enables_rls": false,
+      "has_grants": true,
+      "creates_policies": true,
+      "security_definer": 0,
+      "bytes": 1215
+    },
+    {
+      "file": "20260522171208_0bb9fa1f-b4d3-48ca-8bd3-e84fd92c7273.sql",
+      "tables_created": [],
+      "enables_rls": false,
+      "has_grants": false,
+      "creates_policies": true,
+      "security_definer": 2,
+      "bytes": 638
+    },
+    {
+      "file": "20260524093958_eff3845b-aca4-4556-9288-583c6935dc7e.sql",
+      "tables_created": [],
+      "enables_rls": false,
+      "has_grants": false,
+      "creates_policies": true,
+      "security_definer": 1,
+      "bytes": 3979
+    },
+    {
+      "file": "20260525105007_8b71dd24-c76e-4f64-b8b3-a52eba3030b3.sql",
+      "tables_created": [],
+      "enables_rls": false,
+      "has_grants": false,
+      "creates_policies": true,
+      "security_definer": 0,
+      "bytes": 1940
+    },
+    {
+      "file": "20260526201634_ebb3f712-555c-449b-ab18-723be938530d.sql",
+      "tables_created": [
+        "membership_plans",
+        "user_memberships",
+        "community_spaces",
+        "space_members",
+        "community_posts",
+        "post_reactions",
+        "post_comments",
+        "xp_events",
+        "user_streaks",
+        "badges",
+        "user_badges",
+        "quests",
+        "user_quest_progress",
+        "skill_trees",
+        "user_skill_nodes"
+      ],
+      "enables_rls": true,
+      "has_grants": true,
+      "creates_policies": true,
+      "security_definer": 7,
+      "bytes": 29825
+    },
+    {
+      "file": "20260526202310_31d2f407-f50c-431b-a5de-79d81a6b631f.sql",
+      "tables_created": [
+        "readiness_checkins",
+        "athlete_protocols",
+        "protocol_completions"
+      ],
+      "enables_rls": true,
+      "has_grants": true,
+      "creates_policies": true,
+      "security_definer": 0,
+      "bytes": 5341
+    },
+    {
+      "file": "20260526221939_1e927532-5bfb-441e-8ff0-33c78b2c6328.sql",
+      "tables_created": [],
+      "enables_rls": false,
+      "has_grants": true,
+      "creates_policies": false,
+      "security_definer": 2,
+      "bytes": 10944
+    },
+    {
+      "file": "20260526221954_3ff23295-0fcb-49cb-9fff-b2125549cdbe.sql",
+      "tables_created": [],
+      "enables_rls": false,
+      "has_grants": false,
+      "creates_policies": false,
+      "security_definer": 0,
+      "bytes": 169
+    },
+    {
+      "file": "20260526222927_8cb14c92-1abb-4208-a873-3a0541f2154c.sql",
+      "tables_created": [],
+      "enables_rls": false,
+      "has_grants": false,
+      "creates_policies": false,
+      "security_definer": 0,
+      "bytes": 197
+    },
+    {
+      "file": "20260526232349_01e3943b-7222-4fd4-8f33-20dde413e40a.sql",
+      "tables_created": [
+        "ops_workspaces",
+        "ops_workspace_members",
+        "ops_events",
+        "ops_protocol_phases",
+        "ops_tasks",
+        "ops_task_events",
+        "ops_director_threads",
+        "ops_director_messages"
+      ],
+      "enables_rls": true,
+      "has_grants": true,
+      "creates_policies": true,
+      "security_definer": 5,
+      "bytes": 12928
+    },
+    {
+      "file": "20260526234550_fea496f5-3811-424a-8a64-3fb9f2b406c6.sql",
+      "tables_created": [],
+      "enables_rls": false,
+      "has_grants": false,
+      "creates_policies": false,
+      "security_definer": 0,
+      "bytes": 124
+    },
+    {
+      "file": "20260528165721_2ca8fbcf-6c33-454d-a8b6-dc13bcf4cf29.sql",
+      "tables_created": [],
+      "enables_rls": false,
+      "has_grants": false,
+      "creates_policies": true,
+      "security_definer": 0,
+      "bytes": 2267
+    },
+    {
+      "file": "20260612204217_3cbe4d9f-195d-4c83-9461-5547a7e04f7e.sql",
+      "tables_created": [],
+      "enables_rls": false,
+      "has_grants": false,
+      "creates_policies": true,
+      "security_definer": 1,
+      "bytes": 2473
+    },
+    {
+      "file": "20260701130817_17b76582-0120-4b3e-89e9-497c19f64170.sql",
+      "tables_created": [],
+      "enables_rls": false,
+      "has_grants": true,
+      "creates_policies": true,
+      "security_definer": 2,
+      "bytes": 2559
+    },
+    {
+      "file": "20260701143916_59638f4b-951f-467f-b3e0-4169c8815c02.sql",
+      "tables_created": [],
+      "enables_rls": false,
+      "has_grants": true,
+      "creates_policies": true,
+      "security_definer": 1,
+      "bytes": 2361
+    },
+    {
+      "file": "20260701174329_3cdee253-b461-4193-a4d5-ef1e48971843.sql",
+      "tables_created": [],
+      "enables_rls": false,
+      "has_grants": false,
+      "creates_policies": true,
+      "security_definer": 0,
+      "bytes": 732
+    },
+    {
+      "file": "20260702130213_8dfd0c30-1c73-41f3-a0c6-376292cc004e.sql",
+      "tables_created": [],
+      "enables_rls": false,
+      "has_grants": false,
+      "creates_policies": false,
+      "security_definer": 0,
+      "bytes": 395
+    },
+    {
+      "file": "20260703150359_8114aeb5-b0a4-4c31-8b21-f43109025f4d.sql",
+      "tables_created": [],
+      "enables_rls": false,
+      "has_grants": false,
+      "creates_policies": true,
+      "security_definer": 0,
+      "bytes": 4348
+    },
+    {
+      "file": "20260709225220_fd2af0d6-411e-4848-81d1-f75b82b9a666.sql",
+      "tables_created": [],
+      "enables_rls": false,
+      "has_grants": true,
+      "creates_policies": false,
+      "security_definer": 0,
+      "bytes": 151
+    },
+    {
+      "file": "20260713221343_7a1ed455-3310-4aac-a6dc-5f637963a042.sql",
+      "tables_created": [],
+      "enables_rls": false,
+      "has_grants": false,
+      "creates_policies": true,
+      "security_definer": 0,
+      "bytes": 693
+    },
+    {
+      "file": "20260730201751_d8abbc81-604a-4d23-bfd3-9ce8a5a454fc.sql",
+      "tables_created": [
+        "survey_responses"
+      ],
+      "enables_rls": true,
+      "has_grants": true,
+      "creates_policies": true,
+      "security_definer": 2,
+      "bytes": 5003
+    },
+    {
+      "file": "20260730201845_9525fc72-48f3-4050-8943-1d3309264291.sql",
+      "tables_created": [],
+      "enables_rls": false,
+      "has_grants": true,
+      "creates_policies": false,
+      "security_definer": 2,
+      "bytes": 4550
+    },
+    {
+      "file": "20260801120000_platform_events.sql",
+      "tables_created": [
+        "platform_events",
+        "platform_event_deliveries"
+      ],
+      "enables_rls": true,
+      "has_grants": true,
+      "creates_policies": true,
+      "security_definer": 2,
+      "bytes": 10557
+    },
+    {
+      "file": "20260816140311_88680be5-a8dd-4d17-84b9-17d0999cdc2d.sql",
+      "tables_created": [],
+      "enables_rls": false,
+      "has_grants": false,
+      "creates_policies": false,
+      "security_definer": 1,
+      "bytes": 1183
+    },
+    {
+      "file": "20260827152722_af7d66b4-cf1a-4763-9b36-d1b3902ffc32.sql",
+      "tables_created": [],
+      "enables_rls": false,
+      "has_grants": true,
+      "creates_policies": false,
+      "security_definer": 0,
+      "bytes": 164
+    },
+    {
+      "file": "20260828185027_cb6acb91-e50c-4eef-bddc-5413b52113e6.sql",
+      "tables_created": [
+        "crm_organisations",
+        "crm_contacts",
+        "crm_stages",
+        "crm_deals",
+        "crm_activities",
+        "crm_consents"
+      ],
+      "enables_rls": true,
+      "has_grants": true,
+      "creates_policies": true,
+      "security_definer": 2,
+      "bytes": 17266
+    },
+    {
+      "file": "20260828185057_f770129b-e882-4003-bfc6-3b3f6ed2776d.sql",
+      "tables_created": [],
+      "enables_rls": false,
+      "has_grants": true,
+      "creates_policies": false,
+      "security_definer": 0,
+      "bytes": 173
+    },
+    {
+      "file": "20260828190132_4547c310-50cd-4b63-a1e1-13195c3f0039.sql",
+      "tables_created": [
+        "privacy_preferences",
+        "data_subject_requests"
+      ],
+      "enables_rls": true,
+      "has_grants": true,
+      "creates_policies": true,
+      "security_definer": 6,
+      "bytes": 15308
+    },
+    {
+      "file": "20260828190202_458709f3-0c51-440d-b08b-1275f68bbd1c.sql",
+      "tables_created": [],
+      "enables_rls": false,
+      "has_grants": false,
+      "creates_policies": false,
+      "security_definer": 0,
+      "bytes": 253
+    },
+    {
+      "file": "20260828200917_570d3815-ad95-4091-addc-dc9ddca21241.sql",
+      "tables_created": [
+        "invoice_counters",
+        "invoices",
+        "payments",
+        "legal_documents",
+        "legal_acceptances"
+      ],
+      "enables_rls": true,
+      "has_grants": true,
+      "creates_policies": true,
+      "security_definer": 4,
+      "bytes": 11367
+    },
+    {
+      "file": "20260828202232_24e41028-91a0-4c44-8eac-7a38cbb63e32.sql",
+      "tables_created": [
+        "crm_staff",
+        "crm_notifications",
+        "crm_automation_rules",
+        "crm_email_messages",
+        "crm_email_events"
+      ],
+      "enables_rls": true,
+      "has_grants": true,
+      "creates_policies": true,
+      "security_definer": 9,
+      "bytes": 22821
+    },
+    {
+      "file": "20260829124205_fafcefca-6ff6-4918-bafc-72606fb780f7.sql",
+      "tables_created": [
+        "funnel_events",
+        "experiment_winners"
+      ],
+      "enables_rls": true,
+      "has_grants": true,
+      "creates_policies": true,
+      "security_definer": 5,
+      "bytes": 12749
+    },
+    {
+      "file": "20260829125432_b0512ad9-cc16-4a44-9fa7-569cc5938767.sql",
+      "tables_created": [],
+      "enables_rls": false,
+      "has_grants": false,
+      "creates_policies": false,
+      "security_definer": 0,
+      "bytes": 105
+    }
+  ]
+}

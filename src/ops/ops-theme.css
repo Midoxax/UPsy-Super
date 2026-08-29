@@ -1,0 +1,277 @@
+/* UPSY OPS — scoped cinematic theme. Only active inside .ops-theme. */
+.ops-theme {
+  /* Core surface */
+  --ops-bg: 222 47% 4%;
+  --ops-bg-elev: 222 40% 7%;
+  --ops-surface: 220 35% 9%;
+  --ops-border: 200 30% 18%;
+  --ops-grid: 200 40% 14%;
+
+  /* Text */
+  --ops-text: 200 20% 92%;
+  --ops-text-dim: 200 15% 60%;
+  --ops-text-muted: 200 10% 40%;
+
+  /* Accent (single neon cyan) */
+  --ops-accent: 180 100% 60%;
+  --ops-accent-glow: 180 100% 60%;
+  --ops-warn: 30 100% 60%;
+  --ops-danger: 0 100% 65%;
+  --ops-ok: 145 80% 55%;
+
+  background:
+    radial-gradient(circle at 20% 0%, hsl(var(--ops-accent) / 0.08), transparent 50%),
+    radial-gradient(circle at 80% 100%, hsl(var(--ops-accent) / 0.05), transparent 50%),
+    hsl(var(--ops-bg));
+  color: hsl(var(--ops-text));
+  font-family: "Inter", "SF Pro Display", system-ui, sans-serif;
+  min-height: 100vh;
+}
+
+.ops-theme * { border-color: hsl(var(--ops-border) / 0.6); }
+
+.ops-mono { font-family: "JetBrains Mono", "Fira Code", ui-monospace, monospace; letter-spacing: 0.02em; }
+.ops-display { font-family: "Outfit", "Inter", sans-serif; letter-spacing: -0.02em; font-weight: 200; }
+
+/* Glass surface */
+.ops-glass {
+  background: linear-gradient(180deg, hsl(var(--ops-surface) / 0.85), hsl(var(--ops-bg-elev) / 0.7));
+  border: 1px solid hsl(var(--ops-border) / 0.7);
+  backdrop-filter: blur(20px) saturate(1.2);
+  -webkit-backdrop-filter: blur(20px) saturate(1.2);
+  border-radius: 14px;
+}
+
+.ops-glass-hover { transition: border-color 240ms ease, background 240ms ease, transform 240ms ease; }
+.ops-glass-hover:hover {
+  border-color: hsl(var(--ops-accent) / 0.55);
+  background: linear-gradient(180deg, hsl(var(--ops-surface) / 0.95), hsl(var(--ops-bg-elev) / 0.85));
+}
+
+/* Accent glow text */
+.ops-accent { color: hsl(var(--ops-accent)); }
+.ops-glow { text-shadow: 0 0 24px hsl(var(--ops-accent) / 0.6); }
+
+/* Tactical grid background */
+.ops-grid-bg {
+  background-image:
+    linear-gradient(hsl(var(--ops-grid) / 0.35) 1px, transparent 1px),
+    linear-gradient(90deg, hsl(var(--ops-grid) / 0.35) 1px, transparent 1px);
+  background-size: 48px 48px;
+  background-position: -1px -1px;
+}
+
+/* Status pulses */
+@keyframes ops-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 hsl(var(--ops-accent) / 0.5); }
+  50% { box-shadow: 0 0 0 8px hsl(var(--ops-accent) / 0); }
+}
+.ops-pulse { animation: ops-pulse 1.6s ease-out infinite; }
+
+/* Flash highlight when a row receives a realtime update */
+@keyframes ops-flash {
+  0% { background: hsl(var(--ops-accent) / 0.22); }
+  100% { background: transparent; }
+}
+.ops-flash { animation: ops-flash 1200ms ease-out 1; border-radius: 8px; }
+
+/* Floating Director quick-prompt */
+.ops-fab {
+  position: fixed; right: 28px; bottom: 28px; z-index: 40;
+  display: inline-flex; align-items: center; gap: 10px;
+  padding: 14px 20px; border-radius: 999px;
+  background: linear-gradient(180deg, hsl(var(--ops-accent) / 0.22), hsl(var(--ops-accent) / 0.08));
+  border: 1px solid hsl(var(--ops-accent) / 0.55);
+  color: hsl(var(--ops-accent));
+  font-family: "JetBrains Mono", monospace; font-size: 12px;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  box-shadow: 0 0 32px hsl(var(--ops-accent) / 0.25), inset 0 0 0 1px hsl(var(--ops-accent) / 0.1);
+  backdrop-filter: blur(12px); transition: all 220ms ease;
+}
+.ops-fab:hover { transform: translateY(-2px); box-shadow: 0 0 48px hsl(var(--ops-accent) / 0.45); }
+
+@keyframes ops-scan {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(100%); }
+}
+.ops-scanline::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(180deg, transparent, hsl(var(--ops-accent) / 0.06), transparent);
+  background-size: 100% 30%; background-repeat: no-repeat;
+  animation: ops-scan 6s linear infinite;
+}
+
+/* Buttons */
+.ops-btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 10px 18px; border-radius: 10px;
+  border: 1px solid hsl(var(--ops-accent) / 0.5);
+  background: linear-gradient(180deg, hsl(var(--ops-accent) / 0.15), hsl(var(--ops-accent) / 0.05));
+  color: hsl(var(--ops-accent));
+  font-family: "JetBrains Mono", monospace;
+  font-size: 13px; letter-spacing: 0.06em; text-transform: uppercase;
+  transition: all 200ms ease; cursor: pointer;
+}
+.ops-btn:hover { background: hsl(var(--ops-accent) / 0.22); box-shadow: 0 0 32px hsl(var(--ops-accent) / 0.3); }
+.ops-btn[disabled] { opacity: 0.45; cursor: not-allowed; }
+.ops-btn-ghost {
+  border-color: hsl(var(--ops-border));
+  background: transparent; color: hsl(var(--ops-text-dim));
+}
+.ops-btn-ghost:hover { color: hsl(var(--ops-text)); border-color: hsl(var(--ops-accent) / 0.4); }
+
+/* Input */
+.ops-input, .ops-select, .ops-textarea {
+  width: 100%; padding: 12px 14px; border-radius: 10px;
+  background: hsl(var(--ops-bg-elev) / 0.6);
+  border: 1px solid hsl(var(--ops-border));
+  color: hsl(var(--ops-text));
+  font-family: inherit; font-size: 14px;
+  transition: border-color 160ms ease, box-shadow 160ms ease;
+}
+.ops-input:focus, .ops-select:focus, .ops-textarea:focus {
+  outline: none; border-color: hsl(var(--ops-accent) / 0.7);
+  box-shadow: 0 0 0 3px hsl(var(--ops-accent) / 0.15);
+}
+.ops-label {
+  display: block; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase;
+  color: hsl(var(--ops-text-muted)); margin-bottom: 6px;
+  font-family: "JetBrains Mono", monospace;
+}
+
+/* Sidebar item */
+.ops-nav-item {
+  display: flex; align-items: center; gap: 12px;
+  padding: 10px 14px; border-radius: 10px;
+  color: hsl(var(--ops-text-dim));
+  font-size: 13px; letter-spacing: 0.04em;
+  border: 1px solid transparent;
+  transition: all 180ms ease;
+}
+.ops-nav-item:hover { color: hsl(var(--ops-text)); background: hsl(var(--ops-surface) / 0.5); }
+.ops-nav-item.active {
+  color: hsl(var(--ops-accent));
+  background: hsl(var(--ops-accent) / 0.08);
+  border-color: hsl(var(--ops-accent) / 0.35);
+}
+
+/* Tactical corner brackets for panels */
+.ops-bracket {
+  position: relative;
+}
+.ops-bracket::before,
+.ops-bracket::after {
+  content: "";
+  position: absolute;
+  width: 8px; height: 8px;
+  border-color: hsl(var(--ops-accent) / 0.35);
+  pointer-events: none;
+  transition: all 300ms ease;
+}
+.ops-bracket::before {
+  top: -1px; left: -1px;
+  border-top: 1px solid; border-left: 1px solid;
+  border-top-left-radius: 14px;
+}
+.ops-bracket::after {
+  bottom: -1px; right: -1px;
+  border-bottom: 1px solid; border-right: 1px solid;
+  border-bottom-right-radius: 14px;
+}
+.ops-bracket:hover::before,
+.ops-bracket:hover::after {
+  border-color: hsl(var(--ops-accent) / 0.7);
+  width: 14px; height: 14px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ops-pulse, .ops-scanline::after { animation: none; }
+}
+
+/* ============== DIRECTOR (AI chat) cinematic surface ============== */
+
+/* Holographic message frame */
+.ops-holo {
+  position: relative;
+  border-radius: 14px;
+  background:
+    linear-gradient(180deg, hsl(var(--ops-surface) / 0.7), hsl(var(--ops-bg-elev) / 0.55));
+  border: 1px solid hsl(var(--ops-border) / 0.7);
+  overflow: hidden;
+}
+.ops-holo::before {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background:
+    linear-gradient(120deg, transparent 30%, hsl(var(--ops-accent) / 0.06) 50%, transparent 70%);
+  background-size: 200% 100%;
+  animation: ops-shimmer 6s linear infinite;
+}
+.ops-holo-user {
+  background: linear-gradient(180deg, hsl(var(--ops-accent) / 0.14), hsl(var(--ops-accent) / 0.04));
+  border-color: hsl(var(--ops-accent) / 0.45);
+  box-shadow: 0 0 24px hsl(var(--ops-accent) / 0.12), inset 0 0 0 1px hsl(var(--ops-accent) / 0.08);
+}
+
+@keyframes ops-shimmer {
+  0% { background-position: -100% 0; }
+  100% { background-position: 200% 0; }
+}
+
+/* Streaming dots */
+@keyframes ops-dot {
+  0%, 80%, 100% { opacity: 0.2; transform: translateY(0); }
+  40% { opacity: 1; transform: translateY(-3px); }
+}
+.ops-dot { display: inline-block; width: 5px; height: 5px; border-radius: 999px;
+  background: hsl(var(--ops-accent)); margin: 0 2px; animation: ops-dot 1.2s infinite; }
+.ops-dot:nth-child(2) { animation-delay: 0.15s; }
+.ops-dot:nth-child(3) { animation-delay: 0.3s; }
+
+/* Waveform bars (idle / thinking visual) */
+@keyframes ops-wave {
+  0%, 100% { transform: scaleY(0.3); }
+  50% { transform: scaleY(1); }
+}
+.ops-wave-bar {
+  width: 3px; background: hsl(var(--ops-accent) / 0.7); border-radius: 2px;
+  transform-origin: center; animation: ops-wave 1.1s ease-in-out infinite;
+}
+
+/* Director input ring */
+.ops-director-input {
+  position: relative;
+  border-radius: 14px;
+  padding: 1px;
+  background: linear-gradient(120deg,
+    hsl(var(--ops-accent) / 0.45),
+    hsl(var(--ops-border) / 0.5) 40%,
+    hsl(var(--ops-accent) / 0.45));
+  background-size: 200% 200%;
+  animation: ops-shimmer 8s linear infinite;
+}
+.ops-director-input > .inner {
+  display: flex; align-items: center; gap: 10px;
+  background: hsl(var(--ops-bg-elev) / 0.92);
+  border-radius: 13px; padding: 6px 6px 6px 16px;
+}
+
+/* Capability chip */
+.ops-cap-chip {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 8px 12px; border-radius: 999px;
+  background: hsl(var(--ops-bg-elev) / 0.6);
+  border: 1px solid hsl(var(--ops-border) / 0.7);
+  font-family: "JetBrains Mono", monospace; font-size: 11px;
+  letter-spacing: 0.08em; color: hsl(var(--ops-text-dim));
+  transition: all 200ms ease; cursor: pointer;
+}
+.ops-cap-chip:hover {
+  color: hsl(var(--ops-accent));
+  border-color: hsl(var(--ops-accent) / 0.5);
+  background: hsl(var(--ops-accent) / 0.08);
+  transform: translateY(-1px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ops-holo::before, .ops-director-input, .ops-wave-bar { animation: none; }
+}

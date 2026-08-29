@@ -1,0 +1,1726 @@
+{
+  "generated_from": "src/routes",
+  "count": 172,
+  "routes": [
+    {
+      "file": "src/routes/__root.tsx",
+      "routeId": null,
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "public",
+      "hasHead": true,
+      "lazyPage": "@/pages/NotFound"
+    },
+    {
+      "file": "src/routes/index.tsx",
+      "routeId": "/",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "public",
+      "hasHead": false,
+      "lazyPage": null
+    },
+    {
+      "file": "src/routes/$locale/index.tsx",
+      "routeId": "/$locale/",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "public",
+      "hasHead": false,
+      "lazyPage": null
+    },
+    {
+      "file": "src/routes/$locale/about.tsx",
+      "routeId": "/$locale/about",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "public",
+      "hasHead": false,
+      "lazyPage": "@/pages/About"
+    },
+    {
+      "file": "src/routes/$locale/admin.tsx",
+      "routeId": "/$locale/admin",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "admin",
+      "hasHead": false,
+      "lazyPage": "@/pages/admin/Dashboard"
+    },
+    {
+      "file": "src/routes/$locale/admin/applications.tsx",
+      "routeId": "/$locale/admin/applications",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "admin",
+      "hasHead": false,
+      "lazyPage": "@/pages/admin/Applications"
+    },
+    {
+      "file": "src/routes/$locale/admin/crm.tsx",
+      "routeId": "/$locale/admin/crm",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "admin",
+      "hasHead": true,
+      "lazyPage": "@/pages/admin/CRM"
+    },
+    {
+      "file": "src/routes/$locale/admin/finance.tsx",
+      "routeId": "/$locale/admin/finance",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "admin",
+      "hasHead": true,
+      "lazyPage": "@/pages/admin/Finance"
+    },
+    {
+      "file": "src/routes/$locale/admin/growth-leads.tsx",
+      "routeId": "/$locale/admin/growth-leads",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "admin",
+      "hasHead": false,
+      "lazyPage": "@/pages/admin/GrowthLeads"
+    },
+    {
+      "file": "src/routes/$locale/ai-assistant.tsx",
+      "routeId": "/$locale/ai-assistant",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "authenticated",
+      "hasHead": false,
+      "lazyPage": "@/pages/AIAssistant"
+    },
+    {
+      "file": "src/routes/$locale/apply.tsx",
+      "routeId": "/$locale/apply",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "public",
+      "hasHead": false,
+      "lazyPage": "@/pages/Apply"
+    },
+    {
+      "file": "src/routes/$locale/apply/organization.tsx",
+      "routeId": "/$locale/apply/organization",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "public",
+      "hasHead": false,
+      "lazyPage": "@/pages/apply/ApplyOrganization"
+    },
+    {
+      "file": "src/routes/$locale/apply/wizard.tsx",
+      "routeId": "/$locale/apply/wizard",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "authenticated",
+      "hasHead": false,
+      "lazyPage": "@/pages/apply/ApplyWizard"
+    },
+    {
+      "file": "src/routes/$locale/assessment-lab.tsx",
+      "routeId": "/$locale/assessment-lab",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "public",
+      "hasHead": false,
+      "lazyPage": "@/pages/AssessmentLab"
+    },
+    {
+      "file": "src/routes/$locale/assessments.tsx",
+      "routeId": "/$locale/assessments",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "public",
+      "hasHead": false,
+      "lazyPage": "@/pages/AssessmentLab"
+    },
+    {
+      "file": "src/routes/$locale/athlete-hub.tsx",
+      "routeId": "/$locale/athlete-hub",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "authenticated",
+      "hasHead": false,
+      "lazyPage": "@/pages/AthleteHub"
+    },
+    {
+      "file": "src/routes/$locale/auth.tsx",
+      "routeId": "/$locale/auth",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "public",
+      "hasHead": false,
+      "lazyPage": "@/pages/Auth"
+    },
+    {
+      "file": "src/routes/$locale/auth/mfa-setup.tsx",
+      "routeId": "/$locale/auth/mfa-setup",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "authenticated",
+      "hasHead": false,
+      "lazyPage": "@/pages/MfaSetup"
+    },
+    {
+      "file": "src/routes/$locale/b/$slug.tsx",
+      "routeId": "/$locale/b/$slug",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "public",
+      "hasHead": false,
+      "lazyPage": "@/pages/BookRedirect"
+    },
+    {
+      "file": "src/routes/$locale/blog.tsx",
+      "routeId": "/$locale/blog",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "public",
+      "hasHead": false,
+      "lazyPage": "@/pages/blog/BlogIndex"
+    },
+    {
+      "file": "src/routes/$locale/blog/benefits-online-therapy.tsx",
+      "routeId": "/$locale/blog/benefits-online-therapy",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "public",
+      "hasHead": false,
+      "lazyPage": "@/pages/blog/BenefitsOnlineTherapy"
+    },
+    {
+      "file": "src/routes/$locale/blog/do-i-need-therapy.tsx",
+      "routeId": "/$locale/blog/do-i-need-therapy",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "public",
+      "hasHead": false,
+      "lazyPage": "@/pages/blog/DoINeedTherapy"
+    },
+    {
+      "file": "src/routes/$locale/blog/find-right-psychologist.tsx",
+      "routeId": "/$locale/blog/find-right-psychologist",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "public",
+      "hasHead": false,
+      "lazyPage": "@/pages/blog/FindRightPsychologist"
+    },
+    {
+      "file": "src/routes/$locale/blog/how-to-clear-brain-fog.tsx",
+      "routeId": "/$locale/blog/how-to-clear-brain-fog",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "public",
+      "hasHead": false,
+      "lazyPage": "@/pages/blog/HowToClearBrainFog"
+    },
+    {
+      "file": "src/routes/$locale/blog/how-to-improve-focus.tsx",
+      "routeId": "/$locale/blog/how-to-improve-focus",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "public",
+      "hasHead": false,
+      "lazyPage": "@/pages/blog/HowToImproveFocus"
+    },
+    {
+      "file": "src/routes/$locale/blog/how-to-support-a-loved-one.tsx",
+      "routeId": "/$locale/blog/how-to-support-a-loved-one",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "public",
+      "hasHead": false,
+      "lazyPage": "@/pages/blog/HowToSupportALovedOne"
+    },
+    {
+      "file": "src/routes/$locale/blog/mental-health-at-work.tsx",
+      "routeId": "/$locale/blog/mental-health-at-work",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "public",
+      "hasHead": false,
+      "lazyPage": "@/pages/blog/MentalHealthAtWork"
+    },
+    {
+      "file": "src/routes/$locale/blog/mindfulness-for-beginners.tsx",
+      "routeId": "/$locale/blog/mindfulness-for-beginners",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "public",
+      "hasHead": false,
+      "lazyPage": "@/pages/blog/MindfulnessForBeginners"
+    },
+    {
+      "file": "src/routes/$locale/blog/understanding-anxiety.tsx",
+      "routeId": "/$locale/blog/understanding-anxiety",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "public",
+      "hasHead": false,
+      "lazyPage": "@/pages/blog/UnderstandingAnxiety"
+    },
+    {
+      "file": "src/routes/$locale/blog/understanding-depression.tsx",
+      "routeId": "/$locale/blog/understanding-depression",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "public",
+      "hasHead": false,
+      "lazyPage": "@/pages/blog/UnderstandingDepression"
+    },
+    {
+      "file": "src/routes/$locale/book-a-call.tsx",
+      "routeId": "/$locale/book-a-call",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "public",
+      "hasHead": false,
+      "lazyPage": "@/pages/Contact"
+    },
+    {
+      "file": "src/routes/$locale/booking/respond/$token.tsx",
+      "routeId": "/$locale/booking/respond/$token",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "public",
+      "hasHead": false,
+      "lazyPage": "@/pages/BookingResponse"
+    },
+    {
+      "file": "src/routes/$locale/brand.tsx",
+      "routeId": "/$locale/brand",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "public",
+      "hasHead": false,
+      "lazyPage": "@/pages/BrandGuidelines"
+    },
+    {
+      "file": "src/routes/$locale/campaigns/first-session.tsx",
+      "routeId": "/$locale/campaigns/first-session",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "public",
+      "hasHead": false,
+      "lazyPage": "@/pages/campaigns/CampaignFirstSession"
+    },
+    {
+      "file": "src/routes/$locale/campaigns/join-specialist.tsx",
+      "routeId": "/$locale/campaigns/join-specialist",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "public",
+      "hasHead": false,
+      "lazyPage": "@/pages/campaigns/CampaignJoinSpecialist"
+    },
+    {
+      "file": "src/routes/$locale/center.tsx",
+      "routeId": "/$locale/center",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "public",
+      "hasHead": false,
+      "lazyPage": "@/pages/center/CenterHome"
+    },
+    {
+      "file": "src/routes/$locale/center/c/$slug.tsx",
+      "routeId": "/$locale/center/c/$slug",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "public",
+      "hasHead": false,
+      "lazyPage": "@/pages/center/SpaceView"
+    },
+    {
+      "file": "src/routes/$locale/center/progress.tsx",
+      "routeId": "/$locale/center/progress",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "authenticated",
+      "hasHead": false,
+      "lazyPage": "@/pages/center/Progress"
+    },
+    {
+      "file": "src/routes/$locale/contact.tsx",
+      "routeId": "/$locale/contact",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "public",
+      "hasHead": false,
+      "lazyPage": "@/pages/Contact"
+    },
+    {
+      "file": "src/routes/$locale/dashboard.tsx",
+      "routeId": "/$locale/dashboard",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "authenticated",
+      "hasHead": false,
+      "lazyPage": "@/components/RoleRouter"
+    },
+    {
+      "file": "src/routes/$locale/dashboard/client.tsx",
+      "routeId": "/$locale/dashboard/client",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "authenticated",
+      "hasHead": false,
+      "lazyPage": "@/pages/PatientDashboard"
+    },
+    {
+      "file": "src/routes/$locale/dashboard/organization.tsx",
+      "routeId": "/$locale/dashboard/organization",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "authenticated",
+      "hasHead": false,
+      "lazyPage": "@/pages/OrganizationDashboard"
+    },
+    {
+      "file": "src/routes/$locale/dashboard/specialist.tsx",
+      "routeId": "/$locale/dashboard/specialist",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "authenticated",
+      "hasHead": false,
+      "lazyPage": "@/pages/SpecialistDashboard"
+    },
+    {
+      "file": "src/routes/$locale/for-athletes.tsx",
+      "routeId": "/$locale/for-athletes",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "public",
+      "hasHead": false,
+      "lazyPage": "@/pages/funnels/ForAthletes"
+    },
+    {
+      "file": "src/routes/$locale/for-organizations.tsx",
+      "routeId": "/$locale/for-organizations",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "public",
+      "hasHead": false,
+      "lazyPage": "@/pages/funnels/ForOrganizations"
+    },
+    {
+      "file": "src/routes/$locale/founder.tsx",
+      "routeId": "/$locale/founder",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "public",
+      "hasHead": false,
+      "lazyPage": "@/pages/Founder"
+    },
+    {
+      "file": "src/routes/$locale/free-score.tsx",
+      "routeId": "/$locale/free-score",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "public",
+      "hasHead": false,
+      "lazyPage": "@/pages/FreeScore"
+    },
+    {
+      "file": "src/routes/$locale/get-matched.tsx",
+      "routeId": "/$locale/get-matched",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "public",
+      "hasHead": false,
+      "lazyPage": "@/pages/GetMatched"
+    },
+    {
+      "file": "src/routes/$locale/install.tsx",
+      "routeId": "/$locale/install",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "public",
+      "hasHead": false,
+      "lazyPage": "@/pages/Install"
+    },
+    {
+      "file": "src/routes/$locale/intake.tsx",
+      "routeId": "/$locale/intake",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "authenticated",
+      "hasHead": false,
+      "lazyPage": "@/pages/IntakeForm"
+    },
+    {
+      "file": "src/routes/$locale/intake/$bookingId.tsx",
+      "routeId": "/$locale/intake/$bookingId",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "authenticated",
+      "hasHead": false,
+      "lazyPage": "@/pages/IntakeForm"
+    },
+    {
+      "file": "src/routes/$locale/invite/$code.tsx",
+      "routeId": "/$locale/invite/$code",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "public",
+      "hasHead": false,
+      "lazyPage": "@/pages/Invite"
+    },
+    {
+      "file": "src/routes/$locale/learn.tsx",
+      "routeId": "/$locale/learn",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "public",
+      "hasHead": false,
+      "lazyPage": "@/pages/Learn"
+    },
+    {
+      "file": "src/routes/$locale/learn/$slug.tsx",
+      "routeId": "/$locale/learn/$slug",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "public",
+      "hasHead": false,
+      "lazyPage": "@/pages/LearnCourse"
+    },
+    {
+      "file": "src/routes/$locale/legal.tsx",
+      "routeId": "/$locale/legal",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "public",
+      "hasHead": false,
+      "lazyPage": "@/pages/Legal"
+    },
+    {
+      "file": "src/routes/$locale/membership.tsx",
+      "routeId": "/$locale/membership",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "public",
+      "hasHead": false,
+      "lazyPage": "@/pages/Membership"
+    },
+    {
+      "file": "src/routes/$locale/mental-performance.tsx",
+      "routeId": "/$locale/mental-performance",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "public",
+      "hasHead": false,
+      "lazyPage": "@/pages/MentalPerformance"
+    },
+    {
+      "file": "src/routes/$locale/mental-toughness-athletes.tsx",
+      "routeId": "/$locale/mental-toughness-athletes",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "public",
+      "hasHead": false,
+      "lazyPage": "@/pages/MentalToughnessAthletes"
+    },
+    {
+      "file": "src/routes/$locale/moroccan-umbrella.tsx",
+      "routeId": "/$locale/moroccan-umbrella",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "public",
+      "hasHead": false,
+      "lazyPage": "@/pages/MoroccanUmbrella"
+    },
+    {
+      "file": "src/routes/$locale/my-space.tsx",
+      "routeId": "/$locale/my-space",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "authenticated",
+      "hasHead": false,
+      "lazyPage": "@/pages/MySpace"
+    },
+    {
+      "file": "src/routes/$locale/notifications.tsx",
+      "routeId": "/$locale/notifications",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "authenticated",
+      "hasHead": false,
+      "lazyPage": "@/pages/Notifications"
+    },
+    {
+      "file": "src/routes/$locale/observatoire.tsx",
+      "routeId": "/$locale/observatoire",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "public",
+      "hasHead": false,
+      "lazyPage": "@/pages/Observatoire"
+    },
+    {
+      "file": "src/routes/$locale/press.tsx",
+      "routeId": "/$locale/press",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "public",
+      "hasHead": false,
+      "lazyPage": "@/pages/Press"
+    },
+    {
+      "file": "src/routes/$locale/pricing.tsx",
+      "routeId": "/$locale/pricing",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "public",
+      "hasHead": false,
+      "lazyPage": "@/pages/Pricing"
+    },
+    {
+      "file": "src/routes/$locale/pricing-specialists.tsx",
+      "routeId": "/$locale/pricing-specialists",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "public",
+      "hasHead": false,
+      "lazyPage": "@/pages/SpecialistPricing"
+    },
+    {
+      "file": "src/routes/$locale/privacy.tsx",
+      "routeId": "/$locale/privacy",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "public",
+      "hasHead": false,
+      "lazyPage": "@/pages/Privacy"
+    },
+    {
+      "file": "src/routes/$locale/psf.tsx",
+      "routeId": "/$locale/psf",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "public",
+      "hasHead": false,
+      "lazyPage": "@/pages/PsychologuesSansFrontieres"
+    },
+    {
+      "file": "src/routes/$locale/psychologists.tsx",
+      "routeId": "/$locale/psychologists",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "public",
+      "hasHead": false,
+      "lazyPage": "@/pages/Psychologists"
+    },
+    {
+      "file": "src/routes/$locale/psychologists/$id.tsx",
+      "routeId": "/$locale/psychologists/$id",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "public",
+      "hasHead": false,
+      "lazyPage": "@/pages/PsychologistProfile"
+    },
+    {
+      "file": "src/routes/$locale/reset-password.tsx",
+      "routeId": "/$locale/reset-password",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "public",
+      "hasHead": false,
+      "lazyPage": "@/pages/ResetPassword"
+    },
+    {
+      "file": "src/routes/$locale/resources.tsx",
+      "routeId": "/$locale/resources",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "public",
+      "hasHead": false,
+      "lazyPage": "@/pages/Resources"
+    },
+    {
+      "file": "src/routes/$locale/services.tsx",
+      "routeId": "/$locale/services",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "public",
+      "hasHead": false,
+      "lazyPage": "@/pages/Services"
+    },
+    {
+      "file": "src/routes/$locale/services/consulting-for-organizations.tsx",
+      "routeId": "/$locale/services/consulting-for-organizations",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "public",
+      "hasHead": false,
+      "lazyPage": "@/pages/services/ConsultingForOrganizations"
+    },
+    {
+      "file": "src/routes/$locale/session/$sessionId.tsx",
+      "routeId": "/$locale/session/$sessionId",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "authenticated",
+      "hasHead": false,
+      "lazyPage": "@/pages/VideoCall"
+    },
+    {
+      "file": "src/routes/$locale/skool.tsx",
+      "routeId": "/$locale/skool",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "public",
+      "hasHead": false,
+      "lazyPage": "@/pages/Skool"
+    },
+    {
+      "file": "src/routes/$locale/talent-innovation-hub.tsx",
+      "routeId": "/$locale/talent-innovation-hub",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "public",
+      "hasHead": false,
+      "lazyPage": "@/pages/TalentInnovationHub"
+    },
+    {
+      "file": "src/routes/$locale/terms.tsx",
+      "routeId": "/$locale/terms",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "public",
+      "hasHead": false,
+      "lazyPage": "@/pages/Terms"
+    },
+    {
+      "file": "src/routes/$locale/unsubscribe.tsx",
+      "routeId": "/$locale/unsubscribe",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "public",
+      "hasHead": false,
+      "lazyPage": "@/pages/Unsubscribe"
+    },
+    {
+      "file": "src/routes/$locale/why-us.tsx",
+      "routeId": "/$locale/why-us",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "public",
+      "hasHead": false,
+      "lazyPage": "@/pages/WhyUs"
+    },
+    {
+      "file": "src/routes/about.tsx",
+      "routeId": "/about",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "public",
+      "hasHead": false,
+      "lazyPage": "@/pages/About"
+    },
+    {
+      "file": "src/routes/admin.tsx",
+      "routeId": "/admin",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "admin",
+      "hasHead": false,
+      "lazyPage": "@/pages/admin/Dashboard"
+    },
+    {
+      "file": "src/routes/admin/applications.tsx",
+      "routeId": "/admin/applications",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "admin",
+      "hasHead": false,
+      "lazyPage": "@/pages/admin/Applications"
+    },
+    {
+      "file": "src/routes/admin/audit.tsx",
+      "routeId": "/admin/audit",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "admin",
+      "hasHead": true,
+      "lazyPage": "@/pages/admin/Audit"
+    },
+    {
+      "file": "src/routes/admin/crm.tsx",
+      "routeId": "/admin/crm",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "admin",
+      "hasHead": true,
+      "lazyPage": "@/pages/admin/CRM"
+    },
+    {
+      "file": "src/routes/admin/dns.tsx",
+      "routeId": "/admin/dns",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "admin",
+      "hasHead": true,
+      "lazyPage": "@/pages/admin/DnsChecklist"
+    },
+    {
+      "file": "src/routes/admin/finance.tsx",
+      "routeId": "/admin/finance",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "admin",
+      "hasHead": true,
+      "lazyPage": "@/pages/admin/Finance"
+    },
+    {
+      "file": "src/routes/admin/growth-leads.tsx",
+      "routeId": "/admin/growth-leads",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "admin",
+      "hasHead": false,
+      "lazyPage": "@/pages/admin/GrowthLeads"
+    },
+    {
+      "file": "src/routes/ai-assistant.tsx",
+      "routeId": "/ai-assistant",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "authenticated",
+      "hasHead": false,
+      "lazyPage": "@/pages/AIAssistant"
+    },
+    {
+      "file": "src/routes/api/public/ci-events.ts",
+      "routeId": "/api/public/ci-events",
+      "api": true,
+      "public_api": true,
+      "ssr": true,
+      "guard": "public",
+      "hasHead": false,
+      "lazyPage": null
+    },
+    {
+      "file": "src/routes/api/public/crm-email-events.ts",
+      "routeId": "/api/public/crm-email-events",
+      "api": true,
+      "public_api": true,
+      "ssr": true,
+      "guard": "public",
+      "hasHead": false,
+      "lazyPage": null
+    },
+    {
+      "file": "src/routes/api/public/health.ts",
+      "routeId": "/api/public/health",
+      "api": true,
+      "public_api": true,
+      "ssr": true,
+      "guard": "public",
+      "hasHead": false,
+      "lazyPage": null
+    },
+    {
+      "file": "src/routes/api/public/healthz.ts",
+      "routeId": "/api/public/healthz",
+      "api": true,
+      "public_api": true,
+      "ssr": true,
+      "guard": "public",
+      "hasHead": false,
+      "lazyPage": null
+    },
+    {
+      "file": "src/routes/api/public/runtime-logs.ts",
+      "routeId": "/api/public/runtime-logs",
+      "api": true,
+      "public_api": true,
+      "ssr": true,
+      "guard": "public",
+      "hasHead": false,
+      "lazyPage": null
+    },
+    {
+      "file": "src/routes/apply.tsx",
+      "routeId": "/apply",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "public",
+      "hasHead": false,
+      "lazyPage": "@/pages/Apply"
+    },
+    {
+      "file": "src/routes/apply/organization.tsx",
+      "routeId": "/apply/organization",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "public",
+      "hasHead": false,
+      "lazyPage": "@/pages/apply/ApplyOrganization"
+    },
+    {
+      "file": "src/routes/apply/wizard.tsx",
+      "routeId": "/apply/wizard",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "authenticated",
+      "hasHead": false,
+      "lazyPage": "@/pages/apply/ApplyWizard"
+    },
+    {
+      "file": "src/routes/assessment-lab.tsx",
+      "routeId": "/assessment-lab",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "public",
+      "hasHead": false,
+      "lazyPage": "@/pages/AssessmentLab"
+    },
+    {
+      "file": "src/routes/assessments.tsx",
+      "routeId": "/assessments",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "public",
+      "hasHead": false,
+      "lazyPage": "@/pages/AssessmentLab"
+    },
+    {
+      "file": "src/routes/athlete-hub.tsx",
+      "routeId": "/athlete-hub",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "authenticated",
+      "hasHead": false,
+      "lazyPage": "@/pages/AthleteHub"
+    },
+    {
+      "file": "src/routes/auth.tsx",
+      "routeId": "/auth",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "public",
+      "hasHead": false,
+      "lazyPage": "@/pages/Auth"
+    },
+    {
+      "file": "src/routes/auth/mfa-setup.tsx",
+      "routeId": "/auth/mfa-setup",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "authenticated",
+      "hasHead": false,
+      "lazyPage": "@/pages/MfaSetup"
+    },
+    {
+      "file": "src/routes/b/$slug.tsx",
+      "routeId": "/b/$slug",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "public",
+      "hasHead": false,
+      "lazyPage": "@/pages/BookRedirect"
+    },
+    {
+      "file": "src/routes/blog.tsx",
+      "routeId": "/blog",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "public",
+      "hasHead": false,
+      "lazyPage": "@/pages/blog/BlogIndex"
+    },
+    {
+      "file": "src/routes/blog/benefits-online-therapy.tsx",
+      "routeId": "/blog/benefits-online-therapy",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "public",
+      "hasHead": false,
+      "lazyPage": "@/pages/blog/BenefitsOnlineTherapy"
+    },
+    {
+      "file": "src/routes/blog/do-i-need-therapy.tsx",
+      "routeId": "/blog/do-i-need-therapy",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "public",
+      "hasHead": false,
+      "lazyPage": "@/pages/blog/DoINeedTherapy"
+    },
+    {
+      "file": "src/routes/blog/find-right-psychologist.tsx",
+      "routeId": "/blog/find-right-psychologist",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "public",
+      "hasHead": false,
+      "lazyPage": "@/pages/blog/FindRightPsychologist"
+    },
+    {
+      "file": "src/routes/blog/how-to-clear-brain-fog.tsx",
+      "routeId": "/blog/how-to-clear-brain-fog",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "public",
+      "hasHead": false,
+      "lazyPage": "@/pages/blog/HowToClearBrainFog"
+    },
+    {
+      "file": "src/routes/blog/how-to-improve-focus.tsx",
+      "routeId": "/blog/how-to-improve-focus",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "public",
+      "hasHead": false,
+      "lazyPage": "@/pages/blog/HowToImproveFocus"
+    },
+    {
+      "file": "src/routes/blog/how-to-support-a-loved-one.tsx",
+      "routeId": "/blog/how-to-support-a-loved-one",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "public",
+      "hasHead": false,
+      "lazyPage": "@/pages/blog/HowToSupportALovedOne"
+    },
+    {
+      "file": "src/routes/blog/mental-health-at-work.tsx",
+      "routeId": "/blog/mental-health-at-work",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "public",
+      "hasHead": false,
+      "lazyPage": "@/pages/blog/MentalHealthAtWork"
+    },
+    {
+      "file": "src/routes/blog/mindfulness-for-beginners.tsx",
+      "routeId": "/blog/mindfulness-for-beginners",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "public",
+      "hasHead": false,
+      "lazyPage": "@/pages/blog/MindfulnessForBeginners"
+    },
+    {
+      "file": "src/routes/blog/understanding-anxiety.tsx",
+      "routeId": "/blog/understanding-anxiety",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "public",
+      "hasHead": false,
+      "lazyPage": "@/pages/blog/UnderstandingAnxiety"
+    },
+    {
+      "file": "src/routes/blog/understanding-depression.tsx",
+      "routeId": "/blog/understanding-depression",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "public",
+      "hasHead": false,
+      "lazyPage": "@/pages/blog/UnderstandingDepression"
+    },
+    {
+      "file": "src/routes/book-a-call.tsx",
+      "routeId": "/book-a-call",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "public",
+      "hasHead": false,
+      "lazyPage": "@/pages/Contact"
+    },
+    {
+      "file": "src/routes/booking/respond/$token.tsx",
+      "routeId": "/booking/respond/$token",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "public",
+      "hasHead": false,
+      "lazyPage": "@/pages/BookingResponse"
+    },
+    {
+      "file": "src/routes/brand.tsx",
+      "routeId": "/brand",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "public",
+      "hasHead": false,
+      "lazyPage": "@/pages/BrandGuidelines"
+    },
+    {
+      "file": "src/routes/campaigns/first-session.tsx",
+      "routeId": "/campaigns/first-session",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "public",
+      "hasHead": false,
+      "lazyPage": "@/pages/campaigns/CampaignFirstSession"
+    },
+    {
+      "file": "src/routes/campaigns/join-specialist.tsx",
+      "routeId": "/campaigns/join-specialist",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "public",
+      "hasHead": false,
+      "lazyPage": "@/pages/campaigns/CampaignJoinSpecialist"
+    },
+    {
+      "file": "src/routes/center.tsx",
+      "routeId": "/center",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "public",
+      "hasHead": false,
+      "lazyPage": "@/pages/center/CenterHome"
+    },
+    {
+      "file": "src/routes/center/c/$slug.tsx",
+      "routeId": "/center/c/$slug",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "public",
+      "hasHead": false,
+      "lazyPage": "@/pages/center/SpaceView"
+    },
+    {
+      "file": "src/routes/center/progress.tsx",
+      "routeId": "/center/progress",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "authenticated",
+      "hasHead": false,
+      "lazyPage": "@/pages/center/Progress"
+    },
+    {
+      "file": "src/routes/contact.tsx",
+      "routeId": "/contact",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "public",
+      "hasHead": false,
+      "lazyPage": "@/pages/Contact"
+    },
+    {
+      "file": "src/routes/dashboard.tsx",
+      "routeId": "/dashboard",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "authenticated",
+      "hasHead": false,
+      "lazyPage": "@/components/RoleRouter"
+    },
+    {
+      "file": "src/routes/dashboard/client.tsx",
+      "routeId": "/dashboard/client",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "authenticated",
+      "hasHead": false,
+      "lazyPage": "@/pages/PatientDashboard"
+    },
+    {
+      "file": "src/routes/dashboard/organization.tsx",
+      "routeId": "/dashboard/organization",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "authenticated",
+      "hasHead": false,
+      "lazyPage": "@/pages/OrganizationDashboard"
+    },
+    {
+      "file": "src/routes/dashboard/specialist.tsx",
+      "routeId": "/dashboard/specialist",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "authenticated",
+      "hasHead": false,
+      "lazyPage": "@/pages/SpecialistDashboard"
+    },
+    {
+      "file": "src/routes/for-athletes.tsx",
+      "routeId": "/for-athletes",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "public",
+      "hasHead": false,
+      "lazyPage": "@/pages/funnels/ForAthletes"
+    },
+    {
+      "file": "src/routes/for-organizations.tsx",
+      "routeId": "/for-organizations",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "public",
+      "hasHead": false,
+      "lazyPage": "@/pages/funnels/ForOrganizations"
+    },
+    {
+      "file": "src/routes/founder.tsx",
+      "routeId": "/founder",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "public",
+      "hasHead": false,
+      "lazyPage": "@/pages/Founder"
+    },
+    {
+      "file": "src/routes/free-score.tsx",
+      "routeId": "/free-score",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "public",
+      "hasHead": false,
+      "lazyPage": "@/pages/FreeScore"
+    },
+    {
+      "file": "src/routes/get-matched.tsx",
+      "routeId": "/get-matched",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "public",
+      "hasHead": false,
+      "lazyPage": "@/pages/GetMatched"
+    },
+    {
+      "file": "src/routes/install.tsx",
+      "routeId": "/install",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "public",
+      "hasHead": false,
+      "lazyPage": "@/pages/Install"
+    },
+    {
+      "file": "src/routes/intake.tsx",
+      "routeId": "/intake",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "authenticated",
+      "hasHead": false,
+      "lazyPage": "@/pages/IntakeForm"
+    },
+    {
+      "file": "src/routes/intake/$bookingId.tsx",
+      "routeId": "/intake/$bookingId",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "authenticated",
+      "hasHead": false,
+      "lazyPage": "@/pages/IntakeForm"
+    },
+    {
+      "file": "src/routes/invite/$code.tsx",
+      "routeId": "/invite/$code",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "public",
+      "hasHead": false,
+      "lazyPage": "@/pages/Invite"
+    },
+    {
+      "file": "src/routes/learn.tsx",
+      "routeId": "/learn",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "public",
+      "hasHead": false,
+      "lazyPage": "@/pages/Learn"
+    },
+    {
+      "file": "src/routes/learn/$slug.tsx",
+      "routeId": "/learn/$slug",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "public",
+      "hasHead": false,
+      "lazyPage": "@/pages/LearnCourse"
+    },
+    {
+      "file": "src/routes/legal.tsx",
+      "routeId": "/legal",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "public",
+      "hasHead": false,
+      "lazyPage": "@/pages/Legal"
+    },
+    {
+      "file": "src/routes/membership.tsx",
+      "routeId": "/membership",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "public",
+      "hasHead": false,
+      "lazyPage": "@/pages/Membership"
+    },
+    {
+      "file": "src/routes/mental-performance.tsx",
+      "routeId": "/mental-performance",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "public",
+      "hasHead": false,
+      "lazyPage": "@/pages/MentalPerformance"
+    },
+    {
+      "file": "src/routes/mental-toughness-athletes.tsx",
+      "routeId": "/mental-toughness-athletes",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "public",
+      "hasHead": false,
+      "lazyPage": "@/pages/MentalToughnessAthletes"
+    },
+    {
+      "file": "src/routes/moroccan-umbrella.tsx",
+      "routeId": "/moroccan-umbrella",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "public",
+      "hasHead": false,
+      "lazyPage": "@/pages/MoroccanUmbrella"
+    },
+    {
+      "file": "src/routes/my-space.tsx",
+      "routeId": "/my-space",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "authenticated",
+      "hasHead": false,
+      "lazyPage": "@/pages/MySpace"
+    },
+    {
+      "file": "src/routes/notifications.tsx",
+      "routeId": "/notifications",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "authenticated",
+      "hasHead": false,
+      "lazyPage": "@/pages/Notifications"
+    },
+    {
+      "file": "src/routes/observatoire.tsx",
+      "routeId": "/observatoire",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "public",
+      "hasHead": false,
+      "lazyPage": "@/pages/Observatoire"
+    },
+    {
+      "file": "src/routes/ops/index.tsx",
+      "routeId": "/ops/",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "public",
+      "hasHead": false,
+      "lazyPage": null
+    },
+    {
+      "file": "src/routes/ops/$workspace.tsx",
+      "routeId": "/ops/$workspace",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "authenticated",
+      "hasHead": false,
+      "lazyPage": null
+    },
+    {
+      "file": "src/routes/ops/$workspace/index.tsx",
+      "routeId": "/ops/$workspace/",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "public",
+      "hasHead": false,
+      "lazyPage": null
+    },
+    {
+      "file": "src/routes/ops/$workspace/command.tsx",
+      "routeId": "/ops/$workspace/command",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "public",
+      "hasHead": false,
+      "lazyPage": "@/ops/pages/Command"
+    },
+    {
+      "file": "src/routes/ops/$workspace/director.tsx",
+      "routeId": "/ops/$workspace/director",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "public",
+      "hasHead": false,
+      "lazyPage": "@/ops/pages/Director"
+    },
+    {
+      "file": "src/routes/ops/$workspace/events/index.tsx",
+      "routeId": "/ops/$workspace/events/",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "public",
+      "hasHead": false,
+      "lazyPage": "@/ops/pages/Events"
+    },
+    {
+      "file": "src/routes/ops/$workspace/events/$eventId.tsx",
+      "routeId": "/ops/$workspace/events/$eventId",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "public",
+      "hasHead": false,
+      "lazyPage": "@/ops/pages/EventDetail"
+    },
+    {
+      "file": "src/routes/ops/$workspace/events/new.tsx",
+      "routeId": "/ops/$workspace/events/new",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "public",
+      "hasHead": false,
+      "lazyPage": "@/ops/pages/NewEvent"
+    },
+    {
+      "file": "src/routes/ops/$workspace/tasks.tsx",
+      "routeId": "/ops/$workspace/tasks",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "public",
+      "hasHead": false,
+      "lazyPage": "@/ops/pages/Tasks"
+    },
+    {
+      "file": "src/routes/ops/preview.tsx",
+      "routeId": "/ops/preview",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "public",
+      "hasHead": true,
+      "lazyPage": "@/ops/pages/Preview"
+    },
+    {
+      "file": "src/routes/press.tsx",
+      "routeId": "/press",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "public",
+      "hasHead": false,
+      "lazyPage": "@/pages/Press"
+    },
+    {
+      "file": "src/routes/pricing.tsx",
+      "routeId": "/pricing",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "public",
+      "hasHead": false,
+      "lazyPage": "@/pages/Pricing"
+    },
+    {
+      "file": "src/routes/pricing-specialists.tsx",
+      "routeId": "/pricing-specialists",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "public",
+      "hasHead": false,
+      "lazyPage": "@/pages/SpecialistPricing"
+    },
+    {
+      "file": "src/routes/privacy.tsx",
+      "routeId": "/privacy",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "public",
+      "hasHead": false,
+      "lazyPage": "@/pages/Privacy"
+    },
+    {
+      "file": "src/routes/psf.tsx",
+      "routeId": "/psf",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "public",
+      "hasHead": false,
+      "lazyPage": "@/pages/PsychologuesSansFrontieres"
+    },
+    {
+      "file": "src/routes/psychologists.tsx",
+      "routeId": "/psychologists",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "public",
+      "hasHead": false,
+      "lazyPage": "@/pages/Psychologists"
+    },
+    {
+      "file": "src/routes/psychologists/$id.tsx",
+      "routeId": "/psychologists/$id",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "public",
+      "hasHead": false,
+      "lazyPage": "@/pages/PsychologistProfile"
+    },
+    {
+      "file": "src/routes/reset-password.tsx",
+      "routeId": "/reset-password",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "public",
+      "hasHead": false,
+      "lazyPage": "@/pages/ResetPassword"
+    },
+    {
+      "file": "src/routes/resources.tsx",
+      "routeId": "/resources",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "public",
+      "hasHead": false,
+      "lazyPage": "@/pages/Resources"
+    },
+    {
+      "file": "src/routes/services.tsx",
+      "routeId": "/services",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "public",
+      "hasHead": false,
+      "lazyPage": "@/pages/Services"
+    },
+    {
+      "file": "src/routes/services/consulting-for-organizations.tsx",
+      "routeId": "/services/consulting-for-organizations",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "public",
+      "hasHead": false,
+      "lazyPage": "@/pages/services/ConsultingForOrganizations"
+    },
+    {
+      "file": "src/routes/session/$sessionId.tsx",
+      "routeId": "/session/$sessionId",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "authenticated",
+      "hasHead": false,
+      "lazyPage": "@/pages/VideoCall"
+    },
+    {
+      "file": "src/routes/skool.tsx",
+      "routeId": "/skool",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "public",
+      "hasHead": false,
+      "lazyPage": "@/pages/Skool"
+    },
+    {
+      "file": "src/routes/talent-innovation-hub.tsx",
+      "routeId": "/talent-innovation-hub",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "public",
+      "hasHead": false,
+      "lazyPage": "@/pages/TalentInnovationHub"
+    },
+    {
+      "file": "src/routes/terms.tsx",
+      "routeId": "/terms",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "public",
+      "hasHead": false,
+      "lazyPage": "@/pages/Terms"
+    },
+    {
+      "file": "src/routes/unsubscribe.tsx",
+      "routeId": "/unsubscribe",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "public",
+      "hasHead": false,
+      "lazyPage": "@/pages/Unsubscribe"
+    },
+    {
+      "file": "src/routes/why-us.tsx",
+      "routeId": "/why-us",
+      "api": false,
+      "public_api": false,
+      "ssr": true,
+      "guard": "public",
+      "hasHead": false,
+      "lazyPage": "@/pages/WhyUs"
+    }
+  ]
+}

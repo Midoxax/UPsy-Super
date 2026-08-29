@@ -1,0 +1,1 @@
+SELECT cron.schedule('home-hero-auto-promote', '17 4 * * *', $$SELECT promote_home_hero_winner(true);$$);
