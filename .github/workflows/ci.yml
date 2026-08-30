@@ -180,7 +180,20 @@ jobs:
       - name: Runtime contract
         run: node scripts/check-runtime.mjs
 
+      # The Worker constructs a Supabase client while rendering, so a build with
+      # no Supabase values produces an artefact that 500s on every route and
+      # the serve step below times out waiting for a 200. Real repository
+      # secrets are used when present; the placeholders keep this job
+      # self-contained and deterministic when they are not. The audit measures
+      # markup, accessibility and bundle size, none of which depend on live
+      # data — and no route is data-gated, so every page still renders.
       - name: Build
+        env:
+          VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL || 'https://placeholder.supabase.co' }}
+          VITE_SUPABASE_PUBLISHABLE_KEY: ${{ secrets.VITE_SUPABASE_PUBLISHABLE_KEY || 'sb_publishable_ci_audit_placeholder' }}
+          VITE_SUPABASE_PROJECT_ID: ${{ secrets.VITE_SUPABASE_PROJECT_ID || 'placeholder' }}
+          VITE_SITE_URL: ${{ secrets.VITE_SITE_URL || 'https://www.upsy.ma' }}
+          VITE_APP_VERSION: ${{ github.sha }}
         run: bun run build
 
       # Catches a build that succeeds but ships something unservable: a missing

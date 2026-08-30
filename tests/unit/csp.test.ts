@@ -58,15 +58,24 @@ function allows(directive: string, origin: string): boolean {
 }
 
 /**
- * Third-party origins the app is configured to talk to, read from the tracked
- * .env.
+ * Third-party origins the app is configured to talk to.
  *
- * The site's own origin is excluded: `connect-src 'self'` already covers
- * same-origin requests, and requiring an explicit entry for it would demand a
- * redundant CSP source that changes every time the domain does.
+ * Read from `.env` when the working tree has one, and from the committed
+ * `.env.example` otherwise, so this runs in CI and on a fresh clone where no
+ * `.env` exists — previously it threw ENOENT there and took the suite with it.
+ * `.env.example` is the env contract every new variable is added to, which
+ * makes it the right source anyway: a third-party host introduced there but
+ * never added to CSP is exactly the regression this guards against.
+ *
+ * Placeholder values such as `https://<project-ref>.supabase.co` are skipped —
+ * they name no real host, and the Supabase origin is asserted explicitly by the
+ * test below. The site's own origin is excluded too: `connect-src 'self'`
+ * already covers same-origin requests, and requiring an explicit entry would
+ * demand a redundant CSP source that changes every time the domain does.
  */
 function configuredOrigins(): Array<{ key: string; origin: string }> {
-  const env = readFileSync(resolve(ROOT, ".env"), "utf8");
+  const envPath = resolve(ROOT, ".env");
+  const env = readFileSync(existsSync(envPath) ? envPath : resolve(ROOT, ".env.example"), "utf8");
   const ownOrigin = JSON.parse(readFileSync(resolve(ROOT, "package.json"), "utf8")).homepage;
   const out: Array<{ key: string; origin: string }> = [];
   for (const line of env.split("\n")) {
@@ -81,6 +90,7 @@ function configuredOrigins(): Array<{ key: string; origin: string }> {
     if (!url) continue;
     const origin = `https://${url[1]}`;
     if (origin === ownOrigin) continue; // covered by 'self'
+    if (/[<>]/.test(origin)) continue; // unfilled .env.example placeholder
     out.push({ key: m[1], origin });
   }
   return out;
