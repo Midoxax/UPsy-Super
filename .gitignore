@@ -10,6 +10,11 @@ lerna-debug.log*
 node_modules
 dist
 dist-ssr
+# Nitro/Vite build output and wrangler's local state. The build moved from
+# dist/ to .output/ and this list was never updated, so a build left the whole
+# artefact tree showing as untracked and one `git add -A` from being committed.
+.output
+.wrangler
 *.local
 
 # Editor directories and files

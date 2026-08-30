@@ -10,7 +10,17 @@ import {
   useRouter,
   type ErrorComponentProps,
 } from "@tanstack/react-router";
-import appCss from "../styles.css?url";
+// Imported for its side effect, not as a URL.
+//
+// `../styles.css?url` made the SSR pass emit its own copy of the stylesheet and
+// link that filename. The SSR copy is written to node_modules/.nitro and never
+// published, and its content hash differs from the client copy's (the SSR pass
+// generates ~8 kB more utilities), so every server-rendered document linked a
+// stylesheet that 404s while the 200 kB client stylesheet went unreferenced.
+// A plain import puts the file in the module graph, and the router manifest
+// injects the client asset that is actually served — the same mechanism that
+// already resolves the other stylesheet on this page correctly.
+import "../styles.css";
 
 // Marketing type system — see src/styles/fonts.ts for the full face list.
 import "@/styles/fonts";
@@ -151,7 +161,6 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "twitter:image:alt", content: "U.Psy logo" },
     ],
     links: [
-      { rel: "stylesheet", href: appCss },
       { rel: "manifest", href: "/manifest.webmanifest" },
       { rel: "icon", href: "/favicon.ico", sizes: "any" },
       { rel: "icon", type: "image/png", sizes: "16x16", href: "/favicon-16x16.png" },
