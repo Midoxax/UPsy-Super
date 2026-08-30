@@ -32,24 +32,34 @@ BEGIN
   INSERT INTO user_roles (user_id, role) VALUES (uid1, 'psychologist'), (uid2, 'psychologist'), (uid3, 'psychologist') ON CONFLICT (user_id, role) DO NOTHING;
 
   -- Specialties
-  INSERT INTO psychologist_specialties (psychologist_id, specialty_id) VALUES
-    (uid1, '880bc86f-d175-40af-9cae-b1fe0ca95fc5'),
-    (uid1, '8feb075c-9c32-4598-9531-98535d2c8e4f'),
-    (uid1, 'f13906b6-34af-4ef1-8288-197e525115b2'),
-    (uid2, '880bc86f-d175-40af-9cae-b1fe0ca95fc5'),
-    (uid3, '55fb1b79-3b79-4bfa-897e-94e73625e403'),
-    (uid3, 'b1ba24f7-6e6a-43d3-a0cc-2dead4919941')
+  -- Resolved by name, not by hardcoded id. public.specialties defaults its id to
+  -- gen_random_uuid(), so the literal uuids this used to carry only ever existed
+  -- in the database they were copied from; anywhere else they match no row and
+  -- the foreign key rejects the insert, which aborted this migration on every
+  -- fresh project. Names come from the seed in 20251003175922.
+  INSERT INTO psychologist_specialties (psychologist_id, specialty_id)
+  SELECT p.uid, s.id
+  FROM (VALUES
+      (uid1, 'Clinical Psychology'),
+      (uid1, 'Sport Psychology'),
+      (uid1, 'Trauma Recovery'),
+      (uid2, 'Clinical Psychology'),
+      (uid3, 'Cognitive Behavioral Therapy (CBT)'),
+      (uid3, 'Anxiety & Depression')
+    ) AS p(uid, specialty_name)
+  JOIN public.specialties s ON s.name = p.specialty_name
   ON CONFLICT DO NOTHING;
 
   -- Languages
-  INSERT INTO psychologist_languages (psychologist_id, language_id) VALUES
-    (uid1, 'ee49ed2b-1966-4c41-91fd-3065bb036f28'),
-    (uid1, '62570139-221f-4f50-b3bd-1ea8e5fe2d1f'),
-    (uid1, 'ead9924a-3f3c-4c1d-9ebe-6dce025bffbe'),
-    (uid2, 'ee49ed2b-1966-4c41-91fd-3065bb036f28'),
-    (uid2, '62570139-221f-4f50-b3bd-1ea8e5fe2d1f'),
-    (uid3, 'ee49ed2b-1966-4c41-91fd-3065bb036f28'),
-    (uid3, '62570139-221f-4f50-b3bd-1ea8e5fe2d1f')
+  -- Same fix as above: public.languages ids are generated, so resolve by name.
+  INSERT INTO psychologist_languages (psychologist_id, language_id)
+  SELECT p.uid, l.id
+  FROM (VALUES
+      (uid1, 'English'), (uid1, 'French'), (uid1, 'Arabic'),
+      (uid2, 'English'), (uid2, 'French'),
+      (uid3, 'English'), (uid3, 'French')
+    ) AS p(uid, language_name)
+  JOIN public.languages l ON l.name = p.language_name
   ON CONFLICT DO NOTHING;
 
   -- Availability slots
