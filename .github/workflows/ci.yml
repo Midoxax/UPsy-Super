@@ -220,8 +220,16 @@ jobs:
           # setsid + nohup detach the server from this step's shell, so it
           # survives into the steps that actually need it. A plain `&` is a
           # child of the step process and can be reaped when the step ends.
+          #
+          # `< /dev/null` is load-bearing, not tidiness. `wrangler dev` runs an
+          # interactive key handler that reads stdin; inherited from the step's
+          # shell, that pipe closes when the step exits, wrangler reads EOF and
+          # shuts down. It stayed up long enough for the readiness probe and the
+          # bundle check, then died two routes into the audit, which reported 93
+          # of 96 page loads as ERR_CONNECTION_REFUSED and read as a critical
+          # accessibility failure rather than a dead server.
           setsid nohup bunx wrangler dev --config .output/server/wrangler.json \
-            --local --ip 127.0.0.1 --port 4173 > /tmp/wrangler.log 2>&1 &
+            --local --ip 127.0.0.1 --port 4173 > /tmp/wrangler.log 2>&1 < /dev/null &
           for i in $(seq 1 60); do
             if [ "$(curl -s -o /dev/null -w '%{http_code}' http://127.0.0.1:4173/)" = "200" ]; then
               echo "preview up"; exit 0
@@ -252,3 +260,14 @@ jobs:
         env:
           BASE: http://127.0.0.1:4173
         run: node tests/audit/run.mjs
+
+      # Without this, a preview server that dies mid-audit is indistinguishable
+      # from a genuine accessibility regression: the report just fills with
+      # navigation failures and the reason is in a log nobody printed.
+      - name: Preview server log (on failure)
+        if: failure()
+        run: |
+          echo "--- last 100 lines of /tmp/wrangler.log ---"
+          tail -100 /tmp/wrangler.log || echo "(no wrangler log)"
+          echo "--- is the server still listening? ---"
+          curl -s -o /dev/null -w 'GET / -> %{http_code}\n' http://127.0.0.1:4173/ || echo "connection refused"
