@@ -149,11 +149,25 @@ console.log("\n  schema sync");
 const TYPES = "src/integrations/supabase/types.ts";
 const PENDING = "supabase/pending-migrations.json";
 
+/**
+ * Strips SQL comments before any DDL is matched.
+ *
+ * Without this, prose in a `--` comment that happens to contain DDL is read as
+ * real schema: a migration documenting itself with the words CREATE TABLE, or
+ * a statement commented out rather than deleted, both register as tables that
+ * do not exist. A line comment splitting `IF NOT EXISTS` across two lines even
+ * yields a table literally named "IF", because the optional IF-NOT-EXISTS
+ * group cannot match across the `--` prefix and the pattern falls back to it.
+ */
+function stripSqlComments(sql) {
+  return sql.replace(/\/\*[\s\S]*?\*\//g, " ").replace(/--[^\n]*/g, " ");
+}
+
 /** Tables the migrations create, mapped to the migration that first creates them. */
 function tablesFromMigrations() {
   const created = new Map();
   for (const f of migrationFiles) {
-    const sql = read(join(MIGRATIONS, f));
+    const sql = stripSqlComments(read(join(MIGRATIONS, f)));
     for (const m of sql.matchAll(/CREATE\s+TABLE\s+(?:IF\s+NOT\s+EXISTS\s+)?(?:public\.)?"?(\w+)"?/gi)) {
       if (!created.has(m[1])) created.set(m[1], f);
     }
