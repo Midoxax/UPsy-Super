@@ -78,7 +78,7 @@ export const useTicketMessages = (ticketId: string | null) => {
   useEffect(() => {
     if (!ticketId) return;
     const channel = supabase
-      .channel(`ticket-${ticketId}`)
+      .channel(`support_ticket_messages:${ticketId}`)
       .on(
         "postgres_changes",
         { event: "INSERT", schema: "public", table: "support_ticket_messages", filter: `ticket_id=eq.${ticketId}` },

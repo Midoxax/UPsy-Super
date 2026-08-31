@@ -228,7 +228,7 @@ jobs:
           # bundle check, then died two routes into the audit, which reported 93
           # of 96 page loads as ERR_CONNECTION_REFUSED and read as a critical
           # accessibility failure rather than a dead server.
-          setsid nohup bunx wrangler dev --config .output/server/wrangler.json \
+          setsid nohup bunx wrangler dev --config "$(node scripts/build-output.mjs --wrangler)" \
             --local --ip 127.0.0.1 --port 4173 > /tmp/wrangler.log 2>&1 < /dev/null &
           for i in $(seq 1 60); do
             if [ "$(curl -s -o /dev/null -w '%{http_code}' http://127.0.0.1:4173/)" = "200" ]; then
