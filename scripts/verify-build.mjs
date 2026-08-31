@@ -7,11 +7,10 @@
  * users while every other gate stays green.
  *
  * The app renders on the server (TanStack Start -> Cloudflare Worker), so the
- * build emits two trees rather than an index.html. Nitro writes them under
- * .output/, which is what `vite build` produces and what wrangler deploys:
+ * build emits two trees rather than an index.html:
  *
- *   .output/server/  the Worker: index.mjs plus its route chunks and wrangler.json
- *   .output/public/  everything the browser fetches: hashed assets and static files
+ *   dist/server/  the Worker: index.mjs plus its route chunks and wrangler.json
+ *   dist/client/  everything the browser fetches: hashed assets and static files
  *
  * There is deliberately no index.html to inspect any more — every document is
  * produced per request by the Worker. Metadata is therefore verified against
@@ -27,38 +26,45 @@
  * things that are merely suboptimal — that is the audit's job.
  */
 import { readFileSync, existsSync, statSync, readdirSync } from "node:fs";
-import { resolve, dirname } from "node:path";
+import { resolve, dirname, relative } from "node:path";
 import { fileURLToPath } from "node:url";
+import { buildDirs } from "./build-output.mjs";
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..");
-const OUT = resolve(ROOT, ".output");
-const CLIENT = resolve(OUT, "public");
-const SERVER = resolve(OUT, "server");
+
+// The output directory is `dist/` inside Lovable and `.output/` everywhere
+// else — same build, different nitro config — so it is resolved, not assumed.
+// See scripts/build-output.mjs for why.
+const DIRS = buildDirs();
+if (!DIRS) {
+  console.error("No build output (looked for .output/ and dist/) — run `npm run build` first.");
+  process.exit(1);
+}
+const { root: DIST, client: CLIENT, server: SERVER } = DIRS;
+const OUT = relative(ROOT, DIST) || ".";
+const CLIENT_LABEL = `${OUT}/${relative(DIST, CLIENT)}`;
+console.log(`Verifying build output in ${OUT}/`);
 
 const failures = [];
 const warnings = [];
 const fail = (m) => failures.push(m);
 const warn = (m) => warnings.push(m);
 
-if (!existsSync(OUT)) {
-  console.error("No .output/ — run `npm run build` first.");
-  process.exit(1);
-}
-for (const [label, dir] of [["public", CLIENT], ["server", SERVER]]) {
+for (const [label, dir] of [[relative(DIST, CLIENT), CLIENT], ["server", SERVER]]) {
   if (!existsSync(dir)) {
-    console.error(`.output/${label}/ missing — the build produced no ${label} output.`);
+    console.error(`${OUT}/${label}/ missing — the build produced no ${label} output.`);
     process.exit(1);
   }
 }
 
 // 1. The Worker is deployable: an entry module and the config wrangler reads.
 const workerEntry = resolve(SERVER, "index.mjs");
-if (!existsSync(workerEntry)) fail(".output/server/index.mjs missing — no Worker entry to deploy");
-else if (statSync(workerEntry).size === 0) fail(".output/server/index.mjs is empty");
+if (!existsSync(workerEntry)) fail(`${OUT}/server/index.mjs missing — no Worker entry to deploy`);
+else if (statSync(workerEntry).size === 0) fail(`${OUT}/server/index.mjs is empty`);
 
 const wranglerConfig = resolve(SERVER, "wrangler.json");
 if (!existsSync(wranglerConfig)) {
-  fail(".output/server/wrangler.json missing — `npm run deploy` has nothing to point at");
+  fail(`${OUT}/server/wrangler.json missing — \`npm run deploy\` has nothing to point at`);
 } else {
   try {
     const cfg = JSON.parse(readFileSync(wranglerConfig, "utf8"));
@@ -77,15 +83,15 @@ if (!existsSync(wranglerConfig)) {
 // 2. The browser has something to fetch.
 const assetsDir = resolve(CLIENT, "assets");
 if (!existsSync(assetsDir)) {
-  fail(".output/public/assets/ missing — no bundled assets were emitted");
+  fail(`${CLIENT_LABEL}/assets/ missing — no bundled assets were emitted`);
 } else {
   const assets = readdirSync(assetsDir);
   const js = assets.filter((f) => f.endsWith(".js"));
   const css = assets.filter((f) => f.endsWith(".css"));
-  if (js.length === 0) fail("no JavaScript emitted into .output/public/assets/");
-  if (css.length === 0) warn("no stylesheet emitted into .output/public/assets/");
+  if (js.length === 0) fail(`no JavaScript emitted into ${CLIENT_LABEL}/assets/`);
+  if (css.length === 0) warn(`no stylesheet emitted into ${CLIENT_LABEL}/assets/`);
   const empty = assets.filter((f) => statSync(resolve(assetsDir, f)).size === 0);
-  for (const f of empty) fail(`.output/public/assets/${f} is empty`);
+  for (const f of empty) fail(`${CLIENT_LABEL}/assets/${f} is empty`);
   console.log(`  ${assets.length} client assets (${js.length} js, ${css.length} css)`);
 }
 

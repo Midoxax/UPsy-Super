@@ -102,9 +102,9 @@ jobs:
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
         run: |
           if [ "${{ github.event.inputs.environment }}" = "preview" ]; then
-            bunx wrangler versions upload --config .output/server/wrangler.json
+            bunx wrangler versions upload --config "$(node scripts/build-output.mjs --wrangler)"
           else
-            bunx wrangler deploy --config .output/server/wrangler.json
+            bunx wrangler deploy --config "$(node scripts/build-output.mjs --wrangler)"
           fi
 
       # A deploy that returns 200 on "/" but 500 on an SSR route is the failure

@@ -1121,6 +1121,7 @@ export type Database = {
           phone: string | null
           prefers_online: boolean | null
           specialty_needed: string
+          submitted_by: string | null
           updated_at: string | null
         }
         Insert: {
@@ -1135,6 +1136,7 @@ export type Database = {
           phone?: string | null
           prefers_online?: boolean | null
           specialty_needed: string
+          submitted_by?: string | null
           updated_at?: string | null
         }
         Update: {
@@ -1149,6 +1151,7 @@ export type Database = {
           phone?: string | null
           prefers_online?: boolean | null
           specialty_needed?: string
+          submitted_by?: string | null
           updated_at?: string | null
         }
         Relationships: [
@@ -3036,6 +3039,7 @@ export type Database = {
           preferences: string | null
           psychologist_id: string
           status: string
+          submitted_by: string | null
           updated_at: string | null
         }
         Insert: {
@@ -3048,6 +3052,7 @@ export type Database = {
           preferences?: string | null
           psychologist_id: string
           status?: string
+          submitted_by?: string | null
           updated_at?: string | null
         }
         Update: {
@@ -3060,6 +3065,7 @@ export type Database = {
           preferences?: string | null
           psychologist_id?: string
           status?: string
+          submitted_by?: string | null
           updated_at?: string | null
         }
         Relationships: [

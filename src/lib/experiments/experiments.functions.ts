@@ -13,7 +13,8 @@ import {
 
 type HomeHeroWinnerResult = {
   status?: string;
-  winning_variant?: string;
+  /** The SQL function returns the variant under `winner`. */
+  winner?: string;
 };
 
 /**
@@ -26,11 +27,21 @@ async function promotedWinner(): Promise<string | null> {
   const key = process.env["SUPABASE_PUBLISHABLE_KEY"];
   if (!url || !key) return null;
   const supabase = createClient(url, key, { auth: { persistSession: false } });
-  const { data } = (await supabase.rpc("home_hero_winner").maybeSingle()) as {
+  const { data, error } = (await supabase.rpc("home_hero_winner").maybeSingle()) as {
     data: HomeHeroWinnerResult | null;
+    error: { message: string } | null;
   };
-  if (data?.status === "winner" && HOME_HERO_EXPERIMENT.variants.includes(data.winning_variant as never)) {
-    return data.winning_variant!;
+  if (error) {
+    console.error("[experiments] home_hero_winner failed:", error.message);
+    return null;
+  }
+  // 'promoted' = a winner row exists and is being served to everyone;
+  // 'winner' = statistically decided but not yet written to experiment_winners.
+  if (
+    (data?.status === "promoted" || data?.status === "winner") &&
+    HOME_HERO_EXPERIMENT.variants.includes(data.winner as never)
+  ) {
+    return data.winner!;
   }
   return null;
 }
