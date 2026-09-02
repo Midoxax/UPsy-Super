@@ -78,6 +78,27 @@ report(
     : `HTTP ${account.status} — ${firstError(account.body)}. The token is not scoped to this account id, or the id is wrong.`,
 );
 
+// When the id is rejected, the fix is a specific 32-character value the operator
+// has no easy way to be sure of — the dashboard shows one id per account and the
+// error does not say which was expected. The token can enumerate the accounts it
+// actually reaches, so print them: that turns "wrong id" into "paste this".
+// Account ids are not secrets; they appear in every Cloudflare dashboard URL.
+if (!account.ok) {
+  const accounts = await call("/accounts");
+  if (accounts.ok && Array.isArray(accounts.body?.result)) {
+    if (accounts.body.result.length === 0) {
+      console.log("      This token can reach no accounts at all — it was created without Account Resources.");
+    } else {
+      console.log("      This token CAN reach the following account(s). Set CLOUDFLARE_ACCOUNT_ID to one of these ids:");
+      for (const a of accounts.body.result) {
+        console.log(`        ${a.id}  ${a.name ?? ""}`);
+      }
+    }
+  } else {
+    console.log(`      Could not enumerate accounts for this token — ${firstError(accounts.body)}`);
+  }
+}
+
 // 3. Does the token actually carry Workers Scripts permission on that account?
 //    A token created from a non-Workers template authenticates fine and still
 //    cannot deploy.
