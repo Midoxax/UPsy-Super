@@ -95,7 +95,12 @@ const Resources = () => {
   const [format, setFormat] = useState<string | null>(null);
 
   const { data: topics = [] } = useTopics();
-  const { data: resources = [], isLoading } = useResources({
+  const {
+    data: resources = [],
+    isLoading,
+    isError,
+    refetch,
+  } = useResources({
     search: search || null,
     topic,
     format,
@@ -251,6 +256,18 @@ const Resources = () => {
               {Array.from({ length: 6 }).map((_, i) => (
                 <div key={i} className="h-56 rounded-2xl bg-muted/30 animate-pulse" />
               ))}
+            </div>
+          ) : isError ? (
+            // A failed fetch is not an empty library. Rendering "no resources
+            // match your filters" for a backend error sent visitors hunting for
+            // a filter to clear while every resource was actually unreachable.
+            <div className="text-center py-16 glass-card" role="alert">
+              <p className="text-muted-foreground mb-4">
+                We couldn't load the resource library just now.
+              </p>
+              <Button variant="ghost" onClick={() => void refetch()}>
+                Try again
+              </Button>
             </div>
           ) : resources.length === 0 ? (
             <div className="text-center py-16 glass-card">

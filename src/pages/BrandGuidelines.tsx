@@ -3,7 +3,7 @@ import Footer from "@/components/Footer";
 import ScrollReveal from "@/components/ScrollReveal";
 import { Copy, Check } from "lucide-react";
 import { useState } from "react";
-import logoAsset from "@/assets/upsy-logo.png.asset.json";
+import logoUrl from "@/assets/upsy-logo-hero.png";
 
 const colors = [
   { name: "Primary Burgundy", var: "--burgundy", hex: "#7A0C20", usage: "Brand identity, headers, accents" },
@@ -88,13 +88,13 @@ const BrandGuidelines = () => {
           <div className="grid md:grid-cols-3 gap-6">
             {[
               { label: "Primary Lockup", desc: "Website header, presentations, documents", content: (
-                <img src={logoAsset.url} alt="U.Psy logo" className="h-12 w-auto object-contain" />
+                <img src={logoUrl} alt="U.Psy logo" className="h-12 w-auto object-contain" />
               )},
               { label: "Compact Logo", desc: "Mobile nav, social banners", content: (
-                <img src={logoAsset.url} alt="U.Psy logo" className="h-9 w-auto object-contain" />
+                <img src={logoUrl} alt="U.Psy logo" className="h-9 w-auto object-contain" />
               )},
               { label: "Icon Mark", desc: "Favicon, app icon, avatars", content: (
-                <img src={logoAsset.url} alt="U.Psy logo" className="h-16 w-auto object-contain" />
+                <img src={logoUrl} alt="U.Psy logo" className="h-16 w-auto object-contain" />
               )},
             ].map((item) => (
               <div key={item.label} className="glass-card flex flex-col items-center text-center">

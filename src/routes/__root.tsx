@@ -25,6 +25,7 @@ import "../styles.css";
 // Marketing type system — see src/styles/fonts.ts for the full face list.
 import "@/styles/fonts";
 import { resolveExperiments } from "@/lib/experiments/experiments.functions";
+import { controlAssignments } from "@/lib/experiments/config";
 
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
@@ -239,7 +240,16 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     // Resolve A/B buckets before the first byte of HTML, so SSR and hydration
     // agree on which variant the visitor sees. staleTime keeps this from
     // re-running (and re-hitting the server) on client-side navigation.
-    loader: async () => ({ experiments: await resolveExperiments() }),
+    // A failed RPC (offline, cold worker, blocked request) must never blank the
+    // whole app — fall back to the control bucket.
+    loader: async () => {
+      try {
+        return { experiments: await resolveExperiments() };
+      } catch (error) {
+        console.error("[experiments] resolveExperiments failed:", error);
+        return { experiments: controlAssignments() };
+      }
+    },
     staleTime: Infinity,
     shellComponent: RootShell,
     component: RootComponent,

@@ -7,10 +7,10 @@
  * references, plus anything modulepreloaded alongside them. Lazy route chunks
  * are excluded because they are not on the critical path.
  *
- * The app renders on the server, so there is no index.html to parse any
+ * The app renders on the server, so there is no dist/index.html to parse any
  * more. The document only exists once the Worker produces it, which means this
  * check runs against a running server: it fetches "/" from BASE and resolves
- * every referenced asset back to a file in .output/public. In CI that is the same
+ * every referenced asset back to a file in dist/client. In CI that is the same
  * preview server the accessibility audit uses, so the cost is one extra fetch.
  *
  * The budgets in bundle-budget.json are set to what the build produces today,
@@ -31,14 +31,17 @@ import { readFileSync, writeFileSync, existsSync } from "node:fs";
 import { gzipSync } from "node:zlib";
 import { resolve, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
+import { buildDirs } from "./build-output.mjs";
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..");
-const CLIENT = resolve(ROOT, ".output", "public");
+// Resolved rather than hardcoded: Lovable builds into dist/, CI into .output/.
+const DIRS = buildDirs();
+const CLIENT = DIRS ? DIRS.client : resolve(ROOT, "dist", "client");
 const BUDGET_FILE = resolve(ROOT, "bundle-budget.json");
 const BASE = (process.env.BASE || "http://127.0.0.1:4173").replace(/\/$/, "");
 
 if (!existsSync(CLIENT)) {
-  console.error("No .output/public — run `npm run build` first.");
+  console.error("No client build output (looked for .output/ and dist/) — run `npm run build` first.");
   process.exit(1);
 }
 
@@ -86,7 +89,7 @@ for (const file of critical) {
 files.sort((a, b) => b.gz - a.gz);
 
 if (missing.length) {
-  console.error("The served document references assets that are not in .output/public:\n");
+  console.error("The served document references assets that are not in the client build output:\n");
   for (const m of missing) console.error(`  - ${m}`);
   console.error("\nThe server and the client build are out of sync — rebuild before measuring.\n");
   process.exit(1);

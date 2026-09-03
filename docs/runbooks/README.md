@@ -11,6 +11,7 @@ agent working directly on the GitHub repo) can execute independently.
 | # | Runbook | Why it comes here |
 |---|---------|-------------------|
 | 0 | [Exit & ownership](./00-exit-and-ownership.md) | Own the code, the hosting, and the database before building on top of them. |
+| 0b | [**Exit execution**](./08-exit-execution.md) | The click-by-click version of phase 0: the commands, in order, with the checks that prove each step worked. **Start here.** |
 | 1 | [Compliance & audit](./01-compliance-and-audit.md) | The audit log and privacy tiers shape every table added later. Retrofitting is expensive. |
 | 2 | [CRM & back channels](./02-crm-and-back-channels.md) | One contact model and one server-side event path for everything that follows. |
 | 3 | [Payments & legal](./03-payments-and-legal.md) | Money in, contracts signed, auto-entrepreneur obligations met. |

@@ -7,6 +7,7 @@ import SEOHead from "@/components/SEOHead";
 import { Chapter } from "@/lib/motion";
 import { useLocale } from "@/contexts/LocaleContext";
 import { getHomeCopy } from "@/lib/i18n/homeCopy";
+import logoAssetUrl from "@/assets/upsy-logo-hero.png";
 
 // Conversion-focused funnel: one path, no dynamic reordering.
 const TrustSection = lazy(() => import("@/components/home/TrustSection"));
@@ -85,7 +86,7 @@ const Index = () => {
             "@type": "Organization",
             name: "U.Psy",
             url: "https://upsy.ma",
-            logo: "https://upsy.ma/__l5e/assets-v1/2edf1a4b-29b9-4195-8a74-121993b46fe3/upsy-logo.png",
+            logo: `https://upsy.ma${logoAssetUrl}`,
             description:
               "Book accredited psychologists worldwide. Video sessions in any timezone or in-person visits in select cities, with a free rebook guarantee.",
             founder: { "@type": "Person", name: "Mehdi Felji", jobTitle: "Founder" },

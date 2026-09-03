@@ -14,7 +14,8 @@ import { crmAtLeast, useCrmRole } from "@/hooks/admin/useCrmOps";
 
 type WinnerStatus = {
   status?: string;
-  winning_variant?: string;
+  /** The SQL function returns the variant under `winner`. */
+  winner?: string;
   control_rate?: number;
   winner_rate?: number;
   lift_pct?: number;
@@ -36,6 +37,9 @@ type WinnerRow = {
 };
 
 type VariantStat = { events: number; conversions: number; rate: number };
+
+const fmtZ = (n: number | null | undefined) =>
+  n == null || !Number.isFinite(n) ? "—" : `z=${n.toFixed(2)}`;
 
 const pct = (n: number | null | undefined) =>
   n == null || !Number.isFinite(n) ? "—" : `${(n * 100).toFixed(1)}%`;
@@ -83,9 +87,11 @@ export default function ExperimentPanel() {
       setPromoting(false);
       return;
     }
-    const result = (data as { promoted?: boolean; winning_variant?: string; reason?: string }) ?? {};
-    if (result.promoted) {
-      toast.success(`Promoted "${result.winning_variant}" as the Home hero winner`);
+    const result = (data as { status?: string; winner?: string; reason?: string }) ?? {};
+    if (result.status === "promoted") {
+      toast.success(`Promoted "${result.winner}" as the Home hero winner`);
+    } else if (result.status === "already_promoted") {
+      toast.info(`"${result.winner}" is already the promoted winner`);
     } else {
       toast.info(result.reason ? `No promotion: ${result.reason}` : "No promotable winner yet");
     }
@@ -93,7 +99,7 @@ export default function ExperimentPanel() {
     void load();
   };
 
-  const decided = status?.status === "winner";
+  const decided = status?.status === "winner" || status?.status === "promoted";
   const rows = Object.entries(variants).sort((a, b) => b[1].conversions - a[1].conversions);
   const leader = rows[0]?.[0];
   const hasData = rows.some(([, v]) => v.events > 0);
@@ -123,10 +129,12 @@ export default function ExperimentPanel() {
               <p className="text-sm text-muted-foreground">Loading…</p>
             ) : decided ? (
               <div className="space-y-1">
-                <Badge className="bg-emerald-500/15 text-emerald-600">Winner decided</Badge>
-                <p className="text-lg font-semibold capitalize">{status?.winning_variant}</p>
+                <Badge className="bg-emerald-500/15 text-emerald-600">
+                  {status?.status === "promoted" ? "Winner live" : "Winner decided"}
+                </Badge>
+                <p className="text-lg font-semibold capitalize">{status?.winner}</p>
                 <p className="text-xs text-muted-foreground">
-                  {fmtLift(status?.lift_pct)} lift · {pct(status?.confidence)} confidence
+                  {fmtLift(status?.lift_pct)} lift · {fmtZ(status?.confidence)}
                 </p>
               </div>
             ) : (
@@ -214,7 +222,7 @@ export default function ExperimentPanel() {
                   <span className="font-medium capitalize">{h.winning_variant}</span>
                   <div className="flex items-center gap-3 text-muted-foreground">
                     <span>{fmtLift(h.lift_pct)} lift</span>
-                    <span>{pct(h.confidence)} conf</span>
+                    <span>{fmtZ(h.confidence)}</span>
                     <Badge variant={h.auto ? "secondary" : "outline"} className="text-[10px]">
                       {h.auto ? "auto" : "manual"}
                     </Badge>

@@ -7,11 +7,10 @@
  * users while every other gate stays green.
  *
  * The app renders on the server (TanStack Start -> Cloudflare Worker), so the
- * build emits two trees rather than an index.html. Nitro writes them under
- * .output/, which is what `vite build` produces and what wrangler deploys:
+ * build emits two trees rather than an index.html:
  *
- *   .output/server/  the Worker: index.mjs plus its route chunks and wrangler.json
- *   .output/public/  everything the browser fetches: hashed assets and static files
+ *   dist/server/  the Worker: index.mjs plus its route chunks and wrangler.json
+ *   dist/client/  everything the browser fetches: hashed assets and static files
  *
  * There is deliberately no index.html to inspect any more — every document is
  * produced per request by the Worker. Metadata is therefore verified against
@@ -27,38 +26,50 @@
  * things that are merely suboptimal — that is the audit's job.
  */
 import { readFileSync, existsSync, statSync, readdirSync } from "node:fs";
-import { resolve, dirname } from "node:path";
+import { gzipSync } from "node:zlib";
+import { resolve, dirname, relative } from "node:path";
 import { fileURLToPath } from "node:url";
+import { buildDirs } from "./build-output.mjs";
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..");
-const OUT = resolve(ROOT, ".output");
-const CLIENT = resolve(OUT, "public");
-const SERVER = resolve(OUT, "server");
+
+// The output directory is `dist/` inside Lovable and `.output/` everywhere
+// else — same build, different nitro config — so it is resolved, not assumed.
+// See scripts/build-output.mjs for why.
+const DIRS = buildDirs();
+if (!DIRS) {
+  console.error("No build output (looked for .output/ and dist/) — run `npm run build` first.");
+  process.exit(1);
+}
+const { root: DIST, client: CLIENT, server: SERVER } = DIRS;
+
+// Size limits live in bundle-budget.json next to the client budgets, so raising
+// one is a reviewed change rather than an edit buried in a script.
+const budget = JSON.parse(readFileSync(resolve(ROOT, "bundle-budget.json"), "utf8"));
+const OUT = relative(ROOT, DIST) || ".";
+const CLIENT_LABEL = `${OUT}/${relative(DIST, CLIENT)}`;
+console.log(`Verifying build output in ${OUT}/`);
 
 const failures = [];
 const warnings = [];
 const fail = (m) => failures.push(m);
 const warn = (m) => warnings.push(m);
 
-if (!existsSync(OUT)) {
-  console.error("No .output/ — run `npm run build` first.");
-  process.exit(1);
-}
-for (const [label, dir] of [["public", CLIENT], ["server", SERVER]]) {
+for (const [label, dir] of [[relative(DIST, CLIENT), CLIENT], ["server", SERVER]]) {
   if (!existsSync(dir)) {
-    console.error(`.output/${label}/ missing — the build produced no ${label} output.`);
+    console.error(`${OUT}/${label}/ missing — the build produced no ${label} output.`);
     process.exit(1);
   }
 }
 
 // 1. The Worker is deployable: an entry module and the config wrangler reads.
 const workerEntry = resolve(SERVER, "index.mjs");
-if (!existsSync(workerEntry)) fail(".output/server/index.mjs missing — no Worker entry to deploy");
-else if (statSync(workerEntry).size === 0) fail(".output/server/index.mjs is empty");
+if (!existsSync(workerEntry)) fail(`${OUT}/server/index.mjs missing — no Worker entry to deploy`);
+else if (statSync(workerEntry).size === 0) fail(`${OUT}/server/index.mjs is empty`);
 
 const wranglerConfig = resolve(SERVER, "wrangler.json");
 if (!existsSync(wranglerConfig)) {
-  fail(".output/server/wrangler.json missing — `npm run deploy` has nothing to point at");
+  fail(`${OUT}/server/wrangler.json missing — \`npm run deploy\` has nothing to point at`);
 } else {
   try {
     const cfg = JSON.parse(readFileSync(wranglerConfig, "utf8"));
@@ -77,15 +88,15 @@ if (!existsSync(wranglerConfig)) {
 // 2. The browser has something to fetch.
 const assetsDir = resolve(CLIENT, "assets");
 if (!existsSync(assetsDir)) {
-  fail(".output/public/assets/ missing — no bundled assets were emitted");
+  fail(`${CLIENT_LABEL}/assets/ missing — no bundled assets were emitted`);
 } else {
   const assets = readdirSync(assetsDir);
   const js = assets.filter((f) => f.endsWith(".js"));
   const css = assets.filter((f) => f.endsWith(".css"));
-  if (js.length === 0) fail("no JavaScript emitted into .output/public/assets/");
-  if (css.length === 0) warn("no stylesheet emitted into .output/public/assets/");
+  if (js.length === 0) fail(`no JavaScript emitted into ${CLIENT_LABEL}/assets/`);
+  if (css.length === 0) warn(`no stylesheet emitted into ${CLIENT_LABEL}/assets/`);
   const empty = assets.filter((f) => statSync(resolve(assetsDir, f)).size === 0);
-  for (const f of empty) fail(`.output/public/assets/${f} is empty`);
+  for (const f of empty) fail(`${CLIENT_LABEL}/assets/${f} is empty`);
   console.log(`  ${assets.length} client assets (${js.length} js, ${css.length} css)`);
 }
 
@@ -115,6 +126,49 @@ for (const file of textFiles) {
     if (name === "GTM_ID") warn(`{{GTM_ID}} not substituted in ${file} — analytics disabled (snippet self-guards)`);
     else fail(`unreplaced placeholder {{${name}}} shipped in ${file}`);
   }
+}
+
+// 5. The Worker bundle must fit Cloudflare's size limit.
+//
+// Cloudflare rejects an oversized Worker at upload with a message that names a
+// byte count and nothing else — no indication of which dependency grew, and
+// only after the build and the whole deploy job have run. Worse, the bundle can
+// cross the line from a routine dependency bump, so the first sign of trouble is
+// a failed production deploy rather than a failed check.
+//
+// `no_bundle: true` in the nitro config means every emitted chunk is uploaded as
+// a module, whether or not it is reachable from the entry and whether or not it
+// is behind a dynamic import — `@sentry/react` is imported dynamically and still
+// ships. So the honest measure is the compressed total of everything under
+// server/, which is what this computes.
+const LIMIT_MIB = budget.workerBundleGzipMib ?? 3;
+const WARN_PCT = budget.workerBundleWarnAtPct ?? 80;
+
+function gzipTotal(dir) {
+  let total = 0;
+  for (const entry of readdirSync(dir, { withFileTypes: true })) {
+    const full = resolve(dir, entry.name);
+    if (entry.isDirectory()) total += gzipTotal(full);
+    else if (/\.(mjs|js|json|wasm)$/.test(entry.name)) total += gzipSync(readFileSync(full)).length;
+  }
+  return total;
+}
+
+const workerGzip = gzipTotal(SERVER);
+const workerMib = workerGzip / 1024 / 1024;
+const pct = (workerMib / LIMIT_MIB) * 100;
+console.log(`  Worker bundle ${workerMib.toFixed(2)} MiB gzipped — ${pct.toFixed(0)}% of the ${LIMIT_MIB} MiB limit`);
+
+if (workerMib > LIMIT_MIB) {
+  fail(
+    `Worker bundle is ${workerMib.toFixed(2)} MiB gzipped, over Cloudflare's ${LIMIT_MIB} MiB limit — ` +
+      `the deploy would be rejected at upload. Keep client-only libraries out of the SSR module graph.`,
+  );
+} else if (pct >= WARN_PCT) {
+  warn(
+    `Worker bundle is ${workerMib.toFixed(2)} MiB gzipped, ${pct.toFixed(0)}% of the ${LIMIT_MIB} MiB limit. ` +
+      `Largest contributors are client-only: @react-three/drei, @sentry/*, jspdf + canvg + html2canvas, recharts.`,
+  );
 }
 
 // ---- report -------------------------------------------------------------

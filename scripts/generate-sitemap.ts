@@ -4,16 +4,17 @@ import { writeFileSync, readFileSync } from "fs";
 import { resolve } from "path";
 
 // Single source of truth, mirroring src/config/site.ts for the Node side (this
-// runs before Vite, so it cannot import the browser module). Both default to
-// the Vercel deployment because upsy.ma has no DNS record — a sitemap full of
-// non-resolving URLs is worse than no sitemap, since Search Console reports
-// every entry as an error and Google learns the site is broken.
+// runs before Vite, so it cannot import the browser module).
 //
-// Override with VITE_SITE_URL, or fall back to package.json "homepage".
+// The canonical origin is www.upsy.ma, served from Cloudflare Workers. Set
+// VITE_SITE_URL in CI so a preview build never emits production URLs; the
+// package.json "homepage" and the literal below are only fallbacks for a bare
+// local run. A sitemap full of non-resolving URLs is worse than no sitemap,
+// since Search Console reports every entry as an error.
 const BASE_URL = (
   process.env.VITE_SITE_URL ||
   (JSON.parse(readFileSync(resolve("package.json"), "utf8")).homepage as string) ||
-  "https://upsy-ma.vercel.app"
+  "https://www.upsy.ma"
 ).replace(/\/$/, "");
 const LOCALES = ["en", "fr", "ar"] as const;
 type Locale = (typeof LOCALES)[number];

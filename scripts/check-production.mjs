@@ -2,16 +2,17 @@
 /**
  * Production verification — asserts the deployed site, not the build output.
  *
- * Every other gate in this repository inspects `.output/`. None of them prove
+ * Every other gate in this repository inspects `dist/`. None of them prove
  * anything about what a user actually receives, because the two can differ in
  * ways that matter enormously:
  *
- *   - `vercel.json` headers only exist if Vercel is reading that file. A
- *     misconfigured project, a different host, or a moved file leaves the CSP
- *     and HSTS silently absent while every local check stays green.
- *   - Deployment Protection puts an auth wall in front of the site. The owner,
- *     already logged in, sees it working. Everyone else sees a login screen.
- *     This check runs unauthenticated, so it catches that.
+ *   - Security headers only exist if the Worker is actually applying them.
+ *     A misconfigured route, a domain attached to the wrong Worker, or a
+ *     stale deployment leaves the CSP and HSTS silently absent while every
+ *     local check stays green.
+ *   - Cloudflare Access, a WAF rule, or Lovable's preview auth can put a login
+ *     wall in front of the site. The owner, already signed in, sees it working.
+ *     Everyone else sees a login screen. This check runs unauthenticated.
  *   - A build can succeed and still be served from a stale or wrong deployment.
  *
  * Runs from GitHub Actions rather than a developer machine because the runner
@@ -45,10 +46,10 @@ const failures = [];
 const warnings = [];
 const notes = [];
 
-/** Headers that must be present. Absence means vercel.json is not being applied. */
+/** Headers that must be present. Absence means the Worker is not applying them. */
 const REQUIRED_HEADERS = {
   "content-security-policy": {
-    why: "XSS containment. Absent means vercel.json headers are not live.",
+    why: "XSS containment. Absent means src/lib/security-headers.ts is not live.",
     expect: (v) => v.includes("frame-ancestors") && v.includes("default-src"),
   },
   "strict-transport-security": {
@@ -75,13 +76,13 @@ const siteOf = (u) => new URL(u).hostname.replace(/^www\./, "");
 /**
  * Fetch a document, following a redirect that stays on the same site.
  *
- * `redirect: "manual"` is deliberate — it is how the Vercel SSO wall is
- * detected, since that redirects *off* site to vercel.com/sso-api. But leaving
- * it fully manual made this check measure the wrong response: an apex that
- * 308s to www returns a redirect carrying only the headers Vercel attaches at
- * the domain level, not the ones vercel.json applies to served routes. The
- * result was four "MISSING" security headers on a site that serves all of
- * them — the same misdiagnosis this script exists to prevent, one hop earlier.
+ * `redirect: "manual"` is deliberate — it is how an auth wall is detected,
+ * since those redirect *off* site to an identity provider. But leaving it
+ * fully manual made this check measure the wrong response: the apex 301s to
+ * www, and that redirect carries only the headers the edge attaches at the
+ * domain level, not the ones the Worker applies to served routes. The result
+ * was four "MISSING" security headers on a site that serves all of them — the
+ * same misdiagnosis this script exists to prevent, one hop earlier.
  *
  * So: same-site redirects are followed (apex → www is a routing detail, not a
  * finding), cross-site ones are returned untouched for the protection-wall
@@ -129,28 +130,29 @@ try {
 
 console.log(`  status ${root.status}`);
 
-// Vercel's Deployment Protection answers 401 to unauthenticated visitors. The
-// owner's browser is authenticated and sees a working site, so this failure is
+// An access wall answers 401/403 to unauthenticated visitors. The owner's
+// browser is authenticated and sees a working site, so this failure is
 // invisible from the dashboard — and total for everyone else.
 const location = root.headers.get("location") || "";
 
-// Only Vercel can put up Vercel's auth wall. Every response Vercel serves —
-// including the SSO wall — carries an x-vercel-id, so its absence on a 401/403
-// means something in front of the site answered instead: a corporate proxy, an
-// egress allowlist, a WAF. Blaming Deployment Protection for those sends the
+// Distinguish "the site said no" from "something in front of the site said no
+// on its behalf". Cloudflare stamps every response it serves with a cf-ray, so
+// its absence on a 401/403 means a corporate proxy, an egress allowlist or an
+// upstream WAF answered instead. Blaming the deployment for those sends the
 // reader to a dashboard toggle that is already correct, and a check that
 // misdiagnoses gets distrusted and then ignored.
-const servedByVercel =
-  root.headers.has("x-vercel-id") || /vercel/i.test(root.headers.get("server") || "");
-const namesVercelSso = /vercel\.com\/sso-api|\/\.well-known\/vercel\/protection/.test(location);
+const servedByEdge =
+  root.headers.has("cf-ray") || /cloudflare/i.test(root.headers.get("server") || "");
+const namesAccessWall =
+  /cloudflareaccess\.com|\/cdn-cgi\/access\/login|lovable\.app\/login/.test(location);
 const isBlocked = root.status === 401 || root.status === 403;
-const isProtectionWall = namesVercelSso || (isBlocked && servedByVercel);
+const isProtectionWall = namesAccessWall || (isBlocked && servedByEdge);
 
 if (isBlocked && !isProtectionWall) {
   console.error("\nCANNOT VERIFY — blocked before reaching the site\n");
   console.error(
     `  ${URL_BASE} answered ${root.status}, but the response did not come from\n` +
-      `  Vercel (no x-vercel-id header). Something between this machine and the\n` +
+      `  the edge (no cf-ray header). Something between this machine and the\n` +
       `  site answered on its behalf — commonly an egress allowlist, a corporate\n` +
       `  proxy, or a WAF.\n\n` +
       `  This is not a verdict on the deployment: nothing about the site was\n` +
@@ -162,18 +164,19 @@ if (isBlocked && !isProtectionWall) {
 
 if (isProtectionWall) {
   // Diagnose the actual cause and stop. Continuing would measure headers on
-  // Vercel's SSO redirect rather than on the app, and report five confusing
+  // the login redirect rather than on the app, and report five confusing
   // "missing header" failures whose real cause is this one line. A gate that
   // misdiagnoses gets distrusted, then ignored.
   console.error("\nPRODUCTION VERIFICATION FAILED\n");
   console.error(
     `  - The site is behind an authentication wall.\n` +
       `    Root returned ${root.status}${location ? ` -> ${location.slice(0, 80)}` : ""}\n\n` +
-      `    This is Vercel Deployment Protection. The owner's browser is already\n` +
-      `    signed in and sees a working site; every patient and psychologist sees\n` +
-      `    a login screen. Nothing behind it can be verified.\n\n` +
-      `    Fix: Vercel -> Settings -> Deployment Protection -> Disabled\n` +
-      `    (or "Only Preview Deployments" to keep previews private).\n`
+      `    The owner's browser is already signed in and sees a working site;\n` +
+      `    every patient and psychologist sees a login screen. Nothing behind\n` +
+      `    it can be verified.\n\n` +
+      `    Check: Cloudflare -> Zero Trust -> Access -> Applications, and remove\n` +
+      `    any policy covering this hostname. If the URL under test is still a\n` +
+      `    Lovable preview domain, point PROD_URL at the public site instead.\n`
   );
   process.exit(1);
 }
@@ -184,9 +187,8 @@ for (const hop of root.hops ?? []) notes.push(`Followed same-site redirect: ${ho
 // headers and routes measured against a 404 describe the error page, and
 // reporting five missing security headers hides the one fact that matters. A
 // 404 on the *root* of a deployment almost never means "one page is missing" —
-// it means this URL is not attached to the project, which is exactly what
-// happened when the production alias was left pointing at a retired
-// *.vercel.app address after the custom domain was added.
+// it means this hostname is not attached to the Worker, which is exactly what
+// www.upsy.ma returned for the whole period before the first Cloudflare deploy.
 if (root.status >= 400) {
   console.error("\nPRODUCTION VERIFICATION FAILED\n");
   console.error(
@@ -194,9 +196,10 @@ if (root.status >= 400) {
       (root.status === 404
         ? `    A 404 on the root is a routing fact, not a content one: the host\n` +
           `    resolves, something answers, and that something does not know about\n` +
-          `    this project. Usually the domain is not attached to the deployment.\n\n` +
-          `    Check Vercel -> Settings -> Domains and confirm this exact hostname\n` +
-          `    is listed, then point "homepage" in package.json at one that is.\n`
+          `    this project. Usually the domain is not attached to the Worker.\n\n` +
+          `    Check Cloudflare -> Workers & Pages -> upsy -> Settings -> Domains\n` +
+          `    and confirm this exact hostname is listed, then set VITE_SITE_URL\n` +
+          `    (and package.json "homepage") to one that is.\n`
         : `    The deployment is failing to serve its root document.\n`) +
       `\n    Header and route results are omitted deliberately: measured against an\n` +
       `    error page they describe the error page, not the application.\n`
