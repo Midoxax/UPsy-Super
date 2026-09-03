@@ -45,11 +45,11 @@
 
 /** Providers this deployment is configured for. Empty until proven otherwise. */
 export const OAUTH_PROVIDERS: ReadonlyArray<"google" | "apple"> = (
-  // Google and Apple are both live: Lovable Cloud manages the OAuth clients, so
-  // the providers are configured server-side and need no per-deployment
-  // credentials. `VITE_OAUTH_PROVIDERS` can still override this (e.g. "" to
-  // hide all, or "google" to drop Apple).
-  ((import.meta.env.VITE_OAUTH_PROVIDERS as string | undefined)?.trim() || "google,apple")
+  // Neither provider has a client ID/secret configured in Supabase Auth
+  // (confirmed in production: signing in returns 400 "missing OAuth secret").
+  // Default to none until a provider is actually set up per the TURNING GOOGLE ON
+  // steps above. `VITE_OAUTH_PROVIDERS` can enable one once it's real, e.g. "google".
+  ((import.meta.env.VITE_OAUTH_PROVIDERS as string | undefined)?.trim() || "")
 
 )
   .split(",")
