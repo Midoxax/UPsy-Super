@@ -68,20 +68,20 @@ describe("OAuth does not depend on Lovable hosting", () => {
 /**
  * A social sign-in button must not be shown unless it can succeed.
  *
- * Supabase once answered /authorize with 400 `validation_failed — missing OAuth
- * secret`, and a button that always fails is a worse first impression than no
- * button at all. Google and Apple are now both configured server-side by
- * Lovable Cloud, so they are on by default — but the gate itself must stay, so
- * `VITE_OAUTH_PROVIDERS` can still hide a provider that breaks without a code
- * change.
+ * Supabase answers /authorize with 400 `validation_failed — missing OAuth
+ * secret` for both Google and Apple in production — neither has a client
+ * ID/secret configured in Supabase Auth — so a button that always fails is a
+ * worse first impression than no button at all. Providers default to none;
+ * `VITE_OAUTH_PROVIDERS` opts one in once it's actually configured and proven
+ * working.
  */
 describe("social sign-in buttons are gated on real configuration", () => {
-  it("enables the providers that are actually configured", async () => {
+  it("defaults to no providers until one is proven configured", async () => {
     const { OAUTH_PROVIDERS, hasAnyOAuth, isOAuthEnabled } = await import("@/config/auth");
-    expect([...OAUTH_PROVIDERS].sort()).toEqual(["apple", "google"]);
-    expect(hasAnyOAuth()).toBe(true);
-    expect(isOAuthEnabled("google")).toBe(true);
-    expect(isOAuthEnabled("apple")).toBe(true);
+    expect([...OAUTH_PROVIDERS]).toEqual([]);
+    expect(hasAnyOAuth()).toBe(false);
+    expect(isOAuthEnabled("google")).toBe(false);
+    expect(isOAuthEnabled("apple")).toBe(false);
   });
 
   it("keeps the override path, so a broken provider can be hidden without a deploy of code", () => {
