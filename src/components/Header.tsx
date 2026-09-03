@@ -9,8 +9,7 @@ import {
 import { useAuth } from "@/contexts/AuthContext";
 import { useLocale } from "@/contexts/LocaleContext";
 import { addLocalePrefix, stripLocalePrefix } from "@/lib/i18n/utils";
-import logoAsset from "@/assets/upsy-logo.png.asset.json";
-const logo = logoAsset.url;
+import logo from "@/assets/upsy-logo-hero.png";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
 import ThemeToggle from "@/components/ThemeToggle";
 import NotificationBell from "@/components/NotificationBell";

@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { useLocale } from '@/contexts/LocaleContext';
+import logoAssetUrl from '@/assets/upsy-logo-hero.png';
 
 interface BlogArticleSchemaProps {
   title: string;
@@ -55,7 +56,7 @@ const BlogArticleSchema = ({
         url: baseUrl,
         logo: {
           '@type': 'ImageObject',
-          url: `${baseUrl}/__l5e/assets-v1/2edf1a4b-29b9-4195-8a74-121993b46fe3/upsy-logo.png`,
+          url: `${baseUrl}${logoAssetUrl}`,
         },
       },
       mainEntityOfPage: {
