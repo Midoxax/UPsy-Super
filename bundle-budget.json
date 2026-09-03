@@ -1,4 +1,6 @@
 {
   "initialJsGzipKb": 401.5,
-  "initialCssGzipKb": 51.8
+  "initialCssGzipKb": 51.8,
+  "workerBundleGzipMib": 3.0,
+  "workerBundleWarnAtPct": 80
 }

@@ -18,22 +18,40 @@ interface ReviewsListProps {
 const ReviewsList = ({ psychologistId }: ReviewsListProps) => {
   const [reviews, setReviews] = useState<Review[]>([]);
   const [loading, setLoading] = useState(true);
+  const [failed, setFailed] = useState(false);
 
   useEffect(() => {
-    const fetch = async () => {
-      const { data } = await supabase
+    let cancelled = false;
+    const run = async () => {
+      // `error` was previously discarded, so a failed request was indistinguishable
+      // from a psychologist with no reviews yet — the section rendered its empty
+      // state and the failure never reached the console or the user.
+      const { data, error } = await supabase
         .from("reviews")
         .select("id, rating, comment, created_at, client_id")
         .eq("psychologist_id", psychologistId)
         .order("created_at", { ascending: false })
         .limit(20);
-      setReviews((data ?? []) as Review[]);
+      if (cancelled) return;
+      if (error) {
+        console.error("[reviews] failed to load:", error.message);
+        setFailed(true);
+      } else {
+        setReviews((data ?? []) as Review[]);
+      }
       setLoading(false);
     };
-    fetch();
+    void run();
+    return () => {
+      cancelled = true;
+    };
   }, [psychologistId]);
 
   if (loading) return null;
+
+  // Staying silent beats asserting "no reviews yet" about a specialist whose
+  // reviews simply failed to load.
+  if (failed) return null;
 
   const avgRating =
     reviews.length > 0

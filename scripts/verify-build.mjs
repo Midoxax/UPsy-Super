@@ -26,6 +26,7 @@
  * things that are merely suboptimal — that is the audit's job.
  */
 import { readFileSync, existsSync, statSync, readdirSync } from "node:fs";
+import { gzipSync } from "node:zlib";
 import { resolve, dirname, relative } from "node:path";
 import { fileURLToPath } from "node:url";
 import { buildDirs } from "./build-output.mjs";
@@ -41,6 +42,10 @@ if (!DIRS) {
   process.exit(1);
 }
 const { root: DIST, client: CLIENT, server: SERVER } = DIRS;
+
+// Size limits live in bundle-budget.json next to the client budgets, so raising
+// one is a reviewed change rather than an edit buried in a script.
+const budget = JSON.parse(readFileSync(resolve(ROOT, "bundle-budget.json"), "utf8"));
 const OUT = relative(ROOT, DIST) || ".";
 const CLIENT_LABEL = `${OUT}/${relative(DIST, CLIENT)}`;
 console.log(`Verifying build output in ${OUT}/`);
@@ -121,6 +126,49 @@ for (const file of textFiles) {
     if (name === "GTM_ID") warn(`{{GTM_ID}} not substituted in ${file} — analytics disabled (snippet self-guards)`);
     else fail(`unreplaced placeholder {{${name}}} shipped in ${file}`);
   }
+}
+
+// 5. The Worker bundle must fit Cloudflare's size limit.
+//
+// Cloudflare rejects an oversized Worker at upload with a message that names a
+// byte count and nothing else — no indication of which dependency grew, and
+// only after the build and the whole deploy job have run. Worse, the bundle can
+// cross the line from a routine dependency bump, so the first sign of trouble is
+// a failed production deploy rather than a failed check.
+//
+// `no_bundle: true` in the nitro config means every emitted chunk is uploaded as
+// a module, whether or not it is reachable from the entry and whether or not it
+// is behind a dynamic import — `@sentry/react` is imported dynamically and still
+// ships. So the honest measure is the compressed total of everything under
+// server/, which is what this computes.
+const LIMIT_MIB = budget.workerBundleGzipMib ?? 3;
+const WARN_PCT = budget.workerBundleWarnAtPct ?? 80;
+
+function gzipTotal(dir) {
+  let total = 0;
+  for (const entry of readdirSync(dir, { withFileTypes: true })) {
+    const full = resolve(dir, entry.name);
+    if (entry.isDirectory()) total += gzipTotal(full);
+    else if (/\.(mjs|js|json|wasm)$/.test(entry.name)) total += gzipSync(readFileSync(full)).length;
+  }
+  return total;
+}
+
+const workerGzip = gzipTotal(SERVER);
+const workerMib = workerGzip / 1024 / 1024;
+const pct = (workerMib / LIMIT_MIB) * 100;
+console.log(`  Worker bundle ${workerMib.toFixed(2)} MiB gzipped — ${pct.toFixed(0)}% of the ${LIMIT_MIB} MiB limit`);
+
+if (workerMib > LIMIT_MIB) {
+  fail(
+    `Worker bundle is ${workerMib.toFixed(2)} MiB gzipped, over Cloudflare's ${LIMIT_MIB} MiB limit — ` +
+      `the deploy would be rejected at upload. Keep client-only libraries out of the SSR module graph.`,
+  );
+} else if (pct >= WARN_PCT) {
+  warn(
+    `Worker bundle is ${workerMib.toFixed(2)} MiB gzipped, ${pct.toFixed(0)}% of the ${LIMIT_MIB} MiB limit. ` +
+      `Largest contributors are client-only: @react-three/drei, @sentry/*, jspdf + canvg + html2canvas, recharts.`,
+  );
 }
 
 // ---- report -------------------------------------------------------------
