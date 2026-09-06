@@ -17,6 +17,13 @@ import {
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import SEOHead from "@/components/SEOHead";
+import {
+  FUNNELS,
+  FUNNEL_STEPS,
+  trackFunnelStep,
+  trackFunnelCompleted,
+  trackFunnelFailed,
+} from "@/lib/analytics/funnel";
 
 interface AssessmentAnswers {
   feeling: string;
@@ -90,6 +97,23 @@ const GetMatched = () => {
     t('assessments.grief'), t('assessments.sleepIssues'),
   ];
 
+  // The wizard's step index maps 1:1 onto the declared funnel steps, so
+  // drop-off is derived from this single effect rather than a call at every
+  // navigation site — where the one that gets forgotten is the one that
+  // silently breaks the funnel.
+  useEffect(() => {
+    const name = FUNNEL_STEPS[FUNNELS.match][step];
+    if (!name) return;
+    trackFunnelStep(FUNNELS.match, name, {
+      locale,
+      ...(step === 2 ? { selection_count: answers.needs.length } : {}),
+    });
+    // `answers.needs.length` is read for the needs step only; adding it to the
+    // dependency list would re-run this on every toggle, which the dedupe in
+    // trackFunnelStep would swallow anyway.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [step, locale]);
+
   const progress = Math.round((step / 5) * 100);
   const canProceed = () => {
     if (step === 0) return true;
@@ -117,12 +141,30 @@ const GetMatched = () => {
         body: { specialtyNeeded: needToSpecialty[0] || specialties[0]?.id, languagesPreferred: languageId ? [languageId] : [], prefersOnline: answers.sessionType === "online" },
       });
       if (error) throw error;
+      let matchCount = 0;
       if (data?.success && data.matches) {
         const scored = data.matches.map((m: PsychologistProfile, i: number) => ({ ...m, matchScore: Math.max(78, 98 - i * 4 - Math.floor(Math.random() * 3)) }));
         setMatches(scored);
+        matchCount = scored.length;
+      }
+      // Zero matches is a different business problem from a failed request —
+      // it means supply, not software — so the two are reported separately.
+      if (matchCount === 0) {
+        trackFunnelFailed(FUNNELS.match, "no_results", {
+          locale,
+          session_type: answers.sessionType === "in_person" ? "in_person" : "online",
+        });
+      } else {
+        trackFunnelCompleted(FUNNELS.match, {
+          locale,
+          result_count: matchCount,
+          selection_count: answers.needs.length,
+          session_type: answers.sessionType === "in_person" ? "in_person" : "online",
+        });
       }
       setStep(5);
     } catch (err: any) {
+      trackFunnelFailed(FUNNELS.match, "request_failed", { locale });
       toast({ title: t('common.error'), description: t('assessments.noMatchesDesc'), variant: "destructive" });
     } finally { setLoading(false); }
   };
