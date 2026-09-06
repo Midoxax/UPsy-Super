@@ -30,6 +30,14 @@ import { format, addDays, startOfDay, isSameDay } from "date-fns";
 import { Link } from "@/lib/router-compat";
 import DataPrivacyNotice from "@/components/DataPrivacyNotice";
 import { SignInPrompt } from "@/components/auth/SocialAuthButtons";
+import {
+  FUNNELS,
+  trackFunnelStep,
+  trackFunnelCompleted,
+  trackFunnelFailed,
+  resetFunnel,
+  priceBucket,
+} from "@/lib/analytics/funnel";
 
 interface AvailabilitySlot {
   id: string;
@@ -102,8 +110,25 @@ const BookingModal = ({
       setSelectedDate(null);
       setSelectedSlot(null);
       setNotes("");
+      // A visitor who closes the modal and opens it again is a second attempt,
+      // and the second attempt is the interesting one: it is the same person
+      // getting past whatever stopped them. Without this reset the retry
+      // records no steps at all.
+      resetFunnel(FUNNELS.booking);
     }
   }, [open]);
+
+  // The step union is exactly the declared funnel, so one effect covers every
+  // path through the modal — including the back buttons, which a per-click
+  // call site would miss.
+  useEffect(() => {
+    if (!open) return;
+    trackFunnelStep(FUNNELS.booking, step, {
+      session_type: sessionType,
+      is_authenticated: !!user,
+      price_bucket: priceBucket(hourlyRate),
+    });
+  }, [open, step, sessionType, user, hourlyRate]);
 
   const availableDates = useMemo(() => {
     const dates: Date[] = [];
@@ -127,6 +152,13 @@ const BookingModal = ({
 
   const handleBook = async () => {
     if (!user) {
+      // The single most actionable drop-off in the flow: someone who chose a
+      // psychologist, a date and a time, then hit a wall. Counting it tells us
+      // what an earlier sign-in prompt would be worth.
+      trackFunnelFailed(FUNNELS.booking, "not_authenticated", {
+        session_type: sessionType,
+        price_bucket: priceBucket(hourlyRate),
+      });
       toast({ title: t('booking.signInRequired'), description: t('booking.signInRequiredDesc'), variant: "destructive" });
       return;
     }
@@ -157,13 +189,27 @@ const BookingModal = ({
       });
       if (webhookRes.error) throw new Error(webhookRes.error.message);
 
+      // This string reaches real people booking real therapy. "(mock)" is an
+      // engineering note about the payment provider, and reading it at the
+      // moment of paying a deposit undermines trust in the one flow that can
+      // least afford it. The provider being simulated is a backend fact; the
+      // confirmation a client sees should state what happened to them.
       toast({
-        title: "Deposit paid (mock)",
-        description: `${breakdown.deposit_amount_mad} MAD captured · Balance ${breakdown.balance_amount_mad} MAD due after session`,
+        title: t('booking.depositConfirmed'),
+        description: `${breakdown.deposit_amount_mad} MAD · ${breakdown.balance_amount_mad} MAD due after the session`,
+      });
+      trackFunnelCompleted(FUNNELS.booking, {
+        session_type: sessionType,
+        is_authenticated: true,
+        price_bucket: priceBucket(hourlyRate),
       });
       setStep("success");
     } catch (err: any) {
       console.error(err);
+      trackFunnelFailed(FUNNELS.booking, "request_failed", {
+        session_type: sessionType,
+        price_bucket: priceBucket(hourlyRate),
+      });
       toast({ title: t('booking.bookingFailed'), description: err.message || "Please try again.", variant: "destructive" });
     } finally {
       setLoading(false);
