@@ -100,6 +100,37 @@ if (!existsSync(assetsDir)) {
   console.log(`  ${assets.length} client assets (${js.length} js, ${css.length} css)`);
 }
 
+// 2b. Product analytics actually made it into the bundle.
+//
+// The PostHog initializer returns early when VITE_POSTHOG_KEY or
+// VITE_POSTHOG_HOST is absent. That is the correct runtime behaviour — a
+// missing key should never break the site — but it is silent, and it stayed
+// silent in production long enough that the funnel events had nowhere to land
+// while everything reported healthy. A build that ships no analytics is not a
+// broken build, so this warns rather than fails; the point is that the dark
+// state is stated in the log instead of being discovered months later.
+//
+// The key is matched by its `phc_` prefix rather than by comparing to an
+// expected value: PostHog project keys are publishable and ship in the client
+// bundle by design, so their presence is checkable without the check itself
+// needing the secret.
+{
+  const assetsDir2 = resolve(CLIENT, "assets");
+  if (existsSync(assetsDir2)) {
+    const bundled = readdirSync(assetsDir2)
+      .filter((f) => f.endsWith(".js"))
+      .some((f) => /\bphc_[A-Za-z0-9]/.test(readFileSync(resolve(assetsDir2, f), "utf8")));
+    if (!bundled) {
+      warn(
+        "no PostHog key found in the client bundle — product analytics is inert " +
+          "in this build (set VITE_POSTHOG_KEY and VITE_POSTHOG_HOST)",
+      );
+    } else {
+      console.log("  product analytics key present in client bundle");
+    }
+  }
+}
+
 // 3. Crawler-facing files exist and are non-trivial.
 for (const file of ["robots.txt", "sitemap.xml"]) {
   const p = resolve(CLIENT, file);
