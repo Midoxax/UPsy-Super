@@ -91,11 +91,24 @@ const GetMatched = () => {
     { value: "struggling", label: t('assessments.optionStruggling'), description: t('assessments.optionStrugglingDesc'), icon: Shield },
   ];
 
-  const NEED_OPTIONS = [
-    t('assessments.anxiety'), t('assessments.stress'), t('assessments.depression'), t('assessments.relationships'),
-    t('assessments.trauma'), t('assessments.sportPerformance'), t('assessments.burnout'), t('assessments.selfEsteem'),
-    t('assessments.grief'), t('assessments.sleepIssues'),
+  // The wizard shows localized need labels, but specialties in the database
+  // are named freely by clinicians (e.g. "Trauma Recovery", "Sport
+  // Psychology") in English only — exact string equality between the two
+  // never matches. Each need instead carries keywords to look for inside a
+  // specialty's name, independent of the active locale.
+  const NEED_DEFS = [
+    { label: t('assessments.anxiety'), specialtyKeywords: ["anxiety"] },
+    { label: t('assessments.stress'), specialtyKeywords: ["stress", "burnout"] },
+    { label: t('assessments.depression'), specialtyKeywords: ["depression"] },
+    { label: t('assessments.relationships'), specialtyKeywords: ["relationship"] },
+    { label: t('assessments.trauma'), specialtyKeywords: ["trauma"] },
+    { label: t('assessments.sportPerformance'), specialtyKeywords: ["sport", "performance"] },
+    { label: t('assessments.burnout'), specialtyKeywords: ["burnout", "organizational"] },
+    { label: t('assessments.selfEsteem'), specialtyKeywords: ["self-esteem", "self esteem", "cognitive", "schema"] },
+    { label: t('assessments.grief'), specialtyKeywords: ["grief", "trauma"] },
+    { label: t('assessments.sleepIssues'), specialtyKeywords: ["sleep", "clinical"] },
   ];
+  const NEED_OPTIONS = NEED_DEFS.map((d) => d.label);
 
   // The wizard's step index maps 1:1 onto the declared funnel steps, so
   // drop-off is derived from this single effect rather than a call at every
@@ -132,14 +145,24 @@ const GetMatched = () => {
   const findMatches = async () => {
     setLoading(true);
     try {
-      const needToSpecialty = answers.needs.map((need) => {
-        const found = specialties.find((s) => s.name.toLowerCase() === need.toLowerCase());
-        return found?.id;
-      }).filter(Boolean) as string[];
-      const languageId = languages.find((l) => l.name.toLowerCase() === answers.language.toLowerCase())?.id;
-      const { data, error } = await supabase.functions.invoke("find-matches", {
-        body: { specialtyNeeded: needToSpecialty[0] || specialties[0]?.id, languagesPreferred: languageId ? [languageId] : [], prefersOnline: answers.sessionType === "online" },
+      const needToSpecialty = answers.needs.flatMap((need) => {
+        const def = NEED_DEFS.find((d) => d.label === need);
+        if (!def) return [];
+        const match = specialties.find((s) =>
+          def.specialtyKeywords.some((kw) => s.name.toLowerCase().includes(kw))
+        );
+        return match ? [match.id] : [];
       });
+      const languageId = languages.find((l) => l.name.toLowerCase() === answers.language.toLowerCase())?.id;
+      // Omit specialtyNeeded entirely when nothing matched, rather than
+      // sending an arbitrary specialty — the backend already falls back to
+      // an unfiltered search when it's absent.
+      const body: Record<string, unknown> = {
+        prefersOnline: answers.sessionType === "online",
+      };
+      if (needToSpecialty[0]) body.specialtyNeeded = needToSpecialty[0];
+      if (languageId) body.languagesPreferred = [languageId];
+      const { data, error } = await supabase.functions.invoke("find-matches", { body });
       if (error) throw error;
       let matchCount = 0;
       if (data?.success && data.matches) {
