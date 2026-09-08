@@ -11,6 +11,7 @@ import { useToast } from "@/hooks/use-toast";
 import { Loader2, Brain, Sparkles, Eye, EyeOff, Check, X } from "lucide-react";
 import { z } from "zod";
 import { supabase } from "@/integrations/supabase/client";
+import { friendlyAuthError } from "@/lib/auth/friendlyAuthError";
 import { SocialAuthButtons } from "@/components/auth/SocialAuthButtons";
 
 
@@ -122,10 +123,17 @@ const Auth = () => {
     setIsLoading(true);
     try {
       emailSchema.parse(loginData.email);
-      passwordSchema.parse(loginData.password);
+      // Signup's complexity rules (uppercase, number, 8+ chars, ...) must never
+      // gate login: they describe what a NEW password must satisfy, not what an
+      // EXISTING one does. An account created before a rule tightened, or a
+      // password that simply doesn't match the current regex, would otherwise
+      // fail here with a client-side "must contain a number" message instead of
+      // reaching Supabase at all — indistinguishable to the user from a real
+      // wrong-password error, except it can never be fixed by retyping correctly.
+      if (!loginData.password) throw new z.ZodError([{ code: "custom", path: ["password"], message: t('auth.passwordRequired') }]);
       const { error } = await signIn(loginData.email, loginData.password);
       if (error) {
-        toast({ title: t('auth.loginFailed'), description: error.message, variant: "destructive" });
+        toast({ title: t('auth.loginFailed'), description: friendlyAuthError(error.message, t), variant: "destructive" });
       } else {
         toast({ title: t('auth.welcomeBack'), description: t('auth.welcomeBackDesc') });
         const redirectTo = new URLSearchParams(window.location.search).get("redirect");
@@ -147,15 +155,15 @@ const Auth = () => {
     try {
       emailSchema.parse(signupData.email);
       passwordSchema.parse(signupData.password);
-      if (!signupData.fullName.trim()) throw new Error("Full name is required");
+      if (!signupData.fullName.trim()) throw new Error(t('auth.errorFullNameRequired'));
       if (signupData.password !== signupData.confirmPassword) {
-        throw new Error("Passwords do not match");
+        throw new Error(t('auth.errorPasswordsNoMatch'));
       }
 
       const redirectTo = new URLSearchParams(window.location.search).get("redirect") || undefined;
       const { error } = await signUp(signupData.email, signupData.password, signupData.fullName, redirectTo);
       if (error) {
-        toast({ title: t('auth.signupFailed'), description: error.message, variant: "destructive" });
+        toast({ title: t('auth.signupFailed'), description: friendlyAuthError(error.message, t), variant: "destructive" });
       } else {
         // Don't navigate — user must verify email first
         toast({
@@ -368,7 +376,7 @@ const Auth = () => {
                     {signupData.confirmPassword.length > 0 && (
                       <p className={`text-xs flex items-center gap-1 ${passwordsMatch ? "text-green-500" : "text-destructive"}`}>
                         {passwordsMatch ? <Check className="w-3 h-3" /> : <X className="w-3 h-3" />}
-                        {passwordsMatch ? "Passwords match" : "Passwords do not match"}
+                        {passwordsMatch ? t('auth.passwordsMatch') : t('auth.errorPasswordsNoMatch')}
                       </p>
                     )}
                     <p className="text-[11px] text-muted-foreground pt-1">
