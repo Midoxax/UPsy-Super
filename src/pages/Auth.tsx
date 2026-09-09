@@ -7,12 +7,14 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Checkbox } from "@/components/ui/checkbox";
 import { useToast } from "@/hooks/use-toast";
 import { Loader2, Brain, Sparkles, Eye, EyeOff, Check, X } from "lucide-react";
 import { z } from "zod";
 import { supabase } from "@/integrations/supabase/client";
 import { friendlyAuthError } from "@/lib/auth/friendlyAuthError";
 import { SocialAuthButtons } from "@/components/auth/SocialAuthButtons";
+import { Link } from "@/lib/router-compat";
 
 
 const emailSchema = z.string().email("Invalid email address");
@@ -97,6 +99,9 @@ const Auth = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
   const [lastAttempt, setLastAttempt] = useState(0);
+  const [termsAccepted, setTermsAccepted] = useState(false);
+  const [pendingVerificationEmail, setPendingVerificationEmail] = useState<string | null>(null);
+  const [isResending, setIsResending] = useState(false);
 
   // Auto-redirect once a session is available (covers OAuth round-trip and
   // visits to /auth while already signed in).
@@ -159,6 +164,7 @@ const Auth = () => {
       if (signupData.password !== signupData.confirmPassword) {
         throw new Error(t('auth.errorPasswordsNoMatch'));
       }
+      if (!termsAccepted) throw new Error(t('auth.errorTermsRequired'));
 
       const redirectTo = new URLSearchParams(window.location.search).get("redirect") || undefined;
       const { error } = await signUp(signupData.email, signupData.password, signupData.fullName, redirectTo);
@@ -166,6 +172,7 @@ const Auth = () => {
         toast({ title: t('auth.signupFailed'), description: friendlyAuthError(error.message, t), variant: "destructive" });
       } else {
         // Don't navigate — user must verify email first
+        setPendingVerificationEmail(signupData.email);
         toast({
           title: t('auth.checkEmail') || "Check your email",
           description: t('auth.verifyEmailDesc') || "We sent a verification link to your email. Please confirm before signing in.",
@@ -201,6 +208,22 @@ const Auth = () => {
     }
   };
 
+  const handleResendVerification = async () => {
+    if (!pendingVerificationEmail || isResending) return;
+    setIsResending(true);
+    try {
+      const { error } = await supabase.auth.resend({ type: "signup", email: pendingVerificationEmail });
+      if (error) {
+        toast({ title: t('auth.signupFailed'), description: friendlyAuthError(error.message, t), variant: "destructive" });
+      } else {
+        toast({ title: t('auth.resendVerificationSent'), description: t('auth.resendVerificationDesc') });
+      }
+    } finally {
+      setIsResending(false);
+    }
+  };
+
+  const emailFormatValid = (email: string) => emailSchema.safeParse(email).success;
   const pwRules = checkPasswordRules(signupData.password);
   const pwStrength = passwordStrength(signupData.password);
   const passwordsMatch =
@@ -279,9 +302,23 @@ const Auth = () => {
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="signup-email">{t('auth.email')}</Label>
-                    <Input id="signup-email" type="email" required autoComplete="email" value={signupData.email}
-                      onChange={(e) => setSignupData({ ...signupData, email: e.target.value })}
-                      placeholder="your@email.com" className="bg-background" />
+                    <div className="relative">
+                      <Input id="signup-email" type="email" required autoComplete="email" value={signupData.email}
+                        onChange={(e) => setSignupData({ ...signupData, email: e.target.value })}
+                        placeholder="your@email.com" className="bg-background pr-8" />
+                      {signupData.email.length > 0 && (
+                        <span className="absolute right-2 top-1/2 -translate-y-1/2">
+                          {emailFormatValid(signupData.email) ? (
+                            <Check className="w-4 h-4 text-green-500" />
+                          ) : (
+                            <X className="w-4 h-4 text-muted-foreground" />
+                          )}
+                        </span>
+                      )}
+                    </div>
+                    {signupData.email.length > 0 && !emailFormatValid(signupData.email) && (
+                      <p className="text-xs text-destructive">{t('auth.errorInvalidEmailFormat')}</p>
+                    )}
                   </div>
                   <div className="space-y-2">
                     <div className="flex items-center justify-between">
@@ -383,11 +420,43 @@ const Auth = () => {
                       Tip: Google Password Manager and iCloud Keychain will offer to save & sync this password to your account.
                     </p>
                   </div>
+                  <div className="flex items-start gap-2">
+                    <Checkbox
+                      id="terms-accepted"
+                      checked={termsAccepted}
+                      onCheckedChange={(v) => setTermsAccepted(v === true)}
+                      className="mt-0.5"
+                    />
+                    <Label htmlFor="terms-accepted" className="text-xs font-normal text-muted-foreground leading-snug cursor-pointer">
+                      {t('auth.agreeToTerms').split('{terms}')[0]}
+                      <Link to="/terms" target="_blank" className="text-primary hover:underline">
+                        {t('auth.termsOfService')}
+                      </Link>
+                      {t('auth.agreeToTerms').split('{terms}')[1]?.split('{privacy}')[0]}
+                      <Link to="/privacy" target="_blank" className="text-primary hover:underline">
+                        {t('auth.privacyPolicy')}
+                      </Link>
+                      {t('auth.agreeToTerms').split('{privacy}')[1]}
+                    </Label>
+                  </div>
+                  {pendingVerificationEmail && (
+                    <div className="rounded-md bg-muted/50 p-3 text-xs text-muted-foreground flex items-center justify-between gap-2">
+                      <span>{t('auth.checkEmail')}</span>
+                      <button
+                        type="button"
+                        onClick={handleResendVerification}
+                        disabled={isResending}
+                        className="text-primary hover:underline whitespace-nowrap disabled:opacity-50"
+                      >
+                        {isResending ? t('auth.resendingVerification') : t('auth.resendVerification')}
+                      </button>
+                    </div>
+                  )}
                   <Button
                     type="submit"
                     variant="primary"
                     className="w-full"
-                    disabled={isLoading || (signupData.confirmPassword.length > 0 && !passwordsMatch)}
+                    disabled={isLoading || !termsAccepted || (signupData.confirmPassword.length > 0 && !passwordsMatch)}
                   >
                     {isLoading ? <><Loader2 className="mr-2 h-4 w-4 animate-spin" />{t('auth.creatingAccount')}</> : t('auth.createAccount')}
                   </Button>

@@ -48,6 +48,18 @@ describe("sign-in does not gate on signup password complexity", () => {
   it("keeps the complexity check on signup, where it belongs", () => {
     expect(handleSignup).toMatch(/passwordSchema\.parse\(signupData\.password\)/);
   });
+
+  it("blocks signup until Terms of Service / Privacy Policy is accepted", () => {
+    expect(handleSignup).toMatch(/if \(!termsAccepted\)/);
+  });
+
+  it("tracks the pending-verification email so a resend action has a target", () => {
+    expect(handleSignup).toMatch(/setPendingVerificationEmail\(signupData\.email\)/);
+  });
+
+  it("offers a resend-verification action via supabase.auth.resend", () => {
+    expect(source).toMatch(/supabase\.auth\.resend\(\{ type: "signup", email: pendingVerificationEmail \}\)/);
+  });
 });
 
 describe("friendlyAuthError", () => {

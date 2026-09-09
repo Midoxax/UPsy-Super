@@ -8,19 +8,26 @@ const corsHeaders = {
 };
 
 // Input validation schema
+//
+// specialtyNeeded and languagesPreferred are both optional: the wizard that
+// calls this only sends them when it found a confident match on its end
+// (see GetMatched.tsx). Requiring either one turned a "we don't have a
+// precise specialty/language match" case — routine, expected — into a hard
+// 400 that surfaced to the user as a generic "couldn't find psychologists"
+// error instead of the graceful unfiltered fallback below.
 const MatchRequestSchema = z.object({
-  specialtyNeeded: z.string().uuid("Invalid specialty ID format"),
+  specialtyNeeded: z.string().uuid("Invalid specialty ID format").optional(),
   languagesPreferred: z.array(z.string().uuid("Invalid language ID format"))
-    .min(1, "At least one language is required")
-    .max(10, "Maximum 10 languages allowed"),
+    .max(10, "Maximum 10 languages allowed")
+    .optional(),
   budgetMax: z.number().positive("Budget must be positive").max(10000, "Budget exceeds maximum").optional(),
   locationCity: z.string().max(100, "City name too long").optional(),
   prefersOnline: z.boolean()
 });
 
 interface MatchRequest {
-  specialtyNeeded: string;
-  languagesPreferred: string[];
+  specialtyNeeded?: string;
+  languagesPreferred?: string[];
   budgetMax?: number;
   locationCity?: string;
   prefersOnline: boolean;
@@ -120,49 +127,56 @@ serve(async (req) => {
 
     console.log("Finding matches for:", { specialtyNeeded, languagesPreferred, budgetMax, locationCity, prefersOnline });
 
-    // Try strict matching first
-    let query = supabaseClient
-      .from("psychologist_profiles")
-      .select(`
-        id,
-        full_name,
-        bio,
-        photo_url,
-        city,
-        is_accredited,
-        offers_online,
-        offers_in_person,
-        hourly_rate_mad,
-        calendly_url,
-        slug,
-        psychologist_specialties!inner(specialty_id),
-        psychologist_languages!inner(language_id)
-      `)
-      .eq("is_published", true)
-      .eq("psychologist_specialties.specialty_id", specialtyNeeded);
+    // Try strict matching first — only when a specialty was actually given.
+    let profiles: any[] | null = null;
+    let error: any = null;
 
-    // Filter by online/in-person preference
-    if (prefersOnline) {
-      query = query.eq("offers_online", true);
-    } else {
-      query = query.eq("offers_in_person", true);
+    if (specialtyNeeded) {
+      let query = supabaseClient
+        .from("psychologist_profiles")
+        .select(`
+          id,
+          full_name,
+          bio,
+          photo_url,
+          city,
+          is_accredited,
+          offers_online,
+          offers_in_person,
+          hourly_rate_mad,
+          calendly_url,
+          slug,
+          psychologist_specialties!inner(specialty_id),
+          psychologist_languages!inner(language_id)
+        `)
+        .eq("is_published", true)
+        .eq("psychologist_specialties.specialty_id", specialtyNeeded);
+
+      // Filter by online/in-person preference
+      if (prefersOnline) {
+        query = query.eq("offers_online", true);
+      } else {
+        query = query.eq("offers_in_person", true);
+      }
+
+      // Filter by budget if provided
+      if (budgetMax) {
+        query = query.lte("hourly_rate_mad", budgetMax);
+      }
+
+      const strictResult = await query;
+      profiles = strictResult.data;
+      error = strictResult.error;
+
+      if (error) {
+        console.error("Error fetching profiles:", error);
+        throw error;
+      }
+
+      console.log("Found strict matches:", profiles?.length);
     }
 
-    // Filter by budget if provided
-    if (budgetMax) {
-      query = query.lte("hourly_rate_mad", budgetMax);
-    }
-
-    let { data: profiles, error } = await query;
-
-    if (error) {
-      console.error("Error fetching profiles:", error);
-      throw error;
-    }
-
-    console.log("Found strict matches:", profiles?.length);
-
-    // Fallback: If no matches, relax specialty requirement
+    // Fallback: no specialty given, or strict search found nothing
     if (!profiles || profiles.length === 0) {
       console.log("No strict matches, trying fallback without specialty filter...");
       
@@ -203,7 +217,7 @@ serve(async (req) => {
 
       // Check language match
       const profileLanguageIds = profile.psychologist_languages.map((pl: any) => pl.language_id);
-      const languageMatch = languagesPreferred.some((lang) => profileLanguageIds.includes(lang));
+      const languageMatch = (languagesPreferred ?? []).some((lang) => profileLanguageIds.includes(lang));
       if (languageMatch) score += 3;
 
       // Check city match (exact or nearby)
