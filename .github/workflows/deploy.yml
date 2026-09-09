@@ -100,6 +100,10 @@ jobs:
           VITE_SENTRY_DSN: ${{ secrets.VITE_SENTRY_DSN }}
           VITE_POSTHOG_KEY: ${{ secrets.VITE_POSTHOG_KEY }}
           VITE_POSTHOG_HOST: ${{ secrets.VITE_POSTHOG_HOST }}
+          # Opt-in only — see src/config/auth.ts. Blank/unset keeps the social
+          # buttons hidden, which is the safe default until a provider has been
+          # configured in Supabase Auth and proven with a real sign-in.
+          VITE_OAUTH_PROVIDERS: ${{ secrets.VITE_OAUTH_PROVIDERS }}
           VITE_APP_VERSION: ${{ github.sha }}
         run: bun run build
 
