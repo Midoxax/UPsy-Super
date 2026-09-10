@@ -79,7 +79,7 @@ What is left, and only you can do it:
 
 ## Layer C — Backend ownership (highest risk — rehearse first)
 
-Current state: Lovable Cloud manages a Supabase project (`skxxvgjjdshcopybokdt`)
+Current state: Lovable Cloud manages a Supabase project (`vuawmihxcaewzmkuarkr`)
 holding the database, auth users, storage buckets, and 33 edge functions.
 
 ### C.0 — Rehearsal (do not skip)

@@ -111,7 +111,7 @@ describe("CSP covers configured services", () => {
   it("allows Supabase over both HTTPS and websockets", () => {
     // Realtime subscriptions use wss://; allowing only https:// breaks them in
     // a way that looks like a Supabase outage rather than a policy problem.
-    expect(allows("connect-src", "https://skxxvgjjdshcopybokdt.supabase.co")).toBe(true);
+    expect(allows("connect-src", "https://vuawmihxcaewzmkuarkr.supabase.co")).toBe(true);
     expect(
       directiveOf("connect-src").some((s) => s.startsWith("wss://")),
       "connect-src has no wss:// source — Supabase Realtime cannot connect"

@@ -9,7 +9,7 @@
  * the Supabase GitHub integration was pointed at a directory (`UPsy supa/
  * supabase`) that has never existed in this repository, on a project
  * (`bvhqdgiptlnfclnsybaz`) that is not the one the app connects to
- * (`skxxvgjjdshcopybokdt`). Both halves were wrong, the integration reported
+ * (`vuawmihxcaewzmkuarkr`). Both halves were wrong, the integration reported
  * the failure only on its own status check, and 96 migrations sat in `main`
  * with no way to tell which of them the database had actually seen.
  *

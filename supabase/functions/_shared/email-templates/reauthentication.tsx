@@ -17,7 +17,7 @@ interface ReauthenticationEmailProps {
   token: string
 }
 
-const logoUrl = 'https://skxxvgjjdshcopybokdt.supabase.co/storage/v1/object/public/email-assets/logo.png'
+const logoUrl = 'https://vuawmihxcaewzmkuarkr.supabase.co/storage/v1/object/public/email-assets/logo.png'
 
 export const ReauthenticationEmail = ({ token }: ReauthenticationEmailProps) => (
   <Html lang="en" dir="ltr">

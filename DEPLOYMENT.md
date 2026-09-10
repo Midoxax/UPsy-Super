@@ -242,7 +242,7 @@ mental-health service.
    client ID, type **Web application**.
 2. **Authorised redirect URI** — the step that is usually wrong. It is
    *Supabase's* callback, not this site's:
-   `https://skxxvgjjdshcopybokdt.supabase.co/auth/v1/callback`
+   `https://vuawmihxcaewzmkuarkr.supabase.co/auth/v1/callback`
 3. **Supabase** → Authentication → Providers → Google: paste the client ID and
    secret, enable.
 4. **Supabase** → Authentication → URL Configuration → Redirect URLs: add
@@ -357,9 +357,9 @@ in regenerated types, the check **fails** until the entry is removed.
 ### Applying a migration by hand
 
 ```bash
-supabase link --project-ref skxxvgjjdshcopybokdt
+supabase link --project-ref vuawmihxcaewzmkuarkr
 supabase db push
-supabase gen types typescript --project-id skxxvgjjdshcopybokdt > src/integrations/supabase/types.ts
+supabase gen types typescript --project-id vuawmihxcaewzmkuarkr > src/integrations/supabase/types.ts
 ```
 
 Regenerate the types and clear the matching `pending-migrations.json` entries in
@@ -367,7 +367,7 @@ the same commit, so the repository's record of the schema moves with it.
 
 ### Where the database actually lives
 
-**Project `skxxvgjjdshcopybokdt` is provisioned and managed by Lovable.** It
+**Project `vuawmihxcaewzmkuarkr` is provisioned and managed by Lovable.** It
 belongs to Lovable project `355cf905-7152-433f-b59d-dda69a853e16` ("Super
 UPsy.ma", workspace "MEHDI's Lovable"), which is why it does not appear in the
 owner's own Supabase account and cannot be opened from the Supabase dashboard
