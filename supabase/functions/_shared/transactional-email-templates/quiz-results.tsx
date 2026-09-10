@@ -30,7 +30,7 @@ interface Props {
 }
 
 const LOGO =
-  'https://vuawmihxcaewzmkuarkr.supabase.co/storage/v1/object/public/email-assets/logo.png'
+  'https://skxxvgjjdshcopybokdt.supabase.co/storage/v1/object/public/email-assets/logo.png'
 
 const PILLAR_LABEL: Record<Pillar, Record<'en' | 'fr' | 'ar', string>> = {
   focus: { en: 'Focus', fr: 'Concentration', ar: 'التركيز' },
