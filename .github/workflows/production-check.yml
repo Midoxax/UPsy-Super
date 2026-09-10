@@ -1,4 +1,6 @@
 name: Production check
+permissions:
+  contents: read
 
 # Verifies the deployed site, not the build output.
 #
