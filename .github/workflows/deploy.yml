@@ -33,6 +33,9 @@ concurrency:
   group: deploy-${{ github.ref }}
   cancel-in-progress: false
 
+permissions:
+  contents: read
+
 jobs:
   deploy:
     name: Build and deploy
