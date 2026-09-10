@@ -133,7 +133,7 @@ export default function PsychologistEditDrawer({ psychologistId, onClose }: Prop
                 <span className="text-sm">{form.is_published ? "Published" : "Hidden"}</span>
               </div>
               {data.profile?.slug && (
-                <a href={`/psychologists/${data.profile.slug}`} target="_blank" rel="noreferrer" className="text-xs text-primary inline-flex items-center gap-1">
+                <a href={`/psychologists/${data.profile.slug}`} className="text-xs text-primary inline-flex items-center gap-1">
                   <ExternalLink className="h-3 w-3" /> View public
                 </a>
               )}
