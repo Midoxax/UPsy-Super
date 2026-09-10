@@ -18,12 +18,13 @@ const CONNECT_SRC = [
   "https://*.i.posthog.com",
   "https://www.googletagmanager.com",
   "https://*.google-analytics.com",
+  "https://maps.googleapis.com",
   "https://o4511311085633536.ingest.de.sentry.io",
 ].join(" ");
 
 const CSP = [
   "default-src 'self'",
-  "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://meet.jit.si https://*.posthog.com https://www.googletagmanager.com",
+  "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://meet.jit.si https://*.posthog.com https://www.googletagmanager.com https://maps.googleapis.com",
   "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
   "font-src 'self' data: https://fonts.gstatic.com",
   "img-src 'self' data: blob: https:",

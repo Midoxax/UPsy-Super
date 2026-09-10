@@ -29,6 +29,7 @@ import {
 import { format, addDays, startOfDay, isSameDay } from "date-fns";
 import { Link } from "@/lib/router-compat";
 import DataPrivacyNotice from "@/components/DataPrivacyNotice";
+import { AddressAutocomplete } from "@/components/AddressAutocomplete";
 import { SignInPrompt } from "@/components/auth/SocialAuthButtons";
 import {
   FUNNELS,
@@ -56,6 +57,7 @@ interface BookingModalProps {
   offersOnline?: boolean;
   offersInPerson?: boolean;
   city?: string | null;
+  officeAddress?: string | null;
   depositPercentage?: number | null;
 }
 
@@ -72,6 +74,7 @@ const BookingModal = ({
   offersOnline,
   offersInPerson,
   city,
+  officeAddress,
   depositPercentage,
 }: BookingModalProps) => {
   const { toast } = useToast();
@@ -85,6 +88,8 @@ const BookingModal = ({
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [selectedSlot, setSelectedSlot] = useState<{ start: string; end: string } | null>(null);
   const [notes, setNotes] = useState("");
+  const [address, setAddress] = useState("");
+  const [addressCoords, setAddressCoords] = useState<{ lat: number | null; lng: number | null }>({ lat: null, lng: null });
   const [loading, setLoading] = useState(false);
   const [slots, setSlots] = useState<AvailabilitySlot[]>([]);
   const [slotsLoading, setSlotsLoading] = useState(false);
@@ -178,6 +183,9 @@ const BookingModal = ({
           durationMinutes: 50,
           sessionType,
           patientNotes: notes || undefined,
+          patientAddress: sessionType === "in_person" && address ? address : undefined,
+          patientLat: sessionType === "in_person" ? addressCoords.lat ?? undefined : undefined,
+          patientLng: sessionType === "in_person" ? addressCoords.lng ?? undefined : undefined,
         },
       });
       if (createRes.error) throw new Error(createRes.error.message);
@@ -379,6 +387,31 @@ const BookingModal = ({
           )}
         </div>
       </div>
+
+      {sessionType === "in_person" && (officeAddress || city) && (
+        <div className="glass-card p-4 flex items-start gap-2.5">
+          <MapPin className="w-4 h-4 text-primary mt-0.5 shrink-0" />
+          <div>
+            <p className="text-sm font-medium text-foreground">{t('profile.location')}</p>
+            <p className="text-xs text-muted-foreground">{officeAddress || city}</p>
+          </div>
+        </div>
+      )}
+
+      {sessionType === "in_person" && (
+        <div>
+          <label className="text-sm text-muted-foreground block mb-1.5">{t('booking.yourAddressLabel')}</label>
+          <AddressAutocomplete
+            value={address}
+            onChange={setAddress}
+            onSelect={({ address: a, lat, lng }) => {
+              setAddress(a);
+              setAddressCoords({ lat, lng });
+            }}
+            placeholder={t('booking.yourAddressPlaceholder')}
+          />
+        </div>
+      )}
 
       <div>
         <label className="text-sm text-muted-foreground block mb-1.5">{t('booking.notesLabel')}</label>

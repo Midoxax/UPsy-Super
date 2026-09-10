@@ -11,6 +11,7 @@ import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Loader2, ExternalLink, X, Star, Trash2, MessageSquare } from "lucide-react";
+import { AddressAutocomplete } from "@/components/AddressAutocomplete";
 import { toast } from "sonner";
 import { useSetAccreditationLevel, useTogglePsychologistPublish } from "@/hooks/admin/useAdminMutations";
 
@@ -56,6 +57,9 @@ export default function PsychologistEditDrawer({ psychologistId, onClose }: Prop
         full_name: data.profile.full_name ?? "",
         bio: data.profile.bio ?? "",
         city: data.profile.city ?? "",
+        office_address: (data.profile as any).office_address ?? "",
+        office_lat: (data.profile as any).office_lat ?? null,
+        office_lng: (data.profile as any).office_lng ?? null,
         gender: data.profile.gender ?? "",
         hourly_rate_mad: data.profile.hourly_rate_mad ?? 0,
         offers_online: !!data.profile.offers_online,
@@ -79,6 +83,9 @@ export default function PsychologistEditDrawer({ psychologistId, onClose }: Prop
         full_name: form.full_name,
         bio: form.bio,
         city: form.city,
+        office_address: form.office_address || null,
+        office_lat: form.office_lat,
+        office_lng: form.office_lng,
         gender: form.gender || null,
         hourly_rate_mad: Number(form.hourly_rate_mad) || null,
         offers_online: form.offers_online,
@@ -141,6 +148,16 @@ export default function PsychologistEditDrawer({ psychologistId, onClose }: Prop
 
             <div className="space-y-2"><Label>Full name</Label><Input value={form.full_name} onChange={(e) => setForm({ ...form, full_name: e.target.value })} /></div>
             <div className="space-y-2"><Label>Bio</Label><Textarea rows={4} value={form.bio} onChange={(e) => setForm({ ...form, bio: e.target.value })} /></div>
+
+            <div className="space-y-2">
+              <Label>Office address (in-person sessions)</Label>
+              <AddressAutocomplete
+                value={form.office_address ?? ""}
+                onChange={(v) => setForm({ ...form, office_address: v })}
+                onSelect={({ address, lat, lng }) => setForm({ ...form, office_address: address, office_lat: lat, office_lng: lng })}
+                placeholder="Start typing an address…"
+              />
+            </div>
 
             <div className="grid grid-cols-2 gap-3">
               <div className="space-y-2"><Label>City</Label><Input value={form.city} onChange={(e) => setForm({ ...form, city: e.target.value })} /></div>

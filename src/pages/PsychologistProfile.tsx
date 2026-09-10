@@ -497,7 +497,9 @@ const PsychologistProfile = () => {
                       <Building2 className="w-5 h-5 text-primary" />
                       <div>
                         <p className="text-sm font-medium text-foreground">{t('booking.inPersonSessions')}</p>
-                        {psychologist.city && <p className="text-xs text-muted-foreground">{psychologist.city}</p>}
+                        {(psychologist.office_address || psychologist.city) && (
+                          <p className="text-xs text-muted-foreground">{psychologist.office_address || psychologist.city}</p>
+                        )}
                       </div>
                     </div>
                   )}
@@ -505,7 +507,11 @@ const PsychologistProfile = () => {
                 {psychologist.offers_in_person && psychologist.city && (
                   <div className="mt-4">
                     <p className="text-sm font-medium text-foreground mb-2">{t('profile.location')}</p>
-                    <LocationMap city={psychologist.city} />
+                    <LocationMap
+                      city={psychologist.city}
+                      officeLat={psychologist.office_lat}
+                      officeLng={psychologist.office_lng}
+                    />
                   </div>
                 )}
               </div>
@@ -539,7 +545,7 @@ const PsychologistProfile = () => {
       </section>
 
       <MatchingFormModal open={isMatchingModalOpen} onClose={() => setIsMatchingModalOpen(false)} specialties={specialties} languages={languages} />
-      <BookingModal open={isBookingModalOpen} onClose={() => setIsBookingModalOpen(false)} psychologistId={psychologist.id} psychologistName={psychologist.full_name} hourlyRate={psychologist.hourly_rate_mad} offersOnline={psychologist.offers_online} offersInPerson={psychologist.offers_in_person} city={psychologist.city} depositPercentage={(psychologist as any).deposit_percentage} />
+      <BookingModal open={isBookingModalOpen} onClose={() => setIsBookingModalOpen(false)} psychologistId={psychologist.id} psychologistName={psychologist.full_name} hourlyRate={psychologist.hourly_rate_mad} offersOnline={psychologist.offers_online} offersInPerson={psychologist.offers_in_person} city={psychologist.city} officeAddress={psychologist.office_address} depositPercentage={(psychologist as any).deposit_percentage} />
     </div>
   );
 };

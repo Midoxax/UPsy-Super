@@ -13,6 +13,9 @@ const BodySchema = z.object({
   durationMinutes: z.number().int().min(15).max(180).default(50),
   sessionType: z.enum(["online", "in_person"]).default("online"),
   patientNotes: z.string().max(1000).optional(),
+  patientAddress: z.string().max(500).optional(),
+  patientLat: z.number().optional(),
+  patientLng: z.number().optional(),
 });
 
 serve(async (req) => {
@@ -101,6 +104,9 @@ serve(async (req) => {
         payment_status: "pending_deposit",
         amount_mad: total,
         patient_notes: input.patientNotes ?? null,
+        patient_address: input.patientAddress ?? null,
+        patient_lat: input.patientLat ?? null,
+        patient_lng: input.patientLng ?? null,
       })
       .select("id")
       .single();
