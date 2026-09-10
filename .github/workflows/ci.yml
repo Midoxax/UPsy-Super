@@ -1,5 +1,8 @@
 name: CI
 
+permissions:
+  contents: read
+
 # Every merge gate the repository has, in one place. Before this, nothing
 # stopped a type error, an accessibility regression or a committed credential
 # from reaching main — the only automation was a daily curl against six URLs,
