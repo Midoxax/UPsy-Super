@@ -31,7 +31,7 @@
  *      ID (type: Web application).
  *   2. Authorised redirect URI — this is the step people get wrong. It is
  *      Supabase's callback, not the site's:
- *        https://vuawmihxcaewzmkuarkr.supabase.co/auth/v1/callback
+ *        https://skxxvgjjdshcopybokdt.supabase.co/auth/v1/callback
  *   3. Supabase -> Authentication -> Providers -> Google: paste the client ID
  *      and client secret, enable.
  *   4. Supabase -> Authentication -> URL Configuration -> Redirect URLs: add
