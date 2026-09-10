@@ -823,8 +823,11 @@ export type Database = {
           decline_reason: string | null
           duration_minutes: number
           id: string
+          patient_address: string | null
           patient_email: string | null
           patient_id: string
+          patient_lat: number | null
+          patient_lng: number | null
           patient_notes: string | null
           patient_phone: string | null
           payment_status: string | null
@@ -848,8 +851,11 @@ export type Database = {
           decline_reason?: string | null
           duration_minutes?: number
           id?: string
+          patient_address?: string | null
           patient_email?: string | null
           patient_id: string
+          patient_lat?: number | null
+          patient_lng?: number | null
           patient_notes?: string | null
           patient_phone?: string | null
           payment_status?: string | null
@@ -873,8 +879,11 @@ export type Database = {
           decline_reason?: string | null
           duration_minutes?: number
           id?: string
+          patient_address?: string | null
           patient_email?: string | null
           patient_id?: string
+          patient_lat?: number | null
+          patient_lng?: number | null
           patient_notes?: string | null
           patient_phone?: string | null
           payment_status?: string | null
@@ -5073,6 +5082,9 @@ export type Database = {
           id: string
           is_accredited: boolean | null
           is_published: boolean | null
+          office_address: string | null
+          office_lat: number | null
+          office_lng: number | null
           offers_in_person: boolean | null
           offers_online: boolean | null
           photo_url: string | null
@@ -5094,6 +5106,9 @@ export type Database = {
           id: string
           is_accredited?: boolean | null
           is_published?: boolean | null
+          office_address?: string | null
+          office_lat?: number | null
+          office_lng?: number | null
           offers_in_person?: boolean | null
           offers_online?: boolean | null
           photo_url?: string | null
@@ -5115,6 +5130,9 @@ export type Database = {
           id?: string
           is_accredited?: boolean | null
           is_published?: boolean | null
+          office_address?: string | null
+          office_lat?: number | null
+          office_lng?: number | null
           offers_in_person?: boolean | null
           offers_online?: boolean | null
           photo_url?: string | null

@@ -258,41 +258,59 @@ is genuinely configured.
 
 ## Google Maps
 
-`src/components/psychologists/LocationMap.tsx` shows a city-level map on a
-psychologist's profile page (`src/pages/PsychologistProfile.tsx`) whenever
-they offer in-person sessions and have a `city` set. It renders nothing
-until `VITE_GOOGLE_MAPS_API_KEY` is configured — a broken map is worse than
-no map, same reasoning as the OAuth buttons above.
+Two consumers share `VITE_GOOGLE_MAPS_API_KEY`:
 
-It uses the **Maps Embed API** (a plain `<iframe src="https://www.google.com/
-maps/embed/v1/place?...">`), not the Maps JavaScript SDK — no script to load,
-no `script-src`/`connect-src` CSP change, just `frame-src https://www.google.com`
-(already added to `src/lib/security-headers.ts`). Cheapest option on the
-ladder that actually does the job; reach for the JS SDK only if a future
-feature needs interactive markers or Places Autocomplete.
+- `src/components/psychologists/LocationMap.tsx` — a city-level (or, once an
+  office address is set, a precise) map on a psychologist's profile page,
+  via the **Maps Embed API**: a plain iframe, no script loaded. Renders
+  nothing until the key is configured, same reasoning as the OAuth buttons
+  above — a broken map is worse than no map.
+- `src/components/AddressAutocomplete.tsx` — a Places Autocomplete input,
+  used in the admin edit drawer (psychologist's office address,
+  `src/components/admin/PsychologistEditDrawer.tsx`) and at booking (the
+  client's own address for in-person sessions,
+  `src/components/psychologists/BookingModal.tsx`). Loads the Maps
+  JavaScript SDK (`libraries=places`) lazily, once per page, and degrades to
+  a plain text input — same value, no suggestions, no lat/lng captured —
+  when the key is unset or the script fails to load. No `@types/google.maps`
+  dependency; the runtime object is typed `any` rather than adding a package
+  for method signatures.
 
 ### Creating the key
 
 1. **Google Cloud Console** → APIs & Services → Library → enable **Maps
-   Embed API**.
+   Embed API**, **Maps JavaScript API**, and **Places API**.
 2. **Credentials** → Create credentials → API key.
 3. **Restrict the key**: Application restrictions → HTTP referrers →
    `https://www.upsy.ma/*` (add preview origins if you need it there too).
-   API restrictions → limit to Maps Embed API. This is what makes it safe to
-   ship in client-side JS — the key is public by design, referrer
+   API restrictions → limit to the three APIs above. This is what makes it
+   safe to ship in client-side JS — the key is public by design, referrer
    restriction is what stops abuse.
 4. Set `VITE_GOOGLE_MAPS_API_KEY` (repo secret, and locally in `.env`) and
-   deploy — the map appears on any in-person psychologist's profile with no
-   further code change.
+   deploy — both consumers pick it up with no further code change.
 
-A later feature needing the JS SDK (interactive map, Places Autocomplete)
-would additionally enable **Maps JavaScript API** / **Places API** in step 1
-and add `https://maps.googleapis.com` to `script-src` and `connect-src`.
+CSP already carries what both consumers need
+(`src/lib/security-headers.ts`): `frame-src https://www.google.com` for the
+embed, `script-src`/`connect-src https://maps.googleapis.com` for the JS
+SDK. `tests/unit/csp.test.ts` only checks origins that look like URLs in
+`.env` (the key itself doesn't), so it won't catch a *missing* CSP entry —
+if a future consumer needs another Google host, add it by hand or the
+browser blocks the request in production silently.
 
-`tests/unit/csp.test.ts` only checks origins that look like URLs in `.env`
-(the key itself doesn't), so it won't catch a missing CSP entry here — add
-the directive by hand when the feature lands, or the browser blocks the
-request in production silently.
+### Data captured
+
+Two nullable column sets, added in
+`supabase/migrations/20260910230100_add_address_columns.sql`:
+
+- `psychologist_profiles.office_address` / `office_lat` / `office_lng` — set
+  once by an admin via the edit drawer's autocomplete field; falls back to
+  the existing free-text `city` wherever unset.
+- `bookings.patient_address` / `patient_lat` / `patient_lng` — optional,
+  captured at booking time for an in-person session and written by the
+  `create-booking-payment` edge function. Nothing in the app reads these
+  back yet (no current UI shows a client's address to the psychologist) —
+  they're there for the psychologist to see in a future booking-detail view,
+  not required for the booking to succeed.
 
 ## Email
 

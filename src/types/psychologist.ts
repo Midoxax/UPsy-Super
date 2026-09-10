@@ -19,6 +19,9 @@ export interface PsychologistProfile {
   bio: string | null;
   photo_url: string | null;
   city: string | null;
+  office_address: string | null;
+  office_lat: number | null;
+  office_lng: number | null;
   gender: string | null;
   is_accredited: boolean;
   accreditation_level: string | null;

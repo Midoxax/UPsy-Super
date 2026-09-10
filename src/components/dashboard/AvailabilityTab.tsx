@@ -15,6 +15,7 @@ import {
   Settings2,
   X,
   AlertCircle,
+  MapPin,
 } from "lucide-react";
 import { usePsychologistSlots, usePsychologistBookings } from "@/hooks/useBooking";
 import { supabase } from "@/integrations/supabase/client";
@@ -425,6 +426,11 @@ export const AvailabilityTab = () => {
                     <p className="text-xs text-muted-foreground">
                       {format(new Date(booking.scheduled_at), "HH:mm")} · {booking.duration_minutes}min · {booking.session_type}
                     </p>
+                    {booking.session_type === "in_person" && (booking as any).patient_address && (
+                      <p className="text-xs text-muted-foreground mt-1 line-clamp-1 flex items-center gap-1">
+                        <MapPin className="w-3 h-3 shrink-0" /> {(booking as any).patient_address}
+                      </p>
+                    )}
                     {booking.patient_notes && (
                       <p className="text-xs text-muted-foreground mt-1 line-clamp-1 italic">
                         "{booking.patient_notes}"
