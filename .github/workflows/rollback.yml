@@ -1,5 +1,8 @@
 name: Rollback (Cloudflare Workers)
 
+permissions:
+  contents: read
+
 # One-click revert of the production Worker to its previous deployment.
 # `wrangler rollback` tells Cloudflare to point the active Worker at the
 # previous deployment — no rebuild, no new version. The build step here exists
