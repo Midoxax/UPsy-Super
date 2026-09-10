@@ -258,33 +258,36 @@ is genuinely configured.
 
 ## Google Maps
 
-No feature in this codebase calls the Maps or Places JS API yet — the key
-below is plumbing only, so it's ready the moment one does.
+`src/components/psychologists/LocationMap.tsx` shows a city-level map on a
+psychologist's profile page (`src/pages/PsychologistProfile.tsx`) whenever
+they offer in-person sessions and have a `city` set. It renders nothing
+until `VITE_GOOGLE_MAPS_API_KEY` is configured — a broken map is worse than
+no map, same reasoning as the OAuth buttons above.
+
+It uses the **Maps Embed API** (a plain `<iframe src="https://www.google.com/
+maps/embed/v1/place?...">`), not the Maps JavaScript SDK — no script to load,
+no `script-src`/`connect-src` CSP change, just `frame-src https://www.google.com`
+(already added to `src/lib/security-headers.ts`). Cheapest option on the
+ladder that actually does the job; reach for the JS SDK only if a future
+feature needs interactive markers or Places Autocomplete.
 
 ### Creating the key
 
 1. **Google Cloud Console** → APIs & Services → Library → enable **Maps
-   JavaScript API** and **Places API** (only the ones an actual feature ends
-   up using; disable the rest).
+   Embed API**.
 2. **Credentials** → Create credentials → API key.
 3. **Restrict the key**: Application restrictions → HTTP referrers →
    `https://www.upsy.ma/*` (add preview origins if you need it there too).
-   API restrictions → limit to the APIs enabled in step 1. This is what makes
-   it safe to ship in client-side JS — the key is public by design, referrer
+   API restrictions → limit to Maps Embed API. This is what makes it safe to
+   ship in client-side JS — the key is public by design, referrer
    restriction is what stops abuse.
-4. Set `VITE_GOOGLE_MAPS_API_KEY` (repo secret, and locally in `.env`).
+4. Set `VITE_GOOGLE_MAPS_API_KEY` (repo secret, and locally in `.env`) and
+   deploy — the map appears on any in-person psychologist's profile with no
+   further code change.
 
-### Wiring a consumer
-
-The key flows through the build already (`.env.example`,
-`.github/workflows/deploy.yml`), so a feature reads it with
-`import.meta.env.VITE_GOOGLE_MAPS_API_KEY` directly — no extra plumbing
-needed. Before shipping it, add the API's origin to
-`src/lib/security-headers.ts`:
-
-- `script-src`: `https://maps.googleapis.com`
-- `connect-src`: `https://maps.googleapis.com` (and `https://*.google.com` /
-  `https://*.gstatic.com` if using Places Autocomplete's map tiles/icons)
+A later feature needing the JS SDK (interactive map, Places Autocomplete)
+would additionally enable **Maps JavaScript API** / **Places API** in step 1
+and add `https://maps.googleapis.com` to `script-src` and `connect-src`.
 
 `tests/unit/csp.test.ts` only checks origins that look like URLs in `.env`
 (the key itself doesn't), so it won't catch a missing CSP entry here — add

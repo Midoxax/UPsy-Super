@@ -29,7 +29,7 @@ const CSP = [
   "img-src 'self' data: blob: https:",
   "media-src 'self' blob: https: https://meet.jit.si",
   `connect-src ${CONNECT_SRC}`,
-  "frame-src 'self' https://meet.jit.si",
+  "frame-src 'self' https://meet.jit.si https://www.google.com",
   "frame-ancestors 'none'",
   "base-uri 'self'",
   "form-action 'self'",
