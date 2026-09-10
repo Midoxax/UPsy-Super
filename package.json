@@ -7,7 +7,7 @@
     "predev": "npx tsx scripts/generate-sitemap.ts",
     "prebuild": "npx tsx scripts/generate-sitemap.ts",
     "dev": "vite dev",
-    "build": "vite build",
+    "build": "vite build && node scripts/inject-gtm-id.mjs",
     "build:dev": "vite build --mode development",
     "sitemap": "npx tsx scripts/generate-sitemap.ts",
     "test:visual": "npx tsx tests/visual/run.ts",
