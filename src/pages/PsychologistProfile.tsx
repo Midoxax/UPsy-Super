@@ -8,6 +8,7 @@ import { BookingWidget } from "@/components/psychologists/BookingWidget";
 import BookingModal from "@/components/psychologists/BookingModal";
 import { PoliciesDrawer } from "@/components/psychologists/PoliciesDrawer";
 import ReviewsList from "@/components/psychologists/ReviewsList";
+import { LocationMap } from "@/components/psychologists/LocationMap";
 import { AccreditationBadge, getTierFromProfile } from "@/components/psychologists/AccreditationBadge";
 import SEOHead from "@/components/SEOHead";
 import { supabase } from "@/integrations/supabase/client";
@@ -501,6 +502,12 @@ const PsychologistProfile = () => {
                     </div>
                   )}
                 </div>
+                {psychologist.offers_in_person && psychologist.city && (
+                  <div className="mt-4">
+                    <p className="text-sm font-medium text-foreground mb-2">{t('profile.location')}</p>
+                    <LocationMap city={psychologist.city} />
+                  </div>
+                )}
               </div>
             </ScrollReveal>
 
