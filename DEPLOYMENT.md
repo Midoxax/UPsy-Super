@@ -256,6 +256,41 @@ Apple additionally requires a paid Apple Developer account and a signing key.
 Shipping with Google alone is reasonable; leave `apple` out of the list until it
 is genuinely configured.
 
+## Google Maps
+
+No feature in this codebase calls the Maps or Places JS API yet — the key
+below is plumbing only, so it's ready the moment one does.
+
+### Creating the key
+
+1. **Google Cloud Console** → APIs & Services → Library → enable **Maps
+   JavaScript API** and **Places API** (only the ones an actual feature ends
+   up using; disable the rest).
+2. **Credentials** → Create credentials → API key.
+3. **Restrict the key**: Application restrictions → HTTP referrers →
+   `https://www.upsy.ma/*` (add preview origins if you need it there too).
+   API restrictions → limit to the APIs enabled in step 1. This is what makes
+   it safe to ship in client-side JS — the key is public by design, referrer
+   restriction is what stops abuse.
+4. Set `VITE_GOOGLE_MAPS_API_KEY` (repo secret, and locally in `.env`).
+
+### Wiring a consumer
+
+The key flows through the build already (`.env.example`,
+`.github/workflows/deploy.yml`), so a feature reads it with
+`import.meta.env.VITE_GOOGLE_MAPS_API_KEY` directly — no extra plumbing
+needed. Before shipping it, add the API's origin to
+`src/lib/security-headers.ts`:
+
+- `script-src`: `https://maps.googleapis.com`
+- `connect-src`: `https://maps.googleapis.com` (and `https://*.google.com` /
+  `https://*.gstatic.com` if using Places Autocomplete's map tiles/icons)
+
+`tests/unit/csp.test.ts` only checks origins that look like URLs in `.env`
+(the key itself doesn't), so it won't catch a missing CSP entry here — add
+the directive by hand when the feature lands, or the browser blocks the
+request in production silently.
+
 ## Email
 
 Platform mail goes out through Resend from the edge functions. Sender identity

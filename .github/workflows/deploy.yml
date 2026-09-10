@@ -10,7 +10,8 @@ name: Deploy (Cloudflare Workers)
 #   CLOUDFLARE_ACCOUNT_ID
 #   VITE_SUPABASE_URL / VITE_SUPABASE_PUBLISHABLE_KEY / VITE_SUPABASE_PROJECT_ID
 #   VITE_SITE_URL          — canonical origin, e.g. https://www.upsy.ma
-# Optional: VITE_SENTRY_DSN, VITE_POSTHOG_KEY, VITE_POSTHOG_HOST, GTM_ID
+# Optional: VITE_SENTRY_DSN, VITE_POSTHOG_KEY, VITE_POSTHOG_HOST, GTM_ID,
+#           VITE_GOOGLE_MAPS_API_KEY
 #
 # Server-only secrets (SUPABASE_SERVICE_ROLE_KEY, RESEND_API_KEY, …) are set on
 # the Worker itself with `wrangler secret put`, never in this file.
@@ -112,6 +113,7 @@ jobs:
           # output by scripts/inject-gtm-id.mjs, chained onto `build`. Unset
           # keeps the GTM snippet inert (see src/lib/analytics/gtm.ts).
           GTM_ID: ${{ secrets.GTM_ID }}
+          VITE_GOOGLE_MAPS_API_KEY: ${{ secrets.VITE_GOOGLE_MAPS_API_KEY }}
         run: bun run build
 
       - name: Verify production output
