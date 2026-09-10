@@ -214,7 +214,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         { rel: "mask-icon", href: "/favicon.png", color: "#6B1F2A" },
         {
           rel: "preconnect",
-          href: "https://vuawmihxcaewzmkuarkr.supabase.co",
+          href: "https://skxxvgjjdshcopybokdt.supabase.co",
           crossOrigin: "anonymous",
         },
         { rel: "canonical", href: "https://www.upsy.ma/" },

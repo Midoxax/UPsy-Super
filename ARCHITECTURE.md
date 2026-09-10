@@ -253,7 +253,7 @@ Ordered by impact.
 8. **Commit-triggered Supabase migrations do not run.** The GitHub integration
    watches `UPsy supa/supabase`, a path that has never existed here (all 96
    migrations live in `supabase/`), on project `bvhqdgiptlnfclnsybaz` rather
-   than the `vuawmihxcaewzmkuarkr` the app connects to. Both halves are wrong,
+   than the `skxxvgjjdshcopybokdt` the app connects to. Both halves are wrong,
    so that path has never applied anything, and **a merged migration still does
    not reach the database on its own.**
 
@@ -265,7 +265,7 @@ Ordered by impact.
    `npm run check:database` settles the rest against the live database.
 
    **The database is Lovable-managed, which is why it is not in the owner's
-   Supabase account.** Project `vuawmihxcaewzmkuarkr` is provisioned by Lovable
+   Supabase account.** Project `skxxvgjjdshcopybokdt` is provisioned by Lovable
    for project `355cf905-7152-433f-b59d-dda69a853e16` ("Super UPsy.ma",
    workspace "MEHDI's Lovable") and is reached through Lovable, not the Supabase
    dashboard directly. `bvhqdgiptlnfclnsybaz` — the one the GitHub integration
