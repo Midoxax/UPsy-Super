@@ -346,6 +346,24 @@ function RootComponent() {
     initPostHog();
   }, []);
 
+  // Every deploy replaces the content-hashed JS chunk files; a browser tab
+  // still open on the previous deploy (or route-preloading in the
+  // background, off the React render path where ErrorBoundary can't see it)
+  // then requests a chunk that no longer exists and silently gets stuck —
+  // no error UI, the click just does nothing. Vite fires "vite:preloadError"
+  // for exactly this case; the fix is the same one users already reach for
+  // manually (a full reload), done automatically, once, per session.
+  useEffect(() => {
+    const RELOAD_GUARD_KEY = "upsy:stale-chunk-reload";
+    const handlePreloadError = () => {
+      if (sessionStorage.getItem(RELOAD_GUARD_KEY)) return;
+      sessionStorage.setItem(RELOAD_GUARD_KEY, "1");
+      window.location.reload();
+    };
+    window.addEventListener("vite:preloadError", handlePreloadError);
+    return () => window.removeEventListener("vite:preloadError", handlePreloadError);
+  }, []);
+
   return (
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
