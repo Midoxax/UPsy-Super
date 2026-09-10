@@ -145,7 +145,7 @@ export const PsychologistCard = ({ psychologist }: PsychologistCardProps) => {
             <Link to={`/psychologists/${psychologist.slug}`}>{t('psychologists.viewProfile')}</Link>
           </Button>
           <Button asChild variant="primary" size="sm" className="flex-1">
-            <Link to={`/psychologists/${psychologist.slug}#booking`}>
+            <Link to={`/psychologists/${psychologist.slug}?book=1`}>
               <Calendar className="mr-1.5 h-3.5 w-3.5" />
               Book a slot
             </Link>

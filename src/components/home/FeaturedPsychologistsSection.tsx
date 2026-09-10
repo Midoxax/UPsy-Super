@@ -227,7 +227,7 @@ const FeaturedPsychologistsSection = () => {
 
                       <div className="flex gap-2">
                         <Button asChild variant="primary" size="sm" className="flex-1">
-                          <Link to={`/psychologists/${psych.slug}#booking`}>
+                          <Link to={`/psychologists/${psych.slug}?book=1`}>
                             {tf("featured.bookNow", "Book a slot")}
                           </Link>
                         </Button>

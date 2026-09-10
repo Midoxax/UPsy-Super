@@ -414,7 +414,7 @@ const GetMatched = () => {
                     <Link to={addLocalePrefix(`/psychologists/${psychologist.slug}`, locale)}>{t('common.viewProfile')}</Link>
                   </Button>
                   <Button asChild variant="primary" size="sm" className="flex-1">
-                    <Link to={addLocalePrefix(`/psychologists/${psychologist.slug}#booking`, locale)}>
+                    <Link to={addLocalePrefix(`/psychologists/${psychologist.slug}?book=1`, locale)}>
                       <Calendar className="mr-1.5 h-3.5 w-3.5" />
                       {t('psychologists.book')}
                     </Link>
