@@ -1,9 +1,10 @@
 /**
- * Google Tag Manager (GTM) integration — optional, privacy-first.
+ * Google Tag Manager (GTM) integration.
  *
- * The container ID is injected server-side into index.html via the
- * `{{GTM_ID}}` slot. This module exposes a lightweight `dataLayer`
- * helper that degrades gracefully when GTM is not loaded.
+ * The container ID (a public value, not a secret) lives as a constant in
+ * src/routes/__root.tsx alongside the loader snippet. This module exposes
+ * a lightweight `dataLayer` helper that degrades gracefully if GTM fails
+ * to load for any reason (blocked, offline, etc.).
  */
 
 export interface GTMEvent {
