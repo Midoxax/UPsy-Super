@@ -10,6 +10,8 @@ name: Deploy (Cloudflare Workers)
 #   CLOUDFLARE_ACCOUNT_ID
 #   VITE_SUPABASE_URL / VITE_SUPABASE_PUBLISHABLE_KEY / VITE_SUPABASE_PROJECT_ID
 #   VITE_SITE_URL          — canonical origin, e.g. https://www.upsy.ma
+#   SUPABASE_ACCESS_TOKEN  — personal access token, dashboard.supabase.com/account/tokens
+#   SUPABASE_DB_PASSWORD   — the linked project's Postgres password
 # Optional: VITE_SENTRY_DSN, VITE_POSTHOG_KEY, VITE_POSTHOG_HOST,
 #           VITE_GOOGLE_MAPS_API_KEY
 # (GTM's container ID is a plain constant in src/routes/__root.tsx — it's
@@ -17,6 +19,16 @@ name: Deploy (Cloudflare Workers)
 #
 # Server-only secrets (SUPABASE_SERVICE_ROLE_KEY, RESEND_API_KEY, …) are set on
 # the Worker itself with `wrangler secret put`, never in this file.
+#
+# Migrations run in the `migrate-database` job below, before the build/deploy
+# job, closing DEPLOYMENT.md's "migrations are not applied by the pipeline"
+# gap — a merge to main used to land a migration file in git with nothing
+# ever pushing it to the database. `supabase/config.toml`'s project_id is the
+# single source of truth for which project gets linked; SUPABASE_ACCESS_TOKEN
+# authenticates the CLI against the Supabase management API, SUPABASE_DB_PASSWORD
+# authenticates the direct Postgres connection `db push` needs — two different
+# credentials for two different connections, so wrangler-style "one secret,
+# many meanings" mistakes cannot recur here.
 #
 # Installs with bun: bun.lock is the committed lockfile and there is no
 # package-lock.json, so `npm ci` has nothing to install from.
@@ -40,9 +52,55 @@ permissions:
   contents: read
 
 jobs:
+  migrate-database:
+    name: Apply pending Supabase migrations
+    runs-on: ubuntu-latest
+    environment: ${{ github.event.inputs.environment || 'production' }}
+    # Preview versions upload does not go live, so there is nothing for a
+    # preview run to migrate against — only a production deploy applies schema.
+    if: ${{ github.event.inputs.environment != 'preview' }}
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Required secrets present
+        env:
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+          SUPABASE_DB_PASSWORD: ${{ secrets.SUPABASE_DB_PASSWORD }}
+        run: |
+          missing=""
+          for name in SUPABASE_ACCESS_TOKEN SUPABASE_DB_PASSWORD; do
+            eval "value=\${$name}"
+            [ -n "$value" ] || missing="$missing $name"
+          done
+          if [ -n "$missing" ]; then
+            echo "::error::Missing repository secret(s):$missing — add them under Settings > Secrets and variables > Actions. SUPABASE_ACCESS_TOKEN comes from https://supabase.com/dashboard/account/tokens; SUPABASE_DB_PASSWORD is the linked project's database password (Project Settings > Database)."
+            exit 1
+          fi
+          echo "Both Supabase migration secrets are set."
+
+      - name: Link and push migrations
+        env:
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+          SUPABASE_DB_PASSWORD: ${{ secrets.SUPABASE_DB_PASSWORD }}
+        run: |
+          set -euo pipefail
+          project_ref=$(grep -oE '^project_id = "[a-z0-9]+"' supabase/config.toml | cut -d'"' -f2)
+          if [ -z "$project_ref" ]; then
+            echo "::error::Could not read project_id from supabase/config.toml"
+            exit 1
+          fi
+          echo "Linking to Supabase project $project_ref"
+          npx --yes supabase@latest link --project-ref "$project_ref"
+          npx --yes supabase@latest db push --yes
+
   deploy:
     name: Build and deploy
     runs-on: ubuntu-latest
+    needs: migrate-database
+    # migrate-database skips itself (not fails) on a preview run — the default
+    # implicit `if: success()` would otherwise skip this job too. Only an
+    # actual migration failure should block the deploy.
+    if: ${{ !failure() && !cancelled() }}
     environment: ${{ github.event.inputs.environment || 'production' }}
     steps:
       - uses: actions/checkout@v5
