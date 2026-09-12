@@ -53,14 +53,15 @@ import { assertRequiredEnv } from "@/lib/env-check";
 
 const NotFound = lazy(() => import("@/pages/NotFound"));
 
-// GTM — container ID injected via {{GTM_ID}} slot; guarded when unreplaced.
-const GTM_SNIPPET = `(function(w,d,s,l,i){w[l]=w[l]||[];
-if(!i||i.indexOf('{')!==-1){return;}
-w[l].push({'gtm.start':
+// GTM container ID — not a secret (it's visible in every page's source), so
+// it's a plain constant rather than a build-time substitution.
+const GTM_ID = "GTM-MQKRPFT9";
+
+const GTM_SNIPPET = `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
 new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
 j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-})(window,document,'script','dataLayer','{{GTM_ID}}');`;
+})(window,document,'script','dataLayer','${GTM_ID}');`;
 
 // Theme, applied before first paint — must stay in sync with src/contexts/ThemeContext.tsx.
 const THEME_BOOTSTRAP = `(function () {
@@ -262,6 +263,15 @@ function RootShell({ children }: { children: React.ReactNode }) {
         <HeadContent />
       </head>
       <body>
+        <noscript>
+          <iframe
+            src={`https://www.googletagmanager.com/ns.html?id=${GTM_ID}`}
+            height="0"
+            width="0"
+            style={{ display: "none", visibility: "hidden" }}
+            title="Google Tag Manager"
+          />
+        </noscript>
         {children}
         <Scripts />
       </body>
