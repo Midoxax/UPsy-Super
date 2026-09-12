@@ -152,10 +152,7 @@ const textFiles = readdirSync(CLIENT).filter((f) => /\.(html|txt|xml|json|webman
 for (const file of textFiles) {
   const body = readFileSync(resolve(CLIENT, file), "utf8");
   for (const name of new Set([...body.matchAll(/\{\{([A-Z0-9_]+)\}\}/g)].map((m) => m[1]))) {
-    // The GTM snippet guards itself against its own unreplaced slot, so an
-    // absent container ID degrades cleanly rather than breaking the page.
-    if (name === "GTM_ID") warn(`{{GTM_ID}} not substituted in ${file} — analytics disabled (snippet self-guards)`);
-    else fail(`unreplaced placeholder {{${name}}} shipped in ${file}`);
+    fail(`unreplaced placeholder {{${name}}} shipped in ${file}`);
   }
 }
 

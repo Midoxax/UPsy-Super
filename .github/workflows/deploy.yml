@@ -12,8 +12,10 @@ name: Deploy (Cloudflare Workers)
 #   VITE_SITE_URL          — canonical origin, e.g. https://www.upsy.ma
 #   SUPABASE_ACCESS_TOKEN  — personal access token, dashboard.supabase.com/account/tokens
 #   SUPABASE_DB_PASSWORD   — the linked project's Postgres password
-# Optional: VITE_SENTRY_DSN, VITE_POSTHOG_KEY, VITE_POSTHOG_HOST, GTM_ID,
+# Optional: VITE_SENTRY_DSN, VITE_POSTHOG_KEY, VITE_POSTHOG_HOST,
 #           VITE_GOOGLE_MAPS_API_KEY
+# (GTM's container ID is a plain constant in src/routes/__root.tsx — it's
+# not a secret, it's visible in every page's source.)
 #
 # Server-only secrets (SUPABASE_SERVICE_ROLE_KEY, RESEND_API_KEY, …) are set on
 # the Worker itself with `wrangler secret put`, never in this file.
@@ -167,10 +169,6 @@ jobs:
           # configured in Supabase Auth and proven with a real sign-in.
           VITE_OAUTH_PROVIDERS: ${{ secrets.VITE_OAUTH_PROVIDERS }}
           VITE_APP_VERSION: ${{ github.sha }}
-          # GTM container ID (e.g. GTM-XXXXXXX) — substituted into the built
-          # output by scripts/inject-gtm-id.mjs, chained onto `build`. Unset
-          # keeps the GTM snippet inert (see src/lib/analytics/gtm.ts).
-          GTM_ID: ${{ secrets.GTM_ID }}
           VITE_GOOGLE_MAPS_API_KEY: ${{ secrets.VITE_GOOGLE_MAPS_API_KEY }}
         run: bun run build
 
