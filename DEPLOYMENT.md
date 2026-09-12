@@ -39,6 +39,18 @@ Then in GitHub → Settings → Secrets: `CLOUDFLARE_API_TOKEN`,
 `CLOUDFLARE_ACCOUNT_ID`, and the `VITE_*` values from `.env.example`. After
 that, every push to `main` deploys.
 
+`CLOUDFLARE_API_TOKEN` needs the **Workers Scripts: Edit** permission on the
+target account (dashboard.cloudflare.com → My Profile → API Tokens → Create
+Token → "Edit Cloudflare Workers" template is the fastest path). Verify it
+before wiring it into GitHub:
+
+```bash
+CLOUDFLARE_API_TOKEN=... CLOUDFLARE_ACCOUNT_ID=... node scripts/check-cloudflare-access.mjs
+```
+
+That is the same preflight `.github/workflows/deploy.yml` runs, so a pass here
+means the workflow secret is good.
+
 DNS cutover, the Supabase auth redirect allow-list and rollback are covered in
 `docs/runbooks/00-exit-and-ownership.md` § Layer B.
 
@@ -421,6 +433,28 @@ supabase gen types typescript --project-id skxxvgjjdshcopybokdt > src/integratio
 Regenerate the types and clear the matching `pending-migrations.json` entries in
 the same commit, so the repository's record of the schema moves with it.
 
+### Automated (CI)
+
+`.github/workflows/deploy.yml`'s `migrate-database` job runs `supabase link`
+and `supabase db push` against `supabase/config.toml`'s `project_id` on every
+production deploy, **before** the build/deploy job — this closes the "known
+gap" below: a migration merged to `main` now reaches the database as part of
+the same pipeline that ships the code that depends on it, instead of relying
+on a human to run the commands above by hand.
+
+It needs two repository secrets that are separate from anything else in this
+document, because they authenticate two different things:
+
+| Secret | What it authenticates | Where to get it |
+|---|---|---|
+| `SUPABASE_ACCESS_TOKEN` | CLI calls to the Supabase management API (`link`) | dashboard.supabase.com/account/tokens |
+| `SUPABASE_DB_PASSWORD` | the direct Postgres connection `db push` opens | Project Settings → Database, on the project named in `supabase/config.toml` |
+
+Regenerating `src/integrations/supabase/types.ts` and clearing
+`pending-migrations.json` is **not** part of this job — it stays a manual,
+reviewed step, because a wrong type regeneration silently changes what the
+app believes the schema is.
+
 ### Where the database actually lives
 
 **Project `skxxvgjjdshcopybokdt` is provisioned and managed by Lovable.** It
@@ -459,11 +493,79 @@ to `service_role`. Verified afterwards at 130 tables with `anon` unable to
 execute the publisher. Generated types were updated to match and
 `pending-migrations.json` emptied, so the gate covers all 130 tables again.
 
-The integration itself is still misconfigured and remains a dashboard fix:
-Integrations → GitHub → set the supabase directory to `supabase` and the project
-to the one the app uses, or disconnect it and use the CLI as above.
-`npm run check:supabase` fails on the project-mismatch half — the half that
-lives in these files.
+The integration itself is still misconfigured and remains a dashboard fix — it
+cannot be done from a CI job or a script, only by someone with access to
+click through it. **And access is exactly the complication:** the integration
+is sitting on `bvhqdgiptlnfclnsybaz`, a project directly owned by the account
+at dashboard.supabase.com — reachable and editable right now. The project the
+app actually runs on, `skxxvgjjdshcopybokdt`, is owned by the Lovable project
+instead (§ Where the database actually lives), so its own Integrations page is
+*not* reachable from the owner's own Supabase dashboard at all — only through
+Lovable's project settings, if Lovable exposes that control.
+
+1. **Disconnect the wrong one now — no access questions, no risk.** Supabase
+   dashboard → `bvhqdgiptlnfclnsybaz` → **Integrations** → **GitHub** →
+   disconnect. It was never pointed at the right project or the right
+   directory, so removing it loses nothing, and it stops a stale integration
+   from someday being "fixed" onto the wrong project by someone who assumes
+   it's the live one.
+2. **Do not try to re-point it at `skxxvgjjdshcopybokdt` from this dashboard**
+   — that project isn't listed here to point it at; this account has no
+   ownership relationship to it to edit.
+3. **Whether a correctly-scoped integration is worth setting up on the
+   Lovable side is now a secondary question anyway:** `migrate-database` in
+   `.github/workflows/deploy.yml` applies every migration to
+   `skxxvgjjdshcopybokdt` on push to `main` once `SUPABASE_ACCESS_TOKEN` and
+   `SUPABASE_DB_PASSWORD` are set — see § Database and migrations →
+   Automated (CI). A second, dashboard-driven applier on top of that would
+   only add a race condition, not coverage. Confirm the repo side of the
+   wiring stays correct with `npm run check:supabase`.
+
+### Migrating off Lovable's Supabase
+
+This is the one item on this page that is not a checklist you or an agent can
+run to completion unattended — it needs a maintenance window, a human watching
+the cutover, and cannot be scripted around the two steps that only Supabase's
+own tooling can do (project transfer, or dump/restore). What follows is the
+plan, not an execution log.
+
+**Two paths, in order of preference:**
+
+1. **Project transfer (preferred, no data movement).** Supabase supports
+   transferring project ownership between organizations without a
+   dump/restore. If Lovable's org can initiate a transfer of
+   `skxxvgjjdshcopybokdt` to the account at dashboard.supabase.com, this is
+   the whole migration: same project ref, same URL, same keys, `.env` and
+   `supabase/config.toml` need no changes at all. **Ask Lovable support
+   whether this is available before planning a dump/restore** — it is less
+   risky by an order of magnitude because nothing about the running database
+   changes, only who administers it.
+2. **Dump and restore (fallback, if transfer isn't offered).**
+   - Provision a new project directly in the owner's own Supabase
+     organization.
+   - `pg_dump` the Lovable-owned project (needs a connection string from that
+     project — reachable via Lovable, since the dashboard isn't) and
+     `pg_restore` into the new one, or use `supabase db dump` /
+     `supabase db push` the same way.
+   - **Freeze writes on the old project for the dump's duration** — bookings,
+     payments and messages during an un-frozen window are lost, since a
+     logical dump is a point-in-time snapshot, not a replicated cutover.
+   - Re-point `supabase/config.toml`'s `project_id`, `.env`'s
+     `VITE_SUPABASE_*` values, the `SUPABASE_ACCESS_TOKEN`/
+     `SUPABASE_DB_PASSWORD` deploy secrets, every edge function secret (Resend,
+     encryption keys, cron secret — § Email and § C.6 in
+     `docs/runbooks/00-exit-and-ownership.md`), and the OAuth redirect URIs
+     (§ Enabling Google above) at the *same time*, in a single deploy — a
+     partial cutover means the client bundle and the server disagree about
+     which project is live.
+   - Regenerate `src/integrations/supabase/types.ts` against the new project
+     and run `npm run check:database` against it before calling the cutover
+     done.
+
+**Either path:** schedule it as a maintenance window, not a background task —
+this is a clinical platform's data and its only production database, and both
+paths above have a point where the old and new databases can briefly disagree.
+Confirm which path Lovable actually supports before doing anything else here.
 
 ### Rollback
 
@@ -516,5 +618,16 @@ to give.
 3. **No automated rollback trigger.** Rollback is a human action.
 4. **No synthetic check of authenticated flows.** The production check covers
    public routes only — booking and payment are unverified end to end.
-5. **Migrations are not applied by the pipeline.** Nothing applies a merged
-   migration; `check:database` reports the gap but cannot close it.
+5. ~~**Migrations are not applied by the pipeline.**~~ **Closed.** The
+   `migrate-database` job in `.github/workflows/deploy.yml` runs `supabase db
+   push` on every production deploy once `SUPABASE_ACCESS_TOKEN` and
+   `SUPABASE_DB_PASSWORD` are set as repository secrets — see § Database and
+   migrations → Automated (CI). Until those two secrets exist the job fails
+   loudly (naming which one is missing) rather than silently skipping, so a
+   red `migrate-database` run means "add the secrets," not "the pipeline is
+   broken."
+6. **Production database is owned by Lovable, not this project.** See
+   § Where the database actually lives and § Migrating off Lovable's Supabase
+   below — unresolved, and the highest-risk gap on this list because it's the
+   one where the responsible party cannot currently open the production
+   database's own dashboard.
