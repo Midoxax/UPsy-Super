@@ -82,9 +82,12 @@ const PsychologistProfile = () => {
 
   // Auto-open the booking widget when arriving via a shared "?book=1" link
   useEffect(() => {
+    // TEMP DEBUG — remove once the "Book a slot" bug is diagnosed.
+    console.log("[booking-debug] effect ran, book param =", searchParams.get("book"), "psychologist loaded =", !!psychologist);
     if (!psychologist) return;
     if (searchParams.get("book") !== "1") return;
     const t = setTimeout(() => {
+      console.log("[booking-debug] opening modal via ?book=1");
       setIsBookingModalOpen(true);
       const el = document.getElementById("booking-widget");
       if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -529,7 +532,16 @@ const PsychologistProfile = () => {
                   {t('booking.scheduleSession').replace('{name}', psychologist.full_name)}
                 </p>
                 <div className="flex flex-wrap gap-3 justify-center">
-                  <Button variant="primary" size="lg" onClick={() => setIsBookingModalOpen(true)} className="shadow-lg shadow-primary/20">
+                  <Button
+                    variant="primary"
+                    size="lg"
+                    onClick={() => {
+                      // TEMP DEBUG — remove once the "Book a slot" bug is diagnosed.
+                      console.log("[booking-debug] Book button clicked, setting isBookingModalOpen=true");
+                      setIsBookingModalOpen(true);
+                    }}
+                    className="shadow-lg shadow-primary/20"
+                  >
                     <Calendar className="mr-2 h-4 w-4" />
                     {t('booking.bookSession')}
                   </Button>
@@ -545,6 +557,8 @@ const PsychologistProfile = () => {
       </section>
 
       <MatchingFormModal open={isMatchingModalOpen} onClose={() => setIsMatchingModalOpen(false)} specialties={specialties} languages={languages} />
+      {/* TEMP DEBUG — remove once the "Book a slot" bug is diagnosed. */}
+      {(() => { console.log("[booking-debug] rendering BookingModal with open =", isBookingModalOpen); return null; })()}
       <BookingModal open={isBookingModalOpen} onClose={() => setIsBookingModalOpen(false)} psychologistId={psychologist.id} psychologistName={psychologist.full_name} hourlyRate={psychologist.hourly_rate_mad} offersOnline={psychologist.offers_online} offersInPerson={psychologist.offers_in_person} city={psychologist.city} officeAddress={psychologist.office_address} depositPercentage={(psychologist as any).deposit_percentage} />
     </div>
   );
