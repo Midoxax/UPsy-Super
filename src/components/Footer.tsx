@@ -27,6 +27,7 @@ const Footer = () => {
         { name: t('nav.blog'), href: "/blog" },
         { name: t('founder.navLabel') || "Founder", href: "/founder" },
         { name: "L'Observatoire U.Psy", href: "/observatoire" },
+        { name: "Soleterre (schools)", href: "/soleterre" },
         { name: t('whyUs.navLabel') || "Why U.Psy", href: "/why-us" },
         { name: t('nav.contact'), href: "/contact" },
         { name: t('nav.applyAccreditation') || "Apply", href: "/apply" },
