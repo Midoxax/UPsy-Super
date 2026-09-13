@@ -6,6 +6,8 @@ const Schools = lazy(() => import("@/pages/center/Schools"));
 
 export const Route = createFileRoute("/center/schools")({
   component: () => (
-    <PageTransition><Schools /></PageTransition>
+    <PageTransition>
+      <Schools />
+    </PageTransition>
   ),
 });
