@@ -197,35 +197,44 @@ export type Database = {
       }
       all_access_subscriptions: {
         Row: {
-          amount_eur: number
-          amount_mad: number
+          amount_eur: number | null
+          amount_mad: number | null
           billing_cycle: string
+          cancel_at_period_end: boolean
           created_at: string
           current_period_end: string
           id: string
           status: string
+          stripe_customer_id: string | null
+          stripe_subscription_id: string | null
           updated_at: string
           user_id: string
         }
         Insert: {
-          amount_eur?: number
-          amount_mad?: number
+          amount_eur?: number | null
+          amount_mad?: number | null
           billing_cycle?: string
+          cancel_at_period_end?: boolean
           created_at?: string
           current_period_end?: string
           id?: string
           status?: string
+          stripe_customer_id?: string | null
+          stripe_subscription_id?: string | null
           updated_at?: string
           user_id: string
         }
         Update: {
-          amount_eur?: number
-          amount_mad?: number
+          amount_eur?: number | null
+          amount_mad?: number | null
           billing_cycle?: string
+          cancel_at_period_end?: boolean
           created_at?: string
           current_period_end?: string
           id?: string
           status?: string
+          stripe_customer_id?: string | null
+          stripe_subscription_id?: string | null
           updated_at?: string
           user_id?: string
         }
@@ -1433,6 +1442,7 @@ export type Database = {
           created_at: string | null
           duration_minutes: number | null
           id: string
+          is_free_preview: boolean
           order_index: number
           title: string
           video_url: string | null
@@ -1443,6 +1453,7 @@ export type Database = {
           created_at?: string | null
           duration_minutes?: number | null
           id?: string
+          is_free_preview?: boolean
           order_index?: number
           title: string
           video_url?: string | null
@@ -1453,6 +1464,7 @@ export type Database = {
           created_at?: string | null
           duration_minutes?: number | null
           id?: string
+          is_free_preview?: boolean
           order_index?: number
           title?: string
           video_url?: string | null
@@ -1517,6 +1529,11 @@ export type Database = {
           difficulty_level: string | null
           duration_hours: number | null
           id: string
+          instructor_avatar_url: string | null
+          instructor_bio: string | null
+          instructor_name: string | null
+          instructor_title: string | null
+          is_academy_premium: boolean
           is_paid: boolean
           is_published: boolean | null
           learning_path: string
@@ -1533,6 +1550,11 @@ export type Database = {
           difficulty_level?: string | null
           duration_hours?: number | null
           id?: string
+          instructor_avatar_url?: string | null
+          instructor_bio?: string | null
+          instructor_name?: string | null
+          instructor_title?: string | null
+          is_academy_premium?: boolean
           is_paid?: boolean
           is_published?: boolean | null
           learning_path?: string
@@ -1549,6 +1571,11 @@ export type Database = {
           difficulty_level?: string | null
           duration_hours?: number | null
           id?: string
+          instructor_avatar_url?: string | null
+          instructor_bio?: string | null
+          instructor_name?: string | null
+          instructor_title?: string | null
+          is_academy_premium?: boolean
           is_paid?: boolean
           is_published?: boolean | null
           learning_path?: string
