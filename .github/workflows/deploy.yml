@@ -62,7 +62,8 @@ jobs:
     steps:
       - uses: actions/checkout@v5
 
-      - name: Required secrets present
+      - name: Check migration secrets
+        id: secrets-check
         env:
           SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
           SUPABASE_DB_PASSWORD: ${{ secrets.SUPABASE_DB_PASSWORD }}
@@ -73,12 +74,21 @@ jobs:
             [ -n "$value" ] || missing="$missing $name"
           done
           if [ -n "$missing" ]; then
-            echo "::error::Missing repository secret(s):$missing — add them under Settings > Secrets and variables > Actions. SUPABASE_ACCESS_TOKEN comes from https://supabase.com/dashboard/account/tokens; SUPABASE_DB_PASSWORD is the linked project's database password (Project Settings > Database)."
-            exit 1
+            # Soft-skip rather than fail the job: these two secrets are only
+            # needed to auto-apply migrations. Missing them should never block
+            # the actual site deploy below — that silently happened here once
+            # already (this job hard-failed on every push and the `deploy` job's
+            # `if: !failure()` skipped the whole site deploy along with it, so
+            # nothing shipped from several merged PRs until this was caught).
+            echo "::warning::Skipping migration auto-apply — missing repository secret(s):$missing. Add them under Settings > Secrets and variables > Actions to enable this (SUPABASE_ACCESS_TOKEN from https://supabase.com/dashboard/account/tokens; SUPABASE_DB_PASSWORD is the linked project's database password, Project Settings > Database). Apply any pending migration manually with 'supabase db push' until then."
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "Both Supabase migration secrets are set."
+            echo "skip=false" >> "$GITHUB_OUTPUT"
           fi
-          echo "Both Supabase migration secrets are set."
 
       - name: Link and push migrations
+        if: steps.secrets-check.outputs.skip != 'true'
         env:
           SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
           SUPABASE_DB_PASSWORD: ${{ secrets.SUPABASE_DB_PASSWORD }}
