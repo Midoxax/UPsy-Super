@@ -42,11 +42,17 @@ const CenterHome = () => {
           <h1 className="text-h1 font-bold mb-4">
             Learn, connect, become.
           </h1>
-          <p className="text-lg text-muted-foreground">
+          <p className="text-lg text-muted-foreground mb-6">
             Topic communities, cohort-based learning, and expert AMAs — engineered
             for depth, not noise. No vanity metrics. No infinite scroll. Just
             people growing together.
           </p>
+          <Link
+            to="/center/schools"
+            className="inline-flex items-center gap-1.5 text-sm font-medium text-primary hover:underline"
+          >
+            Explore the 11 schools & academies <ArrowRight className="h-3.5 w-3.5" />
+          </Link>
         </div>
       </section>
 

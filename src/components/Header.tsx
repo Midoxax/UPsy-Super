@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import {
   Menu, X, User, ChevronDown, Umbrella, Heart, Award,
   HeartPulse, GraduationCap, Activity, Building2, Users, Sparkles,
-  BookOpen, Brain, Trophy, Stethoscope, Compass, Crown,
+  BookOpen, Brain, Trophy, Stethoscope, Compass, Crown, Landmark,
 } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { useLocale } from "@/contexts/LocaleContext";
@@ -60,6 +60,7 @@ const Header = () => {
       icon: GraduationCap,
       dropdown: [
         { name: "Communities", href: "/center", icon: Users, featured: true, desc: "Spaces, feeds, discussions" },
+        { name: "Schools & academies", href: "/center/schools", icon: Landmark, desc: "11 schools + Civic & Social Impact Academy" },
         { name: "Courses & learning", href: "/learn", icon: BookOpen, desc: "Cohort-based & self-paced" },
         { name: "Certifications", href: "/learn?tab=certifications", icon: Award, desc: "Performance Psychology pathways" },
         { name: "Mentors", href: "/psychologists?type=mentor", icon: Sparkles, desc: "1:1 elite guidance" },

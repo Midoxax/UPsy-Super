@@ -123,6 +123,7 @@ import { Route as BlogUnderstandingDepressionRouteImport } from './routes/blog/u
 import { Route as CampaignsFirstSessionRouteImport } from './routes/campaigns/first-session'
 import { Route as CampaignsJoinSpecialistRouteImport } from './routes/campaigns/join-specialist'
 import { Route as CenterProgressRouteImport } from './routes/center/progress'
+import { Route as CenterSchoolsRouteImport } from './routes/center/schools'
 import { Route as DashboardClientRouteImport } from './routes/dashboard/client'
 import { Route as DashboardOrganizationRouteImport } from './routes/dashboard/organization'
 import { Route as DashboardSpecialistRouteImport } from './routes/dashboard/specialist'
@@ -761,6 +762,11 @@ const CenterProgressRoute = CenterProgressRouteImport.update({
   path: '/progress',
   getParentRoute: () => CenterRoute,
 } as any)
+const CenterSchoolsRoute = CenterSchoolsRouteImport.update({
+  id: '/schools',
+  path: '/schools',
+  getParentRoute: () => CenterRoute,
+} as any)
 const DashboardClientRoute = DashboardClientRouteImport.update({
   id: '/client',
   path: '/client',
@@ -1184,6 +1190,7 @@ export interface FileRoutesByFullPath {
   '/campaigns/first-session': typeof CampaignsFirstSessionRoute
   '/campaigns/join-specialist': typeof CampaignsJoinSpecialistRoute
   '/center/progress': typeof CenterProgressRoute
+  '/center/schools': typeof CenterSchoolsRoute
   '/dashboard/client': typeof DashboardClientRoute
   '/dashboard/organization': typeof DashboardOrganizationRoute
   '/dashboard/specialist': typeof DashboardSpecialistRoute
@@ -1358,6 +1365,7 @@ export interface FileRoutesByTo {
   '/campaigns/first-session': typeof CampaignsFirstSessionRoute
   '/campaigns/join-specialist': typeof CampaignsJoinSpecialistRoute
   '/center/progress': typeof CenterProgressRoute
+  '/center/schools': typeof CenterSchoolsRoute
   '/dashboard/client': typeof DashboardClientRoute
   '/dashboard/organization': typeof DashboardOrganizationRoute
   '/dashboard/specialist': typeof DashboardSpecialistRoute
@@ -1532,6 +1540,7 @@ export interface FileRoutesById {
   '/campaigns/first-session': typeof CampaignsFirstSessionRoute
   '/campaigns/join-specialist': typeof CampaignsJoinSpecialistRoute
   '/center/progress': typeof CenterProgressRoute
+  '/center/schools': typeof CenterSchoolsRoute
   '/dashboard/client': typeof DashboardClientRoute
   '/dashboard/organization': typeof DashboardOrganizationRoute
   '/dashboard/specialist': typeof DashboardSpecialistRoute
@@ -1708,6 +1717,7 @@ export interface FileRouteTypes {
     | '/campaigns/first-session'
     | '/campaigns/join-specialist'
     | '/center/progress'
+    | '/center/schools'
     | '/dashboard/client'
     | '/dashboard/organization'
     | '/dashboard/specialist'
@@ -1882,6 +1892,7 @@ export interface FileRouteTypes {
     | '/campaigns/first-session'
     | '/campaigns/join-specialist'
     | '/center/progress'
+    | '/center/schools'
     | '/dashboard/client'
     | '/dashboard/organization'
     | '/dashboard/specialist'
@@ -2055,6 +2066,7 @@ export interface FileRouteTypes {
     | '/campaigns/first-session'
     | '/campaigns/join-specialist'
     | '/center/progress'
+    | '/center/schools'
     | '/dashboard/client'
     | '/dashboard/organization'
     | '/dashboard/specialist'
@@ -3030,6 +3042,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CenterProgressRouteImport
       parentRoute: typeof CenterRoute
     }
+    '/center/schools': {
+      id: '/center/schools'
+      path: '/schools'
+      fullPath: '/center/schools'
+      preLoaderRoute: typeof CenterSchoolsRouteImport
+      parentRoute: typeof CenterRoute
+    }
     '/dashboard/client': {
       id: '/dashboard/client'
       path: '/client'
@@ -3511,11 +3530,13 @@ const BlogRouteWithChildren = BlogRoute._addFileChildren(BlogRouteChildren)
 
 interface CenterRouteChildren {
   CenterProgressRoute: typeof CenterProgressRoute
+  CenterSchoolsRoute: typeof CenterSchoolsRoute
   CenterCSlugRoute: typeof CenterCSlugRoute
 }
 
 const CenterRouteChildren: CenterRouteChildren = {
   CenterProgressRoute: CenterProgressRoute,
+  CenterSchoolsRoute: CenterSchoolsRoute,
   CenterCSlugRoute: CenterCSlugRoute,
 }
 
