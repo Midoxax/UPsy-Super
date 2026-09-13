@@ -53,6 +53,12 @@ const Skool = () => {
               </Button>
               <Button size="lg" variant="outline">{t('skoolPage.exploreForFree')}</Button>
             </div>
+            <p className="mt-4 text-sm text-muted-foreground">
+              Working with schools?{" "}
+              <Link to="/soleterre" className="text-primary hover:underline font-medium">
+                See our Soleterre wellbeing partnership
+              </Link>
+            </p>
           </ScrollReveal>
         </div>
       </section>

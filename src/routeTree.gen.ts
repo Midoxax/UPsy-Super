@@ -50,6 +50,7 @@ import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as ResourcesRouteImport } from './routes/resources'
 import { Route as ServicesRouteImport } from './routes/services'
 import { Route as SkoolRouteImport } from './routes/skool'
+import { Route as SoleterreRouteImport } from './routes/soleterre'
 import { Route as TalentInnovationHubRouteImport } from './routes/talent-innovation-hub'
 import { Route as TermsRouteImport } from './routes/terms'
 import { Route as UnsubscribeRouteImport } from './routes/unsubscribe'
@@ -384,6 +385,11 @@ const ServicesRoute = ServicesRouteImport.update({
 const SkoolRoute = SkoolRouteImport.update({
   id: '/skool',
   path: '/skool',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SoleterreRoute = SoleterreRouteImport.update({
+  id: '/soleterre',
+  path: '/soleterre',
   getParentRoute: () => rootRouteImport,
 } as any)
 const TalentInnovationHubRoute = TalentInnovationHubRouteImport.update({
@@ -1106,6 +1112,7 @@ export interface FileRoutesByFullPath {
   '/resources': typeof ResourcesRoute
   '/services': typeof ServicesRouteWithChildren
   '/skool': typeof SkoolRoute
+  '/soleterre': typeof SoleterreRoute
   '/talent-innovation-hub': typeof TalentInnovationHubRoute
   '/terms': typeof TermsRoute
   '/unsubscribe': typeof UnsubscribeRoute
@@ -1279,6 +1286,7 @@ export interface FileRoutesByTo {
   '/resources': typeof ResourcesRoute
   '/services': typeof ServicesRouteWithChildren
   '/skool': typeof SkoolRoute
+  '/soleterre': typeof SoleterreRoute
   '/talent-innovation-hub': typeof TalentInnovationHubRoute
   '/terms': typeof TermsRoute
   '/unsubscribe': typeof UnsubscribeRoute
@@ -1452,6 +1460,7 @@ export interface FileRoutesById {
   '/resources': typeof ResourcesRoute
   '/services': typeof ServicesRouteWithChildren
   '/skool': typeof SkoolRoute
+  '/soleterre': typeof SoleterreRoute
   '/talent-innovation-hub': typeof TalentInnovationHubRoute
   '/terms': typeof TermsRoute
   '/unsubscribe': typeof UnsubscribeRoute
@@ -1627,6 +1636,7 @@ export interface FileRouteTypes {
     | '/resources'
     | '/services'
     | '/skool'
+    | '/soleterre'
     | '/talent-innovation-hub'
     | '/terms'
     | '/unsubscribe'
@@ -1800,6 +1810,7 @@ export interface FileRouteTypes {
     | '/resources'
     | '/services'
     | '/skool'
+    | '/soleterre'
     | '/talent-innovation-hub'
     | '/terms'
     | '/unsubscribe'
@@ -1972,6 +1983,7 @@ export interface FileRouteTypes {
     | '/resources'
     | '/services'
     | '/skool'
+    | '/soleterre'
     | '/talent-innovation-hub'
     | '/terms'
     | '/unsubscribe'
@@ -2146,6 +2158,7 @@ export interface RootRouteChildren {
   ResourcesRoute: typeof ResourcesRoute
   ServicesRoute: typeof ServicesRouteWithChildren
   SkoolRoute: typeof SkoolRoute
+  SoleterreRoute: typeof SoleterreRoute
   TalentInnovationHubRoute: typeof TalentInnovationHubRoute
   TermsRoute: typeof TermsRoute
   UnsubscribeRoute: typeof UnsubscribeRoute
@@ -2504,6 +2517,13 @@ declare module '@tanstack/react-router' {
       path: '/skool'
       fullPath: '/skool'
       preLoaderRoute: typeof SkoolRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/soleterre': {
+      id: '/soleterre'
+      path: '/soleterre'
+      fullPath: '/soleterre'
+      preLoaderRoute: typeof SoleterreRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/talent-innovation-hub': {
@@ -3784,6 +3804,7 @@ const rootRouteChildren: RootRouteChildren = {
   ResourcesRoute: ResourcesRoute,
   ServicesRoute: ServicesRouteWithChildren,
   SkoolRoute: SkoolRoute,
+  SoleterreRoute: SoleterreRoute,
   TalentInnovationHubRoute: TalentInnovationHubRoute,
   TermsRoute: TermsRoute,
   UnsubscribeRoute: UnsubscribeRoute,
