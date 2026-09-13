@@ -374,6 +374,36 @@ function RootComponent() {
     return () => window.removeEventListener("vite:preloadError", handlePreloadError);
   }, []);
 
+  // Belt-and-suspenders for the same class of failure as above, but without
+  // a clean "vite:preloadError" signal — e.g. a chunk request that hangs or
+  // gets silently dropped (an interfering proxy, an edge bot-challenge, a
+  // stalled prefetch) rather than cleanly 404ing. The URL bar updates (that's
+  // just history.pushState) but the page never swaps in, and nothing ever
+  // throws for an ErrorBoundary to catch. If the router reports a navigation
+  // still in flight this long after it started, the page is stuck; reload.
+  const router = useRouter();
+  useEffect(() => {
+    const STUCK_RELOAD_GUARD_KEY = "upsy:stuck-nav-reload";
+    const STUCK_THRESHOLD_MS = 8000;
+    let pendingSince: number | null = null;
+    const id = window.setInterval(() => {
+      const isLoading = router.state.isLoading;
+      if (!isLoading) {
+        pendingSince = null;
+        return;
+      }
+      if (pendingSince === null) {
+        pendingSince = Date.now();
+        return;
+      }
+      if (Date.now() - pendingSince < STUCK_THRESHOLD_MS) return;
+      if (sessionStorage.getItem(STUCK_RELOAD_GUARD_KEY)) return;
+      sessionStorage.setItem(STUCK_RELOAD_GUARD_KEY, "1");
+      window.location.reload();
+    }, 500);
+    return () => window.clearInterval(id);
+  }, [router]);
+
   return (
     <QueryClientProvider client={queryClient}>
       <AuthProvider>

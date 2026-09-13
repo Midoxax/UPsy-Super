@@ -50,6 +50,7 @@ import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as ResourcesRouteImport } from './routes/resources'
 import { Route as ServicesRouteImport } from './routes/services'
 import { Route as SkoolRouteImport } from './routes/skool'
+import { Route as SoleterreRouteImport } from './routes/soleterre'
 import { Route as TalentInnovationHubRouteImport } from './routes/talent-innovation-hub'
 import { Route as TermsRouteImport } from './routes/terms'
 import { Route as UnsubscribeRouteImport } from './routes/unsubscribe'
@@ -122,6 +123,7 @@ import { Route as BlogUnderstandingDepressionRouteImport } from './routes/blog/u
 import { Route as CampaignsFirstSessionRouteImport } from './routes/campaigns/first-session'
 import { Route as CampaignsJoinSpecialistRouteImport } from './routes/campaigns/join-specialist'
 import { Route as CenterProgressRouteImport } from './routes/center/progress'
+import { Route as CenterSchoolsRouteImport } from './routes/center/schools'
 import { Route as DashboardClientRouteImport } from './routes/dashboard/client'
 import { Route as DashboardOrganizationRouteImport } from './routes/dashboard/organization'
 import { Route as DashboardSpecialistRouteImport } from './routes/dashboard/specialist'
@@ -384,6 +386,11 @@ const ServicesRoute = ServicesRouteImport.update({
 const SkoolRoute = SkoolRouteImport.update({
   id: '/skool',
   path: '/skool',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SoleterreRoute = SoleterreRouteImport.update({
+  id: '/soleterre',
+  path: '/soleterre',
   getParentRoute: () => rootRouteImport,
 } as any)
 const TalentInnovationHubRoute = TalentInnovationHubRouteImport.update({
@@ -755,6 +762,11 @@ const CenterProgressRoute = CenterProgressRouteImport.update({
   path: '/progress',
   getParentRoute: () => CenterRoute,
 } as any)
+const CenterSchoolsRoute = CenterSchoolsRouteImport.update({
+  id: '/schools',
+  path: '/schools',
+  getParentRoute: () => CenterRoute,
+} as any)
 const DashboardClientRoute = DashboardClientRouteImport.update({
   id: '/client',
   path: '/client',
@@ -1106,6 +1118,7 @@ export interface FileRoutesByFullPath {
   '/resources': typeof ResourcesRoute
   '/services': typeof ServicesRouteWithChildren
   '/skool': typeof SkoolRoute
+  '/soleterre': typeof SoleterreRoute
   '/talent-innovation-hub': typeof TalentInnovationHubRoute
   '/terms': typeof TermsRoute
   '/unsubscribe': typeof UnsubscribeRoute
@@ -1177,6 +1190,7 @@ export interface FileRoutesByFullPath {
   '/campaigns/first-session': typeof CampaignsFirstSessionRoute
   '/campaigns/join-specialist': typeof CampaignsJoinSpecialistRoute
   '/center/progress': typeof CenterProgressRoute
+  '/center/schools': typeof CenterSchoolsRoute
   '/dashboard/client': typeof DashboardClientRoute
   '/dashboard/organization': typeof DashboardOrganizationRoute
   '/dashboard/specialist': typeof DashboardSpecialistRoute
@@ -1279,6 +1293,7 @@ export interface FileRoutesByTo {
   '/resources': typeof ResourcesRoute
   '/services': typeof ServicesRouteWithChildren
   '/skool': typeof SkoolRoute
+  '/soleterre': typeof SoleterreRoute
   '/talent-innovation-hub': typeof TalentInnovationHubRoute
   '/terms': typeof TermsRoute
   '/unsubscribe': typeof UnsubscribeRoute
@@ -1350,6 +1365,7 @@ export interface FileRoutesByTo {
   '/campaigns/first-session': typeof CampaignsFirstSessionRoute
   '/campaigns/join-specialist': typeof CampaignsJoinSpecialistRoute
   '/center/progress': typeof CenterProgressRoute
+  '/center/schools': typeof CenterSchoolsRoute
   '/dashboard/client': typeof DashboardClientRoute
   '/dashboard/organization': typeof DashboardOrganizationRoute
   '/dashboard/specialist': typeof DashboardSpecialistRoute
@@ -1452,6 +1468,7 @@ export interface FileRoutesById {
   '/resources': typeof ResourcesRoute
   '/services': typeof ServicesRouteWithChildren
   '/skool': typeof SkoolRoute
+  '/soleterre': typeof SoleterreRoute
   '/talent-innovation-hub': typeof TalentInnovationHubRoute
   '/terms': typeof TermsRoute
   '/unsubscribe': typeof UnsubscribeRoute
@@ -1523,6 +1540,7 @@ export interface FileRoutesById {
   '/campaigns/first-session': typeof CampaignsFirstSessionRoute
   '/campaigns/join-specialist': typeof CampaignsJoinSpecialistRoute
   '/center/progress': typeof CenterProgressRoute
+  '/center/schools': typeof CenterSchoolsRoute
   '/dashboard/client': typeof DashboardClientRoute
   '/dashboard/organization': typeof DashboardOrganizationRoute
   '/dashboard/specialist': typeof DashboardSpecialistRoute
@@ -1627,6 +1645,7 @@ export interface FileRouteTypes {
     | '/resources'
     | '/services'
     | '/skool'
+    | '/soleterre'
     | '/talent-innovation-hub'
     | '/terms'
     | '/unsubscribe'
@@ -1698,6 +1717,7 @@ export interface FileRouteTypes {
     | '/campaigns/first-session'
     | '/campaigns/join-specialist'
     | '/center/progress'
+    | '/center/schools'
     | '/dashboard/client'
     | '/dashboard/organization'
     | '/dashboard/specialist'
@@ -1800,6 +1820,7 @@ export interface FileRouteTypes {
     | '/resources'
     | '/services'
     | '/skool'
+    | '/soleterre'
     | '/talent-innovation-hub'
     | '/terms'
     | '/unsubscribe'
@@ -1871,6 +1892,7 @@ export interface FileRouteTypes {
     | '/campaigns/first-session'
     | '/campaigns/join-specialist'
     | '/center/progress'
+    | '/center/schools'
     | '/dashboard/client'
     | '/dashboard/organization'
     | '/dashboard/specialist'
@@ -1972,6 +1994,7 @@ export interface FileRouteTypes {
     | '/resources'
     | '/services'
     | '/skool'
+    | '/soleterre'
     | '/talent-innovation-hub'
     | '/terms'
     | '/unsubscribe'
@@ -2043,6 +2066,7 @@ export interface FileRouteTypes {
     | '/campaigns/first-session'
     | '/campaigns/join-specialist'
     | '/center/progress'
+    | '/center/schools'
     | '/dashboard/client'
     | '/dashboard/organization'
     | '/dashboard/specialist'
@@ -2146,6 +2170,7 @@ export interface RootRouteChildren {
   ResourcesRoute: typeof ResourcesRoute
   ServicesRoute: typeof ServicesRouteWithChildren
   SkoolRoute: typeof SkoolRoute
+  SoleterreRoute: typeof SoleterreRoute
   TalentInnovationHubRoute: typeof TalentInnovationHubRoute
   TermsRoute: typeof TermsRoute
   UnsubscribeRoute: typeof UnsubscribeRoute
@@ -2504,6 +2529,13 @@ declare module '@tanstack/react-router' {
       path: '/skool'
       fullPath: '/skool'
       preLoaderRoute: typeof SkoolRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/soleterre': {
+      id: '/soleterre'
+      path: '/soleterre'
+      fullPath: '/soleterre'
+      preLoaderRoute: typeof SoleterreRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/talent-innovation-hub': {
@@ -3010,6 +3042,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CenterProgressRouteImport
       parentRoute: typeof CenterRoute
     }
+    '/center/schools': {
+      id: '/center/schools'
+      path: '/schools'
+      fullPath: '/center/schools'
+      preLoaderRoute: typeof CenterSchoolsRouteImport
+      parentRoute: typeof CenterRoute
+    }
     '/dashboard/client': {
       id: '/dashboard/client'
       path: '/client'
@@ -3491,11 +3530,13 @@ const BlogRouteWithChildren = BlogRoute._addFileChildren(BlogRouteChildren)
 
 interface CenterRouteChildren {
   CenterProgressRoute: typeof CenterProgressRoute
+  CenterSchoolsRoute: typeof CenterSchoolsRoute
   CenterCSlugRoute: typeof CenterCSlugRoute
 }
 
 const CenterRouteChildren: CenterRouteChildren = {
   CenterProgressRoute: CenterProgressRoute,
+  CenterSchoolsRoute: CenterSchoolsRoute,
   CenterCSlugRoute: CenterCSlugRoute,
 }
 
@@ -3784,6 +3825,7 @@ const rootRouteChildren: RootRouteChildren = {
   ResourcesRoute: ResourcesRoute,
   ServicesRoute: ServicesRouteWithChildren,
   SkoolRoute: SkoolRoute,
+  SoleterreRoute: SoleterreRoute,
   TalentInnovationHubRoute: TalentInnovationHubRoute,
   TermsRoute: TermsRoute,
   UnsubscribeRoute: UnsubscribeRoute,
