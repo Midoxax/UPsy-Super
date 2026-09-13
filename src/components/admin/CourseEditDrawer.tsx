@@ -1,12 +1,28 @@
 import { useEffect, useState } from "react";
-import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription } from "@/components/ui/sheet";
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetDescription,
+} from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { useSaveCourse, useDeleteCourse, useEnrollmentStats } from "@/hooks/admin/useAdminCourses";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
+  useSaveCourse,
+  useDeleteCourse,
+  useEnrollmentStats,
+} from "@/hooks/admin/useAdminCourses";
 import ModuleListEditor from "./ModuleListEditor";
 import { Trash2 } from "lucide-react";
 
@@ -25,6 +41,11 @@ const EMPTY = {
   thumbnail_url: "",
   is_published: false,
   learning_path: "mental-health",
+  instructor_name: "",
+  instructor_title: "",
+  instructor_bio: "",
+  instructor_avatar_url: "",
+  is_academy_premium: false,
 };
 
 export default function CourseEditDrawer({ course, open, onClose }: Props) {
@@ -46,35 +67,60 @@ export default function CourseEditDrawer({ course, open, onClose }: Props) {
       <SheetContent className="w-full sm:max-w-2xl overflow-y-auto">
         <SheetHeader>
           <SheetTitle>{course?.id ? "Edit course" : "New course"}</SheetTitle>
-          <SheetDescription>{course?.id ?? "Draft a new learning module"}</SheetDescription>
+          <SheetDescription>
+            {course?.id ?? "Draft a new learning module"}
+          </SheetDescription>
         </SheetHeader>
 
         <div className="space-y-4 mt-6">
           <div className="space-y-2">
             <Label>Title</Label>
-            <Input value={form.title} onChange={(e) => setForm({ ...form, title: e.target.value })} />
+            <Input
+              value={form.title}
+              onChange={(e) => setForm({ ...form, title: e.target.value })}
+            />
           </div>
           <div className="space-y-2">
             <Label>Description</Label>
-            <Textarea rows={3} value={form.description ?? ""} onChange={(e) => setForm({ ...form, description: e.target.value })} />
+            <Textarea
+              rows={3}
+              value={form.description ?? ""}
+              onChange={(e) =>
+                setForm({ ...form, description: e.target.value })
+              }
+            />
           </div>
 
           <div className="grid grid-cols-2 gap-3">
             <div className="space-y-2">
               <Label>Learning path</Label>
-              <Select value={form.learning_path} onValueChange={(v) => setForm({ ...form, learning_path: v })}>
-                <SelectTrigger><SelectValue /></SelectTrigger>
+              <Select
+                value={form.learning_path}
+                onValueChange={(v) => setForm({ ...form, learning_path: v })}
+              >
+                <SelectTrigger>
+                  <SelectValue />
+                </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="mental-health">Mental health</SelectItem>
-                  <SelectItem value="performance">Performance (athletes)</SelectItem>
-                  <SelectItem value="clinical-cpd">Clinical CPD (specialists)</SelectItem>
+                  <SelectItem value="performance">
+                    Performance (athletes)
+                  </SelectItem>
+                  <SelectItem value="clinical-cpd">
+                    Clinical CPD (specialists)
+                  </SelectItem>
                 </SelectContent>
               </Select>
             </div>
             <div className="space-y-2">
               <Label>Difficulty</Label>
-              <Select value={form.difficulty_level} onValueChange={(v) => setForm({ ...form, difficulty_level: v })}>
-                <SelectTrigger><SelectValue /></SelectTrigger>
+              <Select
+                value={form.difficulty_level}
+                onValueChange={(v) => setForm({ ...form, difficulty_level: v })}
+              >
+                <SelectTrigger>
+                  <SelectValue />
+                </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="beginner">Beginner</SelectItem>
                   <SelectItem value="intermediate">Intermediate</SelectItem>
@@ -87,32 +133,114 @@ export default function CourseEditDrawer({ course, open, onClose }: Props) {
           <div className="grid grid-cols-2 gap-3">
             <div className="space-y-2">
               <Label>Category</Label>
-              <Input value={form.category ?? ""} onChange={(e) => setForm({ ...form, category: e.target.value })} />
+              <Input
+                value={form.category ?? ""}
+                onChange={(e) => setForm({ ...form, category: e.target.value })}
+              />
             </div>
             <div className="space-y-2">
               <Label>Duration (hours)</Label>
-              <Input type="number" step="0.25" value={form.duration_hours ?? 0} onChange={(e) => setForm({ ...form, duration_hours: Number(e.target.value) })} />
+              <Input
+                type="number"
+                step="0.25"
+                value={form.duration_hours ?? 0}
+                onChange={(e) =>
+                  setForm({ ...form, duration_hours: Number(e.target.value) })
+                }
+              />
             </div>
           </div>
 
           <div className="space-y-2">
             <Label>Thumbnail URL</Label>
-            <Input value={form.thumbnail_url ?? ""} onChange={(e) => setForm({ ...form, thumbnail_url: e.target.value })} placeholder="https://…" />
+            <Input
+              value={form.thumbnail_url ?? ""}
+              onChange={(e) =>
+                setForm({ ...form, thumbnail_url: e.target.value })
+              }
+              placeholder="https://…"
+            />
           </div>
 
           <div className="flex items-center justify-between rounded-lg border p-3">
             <div>
               <p className="text-sm font-medium">Published</p>
-              <p className="text-xs text-muted-foreground">Visible to clients on /learn</p>
+              <p className="text-xs text-muted-foreground">
+                Visible to clients on /learn
+              </p>
             </div>
-            <Switch checked={!!form.is_published} onCheckedChange={(c) => setForm({ ...form, is_published: c })} />
+            <Switch
+              checked={!!form.is_published}
+              onCheckedChange={(c) => setForm({ ...form, is_published: c })}
+            />
+          </div>
+
+          <div className="flex items-center justify-between rounded-lg border p-3">
+            <div>
+              <p className="text-sm font-medium">Academy premium</p>
+              <p className="text-xs text-muted-foreground">
+                Requires an active Academy all-access subscription
+              </p>
+            </div>
+            <Switch
+              checked={!!form.is_academy_premium}
+              onCheckedChange={(c) =>
+                setForm({ ...form, is_academy_premium: c })
+              }
+            />
+          </div>
+
+          <div className="pt-2 border-t space-y-3">
+            <h3 className="font-semibold text-sm">Instructor</h3>
+            <div className="space-y-2">
+              <Label>Name</Label>
+              <Input
+                value={form.instructor_name ?? ""}
+                onChange={(e) =>
+                  setForm({ ...form, instructor_name: e.target.value })
+                }
+                placeholder="Dr. Jane Doe"
+              />
+            </div>
+            <div className="space-y-2">
+              <Label>Title</Label>
+              <Input
+                value={form.instructor_title ?? ""}
+                onChange={(e) =>
+                  setForm({ ...form, instructor_title: e.target.value })
+                }
+                placeholder="Clinical Psychologist, U.Psy"
+              />
+            </div>
+            <div className="space-y-2">
+              <Label>Avatar URL</Label>
+              <Input
+                value={form.instructor_avatar_url ?? ""}
+                onChange={(e) =>
+                  setForm({ ...form, instructor_avatar_url: e.target.value })
+                }
+                placeholder="https://…"
+              />
+            </div>
+            <div className="space-y-2">
+              <Label>Bio</Label>
+              <Textarea
+                rows={2}
+                value={form.instructor_bio ?? ""}
+                onChange={(e) =>
+                  setForm({ ...form, instructor_bio: e.target.value })
+                }
+              />
+            </div>
           </div>
 
           {course?.id && (
             <div className="rounded-lg border p-3 text-sm">
               <p className="font-medium mb-1">Enrollment stats</p>
               <p className="text-muted-foreground text-xs">
-                {stats.data?.count ?? 0} learner(s) · {stats.data?.completed ?? 0} completed · avg {stats.data?.avgProgress ?? 0}% progress
+                {stats.data?.count ?? 0} learner(s) ·{" "}
+                {stats.data?.completed ?? 0} completed · avg{" "}
+                {stats.data?.avgProgress ?? 0}% progress
               </p>
             </div>
           )}
