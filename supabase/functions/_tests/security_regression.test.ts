@@ -110,11 +110,26 @@ Deno.test({
     // ---- 3. PHI tables ----
     await admin.from("mood_entries").insert({ user_id: clientA.id, mood_score: 3 });
     await admin.from("journal_entries").insert({ user_id: clientA.id, content: "private" });
+    await admin.from("crisis_alerts").insert({
+      client_id: clientA.id,
+      alert_type: "qa",
+      severity: "moderate",
+      source_section: "security_regression",
+    });
 
     const { data: bMood } = await bClient.from("mood_entries").select("id").eq("user_id", clientA.id);
     assertEquals(bMood?.length, 0, "client B cannot read client A's mood entries");
     const { data: bJournal } = await bClient.from("journal_entries").select("id").eq("user_id", clientA.id);
     assertEquals(bJournal?.length, 0, "client B cannot read client A's journal");
+
+    const { data: bAssessments } = await bClient.from("assessment_results").select("id").eq("user_id", clientA.id);
+    assertEquals(bAssessments?.length, 0, "client B cannot read client A's assessment results");
+
+    const { data: bCrisis } = await bClient.from("crisis_alerts").select("id").eq("client_id", clientA.id);
+    assertEquals(bCrisis?.length, 0, "client B cannot read client A's crisis alerts");
+
+    const { data: aCrisis } = await aClient.from("crisis_alerts").select("id").eq("client_id", clientA.id);
+    assertEquals(aCrisis?.length, 1, "client A should see own crisis alert");
 
     // ---- 4. recommend edge function — anon falls back, never user-scoped ----
     const recRes = await fetch(`${URL}/functions/v1/recommend`, {
@@ -130,6 +145,7 @@ Deno.test({
     await admin.from("bookings").delete().eq("psychologist_id", specialist.id);
     await admin.from("mood_entries").delete().eq("user_id", clientA.id);
     await admin.from("journal_entries").delete().eq("user_id", clientA.id);
+    await admin.from("crisis_alerts").delete().eq("client_id", clientA.id);
     await admin.from("psychologist_profiles").delete().eq("id", specialist.id);
     await admin.from("user_roles").delete().eq("user_id", specialist.id);
     for (const u of [clientA, clientB, specialist]) {
