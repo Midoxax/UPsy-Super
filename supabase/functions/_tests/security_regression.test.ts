@@ -117,6 +117,19 @@ Deno.test({
       source_section: "security_regression",
     });
 
+    const { data: qaAssessment } = await admin.from("assessments").insert({
+      title: "QA security regression assessment",
+      category: "general",
+      is_published: true,
+    }).select("id").single();
+    await admin.from("assessment_results").insert({
+      user_id: clientA.id,
+      assessment_id: qaAssessment!.id,
+      answers: { qa: true },
+      scores: { qa: 1 },
+      interpretation: "QA",
+    });
+
     const { data: bMood } = await bClient.from("mood_entries").select("id").eq("user_id", clientA.id);
     assertEquals(bMood?.length, 0, "client B cannot read client A's mood entries");
     const { data: bJournal } = await bClient.from("journal_entries").select("id").eq("user_id", clientA.id);
@@ -146,6 +159,10 @@ Deno.test({
     await admin.from("mood_entries").delete().eq("user_id", clientA.id);
     await admin.from("journal_entries").delete().eq("user_id", clientA.id);
     await admin.from("crisis_alerts").delete().eq("client_id", clientA.id);
+    if (qaAssessment?.id) {
+      await admin.from("assessment_results").delete().eq("assessment_id", qaAssessment.id);
+      await admin.from("assessments").delete().eq("id", qaAssessment.id);
+    }
     await admin.from("psychologist_profiles").delete().eq("id", specialist.id);
     await admin.from("user_roles").delete().eq("user_id", specialist.id);
     for (const u of [clientA, clientB, specialist]) {
