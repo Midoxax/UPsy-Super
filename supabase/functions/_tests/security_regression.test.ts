@@ -48,9 +48,12 @@ Deno.test({
 
     const clientA = await makeUser(admin, "clientA");
     const clientB = await makeUser(admin, "clientB");
-    const specialist = await makeUser(admin, "psy");
+    const specialist = await makeUser(admin, "psyA");
+    const specialistB = await makeUser(admin, "psyB");
     await admin.from("user_roles").insert({ user_id: specialist.id, role: "psychologist" });
-    await admin.from("psychologist_profiles").insert({ id: specialist.id, full_name: "QA Psy" });
+    await admin.from("user_roles").insert({ user_id: specialistB.id, role: "psychologist" });
+    await admin.from("psychologist_profiles").insert({ id: specialist.id, full_name: "QA Psy A" });
+    await admin.from("psychologist_profiles").insert({ id: specialistB.id, full_name: "QA Psy B" });
 
     // Seed a booking owned by clientA + specialist with a valid proposal token.
     const validToken = `qa-${crypto.randomUUID()}`;
@@ -83,6 +86,7 @@ Deno.test({
     const aClient = await loginAs(clientA.email, clientA.password);
     const bClient = await loginAs(clientB.email, clientB.password);
     const psyClient = await loginAs(specialist.email, specialist.password);
+    const psyBClient = await loginAs(specialistB.email, specialistB.password);
     const anon = createClient(URL, ANON, { auth: { persistSession: false } });
 
     const { data: aBookings } = await aClient.from("bookings").select("id").eq("id", bk1!.id);
@@ -110,13 +114,78 @@ Deno.test({
     // ---- 3. PHI tables ----
     await admin.from("mood_entries").insert({ user_id: clientA.id, mood_score: 3 });
     await admin.from("journal_entries").insert({ user_id: clientA.id, content: "private" });
+    await admin.from("crisis_alerts").insert({
+      client_id: clientA.id,
+      alert_type: "qa",
+      severity: "moderate",
+      source_section: "security_regression",
+    });
+
+    const { data: qaAssessment } = await admin.from("assessments").insert({
+      title: "QA security regression assessment",
+      category: "general",
+      is_published: true,
+    }).select("id").single();
+    await admin.from("assessment_results").insert({
+      user_id: clientA.id,
+      assessment_id: qaAssessment!.id,
+      answers: { qa: true },
+      scores: { qa: 1 },
+      interpretation: "QA",
+    });
 
     const { data: bMood } = await bClient.from("mood_entries").select("id").eq("user_id", clientA.id);
     assertEquals(bMood?.length, 0, "client B cannot read client A's mood entries");
     const { data: bJournal } = await bClient.from("journal_entries").select("id").eq("user_id", clientA.id);
     assertEquals(bJournal?.length, 0, "client B cannot read client A's journal");
 
-    // ---- 4. recommend edge function — anon falls back, never user-scoped ----
+    const { data: bAssessments } = await bClient.from("assessment_results").select("id").eq("user_id", clientA.id);
+    assertEquals(bAssessments?.length, 0, "client B cannot read client A's assessment results");
+
+    const { data: bCrisis } = await bClient.from("crisis_alerts").select("id").eq("client_id", clientA.id);
+    assertEquals(bCrisis?.length, 0, "client B cannot read client A's crisis alerts");
+
+    const { data: aCrisis } = await aClient.from("crisis_alerts").select("id").eq("client_id", clientA.id);
+    assertEquals(aCrisis?.length, 1, "client A should see own crisis alert");
+
+    // ---- 4. treating-specialist boundary ----
+    const { data: qaSession } = await admin.from("sessions").insert({
+      client_id: clientA.id,
+      psychologist_id: specialist.id,
+      date_time: future,
+      duration_minutes: 50,
+      status: "confirmed",
+      session_type: "online",
+    }).select("id").single();
+
+    const { data: qaNote } = await admin.from("session_notes").insert({
+      session_id: qaSession!.id,
+      psychologist_id: specialist.id,
+      content: "confidential QA note",
+      note_type: "progress",
+    }).select("id").single();
+
+    const { data: qaAnamnesis } = await admin.from("client_anamneses").insert({
+      client_id: clientA.id,
+      psychologist_id: specialist.id,
+      booking_id: bk1!.id,
+      status: "completed",
+      consent_given: true,
+    }).select("id").single();
+
+    const { data: psyBNotes } = await psyBClient.from("session_notes").select("id").eq("id", qaNote!.id);
+    assertEquals(psyBNotes?.length, 0, "psychologist B cannot read psychologist A's session note");
+
+    const { data: psyBAnamnesis } = await psyBClient.from("client_anamneses").select("id").eq("id", qaAnamnesis!.id);
+    assertEquals(psyBAnamnesis?.length, 0, "psychologist B cannot read psychologist A's client anamnesis");
+
+    const { data: psyANotes } = await psyClient.from("session_notes").select("id").eq("id", qaNote!.id);
+    assertEquals(psyANotes?.length, 1, "treating psychologist can read own session note");
+
+    const { data: psyAAnamnesis } = await psyClient.from("client_anamneses").select("id").eq("id", qaAnamnesis!.id);
+    assertEquals(psyAAnamnesis?.length, 1, "treating psychologist can read assigned client's anamnesis");
+
+    // ---- 5. recommend edge function — anon falls back, never user-scoped ----
     const recRes = await fetch(`${URL}/functions/v1/recommend`, {
       method: "POST",
       headers: { "Content-Type": "application/json", apikey: ANON },
@@ -130,9 +199,17 @@ Deno.test({
     await admin.from("bookings").delete().eq("psychologist_id", specialist.id);
     await admin.from("mood_entries").delete().eq("user_id", clientA.id);
     await admin.from("journal_entries").delete().eq("user_id", clientA.id);
-    await admin.from("psychologist_profiles").delete().eq("id", specialist.id);
-    await admin.from("user_roles").delete().eq("user_id", specialist.id);
-    for (const u of [clientA, clientB, specialist]) {
+    await admin.from("crisis_alerts").delete().eq("client_id", clientA.id);
+    if (qaNote?.id) await admin.from("session_notes").delete().eq("id", qaNote.id);
+    if (qaSession?.id) await admin.from("sessions").delete().eq("id", qaSession.id);
+    if (qaAnamnesis?.id) await admin.from("client_anamneses").delete().eq("id", qaAnamnesis.id);
+    if (qaAssessment?.id) {
+      await admin.from("assessment_results").delete().eq("assessment_id", qaAssessment.id);
+      await admin.from("assessments").delete().eq("id", qaAssessment.id);
+    }
+    await admin.from("psychologist_profiles").delete().in("id", [specialist.id, specialistB.id]);
+    await admin.from("user_roles").delete().in("user_id", [specialist.id, specialistB.id]);
+    for (const u of [clientA, clientB, specialist, specialistB]) {
       await admin.auth.admin.deleteUser(u.id);
     }
   },
