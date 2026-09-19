@@ -115,7 +115,6 @@ jobs:
       # resolve them and aborts on the first file it meets.
       - name: Type check edge functions
         run: deno check --node-modules-dir=auto supabase/functions/*/index.ts supabase/functions/_shared/*.ts
-        continue-on-error: true
 
       # Behavioural coverage. Every other gate checks the shape of the output;
       # these assert what the code actually does — i18n fallback resolution,
