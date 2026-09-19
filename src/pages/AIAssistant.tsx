@@ -17,6 +17,7 @@ import { useSearchParams } from "@/lib/router-compat";
 import { cn } from "@/lib/utils";
 import { NourEmergence, Pulse } from "@/lib/motion";
 import { SocialAuthButtons } from "@/components/auth/SocialAuthButtons";
+import { useCrisisScreening } from "@/hooks/useCrisisScreening";
 
 type Msg = { role: "user" | "assistant"; content: string; id: string };
 
@@ -197,7 +198,7 @@ const AIAssistant = () => {
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [userProfile, setUserProfile] = useState<{ name?: string } | null>(null);
-  const [crisisOpen, setCrisisOpen] = useState(false);
+  const { open: crisisOpen, setOpen: setCrisisOpen, risk: crisisRisk, screen: screenCrisis } = useCrisisScreening();
 
   const endRef = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -235,10 +236,11 @@ const AIAssistant = () => {
       },
     };
 
-    // Check user message for distress keywords
-    if (DISTRESS_PATTERNS.test(text)) {
-      setCrisisOpen(true);
-    }
+    // Fast local signal for immediate UI response, followed by the server-side
+    // classifier which handles the broader multilingual risk vocabulary.
+    const localDistress = DISTRESS_PATTERNS.test(text);
+    if (localDistress) setCrisisOpen(true);
+    void screenCrisis(text);
 
     const session = await supabase.auth.getSession();
     const token = session.data.session?.access_token ?? import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY;
