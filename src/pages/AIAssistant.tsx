@@ -312,7 +312,7 @@ const AIAssistant = () => {
       setIsLoading(false);
       setTimeout(() => textareaRef.current?.focus(), 50);
     }
-  }, [messages, isLoading, toast, l, personality, userProfile?.name]);
+  }, [messages, isLoading, toast, l, personality, userProfile?.name, screenCrisis]);
 
   const handleKey = (e: React.KeyboardEvent) => {
     if (e.key === "Enter" && !e.shiftKey) {
@@ -429,7 +429,7 @@ const AIAssistant = () => {
         </div>
       </div>
 
-      <CrisisModal open={crisisOpen} onOpenChange={setCrisisOpen} riskLevel="high" />
+      <CrisisModal open={crisisOpen} onOpenChange={setCrisisOpen} riskLevel={crisisRisk} />
 
       {/* Input area */}
       <div className="border-t border-border bg-background/80 backdrop-blur-xl sticky bottom-0">
