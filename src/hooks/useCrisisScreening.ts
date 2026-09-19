@@ -2,14 +2,16 @@ import { useCallback, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 
 type RiskLevel = "low" | "moderate" | "high";
+type ScreeningResult = RiskLevel | "unavailable";
 
 const SESSION_FLAG = "upsy:crisis:shown";
 
 export function useCrisisScreening() {
   const [open, setOpen] = useState(false);
   const [risk, setRisk] = useState<RiskLevel>("low");
+  const [available, setAvailable] = useState(true);
 
-  const screen = useCallback(async (text: string): Promise<RiskLevel> => {
+  const screen = useCallback(async (text: string): Promise<ScreeningResult> => {
     const trimmed = text.trim();
     if (trimmed.length < 3) return "low";
 
@@ -17,7 +19,11 @@ export function useCrisisScreening() {
       const { data, error } = await supabase.functions.invoke("crisis-screening", {
         body: { text: trimmed },
       });
-      if (error || !data) return "low";
+      if (error || !data || data.risk_level === "unavailable") {
+        setAvailable(false);
+        return "unavailable";
+      }
+      setAvailable(true);
 
       const level: RiskLevel =
         data.risk_level === "high" || data.risk_level === "moderate" ? data.risk_level : "low";
@@ -35,5 +41,5 @@ export function useCrisisScreening() {
     }
   }, []);
 
-  return { open, setOpen, risk, screen };
+  return { open, setOpen, risk, available, screen };
 }
