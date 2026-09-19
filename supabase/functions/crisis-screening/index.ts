@@ -4,6 +4,7 @@
 
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.45.0";
 import { createLogger } from "../_shared/logger.ts";
+import { keywordScreen, mergeRisk, type RiskLevel } from "../_shared/crisis-screening.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -30,9 +31,9 @@ function keywordScreen(text: string): RiskLevel {
   return "low";
 }
 
-async function aiClassify(text: string): Promise<RiskLevel> {
+async function aiClassify(text: string): Promise<RiskLevel | null> {
   const apiKey = Deno.env.get("LOVABLE_API_KEY");
-  if (!apiKey) return "low";
+  if (!apiKey) return null;
 
   try {
     const res = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
@@ -58,7 +59,7 @@ async function aiClassify(text: string): Promise<RiskLevel> {
         max_tokens: 4,
       }),
     });
-    if (!res.ok) return "low";
+    if (!res.ok) return null;
     const json = await res.json();
     const out = (json.choices?.[0]?.message?.content || "").toLowerCase().trim();
     if (out.startsWith("high")) return "high";
