@@ -141,6 +141,12 @@ describe("CSP keeps its load-bearing directives", () => {
     expect(directiveOf("default-src")).toEqual(["'self'"]);
   });
 
+  it("does not allow string evaluation in scripts", () => {
+    // Without 'unsafe-eval', an injected string cannot be run via eval() or
+    // new Function(); nothing in the client bundle needs it.
+    expect(directiveOf("script-src")).not.toContain("'unsafe-eval'");
+  });
+
   it("never allows a wildcard origin in connect-src", () => {
     expect(directiveOf("connect-src")).not.toContain("*");
   });

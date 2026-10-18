@@ -22,9 +22,14 @@ const CONNECT_SRC = [
   "https://o4511311085633536.ingest.de.sentry.io",
 ].join(" ");
 
+// No 'unsafe-eval': nothing in the client bundle evaluates strings (the only
+// Function(...) calls are globalThis fallbacks browsers never reach), and eval
+// is what turns an injected string into running code. 'unsafe-inline' stays
+// for now: the GTM bootstrap and TanStack Start's hydration data are inline
+// scripts, and removing it needs per-request nonces.
 const CSP = [
   "default-src 'self'",
-  "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://meet.jit.si https://*.posthog.com https://www.googletagmanager.com https://maps.googleapis.com",
+  "script-src 'self' 'unsafe-inline' https://meet.jit.si https://*.posthog.com https://www.googletagmanager.com https://maps.googleapis.com",
   "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
   "font-src 'self' data: https://fonts.gstatic.com",
   "img-src 'self' data: blob: https:",
