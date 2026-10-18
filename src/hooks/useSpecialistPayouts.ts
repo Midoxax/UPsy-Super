@@ -30,7 +30,7 @@ export const useEarningsSummary = () => {
     queryKey: ["earnings-summary", user?.id],
     queryFn: async (): Promise<EarningsSummary> => {
       const { data, error } = await supabase.rpc(
-        "get_specialist_earnings_summary"
+        "get_specialist_earnings_summary",
       );
       if (error) throw error;
       return data as EarningsSummary;

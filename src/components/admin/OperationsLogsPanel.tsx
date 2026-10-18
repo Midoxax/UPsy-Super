@@ -16,7 +16,14 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Download, RefreshCw, Trash2, Activity, Server, AlertTriangle } from "lucide-react";
+import {
+  Download,
+  RefreshCw,
+  Trash2,
+  Activity,
+  Server,
+  AlertTriangle,
+} from "lucide-react";
 import {
   appLogsToCsv,
   useAppLogsSearch,
@@ -54,7 +61,9 @@ function StatTile({
     <Card className="border-border/70">
       <CardContent className="p-4 flex items-start justify-between gap-3">
         <div>
-          <p className="text-[11px] uppercase tracking-[0.18em] text-muted-foreground">{label}</p>
+          <p className="text-[11px] uppercase tracking-[0.18em] text-muted-foreground">
+            {label}
+          </p>
           <p className="text-2xl font-heading tabular-nums mt-1">{value}</p>
         </div>
         <Icon className="h-4 w-4 text-muted-foreground shrink-0" />
@@ -95,7 +104,11 @@ export function OperationsLogsPanel() {
   return (
     <div className="space-y-4">
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-        <StatTile label="Events (24h)" value={stats?.total ?? "—"} icon={Activity} />
+        <StatTile
+          label="Events (24h)"
+          value={stats?.total ?? "—"}
+          icon={Activity}
+        />
         <StatTile
           label="Errors (24h)"
           value={stats?.by_level?.error ?? stats?.by_level?.["error"] ?? 0}
@@ -105,7 +118,9 @@ export function OperationsLogsPanel() {
           label="Top source"
           value={
             stats?.by_source
-              ? Object.entries(stats.by_source).sort((a, b) => b[1] - a[1])[0]?.[0] ?? "—"
+              ? (Object.entries(stats.by_source).sort(
+                  (a, b) => b[1] - a[1],
+                )[0]?.[0] ?? "—")
               : "—"
           }
           icon={Server}
@@ -149,7 +164,10 @@ export function OperationsLogsPanel() {
                 variant="outline"
                 size="sm"
                 onClick={() => {
-                  if (confirm("Purge all operations logs? This cannot be undone.")) purge.mutate();
+                  if (
+                    confirm("Purge all operations logs? This cannot be undone.")
+                  )
+                    purge.mutate();
                 }}
                 disabled={purge.isPending}
                 className="h-7 text-xs text-destructive hover:text-destructive"
@@ -163,9 +181,13 @@ export function OperationsLogsPanel() {
         <CardContent className="space-y-3">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
             <div>
-              <Label className="text-[11px] uppercase tracking-wide text-muted-foreground">Level</Label>
+              <Label className="text-[11px] uppercase tracking-wide text-muted-foreground">
+                Level
+              </Label>
               <Select value={level} onValueChange={setLevel}>
-                <SelectTrigger className="h-8 text-xs"><SelectValue placeholder="All" /></SelectTrigger>
+                <SelectTrigger className="h-8 text-xs">
+                  <SelectValue placeholder="All" />
+                </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="">All</SelectItem>
                   <SelectItem value="error">error</SelectItem>
@@ -176,9 +198,13 @@ export function OperationsLogsPanel() {
               </Select>
             </div>
             <div>
-              <Label className="text-[11px] uppercase tracking-wide text-muted-foreground">Source</Label>
+              <Label className="text-[11px] uppercase tracking-wide text-muted-foreground">
+                Source
+              </Label>
               <Select value={source} onValueChange={setSource}>
-                <SelectTrigger className="h-8 text-xs"><SelectValue placeholder="All" /></SelectTrigger>
+                <SelectTrigger className="h-8 text-xs">
+                  <SelectValue placeholder="All" />
+                </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="">All</SelectItem>
                   <SelectItem value="client">client</SelectItem>
@@ -189,9 +215,13 @@ export function OperationsLogsPanel() {
               </Select>
             </div>
             <div>
-              <Label className="text-[11px] uppercase tracking-wide text-muted-foreground">Environment</Label>
+              <Label className="text-[11px] uppercase tracking-wide text-muted-foreground">
+                Environment
+              </Label>
               <Select value={env} onValueChange={setEnv}>
-                <SelectTrigger className="h-8 text-xs"><SelectValue placeholder="All" /></SelectTrigger>
+                <SelectTrigger className="h-8 text-xs">
+                  <SelectValue placeholder="All" />
+                </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="">All</SelectItem>
                   <SelectItem value="production">production</SelectItem>
@@ -201,7 +231,9 @@ export function OperationsLogsPanel() {
               </Select>
             </div>
             <div>
-              <Label className="text-[11px] uppercase tracking-wide text-muted-foreground">Search</Label>
+              <Label className="text-[11px] uppercase tracking-wide text-muted-foreground">
+                Search
+              </Label>
               <Input
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
@@ -226,22 +258,55 @@ export function OperationsLogsPanel() {
                 </thead>
                 <tbody>
                   {isLoading ? (
-                    <tr><td colSpan={6} className="px-3 py-8 text-center text-muted-foreground">Loading…</td></tr>
+                    <tr>
+                      <td
+                        colSpan={6}
+                        className="px-3 py-8 text-center text-muted-foreground"
+                      >
+                        Loading…
+                      </td>
+                    </tr>
                   ) : !rows?.length ? (
-                    <tr><td colSpan={6} className="px-3 py-8 text-center text-muted-foreground">No events match these filters.</td></tr>
+                    <tr>
+                      <td
+                        colSpan={6}
+                        className="px-3 py-8 text-center text-muted-foreground"
+                      >
+                        No events match these filters.
+                      </td>
+                    </tr>
                   ) : (
                     rows.map((r: AppLogEntry) => (
-                      <tr key={r.id} className="border-t border-border/40 hover:bg-muted/30">
-                        <td className="px-3 py-2 whitespace-nowrap text-muted-foreground tabular-nums">{fmt(r.created_at)}</td>
+                      <tr
+                        key={r.id}
+                        className="border-t border-border/40 hover:bg-muted/30"
+                      >
+                        <td className="px-3 py-2 whitespace-nowrap text-muted-foreground tabular-nums">
+                          {fmt(r.created_at)}
+                        </td>
                         <td className="px-3 py-2">
-                          <Badge variant="outline" className={`text-[10px] ${LEVEL_STYLE[r.level] ?? LEVEL_STYLE.info}`}>
+                          <Badge
+                            variant="outline"
+                            className={`text-[10px] ${LEVEL_STYLE[r.level] ?? LEVEL_STYLE.info}`}
+                          >
                             {r.level}
                           </Badge>
                         </td>
-                        <td className="px-3 py-2 text-muted-foreground">{r.source}</td>
-                        <td className="px-3 py-2 font-mono text-[11px]">{r.event}</td>
-                        <td className="px-3 py-2 max-w-[320px] truncate" title={r.message ?? ""}>{r.message ?? "—"}</td>
-                        <td className="px-3 py-2 text-muted-foreground truncate max-w-[160px]">{r.route ?? "—"}</td>
+                        <td className="px-3 py-2 text-muted-foreground">
+                          {r.source}
+                        </td>
+                        <td className="px-3 py-2 font-mono text-[11px]">
+                          {r.event}
+                        </td>
+                        <td
+                          className="px-3 py-2 max-w-[320px] truncate"
+                          title={r.message ?? ""}
+                        >
+                          {r.message ?? "—"}
+                        </td>
+                        <td className="px-3 py-2 text-muted-foreground truncate max-w-[160px]">
+                          {r.route ?? "—"}
+                        </td>
                       </tr>
                     ))
                   )}
@@ -250,8 +315,9 @@ export function OperationsLogsPanel() {
             </div>
           </div>
           <p className="text-[11px] text-muted-foreground">
-            Retained 6 years per the compliance posture. Deploy and runtime-server events are
-            written server-side; client errors arrive via <code>/api/public/runtime-logs</code>.
+            Retained 6 years per the compliance posture. Deploy and
+            runtime-server events are written server-side; client errors arrive
+            via <code>/api/public/runtime-logs</code>.
           </p>
         </CardContent>
       </Card>

@@ -6,11 +6,13 @@ import { sender } from "../_shared/sender.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
+  "Access-Control-Allow-Headers":
+    "authorization, x-client-info, apikey, content-type",
 };
 
 // Input validation schema
-const UUID_REGEX = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+const UUID_REGEX =
+  /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 
 interface RejectionRequest {
   applicationId: string;
@@ -19,31 +21,35 @@ interface RejectionRequest {
 
 // Validate and sanitize inputs
 function validateRequest(body: unknown): RejectionRequest {
-  if (!body || typeof body !== 'object') {
+  if (!body || typeof body !== "object") {
     throw new Error("Invalid request body");
   }
 
   const { applicationId, reason } = body as Record<string, unknown>;
 
   // Validate applicationId
-  if (!applicationId || typeof applicationId !== 'string' || !UUID_REGEX.test(applicationId)) {
+  if (
+    !applicationId ||
+    typeof applicationId !== "string" ||
+    !UUID_REGEX.test(applicationId)
+  ) {
     throw new Error("Invalid application ID format");
   }
 
   // Validate and sanitize reason (optional)
   let sanitizedReason: string | undefined;
   if (reason !== undefined && reason !== null) {
-    if (typeof reason !== 'string') {
+    if (typeof reason !== "string") {
       throw new Error("Reason must be a string");
     }
     // Trim and limit length
     sanitizedReason = reason.trim().slice(0, 500);
     // Remove potentially dangerous characters for HTML context
     sanitizedReason = sanitizedReason
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;')
-      .replace(/"/g, '&quot;')
-      .replace(/'/g, '&#39;');
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#39;");
   }
 
   return {
@@ -55,9 +61,12 @@ function validateRequest(body: unknown): RejectionRequest {
 // Sanitize error messages for client responses
 function sanitizeError(error: unknown): string {
   const message = error instanceof Error ? error.message : String(error);
-  
+
   // Map known error types to safe messages
-  if (message.includes("Unauthorized") || message.includes("Admin role required")) {
+  if (
+    message.includes("Unauthorized") ||
+    message.includes("Admin role required")
+  ) {
     return "Unauthorized: Admin access required";
   }
   if (message.includes("Application not found")) {
@@ -69,7 +78,7 @@ function sanitizeError(error: unknown): string {
   if (message.includes("Invalid")) {
     return "Invalid request data";
   }
-  
+
   // Generic fallback for unknown errors
   return "Failed to process rejection request";
 }
@@ -85,7 +94,10 @@ serve(async (req) => {
     if (!authHeader?.startsWith("Bearer ")) {
       return new Response(
         JSON.stringify({ success: false, error: "Unauthorized" }),
-        { status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" } },
+        {
+          status: 401,
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        },
       );
     }
     const supabaseAuth = createClient(
@@ -93,20 +105,22 @@ serve(async (req) => {
       Deno.env.get("SUPABASE_ANON_KEY") ?? "",
       { global: { headers: { Authorization: authHeader } } },
     );
-    const { data: claimsData, error: claimsErr } = await supabaseAuth.auth.getClaims(
-      authHeader.replace("Bearer ", ""),
-    );
+    const { data: claimsData, error: claimsErr } =
+      await supabaseAuth.auth.getClaims(authHeader.replace("Bearer ", ""));
     if (claimsErr || !claimsData?.claims?.sub) {
       return new Response(
         JSON.stringify({ success: false, error: "Unauthorized" }),
-        { status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" } },
+        {
+          status: 401,
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        },
       );
     }
     const adminUserId = claimsData.claims.sub as string;
 
     const supabaseClient = createClient(
       Deno.env.get("SUPABASE_URL") ?? "",
-      Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? ""
+      Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? "",
     );
 
     const resend = new Resend(Deno.env.get("RESEND_API_KEY"));
@@ -187,7 +201,7 @@ serve(async (req) => {
       }),
       {
         headers: { ...corsHeaders, "Content-Type": "application/json" },
-      }
+      },
     );
   } catch (error: unknown) {
     console.error("Error in send-rejection-email:", error);
@@ -199,7 +213,7 @@ serve(async (req) => {
       {
         status: 500,
         headers: { ...corsHeaders, "Content-Type": "application/json" },
-      }
+      },
     );
   }
 });

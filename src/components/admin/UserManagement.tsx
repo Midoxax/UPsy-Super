@@ -1,21 +1,51 @@
 import { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { EmptyState } from "@/components/ui/empty-state";
 import { useToast } from "@/hooks/use-toast";
 import { Users, Search, ShieldCheck, ShieldOff, UserPlus } from "lucide-react";
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
-type RoleType = "admin" | "psychologist" | "user" | "athlete" | "coach" | "organization";
+type RoleType =
+  "admin" | "psychologist" | "user" | "athlete" | "coach" | "organization";
 
-const ROLE_COLORS: Record<string, "default" | "secondary" | "destructive" | "outline"> = {
+const ROLE_COLORS: Record<
+  string,
+  "default" | "secondary" | "destructive" | "outline"
+> = {
   admin: "destructive",
   psychologist: "default",
   user: "secondary",
@@ -56,7 +86,7 @@ const UserManagement = () => {
         roleMap.set(r.user_id, arr);
       }
 
-      return (profiles || []).map(p => ({
+      return (profiles || []).map((p) => ({
         ...p,
         roles: roleMap.get(p.id) || ["user"],
       }));
@@ -64,13 +94,24 @@ const UserManagement = () => {
   });
 
   const assignRole = useMutation({
-    mutationFn: async ({ userId, role }: { userId: string; role: RoleType }) => {
-      const { error } = await supabase.from("user_roles").insert({ user_id: userId, role } as any);
+    mutationFn: async ({
+      userId,
+      role,
+    }: {
+      userId: string;
+      role: RoleType;
+    }) => {
+      const { error } = await supabase
+        .from("user_roles")
+        .insert({ user_id: userId, role } as any);
       if (error) throw error;
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["admin-users"] });
-      toast({ title: "Role assigned", description: `Role successfully assigned.` });
+      toast({
+        title: "Role assigned",
+        description: `Role successfully assigned.`,
+      });
       setShowRoleModal(false);
     },
     onError: (e: Error) => {
@@ -80,20 +121,27 @@ const UserManagement = () => {
 
   const removeRole = useMutation({
     mutationFn: async ({ userId, role }: { userId: string; role: string }) => {
-      const { error } = await supabase.from("user_roles").delete().eq("user_id", userId).eq("role", role as any);
+      const { error } = await supabase
+        .from("user_roles")
+        .delete()
+        .eq("user_id", userId)
+        .eq("role", role as any);
       if (error) throw error;
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["admin-users"] });
-      toast({ title: "Role removed", description: "Role removed successfully." });
+      toast({
+        title: "Role removed",
+        description: "Role removed successfully.",
+      });
     },
     onError: (e: Error) => {
       toast({ title: "Error", description: e.message, variant: "destructive" });
     },
   });
 
-  const filteredUsers = (users || []).filter(u =>
-    !search || u.full_name?.toLowerCase().includes(search.toLowerCase())
+  const filteredUsers = (users || []).filter(
+    (u) => !search || u.full_name?.toLowerCase().includes(search.toLowerCase()),
   );
 
   return (
@@ -103,7 +151,9 @@ const UserManagement = () => {
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div>
               <CardTitle>User Management</CardTitle>
-              <CardDescription>View users, assign roles, and manage admin access</CardDescription>
+              <CardDescription>
+                View users, assign roles, and manage admin access
+              </CardDescription>
             </div>
             <Button onClick={() => setShowInviteModal(true)} size="sm">
               <UserPlus className="mr-2 h-4 w-4" />
@@ -132,7 +182,11 @@ const UserManagement = () => {
             <EmptyState
               icon={Users}
               title="No Users Found"
-              description={search ? "No users match your search." : "No users registered yet."}
+              description={
+                search
+                  ? "No users match your search."
+                  : "No users registered yet."
+              }
             />
           ) : (
             <div className="rounded-md border overflow-x-auto">
@@ -148,12 +202,18 @@ const UserManagement = () => {
                 <TableBody>
                   {filteredUsers.map((user) => (
                     <TableRow key={user.id}>
-                      <TableCell className="font-medium">{user.full_name || "—"}</TableCell>
+                      <TableCell className="font-medium">
+                        {user.full_name || "—"}
+                      </TableCell>
                       <TableCell>{user.city || "—"}</TableCell>
                       <TableCell>
                         <div className="flex flex-wrap gap-1">
                           {user.roles.map((role) => (
-                            <Badge key={role} variant={ROLE_COLORS[role] || "outline"} className="text-xs">
+                            <Badge
+                              key={role}
+                              variant={ROLE_COLORS[role] || "outline"}
+                              className="text-xs"
+                            >
                               {role}
                             </Badge>
                           ))}
@@ -179,7 +239,12 @@ const UserManagement = () => {
                               size="sm"
                               variant="ghost"
                               className="text-destructive"
-                              onClick={() => removeRole.mutate({ userId: user.id, role: "admin" })}
+                              onClick={() =>
+                                removeRole.mutate({
+                                  userId: user.id,
+                                  role: "admin",
+                                })
+                              }
                             >
                               <ShieldOff className="mr-1 h-3 w-3" />
                               Demote
@@ -201,12 +266,17 @@ const UserManagement = () => {
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Assign Role</DialogTitle>
-            <DialogDescription>Select a role to assign to this user.</DialogDescription>
+            <DialogDescription>
+              Select a role to assign to this user.
+            </DialogDescription>
           </DialogHeader>
           <div className="py-4 space-y-4">
             <div className="space-y-2">
               <Label>Role</Label>
-              <Select value={selectedRole} onValueChange={(v) => setSelectedRole(v as RoleType)}>
+              <Select
+                value={selectedRole}
+                onValueChange={(v) => setSelectedRole(v as RoleType)}
+              >
                 <SelectTrigger>
                   <SelectValue />
                 </SelectTrigger>
@@ -222,8 +292,18 @@ const UserManagement = () => {
             </div>
           </div>
           <DialogFooter>
-            <Button variant="outline" onClick={() => setShowRoleModal(false)}>Cancel</Button>
-            <Button onClick={() => selectedUserId && assignRole.mutate({ userId: selectedUserId, role: selectedRole })}>
+            <Button variant="outline" onClick={() => setShowRoleModal(false)}>
+              Cancel
+            </Button>
+            <Button
+              onClick={() =>
+                selectedUserId &&
+                assignRole.mutate({
+                  userId: selectedUserId,
+                  role: selectedRole,
+                })
+              }
+            >
               Assign Role
             </Button>
           </DialogFooter>
@@ -231,12 +311,21 @@ const UserManagement = () => {
       </Dialog>
 
       {/* Invite Admin Modal */}
-      <InviteAdminModal open={showInviteModal} onClose={() => setShowInviteModal(false)} />
+      <InviteAdminModal
+        open={showInviteModal}
+        onClose={() => setShowInviteModal(false)}
+      />
     </>
   );
 };
 
-const InviteAdminModal = ({ open, onClose }: { open: boolean; onClose: () => void }) => {
+const InviteAdminModal = ({
+  open,
+  onClose,
+}: {
+  open: boolean;
+  onClose: () => void;
+}) => {
   const [email, setEmail] = useState("");
   const [sending, setSending] = useState(false);
   const { toast } = useToast();
@@ -246,20 +335,30 @@ const InviteAdminModal = ({ open, onClose }: { open: boolean; onClose: () => voi
     setSending(true);
     try {
       // Use edge function to send invite
-      const { error } = await supabase.functions.invoke("send-proposal-notification", {
-        body: {
-          type: "admin-invite",
-          email,
-          subject: "You're invited to become a U.Psy Admin",
-          message: `You've been invited to join U.Psy as an administrator. Please sign up at ${window.location.origin}/auth and an admin will assign your role.`,
+      const { error } = await supabase.functions.invoke(
+        "send-proposal-notification",
+        {
+          body: {
+            type: "admin-invite",
+            email,
+            subject: "You're invited to become a U.Psy Admin",
+            message: `You've been invited to join U.Psy as an administrator. Please sign up at ${window.location.origin}/auth and an admin will assign your role.`,
+          },
         },
-      });
+      );
       if (error) throw error;
-      toast({ title: "Invitation sent", description: `Invite email sent to ${email}` });
+      toast({
+        title: "Invitation sent",
+        description: `Invite email sent to ${email}`,
+      });
       setEmail("");
       onClose();
     } catch (e: any) {
-      toast({ title: "Note", description: "Please ask the user to sign up, then promote them from this panel." });
+      toast({
+        title: "Note",
+        description:
+          "Please ask the user to sign up, then promote them from this panel.",
+      });
       onClose();
     } finally {
       setSending(false);
@@ -272,7 +371,8 @@ const InviteAdminModal = ({ open, onClose }: { open: boolean; onClose: () => voi
         <DialogHeader>
           <DialogTitle>Invite New Admin</DialogTitle>
           <DialogDescription>
-            Send an invitation email. Once they sign up, return here to promote them.
+            Send an invitation email. Once they sign up, return here to promote
+            them.
           </DialogDescription>
         </DialogHeader>
         <div className="py-4 space-y-4">
@@ -288,7 +388,9 @@ const InviteAdminModal = ({ open, onClose }: { open: boolean; onClose: () => voi
           </div>
         </div>
         <DialogFooter>
-          <Button variant="outline" onClick={onClose}>Cancel</Button>
+          <Button variant="outline" onClick={onClose}>
+            Cancel
+          </Button>
           <Button onClick={handleInvite} disabled={!email || sending}>
             {sending ? "Sending..." : "Send Invite"}
           </Button>

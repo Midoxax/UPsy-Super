@@ -61,7 +61,9 @@ export function useAppLogsStats(hours = 24) {
   return useQuery({
     queryKey: ["app-logs-stats", hours],
     queryFn: async () => {
-      const { data, error } = await supabase.rpc("app_logs_stats", { _hours: hours });
+      const { data, error } = await supabase.rpc("app_logs_stats", {
+        _hours: hours,
+      });
       if (error) throw error;
       return data as AppLogStats;
     },
@@ -117,7 +119,9 @@ export function appLogsToCsv(rows: AppLogEntry[]): string {
   ];
   const head = cols.join(",");
   const body = rows
-    .map((r) => cols.map((c) => csvEscape((r as Record<string, unknown>)[c])).join(","))
+    .map((r) =>
+      cols.map((c) => csvEscape((r as Record<string, unknown>)[c])).join(","),
+    )
     .join("\n");
   return `${head}\n${body}`;
 }

@@ -1,6 +1,6 @@
-import { useEffect } from 'react';
-import { useLocale } from '@/contexts/LocaleContext';
-import logoAssetUrl from '@/assets/upsy-logo-hero.png';
+import { useEffect } from "react";
+import { useLocale } from "@/contexts/LocaleContext";
+import logoAssetUrl from "@/assets/upsy-logo-hero.png";
 
 interface BlogArticleSchemaProps {
   title: string;
@@ -16,14 +16,14 @@ const BlogArticleSchema = ({
   title,
   description,
   slug,
-  datePublished = '2025-01-15',
+  datePublished = "2025-01-15",
   dateModified,
-  category = 'Mental Health',
+  category = "Mental Health",
   readTimeMinutes = 5,
 }: BlogArticleSchemaProps) => {
   const { locale } = useLocale();
-  const baseUrl = 'https://upsy.ma';
-  const localePath = locale === 'en' ? '' : `/${locale}`;
+  const baseUrl = "https://upsy.ma";
+  const localePath = locale === "en" ? "" : `/${locale}`;
   const articleUrl = `${baseUrl}${localePath}/blog/${slug}`;
   const wordCount = readTimeMinutes * 200;
 
@@ -36,62 +36,63 @@ const BlogArticleSchema = ({
     if (existingBreadcrumb) existingBreadcrumb.remove();
 
     const schema = {
-      '@context': 'https://schema.org',
-      '@type': 'Article',
+      "@context": "https://schema.org",
+      "@type": "Article",
       headline: title,
       description,
       url: articleUrl,
       datePublished,
       dateModified: dateModified || datePublished,
       wordCount,
-      inLanguage: locale === 'fr' ? 'fr-FR' : locale === 'ar' ? 'ar-MA' : 'en-US',
+      inLanguage:
+        locale === "fr" ? "fr-FR" : locale === "ar" ? "ar-MA" : "en-US",
       author: {
-        '@type': 'Organization',
-        name: 'U.Psy',
+        "@type": "Organization",
+        name: "U.Psy",
         url: baseUrl,
       },
       publisher: {
-        '@type': 'Organization',
-        name: 'U.Psy',
+        "@type": "Organization",
+        name: "U.Psy",
         url: baseUrl,
         logo: {
-          '@type': 'ImageObject',
+          "@type": "ImageObject",
           url: `${baseUrl}${logoAssetUrl}`,
         },
       },
       mainEntityOfPage: {
-        '@type': 'WebPage',
-        '@id': articleUrl,
+        "@type": "WebPage",
+        "@id": articleUrl,
       },
       articleSection: category,
       isAccessibleForFree: true,
     };
 
-    const script = document.createElement('script');
+    const script = document.createElement("script");
     script.id = scriptId;
-    script.type = 'application/ld+json';
+    script.type = "application/ld+json";
     script.textContent = JSON.stringify(schema);
     document.head.appendChild(script);
 
     const blogUrl = `${baseUrl}${localePath}/blog`;
     const breadcrumbSchema = {
-      '@context': 'https://schema.org',
-      '@type': 'BreadcrumbList',
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
       itemListElement: [
         {
-          '@type': 'ListItem',
+          "@type": "ListItem",
           position: 1,
-          name: 'Home',
-          item: `${baseUrl}${localePath || '/'}`,
+          name: "Home",
+          item: `${baseUrl}${localePath || "/"}`,
         },
         {
-          '@type': 'ListItem',
+          "@type": "ListItem",
           position: 2,
-          name: 'Blog',
+          name: "Blog",
           item: blogUrl,
         },
         {
-          '@type': 'ListItem',
+          "@type": "ListItem",
           position: 3,
           name: title,
           item: articleUrl,
@@ -99,9 +100,9 @@ const BlogArticleSchema = ({
       ],
     };
 
-    const breadcrumbScript = document.createElement('script');
+    const breadcrumbScript = document.createElement("script");
     breadcrumbScript.id = breadcrumbScriptId;
-    breadcrumbScript.type = 'application/ld+json';
+    breadcrumbScript.type = "application/ld+json";
     breadcrumbScript.textContent = JSON.stringify(breadcrumbSchema);
     document.head.appendChild(breadcrumbScript);
 
@@ -111,7 +112,18 @@ const BlogArticleSchema = ({
       const bEl = document.getElementById(breadcrumbScriptId);
       if (bEl) bEl.remove();
     };
-  }, [title, description, slug, locale, localePath, articleUrl, datePublished, dateModified, wordCount, category]);
+  }, [
+    title,
+    description,
+    slug,
+    locale,
+    localePath,
+    articleUrl,
+    datePublished,
+    dateModified,
+    wordCount,
+    category,
+  ]);
 
   return null;
 };

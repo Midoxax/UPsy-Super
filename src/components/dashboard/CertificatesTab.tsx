@@ -27,11 +27,30 @@ interface Certificate {
   metadata: Record<string, unknown> | null;
 }
 
-const TYPE_CONFIG: Record<string, { label: string; icon: typeof Award; color: string }> = {
-  course_completion: { label: "Course", icon: BookOpen, color: "text-u-turquoise" },
-  assessment_completion: { label: "Assessment", icon: Brain, color: "text-u-clinical" },
-  psychologist_accreditation: { label: "Accreditation", icon: ShieldCheck, color: "text-primary" },
-  mooc_training: { label: "MOOC", icon: GraduationCap, color: "text-u-lavender" },
+const TYPE_CONFIG: Record<
+  string,
+  { label: string; icon: typeof Award; color: string }
+> = {
+  course_completion: {
+    label: "Course",
+    icon: BookOpen,
+    color: "text-u-turquoise",
+  },
+  assessment_completion: {
+    label: "Assessment",
+    icon: Brain,
+    color: "text-u-clinical",
+  },
+  psychologist_accreditation: {
+    label: "Accreditation",
+    icon: ShieldCheck,
+    color: "text-primary",
+  },
+  mooc_training: {
+    label: "MOOC",
+    icon: GraduationCap,
+    color: "text-u-lavender",
+  },
 };
 
 function generatePDF(cert: Certificate) {
@@ -64,7 +83,9 @@ function generatePDF(cert: Certificate) {
   pdf.setFontSize(10);
   pdf.setTextColor(218, 165, 32);
   pdf.setFont("helvetica", "normal");
-  pdf.text((typeConfig?.label || "Certificate").toUpperCase(), w / 2, 43, { align: "center" });
+  pdf.text((typeConfig?.label || "Certificate").toUpperCase(), w / 2, 43, {
+    align: "center",
+  });
 
   // Certificate of completion
   pdf.setFontSize(14);
@@ -181,8 +202,8 @@ const CertificatesTab = () => {
         <Award className="w-12 h-12 text-muted-foreground/30 mx-auto mb-4" />
         <h3 className="text-h3 mb-2">No Certificates Yet</h3>
         <p className="text-sm text-muted-foreground max-w-sm mx-auto">
-          Complete courses, assessments, or training programs to earn your certificates.
-          They'll appear here for download.
+          Complete courses, assessments, or training programs to earn your
+          certificates. They'll appear here for download.
         </p>
       </div>
     );
@@ -197,7 +218,8 @@ const CertificatesTab = () => {
 
       <div className="grid gap-4 sm:grid-cols-2">
         {certificates.map((cert) => {
-          const config = TYPE_CONFIG[cert.certificate_type] || TYPE_CONFIG.course_completion;
+          const config =
+            TYPE_CONFIG[cert.certificate_type] || TYPE_CONFIG.course_completion;
           const Icon = config.icon;
 
           return (
@@ -209,7 +231,10 @@ const CertificatesTab = () => {
                 <div className="flex items-center gap-2">
                   <div
                     className="w-9 h-9 rounded-xl flex items-center justify-center"
-                    style={{ background: "rgba(218,165,32,0.1)", border: "1px solid rgba(218,165,32,0.2)" }}
+                    style={{
+                      background: "rgba(218,165,32,0.1)",
+                      border: "1px solid rgba(218,165,32,0.2)",
+                    }}
                   >
                     <Icon className={`w-4.5 h-4.5 ${config.color}`} />
                   </div>
@@ -235,7 +260,9 @@ const CertificatesTab = () => {
                   <Calendar className="w-3 h-3" />
                   {format(new Date(cert.issued_at), "MMM d, yyyy")}
                 </span>
-                <span className="font-mono text-[10px]">{cert.certificate_number}</span>
+                <span className="font-mono text-[10px]">
+                  {cert.certificate_number}
+                </span>
               </div>
 
               <Button

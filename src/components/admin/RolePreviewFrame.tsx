@@ -7,7 +7,9 @@ import { AdminPreviewProvider } from "./AdminPreviewProvider";
 
 const SpecialistDashboard = lazy(() => import("@/pages/SpecialistDashboard"));
 const PatientDashboard = lazy(() => import("@/pages/PatientDashboard"));
-const OrganizationDashboard = lazy(() => import("@/pages/OrganizationDashboard"));
+const OrganizationDashboard = lazy(
+  () => import("@/pages/OrganizationDashboard"),
+);
 const AthleteHub = lazy(() => import("@/pages/AthleteHub"));
 
 type Role = "psychologist" | "user" | "organization" | "athlete";
@@ -34,13 +36,22 @@ class PreviewErrorBoundary extends Component<
         <div className="p-8 space-y-4">
           <div className="flex items-center gap-2 text-destructive">
             <AlertTriangle className="h-5 w-5" />
-            <h3 className="font-semibold">Failed to render {this.props.label} view</h3>
+            <h3 className="font-semibold">
+              Failed to render {this.props.label} view
+            </h3>
           </div>
           <pre className="text-xs bg-muted p-3 rounded-lg overflow-auto max-h-48 whitespace-pre-wrap break-words">
             {this.state.error.message}
-            {this.state.error.stack ? "\n\n" + this.state.error.stack.split("\n").slice(0, 6).join("\n") : ""}
+            {this.state.error.stack
+              ? "\n\n" +
+                this.state.error.stack.split("\n").slice(0, 6).join("\n")
+              : ""}
           </pre>
-          <Button size="sm" variant="outline" onClick={() => this.setState({ error: null })}>
+          <Button
+            size="sm"
+            variant="outline"
+            onClick={() => this.setState({ error: null })}
+          >
             <RefreshCw className="h-3.5 w-3.5 mr-1.5" /> Retry
           </Button>
         </div>
@@ -51,9 +62,17 @@ class PreviewErrorBoundary extends Component<
 }
 
 const VIEWS: Array<{ value: Role; label: string; Component: any }> = [
-  { value: "psychologist", label: "Specialist", Component: SpecialistDashboard },
+  {
+    value: "psychologist",
+    label: "Specialist",
+    Component: SpecialistDashboard,
+  },
   { value: "user", label: "Client", Component: PatientDashboard },
-  { value: "organization", label: "Organization", Component: OrganizationDashboard },
+  {
+    value: "organization",
+    label: "Organization",
+    Component: OrganizationDashboard,
+  },
   { value: "athlete", label: "Athlete", Component: AthleteHub },
 ];
 
@@ -69,16 +88,21 @@ export default function RolePreviewFrame() {
             Live role views
           </h2>
           <p className="text-xs text-muted-foreground">
-            Read-only preview of the actual dashboards each role sees. No data is written from this view.
+            Read-only preview of the actual dashboards each role sees. No data
+            is written from this view.
           </p>
         </div>
-        <Badge variant="secondary" className="text-xs">Preview mode</Badge>
+        <Badge variant="secondary" className="text-xs">
+          Preview mode
+        </Badge>
       </div>
 
       <Tabs value={active} onValueChange={(v) => setActive(v as Role)}>
         <TabsList>
           {VIEWS.map((v) => (
-            <TabsTrigger key={v.value} value={v.value}>{v.label} view</TabsTrigger>
+            <TabsTrigger key={v.value} value={v.value}>
+              {v.label} view
+            </TabsTrigger>
           ))}
         </TabsList>
 
@@ -89,7 +113,9 @@ export default function RolePreviewFrame() {
                 <span className="font-medium text-amber-700 dark:text-amber-400">
                   Viewing as {label} — read-only
                 </span>
-                <span className="text-muted-foreground">Mutations are disabled</span>
+                <span className="text-muted-foreground">
+                  Mutations are disabled
+                </span>
               </div>
               <div className="bg-background">
                 <AdminPreviewProvider role={value}>
@@ -98,7 +124,9 @@ export default function RolePreviewFrame() {
                       fallback={
                         <div className="flex flex-col items-center gap-3 py-20">
                           <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
-                          <p className="text-xs text-muted-foreground">Loading {label} view…</p>
+                          <p className="text-xs text-muted-foreground">
+                            Loading {label} view…
+                          </p>
                         </div>
                       }
                     >

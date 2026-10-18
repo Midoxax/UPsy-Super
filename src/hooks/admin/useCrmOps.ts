@@ -12,7 +12,10 @@ import { supabase } from "@/integrations/supabase/client";
 // keeps the call sites honest without disabling type safety everywhere else.
 const db = supabase as unknown as {
   from: (t: string) => any;
-  rpc: (fn: string, args?: Record<string, unknown>) => Promise<{ data: any; error: any }>;
+  rpc: (
+    fn: string,
+    args?: Record<string, unknown>,
+  ) => Promise<{ data: any; error: any }>;
   auth: typeof supabase.auth;
 };
 
@@ -114,15 +117,19 @@ export const useCrmRole = () =>
     queryFn: async (): Promise<CrmRole> => {
       const { data: auth } = await supabase.auth.getUser();
       if (!auth.user) return null;
-      const { data, error } = await db.rpc("crm_role", { _user_id: auth.user.id });
+      const { data, error } = await db.rpc("crm_role", {
+        _user_id: auth.user.id,
+      });
       if (error) return null;
       return (data as CrmRole) ?? null;
     },
   });
 
 const RANK: Record<string, number> = { viewer: 1, agent: 2, manager: 3 };
-export const crmAtLeast = (role: CrmRole, min: "viewer" | "agent" | "manager") =>
-  (RANK[role ?? ""] ?? 0) >= RANK[min];
+export const crmAtLeast = (
+  role: CrmRole,
+  min: "viewer" | "agent" | "manager",
+) => (RANK[role ?? ""] ?? 0) >= RANK[min];
 
 /** Weighted pipeline value per stage. */
 export const useCrmForecast = () =>
@@ -140,7 +147,9 @@ export const useCrmNextBestActions = (limit = 10) =>
   useQuery({
     queryKey: [...KEY, "nba", limit],
     queryFn: async () => {
-      const { data, error } = await db.rpc("crm_next_best_actions", { _limit: limit });
+      const { data, error } = await db.rpc("crm_next_best_actions", {
+        _limit: limit,
+      });
       if (error) throw error;
       return (data ?? []) as CrmNextBestAction[];
     },
@@ -205,14 +214,23 @@ export const useCrmOpsMutations = () => {
 
   const toggleRule = useMutation({
     mutationFn: async ({ id, active }: { id: string; active: boolean }) => {
-      const { error } = await db.from("crm_automation_rules").update({ active }).eq("id", id);
+      const { error } = await db
+        .from("crm_automation_rules")
+        .update({ active })
+        .eq("id", id);
       if (error) throw error;
     },
     onSuccess: invalidate,
   });
 
   const setStageProbability = useMutation({
-    mutationFn: async ({ id, probability }: { id: string; probability: number }) => {
+    mutationFn: async ({
+      id,
+      probability,
+    }: {
+      id: string;
+      probability: number;
+    }) => {
       const { error } = await db
         .from("crm_stages")
         .update({ probability: Math.max(0, Math.min(100, probability)) })
@@ -244,9 +262,18 @@ export const useCrmOpsMutations = () => {
 export type FunnelMetrics = {
   window: { from: string; to: string };
   total_events: number;
-  by_variant: Record<string, { events: number; conversions: number; rate: number }>;
-  by_source: Record<string, { events: number; conversions: number; rate: number }>;
-  by_utm: Record<string, Record<string, { events: number; conversions: number; rate: number }>>;
+  by_variant: Record<
+    string,
+    { events: number; conversions: number; rate: number }
+  >;
+  by_source: Record<
+    string,
+    { events: number; conversions: number; rate: number }
+  >;
+  by_utm: Record<
+    string,
+    Record<string, { events: number; conversions: number; rate: number }>
+  >;
   conversion_rate: number;
 };
 
@@ -280,7 +307,10 @@ export type ObservatoireFunnelReport = {
   completions: number;
   completion_rate: number;
   total_starts: number;
-  by_track: Record<string, { starts: number; completions: number; rate: number }>;
+  by_track: Record<
+    string,
+    { starts: number; completions: number; rate: number }
+  >;
   lead_tags: Record<string, number>;
 };
 
@@ -288,7 +318,9 @@ export function useObservatoireFunnelReport(days = 7) {
   return useQuery({
     queryKey: ["admin", "crm-ops", "observatoire-funnel", days],
     queryFn: async () => {
-      const { data, error } = await db.rpc("observatoire_funnel_report", { _days: days });
+      const { data, error } = await db.rpc("observatoire_funnel_report", {
+        _days: days,
+      });
       if (error) throw error;
       return data as ObservatoireFunnelReport;
     },

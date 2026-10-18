@@ -6,6 +6,8 @@ const LearnCourse = lazy(() => import("@/pages/LearnCourse"));
 
 export const Route = createFileRoute("/$locale/learn/$slug")({
   component: () => (
-    <PageTransition><LearnCourse /></PageTransition>
+    <PageTransition>
+      <LearnCourse />
+    </PageTransition>
   ),
 });

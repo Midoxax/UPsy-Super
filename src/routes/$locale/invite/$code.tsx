@@ -6,6 +6,8 @@ const Invite = lazy(() => import("@/pages/Invite"));
 
 export const Route = createFileRoute("/$locale/invite/$code")({
   component: () => (
-    <PageTransition><Invite /></PageTransition>
+    <PageTransition>
+      <Invite />
+    </PageTransition>
   ),
 });

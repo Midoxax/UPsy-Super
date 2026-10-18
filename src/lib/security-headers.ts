@@ -75,8 +75,14 @@ export function applySecurityHeaders(response: Response, url: URL): Response {
     if (!target.headers.has(key)) target.headers.set(key, value);
   }
 
-  if (url.pathname.startsWith("/api/") && !target.headers.has("cache-control")) {
-    target.headers.set("cache-control", "no-store, no-cache, must-revalidate, proxy-revalidate");
+  if (
+    url.pathname.startsWith("/api/") &&
+    !target.headers.has("cache-control")
+  ) {
+    target.headers.set(
+      "cache-control",
+      "no-store, no-cache, must-revalidate, proxy-revalidate",
+    );
   }
 
   return target;

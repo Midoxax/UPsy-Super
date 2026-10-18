@@ -6,6 +6,8 @@ const Soleterre = lazy(() => import("@/pages/Soleterre"));
 
 export const Route = createFileRoute("/soleterre")({
   component: () => (
-    <PageTransition><Soleterre /></PageTransition>
+    <PageTransition>
+      <Soleterre />
+    </PageTransition>
   ),
 });

@@ -22,12 +22,42 @@ const DEFAULT_PREFS: Prefs = {
   inapp_all: true,
 };
 
-const PREF_ROWS: { key: keyof Prefs; label: string; desc: string; icon: typeof Mail }[] = [
-  { key: "email_bookings", label: "Booking emails", desc: "Session confirmations, proposals, and declines", icon: Mail },
-  { key: "email_reminders", label: "Reminder emails", desc: "Upcoming session reminders", icon: Mail },
-  { key: "email_payments", label: "Payment emails", desc: "Receipts and payment confirmations", icon: Mail },
-  { key: "email_gamification", label: "Achievement emails", desc: "XP milestones, streaks, and badges", icon: Mail },
-  { key: "inapp_all", label: "In-app notifications", desc: "Show notification bell alerts", icon: Bell },
+const PREF_ROWS: {
+  key: keyof Prefs;
+  label: string;
+  desc: string;
+  icon: typeof Mail;
+}[] = [
+  {
+    key: "email_bookings",
+    label: "Booking emails",
+    desc: "Session confirmations, proposals, and declines",
+    icon: Mail,
+  },
+  {
+    key: "email_reminders",
+    label: "Reminder emails",
+    desc: "Upcoming session reminders",
+    icon: Mail,
+  },
+  {
+    key: "email_payments",
+    label: "Payment emails",
+    desc: "Receipts and payment confirmations",
+    icon: Mail,
+  },
+  {
+    key: "email_gamification",
+    label: "Achievement emails",
+    desc: "XP milestones, streaks, and badges",
+    icon: Mail,
+  },
+  {
+    key: "inapp_all",
+    label: "In-app notifications",
+    desc: "Show notification bell alerts",
+    icon: Bell,
+  },
 ];
 
 export default function NotificationPreferencesCard() {
@@ -96,14 +126,21 @@ export default function NotificationPreferencesCard() {
         const sub = await reg.pushManager.getSubscription();
         if (sub) {
           await sub.unsubscribe();
-          await supabase.from("push_subscriptions").delete().eq("endpoint", sub.endpoint);
+          await supabase
+            .from("push_subscriptions")
+            .delete()
+            .eq("endpoint", sub.endpoint);
         }
         setPushEnabled(false);
         toast({ title: "Push notifications disabled" });
       } else {
         const permission = await Notification.requestPermission();
         if (permission !== "granted") {
-          toast({ title: "Permission denied", description: "Enable notifications in your browser settings.", variant: "destructive" });
+          toast({
+            title: "Permission denied",
+            description: "Enable notifications in your browser settings.",
+            variant: "destructive",
+          });
           return;
         }
         const sub = await reg.pushManager.subscribe({
@@ -112,18 +149,25 @@ export default function NotificationPreferencesCard() {
         });
         const json = sub.toJSON();
         if (user && json.keys) {
-          await supabase.from("push_subscriptions").upsert({
-            user_id: user.id,
-            endpoint: sub.endpoint,
-            p256dh: json.keys.p256dh ?? "",
-            auth_key: json.keys.auth ?? "",
-          }, { onConflict: "endpoint" });
+          await supabase.from("push_subscriptions").upsert(
+            {
+              user_id: user.id,
+              endpoint: sub.endpoint,
+              p256dh: json.keys.p256dh ?? "",
+              auth_key: json.keys.auth ?? "",
+            },
+            { onConflict: "endpoint" },
+          );
         }
         setPushEnabled(true);
         toast({ title: "Push notifications enabled" });
       }
     } catch (e) {
-      toast({ title: "Push setup failed", description: "Your browser may not support push notifications.", variant: "destructive" });
+      toast({
+        title: "Push setup failed",
+        description: "Your browser may not support push notifications.",
+        variant: "destructive",
+      });
     }
   };
 
@@ -169,16 +213,15 @@ export default function NotificationPreferencesCard() {
             <div className="flex items-start gap-3">
               <Smartphone className="w-4 h-4 text-muted-foreground mt-0.5" />
               <div>
-                <Label className="text-sm font-medium">Push notifications</Label>
+                <Label className="text-sm font-medium">
+                  Push notifications
+                </Label>
                 <p className="text-xs text-muted-foreground">
                   Receive alerts even when the app is closed
                 </p>
               </div>
             </div>
-            <Switch
-              checked={pushEnabled}
-              onCheckedChange={togglePush}
-            />
+            <Switch checked={pushEnabled} onCheckedChange={togglePush} />
           </div>
         )}
       </div>

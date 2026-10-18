@@ -5,7 +5,8 @@ import { jsPDF } from "https://esm.sh/jspdf@2.5.1";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
+  "Access-Control-Allow-Headers":
+    "authorization, x-client-info, apikey, content-type",
 };
 
 const BodySchema = z.object({
@@ -41,7 +42,11 @@ async function generateInvoicePdf(opts: {
   doc.text("INVOICE", 40, 140);
   doc.setFontSize(10);
   doc.text(`Invoice #: ${opts.invoiceNumber}`, 40, 162);
-  doc.text(`Date: ${new Date(opts.paidAt).toLocaleDateString("en-GB")}`, 40, 178);
+  doc.text(
+    `Date: ${new Date(opts.paidAt).toLocaleDateString("en-GB")}`,
+    40,
+    178,
+  );
 
   // Bill to
   doc.setFontSize(11);
@@ -90,22 +95,27 @@ function nextInvoiceNumber(): string {
 }
 
 serve(async (req) => {
-  if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
+  if (req.method === "OPTIONS")
+    return new Response(null, { headers: corsHeaders });
 
   try {
     // --- HARD BLOCK in production: this is a dev-only simulator ---
     const paymentEnv = (Deno.env.get("PAYMENT_ENV") ?? "sandbox").toLowerCase();
     if (paymentEnv !== "sandbox") {
-      return new Response(JSON.stringify({ error: "Simulator disabled in production" }), {
-        status: 403,
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
-      });
+      return new Response(
+        JSON.stringify({ error: "Simulator disabled in production" }),
+        {
+          status: 403,
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        },
+      );
     }
 
     const authHeader = req.headers.get("Authorization");
     if (!authHeader) {
       return new Response(JSON.stringify({ error: "Unauthorized" }), {
-        status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" },
+        status: 401,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
 
@@ -114,10 +124,14 @@ serve(async (req) => {
       Deno.env.get("SUPABASE_ANON_KEY") ?? "",
       { global: { headers: { Authorization: authHeader } } },
     );
-    const { data: { user }, error: userErr } = await supabase.auth.getUser();
+    const {
+      data: { user },
+      error: userErr,
+    } = await supabase.auth.getUser();
     if (userErr || !user) {
       return new Response(JSON.stringify({ error: "Unauthorized" }), {
-        status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" },
+        status: 401,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
     const userId = user.id;
@@ -125,7 +139,8 @@ serve(async (req) => {
     const parsed = BodySchema.safeParse(await req.json());
     if (!parsed.success) {
       return new Response(JSON.stringify({ error: parsed.error.flatten() }), {
-        status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" },
+        status: 400,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
     const { transactionId, outcome, failureReason } = parsed.data;
@@ -144,18 +159,24 @@ serve(async (req) => {
       .single();
     if (txErr || !tx) {
       return new Response(JSON.stringify({ error: "Transaction not found" }), {
-        status: 404, headers: { ...corsHeaders, "Content-Type": "application/json" },
+        status: 404,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
     if (tx.patient_id !== userId) {
       return new Response(JSON.stringify({ error: "Forbidden" }), {
-        status: 403, headers: { ...corsHeaders, "Content-Type": "application/json" },
+        status: 403,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
     if (tx.status !== "pending") {
-      return new Response(JSON.stringify({ error: `Transaction already ${tx.status}` }), {
-        status: 409, headers: { ...corsHeaders, "Content-Type": "application/json" },
-      });
+      return new Response(
+        JSON.stringify({ error: `Transaction already ${tx.status}` }),
+        {
+          status: 409,
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        },
+      );
     }
 
     const now = new Date().toISOString();
@@ -167,10 +188,19 @@ serve(async (req) => {
       try {
         invoiceNumber = nextInvoiceNumber();
 
-        const [{ data: patientProfile }, { data: psyProfile }] = await Promise.all([
-          admin.from("profiles").select("full_name").eq("id", tx.patient_id).maybeSingle(),
-          admin.from("psychologist_profiles").select("full_name").eq("id", tx.psychologist_id).maybeSingle(),
-        ]);
+        const [{ data: patientProfile }, { data: psyProfile }] =
+          await Promise.all([
+            admin
+              .from("profiles")
+              .select("full_name")
+              .eq("id", tx.patient_id)
+              .maybeSingle(),
+            admin
+              .from("psychologist_profiles")
+              .select("full_name")
+              .eq("id", tx.psychologist_id)
+              .maybeSingle(),
+          ]);
 
         const pdfBytes = await generateInvoicePdf({
           invoiceNumber,
@@ -184,7 +214,10 @@ serve(async (req) => {
         const path = `${tx.patient_id}/invoices/${invoiceNumber}.pdf`;
         const { error: upErr } = await admin.storage
           .from("user-documents")
-          .upload(path, pdfBytes, { contentType: "application/pdf", upsert: true });
+          .upload(path, pdfBytes, {
+            contentType: "application/pdf",
+            upsert: true,
+          });
         if (upErr) {
           console.error("invoice upload failed:", upErr.message);
         } else {
@@ -209,7 +242,8 @@ serve(async (req) => {
         .from("bookings")
         .update({
           status: "confirmed",
-          payment_status: tx.transaction_type === "deposit" ? "deposit_paid" : "paid",
+          payment_status:
+            tx.transaction_type === "deposit" ? "deposit_paid" : "paid",
         })
         .eq("id", tx.booking_id);
 
@@ -231,7 +265,10 @@ serve(async (req) => {
             body: `Your payment of ${amountMAD} MAD was successful. Invoice ${invoiceNumber} is ready.`,
             action_url: "/my-space",
             send_email: true,
-            metadata: { transaction_id: transactionId, invoice_number: invoiceNumber },
+            metadata: {
+              transaction_id: transactionId,
+              invoice_number: invoiceNumber,
+            },
           }),
         }),
         fetch(notifyUrl, {
@@ -262,7 +299,10 @@ serve(async (req) => {
     } else {
       await admin
         .from("payment_transactions")
-        .update({ status: "failed", failure_reason: failureReason ?? "Mock payment failed" })
+        .update({
+          status: "failed",
+          failure_reason: failureReason ?? "Mock payment failed",
+        })
         .eq("id", transactionId);
 
       await admin
@@ -281,21 +321,23 @@ serve(async (req) => {
           user_id: tx.patient_id,
           type: "payment_succeeded",
           title: "Payment failed",
-          body: failureReason ?? "Your payment could not be processed. Please try again.",
+          body:
+            failureReason ??
+            "Your payment could not be processed. Please try again.",
           action_url: "/my-space",
           send_email: false,
         }),
       }).catch((e) => console.error("notify error", e));
 
-      return new Response(
-        JSON.stringify({ success: true, status: "failed" }),
-        { headers: { ...corsHeaders, "Content-Type": "application/json" } },
-      );
+      return new Response(JSON.stringify({ success: true, status: "failed" }), {
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
     }
   } catch (err) {
     console.error("simulate-payment-webhook error:", err);
     return new Response(JSON.stringify({ error: "Internal error" }), {
-      status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" },
+      status: 500,
+      headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
   }
 });

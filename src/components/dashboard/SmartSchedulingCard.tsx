@@ -73,9 +73,11 @@ const SmartSchedulingCard = () => {
             hour: `${String(h).padStart(2, "0")}:00`,
             demand: count,
             reason:
-              h >= 18 ? "After-work demand spike" :
-              h <= 9 ? "Early-morning interest" :
-              "Mid-day inquiries",
+              h >= 18
+                ? "After-work demand spike"
+                : h <= 9
+                  ? "Early-morning interest"
+                  : "Mid-day inquiries",
           };
         })
         .sort((a, b) => b.demand - a.demand)

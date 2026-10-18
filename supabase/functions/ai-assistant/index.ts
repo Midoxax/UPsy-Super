@@ -4,7 +4,8 @@ import { createLogger } from "../_shared/logger.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version",
+  "Access-Control-Allow-Headers":
+    "authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version",
 };
 
 const SYSTEM_PROMPT = `You are Nour — U.Psy's AI wellness companion inside a Performance Psychology System. "Nour" means "light" in Arabic.
@@ -88,7 +89,8 @@ You are summarising and exploring a journal entry the user just wrote.
 type Personality = keyof typeof PERSONALITIES;
 
 serve(async (req) => {
-  if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
+  if (req.method === "OPTIONS")
+    return new Response(null, { headers: corsHeaders });
 
   const log = createLogger(req, "ai-assistant");
 
@@ -96,31 +98,37 @@ serve(async (req) => {
     const authHeader = req.headers.get("Authorization");
     if (!authHeader?.startsWith("Bearer ")) {
       return new Response(JSON.stringify({ error: "Unauthorized" }), {
-        status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" },
+        status: 401,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
 
     const supabase = createClient(
       Deno.env.get("SUPABASE_URL")!,
       Deno.env.get("SUPABASE_ANON_KEY")!,
-      { global: { headers: { Authorization: authHeader } } }
+      { global: { headers: { Authorization: authHeader } } },
     );
 
-    const { data: { user }, error: userError } = await supabase.auth.getUser();
+    const {
+      data: { user },
+      error: userError,
+    } = await supabase.auth.getUser();
     if (userError || !user) {
       return new Response(JSON.stringify({ error: "Unauthorized" }), {
-        status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" },
+        status: 401,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
 
     // Per-user + per-IP throttling (ad-hoc DB-backed limiter; backend has no
     // shared rate-limit primitive yet).
-    const ip = (req.headers.get("x-forwarded-for") ?? "")
-      .split(",")[0]
-      .trim() || "unknown";
+    const ip =
+      (req.headers.get("x-forwarded-for") ?? "").split(",")[0].trim() ||
+      "unknown";
     const adminLimiter = createClient(
       Deno.env.get("SUPABASE_URL")!,
-      Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? Deno.env.get("SUPABASE_ANON_KEY")!,
+      Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ??
+        Deno.env.get("SUPABASE_ANON_KEY")!,
     );
     for (const [key, max, win] of [
       [`ai:user:${user.id}`, 60, 3600] as const,
@@ -132,17 +140,32 @@ serve(async (req) => {
       );
       if (allowed === false) {
         return new Response(
-          JSON.stringify({ error: "Too many requests. Please slow down and try again later." }),
-          { status: 429, headers: { ...corsHeaders, "Content-Type": "application/json", "Retry-After": "300" } },
+          JSON.stringify({
+            error: "Too many requests. Please slow down and try again later.",
+          }),
+          {
+            status: 429,
+            headers: {
+              ...corsHeaders,
+              "Content-Type": "application/json",
+              "Retry-After": "300",
+            },
+          },
         );
       }
     }
 
     const { messages, context } = await req.json();
-    const firstName = typeof context?.firstName === "string" ? context.firstName.slice(0, 40) : null;
-    const locale = ["en", "fr", "ar"].includes(context?.locale) ? context.locale : "en";
+    const firstName =
+      typeof context?.firstName === "string"
+        ? context.firstName.slice(0, 40)
+        : null;
+    const locale = ["en", "fr", "ar"].includes(context?.locale)
+      ? context.locale
+      : "en";
     const personality: Personality =
-      typeof context?.personality === "string" && context.personality in PERSONALITIES
+      typeof context?.personality === "string" &&
+      context.personality in PERSONALITIES
         ? (context.personality as Personality)
         : "companion";
     const localeLine =
@@ -151,7 +174,9 @@ serve(async (req) => {
         : locale === "ar"
           ? "المستخدم يفضل العربية. أجب بالعربية ما لم يغير اللغة."
           : "The user prefers English. Respond in English unless they switch.";
-    const nameLine = firstName ? `The user's first name is "${firstName}". Use it sparingly and naturally.` : "";
+    const nameLine = firstName
+      ? `The user's first name is "${firstName}". Use it sparingly and naturally.`
+      : "";
     const dynamicSystem = [
       SYSTEM_PROMPT,
       PERSONALITIES[personality].prompt,
@@ -164,37 +189,50 @@ serve(async (req) => {
     const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
     if (!LOVABLE_API_KEY) throw new Error("LOVABLE_API_KEY is not configured");
 
-    const response = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${LOVABLE_API_KEY}`,
-        "Content-Type": "application/json",
+    const response = await fetch(
+      "https://ai.gateway.lovable.dev/v1/chat/completions",
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${LOVABLE_API_KEY}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          model: "google/gemini-3-flash-preview",
+          messages: [{ role: "system", content: dynamicSystem }, ...messages],
+          stream: true,
+        }),
       },
-      body: JSON.stringify({
-        model: "google/gemini-3-flash-preview",
-        messages: [
-          { role: "system", content: dynamicSystem },
-          ...messages,
-        ],
-        stream: true,
-      }),
-    });
+    );
 
     if (!response.ok) {
       if (response.status === 429) {
-        return new Response(JSON.stringify({ error: "Rate limit exceeded. Please try again in a moment." }), {
-          status: 429, headers: { ...corsHeaders, "Content-Type": "application/json" },
-        });
+        return new Response(
+          JSON.stringify({
+            error: "Rate limit exceeded. Please try again in a moment.",
+          }),
+          {
+            status: 429,
+            headers: { ...corsHeaders, "Content-Type": "application/json" },
+          },
+        );
       }
       if (response.status === 402) {
-        return new Response(JSON.stringify({ error: "Service temporarily unavailable. Please try again later." }), {
-          status: 402, headers: { ...corsHeaders, "Content-Type": "application/json" },
-        });
+        return new Response(
+          JSON.stringify({
+            error: "Service temporarily unavailable. Please try again later.",
+          }),
+          {
+            status: 402,
+            headers: { ...corsHeaders, "Content-Type": "application/json" },
+          },
+        );
       }
       const t = await response.text();
       log.error("AI gateway error", null, { status: response.status, body: t });
       return new Response(JSON.stringify({ error: "AI service error" }), {
-        status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" },
+        status: 500,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
 
@@ -204,7 +242,8 @@ serve(async (req) => {
   } catch (e) {
     log.error("chat error", e);
     return new Response(JSON.stringify({ error: "An error occurred" }), {
-      status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" },
+      status: 500,
+      headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
   }
 });

@@ -1,5 +1,11 @@
 import { useState, useEffect, useMemo } from "react";
-import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription } from "@/components/ui/sheet";
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetDescription,
+} from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -9,8 +15,16 @@ import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
 import { Slider } from "@/components/ui/slider";
 import {
-  ChevronLeft, ChevronRight, Check, AlertTriangle, Save, Loader2,
-  ShieldCheck, Download, FileCheck2, Info,
+  ChevronLeft,
+  ChevronRight,
+  Check,
+  AlertTriangle,
+  Save,
+  Loader2,
+  ShieldCheck,
+  Download,
+  FileCheck2,
+  Info,
 } from "lucide-react";
 import { useAnamnesis, type AnamnesisSection } from "@/hooks/useAnamnesis";
 import { useScrollResetOnOpen } from "@/hooks/useScrollResetOnOpen";
@@ -30,8 +44,14 @@ interface Props {
 }
 
 const STEP_KEYS: AnamnesisSection[] = [
-  "identity", "presenting_complaint", "history_personal", "history_family",
-  "medical", "lifestyle", "risk_screening", "goals",
+  "identity",
+  "presenting_complaint",
+  "history_personal",
+  "history_family",
+  "medical",
+  "lifestyle",
+  "risk_screening",
+  "goals",
 ];
 
 // Required fields per section to allow completion
@@ -52,12 +72,26 @@ const REQUIRED: Record<AnamnesisSection, string[]> = {
 const RISK_KEYS = ["suicidal_ideation", "self_harm", "violence_risk"] as const;
 
 const AnamnesisDrawer = ({
-  open, onOpenChange, clientId, clientName,
-  psychologistId, bookingId, isTherapistView, onCrisisFlag,
+  open,
+  onOpenChange,
+  clientId,
+  clientName,
+  psychologistId,
+  bookingId,
+  isTherapistView,
+  onCrisisFlag,
 }: Props) => {
   const { t, locale } = useLocale();
-  const { data, loading, saving, autoSave, complete, giveConsent, markReviewed, progress } =
-    useAnamnesis(clientId, psychologistId, bookingId);
+  const {
+    data,
+    loading,
+    saving,
+    autoSave,
+    complete,
+    giveConsent,
+    markReviewed,
+    progress,
+  } = useAnamnesis(clientId, psychologistId, bookingId);
   const { toast } = useToast();
   const [stepIdx, setStepIdx] = useState(0);
   const [local, setLocal] = useState<Record<string, any>>({});
@@ -78,7 +112,11 @@ const AnamnesisDrawer = ({
     setLocal(next);
     autoSave({ [stepKey]: next } as any);
 
-    if (stepKey === "risk_screening" && (field === "suicidal_ideation" || field === "self_harm") && value === "yes") {
+    if (
+      stepKey === "risk_screening" &&
+      (field === "suicidal_ideation" || field === "self_harm") &&
+      value === "yes"
+    ) {
       onCrisisFlag?.();
       toast({
         title: t("crisis.title"),
@@ -96,7 +134,9 @@ const AnamnesisDrawer = ({
       const secData: any = (data as any)[sec] || {};
       for (const req of REQUIRED[sec]) {
         if (req === "__answered") {
-          const answered = RISK_KEYS.every((k) => secData[k] === "yes" || secData[k] === "no");
+          const answered = RISK_KEYS.every(
+            (k) => secData[k] === "yes" || secData[k] === "no",
+          );
           if (!answered) missing.push(t(`anamnesis.steps.${sec}.label`));
         } else if (!secData[req] || String(secData[req]).trim() === "") {
           missing.push(`${t(`anamnesis.steps.${sec}.label`)} · ${f(req)}`);
@@ -110,13 +150,20 @@ const AnamnesisDrawer = ({
 
   const handleComplete = async () => {
     if (!data?.consent_given) {
-      toast({ title: t("anamnesis.consentRequired"), description: t("anamnesis.consentRequiredDesc"), variant: "destructive" });
+      toast({
+        title: t("anamnesis.consentRequired"),
+        description: t("anamnesis.consentRequiredDesc"),
+        variant: "destructive",
+      });
       return;
     }
     if (missingFields.length > 0) {
       toast({
         title: t("anamnesis.missingFields"),
-        description: t("anamnesis.missingFieldsDesc") + " — " + missingFields.slice(0, 3).join(", "),
+        description:
+          t("anamnesis.missingFieldsDesc") +
+          " — " +
+          missingFields.slice(0, 3).join(", "),
         variant: "destructive",
       });
       return;
@@ -141,13 +188,20 @@ const AnamnesisDrawer = ({
     y += 8;
     doc.setFontSize(10);
     doc.setTextColor(120);
-    doc.text(`${clientName || ""}  ·  ${new Date().toLocaleDateString(locale)}`, margin, y);
+    doc.text(
+      `${clientName || ""}  ·  ${new Date().toLocaleDateString(locale)}`,
+      margin,
+      y,
+    );
     y += 10;
     doc.setTextColor(0);
     for (const sec of STEP_KEYS) {
       const secData: any = (data as any)[sec] || {};
       if (Object.keys(secData).length === 0) continue;
-      if (y > 270) { doc.addPage(); y = 20; }
+      if (y > 270) {
+        doc.addPage();
+        y = 20;
+      }
       doc.setFontSize(12);
       doc.setFont("helvetica", "bold");
       doc.text(t(`anamnesis.steps.${sec}.label`), margin, y);
@@ -157,9 +211,17 @@ const AnamnesisDrawer = ({
       for (const [k, v] of Object.entries(secData)) {
         if (v == null || v === "") continue;
         const label = f(k) || k;
-        const val = typeof v === "boolean" ? (v ? t("anamnesis.yes") : t("anamnesis.no")) : String(v);
+        const val =
+          typeof v === "boolean"
+            ? v
+              ? t("anamnesis.yes")
+              : t("anamnesis.no")
+            : String(v);
         const lines = doc.splitTextToSize(`${label}: ${val}`, 180);
-        if (y + lines.length * 5 > 285) { doc.addPage(); y = 20; }
+        if (y + lines.length * 5 > 285) {
+          doc.addPage();
+          y = 20;
+        }
         doc.text(lines, margin, y);
         y += lines.length * 5 + 1;
       }
@@ -174,64 +236,232 @@ const AnamnesisDrawer = ({
         return (
           <div className="space-y-4">
             <div className="grid grid-cols-2 gap-3">
-              <div><Label>{f("age")} *</Label><Input type="number" value={local.age || ""} onChange={(e) => updateField("age", e.target.value)} /></div>
-              <div><Label>{f("gender")} *</Label><Input value={local.gender || ""} onChange={(e) => updateField("gender", e.target.value)} /></div>
+              <div>
+                <Label>{f("age")} *</Label>
+                <Input
+                  type="number"
+                  value={local.age || ""}
+                  onChange={(e) => updateField("age", e.target.value)}
+                />
+              </div>
+              <div>
+                <Label>{f("gender")} *</Label>
+                <Input
+                  value={local.gender || ""}
+                  onChange={(e) => updateField("gender", e.target.value)}
+                />
+              </div>
             </div>
-            <div><Label>{f("marital_status")}</Label><Input value={local.marital_status || ""} onChange={(e) => updateField("marital_status", e.target.value)} /></div>
-            <div><Label>{f("profession")}</Label><Input value={local.profession || ""} onChange={(e) => updateField("profession", e.target.value)} /></div>
-            <div><Label>{f("children")}</Label><Input value={local.children || ""} onChange={(e) => updateField("children", e.target.value)} /></div>
+            <div>
+              <Label>{f("marital_status")}</Label>
+              <Input
+                value={local.marital_status || ""}
+                onChange={(e) => updateField("marital_status", e.target.value)}
+              />
+            </div>
+            <div>
+              <Label>{f("profession")}</Label>
+              <Input
+                value={local.profession || ""}
+                onChange={(e) => updateField("profession", e.target.value)}
+              />
+            </div>
+            <div>
+              <Label>{f("children")}</Label>
+              <Input
+                value={local.children || ""}
+                onChange={(e) => updateField("children", e.target.value)}
+              />
+            </div>
           </div>
         );
       case "presenting_complaint":
         return (
           <div className="space-y-4">
-            <div><Label>{f("main_reason")} *</Label><Textarea rows={3} value={local.main_reason || ""} onChange={(e) => updateField("main_reason", e.target.value)} /></div>
-            <div><Label>{f("onset")}</Label><Input value={local.onset || ""} onChange={(e) => updateField("onset", e.target.value)} /></div>
-            <div><Label>{f("triggers")}</Label><Textarea rows={2} value={local.triggers || ""} onChange={(e) => updateField("triggers", e.target.value)} /></div>
             <div>
-              <Label>{f("severity")}: {local.severity || 5}</Label>
-              <Slider value={[local.severity || 5]} min={1} max={10} step={1} onValueChange={([v]) => updateField("severity", v)} />
+              <Label>{f("main_reason")} *</Label>
+              <Textarea
+                rows={3}
+                value={local.main_reason || ""}
+                onChange={(e) => updateField("main_reason", e.target.value)}
+              />
+            </div>
+            <div>
+              <Label>{f("onset")}</Label>
+              <Input
+                value={local.onset || ""}
+                onChange={(e) => updateField("onset", e.target.value)}
+              />
+            </div>
+            <div>
+              <Label>{f("triggers")}</Label>
+              <Textarea
+                rows={2}
+                value={local.triggers || ""}
+                onChange={(e) => updateField("triggers", e.target.value)}
+              />
+            </div>
+            <div>
+              <Label>
+                {f("severity")}: {local.severity || 5}
+              </Label>
+              <Slider
+                value={[local.severity || 5]}
+                min={1}
+                max={10}
+                step={1}
+                onValueChange={([v]) => updateField("severity", v)}
+              />
             </div>
           </div>
         );
       case "history_personal":
         return (
           <div className="space-y-4">
-            <div><Label>{f("childhood")}</Label><Textarea rows={3} value={local.childhood || ""} onChange={(e) => updateField("childhood", e.target.value)} /></div>
-            <div><Label>{f("education")}</Label><Textarea rows={2} value={local.education || ""} onChange={(e) => updateField("education", e.target.value)} /></div>
-            <div><Label>{f("key_events")}</Label><Textarea rows={3} value={local.key_events || ""} onChange={(e) => updateField("key_events", e.target.value)} /></div>
-            <div><Label>{f("traumas")}</Label><Textarea rows={3} value={local.traumas || ""} onChange={(e) => updateField("traumas", e.target.value)} /></div>
+            <div>
+              <Label>{f("childhood")}</Label>
+              <Textarea
+                rows={3}
+                value={local.childhood || ""}
+                onChange={(e) => updateField("childhood", e.target.value)}
+              />
+            </div>
+            <div>
+              <Label>{f("education")}</Label>
+              <Textarea
+                rows={2}
+                value={local.education || ""}
+                onChange={(e) => updateField("education", e.target.value)}
+              />
+            </div>
+            <div>
+              <Label>{f("key_events")}</Label>
+              <Textarea
+                rows={3}
+                value={local.key_events || ""}
+                onChange={(e) => updateField("key_events", e.target.value)}
+              />
+            </div>
+            <div>
+              <Label>{f("traumas")}</Label>
+              <Textarea
+                rows={3}
+                value={local.traumas || ""}
+                onChange={(e) => updateField("traumas", e.target.value)}
+              />
+            </div>
           </div>
         );
       case "history_family":
         return (
           <div className="space-y-4">
-            <div><Label>{f("structure")}</Label><Textarea rows={3} value={local.structure || ""} onChange={(e) => updateField("structure", e.target.value)} /></div>
-            <div><Label>{f("mental_health")}</Label><Textarea rows={3} value={local.mental_health || ""} onChange={(e) => updateField("mental_health", e.target.value)} /></div>
-            <div><Label>{f("relationships")}</Label><Textarea rows={2} value={local.relationships || ""} onChange={(e) => updateField("relationships", e.target.value)} /></div>
+            <div>
+              <Label>{f("structure")}</Label>
+              <Textarea
+                rows={3}
+                value={local.structure || ""}
+                onChange={(e) => updateField("structure", e.target.value)}
+              />
+            </div>
+            <div>
+              <Label>{f("mental_health")}</Label>
+              <Textarea
+                rows={3}
+                value={local.mental_health || ""}
+                onChange={(e) => updateField("mental_health", e.target.value)}
+              />
+            </div>
+            <div>
+              <Label>{f("relationships")}</Label>
+              <Textarea
+                rows={2}
+                value={local.relationships || ""}
+                onChange={(e) => updateField("relationships", e.target.value)}
+              />
+            </div>
           </div>
         );
       case "medical":
         return (
           <div className="space-y-4">
-            <div><Label>{f("conditions")}</Label><Textarea rows={2} value={local.conditions || ""} onChange={(e) => updateField("conditions", e.target.value)} /></div>
-            <div><Label>{f("medications")}</Label><Textarea rows={2} value={local.medications || ""} onChange={(e) => updateField("medications", e.target.value)} /></div>
-            <div><Label>{f("allergies")}</Label><Input value={local.allergies || ""} onChange={(e) => updateField("allergies", e.target.value)} /></div>
-            <div><Label>{f("prior_therapy")}</Label><Textarea rows={2} value={local.prior_therapy || ""} onChange={(e) => updateField("prior_therapy", e.target.value)} /></div>
+            <div>
+              <Label>{f("conditions")}</Label>
+              <Textarea
+                rows={2}
+                value={local.conditions || ""}
+                onChange={(e) => updateField("conditions", e.target.value)}
+              />
+            </div>
+            <div>
+              <Label>{f("medications")}</Label>
+              <Textarea
+                rows={2}
+                value={local.medications || ""}
+                onChange={(e) => updateField("medications", e.target.value)}
+              />
+            </div>
+            <div>
+              <Label>{f("allergies")}</Label>
+              <Input
+                value={local.allergies || ""}
+                onChange={(e) => updateField("allergies", e.target.value)}
+              />
+            </div>
+            <div>
+              <Label>{f("prior_therapy")}</Label>
+              <Textarea
+                rows={2}
+                value={local.prior_therapy || ""}
+                onChange={(e) => updateField("prior_therapy", e.target.value)}
+              />
+            </div>
           </div>
         );
       case "lifestyle":
         return (
           <div className="space-y-4">
-            <div><Label>{f("sleep")} *</Label><Input value={local.sleep || ""} onChange={(e) => updateField("sleep", e.target.value)} placeholder={f("sleepPh")} /></div>
-            <div><Label>{f("appetite")}</Label><Input value={local.appetite || ""} onChange={(e) => updateField("appetite", e.target.value)} /></div>
-            <div><Label>{f("substances")}</Label><Textarea rows={2} value={local.substances || ""} onChange={(e) => updateField("substances", e.target.value)} /></div>
-            <div><Label>{f("exercise")}</Label><Input value={local.exercise || ""} onChange={(e) => updateField("exercise", e.target.value)} /></div>
-            <div><Label>{f("social_support")}</Label><Textarea rows={2} value={local.social_support || ""} onChange={(e) => updateField("social_support", e.target.value)} /></div>
+            <div>
+              <Label>{f("sleep")} *</Label>
+              <Input
+                value={local.sleep || ""}
+                onChange={(e) => updateField("sleep", e.target.value)}
+                placeholder={f("sleepPh")}
+              />
+            </div>
+            <div>
+              <Label>{f("appetite")}</Label>
+              <Input
+                value={local.appetite || ""}
+                onChange={(e) => updateField("appetite", e.target.value)}
+              />
+            </div>
+            <div>
+              <Label>{f("substances")}</Label>
+              <Textarea
+                rows={2}
+                value={local.substances || ""}
+                onChange={(e) => updateField("substances", e.target.value)}
+              />
+            </div>
+            <div>
+              <Label>{f("exercise")}</Label>
+              <Input
+                value={local.exercise || ""}
+                onChange={(e) => updateField("exercise", e.target.value)}
+              />
+            </div>
+            <div>
+              <Label>{f("social_support")}</Label>
+              <Textarea
+                rows={2}
+                value={local.social_support || ""}
+                onChange={(e) => updateField("social_support", e.target.value)}
+              />
+            </div>
           </div>
         );
       case "risk_screening": {
-        const YesNoRow = ({ field }: { field: typeof RISK_KEYS[number] }) => (
+        const YesNoRow = ({ field }: { field: (typeof RISK_KEYS)[number] }) => (
           <div className="rounded-lg border border-border p-3 space-y-2">
             <div className="text-sm font-medium">{f(field)} *</div>
             <div className="flex gap-2">
@@ -262,44 +492,91 @@ const AnamnesisDrawer = ({
               <div className="flex items-center gap-2 font-medium text-destructive mb-1">
                 <Info className="h-4 w-4" /> {t("anamnesis.crisisBannerTitle")}
               </div>
-              <p className="text-foreground/80 text-xs leading-relaxed">{t("anamnesis.crisisBannerDesc")}</p>
+              <p className="text-foreground/80 text-xs leading-relaxed">
+                {t("anamnesis.crisisBannerDesc")}
+              </p>
             </div>
             <YesNoRow field="suicidal_ideation" />
             <YesNoRow field="self_harm" />
             <YesNoRow field="violence_risk" />
-            <div><Label>{f("risk_notes")}</Label><Textarea rows={3} value={local.notes || ""} onChange={(e) => updateField("notes", e.target.value)} /></div>
+            <div>
+              <Label>{f("risk_notes")}</Label>
+              <Textarea
+                rows={3}
+                value={local.notes || ""}
+                onChange={(e) => updateField("notes", e.target.value)}
+              />
+            </div>
           </div>
         );
       }
       case "goals":
         return (
           <div className="space-y-4">
-            <div><Label>{f("therapy_goals")} *</Label><Textarea rows={4} value={local.therapy_goals || ""} onChange={(e) => updateField("therapy_goals", e.target.value)} /></div>
-            <div><Label>{f("timeline")}</Label><Input value={local.timeline || ""} onChange={(e) => updateField("timeline", e.target.value)} /></div>
-            <div><Label>{f("success_indicators")}</Label><Textarea rows={3} value={local.success_indicators || ""} onChange={(e) => updateField("success_indicators", e.target.value)} /></div>
+            <div>
+              <Label>{f("therapy_goals")} *</Label>
+              <Textarea
+                rows={4}
+                value={local.therapy_goals || ""}
+                onChange={(e) => updateField("therapy_goals", e.target.value)}
+              />
+            </div>
+            <div>
+              <Label>{f("timeline")}</Label>
+              <Input
+                value={local.timeline || ""}
+                onChange={(e) => updateField("timeline", e.target.value)}
+              />
+            </div>
+            <div>
+              <Label>{f("success_indicators")}</Label>
+              <Textarea
+                rows={3}
+                value={local.success_indicators || ""}
+                onChange={(e) =>
+                  updateField("success_indicators", e.target.value)
+                }
+              />
+            </div>
           </div>
         );
     }
   };
 
-  const isCompleted = data?.status === "completed" || data?.status === "reviewed";
+  const isCompleted =
+    data?.status === "completed" || data?.status === "reviewed";
 
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
-      <SheetContent ref={scrollRef} side="right" className="w-full sm:max-w-xl overflow-y-auto">
+      <SheetContent
+        ref={scrollRef}
+        side="right"
+        className="w-full sm:max-w-xl overflow-y-auto"
+      >
         <SheetHeader className="pb-4">
           <SheetTitle className="flex items-center gap-2">
-            {t("anamnesis.title")} {clientName && <Badge variant="outline">{clientName}</Badge>}
-            {data?.status === "reviewed" && <Badge variant="default" className="ml-auto"><FileCheck2 className="h-3 w-3 mr-1" />{t("anamnesis.reviewed")}</Badge>}
+            {t("anamnesis.title")}{" "}
+            {clientName && <Badge variant="outline">{clientName}</Badge>}
+            {data?.status === "reviewed" && (
+              <Badge variant="default" className="ml-auto">
+                <FileCheck2 className="h-3 w-3 mr-1" />
+                {t("anamnesis.reviewed")}
+              </Badge>
+            )}
           </SheetTitle>
           <SheetDescription>
-            {t("anamnesis.stepOf").replace("{current}", String(stepIdx + 1)).replace("{total}", String(STEP_KEYS.length))}: {stepLabel} — {stepDesc}
+            {t("anamnesis.stepOf")
+              .replace("{current}", String(stepIdx + 1))
+              .replace("{total}", String(STEP_KEYS.length))}
+            : {stepLabel} — {stepDesc}
           </SheetDescription>
           <Progress value={progress} className="h-1.5 mt-2" />
         </SheetHeader>
 
         {loading ? (
-          <div className="flex justify-center py-12"><Loader2 className="h-6 w-6 animate-spin text-primary" /></div>
+          <div className="flex justify-center py-12">
+            <Loader2 className="h-6 w-6 animate-spin text-primary" />
+          </div>
         ) : (
           <>
             <div className="py-4">{renderStep()}</div>
@@ -326,8 +603,13 @@ const AnamnesisDrawer = ({
                   value={reviewNotes}
                   onChange={(e) => setReviewNotes(e.target.value)}
                 />
-                <Button size="sm" className="w-full" onClick={handleMarkReviewed}>
-                  <FileCheck2 className="h-4 w-4 mr-1" /> {t("anamnesis.markReviewed")}
+                <Button
+                  size="sm"
+                  className="w-full"
+                  onClick={handleMarkReviewed}
+                >
+                  <FileCheck2 className="h-4 w-4 mr-1" />{" "}
+                  {t("anamnesis.markReviewed")}
                 </Button>
               </div>
             )}
@@ -335,14 +617,24 @@ const AnamnesisDrawer = ({
             {data?.status === "reviewed" && data.reviewed_at && (
               <div className="text-xs text-muted-foreground my-2 flex items-center gap-1">
                 <FileCheck2 className="h-3 w-3 text-primary" />
-                {t("anamnesis.reviewedAt").replace("{date}", new Date(data.reviewed_at).toLocaleDateString(locale))}
+                {t("anamnesis.reviewedAt").replace(
+                  "{date}",
+                  new Date(data.reviewed_at).toLocaleDateString(locale),
+                )}
               </div>
             )}
 
             {/* PDF download — available once reviewed (or completed for therapist) */}
-            {(data?.status === "reviewed" || (isTherapistView && isCompleted)) && (
-              <Button variant="outline" size="sm" className="w-full mb-3" onClick={handleDownloadPdf}>
-                <Download className="h-4 w-4 mr-1" /> {t("anamnesis.downloadPdf")}
+            {(data?.status === "reviewed" ||
+              (isTherapistView && isCompleted)) && (
+              <Button
+                variant="outline"
+                size="sm"
+                className="w-full mb-3"
+                onClick={handleDownloadPdf}
+              >
+                <Download className="h-4 w-4 mr-1" />{" "}
+                {t("anamnesis.downloadPdf")}
               </Button>
             )}
 
@@ -354,18 +646,35 @@ const AnamnesisDrawer = ({
             )}
 
             <div className="flex items-center justify-between pt-4 border-t border-border sticky bottom-0 bg-background">
-              <Button variant="ghost" size="sm" disabled={stepIdx === 0} onClick={() => setStepIdx((i) => i - 1)}>
+              <Button
+                variant="ghost"
+                size="sm"
+                disabled={stepIdx === 0}
+                onClick={() => setStepIdx((i) => i - 1)}
+              >
                 <ChevronLeft className="h-4 w-4 mr-1" /> {t("anamnesis.back")}
               </Button>
               <span className="text-xs text-muted-foreground">
-                {saving ? <><Save className="inline h-3 w-3 mr-1 animate-pulse" /> {t("anamnesis.saving")}</> : t("anamnesis.autoSaved")}
+                {saving ? (
+                  <>
+                    <Save className="inline h-3 w-3 mr-1 animate-pulse" />{" "}
+                    {t("anamnesis.saving")}
+                  </>
+                ) : (
+                  t("anamnesis.autoSaved")
+                )}
               </span>
               {stepIdx < STEP_KEYS.length - 1 ? (
                 <Button size="sm" onClick={() => setStepIdx((i) => i + 1)}>
-                  {t("anamnesis.next")} <ChevronRight className="h-4 w-4 ml-1" />
+                  {t("anamnesis.next")}{" "}
+                  <ChevronRight className="h-4 w-4 ml-1" />
                 </Button>
               ) : (
-                <Button size="sm" onClick={handleComplete} disabled={!canComplete}>
+                <Button
+                  size="sm"
+                  onClick={handleComplete}
+                  disabled={!canComplete}
+                >
                   <Check className="h-4 w-4 mr-1" /> {t("anamnesis.complete")}
                 </Button>
               )}

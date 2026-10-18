@@ -1,6 +1,11 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
 import { Sparkles, Loader2, AlertTriangle, Lock } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
@@ -26,7 +31,10 @@ const AISummaryButton = ({ notes }: { notes: string }) => {
   const generate = async () => {
     if (!has) {
       toast.error("AI summaries are a Pro/Elite feature.", {
-        action: { label: "Upgrade", onClick: () => (window.location.href = "/my-space?tab=plans") },
+        action: {
+          label: "Upgrade",
+          onClick: () => (window.location.href = "/my-space?tab=plans"),
+        },
       });
       return;
     }
@@ -37,9 +45,12 @@ const AISummaryButton = ({ notes }: { notes: string }) => {
     setLoading(true);
     setOpen(true);
     try {
-      const { data, error } = await supabase.functions.invoke("session-summary", {
-        body: { notes },
-      });
+      const { data, error } = await supabase.functions.invoke(
+        "session-summary",
+        {
+          body: { notes },
+        },
+      );
       if (error) throw error;
       if (data?.error) throw new Error(data.error);
       setResult(data);
@@ -54,7 +65,12 @@ const AISummaryButton = ({ notes }: { notes: string }) => {
   return (
     <>
       {has || planLoading ? (
-        <Button variant="outline" size="sm" onClick={generate} className="gap-1.5">
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={generate}
+          className="gap-1.5"
+        >
           <Sparkles className="h-3.5 w-3.5" />
           AI summary
         </Button>
@@ -78,7 +94,8 @@ const AISummaryButton = ({ notes }: { notes: string }) => {
 
           {loading && (
             <div className="flex items-center justify-center py-12 text-muted-foreground">
-              <Loader2 className="h-5 w-5 animate-spin mr-2" /> Drafting summary…
+              <Loader2 className="h-5 w-5 animate-spin mr-2" /> Drafting
+              summary…
             </div>
           )}
 
@@ -90,46 +107,69 @@ const AISummaryButton = ({ notes }: { notes: string }) => {
                     <AlertTriangle className="h-4 w-4" /> Risk indicators
                   </div>
                   <ul className="text-sm text-foreground list-disc pl-5">
-                    {result.risk_flags.map((r, i) => <li key={i}>{r}</li>)}
+                    {result.risk_flags.map((r, i) => (
+                      <li key={i}>{r}</li>
+                    ))}
                   </ul>
                 </div>
               )}
 
               <section>
-                <h4 className="text-sm font-semibold text-foreground mb-1">Summary</h4>
-                <p className="text-sm text-muted-foreground leading-relaxed">{result.summary}</p>
+                <h4 className="text-sm font-semibold text-foreground mb-1">
+                  Summary
+                </h4>
+                <p className="text-sm text-muted-foreground leading-relaxed">
+                  {result.summary}
+                </p>
               </section>
 
               <section>
-                <h4 className="text-sm font-semibold text-foreground mb-2">Themes</h4>
+                <h4 className="text-sm font-semibold text-foreground mb-2">
+                  Themes
+                </h4>
                 <div className="flex flex-wrap gap-1.5">
                   {result.themes.map((t, i) => (
-                    <Badge key={i} variant="secondary">{t}</Badge>
+                    <Badge key={i} variant="secondary">
+                      {t}
+                    </Badge>
                   ))}
                 </div>
               </section>
 
               <section>
-                <h4 className="text-sm font-semibold text-foreground mb-2">Interventions used</h4>
+                <h4 className="text-sm font-semibold text-foreground mb-2">
+                  Interventions used
+                </h4>
                 <ul className="text-sm text-muted-foreground list-disc pl-5 space-y-0.5">
-                  {result.interventions.map((t, i) => <li key={i}>{t}</li>)}
+                  {result.interventions.map((t, i) => (
+                    <li key={i}>{t}</li>
+                  ))}
                 </ul>
               </section>
 
               <section>
-                <h4 className="text-sm font-semibold text-foreground mb-1">Progress</h4>
-                <p className="text-sm text-muted-foreground">{result.progress}</p>
+                <h4 className="text-sm font-semibold text-foreground mb-1">
+                  Progress
+                </h4>
+                <p className="text-sm text-muted-foreground">
+                  {result.progress}
+                </p>
               </section>
 
               <section>
-                <h4 className="text-sm font-semibold text-foreground mb-2">Suggested next steps</h4>
+                <h4 className="text-sm font-semibold text-foreground mb-2">
+                  Suggested next steps
+                </h4>
                 <ul className="text-sm text-muted-foreground list-disc pl-5 space-y-0.5">
-                  {result.next_steps.map((t, i) => <li key={i}>{t}</li>)}
+                  {result.next_steps.map((t, i) => (
+                    <li key={i}>{t}</li>
+                  ))}
                 </ul>
               </section>
 
               <p className="text-xs text-muted-foreground italic border-t pt-3">
-                AI-generated draft. Always review and edit before saving as a clinical record.
+                AI-generated draft. Always review and edit before saving as a
+                clinical record.
               </p>
             </div>
           )}

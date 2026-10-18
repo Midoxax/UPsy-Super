@@ -2,10 +2,21 @@ import { Link } from "@/lib/router-compat";
 import SEOHead from "@/components/SEOHead";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 import { trackCTAClick } from "@/lib/analytics/gtm";
-import { Brain, Focus, Zap, Target, TrendingUp, ShieldCheck } from "lucide-react";
-
+import {
+  Brain,
+  Focus,
+  Zap,
+  Target,
+  TrendingUp,
+  ShieldCheck,
+} from "lucide-react";
 
 const FAQ = [
   {
@@ -69,12 +80,36 @@ export default function MentalPerformance() {
   };
 
   const pillars = [
-    { icon: Focus, title: "Attention Control", desc: "Train the ability to hold and release focus at will — the core skill under every high-stakes output." },
-    { icon: Zap, title: "Stress Recovery", desc: "Move from reactive to regulated. Nervous-system tools that shorten recovery from setbacks and pressure." },
-    { icon: Target, title: "Decision Under Load", desc: "Keep judgment sharp when stakes, ambiguity, and fatigue rise — the difference between good and elite operators." },
-    { icon: Brain, title: "Cognitive Endurance", desc: "Sustain quality of thought across a full day, not just the first hour. Rebuild working memory and clarity." },
-    { icon: TrendingUp, title: "Confidence Architecture", desc: "Evidence-based self-belief built from measured wins — not affirmations. Compounds week over week." },
-    { icon: ShieldCheck, title: "Recovery & Sleep", desc: "The multiplier on every other skill. Protocols for sleep, downtime, and emotional recovery." },
+    {
+      icon: Focus,
+      title: "Attention Control",
+      desc: "Train the ability to hold and release focus at will — the core skill under every high-stakes output.",
+    },
+    {
+      icon: Zap,
+      title: "Stress Recovery",
+      desc: "Move from reactive to regulated. Nervous-system tools that shorten recovery from setbacks and pressure.",
+    },
+    {
+      icon: Target,
+      title: "Decision Under Load",
+      desc: "Keep judgment sharp when stakes, ambiguity, and fatigue rise — the difference between good and elite operators.",
+    },
+    {
+      icon: Brain,
+      title: "Cognitive Endurance",
+      desc: "Sustain quality of thought across a full day, not just the first hour. Rebuild working memory and clarity.",
+    },
+    {
+      icon: TrendingUp,
+      title: "Confidence Architecture",
+      desc: "Evidence-based self-belief built from measured wins — not affirmations. Compounds week over week.",
+    },
+    {
+      icon: ShieldCheck,
+      title: "Recovery & Sleep",
+      desc: "The multiplier on every other skill. Protocols for sleep, downtime, and emotional recovery.",
+    },
   ];
 
   return (
@@ -95,19 +130,23 @@ export default function MentalPerformance() {
             </p>
             <h1 className="font-display text-5xl md:text-7xl leading-[1.05] tracking-tight mb-6">
               Train the mind like{" "}
-              <em className="italic font-normal text-primary">elite operators do.</em>
+              <em className="italic font-normal text-primary">
+                elite operators do.
+              </em>
             </h1>
             <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mb-10 leading-relaxed">
-              Focus, mental toughness, and clarity are trainable skills — not personality traits.
-              U.Psy measures where you are, builds the protocol, and coaches you to a higher baseline
-              in 8–12 weeks.
+              Focus, mental toughness, and clarity are trainable skills — not
+              personality traits. U.Psy measures where you are, builds the
+              protocol, and coaches you to a higher baseline in 8–12 weeks.
             </p>
             <div className="flex flex-wrap gap-3">
               <Button asChild size="lg">
                 <Link
                   to="/free-score"
                   onClick={() =>
-                    trackCTAClick("Start Free", "hero", "/mental-performance", { cta_action: "score_start" })
+                    trackCTAClick("Start Free", "hero", "/mental-performance", {
+                      cta_action: "score_start",
+                    })
                   }
                 >
                   Get your free Mental Performance Score
@@ -117,7 +156,12 @@ export default function MentalPerformance() {
                 <Link
                   to="/psychologists"
                   onClick={() =>
-                    trackCTAClick("Book a Call", "hero", "/mental-performance", { cta_action: "book_intent" })
+                    trackCTAClick(
+                      "Book a Call",
+                      "hero",
+                      "/mental-performance",
+                      { cta_action: "book_intent" },
+                    )
                   }
                 >
                   Book a performance psychologist
@@ -137,19 +181,30 @@ export default function MentalPerformance() {
               Six pillars we measure and train
             </h2>
             <p className="text-muted-foreground text-lg">
-              Every protocol pulls from these six trainable systems. You never work on all of them at
-              once — assessment shows which two or three matter for you right now.
+              Every protocol pulls from these six trainable systems. You never
+              work on all of them at once — assessment shows which two or three
+              matter for you right now.
             </p>
           </div>
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {pillars.map((p) => (
-              <Card key={p.title} className="border-border/60 hover:border-primary/40 transition-colors">
+              <Card
+                key={p.title}
+                className="border-border/60 hover:border-primary/40 transition-colors"
+              >
                 <CardHeader>
-                  <p.icon className="w-6 h-6 text-primary mb-3" strokeWidth={1.5} />
-                  <CardTitle className="font-display text-2xl">{p.title}</CardTitle>
+                  <p.icon
+                    className="w-6 h-6 text-primary mb-3"
+                    strokeWidth={1.5}
+                  />
+                  <CardTitle className="font-display text-2xl">
+                    {p.title}
+                  </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-muted-foreground leading-relaxed">{p.desc}</p>
+                  <p className="text-muted-foreground leading-relaxed">
+                    {p.desc}
+                  </p>
                 </CardContent>
               </Card>
             ))}
@@ -159,21 +214,43 @@ export default function MentalPerformance() {
         {/* Method */}
         <section className="border-y border-border/40 bg-muted/20">
           <div className="container mx-auto px-4 py-20 max-w-5xl">
-            <p className="font-mono text-xs uppercase tracking-[0.2em] text-primary mb-4">The method</p>
+            <p className="font-mono text-xs uppercase tracking-[0.2em] text-primary mb-4">
+              The method
+            </p>
             <h2 className="font-display text-3xl md:text-5xl leading-tight mb-12">
               Measure. Identify. Train. Apply.
             </h2>
             <div className="grid gap-10 md:grid-cols-4">
               {[
-                { n: "01", t: "Measure", d: "Validated cognitive and emotional baseline in under 15 minutes." },
-                { n: "02", t: "Identify", d: "Two or three levers with the highest leverage — no generic advice." },
-                { n: "03", t: "Train", d: "8–12 weeks of protocols and 1:1 coaching. Weekly checkpoints." },
-                { n: "04", t: "Apply", d: "Transfer to your real context: sport, boardroom, exam, operating theatre." },
+                {
+                  n: "01",
+                  t: "Measure",
+                  d: "Validated cognitive and emotional baseline in under 15 minutes.",
+                },
+                {
+                  n: "02",
+                  t: "Identify",
+                  d: "Two or three levers with the highest leverage — no generic advice.",
+                },
+                {
+                  n: "03",
+                  t: "Train",
+                  d: "8–12 weeks of protocols and 1:1 coaching. Weekly checkpoints.",
+                },
+                {
+                  n: "04",
+                  t: "Apply",
+                  d: "Transfer to your real context: sport, boardroom, exam, operating theatre.",
+                },
               ].map((s) => (
                 <div key={s.n}>
-                  <div className="font-mono tabular-nums text-sm text-primary mb-3">{s.n}</div>
+                  <div className="font-mono tabular-nums text-sm text-primary mb-3">
+                    {s.n}
+                  </div>
                   <h3 className="font-display text-2xl mb-2">{s.t}</h3>
-                  <p className="text-muted-foreground leading-relaxed text-sm">{s.d}</p>
+                  <p className="text-muted-foreground leading-relaxed text-sm">
+                    {s.d}
+                  </p>
                 </div>
               ))}
             </div>
@@ -183,11 +260,15 @@ export default function MentalPerformance() {
         {/* Who */}
         <section className="container mx-auto px-4 py-20 max-w-5xl">
           <h2 className="font-display text-3xl md:text-5xl leading-tight mb-4">
-            Built for people who <em className="italic font-normal text-primary">operate under load.</em>
+            Built for people who{" "}
+            <em className="italic font-normal text-primary">
+              operate under load.
+            </em>
           </h2>
           <p className="text-muted-foreground text-lg max-w-2xl mb-10">
-            Athletes. Founders. Surgeons. Traders. Students in high-stakes exams. Anyone whose output
-            depends on the quality of their attention.
+            Athletes. Founders. Surgeons. Traders. Students in high-stakes
+            exams. Anyone whose output depends on the quality of their
+            attention.
           </p>
           <div className="grid gap-4 md:grid-cols-2 text-sm">
             {[
@@ -198,7 +279,10 @@ export default function MentalPerformance() {
               "Creatives protecting deep-work time from constant context-switching",
               "High performers coming off burnout who want a sustainable baseline",
             ].map((line) => (
-              <div key={line} className="flex gap-3 p-4 rounded-xl border border-border/50">
+              <div
+                key={line}
+                className="flex gap-3 p-4 rounded-xl border border-border/50"
+              >
                 <div className="w-1.5 h-1.5 rounded-full bg-primary mt-2 shrink-0" />
                 <p className="text-muted-foreground">{line}</p>
               </div>
@@ -230,17 +314,24 @@ export default function MentalPerformance() {
         {/* CTA */}
         <section className="container mx-auto px-4 py-24 max-w-3xl text-center">
           <h2 className="font-display text-4xl md:text-6xl leading-tight mb-6">
-            See your baseline in <em className="italic font-normal text-primary">3 minutes.</em>
+            See your baseline in{" "}
+            <em className="italic font-normal text-primary">3 minutes.</em>
           </h2>
           <p className="text-muted-foreground text-lg mb-8">
-            Free, private, no card. Get a Mental Performance Score and a next-step protocol built for you.
+            Free, private, no card. Get a Mental Performance Score and a
+            next-step protocol built for you.
           </p>
           <div className="flex flex-wrap gap-3 justify-center">
             <Button asChild size="lg">
               <Link
                 to="/free-score"
                 onClick={() =>
-                  trackCTAClick("Start Free", "bottom_cta", "/mental-performance", { cta_action: "score_start" })
+                  trackCTAClick(
+                    "Start Free",
+                    "bottom_cta",
+                    "/mental-performance",
+                    { cta_action: "score_start" },
+                  )
                 }
               >
                 Start free assessment
@@ -250,7 +341,12 @@ export default function MentalPerformance() {
               <Link
                 to="/psychologists"
                 onClick={() =>
-                  trackCTAClick("Book a Call", "bottom_cta", "/mental-performance", { cta_action: "book_intent" })
+                  trackCTAClick(
+                    "Book a Call",
+                    "bottom_cta",
+                    "/mental-performance",
+                    { cta_action: "book_intent" },
+                  )
                 }
               >
                 Meet the psychologists

@@ -5,7 +5,11 @@ import { useAuth } from "@/contexts/AuthContext";
 import { Progress } from "@/components/ui/progress";
 import { BookOpen, ArrowRight, PlayCircle } from "lucide-react";
 
-export default function ContinueLearningCard({ path }: { path?: "mental-health" | "performance" | "clinical-cpd" }) {
+export default function ContinueLearningCard({
+  path,
+}: {
+  path?: "mental-health" | "performance" | "clinical-cpd";
+}) {
   const { user } = useAuth();
   const { data } = useQuery({
     queryKey: ["continue-learning", user?.id, path],
@@ -18,7 +22,9 @@ export default function ContinueLearningCard({ path }: { path?: "mental-health" 
         .is("completed_at", null)
         .order("started_at", { ascending: false })
         .limit(5);
-      const list = (enrs ?? []).filter((e: any) => !path || e.courses?.learning_path === path);
+      const list = (enrs ?? []).filter(
+        (e: any) => !path || e.courses?.learning_path === path,
+      );
       const enr = list[0];
       if (!enr) return null;
       // Find next module = first not in completed_modules, ordered by order_index
@@ -29,8 +35,11 @@ export default function ContinueLearningCard({ path }: { path?: "mental-health" 
         .order("order_index", { ascending: true });
       const completed = new Set<string>(enr.completed_modules ?? []);
       const total = modules?.length ?? 0;
-      const completedCount = (modules ?? []).filter((m) => completed.has(m.id)).length;
-      const nextModule = (modules ?? []).find((m) => !completed.has(m.id)) ?? null;
+      const completedCount = (modules ?? []).filter((m) =>
+        completed.has(m.id),
+      ).length;
+      const nextModule =
+        (modules ?? []).find((m) => !completed.has(m.id)) ?? null;
       return { enrollment: enr, nextModule, total, completedCount };
     },
   });
@@ -49,7 +58,9 @@ export default function ContinueLearningCard({ path }: { path?: "mental-health" 
           <BookOpen className="h-4 w-4 text-primary" />
         </div>
         <div className="flex-1">
-          <p className="text-[10px] uppercase tracking-wider text-muted-foreground">Continue learning</p>
+          <p className="text-[10px] uppercase tracking-wider text-muted-foreground">
+            Continue learning
+          </p>
           <p className="font-semibold text-sm">{c.title}</p>
         </div>
         <ArrowRight className="h-4 w-4 text-muted-foreground group-hover:text-primary transition-colors" />
@@ -57,7 +68,8 @@ export default function ContinueLearningCard({ path }: { path?: "mental-health" 
       <Progress value={pct} className="h-1.5" />
       <div className="flex items-center justify-between mt-1.5 gap-2">
         <p className="text-[10px] text-muted-foreground">
-          {pct}% complete{total > 0 ? ` · ${completedCount}/${total} lessons` : ""}
+          {pct}% complete
+          {total > 0 ? ` · ${completedCount}/${total} lessons` : ""}
         </p>
         {nextModule && (
           <span className="text-[10px] text-primary inline-flex items-center gap-1 truncate max-w-[60%]">

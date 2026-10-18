@@ -6,6 +6,8 @@ const Privacy = lazy(() => import("@/pages/Privacy"));
 
 export const Route = createFileRoute("/$locale/privacy")({
   component: () => (
-    <PageTransition><Privacy /></PageTransition>
+    <PageTransition>
+      <Privacy />
+    </PageTransition>
   ),
 });

@@ -30,11 +30,14 @@ export default function Notifications() {
   const markAll = useMarkAllRead();
 
   const items = (data?.items ?? []).filter((n) =>
-    filter === "unread" ? !n.read_at : true
+    filter === "unread" ? !n.read_at : true,
   );
 
   const handleDelete = async (id: string) => {
-    const { error } = await supabase.from("notifications").delete().eq("id", id);
+    const { error } = await supabase
+      .from("notifications")
+      .delete()
+      .eq("id", id);
     if (error) {
       toast({ title: "Could not delete", variant: "destructive" });
     } else {
@@ -54,7 +57,9 @@ export default function Notifications() {
           <header className="flex items-center justify-between">
             <div className="flex items-center gap-3">
               <Bell className="h-6 w-6 text-primary" />
-              <h1 className="text-2xl font-bold font-[Outfit]">Notifications</h1>
+              <h1 className="text-2xl font-bold font-[Outfit]">
+                Notifications
+              </h1>
             </div>
             {(data?.unread ?? 0) > 0 && (
               <Button
@@ -73,7 +78,10 @@ export default function Notifications() {
           <NotificationPreferencesCard />
 
           {/* Filters */}
-          <Tabs value={filter} onValueChange={(v) => setFilter(v as "all" | "unread")}>
+          <Tabs
+            value={filter}
+            onValueChange={(v) => setFilter(v as "all" | "unread")}
+          >
             <TabsList>
               <TabsTrigger value="all">All</TabsTrigger>
               <TabsTrigger value="unread">
@@ -96,7 +104,7 @@ export default function Notifications() {
                   key={n.id}
                   className={cn(
                     "p-4 bg-surface border-border transition-colors",
-                    !n.read_at && "border-primary/30 bg-primary/5"
+                    !n.read_at && "border-primary/30 bg-primary/5",
                   )}
                 >
                   <div className="flex items-start gap-3">

@@ -11,9 +11,18 @@ interface EmptyStateProps {
   };
 }
 
-export const EmptyState = ({ icon: Icon, title, description, action }: EmptyStateProps) => {
+export const EmptyState = ({
+  icon: Icon,
+  title,
+  description,
+  action,
+}: EmptyStateProps) => {
   return (
-    <div className="flex flex-col items-center justify-center py-12 px-4 text-center" role="status" aria-live="polite">
+    <div
+      className="flex flex-col items-center justify-center py-12 px-4 text-center"
+      role="status"
+      aria-live="polite"
+    >
       <div className="rounded-full bg-muted p-6 mb-4">
         <Icon className="h-12 w-12 text-muted-foreground" aria-hidden="true" />
       </div>

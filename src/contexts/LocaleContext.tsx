@@ -1,8 +1,21 @@
-import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { useNavigate, useLocation } from '@/lib/router-compat';
-import { translations } from '@/lib/i18n/translations';
-import { getCookie, setCookie, getLocaleFromPath, stripLocalePrefix, addLocalePrefix, type Locale } from '@/lib/i18n/utils';
-import { supabase } from '@/integrations/supabase/client';
+import React, {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  ReactNode,
+} from "react";
+import { useNavigate, useLocation } from "@/lib/router-compat";
+import { translations } from "@/lib/i18n/translations";
+import {
+  getCookie,
+  setCookie,
+  getLocaleFromPath,
+  stripLocalePrefix,
+  addLocalePrefix,
+  type Locale,
+} from "@/lib/i18n/utils";
+import { supabase } from "@/integrations/supabase/client";
 
 interface LocaleContextType {
   locale: Locale;
@@ -18,13 +31,22 @@ export const LocaleProvider = ({ children }: { children: ReactNode }) => {
   // SSR-deterministic initial locale: derive from the URL only, so the server
   // and client render the same markup. The cookie preference is applied after
   // hydration in the effect below.
-  const [locale, setLocaleState] = useState<Locale>(() => getLocaleFromPath(location.pathname));
-  const [overrides, setOverrides] = useState<Record<string, Record<string, string>>>({});
+  const [locale, setLocaleState] = useState<Locale>(() =>
+    getLocaleFromPath(location.pathname),
+  );
+  const [overrides, setOverrides] = useState<
+    Record<string, Record<string, string>>
+  >({});
 
   // Apply the cookie-stored language preference after hydration
   useEffect(() => {
-    const cookieLocale = getCookie('lng');
-    if (cookieLocale === 'fr' || cookieLocale === 'en' || cookieLocale === 'ar' || cookieLocale === 'ber') {
+    const cookieLocale = getCookie("lng");
+    if (
+      cookieLocale === "fr" ||
+      cookieLocale === "en" ||
+      cookieLocale === "ar" ||
+      cookieLocale === "ber"
+    ) {
       setLocaleState(cookieLocale);
     }
   }, []);
@@ -33,8 +55,8 @@ export const LocaleProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     const loadOverrides = async () => {
       const { data } = await supabase
-        .from('translation_overrides')
-        .select('locale, translation_key, translation_value');
+        .from("translation_overrides")
+        .select("locale, translation_key, translation_value");
       if (data && data.length > 0) {
         const map: Record<string, Record<string, string>> = {};
         for (const row of data) {
@@ -49,24 +71,29 @@ export const LocaleProvider = ({ children }: { children: ReactNode }) => {
 
   // First-visit auto-redirect
   useEffect(() => {
-    const hasVisited = getCookie('lng');
+    const hasVisited = getCookie("lng");
     const currentPath = location.pathname;
-    
-    if (!hasVisited && !currentPath.startsWith('/fr') && !currentPath.startsWith('/ar') && !currentPath.startsWith('/ber')) {
+
+    if (
+      !hasVisited &&
+      !currentPath.startsWith("/fr") &&
+      !currentPath.startsWith("/ar") &&
+      !currentPath.startsWith("/ber")
+    ) {
       const browserLang = navigator.language.toLowerCase();
-      if (browserLang.includes('fr')) {
-        setCookie('lng', 'fr', 180);
-        const newPath = '/fr' + currentPath + location.search + location.hash;
+      if (browserLang.includes("fr")) {
+        setCookie("lng", "fr", 180);
+        const newPath = "/fr" + currentPath + location.search + location.hash;
         navigate(newPath, { replace: true });
-        setLocaleState('fr');
-      } else if (browserLang.includes('ar')) {
-        setCookie('lng', 'ar', 180);
-        const newPath = '/ar' + currentPath + location.search + location.hash;
+        setLocaleState("fr");
+      } else if (browserLang.includes("ar")) {
+        setCookie("lng", "ar", 180);
+        const newPath = "/ar" + currentPath + location.search + location.hash;
         navigate(newPath, { replace: true });
-        setLocaleState('ar');
+        setLocaleState("ar");
       } else {
-        setCookie('lng', 'en', 180);
-        setLocaleState('en');
+        setCookie("lng", "en", 180);
+        setLocaleState("en");
       }
     }
   }, []);
@@ -76,12 +103,19 @@ export const LocaleProvider = ({ children }: { children: ReactNode }) => {
   // is visited and the cookie says fr/ar, redirect to the prefixed equivalent.
   useEffect(() => {
     const urlLocale = getLocaleFromPath(location.pathname);
-    const cookieLocale = getCookie('lng');
-    const preferred = (cookieLocale === 'fr' || cookieLocale === 'ar' || cookieLocale === 'en' || cookieLocale === 'ber')
-      ? cookieLocale
-      : null;
+    const cookieLocale = getCookie("lng");
+    const preferred =
+      cookieLocale === "fr" ||
+      cookieLocale === "ar" ||
+      cookieLocale === "en" ||
+      cookieLocale === "ber"
+        ? cookieLocale
+        : null;
 
-    if (urlLocale === 'en' && (preferred === 'fr' || preferred === 'ar' || preferred === 'ber')) {
+    if (
+      urlLocale === "en" &&
+      (preferred === "fr" || preferred === "ar" || preferred === "ber")
+    ) {
       const newPath = addLocalePrefix(location.pathname, preferred);
       navigate(newPath + location.search + location.hash, { replace: true });
       return;
@@ -94,17 +128,17 @@ export const LocaleProvider = ({ children }: { children: ReactNode }) => {
 
   // Set text direction for RTL languages
   useEffect(() => {
-    document.documentElement.dir = locale === 'ar' ? 'rtl' : 'ltr';
+    document.documentElement.dir = locale === "ar" ? "rtl" : "ltr";
     document.documentElement.lang = locale;
-    if (locale === 'ber') {
-      document.documentElement.lang = 'ber';
+    if (locale === "ber") {
+      document.documentElement.lang = "ber";
     }
   }, [locale]);
 
   const setLocale = (newLocale: Locale) => {
-    setCookie('lng', newLocale, 180);
+    setCookie("lng", newLocale, 180);
     setLocaleState(newLocale);
-    
+
     const currentPath = stripLocalePrefix(location.pathname);
     const newPath = addLocalePrefix(currentPath, newLocale);
     navigate(newPath + location.search + location.hash);
@@ -117,15 +151,16 @@ export const LocaleProvider = ({ children }: { children: ReactNode }) => {
 
     const lookup = (loc: Locale): string | undefined => {
       let value: unknown = translations[loc];
-      for (const k of key.split('.')) {
+      for (const k of key.split(".")) {
         value = (value as Record<string, unknown> | undefined)?.[k];
       }
-      return typeof value === 'string' ? value : undefined;
+      return typeof value === "string" ? value : undefined;
     };
 
     // Requested locale, then English as the fallback locale — a missing
     // Arabic or French string should show the English copy, not a raw key.
-    const resolved = lookup(locale) ?? (locale === 'en' ? undefined : lookup('en'));
+    const resolved =
+      lookup(locale) ?? (locale === "en" ? undefined : lookup("en"));
     if (resolved !== undefined) return resolved;
 
     // Genuinely missing everywhere. Return an empty string rather than the key
@@ -134,9 +169,11 @@ export const LocaleProvider = ({ children }: { children: ReactNode }) => {
     // dead code, which is how raw identifiers like "pricing.heroTitle" ended up
     // rendering as page headings.
     if (import.meta.env.DEV) {
-      console.warn(`[i18n] missing translation for "${key}" (locale: ${locale})`);
+      console.warn(
+        `[i18n] missing translation for "${key}" (locale: ${locale})`,
+      );
     }
-    return '';
+    return "";
   };
 
   return (
@@ -149,7 +186,7 @@ export const LocaleProvider = ({ children }: { children: ReactNode }) => {
 export const useLocale = () => {
   const context = useContext(LocaleContext);
   if (!context) {
-    throw new Error('useLocale must be used within LocaleProvider');
+    throw new Error("useLocale must be used within LocaleProvider");
   }
   return context;
 };

@@ -24,7 +24,11 @@ const ago = (iso: string) => {
   return `${Math.round(m / 1440)}d`;
 };
 
-const CrmAutomationsPanel = ({ onOpenContact }: { onOpenContact: (id: string) => void }) => {
+const CrmAutomationsPanel = ({
+  onOpenContact,
+}: {
+  onOpenContact: (id: string) => void;
+}) => {
   const { data: rules = [], isLoading } = useCrmAutomationRules();
   const { data: notifications = [] } = useCrmNotifications();
   const { data: role } = useCrmRole();
@@ -44,10 +48,20 @@ const CrmAutomationsPanel = ({ onOpenContact }: { onOpenContact: (id: string) =>
         `crm-consent-evidence-${new Date().toISOString().slice(0, 10)}`,
         rows as never[],
         [
-          "email", "full_name", "contact_type", "lifecycle", "source", "first_touch",
-          "contact_created_at", "purpose", "granted", "basis", "recorded_at",
-          "withdrawn_at", "evidence",
-        ]
+          "email",
+          "full_name",
+          "contact_type",
+          "lifecycle",
+          "source",
+          "first_touch",
+          "contact_created_at",
+          "purpose",
+          "granted",
+          "basis",
+          "recorded_at",
+          "withdrawn_at",
+          "evidence",
+        ],
       );
       toast.success(`${rows.length} consent rows exported`);
     } catch (e) {
@@ -64,15 +78,24 @@ const CrmAutomationsPanel = ({ onOpenContact }: { onOpenContact: (id: string) =>
           <CardTitle className="text-base flex items-center gap-2">
             <ShieldCheck className="h-4 w-4" /> Consent evidence export
           </CardTitle>
-          <Button onClick={exportConsent} disabled={exporting || !canManage} className="gap-2">
-            {exporting ? <Loader2 className="h-4 w-4 animate-spin" /> : <Download className="h-4 w-4" />}
+          <Button
+            onClick={exportConsent}
+            disabled={exporting || !canManage}
+            className="gap-2"
+          >
+            {exporting ? (
+              <Loader2 className="h-4 w-4 animate-spin" />
+            ) : (
+              <Download className="h-4 w-4" />
+            )}
             Export CSV
           </Button>
         </CardHeader>
         <CardContent className="text-sm text-muted-foreground">
-          One row per contact and consent purpose: grant state, legal basis, timestamps,
-          withdrawal, the captured evidence payload and the acquisition source — the artefact an
-          auditor asks for under Law 09-08 / GDPR. Manager access only.
+          One row per contact and consent purpose: grant state, legal basis,
+          timestamps, withdrawal, the captured evidence payload and the
+          acquisition source — the artefact an auditor asks for under Law 09-08
+          / GDPR. Manager access only.
           {!canManage && (
             <span className="mt-2 block text-xs text-destructive">
               Your CRM role cannot export consent evidence.
@@ -88,7 +111,9 @@ const CrmAutomationsPanel = ({ onOpenContact }: { onOpenContact: (id: string) =>
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-2">
-          {isLoading && <Loader2 className="h-5 w-5 animate-spin text-primary" />}
+          {isLoading && (
+            <Loader2 className="h-5 w-5 animate-spin text-primary" />
+          )}
           {rules.map((r) => (
             <div
               key={r.id}
@@ -98,7 +123,8 @@ const CrmAutomationsPanel = ({ onOpenContact }: { onOpenContact: (id: string) =>
                 <p className="text-sm font-medium truncate">{r.name}</p>
                 <p className="text-[11px] text-muted-foreground truncate">
                   on <code>{r.event_kind}</code>
-                  {r.source_match ? ` · source ${r.source_match}` : ""} → {r.pipeline} / {r.stage}
+                  {r.source_match ? ` · source ${r.source_match}` : ""} →{" "}
+                  {r.pipeline} / {r.stage}
                   {r.set_lifecycle ? ` · lifecycle ${r.set_lifecycle}` : ""}
                 </p>
               </div>
@@ -107,14 +133,17 @@ const CrmAutomationsPanel = ({ onOpenContact }: { onOpenContact: (id: string) =>
                 <Switch
                   checked={r.active}
                   disabled={!canManage}
-                  onCheckedChange={(v) => toggleRule.mutate({ id: r.id, active: v })}
+                  onCheckedChange={(v) =>
+                    toggleRule.mutate({ id: r.id, active: v })
+                  }
                 />
               </div>
             </div>
           ))}
           <p className="text-xs text-muted-foreground pt-1">
-            Rules run inside the database whenever a funnel event lands on a contact: the deal is
-            opened or advanced, the least-loaded owner is assigned and the owner is notified.
+            Rules run inside the database whenever a funnel event lands on a
+            contact: the deal is opened or advanced, the least-loaded owner is
+            assigned and the owner is notified.
           </p>
         </CardContent>
       </Card>
@@ -133,7 +162,9 @@ const CrmAutomationsPanel = ({ onOpenContact }: { onOpenContact: (id: string) =>
             <div
               key={n.id}
               className={`rounded-lg border px-3 py-2 ${
-                n.read_at ? "border-border/40 opacity-60" : "border-primary/30 bg-primary/5"
+                n.read_at
+                  ? "border-border/40 opacity-60"
+                  : "border-primary/30 bg-primary/5"
               }`}
             >
               <div className="flex items-center justify-between gap-2">
@@ -147,7 +178,9 @@ const CrmAutomationsPanel = ({ onOpenContact }: { onOpenContact: (id: string) =>
                   {ago(n.created_at)}
                 </span>
               </div>
-              {n.body && <p className="text-xs text-muted-foreground">{n.body}</p>}
+              {n.body && (
+                <p className="text-xs text-muted-foreground">{n.body}</p>
+              )}
               {!n.read_at && (
                 <Button
                   size="sm"

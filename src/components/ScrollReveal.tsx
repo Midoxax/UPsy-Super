@@ -8,7 +8,11 @@ interface ScrollRevealProps {
   direction?: "up" | "down" | "left" | "right";
 }
 
-const ScrollReveal = ({ children, delay = 0, direction = "up" }: ScrollRevealProps) => {
+const ScrollReveal = ({
+  children,
+  delay = 0,
+  direction = "up",
+}: ScrollRevealProps) => {
   const directionOffset = {
     up: { y: 40 },
     down: { y: -40 },

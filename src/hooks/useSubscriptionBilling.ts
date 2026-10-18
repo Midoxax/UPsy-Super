@@ -55,17 +55,15 @@ export const useChangePlanMock = () => {
       const periodEnd = new Date(now);
       periodEnd.setMonth(periodEnd.getMonth() + 1);
 
-      const { error: subErr } = await supabase
-        .from("subscriptions")
-        .upsert(
-          {
-            psychologist_id: user.id,
-            plan_type: planId,
-            status: "active",
-            starts_at: now.toISOString(),
-          },
-          { onConflict: "psychologist_id" },
-        );
+      const { error: subErr } = await supabase.from("subscriptions").upsert(
+        {
+          psychologist_id: user.id,
+          plan_type: planId,
+          status: "active",
+          starts_at: now.toISOString(),
+        },
+        { onConflict: "psychologist_id" },
+      );
       if (subErr) throw subErr;
 
       // 2. create invoice (skip for free)

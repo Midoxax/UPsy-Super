@@ -29,7 +29,10 @@ export const Route = createFileRoute("/ops/preview")({
         content:
           "Cinematic prototype of the UPSY OS command interface: live protocol telemetry, task orchestration and the Director console.",
       },
-      { property: "og:title", content: "UPSY OS — Operational Command Prototype" },
+      {
+        property: "og:title",
+        content: "UPSY OS — Operational Command Prototype",
+      },
       {
         property: "og:description",
         content:

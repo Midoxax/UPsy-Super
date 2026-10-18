@@ -73,7 +73,15 @@ export async function publishEvent<N extends EventName>(
   supabase: SupabaseClient,
   options: PublishOptions<N>,
 ): Promise<PublishResult> {
-  const { name, payload, subjectId, actorId, correlationId, tenantId, idempotencyKey } = options;
+  const {
+    name,
+    payload,
+    subjectId,
+    actorId,
+    correlationId,
+    tenantId,
+    idempotencyKey,
+  } = options;
 
   const subjectType = SUBJECT_TYPES[name];
   if (!subjectType) {

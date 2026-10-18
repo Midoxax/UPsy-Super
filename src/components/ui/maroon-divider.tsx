@@ -10,7 +10,8 @@ const MaroonDivider = ({ className = "" }: MaroonDividerProps) => {
       <motion.div
         className="absolute inset-0"
         style={{
-          background: 'linear-gradient(90deg, transparent 0%, hsl(348 82% 26% / 0.5) 50%, transparent 100%)',
+          background:
+            "linear-gradient(90deg, transparent 0%, hsl(348 82% 26% / 0.5) 50%, transparent 100%)",
         }}
         initial={{ scaleX: 0, opacity: 0 }}
         whileInView={{ scaleX: 1, opacity: 1 }}
@@ -20,8 +21,9 @@ const MaroonDivider = ({ className = "" }: MaroonDividerProps) => {
       <motion.div
         className="absolute inset-0"
         style={{
-          background: 'linear-gradient(90deg, transparent 0%, hsl(348 82% 26% / 0.3) 50%, transparent 100%)',
-          filter: 'blur(8px)',
+          background:
+            "linear-gradient(90deg, transparent 0%, hsl(348 82% 26% / 0.3) 50%, transparent 100%)",
+          filter: "blur(8px)",
         }}
         initial={{ scaleX: 0, opacity: 0 }}
         whileInView={{ scaleX: 1, opacity: 1 }}

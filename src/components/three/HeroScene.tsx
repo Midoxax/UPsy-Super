@@ -1,6 +1,12 @@
 import { Suspense, useRef } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
-import { Float, MeshDistortMaterial, Sphere, Stars, Torus } from "@react-three/drei";
+import {
+  Float,
+  MeshDistortMaterial,
+  Sphere,
+  Stars,
+  Torus,
+} from "@react-three/drei";
 import * as THREE from "three";
 
 /**
@@ -74,7 +80,7 @@ function CoreOrb() {
           <meshBasicMaterial
             color="#A3263A"
             transparent
-            opacity={0.10}
+            opacity={0.1}
             blending={THREE.AdditiveBlending}
             side={THREE.BackSide}
             depthWrite={false}
@@ -115,12 +121,17 @@ function OrbitRings() {
   useFrame((state) => {
     if (!group.current) return;
     group.current.rotation.z = state.clock.elapsedTime * 0.04;
-    group.current.rotation.x = 0.5 + Math.sin(state.clock.elapsedTime * 0.15) * 0.08;
+    group.current.rotation.x =
+      0.5 + Math.sin(state.clock.elapsedTime * 0.15) * 0.08;
   });
   return (
     <group ref={group} rotation={[0.5, 0, 0]}>
       {[2.35, 2.75, 3.2].map((r, i) => (
-        <Torus key={r} args={[r, 0.004, 8, 128]} rotation={[i * 0.5, i * 0.35, 0]}>
+        <Torus
+          key={r}
+          args={[r, 0.004, 8, 128]}
+          rotation={[i * 0.5, i * 0.35, 0]}
+        >
           <meshBasicMaterial
             color="#F2B705"
             transparent
@@ -146,7 +157,15 @@ export default function HeroScene() {
         <pointLight position={[5, 5, 5]} intensity={2.2} color="#F2B705" />
         <pointLight position={[-5, -3, -2]} intensity={1.6} color="#A3263A" />
         <pointLight position={[-2.5, 1.5, 3]} intensity={1.1} color="#FFE9B0" />
-        <Stars radius={40} depth={30} count={2200} factor={3.2} saturation={0} fade speed={0.6} />
+        <Stars
+          radius={40}
+          depth={30}
+          count={2200}
+          factor={3.2}
+          saturation={0}
+          fade
+          speed={0.6}
+        />
         <group position={[1.5, 0.1, 0]}>
           <CoreOrb />
           <OrbitRings />

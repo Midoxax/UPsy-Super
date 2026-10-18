@@ -22,7 +22,8 @@ const COPY = {
   fr: {
     subject: "Mise à jour de votre candidature U.Psy",
     greeting: (n: string) => `Merci pour votre intérêt, ${n}`,
-    intro: "Merci d'avoir postulé pour rejoindre le réseau de professionnels U.Psy.",
+    intro:
+      "Merci d'avoir postulé pour rejoindre le réseau de professionnels U.Psy.",
     decline:
       "Après examen attentif, nous ne sommes pas en mesure d'approuver votre candidature pour le moment.",
     feedbackLabel: "Retour",
@@ -35,17 +36,18 @@ const COPY = {
     subject: "تحديث بشأن طلبك في U.Psy",
     greeting: (n: string) => `شكراً لاهتمامك، ${n}`,
     intro: "شكراً لتقدّمك للانضمام إلى شبكة المختصين في U.Psy.",
-    decline:
-      "بعد مراجعة دقيقة، لا يمكننا الموافقة على طلبك في الوقت الحالي.",
+    decline: "بعد مراجعة دقيقة، لا يمكننا الموافقة على طلبك في الوقت الحالي.",
     feedbackLabel: "ملاحظات",
-    encourage:
-      "نشجعك على إعادة التقديم مستقبلاً مع تطور متطلباتنا.",
+    encourage: "نشجعك على إعادة التقديم مستقبلاً مع تطور متطلباتنا.",
     questions: "في حال وجود أي استفسار، لا تتردد في التواصل معنا.",
     closing: "مع أطيب التحيات,<br>فريق U.Psy",
   },
 };
 
-export function buildRejectionEmail(p: RejectionParams): { subject: string; html: string } {
+export function buildRejectionEmail(p: RejectionParams): {
+  subject: string;
+  html: string;
+} {
   const locale: Locale = normalizeLocale(p.locale);
   const c = COPY[locale];
   const feedback = p.reason
@@ -62,5 +64,8 @@ export function buildRejectionEmail(p: RejectionParams): { subject: string; html
     <p style="margin-top:24px;">${c.closing}</p>
   `;
 
-  return { subject: c.subject, html: shellHtml({ locale, title: c.subject, body }) };
+  return {
+    subject: c.subject,
+    html: shellHtml({ locale, title: c.subject, body }),
+  };
 }

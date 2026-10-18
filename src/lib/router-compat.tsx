@@ -13,18 +13,30 @@ import {
   Navigate as TSNavigate,
   Outlet as TSOutlet,
 } from "@tanstack/react-router";
-import { useMemo, useCallback, forwardRef, type ComponentProps, type ReactNode } from "react";
+import {
+  useMemo,
+  useCallback,
+  forwardRef,
+  type ComponentProps,
+  type ReactNode,
+} from "react";
 
 // ---------- shared URL parsing ----------
 
-function parseTo(to: string): { pathname: string; search?: Record<string, string>; hash?: string } {
+function parseTo(to: string): {
+  pathname: string;
+  search?: Record<string, string>;
+  hash?: string;
+} {
   const [beforeHash, hashStr] = (to ?? "").split("#");
   const [pathname, searchStr] = beforeHash.split("?");
   return {
     // react-router keeps the current path for search-only ("?a=1") and
     // hash-only ("#section") targets; TanStack's "." means current route.
     pathname: pathname || ".",
-    search: searchStr ? Object.fromEntries(new URLSearchParams(searchStr)) : undefined,
+    search: searchStr
+      ? Object.fromEntries(new URLSearchParams(searchStr))
+      : undefined,
     hash: hashStr || undefined,
   };
 }
@@ -41,20 +53,23 @@ type NavigateFn = {
 export function useNavigate(): NavigateFn {
   const tsNav = tsNavigate();
   const router = useRouter();
-  return useCallback((to: string | number, options?: NavigateOptions) => {
-    if (typeof to === "number") {
-      router.history.go(to);
-      return;
-    }
-    const { pathname, search, hash } = parseTo(to);
-    tsNav({
-      to: pathname,
-      search: search as never,
-      hash,
-      state: options?.state as never,
-      replace: options?.replace,
-    });
-  }, [tsNav, router]) as NavigateFn;
+  return useCallback(
+    (to: string | number, options?: NavigateOptions) => {
+      if (typeof to === "number") {
+        router.history.go(to);
+        return;
+      }
+      const { pathname, search, hash } = parseTo(to);
+      tsNav({
+        to: pathname,
+        search: search as never,
+        hash,
+        state: options?.state as never,
+        replace: options?.replace,
+      });
+    },
+    [tsNav, router],
+  ) as NavigateFn;
 }
 
 // ---------- useLocation ----------
@@ -75,21 +90,40 @@ export function useLocation() {
 
 // ---------- useParams ----------
 
-export function useParams<T extends Record<string, string | undefined> = Record<string, string | undefined>>(): T {
+export function useParams<
+  T extends Record<string, string | undefined> = Record<
+    string,
+    string | undefined
+  >,
+>(): T {
   return tsParams({ strict: false } as never) as T;
 }
 
-
 // ---------- useSearchParams (react-router-dom compat) ----------
 
-export function useSearchParams(): [URLSearchParams, (init: URLSearchParams | Record<string, string> | ((prev: URLSearchParams) => URLSearchParams), opts?: { replace?: boolean }) => void] {
+export function useSearchParams(): [
+  URLSearchParams,
+  (
+    init:
+      | URLSearchParams
+      | Record<string, string>
+      | ((prev: URLSearchParams) => URLSearchParams),
+    opts?: { replace?: boolean },
+  ) => void,
+] {
   const loc = tsLocation();
   const nav = tsNavigate();
   const router = useRouter();
-  const params = useMemo(() => new URLSearchParams(loc.searchStr ?? ""), [loc.searchStr]);
+  const params = useMemo(
+    () => new URLSearchParams(loc.searchStr ?? ""),
+    [loc.searchStr],
+  );
   const setParams = useCallback(
     (
-      init: URLSearchParams | Record<string, string> | ((prev: URLSearchParams) => URLSearchParams),
+      init:
+        | URLSearchParams
+        | Record<string, string>
+        | ((prev: URLSearchParams) => URLSearchParams),
       opts?: { replace?: boolean },
     ) => {
       // Functional updaters read the router's live location, not the render
@@ -104,8 +138,14 @@ export function useSearchParams(): [URLSearchParams, (init: URLSearchParams | Re
             ? init
             : new URLSearchParams(init);
       const searchObj: Record<string, string> = {};
-      next.forEach((v, k) => { searchObj[k] = v; });
-      nav({ to: live.pathname, search: searchObj as never, replace: opts?.replace });
+      next.forEach((v, k) => {
+        searchObj[k] = v;
+      });
+      nav({
+        to: live.pathname,
+        search: searchObj as never,
+        replace: opts?.replace,
+      });
     },
     [nav, router],
   );
@@ -141,12 +181,27 @@ export const Link = forwardRef<HTMLAnchorElement, LinkProps>(function Link(
   );
 });
 
-
 // ---------- Navigate ----------
 
-export function Navigate({ to, replace, state }: { to: string; replace?: boolean; state?: unknown }) {
+export function Navigate({
+  to,
+  replace,
+  state,
+}: {
+  to: string;
+  replace?: boolean;
+  state?: unknown;
+}) {
   const { pathname, search, hash } = parseTo(to);
-  return <TSNavigate to={pathname as never} search={search as never} hash={hash} state={state as never} replace={replace} />;
+  return (
+    <TSNavigate
+      to={pathname as never}
+      search={search as never}
+      hash={hash}
+      state={state as never}
+      replace={replace}
+    />
+  );
 }
 
 // ---------- Outlet ----------

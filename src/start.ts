@@ -1,4 +1,8 @@
-import { createStart, createCsrfMiddleware, createMiddleware } from "@tanstack/react-start";
+import {
+  createStart,
+  createCsrfMiddleware,
+  createMiddleware,
+} from "@tanstack/react-start";
 
 import { renderErrorPage } from "./lib/error-page";
 
@@ -15,7 +19,8 @@ const errorMiddleware = createMiddleware().server(async ({ next }) => {
     // and failures here must not mask the original error.
     void (async () => {
       try {
-        const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+        const { supabaseAdmin } =
+          await import("@/integrations/supabase/client.server");
         const status =
           error != null && typeof error === "object" && "status" in error
             ? Number((error as { status: unknown }).status) || null
@@ -24,7 +29,10 @@ const errorMiddleware = createMiddleware().server(async ({ next }) => {
           _event: "server_error",
           _level: "error",
           _source: "runtime",
-          _message: error instanceof Error ? (error.stack ?? error.message) : String(error).slice(0, 2000),
+          _message:
+            error instanceof Error
+              ? (error.stack ?? error.message)
+              : String(error).slice(0, 2000),
           _environment: process.env["NODE_ENV"] ?? "production",
           _release: process.env["COMMIT_SHA"] ?? null,
           _status_code: status,

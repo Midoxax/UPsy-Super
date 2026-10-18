@@ -45,7 +45,9 @@ const pct = (n: number | null | undefined) =>
   n == null || !Number.isFinite(n) ? "—" : `${(n * 100).toFixed(1)}%`;
 
 const fmtLift = (n: number | null | undefined) =>
-  n == null || !Number.isFinite(n) ? "—" : `${n >= 0 ? "+" : ""}${n.toFixed(1)}%`;
+  n == null || !Number.isFinite(n)
+    ? "—"
+    : `${n >= 0 ? "+" : ""}${n.toFixed(1)}%`;
 
 export default function ExperimentPanel() {
   const { data: role } = useCrmRole();
@@ -64,12 +66,16 @@ export default function ExperimentPanel() {
       supabase.rpc("funnel_metrics"),
       supabase
         .from("experiment_winners")
-        .select("id,experiment_id,winning_variant,control_rate,winner_rate,lift_pct,confidence,auto,decided_at")
+        .select(
+          "id,experiment_id,winning_variant,control_rate,winner_rate,lift_pct,confidence,auto,decided_at",
+        )
         .order("decided_at", { ascending: false })
         .limit(10),
     ]);
     setStatus((w.data as WinnerStatus | null) ?? null);
-    const byVariant = ((m.data as { by_variant?: Record<string, VariantStat> }) ?? {}).by_variant ?? {};
+    const byVariant =
+      ((m.data as { by_variant?: Record<string, VariantStat> }) ?? {})
+        .by_variant ?? {};
     setVariants(byVariant);
     setHistory((h.data as WinnerRow[]) ?? []);
     setLoading(false);
@@ -81,26 +87,35 @@ export default function ExperimentPanel() {
 
   const promote = async () => {
     setPromoting(true);
-    const { data, error } = await supabase.rpc("promote_home_hero_winner", { _auto: false });
+    const { data, error } = await supabase.rpc("promote_home_hero_winner", {
+      _auto: false,
+    });
     if (error) {
       toast.error(error.message);
       setPromoting(false);
       return;
     }
-    const result = (data as { status?: string; winner?: string; reason?: string }) ?? {};
+    const result =
+      (data as { status?: string; winner?: string; reason?: string }) ?? {};
     if (result.status === "promoted") {
       toast.success(`Promoted "${result.winner}" as the Home hero winner`);
     } else if (result.status === "already_promoted") {
       toast.info(`"${result.winner}" is already the promoted winner`);
     } else {
-      toast.info(result.reason ? `No promotion: ${result.reason}` : "No promotable winner yet");
+      toast.info(
+        result.reason
+          ? `No promotion: ${result.reason}`
+          : "No promotable winner yet",
+      );
     }
     setPromoting(false);
     void load();
   };
 
   const decided = status?.status === "winner" || status?.status === "promoted";
-  const rows = Object.entries(variants).sort((a, b) => b[1].conversions - a[1].conversions);
+  const rows = Object.entries(variants).sort(
+    (a, b) => b[1].conversions - a[1].conversions,
+  );
   const leader = rows[0]?.[0];
   const hasData = rows.some(([, v]) => v.events > 0);
 
@@ -110,12 +125,15 @@ export default function ExperimentPanel() {
         <Card>
           <CardHeader className="pb-2">
             <CardTitle className="flex items-center gap-2 text-sm">
-              <FlaskConical className="h-4 w-4 text-muted-foreground" /> Experiment
+              <FlaskConical className="h-4 w-4 text-muted-foreground" />{" "}
+              Experiment
             </CardTitle>
           </CardHeader>
           <CardContent>
             <p className="text-2xl font-semibold">Home hero v1</p>
-            <p className="text-xs text-muted-foreground">3 arms · control / clarity / offer</p>
+            <p className="text-xs text-muted-foreground">
+              3 arms · control / clarity / offer
+            </p>
           </CardContent>
         </Card>
         <Card>
@@ -130,9 +148,13 @@ export default function ExperimentPanel() {
             ) : decided ? (
               <div className="space-y-1">
                 <Badge className="bg-emerald-500/15 text-emerald-600">
-                  {status?.status === "promoted" ? "Winner live" : "Winner decided"}
+                  {status?.status === "promoted"
+                    ? "Winner live"
+                    : "Winner decided"}
                 </Badge>
-                <p className="text-lg font-semibold capitalize">{status?.winner}</p>
+                <p className="text-lg font-semibold capitalize">
+                  {status?.winner}
+                </p>
                 <p className="text-xs text-muted-foreground">
                   {fmtLift(status?.lift_pct)} lift · {fmtZ(status?.confidence)}
                 </p>
@@ -141,7 +163,9 @@ export default function ExperimentPanel() {
               <div className="space-y-1">
                 <Badge variant="secondary">Inconclusive</Badge>
                 <p className="text-xs text-muted-foreground">
-                  {status?.reason ? `Reason: ${status.reason}` : "Not enough traffic yet"}
+                  {status?.reason
+                    ? `Reason: ${status.reason}`
+                    : "Not enough traffic yet"}
                 </p>
               </div>
             )}
@@ -150,13 +174,16 @@ export default function ExperimentPanel() {
         <Card>
           <CardHeader className="pb-2">
             <CardTitle className="flex items-center gap-2 text-sm">
-              <Sparkles className="h-4 w-4 text-muted-foreground" /> Auto-promotion
+              <Sparkles className="h-4 w-4 text-muted-foreground" />{" "}
+              Auto-promotion
             </CardTitle>
           </CardHeader>
           <CardContent>
             <p className="text-xs text-muted-foreground leading-relaxed">
-              The daily scan calls <code className="text-[11px]">promote_home_hero_winner</code> automatically once a
-              variant clears the confidence threshold. Promote manually below to end the test early.
+              The daily scan calls{" "}
+              <code className="text-[11px]">promote_home_hero_winner</code>{" "}
+              automatically once a variant clears the confidence threshold.
+              Promote manually below to end the test early.
             </p>
           </CardContent>
         </Card>
@@ -169,7 +196,8 @@ export default function ExperimentPanel() {
         <CardContent>
           {!hasData ? (
             <p className="text-sm text-muted-foreground py-6 text-center">
-              No experiment events recorded yet. Traffic will populate this once visitors hit the Home hero.
+              No experiment events recorded yet. Traffic will populate this once
+              visitors hit the Home hero.
             </p>
           ) : (
             <div className="space-y-3">
@@ -180,14 +208,19 @@ export default function ExperimentPanel() {
                   <div key={name} className="space-y-1">
                     <div className="flex items-center justify-between text-sm">
                       <span className="font-medium capitalize flex items-center gap-2">
-                        {isLeader && <Trophy className="h-3.5 w-3.5 text-amber-500" />}
+                        {isLeader && (
+                          <Trophy className="h-3.5 w-3.5 text-amber-500" />
+                        )}
                         {name}
                       </span>
                       <span className="text-muted-foreground tabular-nums">
                         {v.conversions}/{v.events} · {pct(v.rate)}
                       </span>
                     </div>
-                    <Progress value={(v.events / maxEvents) * 100} className="h-1.5" />
+                    <Progress
+                      value={(v.events / maxEvents) * 100}
+                      className="h-1.5"
+                    />
                   </div>
                 );
               })}
@@ -203,7 +236,11 @@ export default function ExperimentPanel() {
             Ends the test and serves the winning variant to every visitor.
           </p>
         </div>
-        <Button onClick={promote} disabled={!canPromote || promoting || !hasData} variant="default">
+        <Button
+          onClick={promote}
+          disabled={!canPromote || promoting || !hasData}
+          variant="default"
+        >
           {promoting ? "Promoting…" : "Promote now"}
         </Button>
       </div>
@@ -212,18 +249,27 @@ export default function ExperimentPanel() {
         <Card>
           <CardHeader className="pb-2">
             <CardTitle className="flex items-center gap-2 text-sm">
-              <Clock className="h-4 w-4 text-muted-foreground" /> Promotion history
+              <Clock className="h-4 w-4 text-muted-foreground" /> Promotion
+              history
             </CardTitle>
           </CardHeader>
           <CardContent>
             <div className="space-y-2">
               {history.map((h) => (
-                <div key={h.id} className="flex items-center justify-between text-xs border-b border-border/50 pb-2 last:border-0">
-                  <span className="font-medium capitalize">{h.winning_variant}</span>
+                <div
+                  key={h.id}
+                  className="flex items-center justify-between text-xs border-b border-border/50 pb-2 last:border-0"
+                >
+                  <span className="font-medium capitalize">
+                    {h.winning_variant}
+                  </span>
                   <div className="flex items-center gap-3 text-muted-foreground">
                     <span>{fmtLift(h.lift_pct)} lift</span>
                     <span>{fmtZ(h.confidence)}</span>
-                    <Badge variant={h.auto ? "secondary" : "outline"} className="text-[10px]">
+                    <Badge
+                      variant={h.auto ? "secondary" : "outline"}
+                      className="text-[10px]"
+                    >
                       {h.auto ? "auto" : "manual"}
                     </Badge>
                     <span>{new Date(h.decided_at).toLocaleDateString()}</span>

@@ -97,7 +97,9 @@ export const useCrmOverview = () =>
           .order("created_at", { ascending: false })
           .limit(5000),
         supabase.from("crm_deals").select("id, pipeline, stage, value_mad"),
-        supabase.from("crm_consents").select("contact_id, purpose, granted, withdrawn_at"),
+        supabase
+          .from("crm_consents")
+          .select("contact_id, purpose, granted, withdrawn_at"),
         supabase
           .from("crm_activities")
           .select("id, contact_id, kind, subject, occurred_at")
@@ -108,7 +110,8 @@ export const useCrmOverview = () =>
       if (contacts.error) throw contacts.error;
 
       const rows = contacts.data ?? [];
-      const count = (pred: (r: (typeof rows)[number]) => boolean) => rows.filter(pred).length;
+      const count = (pred: (r: (typeof rows)[number]) => boolean) =>
+        rows.filter(pred).length;
 
       const bySource: Record<string, number> = {};
       rows.forEach((r) => {
@@ -124,10 +127,12 @@ export const useCrmOverview = () =>
       const grantedContacts = new Set(
         (consents.data ?? [])
           .filter((c) => c.granted && !c.withdrawn_at)
-          .map((c) => c.contact_id as string)
+          .map((c) => c.contact_id as string),
       );
 
-      const observatoire = rows.filter((r) => (r.source ?? "").startsWith("observatoire"));
+      const observatoire = rows.filter((r) =>
+        (r.source ?? "").startsWith("observatoire"),
+      );
 
       return {
         total: rows.length,
@@ -137,9 +142,15 @@ export const useCrmOverview = () =>
         specialists: count((r) => r.contact_type === "specialist"),
         orgContacts: count((r) => r.contact_type === "org_contact"),
         observatoireTotal: observatoire.length,
-        observatoireWeek: observatoire.filter((r) => r.created_at >= since).length,
-        consentCoverage: rows.length ? Math.round((grantedContacts.size / rows.length) * 100) : 0,
-        pipelineValue: (deals.data ?? []).reduce((sum, d) => sum + Number(d.value_mad ?? 0), 0),
+        observatoireWeek: observatoire.filter((r) => r.created_at >= since)
+          .length,
+        consentCoverage: rows.length
+          ? Math.round((grantedContacts.size / rows.length) * 100)
+          : 0,
+        pipelineValue: (deals.data ?? []).reduce(
+          (sum, d) => sum + Number(d.value_mad ?? 0),
+          0,
+        ),
         openDeals: (deals.data ?? []).length,
         bySource,
         byLifecycle,
@@ -161,9 +172,12 @@ export const useCrmContacts = (filters: ContactFilters) =>
         .order("last_activity_at", { ascending: false, nullsFirst: false })
         .limit(1000);
 
-      if (filters.contactType && filters.contactType !== "all") q = q.eq("contact_type", filters.contactType);
-      if (filters.lifecycle && filters.lifecycle !== "all") q = q.eq("lifecycle", filters.lifecycle);
-      if (filters.source && filters.source !== "all") q = q.eq("source", filters.source);
+      if (filters.contactType && filters.contactType !== "all")
+        q = q.eq("contact_type", filters.contactType);
+      if (filters.lifecycle && filters.lifecycle !== "all")
+        q = q.eq("lifecycle", filters.lifecycle);
+      if (filters.source && filters.source !== "all")
+        q = q.eq("source", filters.source);
       if (filters.search?.trim()) {
         const s = `%${filters.search.trim()}%`;
         q = q.or(`email.ilike.${s},full_name.ilike.${s},phone.ilike.${s}`);
@@ -178,9 +192,15 @@ export const useCrmContacts = (filters: ContactFilters) =>
           .from("crm_consents")
           .select("contact_id, granted, withdrawn_at");
         const granted = new Set(
-          (consents ?? []).filter((c) => c.granted && !c.withdrawn_at).map((c) => c.contact_id as string)
+          (consents ?? [])
+            .filter((c) => c.granted && !c.withdrawn_at)
+            .map((c) => c.contact_id as string),
         );
-        rows = rows.filter((r) => (filters.consent === "granted" ? granted.has(r.id) : !granted.has(r.id)));
+        rows = rows.filter((r) =>
+          filters.consent === "granted"
+            ? granted.has(r.id)
+            : !granted.has(r.id),
+        );
       }
       return rows;
     },
@@ -192,7 +212,11 @@ export const useCrmContact = (contactId: string | null) =>
     enabled: !!contactId,
     queryFn: async () => {
       const [contact, activities, consents, deals] = await Promise.all([
-        supabase.from("crm_contacts").select("*").eq("id", contactId!).maybeSingle(),
+        supabase
+          .from("crm_contacts")
+          .select("*")
+          .eq("id", contactId!)
+          .maybeSingle(),
         supabase
           .from("crm_activities")
           .select("*")
@@ -251,7 +275,13 @@ export const useCrmMutations = () => {
   const invalidate = () => qc.invalidateQueries({ queryKey: KEY });
 
   const addNote = useMutation({
-    mutationFn: async ({ contactId, body }: { contactId: string; body: string }) => {
+    mutationFn: async ({
+      contactId,
+      body,
+    }: {
+      contactId: string;
+      body: string;
+    }) => {
       const { data: auth } = await supabase.auth.getUser();
       const { error } = await supabase.from("crm_activities").insert({
         contact_id: contactId,
@@ -266,7 +296,13 @@ export const useCrmMutations = () => {
   });
 
   const setLifecycle = useMutation({
-    mutationFn: async ({ contactId, lifecycle }: { contactId: string; lifecycle: string }) => {
+    mutationFn: async ({
+      contactId,
+      lifecycle,
+    }: {
+      contactId: string;
+      lifecycle: string;
+    }) => {
       const { error } = await supabase
         .from("crm_contacts")
         .update({ lifecycle })
@@ -282,8 +318,19 @@ export const useCrmMutations = () => {
   });
 
   const moveDeal = useMutation({
-    mutationFn: async ({ dealId, stage, contactId }: { dealId: string; stage: string; contactId: string | null }) => {
-      const { error } = await supabase.from("crm_deals").update({ stage }).eq("id", dealId);
+    mutationFn: async ({
+      dealId,
+      stage,
+      contactId,
+    }: {
+      dealId: string;
+      stage: string;
+      contactId: string | null;
+    }) => {
+      const { error } = await supabase
+        .from("crm_deals")
+        .update({ stage })
+        .eq("id", dealId);
       if (error) throw error;
       if (contactId) {
         await supabase.from("crm_activities").insert({

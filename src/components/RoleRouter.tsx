@@ -26,7 +26,10 @@ const CalmLoadingState = () => (
   <div className="min-h-screen bg-background flex items-center justify-center px-4">
     <div className="w-full max-w-md space-y-6 text-center">
       <div className="flex justify-center">
-        <Loader2 className="h-8 w-8 text-primary animate-spin" aria-hidden="true" />
+        <Loader2
+          className="h-8 w-8 text-primary animate-spin"
+          aria-hidden="true"
+        />
       </div>
       <div className="space-y-2">
         <h1 className="text-lg font-medium text-foreground">
@@ -70,10 +73,14 @@ const RoleRouter = () => {
   const canOverride = isAdmin || roles.length >= 2;
   if (canOverride && activeView !== "auto") {
     switch (activeView) {
-      case "admin": return <Navigate to="/admin" replace />;
-      case "specialist": return <Navigate to="/dashboard/specialist" replace />;
-      case "client": return <Navigate to="/dashboard/client" replace />;
-      case "organization": return <Navigate to="/dashboard/organization" replace />;
+      case "admin":
+        return <Navigate to="/admin" replace />;
+      case "specialist":
+        return <Navigate to="/dashboard/specialist" replace />;
+      case "client":
+        return <Navigate to="/dashboard/client" replace />;
+      case "organization":
+        return <Navigate to="/dashboard/organization" replace />;
     }
   }
 

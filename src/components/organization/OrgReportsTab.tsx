@@ -2,11 +2,30 @@ import { useState } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+} from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { FileText, Download, Calendar, TrendingUp, Shield, Plus } from "lucide-react";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  FileText,
+  Download,
+  Calendar,
+  TrendingUp,
+  Shield,
+  Plus,
+} from "lucide-react";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { toast } from "sonner";
 
 const typeColors: Record<string, string> = {
@@ -25,7 +44,11 @@ const OrgReportsTab = () => {
   const { data: org } = useQuery({
     queryKey: ["org-account-reports", user?.id],
     queryFn: async () => {
-      const { data } = await supabase.from("organization_accounts").select("id").eq("owner_id", user!.id).maybeSingle();
+      const { data } = await supabase
+        .from("organization_accounts")
+        .select("id")
+        .eq("owner_id", user!.id)
+        .maybeSingle();
       return data;
     },
     enabled: !!user,
@@ -67,18 +90,24 @@ const OrgReportsTab = () => {
     onError: (e: any) => toast.error(e.message),
   });
 
-  const filtered = (reports ?? []).filter((r) => typeFilter === "all" || r.report_type === typeFilter);
+  const filtered = (reports ?? []).filter(
+    (r) => typeFilter === "all" || r.report_type === typeFilter,
+  );
 
   return (
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
           <h3 className="text-lg font-semibold">Reports & Insights</h3>
-          <p className="text-sm text-muted-foreground">Aggregated, anonymized mental health reporting (k≥5)</p>
+          <p className="text-sm text-muted-foreground">
+            Aggregated, anonymized mental health reporting (k≥5)
+          </p>
         </div>
         <div className="flex gap-3">
           <Select value={typeFilter} onValueChange={setTypeFilter}>
-            <SelectTrigger className="w-40"><SelectValue /></SelectTrigger>
+            <SelectTrigger className="w-40">
+              <SelectValue />
+            </SelectTrigger>
             <SelectContent>
               <SelectItem value="all">All Reports</SelectItem>
               <SelectItem value="quarterly">Quarterly</SelectItem>
@@ -88,33 +117,54 @@ const OrgReportsTab = () => {
               <SelectItem value="pulse">Pulse</SelectItem>
             </SelectContent>
           </Select>
-          <Button className="gap-2" onClick={() => requestReport.mutate()} disabled={!org?.id || requestReport.isPending}>
-            <Plus className="h-4 w-4" />Request Report
+          <Button
+            className="gap-2"
+            onClick={() => requestReport.mutate()}
+            disabled={!org?.id || requestReport.isPending}
+          >
+            <Plus className="h-4 w-4" />
+            Request Report
           </Button>
         </div>
       </div>
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <Card><CardContent className="pt-4 text-center">
-          <FileText className="h-5 w-5 mx-auto mb-1 text-primary" />
-          <p className="text-2xl font-bold">{reports?.length ?? 0}</p>
-          <p className="text-xs text-muted-foreground">Total Reports</p>
-        </CardContent></Card>
-        <Card><CardContent className="pt-4 text-center">
-          <TrendingUp className="h-5 w-5 mx-auto mb-1 text-chart-2" />
-          <p className="text-2xl font-bold">{reports?.filter((r) => r.report_type === "quarterly").length ?? 0}</p>
-          <p className="text-xs text-muted-foreground">Quarterly</p>
-        </CardContent></Card>
-        <Card><CardContent className="pt-4 text-center">
-          <Shield className="h-5 w-5 mx-auto mb-1 text-chart-1" />
-          <p className="text-2xl font-bold">{reports?.filter((r) => r.report_type === "diagnostic").length ?? 0}</p>
-          <p className="text-xs text-muted-foreground">Diagnostics</p>
-        </CardContent></Card>
-        <Card><CardContent className="pt-4 text-center">
-          <Calendar className="h-5 w-5 mx-auto mb-1 text-accent" />
-          <p className="text-2xl font-bold">{reports?.filter((r) => r.report_type === "annual").length ?? 0}</p>
-          <p className="text-xs text-muted-foreground">Annual</p>
-        </CardContent></Card>
+        <Card>
+          <CardContent className="pt-4 text-center">
+            <FileText className="h-5 w-5 mx-auto mb-1 text-primary" />
+            <p className="text-2xl font-bold">{reports?.length ?? 0}</p>
+            <p className="text-xs text-muted-foreground">Total Reports</p>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardContent className="pt-4 text-center">
+            <TrendingUp className="h-5 w-5 mx-auto mb-1 text-chart-2" />
+            <p className="text-2xl font-bold">
+              {reports?.filter((r) => r.report_type === "quarterly").length ??
+                0}
+            </p>
+            <p className="text-xs text-muted-foreground">Quarterly</p>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardContent className="pt-4 text-center">
+            <Shield className="h-5 w-5 mx-auto mb-1 text-chart-1" />
+            <p className="text-2xl font-bold">
+              {reports?.filter((r) => r.report_type === "diagnostic").length ??
+                0}
+            </p>
+            <p className="text-xs text-muted-foreground">Diagnostics</p>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardContent className="pt-4 text-center">
+            <Calendar className="h-5 w-5 mx-auto mb-1 text-accent" />
+            <p className="text-2xl font-bold">
+              {reports?.filter((r) => r.report_type === "annual").length ?? 0}
+            </p>
+            <p className="text-xs text-muted-foreground">Annual</p>
+          </CardContent>
+        </Card>
       </div>
 
       <Card>
@@ -125,7 +175,10 @@ const OrgReportsTab = () => {
         <CardContent>
           <div className="space-y-3">
             {filtered.map((report) => (
-              <div key={report.id} className="flex items-center justify-between p-4 rounded-lg border border-border/50 hover:bg-muted/20 transition-colors">
+              <div
+                key={report.id}
+                className="flex items-center justify-between p-4 rounded-lg border border-border/50 hover:bg-muted/20 transition-colors"
+              >
                 <div className="flex items-center gap-4">
                   <div className="w-10 h-10 rounded-lg bg-muted/50 flex items-center justify-center">
                     <FileText className="h-5 w-5 text-muted-foreground" />
@@ -133,25 +186,46 @@ const OrgReportsTab = () => {
                   <div>
                     <p className="font-medium text-sm">{report.title}</p>
                     <div className="flex items-center gap-3 mt-1">
-                      <Badge variant="outline" className={typeColors[report.report_type] ?? ""}>
+                      <Badge
+                        variant="outline"
+                        className={typeColors[report.report_type] ?? ""}
+                      >
                         {report.report_type}
                       </Badge>
-                      <span className="text-xs text-muted-foreground">{new Date(report.created_at!).toLocaleDateString()}</span>
-                      {report.page_count && <span className="text-xs text-muted-foreground">{report.page_count} pages</span>}
+                      <span className="text-xs text-muted-foreground">
+                        {new Date(report.created_at!).toLocaleDateString()}
+                      </span>
+                      {report.page_count && (
+                        <span className="text-xs text-muted-foreground">
+                          {report.page_count} pages
+                        </span>
+                      )}
                     </div>
                   </div>
                 </div>
-                <Button variant="ghost" size="sm" className="gap-1.5" disabled={report.status !== "ready"}>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="gap-1.5"
+                  disabled={report.status !== "ready"}
+                >
                   {report.status === "processing" ? (
-                    <span className="text-xs text-muted-foreground">Processing...</span>
+                    <span className="text-xs text-muted-foreground">
+                      Processing...
+                    </span>
                   ) : (
-                    <><Download className="h-4 w-4" />Download</>
+                    <>
+                      <Download className="h-4 w-4" />
+                      Download
+                    </>
                   )}
                 </Button>
               </div>
             ))}
             {filtered.length === 0 && (
-              <p className="text-sm text-muted-foreground text-center py-6">No reports yet. Request your first quarterly report above.</p>
+              <p className="text-sm text-muted-foreground text-center py-6">
+                No reports yet. Request your first quarterly report above.
+              </p>
             )}
           </div>
         </CardContent>
@@ -160,7 +234,9 @@ const OrgReportsTab = () => {
       <div className="p-4 rounded-lg border border-border bg-muted/20">
         <p className="text-xs text-muted-foreground flex items-start gap-2">
           <Shield className="h-4 w-4 shrink-0 mt-0.5" />
-          All reports contain aggregated, anonymized data only (k≥5 minimum). Individual employee data is never exposed. Compliant with CNDP (Loi 09-08, Maroc) and GDPR.
+          All reports contain aggregated, anonymized data only (k≥5 minimum).
+          Individual employee data is never exposed. Compliant with CNDP (Loi
+          09-08, Maroc) and GDPR.
         </p>
       </div>
     </div>

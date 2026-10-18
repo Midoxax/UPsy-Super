@@ -94,8 +94,14 @@ function key(funnel: FunnelName, step: string): string {
  * rates differ per psychologist; a bucket answers "does price lose people?"
  * without carrying that risk into a third-party tool.
  */
-export function priceBucket(amountMad: number | null | undefined): string | undefined {
-  if (typeof amountMad !== "number" || !Number.isFinite(amountMad) || amountMad < 0) {
+export function priceBucket(
+  amountMad: number | null | undefined,
+): string | undefined {
+  if (
+    typeof amountMad !== "number" ||
+    !Number.isFinite(amountMad) ||
+    amountMad < 0
+  ) {
     return undefined;
   }
   if (amountMad < 300) return "under_300";
@@ -139,7 +145,10 @@ export function trackFunnelStep(
  * Record that the funnel produced its outcome — a match list, or a booking.
  * Always emitted, never deduplicated: a second booking is a second sale.
  */
-export function trackFunnelCompleted(funnel: FunnelName, props: FunnelProps = {}): void {
+export function trackFunnelCompleted(
+  funnel: FunnelName,
+  props: FunnelProps = {},
+): void {
   const payload = { funnel, ...props };
   captureEvent(`${funnel}.completed`, payload);
   pushDataLayer({ event: `${funnel}_completed`, ...payload });

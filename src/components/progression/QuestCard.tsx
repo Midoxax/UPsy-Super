@@ -58,7 +58,9 @@ export const QuestCard = ({ quest, progress }: Props) => {
 
       <div>
         <Progress value={pct} className="h-1.5" />
-        <div className="mt-1 text-[11px] text-muted-foreground">{pct}% complete</div>
+        <div className="mt-1 text-[11px] text-muted-foreground">
+          {pct}% complete
+        </div>
       </div>
 
       <ul className="space-y-1.5">
@@ -76,7 +78,11 @@ export const QuestCard = ({ quest, progress }: Props) => {
                 ) : (
                   <span className="h-3 w-3 rounded-full border border-border shrink-0" />
                 )}
-                <span className={stepDone ? "line-through text-muted-foreground" : ""}>
+                <span
+                  className={
+                    stepDone ? "line-through text-muted-foreground" : ""
+                  }
+                >
                   {s.label}
                 </span>
               </span>

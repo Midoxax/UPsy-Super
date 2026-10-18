@@ -10,7 +10,12 @@ interface Props {
   compact?: boolean;
 }
 
-export const UpgradePromptCard = ({ title, description, requiredPlan, compact }: Props) => {
+export const UpgradePromptCard = ({
+  title,
+  description,
+  requiredPlan,
+  compact,
+}: Props) => {
   return (
     <Card
       className={`relative overflow-hidden border-primary/30 bg-gradient-to-br from-primary/5 to-accent/5 ${

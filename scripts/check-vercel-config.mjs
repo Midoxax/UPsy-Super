@@ -60,14 +60,14 @@ for (const section of SECTIONS) {
       if (source.includes(token)) {
         failures.push(
           `${section}[${index}] source ${JSON.stringify(source)} uses a ${what} ` +
-            `("${token}"). Vercel rejects it. Use ordered routes or has/missing conditions instead.`
+            `("${token}"). Vercel rejects it. Use ordered routes or has/missing conditions instead.`,
         );
       }
     }
 
     if (!source.startsWith("/") && !source.startsWith("(")) {
       failures.push(
-        `${section}[${index}] source ${JSON.stringify(source)} must start with "/".`
+        `${section}[${index}] source ${JSON.stringify(source)} must start with "/".`,
       );
     }
   });
@@ -77,12 +77,15 @@ for (const section of SECTIONS) {
 // every deep link 404s on refresh.
 const rewrites = Array.isArray(config.rewrites) ? config.rewrites : [];
 const hasSpaFallback = rewrites.some(
-  (r) => typeof r?.source === "string" && /^\/\(\.\*\)$|^\/:path\*$/.test(r.source) && r.destination === "/index.html"
+  (r) =>
+    typeof r?.source === "string" &&
+    /^\/\(\.\*\)$|^\/:path\*$/.test(r.source) &&
+    r.destination === "/index.html",
 );
 if (!hasSpaFallback) {
   failures.push(
     'Missing the SPA fallback rewrite { "source": "/(.*)", "destination": "/index.html" }. ' +
-      "Deep links and refreshes would 404."
+      "Deep links and refreshes would 404.",
   );
 }
 
@@ -95,5 +98,5 @@ if (failures.length) {
 
 console.log(
   `check:vercel — OK (${rewrites.length} rewrite(s), ` +
-    `${(config.redirects ?? []).length} redirect(s), ${(config.headers ?? []).length} header rule(s)).`
+    `${(config.redirects ?? []).length} redirect(s), ${(config.headers ?? []).length} header rule(s)).`,
 );

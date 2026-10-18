@@ -19,12 +19,7 @@ import {
   Rocket,
   Brain,
 } from "lucide-react";
-import {
-  ClipboardList,
-  ListChecks,
-  TrendingUp,
-  LogOut,
-} from "lucide-react";
+import { ClipboardList, ListChecks, TrendingUp, LogOut } from "lucide-react";
 import { ProfileTab } from "@/components/dashboard/ProfileTab";
 import { AvailabilityTab } from "@/components/dashboard/AvailabilityTab";
 import { PricingTab } from "@/components/dashboard/PricingTab";
@@ -64,7 +59,9 @@ const SpecialistDashboard = () => {
               className="space-y-6"
               onValueChange={() => {
                 requestAnimationFrame(() => {
-                  document.getElementById("specialist-tabs-top")?.scrollIntoView({ behavior: "smooth", block: "start" });
+                  document
+                    .getElementById("specialist-tabs-top")
+                    ?.scrollIntoView({ behavior: "smooth", block: "start" });
                 });
               }}
             >
@@ -147,25 +144,63 @@ const SpecialistDashboard = () => {
                 </TabsTrigger>
               </TabsList>
 
-              <TabsContent value="profile"><ProfileTab /></TabsContent>
-              <TabsContent value="sessions"><SessionsTab /></TabsContent>
-              <TabsContent value="notes"><SessionNotesTab /></TabsContent>
-              <TabsContent value="briefs"><ClinicalBriefsTab /></TabsContent>
-              <TabsContent value="treatment-plans"><TreatmentPlansTab /></TabsContent>
-              <TabsContent value="homework"><HomeworkTab role="psychologist" /></TabsContent>
-              <TabsContent value="progress"><ClientProgressTab role="psychologist" /></TabsContent>
-              <TabsContent value="discharge"><DischargeTab role="psychologist" /></TabsContent>
-              <TabsContent value="availability"><AvailabilityTab /></TabsContent>
-              <TabsContent value="pricing"><PricingTab /></TabsContent>
-              <TabsContent value="leads"><LeadsTab /></TabsContent>
-              <TabsContent value="earnings"><EarningsTab /></TabsContent>
-              <TabsContent value="analytics"><AnalyticsTab /></TabsContent>
-              <TabsContent value="billing"><SpecialistPlansTab /></TabsContent>
-              <TabsContent value="boosts"><BoostsTab /></TabsContent>
-              <TabsContent value="journal"><JournalTab /></TabsContent>
-              <TabsContent value="certificates"><CertificatesTab /></TabsContent>
-              <TabsContent value="documents"><DocumentsTab /></TabsContent>
-              <TabsContent value="support"><SupportTab /></TabsContent>
+              <TabsContent value="profile">
+                <ProfileTab />
+              </TabsContent>
+              <TabsContent value="sessions">
+                <SessionsTab />
+              </TabsContent>
+              <TabsContent value="notes">
+                <SessionNotesTab />
+              </TabsContent>
+              <TabsContent value="briefs">
+                <ClinicalBriefsTab />
+              </TabsContent>
+              <TabsContent value="treatment-plans">
+                <TreatmentPlansTab />
+              </TabsContent>
+              <TabsContent value="homework">
+                <HomeworkTab role="psychologist" />
+              </TabsContent>
+              <TabsContent value="progress">
+                <ClientProgressTab role="psychologist" />
+              </TabsContent>
+              <TabsContent value="discharge">
+                <DischargeTab role="psychologist" />
+              </TabsContent>
+              <TabsContent value="availability">
+                <AvailabilityTab />
+              </TabsContent>
+              <TabsContent value="pricing">
+                <PricingTab />
+              </TabsContent>
+              <TabsContent value="leads">
+                <LeadsTab />
+              </TabsContent>
+              <TabsContent value="earnings">
+                <EarningsTab />
+              </TabsContent>
+              <TabsContent value="analytics">
+                <AnalyticsTab />
+              </TabsContent>
+              <TabsContent value="billing">
+                <SpecialistPlansTab />
+              </TabsContent>
+              <TabsContent value="boosts">
+                <BoostsTab />
+              </TabsContent>
+              <TabsContent value="journal">
+                <JournalTab />
+              </TabsContent>
+              <TabsContent value="certificates">
+                <CertificatesTab />
+              </TabsContent>
+              <TabsContent value="documents">
+                <DocumentsTab />
+              </TabsContent>
+              <TabsContent value="support">
+                <SupportTab />
+              </TabsContent>
             </Tabs>
           </div>
 
@@ -174,10 +209,13 @@ const SpecialistDashboard = () => {
             <Card className="p-5 bg-gradient-to-br from-primary/10 to-accent/10 border-primary/20">
               <div className="flex items-center gap-2 mb-2">
                 <Sparkles className="h-4 w-4 text-primary" />
-                <h3 className="font-semibold text-foreground">Nour — AI assistant</h3>
+                <h3 className="font-semibold text-foreground">
+                  Nour — AI assistant
+                </h3>
               </div>
               <p className="text-sm text-muted-foreground mb-4">
-                Draft session summaries, get clinical reflections, and brainstorm interventions.
+                Draft session summaries, get clinical reflections, and
+                brainstorm interventions.
               </p>
               <Button asChild className="w-full" size="sm">
                 <Link to="/ai-assistant">Open Nour</Link>
@@ -189,11 +227,34 @@ const SpecialistDashboard = () => {
             <ContinueLearningCard path="clinical-cpd" />
 
             <Card className="p-5">
-              <h3 className="font-semibold text-foreground mb-2">Quick links</h3>
+              <h3 className="font-semibold text-foreground mb-2">
+                Quick links
+              </h3>
               <ul className="space-y-2 text-sm">
-                <li><Link to="/psychologists" className="text-primary hover:underline">View public profile</Link></li>
-                <li><Link to="/resources" className="text-primary hover:underline">Clinician resources</Link></li>
-                <li><Link to="/moroccan-umbrella" className="text-primary hover:underline">Moroccan Umbrella</Link></li>
+                <li>
+                  <Link
+                    to="/psychologists"
+                    className="text-primary hover:underline"
+                  >
+                    View public profile
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/resources"
+                    className="text-primary hover:underline"
+                  >
+                    Clinician resources
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/moroccan-umbrella"
+                    className="text-primary hover:underline"
+                  >
+                    Moroccan Umbrella
+                  </Link>
+                </li>
               </ul>
             </Card>
           </aside>

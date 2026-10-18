@@ -1,4 +1,7 @@
-import { useDailyChallenge, useCompleteDailyChallenge } from "@/hooks/useGamification";
+import {
+  useDailyChallenge,
+  useCompleteDailyChallenge,
+} from "@/hooks/useGamification";
 import { Button } from "@/components/ui/button";
 import { Link } from "@/lib/router-compat";
 import { CheckCircle2, Sparkles, ArrowRight } from "lucide-react";
@@ -10,9 +13,7 @@ export const DailyChallengeCard = () => {
   const complete = useCompleteDailyChallenge();
 
   if (isLoading || !data) {
-    return (
-      <div className="glass-card p-5 animate-pulse h-32" />
-    );
+    return <div className="glass-card p-5 animate-pulse h-32" />;
   }
 
   const c = data.challenge;
@@ -33,9 +34,13 @@ export const DailyChallengeCard = () => {
               Today's Challenge
             </span>
           </div>
-          <h3 className="font-semibold text-foreground leading-snug">{c.title}</h3>
+          <h3 className="font-semibold text-foreground leading-snug">
+            {c.title}
+          </h3>
           {c.description && (
-            <p className="text-xs text-muted-foreground mt-1 leading-relaxed">{c.description}</p>
+            <p className="text-xs text-muted-foreground mt-1 leading-relaxed">
+              {c.description}
+            </p>
           )}
         </div>
         <span className="text-xs font-bold text-amber-600 bg-amber-500/10 border border-amber-500/20 rounded-full px-2 py-0.5 whitespace-nowrap">

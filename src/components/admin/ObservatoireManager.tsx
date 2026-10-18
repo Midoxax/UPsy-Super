@@ -14,7 +14,9 @@ type Dict = Record<string, number>;
 
 const Stat = ({ label, value }: { label: string; value: string | number }) => (
   <div className="rounded-u-card border border-border/60 bg-muted/20 p-4">
-    <p className="text-xs uppercase tracking-[0.16em] text-muted-foreground">{label}</p>
+    <p className="text-xs uppercase tracking-[0.16em] text-muted-foreground">
+      {label}
+    </p>
     <p className="font-mono tabular-nums text-2xl mt-1">{value}</p>
   </div>
 );
@@ -43,20 +45,34 @@ const AnswerStats = ({ track }: { track: "patient" | "psychologist" }) => {
   const { data, isLoading } = useQuery({
     queryKey: ["observatoire-answers", track],
     queryFn: async () => {
-      const { data, error } = await supabase.rpc("observatoire_answer_stats", { _track: track });
+      const { data, error } = await supabase.rpc("observatoire_answer_stats", {
+        _track: track,
+      });
       if (error) throw error;
-      return (data ?? {}) as unknown as Record<string, { n: number; distribution: Dict }>;
+      return (data ?? {}) as unknown as Record<
+        string,
+        { n: number; distribution: Dict }
+      >;
     },
   });
 
   if (isLoading) return <Loader2 className="h-5 w-5 animate-spin" />;
   const entries = Object.entries(data ?? {});
-  if (!entries.length) return <p className="text-sm text-muted-foreground">No completed responses yet.</p>;
+  if (!entries.length)
+    return (
+      <p className="text-sm text-muted-foreground">
+        No completed responses yet.
+      </p>
+    );
 
   return (
     <div className="grid gap-6 md:grid-cols-2">
       {entries.map(([key, stat]) => (
-        <Distribution key={key} title={`${key} (n=${stat.n})`} data={stat.distribution} />
+        <Distribution
+          key={key}
+          title={`${key} (n=${stat.n})`}
+          data={stat.distribution}
+        />
       ))}
     </div>
   );
@@ -95,19 +111,26 @@ const ObservatoireManager = () => {
     );
   }
   if (error) {
-    return <p className="text-sm text-destructive">Unable to load research aggregates.</p>;
+    return (
+      <p className="text-sm text-destructive">
+        Unable to load research aggregates.
+      </p>
+    );
   }
 
   const t = data?.totals;
-  const completionRate = t?.started ? Math.round((t.completed / t.started) * 100) : 0;
+  const completionRate = t?.started
+    ? Math.round((t.completed / t.started) * 100)
+    : 0;
 
   return (
     <div className="space-y-6">
       <div className="flex items-start gap-2 rounded-u-card border border-primary/25 bg-primary/5 p-3 text-xs leading-relaxed">
         <ShieldCheck className="h-4 w-4 shrink-0 text-primary mt-0.5" />
         <span>
-          Aggregates only. Individual survey responses are unreadable by design and carry no link to any
-          person or account. Timestamps are rounded to the hour to prevent correlation with CRM contacts.
+          Aggregates only. Individual survey responses are unreadable by design
+          and carry no link to any person or account. Timestamps are rounded to
+          the hour to prevent correlation with CRM contacts.
         </span>
       </div>
       <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-5">

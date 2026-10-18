@@ -49,7 +49,8 @@ export function evaluateNudges(moodEntries: MoodSample[]): Nudge[] {
 
   // Sort newest first defensively
   const sorted = [...moodEntries].sort(
-    (a, b) => new Date(b.recorded_at).getTime() - new Date(a.recorded_at).getTime()
+    (a, b) =>
+      new Date(b.recorded_at).getTime() - new Date(a.recorded_at).getTime(),
   );
 
   // 1. Low mood — last 3 entries all <= 2
@@ -66,7 +67,10 @@ export function evaluateNudges(moodEntries: MoodSample[]): Nudge[] {
   }
 
   // 2. Missing check-in — no entry in 4+ days
-  if (sorted.length === 0 || daysBetween(now, new Date(sorted[0].recorded_at)) >= 4) {
+  if (
+    sorted.length === 0 ||
+    daysBetween(now, new Date(sorted[0].recorded_at)) >= 4
+  ) {
     nudges.push({
       id: "missing_checkin_4d",
       type: "missing_checkin",
@@ -78,7 +82,7 @@ export function evaluateNudges(moodEntries: MoodSample[]): Nudge[] {
 
   // 3. Streak milestone — 7 unique consecutive days
   const days = new Set(
-    sorted.map((e) => new Date(e.recorded_at).toDateString())
+    sorted.map((e) => new Date(e.recorded_at).toDateString()),
   );
   let streak = 0;
   for (let i = 0; i < 30; i++) {

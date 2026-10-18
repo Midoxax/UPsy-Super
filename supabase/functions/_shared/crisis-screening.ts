@@ -2,14 +2,29 @@ export type RiskLevel = "low" | "moderate" | "high";
 export type ScreeningResult = RiskLevel | "unavailable";
 
 export const HIGH_RISK_KEYWORDS = [
-  "suicide", "kill myself", "end my life", "want to die", "self harm", "self-harm",
-  "me suicider", "me tuer", "en finir", "mourir", "automutilation",
-  "أنتحر", "أقتل نفسي",
+  "suicide",
+  "kill myself",
+  "end my life",
+  "want to die",
+  "self harm",
+  "self-harm",
+  "me suicider",
+  "me tuer",
+  "en finir",
+  "mourir",
+  "automutilation",
+  "أنتحر",
+  "أقتل نفسي",
 ];
 
 export const MODERATE_KEYWORDS = [
-  "hopeless", "worthless", "no reason to live", "burden",
-  "sans espoir", "fardeau", "désespéré",
+  "hopeless",
+  "worthless",
+  "no reason to live",
+  "burden",
+  "sans espoir",
+  "fardeau",
+  "désespéré",
 ];
 
 export function keywordScreen(text: string): RiskLevel {

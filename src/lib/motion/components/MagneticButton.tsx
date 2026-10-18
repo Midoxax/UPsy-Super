@@ -23,7 +23,7 @@ const MagneticButton = forwardRef<HTMLDivElement, MagneticButtonProps>(
         {children}
       </motion.div>
     );
-  }
+  },
 );
 MagneticButton.displayName = "MagneticButton";
 export default MagneticButton;

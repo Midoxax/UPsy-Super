@@ -4,15 +4,40 @@ import { Link, useParams } from "@/lib/router-compat";
 import { useOpsWorkspaces, useOpsEvents } from "../hooks/useOps";
 import { motion, AnimatePresence } from "framer-motion";
 import {
-  Plus, Activity, Calendar, Clock, Users, Target, ChevronRight
+  Plus,
+  Activity,
+  Calendar,
+  Clock,
+  Users,
+  Target,
+  ChevronRight,
 } from "lucide-react";
 
-const STATUS_META: Record<string, { label: string; color: string; glow: string }> = {
-  draft:     { label: "DRAFT",     color: "text-white/50",     glow: "border-white/15" },
-  planning:  { label: "PLANNING",  color: "text-cyan-300",     glow: "border-cyan-400/40" },
-  active:    { label: "ACTIVE",    color: "text-emerald-300",  glow: "border-emerald-400/50" },
-  completed: { label: "COMPLETED", color: "text-blue-300",     glow: "border-blue-400/40" },
-  archived:  { label: "ARCHIVED",  color: "text-white/30",     glow: "border-white/10" },
+const STATUS_META: Record<
+  string,
+  { label: string; color: string; glow: string }
+> = {
+  draft: { label: "DRAFT", color: "text-white/50", glow: "border-white/15" },
+  planning: {
+    label: "PLANNING",
+    color: "text-cyan-300",
+    glow: "border-cyan-400/40",
+  },
+  active: {
+    label: "ACTIVE",
+    color: "text-emerald-300",
+    glow: "border-emerald-400/50",
+  },
+  completed: {
+    label: "COMPLETED",
+    color: "text-blue-300",
+    glow: "border-blue-400/40",
+  },
+  archived: {
+    label: "ARCHIVED",
+    color: "text-white/30",
+    glow: "border-white/10",
+  },
 };
 
 const TYPE_ICON: Record<string, ComponentType<{ className?: string }>> = {
@@ -32,13 +57,14 @@ export const Events = () => {
   const { events, loading } = useOpsEvents(current?.id);
   const [filter, setFilter] = useState<string>("all");
 
-  const filtered = filter === "all" ? events : events.filter(e => e.status === filter);
+  const filtered =
+    filter === "all" ? events : events.filter((e) => e.status === filter);
   const counts = {
     all: events.length,
-    active: events.filter(e => e.status === "active").length,
-    planning: events.filter(e => e.status === "planning").length,
-    draft: events.filter(e => e.status === "draft").length,
-    completed: events.filter(e => e.status === "completed").length,
+    active: events.filter((e) => e.status === "active").length,
+    planning: events.filter((e) => e.status === "planning").length,
+    draft: events.filter((e) => e.status === "draft").length,
+    completed: events.filter((e) => e.status === "completed").length,
   };
 
   const filters = [
@@ -58,7 +84,9 @@ export const Events = () => {
         className="flex items-end justify-between mb-8"
       >
         <div>
-          <div className="ops-mono text-xs tracking-[0.3em] text-white/40">/ OPERATIONS REGISTRY</div>
+          <div className="ops-mono text-xs tracking-[0.3em] text-white/40">
+            / OPERATIONS REGISTRY
+          </div>
           <h1 className="ops-display text-4xl mt-1">Mission Control</h1>
         </div>
         <Link to={`/ops/${slug}/events/new`} className="ops-btn">
@@ -73,7 +101,7 @@ export const Events = () => {
         transition={{ delay: 0.15, duration: 0.4 }}
         className="flex gap-2 mb-8 flex-wrap"
       >
-        {filters.map(f => (
+        {filters.map((f) => (
           <button
             key={f.key}
             onClick={() => setFilter(f.key)}
@@ -90,7 +118,9 @@ export const Events = () => {
 
       {loading ? (
         <div className="ops-glass p-12 text-center">
-          <div className="ops-mono text-xs text-white/40 animate-pulse">INITIALIZING DATA STREAM…</div>
+          <div className="ops-mono text-xs text-white/40 animate-pulse">
+            INITIALIZING DATA STREAM…
+          </div>
         </div>
       ) : events.length === 0 ? (
         <motion.div
@@ -99,9 +129,15 @@ export const Events = () => {
           className="ops-glass p-16 text-center"
         >
           <Activity className="h-8 w-8 text-white/20 mx-auto mb-4" />
-          <p className="text-white/60 text-sm mb-2">No operations in this workspace.</p>
-          <p className="text-white/30 text-xs ops-mono mb-6">Generate a protocol to begin the mission.</p>
-          <Link to={`/ops/${slug}/events/new`} className="ops-btn">Generate first protocol</Link>
+          <p className="text-white/60 text-sm mb-2">
+            No operations in this workspace.
+          </p>
+          <p className="text-white/30 text-xs ops-mono mb-6">
+            Generate a protocol to begin the mission.
+          </p>
+          <Link to={`/ops/${slug}/events/new`} className="ops-btn">
+            Generate first protocol
+          </Link>
         </motion.div>
       ) : (
         <AnimatePresence mode="popLayout">
@@ -129,13 +165,17 @@ export const Events = () => {
                     className={`ops-glass ops-glass-hover p-6 block relative overflow-hidden group`}
                   >
                     {/* Status glow border */}
-                    <div className={`absolute inset-0 rounded-[14px] border ${meta.glow} opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none`} />
-                    
+                    <div
+                      className={`absolute inset-0 rounded-[14px] border ${meta.glow} opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none`}
+                    />
+
                     {/* Live pulse for active events */}
                     {isActive && (
                       <div className="absolute top-4 right-4 flex items-center gap-1.5">
                         <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 ops-pulse" />
-                        <span className="ops-mono text-[9px] tracking-[0.15em] text-emerald-300/80">LIVE</span>
+                        <span className="ops-mono text-[9px] tracking-[0.15em] text-emerald-300/80">
+                          LIVE
+                        </span>
                       </div>
                     )}
 
@@ -145,10 +185,14 @@ export const Events = () => {
                       </div>
                       <div className="min-w-0 flex-1">
                         <div className="flex items-center gap-2 mb-1">
-                          <span className={`ops-mono text-[9px] tracking-[0.15em] px-1.5 py-0.5 rounded-sm border ${meta.glow} ${meta.color}`}>
+                          <span
+                            className={`ops-mono text-[9px] tracking-[0.15em] px-1.5 py-0.5 rounded-sm border ${meta.glow} ${meta.color}`}
+                          >
                             {meta.label}
                           </span>
-                          <span className="ops-mono text-[10px] text-white/30 uppercase">{e.event_type.replace(/_/g, " ")}</span>
+                          <span className="ops-mono text-[10px] text-white/30 uppercase">
+                            {e.event_type.replace(/_/g, " ")}
+                          </span>
                         </div>
                         <h3 className="ops-display text-xl text-white/90 truncate group-hover:text-[hsl(var(--ops-accent))] transition-colors">
                           {e.title}

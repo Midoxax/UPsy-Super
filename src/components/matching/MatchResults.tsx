@@ -1,7 +1,14 @@
 import { Link } from "@/lib/router-compat";
 import { PsychologistProfile } from "@/types/psychologist";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { MapPin, Award, Globe, Calendar } from "lucide-react";
@@ -16,8 +23,9 @@ const MatchResults = ({ matches, onClose }: MatchResultsProps) => {
     return (
       <div className="text-center py-12">
         <p className="text-muted-foreground mb-4">
-          No psychologists match your exact criteria at the moment. Please try adjusting your preferences or contact us
-          for personalized recommendations.
+          No psychologists match your exact criteria at the moment. Please try
+          adjusting your preferences or contact us for personalized
+          recommendations.
         </p>
         <Button onClick={onClose}>Close</Button>
       </div>
@@ -27,7 +35,9 @@ const MatchResults = ({ matches, onClose }: MatchResultsProps) => {
   return (
     <div className="space-y-6">
       <p className="text-sm text-muted-foreground">
-        We found {matches.length} {matches.length === 1 ? "psychologist" : "psychologists"} that match your needs.
+        We found {matches.length}{" "}
+        {matches.length === 1 ? "psychologist" : "psychologists"} that match
+        your needs.
       </p>
 
       <div className="space-y-4">
@@ -36,8 +46,13 @@ const MatchResults = ({ matches, onClose }: MatchResultsProps) => {
             <CardHeader>
               <div className="flex items-start gap-4">
                 <Avatar className="h-16 w-16">
-                  <AvatarImage src={psychologist.photo_url || undefined} alt={psychologist.full_name} />
-                  <AvatarFallback>{psychologist.full_name.charAt(0)}</AvatarFallback>
+                  <AvatarImage
+                    src={psychologist.photo_url || undefined}
+                    alt={psychologist.full_name}
+                  />
+                  <AvatarFallback>
+                    {psychologist.full_name.charAt(0)}
+                  </AvatarFallback>
                 </Avatar>
                 <div className="flex-1">
                   <div className="flex items-center gap-2">
@@ -49,7 +64,9 @@ const MatchResults = ({ matches, onClose }: MatchResultsProps) => {
                       </Badge>
                     )}
                   </div>
-                  <CardDescription className="mt-2">{psychologist.bio || "Professional psychologist"}</CardDescription>
+                  <CardDescription className="mt-2">
+                    {psychologist.bio || "Professional psychologist"}
+                  </CardDescription>
                 </div>
               </div>
             </CardHeader>
@@ -78,7 +95,9 @@ const MatchResults = ({ matches, onClose }: MatchResultsProps) => {
                 )}
                 {psychologist.hourly_rate_mad && (
                   <div className="flex items-center gap-1">
-                    <span className="font-semibold">{psychologist.hourly_rate_mad} MAD/hour</span>
+                    <span className="font-semibold">
+                      {psychologist.hourly_rate_mad} MAD/hour
+                    </span>
                   </div>
                 )}
               </div>
@@ -93,11 +112,17 @@ const MatchResults = ({ matches, onClose }: MatchResultsProps) => {
 
             <CardFooter className="flex gap-3">
               <Button variant="outline" asChild className="flex-1">
-                <Link to={`/psychologists/${psychologist.id}`}>View Profile</Link>
+                <Link to={`/psychologists/${psychologist.id}`}>
+                  View Profile
+                </Link>
               </Button>
               {psychologist.calendly_url && (
                 <Button asChild className="flex-1">
-                  <a href={psychologist.calendly_url} target="_blank" rel="noopener noreferrer">
+                  <a
+                    href={psychologist.calendly_url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
                     <Calendar className="mr-2 h-4 w-4" />
                     Book Now
                   </a>

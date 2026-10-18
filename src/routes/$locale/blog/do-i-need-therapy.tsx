@@ -6,6 +6,8 @@ const DoINeedTherapy = lazy(() => import("@/pages/blog/DoINeedTherapy"));
 
 export const Route = createFileRoute("/$locale/blog/do-i-need-therapy")({
   component: () => (
-    <PageTransition><DoINeedTherapy /></PageTransition>
+    <PageTransition>
+      <DoINeedTherapy />
+    </PageTransition>
   ),
 });

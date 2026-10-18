@@ -1,19 +1,79 @@
 import { useState } from "react";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+} from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Search, UserPlus, Users, ArrowUpDown } from "lucide-react";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 // Mock employee data — in production this would come from an org_members table
 const mockEmployees = [
-  { id: "1", name: "Sara El Amrani", email: "sara@company.ma", department: "Engineering", status: "active", sessionsCompleted: 4, wellbeingScore: 78 },
-  { id: "2", name: "Youssef Benali", email: "youssef@company.ma", department: "Marketing", status: "active", sessionsCompleted: 2, wellbeingScore: 65 },
-  { id: "3", name: "Leila Chakir", email: "leila@company.ma", department: "HR", status: "active", sessionsCompleted: 6, wellbeingScore: 82 },
-  { id: "4", name: "Karim Tazi", email: "karim@company.ma", department: "Sales", status: "inactive", sessionsCompleted: 0, wellbeingScore: 45 },
-  { id: "5", name: "Amina Fassi", email: "amina@company.ma", department: "Finance", status: "active", sessionsCompleted: 3, wellbeingScore: 71 },
-  { id: "6", name: "Rachid Alaoui", email: "rachid@company.ma", department: "Engineering", status: "at_risk", sessionsCompleted: 1, wellbeingScore: 38 },
+  {
+    id: "1",
+    name: "Sara El Amrani",
+    email: "sara@company.ma",
+    department: "Engineering",
+    status: "active",
+    sessionsCompleted: 4,
+    wellbeingScore: 78,
+  },
+  {
+    id: "2",
+    name: "Youssef Benali",
+    email: "youssef@company.ma",
+    department: "Marketing",
+    status: "active",
+    sessionsCompleted: 2,
+    wellbeingScore: 65,
+  },
+  {
+    id: "3",
+    name: "Leila Chakir",
+    email: "leila@company.ma",
+    department: "HR",
+    status: "active",
+    sessionsCompleted: 6,
+    wellbeingScore: 82,
+  },
+  {
+    id: "4",
+    name: "Karim Tazi",
+    email: "karim@company.ma",
+    department: "Sales",
+    status: "inactive",
+    sessionsCompleted: 0,
+    wellbeingScore: 45,
+  },
+  {
+    id: "5",
+    name: "Amina Fassi",
+    email: "amina@company.ma",
+    department: "Finance",
+    status: "active",
+    sessionsCompleted: 3,
+    wellbeingScore: 71,
+  },
+  {
+    id: "6",
+    name: "Rachid Alaoui",
+    email: "rachid@company.ma",
+    department: "Engineering",
+    status: "at_risk",
+    sessionsCompleted: 1,
+    wellbeingScore: 38,
+  },
 ];
 
 const statusColors: Record<string, string> = {
@@ -26,10 +86,12 @@ const OrgUsersTab = () => {
   const [search, setSearch] = useState("");
   const [deptFilter, setDeptFilter] = useState("all");
 
-  const departments = [...new Set(mockEmployees.map(e => e.department))];
+  const departments = [...new Set(mockEmployees.map((e) => e.department))];
 
-  const filtered = mockEmployees.filter(e => {
-    const matchSearch = e.name.toLowerCase().includes(search.toLowerCase()) || e.email.toLowerCase().includes(search.toLowerCase());
+  const filtered = mockEmployees.filter((e) => {
+    const matchSearch =
+      e.name.toLowerCase().includes(search.toLowerCase()) ||
+      e.email.toLowerCase().includes(search.toLowerCase());
     const matchDept = deptFilter === "all" || e.department === deptFilter;
     return matchSearch && matchDept;
   });
@@ -53,8 +115,10 @@ const OrgUsersTab = () => {
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="all">All Departments</SelectItem>
-              {departments.map(d => (
-                <SelectItem key={d} value={d}>{d}</SelectItem>
+              {departments.map((d) => (
+                <SelectItem key={d} value={d}>
+                  {d}
+                </SelectItem>
               ))}
             </SelectContent>
           </Select>
@@ -75,19 +139,29 @@ const OrgUsersTab = () => {
         </Card>
         <Card>
           <CardContent className="pt-4 text-center">
-            <p className="text-2xl font-bold text-chart-2">{mockEmployees.filter(e => e.status === "active").length}</p>
+            <p className="text-2xl font-bold text-chart-2">
+              {mockEmployees.filter((e) => e.status === "active").length}
+            </p>
             <p className="text-xs text-muted-foreground">Active</p>
           </CardContent>
         </Card>
         <Card>
           <CardContent className="pt-4 text-center">
-            <p className="text-2xl font-bold text-chart-1">{mockEmployees.filter(e => e.status === "at_risk").length}</p>
+            <p className="text-2xl font-bold text-chart-1">
+              {mockEmployees.filter((e) => e.status === "at_risk").length}
+            </p>
             <p className="text-xs text-muted-foreground">At Risk</p>
           </CardContent>
         </Card>
         <Card>
           <CardContent className="pt-4 text-center">
-            <p className="text-2xl font-bold">{Math.round(mockEmployees.reduce((a, e) => a + e.wellbeingScore, 0) / mockEmployees.length)}%</p>
+            <p className="text-2xl font-bold">
+              {Math.round(
+                mockEmployees.reduce((a, e) => a + e.wellbeingScore, 0) /
+                  mockEmployees.length,
+              )}
+              %
+            </p>
             <p className="text-xs text-muted-foreground">Avg Wellbeing</p>
           </CardContent>
         </Card>
@@ -107,31 +181,56 @@ const OrgUsersTab = () => {
             <table className="w-full text-sm">
               <thead>
                 <tr className="border-b border-border text-left">
-                  <th className="pb-3 font-medium text-muted-foreground">Name</th>
-                  <th className="pb-3 font-medium text-muted-foreground">Department</th>
-                  <th className="pb-3 font-medium text-muted-foreground">Status</th>
-                  <th className="pb-3 font-medium text-muted-foreground text-center">Sessions</th>
-                  <th className="pb-3 font-medium text-muted-foreground text-center">Wellbeing</th>
+                  <th className="pb-3 font-medium text-muted-foreground">
+                    Name
+                  </th>
+                  <th className="pb-3 font-medium text-muted-foreground">
+                    Department
+                  </th>
+                  <th className="pb-3 font-medium text-muted-foreground">
+                    Status
+                  </th>
+                  <th className="pb-3 font-medium text-muted-foreground text-center">
+                    Sessions
+                  </th>
+                  <th className="pb-3 font-medium text-muted-foreground text-center">
+                    Wellbeing
+                  </th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-border/50">
                 {filtered.map((emp) => (
-                  <tr key={emp.id} className="hover:bg-muted/20 transition-colors">
+                  <tr
+                    key={emp.id}
+                    className="hover:bg-muted/20 transition-colors"
+                  >
                     <td className="py-3">
                       <div>
                         <p className="font-medium">{emp.name}</p>
-                        <p className="text-xs text-muted-foreground">{emp.email}</p>
+                        <p className="text-xs text-muted-foreground">
+                          {emp.email}
+                        </p>
                       </div>
                     </td>
                     <td className="py-3">{emp.department}</td>
                     <td className="py-3">
-                      <Badge variant="outline" className={statusColors[emp.status]}>
-                        {emp.status === "at_risk" ? "At Risk" : emp.status.charAt(0).toUpperCase() + emp.status.slice(1)}
+                      <Badge
+                        variant="outline"
+                        className={statusColors[emp.status]}
+                      >
+                        {emp.status === "at_risk"
+                          ? "At Risk"
+                          : emp.status.charAt(0).toUpperCase() +
+                            emp.status.slice(1)}
                       </Badge>
                     </td>
-                    <td className="py-3 text-center">{emp.sessionsCompleted}</td>
                     <td className="py-3 text-center">
-                      <span className={`font-semibold ${emp.wellbeingScore >= 70 ? "text-chart-2" : emp.wellbeingScore >= 50 ? "text-chart-4" : "text-chart-1"}`}>
+                      {emp.sessionsCompleted}
+                    </td>
+                    <td className="py-3 text-center">
+                      <span
+                        className={`font-semibold ${emp.wellbeingScore >= 70 ? "text-chart-2" : emp.wellbeingScore >= 50 ? "text-chart-4" : "text-chart-1"}`}
+                      >
                         {emp.wellbeingScore}%
                       </span>
                     </td>

@@ -8,14 +8,20 @@ import { Badge } from "@/components/ui/badge";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import {
-  Select, SelectContent, SelectItem, SelectTrigger, SelectValue,
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
 } from "@/components/ui/select";
 import {
-  Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger,
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
 } from "@/components/ui/dialog";
-import {
-  LogOut, Plus, Loader2, User, FileText, Calendar,
-} from "lucide-react";
+import { LogOut, Plus, Loader2, User, FileText, Calendar } from "lucide-react";
 import { format } from "date-fns";
 
 interface DischargeSummary {
@@ -54,7 +60,9 @@ const DischargeTab = ({ role }: Props) => {
   const { user } = useAuth();
   const { toast } = useToast();
   const [summaries, setSummaries] = useState<DischargeSummary[]>([]);
-  const [clients, setClients] = useState<{ id: string; full_name: string }[]>([]);
+  const [clients, setClients] = useState<{ id: string; full_name: string }[]>(
+    [],
+  );
   const [loading, setLoading] = useState(true);
   const [open, setOpen] = useState(false);
   const [saving, setSaving] = useState(false);
@@ -77,24 +85,46 @@ const DischargeTab = ({ role }: Props) => {
 
     if (data) {
       const clientIds = [...new Set(data.map((d) => d.client_id))];
-      const { data: profiles } = await supabase.from("profiles").select("id, full_name").in("id", clientIds);
+      const { data: profiles } = await supabase
+        .from("profiles")
+        .select("id, full_name")
+        .in("id", clientIds);
       const nameMap = new Map((profiles || []).map((p) => [p.id, p.full_name]));
-      setSummaries(data.map((d) => ({ ...d, client_name: nameMap.get(d.client_id) || "Client" })));
+      setSummaries(
+        data.map((d) => ({
+          ...d,
+          client_name: nameMap.get(d.client_id) || "Client",
+        })),
+      );
     }
     setLoading(false);
   }, [user, role]);
 
   const loadClients = useCallback(async () => {
     if (!user || role !== "psychologist") return;
-    const { data } = await supabase.from("sessions").select("client_id").eq("psychologist_id", user.id);
+    const { data } = await supabase
+      .from("sessions")
+      .select("client_id")
+      .eq("psychologist_id", user.id);
     if (data) {
       const ids = [...new Set(data.map((s) => s.client_id))];
-      const { data: profiles } = await supabase.from("profiles").select("id, full_name").in("id", ids);
-      setClients((profiles || []).map((p) => ({ id: p.id, full_name: p.full_name || "—" })));
+      const { data: profiles } = await supabase
+        .from("profiles")
+        .select("id, full_name")
+        .in("id", ids);
+      setClients(
+        (profiles || []).map((p) => ({
+          id: p.id,
+          full_name: p.full_name || "—",
+        })),
+      );
     }
   }, [user, role]);
 
-  useEffect(() => { load(); loadClients(); }, [load, loadClients]);
+  useEffect(() => {
+    load();
+    loadClients();
+  }, [load, loadClients]);
 
   const handleCreate = async () => {
     if (!user || !clientId) return;
@@ -107,10 +137,16 @@ const DischargeTab = ({ role }: Props) => {
       .eq("user_id", clientId)
       .order("completed_at", { ascending: true });
 
-    const initial = assessments?.[0] ? { score: assessments[0].total_score, date: assessments[0].completed_at } : {};
-    const final = assessments && assessments.length > 1
-      ? { score: assessments[assessments.length - 1].total_score, date: assessments[assessments.length - 1].completed_at }
+    const initial = assessments?.[0]
+      ? { score: assessments[0].total_score, date: assessments[0].completed_at }
       : {};
+    const final =
+      assessments && assessments.length > 1
+        ? {
+            score: assessments[assessments.length - 1].total_score,
+            date: assessments[assessments.length - 1].completed_at,
+          }
+        : {};
 
     const { error } = await supabase.from("discharge_summaries").insert({
       psychologist_id: user.id,
@@ -123,11 +159,18 @@ const DischargeTab = ({ role }: Props) => {
     });
     setSaving(false);
     if (error) {
-      toast({ title: "Error", description: error.message, variant: "destructive" });
+      toast({
+        title: "Error",
+        description: error.message,
+        variant: "destructive",
+      });
     } else {
       toast({ title: "Discharge summary created" });
       setOpen(false);
-      setClientId(""); setReason("other"); setProgressSummary(""); setAftercare("");
+      setClientId("");
+      setReason("other");
+      setProgressSummary("");
+      setAftercare("");
       load();
     }
   };
@@ -145,47 +188,81 @@ const DischargeTab = ({ role }: Props) => {
       <div className="flex items-center justify-between">
         <h2 className="text-xl font-semibold text-foreground flex items-center gap-2">
           <LogOut className="h-5 w-5 text-primary" />
-          {role === "psychologist" ? "Discharge Summaries" : "Discharge Records"}
+          {role === "psychologist"
+            ? "Discharge Summaries"
+            : "Discharge Records"}
         </h2>
         {role === "psychologist" && (
           <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
-              <Button size="sm" className="gap-1.5" variant="outline"><Plus className="h-4 w-4" /> New Discharge</Button>
+              <Button size="sm" className="gap-1.5" variant="outline">
+                <Plus className="h-4 w-4" /> New Discharge
+              </Button>
             </DialogTrigger>
             <DialogContent className="max-w-lg">
-              <DialogHeader><DialogTitle>Create Discharge Summary</DialogTitle></DialogHeader>
+              <DialogHeader>
+                <DialogTitle>Create Discharge Summary</DialogTitle>
+              </DialogHeader>
               <div className="space-y-4 pt-2">
                 <div className="space-y-1.5">
                   <Label>Client</Label>
                   <Select value={clientId} onValueChange={setClientId}>
-                    <SelectTrigger><SelectValue placeholder="Select client" /></SelectTrigger>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select client" />
+                    </SelectTrigger>
                     <SelectContent>
-                      {clients.map((c) => <SelectItem key={c.id} value={c.id}>{c.full_name}</SelectItem>)}
+                      {clients.map((c) => (
+                        <SelectItem key={c.id} value={c.id}>
+                          {c.full_name}
+                        </SelectItem>
+                      ))}
                     </SelectContent>
                   </Select>
                 </div>
                 <div className="space-y-1.5">
                   <Label>Reason for Discharge</Label>
                   <Select value={reason} onValueChange={setReason}>
-                    <SelectTrigger><SelectValue /></SelectTrigger>
+                    <SelectTrigger>
+                      <SelectValue />
+                    </SelectTrigger>
                     <SelectContent>
-                      {REASONS.map((r) => <SelectItem key={r.value} value={r.value}>{r.label}</SelectItem>)}
+                      {REASONS.map((r) => (
+                        <SelectItem key={r.value} value={r.value}>
+                          {r.label}
+                        </SelectItem>
+                      ))}
                     </SelectContent>
                   </Select>
                 </div>
                 <div className="space-y-1.5">
                   <Label>Progress Summary</Label>
-                  <Textarea value={progressSummary} onChange={(e) => setProgressSummary(e.target.value)} rows={4}
-                    placeholder="Summarize the client's progress throughout treatment..." />
+                  <Textarea
+                    value={progressSummary}
+                    onChange={(e) => setProgressSummary(e.target.value)}
+                    rows={4}
+                    placeholder="Summarize the client's progress throughout treatment..."
+                  />
                 </div>
                 <div className="space-y-1.5">
                   <Label>Aftercare Recommendations</Label>
-                  <Textarea value={aftercare} onChange={(e) => setAftercare(e.target.value)} rows={3}
-                    placeholder="Maintenance strategies, follow-up frequency, referrals..." />
+                  <Textarea
+                    value={aftercare}
+                    onChange={(e) => setAftercare(e.target.value)}
+                    rows={3}
+                    placeholder="Maintenance strategies, follow-up frequency, referrals..."
+                  />
                 </div>
-                <p className="text-xs text-muted-foreground">Initial and final assessment scores will be pulled automatically.</p>
-                <Button onClick={handleCreate} disabled={saving || !clientId} className="w-full">
-                  {saving && <Loader2 className="h-4 w-4 animate-spin mr-2" />} Create Summary
+                <p className="text-xs text-muted-foreground">
+                  Initial and final assessment scores will be pulled
+                  automatically.
+                </p>
+                <Button
+                  onClick={handleCreate}
+                  disabled={saving || !clientId}
+                  className="w-full"
+                >
+                  {saving && <Loader2 className="h-4 w-4 animate-spin mr-2" />}{" "}
+                  Create Summary
                 </Button>
               </div>
             </DialogContent>
@@ -210,7 +287,8 @@ const DischargeTab = ({ role }: Props) => {
                   </CardTitle>
                   <div className="flex items-center gap-2">
                     <Badge className={REASON_COLORS[ds.reason] || ""}>
-                      {REASONS.find((r) => r.value === ds.reason)?.label || ds.reason}
+                      {REASONS.find((r) => r.value === ds.reason)?.label ||
+                        ds.reason}
                     </Badge>
                     <span className="text-xs text-muted-foreground flex items-center gap-1">
                       <Calendar className="h-3 w-3" />
@@ -224,28 +302,46 @@ const DischargeTab = ({ role }: Props) => {
                 {(ds.initial_scores?.score || ds.final_scores?.score) && (
                   <div className="flex gap-4 text-sm">
                     {ds.initial_scores?.score != null && (
-                      <span>Initial score: <strong>{ds.initial_scores.score}</strong></span>
+                      <span>
+                        Initial score:{" "}
+                        <strong>{ds.initial_scores.score}</strong>
+                      </span>
                     )}
                     {ds.final_scores?.score != null && (
-                      <span>Final score: <strong>{ds.final_scores.score}</strong></span>
+                      <span>
+                        Final score: <strong>{ds.final_scores.score}</strong>
+                      </span>
                     )}
-                    {ds.initial_scores?.score != null && ds.final_scores?.score != null && (
-                      <Badge variant="outline" className="text-xs">
-                        {ds.final_scores.score < ds.initial_scores.score ? "↓ Improved" : ds.final_scores.score === ds.initial_scores.score ? "→ Same" : "↑ Increased"}
-                      </Badge>
-                    )}
+                    {ds.initial_scores?.score != null &&
+                      ds.final_scores?.score != null && (
+                        <Badge variant="outline" className="text-xs">
+                          {ds.final_scores.score < ds.initial_scores.score
+                            ? "↓ Improved"
+                            : ds.final_scores.score === ds.initial_scores.score
+                              ? "→ Same"
+                              : "↑ Increased"}
+                        </Badge>
+                      )}
                   </div>
                 )}
                 {ds.progress_summary && (
                   <div>
-                    <p className="text-xs font-medium text-muted-foreground mb-1">Progress Summary</p>
-                    <p className="text-sm text-foreground">{ds.progress_summary}</p>
+                    <p className="text-xs font-medium text-muted-foreground mb-1">
+                      Progress Summary
+                    </p>
+                    <p className="text-sm text-foreground">
+                      {ds.progress_summary}
+                    </p>
                   </div>
                 )}
                 {ds.aftercare_recommendations && (
                   <div>
-                    <p className="text-xs font-medium text-muted-foreground mb-1">Aftercare</p>
-                    <p className="text-sm text-foreground">{ds.aftercare_recommendations}</p>
+                    <p className="text-xs font-medium text-muted-foreground mb-1">
+                      Aftercare
+                    </p>
+                    <p className="text-sm text-foreground">
+                      {ds.aftercare_recommendations}
+                    </p>
                   </div>
                 )}
               </CardContent>

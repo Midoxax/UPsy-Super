@@ -6,6 +6,8 @@ const Pricing = lazy(() => import("@/pages/Pricing"));
 
 export const Route = createFileRoute("/$locale/pricing")({
   component: () => (
-    <PageTransition><Pricing /></PageTransition>
+    <PageTransition>
+      <Pricing />
+    </PageTransition>
   ),
 });

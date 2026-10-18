@@ -44,7 +44,10 @@ export const useEnrollmentStats = (courseId: string | null) =>
       const count = rows.length;
       const completed = rows.filter((r) => r.completed_at).length;
       const avgProgress = count
-        ? Math.round(rows.reduce((s, r) => s + Number(r.progress_percent ?? 0), 0) / count)
+        ? Math.round(
+            rows.reduce((s, r) => s + Number(r.progress_percent ?? 0), 0) /
+              count,
+          )
         : 0;
       return { count, completed, avgProgress };
     },
@@ -64,10 +67,15 @@ export const useSaveCourse = () => {
     mutationFn: async (course: any) => {
       const payload = {
         ...course,
-        slug: course.slug || `${slugify(course.title)}-${Math.random().toString(36).slice(2, 8)}`,
+        slug:
+          course.slug ||
+          `${slugify(course.title)}-${Math.random().toString(36).slice(2, 8)}`,
       };
       if (course.id) {
-        const { error } = await supabase.from("courses").update(payload).eq("id", course.id);
+        const { error } = await supabase
+          .from("courses")
+          .update(payload)
+          .eq("id", course.id);
         if (error) throw error;
       } else {
         const { error } = await supabase.from("courses").insert(payload);
@@ -102,7 +110,10 @@ export const useSaveModule = () => {
   return useMutation({
     mutationFn: async (mod: any) => {
       if (mod.id) {
-        const { error } = await supabase.from("course_modules").update(mod).eq("id", mod.id);
+        const { error } = await supabase
+          .from("course_modules")
+          .update(mod)
+          .eq("id", mod.id);
         if (error) throw error;
       } else {
         const { error } = await supabase.from("course_modules").insert(mod);
@@ -110,7 +121,9 @@ export const useSaveModule = () => {
       }
     },
     onSuccess: (_d, vars: any) => {
-      qc.invalidateQueries({ queryKey: ["admin-course-modules", vars.course_id] });
+      qc.invalidateQueries({
+        queryKey: ["admin-course-modules", vars.course_id],
+      });
       toast.success("Module saved");
     },
     onError: (e: Error) => toast.error(e.message),
@@ -121,11 +134,16 @@ export const useDeleteModule = () => {
   const qc = useQueryClient();
   return useMutation({
     mutationFn: async ({ id }: { id: string; courseId: string }) => {
-      const { error } = await supabase.from("course_modules").delete().eq("id", id);
+      const { error } = await supabase
+        .from("course_modules")
+        .delete()
+        .eq("id", id);
       if (error) throw error;
     },
     onSuccess: (_d, vars) => {
-      qc.invalidateQueries({ queryKey: ["admin-course-modules", vars.courseId] });
+      qc.invalidateQueries({
+        queryKey: ["admin-course-modules", vars.courseId],
+      });
       toast.success("Module deleted");
     },
     onError: (e: Error) => toast.error(e.message),

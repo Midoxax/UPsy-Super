@@ -18,7 +18,11 @@ import { useCrmStages } from "@/hooks/admin/useCrm";
 
 const fmt = (n: number) => new Intl.NumberFormat("fr-MA").format(Math.round(n));
 
-const CrmForecastPanel = ({ onOpenContact }: { onOpenContact: (id: string) => void }) => {
+const CrmForecastPanel = ({
+  onOpenContact,
+}: {
+  onOpenContact: (id: string) => void;
+}) => {
   const { data: forecast = [], isLoading } = useCrmForecast();
   const { data: actions = [] } = useCrmNextBestActions(12);
   const { data: stages = [] } = useCrmStages();
@@ -26,10 +30,15 @@ const CrmForecastPanel = ({ onOpenContact }: { onOpenContact: (id: string) => vo
   const { setStageProbability } = useCrmOpsMutations();
   const canEdit = crmAtLeast(role ?? null, "manager");
 
-  const open = useMemo(() => forecast.filter((r) => !r.is_won && !r.is_lost), [forecast]);
+  const open = useMemo(
+    () => forecast.filter((r) => !r.is_won && !r.is_lost),
+    [forecast],
+  );
   const weighted = open.reduce((s, r) => s + Number(r.weighted_mad), 0);
   const gross = open.reduce((s, r) => s + Number(r.value_mad), 0);
-  const won = forecast.filter((r) => r.is_won).reduce((s, r) => s + Number(r.value_mad), 0);
+  const won = forecast
+    .filter((r) => r.is_won)
+    .reduce((s, r) => s + Number(r.value_mad), 0);
   const pipelines = Array.from(new Set(open.map((r) => r.pipeline)));
 
   if (isLoading)
@@ -47,8 +56,12 @@ const CrmForecastPanel = ({ onOpenContact }: { onOpenContact: (id: string) => vo
             <p className="text-xs uppercase tracking-[0.16em] text-muted-foreground flex items-center gap-2">
               <TrendingUp className="h-3.5 w-3.5" /> Weighted forecast
             </p>
-            <p className="mt-2 text-2xl font-heading tabular-nums">{fmt(weighted)} MAD</p>
-            <p className="text-xs text-muted-foreground">from {fmt(gross)} MAD of open pipeline</p>
+            <p className="mt-2 text-2xl font-heading tabular-nums">
+              {fmt(weighted)} MAD
+            </p>
+            <p className="text-xs text-muted-foreground">
+              from {fmt(gross)} MAD of open pipeline
+            </p>
           </CardContent>
         </Card>
         <Card>
@@ -56,8 +69,12 @@ const CrmForecastPanel = ({ onOpenContact }: { onOpenContact: (id: string) => vo
             <p className="text-xs uppercase tracking-[0.16em] text-muted-foreground flex items-center gap-2">
               <Coins className="h-3.5 w-3.5" /> Closed won
             </p>
-            <p className="mt-2 text-2xl font-heading tabular-nums">{fmt(won)} MAD</p>
-            <p className="text-xs text-muted-foreground">all pipelines, lifetime</p>
+            <p className="mt-2 text-2xl font-heading tabular-nums">
+              {fmt(won)} MAD
+            </p>
+            <p className="text-xs text-muted-foreground">
+              all pipelines, lifetime
+            </p>
           </CardContent>
         </Card>
         <Card>
@@ -68,7 +85,9 @@ const CrmForecastPanel = ({ onOpenContact }: { onOpenContact: (id: string) => vo
             <p className="mt-2 text-2xl font-heading tabular-nums">
               {fmt(open.reduce((s, r) => s + Number(r.deal_count), 0))}
             </p>
-            <p className="text-xs text-muted-foreground">{pipelines.length} active pipelines</p>
+            <p className="text-xs text-muted-foreground">
+              {pipelines.length} active pipelines
+            </p>
           </CardContent>
         </Card>
       </div>
@@ -79,11 +98,15 @@ const CrmForecastPanel = ({ onOpenContact }: { onOpenContact: (id: string) => vo
         return (
           <Card key={p}>
             <CardHeader>
-              <CardTitle className="text-base">{p.replace(/_/g, " ")}</CardTitle>
+              <CardTitle className="text-base">
+                {p.replace(/_/g, " ")}
+              </CardTitle>
             </CardHeader>
             <CardContent className="space-y-3">
               {rows.map((r) => {
-                const stage = stages.find((s) => s.pipeline === r.pipeline && s.key === r.stage);
+                const stage = stages.find(
+                  (s) => s.pipeline === r.pipeline && s.key === r.stage,
+                );
                 return (
                   <div key={`${r.pipeline}-${r.stage}`} className="space-y-1">
                     <div className="flex items-center justify-between gap-3 text-xs">
@@ -97,20 +120,32 @@ const CrmForecastPanel = ({ onOpenContact }: { onOpenContact: (id: string) => vo
                             defaultValue={Number(r.probability)}
                             onBlur={(e) => {
                               const v = Number(e.target.value);
-                              if (!Number.isNaN(v) && v !== Number(r.probability))
-                                setStageProbability.mutate({ id: stage.id, probability: v });
+                              if (
+                                !Number.isNaN(v) &&
+                                v !== Number(r.probability)
+                              )
+                                setStageProbability.mutate({
+                                  id: stage.id,
+                                  probability: v,
+                                });
                             }}
                             className="h-7 w-[68px] text-xs tabular-nums"
                           />
                         ) : (
-                          <Badge variant="outline">{Number(r.probability)}%</Badge>
+                          <Badge variant="outline">
+                            {Number(r.probability)}%
+                          </Badge>
                         )}
                         <span className="font-mono tabular-nums text-muted-foreground">
-                          {fmt(Number(r.weighted_mad))} / {fmt(Number(r.value_mad))} MAD
+                          {fmt(Number(r.weighted_mad))} /{" "}
+                          {fmt(Number(r.value_mad))} MAD
                         </span>
                       </span>
                     </div>
-                    <Progress value={(Number(r.weighted_mad) / max) * 100} className="h-1.5" />
+                    <Progress
+                      value={(Number(r.weighted_mad) / max) * 100}
+                      className="h-1.5"
+                    />
                   </div>
                 );
               })}
@@ -127,7 +162,9 @@ const CrmForecastPanel = ({ onOpenContact }: { onOpenContact: (id: string) => vo
         </CardHeader>
         <CardContent className="space-y-2">
           {actions.length === 0 && (
-            <p className="text-sm text-muted-foreground">No open deals to action.</p>
+            <p className="text-sm text-muted-foreground">
+              No open deals to action.
+            </p>
           )}
           {actions.map((a) => (
             <button
@@ -145,7 +182,9 @@ const CrmForecastPanel = ({ onOpenContact }: { onOpenContact: (id: string) => vo
               </div>
               <div className="mt-1 flex flex-wrap items-center gap-2 text-[11px] text-muted-foreground">
                 <Badge variant="secondary">{a.stage}</Badge>
-                <span>{Number(a.probability)}% · idle {a.days_idle}d</span>
+                <span>
+                  {Number(a.probability)}% · idle {a.days_idle}d
+                </span>
                 <span className="text-primary">{a.action}</span>
               </div>
             </button>

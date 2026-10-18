@@ -61,7 +61,7 @@ export const useNotifications = (limit = 20) => {
         },
         () => {
           qc.invalidateQueries({ queryKey: ["notifications", user.id] });
-        }
+        },
       )
       .subscribe();
     return () => {
@@ -139,10 +139,7 @@ export const useUpdatePreferences = () => {
       if (!user) throw new Error("Not authenticated");
       const { error } = await supabase
         .from("notification_preferences")
-        .upsert(
-          { user_id: user.id, ...prefs },
-          { onConflict: "user_id" }
-        );
+        .upsert({ user_id: user.id, ...prefs }, { onConflict: "user_id" });
       if (error) throw error;
     },
     onSuccess: () => {

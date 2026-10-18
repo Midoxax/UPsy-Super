@@ -5,10 +5,18 @@ import { ProtectedRoute } from "@/components/ProtectedRoute";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import DashboardErrorFallback from "@/components/DashboardErrorFallback";
 
-const OrganizationDashboard = lazy(() => import("@/pages/OrganizationDashboard"));
+const OrganizationDashboard = lazy(
+  () => import("@/pages/OrganizationDashboard"),
+);
 
 export const Route = createFileRoute("/dashboard/organization")({
   component: () => (
-    <ProtectedRoute role="organization"><PageTransition><ErrorBoundary fallback={<DashboardErrorFallback />}><OrganizationDashboard /></ErrorBoundary></PageTransition></ProtectedRoute>
+    <ProtectedRoute role="organization">
+      <PageTransition>
+        <ErrorBoundary fallback={<DashboardErrorFallback />}>
+          <OrganizationDashboard />
+        </ErrorBoundary>
+      </PageTransition>
+    </ProtectedRoute>
   ),
 });

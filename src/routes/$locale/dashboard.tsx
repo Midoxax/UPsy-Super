@@ -6,6 +6,8 @@ const RoleRouter = lazy(() => import("@/components/RoleRouter"));
 
 export const Route = createFileRoute("/$locale/dashboard")({
   component: () => (
-    <ProtectedRoute><RoleRouter /></ProtectedRoute>
+    <ProtectedRoute>
+      <RoleRouter />
+    </ProtectedRoute>
   ),
 });

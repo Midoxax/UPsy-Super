@@ -36,7 +36,10 @@ export type HeroVariantCopy = {
   ctaFootnote?: string;
 };
 
-type VariantTable = Record<Exclude<HomeHeroVariant, "control">, Record<string, HeroVariantCopy>>;
+type VariantTable = Record<
+  Exclude<HomeHeroVariant, "control">,
+  Record<string, HeroVariantCopy>
+>;
 
 /**
  * Attribution for homepage traffic entering the paid-campaign funnel. Tagging
@@ -57,8 +60,7 @@ const VARIANTS: VariantTable = {
       headlineLine1: "Talk to someone",
       headlineLine2: "who actually helps.",
       tagline: "Matched in 48 hours. Free rebook if the fit is wrong.",
-      body:
-        "Answer a few questions and we match you with an accredited psychologist who fits your language, schedule and what you're working through. Video anywhere in the world, or in person in select cities.",
+      body: "Answer a few questions and we match you with an accredited psychologist who fits your language, schedule and what you're working through. Video anywhere in the world, or in person in select cities.",
       ctaPrimary: { label: "FIND MY PSYCHOLOGIST", to: "/get-matched" },
       ctaSecondary: { label: "TAKE THE 3-MIN ASSESSMENT", to: "/free-score" },
       ctaFootnote: "No card needed to get matched.",
@@ -67,9 +69,9 @@ const VARIANTS: VariantTable = {
       eyebrow: "Psychologues accrédités · Visio dans le monde entier",
       headlineLine1: "Parlez à quelqu'un",
       headlineLine2: "qui vous aide vraiment.",
-      tagline: "Mise en relation en 48 heures. Nouvelle séance offerte si le courant ne passe pas.",
-      body:
-        "Répondez à quelques questions et nous vous mettons en relation avec un psychologue accrédité adapté à votre langue, à vos horaires et à ce que vous traversez. En visio partout dans le monde, ou en présentiel dans certaines villes.",
+      tagline:
+        "Mise en relation en 48 heures. Nouvelle séance offerte si le courant ne passe pas.",
+      body: "Répondez à quelques questions et nous vous mettons en relation avec un psychologue accrédité adapté à votre langue, à vos horaires et à ce que vous traversez. En visio partout dans le monde, ou en présentiel dans certaines villes.",
       ctaPrimary: { label: "TROUVER MON PSYCHOLOGUE", to: "/get-matched" },
       ctaSecondary: { label: "FAIRE LE TEST DE 3 MIN", to: "/free-score" },
       ctaFootnote: "Aucune carte bancaire requise.",
@@ -78,9 +80,9 @@ const VARIANTS: VariantTable = {
       eyebrow: "أخصائيون معتمدون · جلسات مرئية حول العالم",
       headlineLine1: "تحدّث إلى شخص",
       headlineLine2: "يساعدك فعلاً.",
-      tagline: "مطابقة خلال 48 ساعة. جلسة بديلة مجاناً إن لم يكن الاختيار مناسباً.",
-      body:
-        "أجب عن بضعة أسئلة وسنطابقك مع أخصائي نفسي معتمد يناسب لغتك وجدولك وما تمرّ به. جلسات مرئية من أي مكان، أو حضورياً في مدن مختارة.",
+      tagline:
+        "مطابقة خلال 48 ساعة. جلسة بديلة مجاناً إن لم يكن الاختيار مناسباً.",
+      body: "أجب عن بضعة أسئلة وسنطابقك مع أخصائي نفسي معتمد يناسب لغتك وجدولك وما تمرّ به. جلسات مرئية من أي مكان، أو حضورياً في مدن مختارة.",
       ctaPrimary: { label: "ابحث عن أخصائيي", to: "/get-matched" },
       ctaSecondary: { label: "ابدأ التقييم في 3 دقائق", to: "/free-score" },
       ctaFootnote: "لا حاجة لبطاقة بنكية.",
@@ -92,9 +94,12 @@ const VARIANTS: VariantTable = {
       headlineLine1: "Your first session,",
       headlineLine2: "20% off.",
       tagline: "Matched in 48 hours. Free rebook if the fit is wrong.",
-      body:
-        "Start with an accredited psychologist for 20% less. Video anywhere in the world, or in person in select cities — in French, English, Arabic or Darija.",
-      ctaPrimary: { label: "CLAIM WELCOME20", to: "/campaigns/first-session", search: OFFER_SEARCH },
+      body: "Start with an accredited psychologist for 20% less. Video anywhere in the world, or in person in select cities — in French, English, Arabic or Darija.",
+      ctaPrimary: {
+        label: "CLAIM WELCOME20",
+        to: "/campaigns/first-session",
+        search: OFFER_SEARCH,
+      },
       ctaSecondary: { label: "BROWSE PSYCHOLOGISTS", to: "/psychologists" },
       ctaFootnote: "Code sent to your inbox in under a minute.",
     },
@@ -102,10 +107,14 @@ const VARIANTS: VariantTable = {
       eyebrow: "Offre de lancement · WELCOME20",
       headlineLine1: "Votre première séance,",
       headlineLine2: "-20 %.",
-      tagline: "Mise en relation en 48 heures. Nouvelle séance offerte si le courant ne passe pas.",
-      body:
-        "Commencez avec un psychologue accrédité à -20 %. En visio partout dans le monde, ou en présentiel dans certaines villes — en français, anglais, arabe ou darija.",
-      ctaPrimary: { label: "OBTENIR WELCOME20", to: "/campaigns/first-session", search: OFFER_SEARCH },
+      tagline:
+        "Mise en relation en 48 heures. Nouvelle séance offerte si le courant ne passe pas.",
+      body: "Commencez avec un psychologue accrédité à -20 %. En visio partout dans le monde, ou en présentiel dans certaines villes — en français, anglais, arabe ou darija.",
+      ctaPrimary: {
+        label: "OBTENIR WELCOME20",
+        to: "/campaigns/first-session",
+        search: OFFER_SEARCH,
+      },
       ctaSecondary: { label: "VOIR LES PSYCHOLOGUES", to: "/psychologists" },
       ctaFootnote: "Code envoyé par e-mail en moins d'une minute.",
     },
@@ -113,10 +122,14 @@ const VARIANTS: VariantTable = {
       eyebrow: "عرض الإطلاق · WELCOME20",
       headlineLine1: "جلستك الأولى",
       headlineLine2: "بخصم 20٪.",
-      tagline: "مطابقة خلال 48 ساعة. جلسة بديلة مجاناً إن لم يكن الاختيار مناسباً.",
-      body:
-        "ابدأ مع أخصائي نفسي معتمد بخصم 20٪. جلسات مرئية من أي مكان، أو حضورياً في مدن مختارة — بالفرنسية أو الإنجليزية أو العربية أو الدارجة.",
-      ctaPrimary: { label: "احصل على WELCOME20", to: "/campaigns/first-session", search: OFFER_SEARCH },
+      tagline:
+        "مطابقة خلال 48 ساعة. جلسة بديلة مجاناً إن لم يكن الاختيار مناسباً.",
+      body: "ابدأ مع أخصائي نفسي معتمد بخصم 20٪. جلسات مرئية من أي مكان، أو حضورياً في مدن مختارة — بالفرنسية أو الإنجليزية أو العربية أو الدارجة.",
+      ctaPrimary: {
+        label: "احصل على WELCOME20",
+        to: "/campaigns/first-session",
+        search: OFFER_SEARCH,
+      },
       ctaSecondary: { label: "تصفّح الأخصائيين", to: "/psychologists" },
       ctaFootnote: "يصلك الرمز على بريدك في أقل من دقيقة.",
     },
@@ -130,7 +143,10 @@ function resolveLocaleKey(locale: Locale): string {
   return key in VARIANTS.clarity ? key : "en";
 }
 
-export function getHeroVariantCopy(variant: HomeHeroVariant, locale: Locale): HeroVariantCopy {
+export function getHeroVariantCopy(
+  variant: HomeHeroVariant,
+  locale: Locale,
+): HeroVariantCopy {
   if (variant === "control") return {};
   const table = VARIANTS[variant];
   if (!table) return {};

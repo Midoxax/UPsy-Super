@@ -23,7 +23,9 @@ function CopyBlock({ text, label }: { text: string; label: string }) {
   return (
     <div className="relative">
       <div className="flex items-center justify-between mb-2">
-        <span className="text-xs font-mono uppercase tracking-wider text-muted-foreground">{label}</span>
+        <span className="text-xs font-mono uppercase tracking-wider text-muted-foreground">
+          {label}
+        </span>
         <button
           onClick={() => {
             navigator.clipboard.writeText(text);
@@ -36,7 +38,9 @@ function CopyBlock({ text, label }: { text: string; label: string }) {
           <Copy className="h-3 w-3" /> {copied ? "Copied" : "Copy"}
         </button>
       </div>
-      <p className="text-sm leading-relaxed p-4 rounded-lg bg-muted/50 border border-border">{text}</p>
+      <p className="text-sm leading-relaxed p-4 rounded-lg bg-muted/50 border border-border">
+        {text}
+      </p>
     </div>
   );
 }
@@ -52,12 +56,16 @@ const Press = () => {
 
       <section className="py-20 border-b border-border">
         <div className="container-custom max-w-4xl">
-          <p className="text-xs font-mono uppercase tracking-[0.2em] text-primary mb-4">Press · Media Kit</p>
+          <p className="text-xs font-mono uppercase tracking-[0.2em] text-primary mb-4">
+            Press · Media Kit
+          </p>
           <h1 className="font-display text-5xl md:text-6xl mb-6">
-            Reporting on the future of <em className="italic">mental performance</em>?
+            Reporting on the future of{" "}
+            <em className="italic">mental performance</em>?
           </h1>
           <p className="text-lg text-muted-foreground max-w-2xl mb-8">
-            Everything you need to cover U.Psy — founder bio, boilerplate, brand assets, and a direct line to our press desk.
+            Everything you need to cover U.Psy — founder bio, boilerplate, brand
+            assets, and a direct line to our press desk.
           </p>
           <div className="flex flex-wrap gap-3">
             <Button asChild size="lg">
@@ -77,8 +85,13 @@ const Press = () => {
       <section className="py-16 border-b border-border">
         <div className="container-custom max-w-4xl grid md:grid-cols-2 gap-3">
           {facts.map((f) => (
-            <div key={f.label} className="flex items-baseline justify-between gap-4 p-4 rounded-lg border border-border bg-card">
-              <span className="text-xs font-mono uppercase tracking-wider text-muted-foreground">{f.label}</span>
+            <div
+              key={f.label}
+              className="flex items-baseline justify-between gap-4 p-4 rounded-lg border border-border bg-card"
+            >
+              <span className="text-xs font-mono uppercase tracking-wider text-muted-foreground">
+                {f.label}
+              </span>
               <span className="font-display text-lg">{f.value}</span>
             </div>
           ))}
@@ -123,7 +136,9 @@ const Press = () => {
 
       <section className="py-16 border-b border-border">
         <div className="container-custom max-w-4xl">
-          <h2 className="font-display text-3xl mb-6">Story angles we can speak to</h2>
+          <h2 className="font-display text-3xl mb-6">
+            Story angles we can speak to
+          </h2>
           <div className="grid md:grid-cols-2 gap-4">
             {[
               "Why mental performance is becoming an economic issue in Morocco",
@@ -133,7 +148,10 @@ const Press = () => {
               "How SaaS is quietly reshaping the psychology profession",
               "Corporate wellbeing beyond meditation apps — a performance framework",
             ].map((s) => (
-              <div key={s} className="p-4 rounded-lg border border-border bg-card">
+              <div
+                key={s}
+                className="p-4 rounded-lg border border-border bg-card"
+              >
                 <p className="font-display text-lg leading-snug">{s}</p>
               </div>
             ))}
@@ -147,13 +165,20 @@ const Press = () => {
           <Card className="p-6 md:p-8">
             <div className="grid md:grid-cols-2 gap-6">
               <div>
-                <p className="text-xs font-mono uppercase tracking-wider text-muted-foreground mb-1">Email</p>
-                <a href="mailto:press@upsy.ma" className="font-display text-xl text-primary inline-flex items-center gap-2">
+                <p className="text-xs font-mono uppercase tracking-wider text-muted-foreground mb-1">
+                  Email
+                </p>
+                <a
+                  href="mailto:press@upsy.ma"
+                  className="font-display text-xl text-primary inline-flex items-center gap-2"
+                >
                   press@upsy.ma <ExternalLink className="h-4 w-4" />
                 </a>
               </div>
               <div>
-                <p className="text-xs font-mono uppercase tracking-wider text-muted-foreground mb-1">Response time</p>
+                <p className="text-xs font-mono uppercase tracking-wider text-muted-foreground mb-1">
+                  Response time
+                </p>
                 <p className="font-display text-xl">Within 24h · Mon–Fri</p>
               </div>
             </div>

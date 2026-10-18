@@ -35,11 +35,17 @@ export const usePlatformPricing = () =>
  */
 export const computeSessionAmounts = (
   sessionPriceMad: number,
-  pricing: PlatformPricing
+  pricing: PlatformPricing,
 ) => {
-  const deposit = +(sessionPriceMad * (pricing.deposit_percentage / 100)).toFixed(2);
+  const deposit = +(
+    sessionPriceMad *
+    (pricing.deposit_percentage / 100)
+  ).toFixed(2);
   const balance = +(sessionPriceMad - deposit).toFixed(2);
-  const commission = +(sessionPriceMad * (pricing.commission_rate / 100)).toFixed(2);
+  const commission = +(
+    sessionPriceMad *
+    (pricing.commission_rate / 100)
+  ).toFixed(2);
   const vat = +(commission * (pricing.vat_rate / 100)).toFixed(2);
   const psychologistNet = +(sessionPriceMad - commission).toFixed(2);
   return { deposit, balance, commission, vat, psychologistNet };

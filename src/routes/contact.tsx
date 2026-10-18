@@ -6,6 +6,8 @@ const Contact = lazy(() => import("@/pages/Contact"));
 
 export const Route = createFileRoute("/contact")({
   component: () => (
-    <PageTransition><Contact /></PageTransition>
+    <PageTransition>
+      <Contact />
+    </PageTransition>
   ),
 });

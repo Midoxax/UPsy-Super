@@ -1,6 +1,12 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
@@ -26,9 +32,16 @@ const contactSchema = z.object({
 const Contact = () => {
   const { t, locale } = useLocale();
   const { toast } = useToast();
-  const faqQuestions = (translations[locale] as any).contact?.faq?.questions ?? (translations.en as any).contact.faq.questions;
+  const faqQuestions =
+    (translations[locale] as any).contact?.faq?.questions ??
+    (translations.en as any).contact.faq.questions;
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [formData, setFormData] = useState({ name: "", email: "", phone: "", message: "" });
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    message: "",
+  });
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -45,19 +58,32 @@ const Contact = () => {
 
       if (error) throw error;
 
-      toast({ title: t('contact.form.successTitle') || "Message Sent!", description: t('contact.form.successMessage') || "We'll get back to you within 24 hours." });
+      toast({
+        title: t("contact.form.successTitle") || "Message Sent!",
+        description:
+          t("contact.form.successMessage") ||
+          "We'll get back to you within 24 hours.",
+      });
       setFormData({ name: "", email: "", phone: "", message: "" });
     } catch (err) {
       if (err instanceof z.ZodError) {
-        toast({ title: "Validation Error", description: err.errors[0].message, variant: "destructive" });
+        toast({
+          title: "Validation Error",
+          description: err.errors[0].message,
+          variant: "destructive",
+        });
       } else {
-        toast({ title: "Error", description: "Failed to send message. Please try again.", variant: "destructive" });
+        toast({
+          title: "Error",
+          description: "Failed to send message. Please try again.",
+          variant: "destructive",
+        });
       }
     } finally {
       setIsSubmitting(false);
     }
   };
-  
+
   return (
     <main className="min-h-screen bg-background">
       <SEOHead
@@ -69,9 +95,11 @@ const Contact = () => {
       <section className="py-16 bg-gradient-to-b from-primary/5 to-background">
         <div className="container-custom text-center">
           <ScrollReveal>
-            <h1 className="text-h1 text-foreground mb-6">{t('contact.hero.title')}</h1>
+            <h1 className="text-h1 text-foreground mb-6">
+              {t("contact.hero.title")}
+            </h1>
             <p className="text-body text-muted-foreground max-w-2xl mx-auto">
-              {t('contact.hero.subtitle')}
+              {t("contact.hero.subtitle")}
             </p>
           </ScrollReveal>
         </div>
@@ -94,50 +122,93 @@ const Contact = () => {
             <ScrollReveal direction="left">
               <Card className="hover-lift">
                 <CardHeader>
-                  <CardTitle>{t('contact.form.title')}</CardTitle>
+                  <CardTitle>{t("contact.form.title")}</CardTitle>
                   <CardDescription>
-                    {t('contact.form.description')}
+                    {t("contact.form.description")}
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
                   <form onSubmit={handleSubmit} className="space-y-6">
                     <div className="space-y-2">
-                      <Label htmlFor="name">{t('contact.form.nameLabel')} {t('contact.form.required')}</Label>
-                      <Input id="name" placeholder={t('contact.form.namePlaceholder')} required value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })} />
+                      <Label htmlFor="name">
+                        {t("contact.form.nameLabel")}{" "}
+                        {t("contact.form.required")}
+                      </Label>
+                      <Input
+                        id="name"
+                        placeholder={t("contact.form.namePlaceholder")}
+                        required
+                        value={formData.name}
+                        onChange={(e) =>
+                          setFormData({ ...formData, name: e.target.value })
+                        }
+                      />
                     </div>
-                    
+
                     <div className="space-y-2">
-                      <Label htmlFor="email">{t('contact.form.emailLabel')} {t('contact.form.required')}</Label>
-                      <Input id="email" type="email" placeholder={t('contact.form.emailPlaceholder')} required value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })} />
+                      <Label htmlFor="email">
+                        {t("contact.form.emailLabel")}{" "}
+                        {t("contact.form.required")}
+                      </Label>
+                      <Input
+                        id="email"
+                        type="email"
+                        placeholder={t("contact.form.emailPlaceholder")}
+                        required
+                        value={formData.email}
+                        onChange={(e) =>
+                          setFormData({ ...formData, email: e.target.value })
+                        }
+                      />
                     </div>
-                    
+
                     <div className="space-y-2">
-                      <Label htmlFor="phone">{t('contact.form.phoneLabel')}</Label>
-                      <Input id="phone" type="tel" placeholder={t('contact.form.phonePlaceholder')} value={formData.phone} onChange={(e) => setFormData({ ...formData, phone: e.target.value })} />
+                      <Label htmlFor="phone">
+                        {t("contact.form.phoneLabel")}
+                      </Label>
+                      <Input
+                        id="phone"
+                        type="tel"
+                        placeholder={t("contact.form.phonePlaceholder")}
+                        value={formData.phone}
+                        onChange={(e) =>
+                          setFormData({ ...formData, phone: e.target.value })
+                        }
+                      />
                     </div>
-                    
+
                     <div className="space-y-2">
-                      <Label htmlFor="message">{t('contact.form.messageLabel')} {t('contact.form.required')}</Label>
-                      <Textarea 
-                        id="message" 
-                        placeholder={t('contact.form.messagePlaceholder')}
+                      <Label htmlFor="message">
+                        {t("contact.form.messageLabel")}{" "}
+                        {t("contact.form.required")}
+                      </Label>
+                      <Textarea
+                        id="message"
+                        placeholder={t("contact.form.messagePlaceholder")}
                         className="min-h-[150px]"
                         required
                         value={formData.message}
-                        onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                        onChange={(e) =>
+                          setFormData({ ...formData, message: e.target.value })
+                        }
                       />
                     </div>
-                    
+
                     <DataPrivacyNotice />
 
-                    <Button type="submit" size="lg" className="w-full hover-glow" disabled={isSubmitting}>
+                    <Button
+                      type="submit"
+                      size="lg"
+                      className="w-full hover-glow"
+                      disabled={isSubmitting}
+                    >
                       {isSubmitting ? (
                         <>
                           <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                          {t('contact.form.submitButton')}
+                          {t("contact.form.submitButton")}
                         </>
                       ) : (
-                        t('contact.form.submitButton')
+                        t("contact.form.submitButton")
                       )}
                     </Button>
                   </form>
@@ -150,9 +221,9 @@ const Contact = () => {
               <ScrollReveal direction="right" delay={0.2}>
                 <Card className="hover-lift">
                   <CardHeader>
-                    <CardTitle>{t('contact.info.title')}</CardTitle>
+                    <CardTitle>{t("contact.info.title")}</CardTitle>
                     <CardDescription>
-                      {t('contact.info.description')}
+                      {t("contact.info.description")}
                     </CardDescription>
                   </CardHeader>
                   <CardContent className="space-y-4">
@@ -161,8 +232,13 @@ const Contact = () => {
                         <Mail className="w-5 h-5 text-primary" />
                       </div>
                       <div>
-                        <p className="font-semibold">{t('contact.info.email')}</p>
-                        <a href="mailto:mypersonalpsychologist212@gmail.com" className="text-muted-foreground hover:text-primary transition-colors link-underline">
+                        <p className="font-semibold">
+                          {t("contact.info.email")}
+                        </p>
+                        <a
+                          href="mailto:mypersonalpsychologist212@gmail.com"
+                          className="text-muted-foreground hover:text-primary transition-colors link-underline"
+                        >
                           mypersonalpsychologist212@gmail.com
                         </a>
                       </div>
@@ -173,8 +249,13 @@ const Contact = () => {
                         <Phone className="w-5 h-5 text-secondary" />
                       </div>
                       <div>
-                        <p className="font-semibold">{t('contact.info.phone')}</p>
-                        <a href="tel:+212668594699" className="text-muted-foreground hover:text-secondary transition-colors link-underline">
+                        <p className="font-semibold">
+                          {t("contact.info.phone")}
+                        </p>
+                        <a
+                          href="tel:+212668594699"
+                          className="text-muted-foreground hover:text-secondary transition-colors link-underline"
+                        >
                           +212 668-594699
                         </a>
                       </div>
@@ -185,10 +266,15 @@ const Contact = () => {
                         <MapPin className="w-5 h-5 text-accent" />
                       </div>
                       <div>
-                        <p className="font-semibold">{t('contact.info.location')}</p>
+                        <p className="font-semibold">
+                          {t("contact.info.location")}
+                        </p>
                         <p className="text-muted-foreground">
-                          {t('contact.info.locationValue')}<br />
-                          <span className="text-sm">{t('contact.info.locationExtra')}</span>
+                          {t("contact.info.locationValue")}
+                          <br />
+                          <span className="text-sm">
+                            {t("contact.info.locationExtra")}
+                          </span>
                         </p>
                       </div>
                     </div>
@@ -200,15 +286,19 @@ const Contact = () => {
                 <Card className="bg-gradient-to-br from-primary/10 to-secondary/10 border-primary/20 hover-lift">
                   <CardHeader>
                     <Calendar className="w-10 h-10 text-primary mb-2" />
-                    <CardTitle>{t('contact.booking.title')}</CardTitle>
+                    <CardTitle>{t("contact.booking.title")}</CardTitle>
                     <CardDescription>
-                      {t('contact.booking.description')}
+                      {t("contact.booking.description")}
                     </CardDescription>
                   </CardHeader>
                   <CardContent>
                     <Button asChild size="lg" className="w-full hover-glow">
-                      <a href="https://calendly.com/dr-mehdi-felji" target="_blank" rel="noopener noreferrer">
-                        {t('contact.booking.button')}
+                      <a
+                        href="https://calendly.com/dr-mehdi-felji"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        {t("contact.booking.button")}
                       </a>
                     </Button>
                   </CardContent>
@@ -218,15 +308,20 @@ const Contact = () => {
               <ScrollReveal direction="right" delay={0.6}>
                 <Card className="hover-lift">
                   <CardHeader>
-                    <CardTitle>{t('contact.matching.title')}</CardTitle>
+                    <CardTitle>{t("contact.matching.title")}</CardTitle>
                     <CardDescription>
-                      {t('contact.matching.description')}
+                      {t("contact.matching.description")}
                     </CardDescription>
                   </CardHeader>
                   <CardContent>
-                    <Button asChild variant="secondary" size="lg" className="w-full">
+                    <Button
+                      asChild
+                      variant="secondary"
+                      size="lg"
+                      className="w-full"
+                    >
                       <Link to="/get-matched">
-                        {t('contact.matching.button')}
+                        {t("contact.matching.button")}
                       </Link>
                     </Button>
                   </CardContent>
@@ -243,9 +338,11 @@ const Contact = () => {
       <section className="section-spacing bg-muted/30">
         <div className="container-custom">
           <ScrollReveal>
-            <h2 className="text-h2 text-center mb-12">{t('contact.faq.title')}</h2>
+            <h2 className="text-h2 text-center mb-12">
+              {t("contact.faq.title")}
+            </h2>
           </ScrollReveal>
-          
+
           <div className="max-w-3xl mx-auto space-y-4">
             {faqQuestions.map((faq: any, index: number) => (
               <ScrollReveal key={index} delay={0.1 * (index + 1)}>
@@ -254,9 +351,7 @@ const Contact = () => {
                     <CardTitle className="text-h3">{faq.question}</CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <p className="text-muted-foreground">
-                      {faq.answer}
-                    </p>
+                    <p className="text-muted-foreground">{faq.answer}</p>
                   </CardContent>
                 </Card>
               </ScrollReveal>

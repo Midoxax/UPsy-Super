@@ -22,7 +22,8 @@ export const searchPsychologists = async ({
   const { data, error } = await supabase.rpc("search_psychologists", {
     p_specialties: filters.specialties.length > 0 ? filters.specialties : [],
     p_languages: filters.languages.length > 0 ? filters.languages : [],
-    p_therapy_approaches: filters.therapyApproaches.length > 0 ? filters.therapyApproaches : [],
+    p_therapy_approaches:
+      filters.therapyApproaches.length > 0 ? filters.therapyApproaches : [],
     p_city: filters.city || undefined,
     p_online: filters.online || undefined,
     p_in_person: filters.inPerson || undefined,
@@ -72,8 +73,11 @@ export const searchPsychologists = async ({
   const planRank = new Map<string, number>();
   (subsData ?? []).forEach((s: any) => {
     const tier =
-      s.plan_type === "elite" || s.plan_type === "premium" ? 3 :
-      s.plan_type === "pro" || s.plan_type === "basic" ? 2 : 1;
+      s.plan_type === "elite" || s.plan_type === "premium"
+        ? 3
+        : s.plan_type === "pro" || s.plan_type === "basic"
+          ? 2
+          : 1;
     planRank.set(s.psychologist_id, tier);
   });
 
@@ -90,16 +94,18 @@ export const searchPsychologists = async ({
   const languagesMap = buildMap(languagesData.data || [], "language");
   const approachesMap = buildMap(approachesData.data || [], "therapy_approach");
 
-  const profilesUnranked: PsychologistProfile[] = (data || []).map((profile: any) => {
-    const { total_count, ...profileData } = profile;
-    return {
-      ...profileData,
-      specialties: specialtiesMap.get(profile.id) || [],
-      languages: languagesMap.get(profile.id) || [],
-      therapy_approaches: approachesMap.get(profile.id) || [],
-      _plan_rank: planRank.get(profile.id) ?? 1,
-    };
-  });
+  const profilesUnranked: PsychologistProfile[] = (data || []).map(
+    (profile: any) => {
+      const { total_count, ...profileData } = profile;
+      return {
+        ...profileData,
+        specialties: specialtiesMap.get(profile.id) || [],
+        languages: languagesMap.get(profile.id) || [],
+        therapy_approaches: approachesMap.get(profile.id) || [],
+        _plan_rank: planRank.get(profile.id) ?? 1,
+      };
+    },
+  );
 
   // Stable sort: higher plan tier first, preserve underlying order otherwise.
   const profiles = profilesUnranked
@@ -123,12 +129,14 @@ export const getFeaturedPsychologists = async (limit = 4) => {
   const poolSize = Math.max(limit * 5, 20);
   const { data, error } = await supabase
     .from("psychologist_profiles")
-    .select(`
+    .select(
+      `
       id, full_name, bio, photo_url, city, slug, hourly_rate_mad,
       offers_online, offers_in_person,
       psychologist_specialties(specialty_id, specialties(name)),
       psychologist_languages(language_id, languages(name))
-    `)
+    `,
+    )
     .eq("is_published", true)
     .order("created_at", { ascending: false })
     .limit(poolSize);
@@ -147,32 +155,44 @@ export const getFeaturedPsychologists = async (limit = 4) => {
   const tier = new Map<string, number>();
   (subs ?? []).forEach((s: any) => {
     const r =
-      s.plan_type === "elite" || s.plan_type === "premium" ? 3 :
-      s.plan_type === "pro" || s.plan_type === "basic" ? 2 : 1;
+      s.plan_type === "elite" || s.plan_type === "premium"
+        ? 3
+        : s.plan_type === "pro" || s.plan_type === "basic"
+          ? 2
+          : 1;
     tier.set(s.psychologist_id, r);
   });
 
   return pool
     .map((p: any, i: number) => ({ p, i, t: tier.get(p.id) ?? 1 }))
-    .sort((a, b) => (b.t - a.t) || (a.i - b.i))
+    .sort((a, b) => b.t - a.t || a.i - b.i)
     .slice(0, limit)
     .map(({ p }) => p);
 };
 
 export const fetchSpecialties = async () => {
-  const { data, error } = await supabase.from("specialties").select("*").order("name");
+  const { data, error } = await supabase
+    .from("specialties")
+    .select("*")
+    .order("name");
   if (error) throw error;
   return data;
 };
 
 export const fetchLanguages = async () => {
-  const { data, error } = await supabase.from("languages").select("*").order("name");
+  const { data, error } = await supabase
+    .from("languages")
+    .select("*")
+    .order("name");
   if (error) throw error;
   return data;
 };
 
 export const fetchTherapyApproaches = async () => {
-  const { data, error } = await supabase.from("therapy_approaches").select("*").order("name");
+  const { data, error } = await supabase
+    .from("therapy_approaches")
+    .select("*")
+    .order("name");
   if (error) throw error;
   return data;
 };

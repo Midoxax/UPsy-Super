@@ -2,7 +2,8 @@ import { createClient } from "https://esm.sh/@supabase/supabase-js@2.45.0";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
+  "Access-Control-Allow-Headers":
+    "authorization, x-client-info, apikey, content-type",
 };
 
 // Escape any string we interpolate into the invoice HTML to prevent stored XSS
@@ -34,22 +35,37 @@ function safeDate(d: unknown): string {
 
 // Moroccan TVA-compliant invoice generator (HTML → returned as text/html for client-side print)
 Deno.serve(async (req) => {
-  if (req.method === "OPTIONS") return new Response("ok", { headers: corsHeaders });
+  if (req.method === "OPTIONS")
+    return new Response("ok", { headers: corsHeaders });
 
   try {
     const authHeader = req.headers.get("Authorization");
-    if (!authHeader) return new Response(JSON.stringify({ error: "Unauthorized" }), { status: 401, headers: corsHeaders });
+    if (!authHeader)
+      return new Response(JSON.stringify({ error: "Unauthorized" }), {
+        status: 401,
+        headers: corsHeaders,
+      });
 
     const supabase = createClient(
       Deno.env.get("SUPABASE_URL")!,
       Deno.env.get("SUPABASE_ANON_KEY")!,
-      { global: { headers: { Authorization: authHeader } } }
+      { global: { headers: { Authorization: authHeader } } },
     );
-    const { data: { user } } = await supabase.auth.getUser();
-    if (!user) return new Response(JSON.stringify({ error: "Unauthorized" }), { status: 401, headers: corsHeaders });
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+    if (!user)
+      return new Response(JSON.stringify({ error: "Unauthorized" }), {
+        status: 401,
+        headers: corsHeaders,
+      });
 
     const { invoice_id } = await req.json();
-    if (!invoice_id) return new Response(JSON.stringify({ error: "invoice_id required" }), { status: 400, headers: corsHeaders });
+    if (!invoice_id)
+      return new Response(JSON.stringify({ error: "invoice_id required" }), {
+        status: 400,
+        headers: corsHeaders,
+      });
 
     const { data: invoice, error: invErr } = await supabase
       .from("organization_invoices")
@@ -58,12 +74,16 @@ Deno.serve(async (req) => {
       .single();
 
     if (invErr || !invoice) {
-      return new Response(JSON.stringify({ error: "Invoice not found" }), { status: 404, headers: corsHeaders });
+      return new Response(JSON.stringify({ error: "Invoice not found" }), {
+        status: 404,
+        headers: corsHeaders,
+      });
     }
 
     const org = (invoice as any).organization_accounts;
-    const tvaRate = Number(invoice.tax_rate ?? 0.20) * 100;
-    const fmt = (n: number) => new Intl.NumberFormat("fr-MA", { minimumFractionDigits: 2 }).format(n);
+    const tvaRate = Number(invoice.tax_rate ?? 0.2) * 100;
+    const fmt = (n: number) =>
+      new Intl.NumberFormat("fr-MA", { minimumFractionDigits: 2 }).format(n);
 
     const html = `<!DOCTYPE html>
 <html lang="fr">
@@ -149,8 +169,13 @@ Deno.serve(async (req) => {
 </body>
 </html>`;
 
-    return new Response(html, { headers: { ...corsHeaders, "Content-Type": "text/html; charset=utf-8" } });
+    return new Response(html, {
+      headers: { ...corsHeaders, "Content-Type": "text/html; charset=utf-8" },
+    });
   } catch (e) {
-    return new Response(JSON.stringify({ error: (e as Error).message }), { status: 500, headers: corsHeaders });
+    return new Response(JSON.stringify({ error: (e as Error).message }), {
+      status: 500,
+      headers: corsHeaders,
+    });
   }
 });

@@ -30,7 +30,10 @@ describe("event naming", () => {
     // review but fails the constraint is an outage at publish time, not a
     // compile error, so it is asserted here.
     for (const name of allEvents) {
-      expect(EVENT_NAME_PATTERN.test(name), `"${name}" is not domain.action`).toBe(true);
+      expect(
+        EVENT_NAME_PATTERN.test(name),
+        `"${name}" is not domain.action`,
+      ).toBe(true);
     }
   });
 
@@ -38,7 +41,8 @@ describe("event naming", () => {
     // An event records that something happened. Imperative names turn the
     // outbox into a command queue, which is a different system with different
     // delivery guarantees.
-    const imperative = /\.(create|update|delete|send|confirm|cancel|issue|pay|approve)$/;
+    const imperative =
+      /\.(create|update|delete|send|confirm|cancel|issue|pay|approve)$/;
     for (const name of allEvents) {
       expect(imperative.test(name), `"${name}" reads as a command`).toBe(false);
     }
@@ -47,7 +51,9 @@ describe("event naming", () => {
   it("every event belongs to a declared domain", () => {
     for (const name of allEvents) {
       const domain = domainOf(name);
-      const known = (EVENT_DOMAINS as readonly string[]).includes(domain) || domain === "consent";
+      const known =
+        (EVENT_DOMAINS as readonly string[]).includes(domain) ||
+        domain === "consent";
       expect(known, `"${name}" uses undeclared domain "${domain}"`).toBe(true);
     }
   });
@@ -83,7 +89,10 @@ describe("routing", () => {
       "ai.recommendation_generated",
     ];
     for (const name of clinical) {
-      expect(DEFAULT_ROUTING[name] ?? [], `${name} must not reach the CRM`).not.toContain("crm");
+      expect(
+        DEFAULT_ROUTING[name] ?? [],
+        `${name} must not reach the CRM`,
+      ).not.toContain("crm");
     }
   });
 
@@ -95,13 +104,19 @@ describe("routing", () => {
       "invoice.paid",
     ];
     for (const name of commercial) {
-      expect(DEFAULT_ROUTING[name] ?? [], `${name} should reach the CRM`).toContain("crm");
+      expect(
+        DEFAULT_ROUTING[name] ?? [],
+        `${name} should reach the CRM`,
+      ).toContain("crm");
     }
   });
 
   it("gives every routed event a subject type", () => {
     for (const name of Object.keys(DEFAULT_ROUTING)) {
-      expect(SUBJECT_TYPES[name as EventName], `${name} has no subject type`).toBeTruthy();
+      expect(
+        SUBJECT_TYPES[name as EventName],
+        `${name} has no subject type`,
+      ).toBeTruthy();
     }
   });
 });
@@ -125,7 +140,9 @@ describe("revenue operations pipeline", () => {
       "contract.renewed",
     ];
     for (const stage of chain) {
-      expect(isKnownEvent(stage), `pipeline stage "${stage}" is missing`).toBe(true);
+      expect(isKnownEvent(stage), `pipeline stage "${stage}" is missing`).toBe(
+        true,
+      );
     }
   });
 

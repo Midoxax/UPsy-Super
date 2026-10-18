@@ -6,6 +6,8 @@ const FreeScore = lazy(() => import("@/pages/FreeScore"));
 
 export const Route = createFileRoute("/$locale/free-score")({
   component: () => (
-    <PageTransition><FreeScore /></PageTransition>
+    <PageTransition>
+      <FreeScore />
+    </PageTransition>
   ),
 });

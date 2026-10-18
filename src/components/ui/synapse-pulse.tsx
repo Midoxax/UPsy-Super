@@ -6,7 +6,11 @@ interface SynapsePulseProps {
   delay?: number;
 }
 
-const SynapsePulse = ({ size = "md", color = "teal", delay = 0 }: SynapsePulseProps) => {
+const SynapsePulse = ({
+  size = "md",
+  color = "teal",
+  delay = 0,
+}: SynapsePulseProps) => {
   const sizes = {
     sm: "w-2 h-2",
     md: "w-3 h-3",

@@ -37,7 +37,7 @@ export const useSpecialistPlan = () => {
         _user_id: user.id,
       });
       if (error) throw error;
-      return ((data as unknown) as SpecialistPlan) ?? FALLBACK_FREE;
+      return (data as unknown as SpecialistPlan) ?? FALLBACK_FREE;
     },
     enabled: !!user,
     staleTime: 60_000,

@@ -6,6 +6,8 @@ const Psychologists = lazy(() => import("@/pages/Psychologists"));
 
 export const Route = createFileRoute("/$locale/psychologists")({
   component: () => (
-    <PageTransition><Psychologists /></PageTransition>
+    <PageTransition>
+      <Psychologists />
+    </PageTransition>
   ),
 });

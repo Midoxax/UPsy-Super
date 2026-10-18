@@ -9,6 +9,12 @@ const PatientDashboard = lazy(() => import("@/pages/PatientDashboard"));
 
 export const Route = createFileRoute("/$locale/dashboard/client")({
   component: () => (
-    <ProtectedRoute><PageTransition><ErrorBoundary fallback={<DashboardErrorFallback />}><PatientDashboard /></ErrorBoundary></PageTransition></ProtectedRoute>
+    <ProtectedRoute>
+      <PageTransition>
+        <ErrorBoundary fallback={<DashboardErrorFallback />}>
+          <PatientDashboard />
+        </ErrorBoundary>
+      </PageTransition>
+    </ProtectedRoute>
   ),
 });

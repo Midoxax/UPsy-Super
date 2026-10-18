@@ -46,10 +46,20 @@ const VIEWPORTS = [
 
 const CASES: Case[] = [
   { name: "home", path: "/", locales: LOCALES, viewports: VIEWPORTS },
-  { name: "psychologists", path: "/psychologists", locales: LOCALES, viewports: VIEWPORTS },
+  {
+    name: "psychologists",
+    path: "/psychologists",
+    locales: LOCALES,
+    viewports: VIEWPORTS,
+  },
   { name: "pricing", path: "/pricing", locales: LOCALES, viewports: VIEWPORTS },
   { name: "auth", path: "/auth", locales: LOCALES, viewports: VIEWPORTS },
-  { name: "get-matched", path: "/get-matched", locales: LOCALES, viewports: VIEWPORTS },
+  {
+    name: "get-matched",
+    path: "/get-matched",
+    locales: LOCALES,
+    viewports: VIEWPORTS,
+  },
   { name: "founder", path: "/founder", locales: LOCALES, viewports: VIEWPORTS },
 ];
 
@@ -57,7 +67,12 @@ function ensureDir(p: string) {
   if (!existsSync(dirname(p))) mkdirSync(dirname(p), { recursive: true });
 }
 
-async function capture(page: Page, url: string, out: string, viewport: { width: number; height: number }) {
+async function capture(
+  page: Page,
+  url: string,
+  out: string,
+  viewport: { width: number; height: number },
+) {
   await page.setViewportSize(viewport);
   await page.goto(url, { waitUntil: "networkidle", timeout: 45_000 });
   // Kill animations for stable diffs.
@@ -73,13 +88,20 @@ async function capture(page: Page, url: string, out: string, viewport: { width: 
   await page.screenshot({ path: out, fullPage: false });
 }
 
-function compare(baselinePath: string, currentPath: string, diffPath: string): { pct: number; ok: boolean } {
+function compare(
+  baselinePath: string,
+  currentPath: string,
+  diffPath: string,
+): { pct: number; ok: boolean } {
   if (!existsSync(baselinePath)) return { pct: 0, ok: false };
   const b = PNG.sync.read(readFileSync(baselinePath));
   const c = PNG.sync.read(readFileSync(currentPath));
-  if (b.width !== c.width || b.height !== c.height) return { pct: 1, ok: false };
+  if (b.width !== c.width || b.height !== c.height)
+    return { pct: 1, ok: false };
   const diff = new PNG({ width: b.width, height: b.height });
-  const px = pixelmatch(b.data, c.data, diff.data, b.width, b.height, { threshold: 0.15 });
+  const px = pixelmatch(b.data, c.data, diff.data, b.width, b.height, {
+    threshold: 0.15,
+  });
   const pct = px / (b.width * b.height);
   ensureDir(diffPath);
   writeFileSync(diffPath, PNG.sync.write(diff));
@@ -87,7 +109,9 @@ function compare(baselinePath: string, currentPath: string, diffPath: string): {
 }
 
 (async () => {
-  console.log(`[visual] mode=${UPDATE ? "UPDATE-BASELINE" : "COMPARE"} base=${BASE}`);
+  console.log(
+    `[visual] mode=${UPDATE ? "UPDATE-BASELINE" : "COMPARE"} base=${BASE}`,
+  );
   let failures = 0;
   let checks = 0;
   const browser: Browser = await chromium.launch({ headless: true });
@@ -102,7 +126,9 @@ function compare(baselinePath: string, currentPath: string, diffPath: string): {
         try {
           await capture(page, url, currentPath, v);
         } catch (err) {
-          console.log(`  ⚠  ${rel} — capture failed: ${(err as Error).message}`);
+          console.log(
+            `  ⚠  ${rel} — capture failed: ${(err as Error).message}`,
+          );
           failures++;
           continue;
         }
@@ -121,7 +147,9 @@ function compare(baselinePath: string, currentPath: string, diffPath: string): {
           const pctStr = (pct * 100).toFixed(2);
           if (ok) console.log(`  ✓  ${rel} (${pctStr}% diff)`);
           else {
-            console.log(`  ✗  ${rel} (${pctStr}% diff — see tests/visual/diff/)`);
+            console.log(
+              `  ✗  ${rel} (${pctStr}% diff — see tests/visual/diff/)`,
+            );
             failures++;
           }
         }
@@ -129,6 +157,8 @@ function compare(baselinePath: string, currentPath: string, diffPath: string): {
     }
   }
   await browser.close();
-  console.log(`[visual] ${checks - failures}/${checks} passed, ${failures} failed`);
+  console.log(
+    `[visual] ${checks - failures}/${checks} passed, ${failures} failed`,
+  );
   process.exit(failures > 0 && !UPDATE ? 1 : 0);
 })();

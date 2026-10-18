@@ -12,7 +12,8 @@ export const usePsychologistProfile = () => {
 
       const { data, error } = await supabase
         .from("psychologist_profiles")
-        .select(`
+        .select(
+          `
           *,
           psychologist_specialties(
             specialty:specialties(id, name)
@@ -20,7 +21,8 @@ export const usePsychologistProfile = () => {
           psychologist_languages(
             language:languages(id, name)
           )
-        `)
+        `,
+        )
         .eq("id", user.id)
         .single();
 
@@ -28,8 +30,10 @@ export const usePsychologistProfile = () => {
 
       return {
         ...data,
-        specialties: data.psychologist_specialties?.map((ps: any) => ps.specialty) || [],
-        languages: data.psychologist_languages?.map((pl: any) => pl.language) || [],
+        specialties:
+          data.psychologist_specialties?.map((ps: any) => ps.specialty) || [],
+        languages:
+          data.psychologist_languages?.map((pl: any) => pl.language) || [],
       };
     },
     enabled: !!user,

@@ -32,12 +32,14 @@ import { fileURLToPath } from "node:url";
 // without first being told a URL. PROD_URL still overrides it, which is what
 // CI passes when verifying a specific deployment.
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..");
-const homepage = JSON.parse(readFileSync(resolve(ROOT, "package.json"), "utf8")).homepage ?? "";
+const homepage =
+  JSON.parse(readFileSync(resolve(ROOT, "package.json"), "utf8")).homepage ??
+  "";
 
 const URL_BASE = (process.env.PROD_URL || homepage).replace(/\/$/, "");
 if (!URL_BASE) {
   console.error(
-    'No target. Set "homepage" in package.json or pass PROD_URL=https://... — nothing to verify.'
+    'No target. Set "homepage" in package.json or pass PROD_URL=https://... — nothing to verify.',
   );
   process.exit(1);
 }
@@ -114,7 +116,9 @@ async function fetchDoc(path, { maxHops = 3 } = {}) {
     hops.push(`${res.status} ${url} -> ${next}`);
     url = next;
   }
-  throw new Error(`More than ${maxHops} same-site redirects from ${URL_BASE}${path} — likely a loop`);
+  throw new Error(
+    `More than ${maxHops} same-site redirects from ${URL_BASE}${path} — likely a loop`,
+  );
 }
 
 console.log(`Verifying ${URL_BASE}\n`);
@@ -142,9 +146,12 @@ const location = root.headers.get("location") || "";
 // reader to a dashboard toggle that is already correct, and a check that
 // misdiagnoses gets distrusted and then ignored.
 const servedByEdge =
-  root.headers.has("cf-ray") || /cloudflare/i.test(root.headers.get("server") || "");
+  root.headers.has("cf-ray") ||
+  /cloudflare/i.test(root.headers.get("server") || "");
 const namesAccessWall =
-  /cloudflareaccess\.com|\/cdn-cgi\/access\/login|lovable\.app\/login/.test(location);
+  /cloudflareaccess\.com|\/cdn-cgi\/access\/login|lovable\.app\/login/.test(
+    location,
+  );
 const isBlocked = root.status === 401 || root.status === 403;
 const isProtectionWall = namesAccessWall || (isBlocked && servedByEdge);
 
@@ -157,7 +164,7 @@ if (isBlocked && !isProtectionWall) {
       `  proxy, or a WAF.\n\n` +
       `  This is not a verdict on the deployment: nothing about the site was\n` +
       `  reached, so nothing about it is proven. Re-run from a network with\n` +
-      `  direct outbound access, such as a GitHub-hosted runner.\n`
+      `  direct outbound access, such as a GitHub-hosted runner.\n`,
   );
   process.exit(1);
 }
@@ -176,12 +183,13 @@ if (isProtectionWall) {
       `    it can be verified.\n\n` +
       `    Check: Cloudflare -> Zero Trust -> Access -> Applications, and remove\n` +
       `    any policy covering this hostname. If the URL under test is still a\n` +
-      `    Lovable preview domain, point PROD_URL at the public site instead.\n`
+      `    Lovable preview domain, point PROD_URL at the public site instead.\n`,
   );
   process.exit(1);
 }
 
-for (const hop of root.hops ?? []) notes.push(`Followed same-site redirect: ${hop}`);
+for (const hop of root.hops ?? [])
+  notes.push(`Followed same-site redirect: ${hop}`);
 
 // Nothing is served here at all. Stop, for the same reason the auth wall stops:
 // headers and routes measured against a 404 describe the error page, and
@@ -202,7 +210,7 @@ if (root.status >= 400) {
           `    (and package.json "homepage") to one that is.\n`
         : `    The deployment is failing to serve its root document.\n`) +
       `\n    Header and route results are omitted deliberately: measured against an\n` +
-      `    error page they describe the error page, not the application.\n`
+      `    error page they describe the error page, not the application.\n`,
   );
   process.exit(1);
 } else if (root.status >= 300) {
@@ -211,7 +219,7 @@ if (root.status >= 400) {
   // redirect rather than the app.
   failures.push(
     `Root redirects off-site to ${location}. Everything measured below describes ` +
-      `that redirect, not the application. Verify the destination directly.`
+      `that redirect, not the application. Verify the destination directly.`,
   );
 }
 
@@ -245,7 +253,7 @@ if (assetMatch) {
   if (!cc.includes("immutable")) {
     warnings.push(
       `Hashed assets are not served immutable (${cc || "no cache-control"}). ` +
-        `Repeat visitors re-download the bundle on every visit.`
+        `Repeat visitors re-download the bundle on every visit.`,
     );
   }
 } else {
@@ -253,7 +261,15 @@ if (assetMatch) {
 }
 
 // --- 4. Do the routes a pilot user needs actually respond? ------------------
-const ROUTES = ["/", "/psychologists", "/services", "/pricing", "/auth", "/contact", "/apply"];
+const ROUTES = [
+  "/",
+  "/psychologists",
+  "/services",
+  "/pricing",
+  "/auth",
+  "/contact",
+  "/apply",
+];
 console.log("\n  routes");
 for (const r of ROUTES) {
   try {
@@ -269,7 +285,8 @@ for (const r of ROUTES) {
 // --- 5. Crawler-facing files ------------------------------------------------
 for (const f of ["/robots.txt", "/sitemap.xml"]) {
   const res = await fetchDoc(f).catch(() => null);
-  if (!res || res.status >= 400) warnings.push(`${f} returned ${res?.status ?? "error"}`);
+  if (!res || res.status >= 400)
+    warnings.push(`${f} returned ${res?.status ?? "error"}`);
 }
 
 // --- report -----------------------------------------------------------------
@@ -290,4 +307,6 @@ if (failures.length) {
   console.error();
   process.exit(1);
 }
-console.log("Production verified — reachable unauthenticated, headers served, routes responding.");
+console.log(
+  "Production verified — reachable unauthenticated, headers served, routes responding.",
+);

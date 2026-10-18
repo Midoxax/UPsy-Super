@@ -25,7 +25,8 @@ export const Route = createFileRoute("/api/public/runtime-logs")({
       POST: async ({ request }) => {
         const url = process.env["SUPABASE_URL"];
         const svcKey = process.env["SUPABASE_SERVICE_ROLE_KEY"];
-        if (!url || !svcKey) return new Response("Logging unavailable", { status: 503 });
+        if (!url || !svcKey)
+          return new Response("Logging unavailable", { status: 503 });
 
         let payload: unknown;
         try {
@@ -35,28 +36,43 @@ export const Route = createFileRoute("/api/public/runtime-logs")({
         }
 
         const items = Array.isArray(payload) ? payload : [payload];
-        if (items.length > 10) return new Response("Batch too large", { status: 413 });
+        if (items.length > 10)
+          return new Response("Batch too large", { status: 413 });
 
         const ip =
-          (request.headers.get("x-forwarded-for") ?? "").split(",")[0]?.trim() || "unknown";
+          (request.headers.get("x-forwarded-for") ?? "")
+            .split(",")[0]
+            ?.trim() || "unknown";
 
-        const admin = createClient(url, svcKey, { auth: { persistSession: false } });
+        const admin = createClient(url, svcKey, {
+          auth: { persistSession: false },
+        });
 
         // 20 error reports per IP per hour — enough for a real user hitting a
         // broken route, not enough for a flood to fill the log.
-        const { data: allowed } = await admin.rpc("check_and_increment_rate_limit", {
-          _key: `runtime-logs:ip:${ip}`,
-          _max: 20,
-          _window_seconds: 3600,
-        } as never);
-        if (allowed === false) return new Response("Too many requests", { status: 429, headers: { "Retry-After": "60" } });
+        const { data: allowed } = await admin.rpc(
+          "check_and_increment_rate_limit",
+          {
+            _key: `runtime-logs:ip:${ip}`,
+            _max: 20,
+            _window_seconds: 3600,
+          } as never,
+        );
+        if (allowed === false)
+          return new Response("Too many requests", {
+            status: 429,
+            headers: { "Retry-After": "60" },
+          });
 
         const release = request.headers.get("x-app-version") ?? null;
         const env = process.env["NODE_ENV"] ?? "production";
 
         for (const raw of items) {
           const item = (raw ?? {}) as ErrorItem;
-          const message = typeof item.message === "string" ? item.message.slice(0, 2000) : "client_error";
+          const message =
+            typeof item.message === "string"
+              ? item.message.slice(0, 2000)
+              : "client_error";
           await admin.rpc("log_app_event", {
             _event: "client_error",
             _level: item.level === "error" ? "error" : "warn",
@@ -64,19 +80,27 @@ export const Route = createFileRoute("/api/public/runtime-logs")({
             _message: message,
             _environment: env,
             _release: release,
-            _route: typeof item.route === "string" ? item.route.slice(0, 200) : null,
-            _status_code: typeof item.status_code === "number" ? item.status_code : null,
+            _route:
+              typeof item.route === "string" ? item.route.slice(0, 200) : null,
+            _status_code:
+              typeof item.status_code === "number" ? item.status_code : null,
             _metadata: {
-              stack: typeof item.stack === "string" ? item.stack.slice(0, 4000) : null,
+              stack:
+                typeof item.stack === "string"
+                  ? item.stack.slice(0, 4000)
+                  : null,
               ...(item.metadata ?? {}),
             },
           } as never);
         }
 
-        return new Response(JSON.stringify({ ok: true, logged: items.length }), {
-          status: 200,
-          headers: { "Content-Type": "application/json" },
-        });
+        return new Response(
+          JSON.stringify({ ok: true, logged: items.length }),
+          {
+            status: 200,
+            headers: { "Content-Type": "application/json" },
+          },
+        );
       },
     },
   },

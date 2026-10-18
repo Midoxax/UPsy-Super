@@ -41,27 +41,34 @@ const pathComponents: Record<DividerVariant, React.FC> = {
   zigzag: ZigzagPath,
 };
 
-const SectionDivider = memo(({ variant = "wave", color = "primary", flip = false, className = "" }: SectionDividerProps) => {
-  const PathComponent = pathComponents[variant];
-  const fill = colorMap[color];
+const SectionDivider = memo(
+  ({
+    variant = "wave",
+    color = "primary",
+    flip = false,
+    className = "",
+  }: SectionDividerProps) => {
+    const PathComponent = pathComponents[variant];
+    const fill = colorMap[color];
 
-  return (
-    <div
-      className={`relative w-full overflow-hidden leading-[0] ${flip ? "rotate-180" : ""} ${className}`}
-      aria-hidden="true"
-      style={{ marginTop: "-1px", marginBottom: "-1px" }}
-    >
-      <svg
-        viewBox="0 0 1920 200"
-        preserveAspectRatio="none"
-        className="w-full h-16 md:h-24 lg:h-32"
-        fill={fill}
+    return (
+      <div
+        className={`relative w-full overflow-hidden leading-[0] ${flip ? "rotate-180" : ""} ${className}`}
+        aria-hidden="true"
+        style={{ marginTop: "-1px", marginBottom: "-1px" }}
       >
-        <PathComponent />
-      </svg>
-    </div>
-  );
-});
+        <svg
+          viewBox="0 0 1920 200"
+          preserveAspectRatio="none"
+          className="w-full h-16 md:h-24 lg:h-32"
+          fill={fill}
+        >
+          <PathComponent />
+        </svg>
+      </div>
+    );
+  },
+);
 
 SectionDivider.displayName = "SectionDivider";
 

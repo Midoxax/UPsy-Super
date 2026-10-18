@@ -72,8 +72,7 @@ const FR: Copy = {
   eyebrow: "Pôle scientifique",
   title: "L'Observatoire",
   titleAccent: "U.Psy",
-  lede:
-    "Une étude permanente sur l'accès réel aux soins psychologiques. Vos réponses alimentent des données publiques — jamais un dossier à votre nom.",
+  lede: "Une étude permanente sur l'accès réel aux soins psychologiques. Vos réponses alimentent des données publiques — jamais un dossier à votre nom.",
   anonymityTitle: "Ce questionnaire est strictement anonyme",
   anonymityPoints: [
     "Aucun nom, e-mail ou téléphone n'est enregistré avec vos réponses.",
@@ -81,11 +80,13 @@ const FR: Copy = {
     "Seules des statistiques agrégées sont exploitées.",
     "Conformément à la loi 09-08, vous pouvez interrompre à tout moment.",
   ],
-  consentLabel: "J'ai lu ce qui précède et je participe librement à cette étude.",
+  consentLabel:
+    "J'ai lu ce qui précède et je participe librement à cette étude.",
   consentRequired: "Votre consentement est nécessaire pour commencer.",
   chooseTrack: "Vous répondez en tant que…",
   trackPatient: "Particulier",
-  trackPatientDesc: "Vous cherchez, avez cherché ou pourriez chercher un accompagnement.",
+  trackPatientDesc:
+    "Vous cherchez, avez cherché ou pourriez chercher un accompagnement.",
   trackPsy: "Psychologue",
   trackPsyDesc: "Vous exercez ou vous vous apprêtez à exercer.",
   start: "Commencer",
@@ -96,7 +97,8 @@ const FR: Copy = {
   progress: "Progression",
   required: "Merci de répondre à toutes les questions de cette section.",
   resultsTitle: "Votre lecture personnalisée",
-  resultsLede: "Calculée à partir de vos propres réponses. Rien n'a été enregistré à votre nom.",
+  resultsLede:
+    "Calculée à partir de vos propres réponses. Rien n'a été enregistré à votre nom.",
   yourProfile: "Votre profil",
   bandA: "Prêt maintenant",
   bandB: "En réflexion",
@@ -110,7 +112,8 @@ const FR: Copy = {
   topBarriers: "Vos trois principaux freins",
   priceRead: "Votre fourchette de prix acceptable",
   priceCoherent: "Votre fourchette est cohérente.",
-  priceIncoherent: "Votre fourchette est atypique — utile pour l'étude, difficile à interpréter individuellement.",
+  priceIncoherent:
+    "Votre fourchette est atypique — utile pour l'étude, difficile à interpréter individuellement.",
   ctaCreateAccount: "Créer mon espace",
   ctaExplore: "Explorer les psychologues",
   ctaApply: "Rejoindre le réseau U.Psy",
@@ -127,7 +130,8 @@ const FR: Copy = {
     "J'accepte d'être recontacté(e) par U.Psy. Je peux me désinscrire à tout moment.",
   submitOptIn: "Rester en contact",
   optInDone: "C'est noté",
-  optInDoneDesc: "Nous vous écrirons prochainement. Vos réponses à l'étude restent anonymes.",
+  optInDoneDesc:
+    "Nous vous écrirons prochainement. Vos réponses à l'étude restent anonymes.",
   law0908:
     "Conformément à la loi 09-08 relative à la protection des données personnelles, vos coordonnées sont traitées de manière confidentielle.",
   noThanks: "Non merci",
@@ -143,8 +147,7 @@ const AR: Copy = {
   eyebrow: "القطب العلمي",
   title: "المرصد",
   titleAccent: "U.Psy",
-  lede:
-    "دراسة دائمة حول الوصول الفعلي إلى الرعاية النفسية. إجاباتك تغذي معطيات عمومية — ولا تُنشئ أي ملف باسمك.",
+  lede: "دراسة دائمة حول الوصول الفعلي إلى الرعاية النفسية. إجاباتك تغذي معطيات عمومية — ولا تُنشئ أي ملف باسمك.",
   anonymityTitle: "هذا الاستبيان مجهول تمامًا",
   anonymityPoints: [
     "لا يُسجَّل أي اسم أو بريد إلكتروني أو هاتف مع إجاباتك.",
@@ -174,8 +177,10 @@ const AR: Copy = {
   bandC: "استكشاف",
   bandADesc:
     "تشير إجاباتك إلى نية عالية وحاجة فورية. الأنسب لك الآن هو إنشاء فضائك والحصول على توجيه مباشر.",
-  bandBDesc: "أنت في مرحلة تفكير. استكشاف الممارسين ومقارباتهم دون التزام هو الخطوة الأنسب.",
-  bandCDesc: "أنت تستكشف. مواردنا والتقييم المجاني سيمنحانك معالم ملموسة قبل أي خطوة.",
+  bandBDesc:
+    "أنت في مرحلة تفكير. استكشاف الممارسين ومقارباتهم دون التزام هو الخطوة الأنسب.",
+  bandCDesc:
+    "أنت تستكشف. مواردنا والتقييم المجاني سيمنحانك معالم ملموسة قبل أي خطوة.",
   topBarriers: "أبرز ثلاثة عوائق لديك",
   priceRead: "مجال الثمن المقبول لديك",
   priceCoherent: "مجالك منسجم.",
@@ -192,7 +197,8 @@ const AR: Copy = {
   nameLabel: "الاسم (اختياري)",
   phoneLabel: "الهاتف (اختياري)",
   orgNameLabel: "اسم المؤسسة",
-  marketingConsent: "أوافق على أن تتواصل معي U.Psy. يمكنني إلغاء الاشتراك في أي وقت.",
+  marketingConsent:
+    "أوافق على أن تتواصل معي U.Psy. يمكنني إلغاء الاشتراك في أي وقت.",
   submitOptIn: "ابقَ على تواصل",
   optInDone: "تم التسجيل",
   optInDoneDesc: "سنراسلك قريبًا. تبقى إجاباتك في الدراسة مجهولة.",
@@ -200,8 +206,8 @@ const AR: Copy = {
     "وفقًا للقانون 09-08 المتعلق بحماية المعطيات الشخصية، تُعالج بياناتك بسرية تامة.",
   noThanks: "لا، شكرًا",
   errorGeneric: "حدث خطأ. يرجى المحاولة مجددًا بعد لحظات.",
-  psyOptInDesc:
-    "اترك بياناتك لتصلك شروط الشبكة. يمكن إيداع ترشيح كامل لاحقًا.",
+  psyOptInDesc: "اترك بياناتك لتصلك شروط الشبكة. يمكن إيداع ترشيح كامل لاحقًا.",
 };
 
-export const observatoireCopy = (lang: SurveyLang): Copy => (lang === "ar" ? AR : FR);
+export const observatoireCopy = (lang: SurveyLang): Copy =>
+  lang === "ar" ? AR : FR;

@@ -3,9 +3,22 @@ import { supabase } from "@/integrations/supabase/client";
 import { translations } from "@/lib/i18n/translations";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Search, Save, RotateCcw, Check, Globe, AlertCircle } from "lucide-react";
+import {
+  Search,
+  Save,
+  RotateCcw,
+  Check,
+  Globe,
+  AlertCircle,
+} from "lucide-react";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 
@@ -19,7 +32,10 @@ interface FlatEntry {
 }
 
 /** Flatten nested translation object into dot-notation keys */
-function flattenObj(obj: Record<string, any>, prefix = ""): Record<string, string> {
+function flattenObj(
+  obj: Record<string, any>,
+  prefix = "",
+): Record<string, string> {
   const result: Record<string, string> = {};
   for (const [k, v] of Object.entries(obj)) {
     const fullKey = prefix ? `${prefix}.${k}` : k;
@@ -35,8 +51,12 @@ function flattenObj(obj: Record<string, any>, prefix = ""): Record<string, strin
 const TranslationManager = () => {
   const [search, setSearch] = useState("");
   const [activeLocale, setActiveLocale] = useState<Locale>("en");
-  const [overrides, setOverrides] = useState<Record<string, Record<string, string>>>({});
-  const [pendingChanges, setPendingChanges] = useState<Record<string, Record<string, string>>>({});
+  const [overrides, setOverrides] = useState<
+    Record<string, Record<string, string>>
+  >({});
+  const [pendingChanges, setPendingChanges] = useState<
+    Record<string, Record<string, string>>
+  >({});
   const [saving, setSaving] = useState(false);
   const [missingOnly, setMissingOnly] = useState(false);
 
@@ -45,7 +65,11 @@ const TranslationManager = () => {
     const enFlat = flattenObj(translations.en);
     const frFlat = flattenObj(translations.fr);
     const arFlat = flattenObj(translations.ar);
-    const allKeys = new Set([...Object.keys(enFlat), ...Object.keys(frFlat), ...Object.keys(arFlat)]);
+    const allKeys = new Set([
+      ...Object.keys(enFlat),
+      ...Object.keys(frFlat),
+      ...Object.keys(arFlat),
+    ]);
     return Array.from(allKeys)
       .sort()
       .map((key) => ({
@@ -81,7 +105,9 @@ const TranslationManager = () => {
       list = list.filter((e) => {
         // Missing if static value is empty AND no override exists for the active locale
         const hasStatic = !!e[activeLocale]?.trim();
-        const hasOverride = !!overrides[activeLocale]?.[e.key]?.trim() || !!pendingChanges[activeLocale]?.[e.key]?.trim();
+        const hasOverride =
+          !!overrides[activeLocale]?.[e.key]?.trim() ||
+          !!pendingChanges[activeLocale]?.[e.key]?.trim();
         return !hasStatic && !hasOverride;
       });
     }
@@ -96,12 +122,21 @@ const TranslationManager = () => {
       );
     }
     return list;
-  }, [allEntries, search, missingOnly, activeLocale, overrides, pendingChanges]);
+  }, [
+    allEntries,
+    search,
+    missingOnly,
+    activeLocale,
+    overrides,
+    pendingChanges,
+  ]);
 
   const missingCount = useMemo(() => {
     return allEntries.filter((e) => {
       const hasStatic = !!e[activeLocale]?.trim();
-      const hasOverride = !!overrides[activeLocale]?.[e.key]?.trim() || !!pendingChanges[activeLocale]?.[e.key]?.trim();
+      const hasOverride =
+        !!overrides[activeLocale]?.[e.key]?.trim() ||
+        !!pendingChanges[activeLocale]?.[e.key]?.trim();
       return !hasStatic && !hasOverride;
     }).length;
   }, [allEntries, activeLocale, overrides, pendingChanges]);
@@ -118,7 +153,9 @@ const TranslationManager = () => {
   }, [filtered]);
 
   const getValue = (key: string, locale: Locale) => {
-    return pendingChanges[locale]?.[key] ?? overrides[locale]?.[key] ?? undefined;
+    return (
+      pendingChanges[locale]?.[key] ?? overrides[locale]?.[key] ?? undefined
+    );
   };
 
   const getDisplayValue = (entry: FlatEntry, locale: Locale) => {
@@ -161,13 +198,17 @@ const TranslationManager = () => {
 
   const pendingCount = Object.values(pendingChanges).reduce(
     (acc, localeMap) => acc + Object.keys(localeMap).length,
-    0
+    0,
   );
 
   const handleSave = async () => {
     setSaving(true);
     try {
-      const upserts: { locale: string; translation_key: string; translation_value: string }[] = [];
+      const upserts: {
+        locale: string;
+        translation_key: string;
+        translation_value: string;
+      }[] = [];
       for (const [locale, keys] of Object.entries(pendingChanges)) {
         for (const [k, v] of Object.entries(keys)) {
           upserts.push({ locale, translation_key: k, translation_value: v });
@@ -268,7 +309,10 @@ const TranslationManager = () => {
         </div>
 
         {/* Locale Tabs */}
-        <Tabs value={activeLocale} onValueChange={(v) => setActiveLocale(v as Locale)}>
+        <Tabs
+          value={activeLocale}
+          onValueChange={(v) => setActiveLocale(v as Locale)}
+        >
           <TabsList>
             {locales.map((l) => (
               <TabsTrigger key={l.value} value={l.value}>
@@ -278,7 +322,11 @@ const TranslationManager = () => {
           </TabsList>
 
           {locales.map((l) => (
-            <TabsContent key={l.value} value={l.value} className="space-y-4 mt-4">
+            <TabsContent
+              key={l.value}
+              value={l.value}
+              className="space-y-4 mt-4"
+            >
               {Object.entries(grouped).map(([ns, entries]) => (
                 <div key={ns} className="space-y-2">
                   <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider">
@@ -291,7 +339,8 @@ const TranslationManager = () => {
                       const hasOverride =
                         overrides[l.value]?.[entry.key] !== undefined ||
                         pendingChanges[l.value]?.[entry.key] !== undefined;
-                      const isPending = pendingChanges[l.value]?.[entry.key] !== undefined;
+                      const isPending =
+                        pendingChanges[l.value]?.[entry.key] !== undefined;
 
                       return (
                         <div
@@ -300,16 +349,21 @@ const TranslationManager = () => {
                             isPending
                               ? "bg-primary/5 border border-primary/20"
                               : hasOverride
-                              ? "bg-accent/5 border border-accent/10"
-                              : "hover:bg-muted/50"
+                                ? "bg-accent/5 border border-accent/10"
+                                : "hover:bg-muted/50"
                           }`}
                         >
-                          <code className="text-xs text-muted-foreground w-64 shrink-0 truncate" title={entry.key}>
+                          <code
+                            className="text-xs text-muted-foreground w-64 shrink-0 truncate"
+                            title={entry.key}
+                          >
                             {entry.key}
                           </code>
                           <Input
                             value={currentValue}
-                            onChange={(e) => handleChange(entry.key, l.value, e.target.value)}
+                            onChange={(e) =>
+                              handleChange(entry.key, l.value, e.target.value)
+                            }
                             className="flex-1 text-sm"
                             dir={l.value === "ar" ? "rtl" : "ltr"}
                           />
@@ -323,7 +377,9 @@ const TranslationManager = () => {
                               <RotateCcw className="w-3.5 h-3.5" />
                             </Button>
                           )}
-                          {isPending && <Check className="w-4 h-4 text-primary shrink-0" />}
+                          {isPending && (
+                            <Check className="w-4 h-4 text-primary shrink-0" />
+                          )}
                         </div>
                       );
                     })}

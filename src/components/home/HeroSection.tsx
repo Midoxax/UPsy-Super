@@ -8,8 +8,14 @@ import { MagneticButton } from "@/lib/motion";
 import { useLocale } from "@/contexts/LocaleContext";
 import { getHomeCopy } from "@/lib/i18n/homeCopy";
 import { getHeroVariantCopy } from "@/lib/i18n/heroVariants";
-import { HOME_HERO_EXPERIMENT, type HomeHeroVariant } from "@/lib/experiments/config";
-import { useExperimentExposure, useExperimentVariant } from "@/lib/experiments/useExperiment";
+import {
+  HOME_HERO_EXPERIMENT,
+  type HomeHeroVariant,
+} from "@/lib/experiments/config";
+import {
+  useExperimentExposure,
+  useExperimentVariant,
+} from "@/lib/experiments/useExperiment";
 import { trackCTAClick } from "@/lib/analytics/gtm";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 
@@ -60,9 +66,11 @@ function canAffordHeroScene(): boolean {
   // Data Saver is an explicit request not to spend the user's bytes.
   if (nav.connection?.saveData) return false;
   // Below 4g, the scene alone is measured in seconds.
-  if (nav.connection?.effectiveType && nav.connection.effectiveType !== "4g") return false;
+  if (nav.connection?.effectiveType && nav.connection.effectiveType !== "4g")
+    return false;
   // Low-memory handsets struggle with WebGL even on a good connection.
-  if (typeof nav.deviceMemory === "number" && nav.deviceMemory < 4) return false;
+  if (typeof nav.deviceMemory === "number" && nav.deviceMemory < 4)
+    return false;
 
   return true;
 }
@@ -78,11 +86,19 @@ const HeroSection = () => {
   useExperimentExposure(HOME_HERO_EXPERIMENT.id, variant);
   const v = getHeroVariantCopy(variant, locale);
 
-  const { ctaPrimary: vPrimary, ctaSecondary: vSecondary, ctaFootnote, ...vText } = v;
+  const {
+    ctaPrimary: vPrimary,
+    ctaSecondary: vSecondary,
+    ctaFootnote,
+    ...vText
+  } = v;
   const c = { ...base, ...stripUndefined(vText) };
 
   const primaryTo = withSearch(vPrimary?.to ?? "/free-score", vPrimary?.search);
-  const secondaryTo = withSearch(vSecondary?.to ?? "/get-matched", vSecondary?.search);
+  const secondaryTo = withSearch(
+    vSecondary?.to ?? "/get-matched",
+    vSecondary?.search,
+  );
   const primaryLabel = vPrimary?.label ?? base.ctaPrimary;
   const secondaryLabel = vSecondary?.label ?? base.ctaSecondary;
 
@@ -100,7 +116,9 @@ const HeroSection = () => {
     // hero copy for bandwidth or main-thread time during first paint.
     const w = window as IdleWindow;
     if (w.requestIdleCallback) {
-      const handle = w.requestIdleCallback(() => setShowScene(true), { timeout: 2500 });
+      const handle = w.requestIdleCallback(() => setShowScene(true), {
+        timeout: 2500,
+      });
       return () => w.cancelIdleCallback?.(handle);
     }
     const handle = window.setTimeout(() => setShowScene(true), 1200);
@@ -141,10 +159,23 @@ const HeroSection = () => {
       </div>
 
       {/* --- Layer 2: tactical wireframe grid overlay --- */}
-      <svg className="absolute inset-0 w-full h-full opacity-[0.08] pointer-events-none" aria-hidden="true">
+      <svg
+        className="absolute inset-0 w-full h-full opacity-[0.08] pointer-events-none"
+        aria-hidden="true"
+      >
         <defs>
-          <pattern id="hero-grid" width="100" height="100" patternUnits="userSpaceOnUse">
-            <path d="M 100 0 L 0 0 0 100" fill="none" stroke="hsl(var(--gold-accent))" strokeWidth="0.5" />
+          <pattern
+            id="hero-grid"
+            width="100"
+            height="100"
+            patternUnits="userSpaceOnUse"
+          >
+            <path
+              d="M 100 0 L 0 0 0 100"
+              fill="none"
+              stroke="hsl(var(--gold-accent))"
+              strokeWidth="0.5"
+            />
           </pattern>
         </defs>
         <rect width="100%" height="100%" fill="url(#hero-grid)" />
@@ -187,7 +218,7 @@ const HeroSection = () => {
               className="flex items-center gap-4 uppercase tracking-[0.3em] text-[hsl(var(--gold-accent))] text-[10px] font-black"
             >
               <span className="w-12 h-[2px] bg-[hsl(var(--gold-accent))]" />
-            <span>{c.eyebrow}</span>
+              <span>{c.eyebrow}</span>
             </motion.div>
 
             <motion.div
@@ -287,8 +318,12 @@ const HeroSection = () => {
                 <span className="text-[10px] text-[hsl(var(--gold-accent))] font-black tracking-[0.3em] uppercase mt-1">
                   {c.syncIndex}
                 </span>
-                <div className="absolute -top-3 -left-3 text-[hsl(var(--gold-accent))] text-xs font-mono opacity-60">+</div>
-                <div className="absolute -bottom-3 -right-3 text-[hsl(var(--gold-accent))] text-xs font-mono opacity-60">+</div>
+                <div className="absolute -top-3 -left-3 text-[hsl(var(--gold-accent))] text-xs font-mono opacity-60">
+                  +
+                </div>
+                <div className="absolute -bottom-3 -right-3 text-[hsl(var(--gold-accent))] text-xs font-mono opacity-60">
+                  +
+                </div>
               </motion.div>
 
               {/* Card — Adrenaline Buffer */}
@@ -304,7 +339,9 @@ const HeroSection = () => {
                   </span>
                   <span className="w-2 h-2 rounded-full bg-[hsl(var(--gold-accent))] animate-ping" />
                 </div>
-                <div className="text-xl font-bold text-white font-mono">{c.adrenalineActive}</div>
+                <div className="text-xl font-bold text-white font-mono">
+                  {c.adrenalineActive}
+                </div>
                 <div className="w-full bg-white/10 h-1 mt-2 rounded-full overflow-hidden">
                   <div className="bg-[hsl(var(--gold-accent))] h-full w-[88%]" />
                 </div>
@@ -321,7 +358,10 @@ const HeroSection = () => {
                   {c.decisionLatency}
                 </span>
                 <div className="text-2xl font-bold text-white font-mono tabular-nums">
-                  140<span className="text-xs text-[hsl(var(--gold-accent))] ml-0.5">ms</span>
+                  140
+                  <span className="text-xs text-[hsl(var(--gold-accent))] ml-0.5">
+                    ms
+                  </span>
                 </div>
                 <div className="text-[9px] text-emerald-400 font-bold mt-1 uppercase">
                   {c.decisionDelta}
@@ -342,7 +382,9 @@ const HeroSection = () => {
                   <div className="w-3 h-6 bg-[hsl(var(--gold-accent))]" />
                   <div className="w-3 h-4 bg-[hsl(var(--gold-accent))]/40" />
                   <div className="w-3 h-2 bg-[hsl(var(--gold-accent))]/20" />
-                  <span className="ml-3 text-xl font-bold text-white font-mono">{c.cognitiveLow}</span>
+                  <span className="ml-3 text-xl font-bold text-white font-mono">
+                    {c.cognitiveLow}
+                  </span>
                 </div>
               </MetricCard>
 
@@ -364,7 +406,10 @@ const HeroSection = () => {
           </div>
           <div className="flex flex-wrap justify-center gap-x-10 gap-y-2">
             {c.tiers.map((tier) => (
-              <span key={tier} className="font-display italic text-[#FAFAFA]/45 text-sm">
+              <span
+                key={tier}
+                className="font-display italic text-[#FAFAFA]/45 text-sm"
+              >
                 {tier}
               </span>
             ))}

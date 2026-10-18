@@ -6,6 +6,8 @@ const SpaceView = lazy(() => import("@/pages/center/SpaceView"));
 
 export const Route = createFileRoute("/$locale/center/c/$slug")({
   component: () => (
-    <PageTransition><SpaceView /></PageTransition>
+    <PageTransition>
+      <SpaceView />
+    </PageTransition>
   ),
 });

@@ -1,7 +1,28 @@
 import { useEffect, useRef, useState } from "react";
 import { Link } from "@/lib/router-compat";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { ArrowUpRight, Activity, Brain, Zap, Shield, Radio, Database, Cpu, Layers, Lock, Quote, Target, Compass, Flag, Mail, Phone, Globe, Linkedin, Instagram, Youtube } from "lucide-react";
+import {
+  ArrowUpRight,
+  Activity,
+  Brain,
+  Zap,
+  Shield,
+  Radio,
+  Database,
+  Cpu,
+  Layers,
+  Lock,
+  Quote,
+  Target,
+  Compass,
+  Flag,
+  Mail,
+  Phone,
+  Globe,
+  Linkedin,
+  Instagram,
+  Youtube,
+} from "lucide-react";
 import "./preview.css";
 
 /**
@@ -39,7 +60,8 @@ export const Preview = () => {
 const CursorSpotlight = () => {
   const ref = useRef<HTMLDivElement>(null);
   useEffect(() => {
-    const el = ref.current; if (!el) return;
+    const el = ref.current;
+    if (!el) return;
     const onMove = (e: MouseEvent) => {
       el.style.setProperty("--mx", `${e.clientX}px`);
       el.style.setProperty("--my", `${e.clientY}px`);
@@ -52,16 +74,16 @@ const CursorSpotlight = () => {
 
 /* ─── Left section rail (scroll progress index) ─────────────────────────── */
 const RAIL: { label: string; sel: string }[] = [
-  { label: "HERO",      sel: ".uos-hero" },
-  { label: "SIGNAL",    sel: ".uos-signal" },
-  { label: "POSITION",  sel: "#positioning" },
+  { label: "HERO", sel: ".uos-hero" },
+  { label: "SIGNAL", sel: ".uos-signal" },
+  { label: "POSITION", sel: "#positioning" },
   { label: "ECOSYSTEM", sel: "#ecosystem" },
-  { label: "ARCH",      sel: ".uos-stack" },
-  { label: "MODES",     sel: "#modes" },
-  { label: "COPILOT",   sel: "#copilot" },
-  { label: "TIERS",     sel: "#tiers" },
-  { label: "TRUST",     sel: ".uos-trust" },
-  { label: "ENTER",     sel: ".uos-final" },
+  { label: "ARCH", sel: ".uos-stack" },
+  { label: "MODES", sel: "#modes" },
+  { label: "COPILOT", sel: "#copilot" },
+  { label: "TIERS", sel: "#tiers" },
+  { label: "TRUST", sel: ".uos-trust" },
+  { label: "ENTER", sel: ".uos-final" },
 ];
 const SectionRail = () => {
   const { scrollYProgress } = useScroll();
@@ -85,11 +107,15 @@ const SectionRail = () => {
   }, []);
   return (
     <aside className="uos-rail" aria-hidden>
-      <div className="uos-rail-track"><motion.div className="uos-rail-fill" style={{ height: h }} /></div>
+      <div className="uos-rail-track">
+        <motion.div className="uos-rail-fill" style={{ height: h }} />
+      </div>
       <ul className="uos-rail-list">
         {RAIL.map((r, i) => (
           <li key={r.label} className={i === active ? "is-active" : ""}>
-            <span className="uos-mono uos-rail-idx">{String(i + 1).padStart(2, "0")}</span>
+            <span className="uos-mono uos-rail-idx">
+              {String(i + 1).padStart(2, "0")}
+            </span>
             <span className="uos-mono uos-rail-lbl">{r.label}</span>
           </li>
         ))}
@@ -105,8 +131,16 @@ const NeuralField = () => {
   const y2 = useTransform(scrollY, [0, 2000], [0, -120]);
   return (
     <>
-      <motion.div className="uos-field uos-field-1" style={{ y: y1 }} aria-hidden />
-      <motion.div className="uos-field uos-field-2" style={{ y: y2 }} aria-hidden />
+      <motion.div
+        className="uos-field uos-field-1"
+        style={{ y: y1 }}
+        aria-hidden
+      />
+      <motion.div
+        className="uos-field uos-field-2"
+        style={{ y: y2 }}
+        aria-hidden
+      />
       <div className="uos-grid-overlay" aria-hidden />
       <div className="uos-vignette" aria-hidden />
     </>
@@ -140,10 +174,15 @@ const NavBar = () => {
     } else {
       document.body.style.overflow = "";
     }
-    return () => { document.body.style.overflow = ""; };
+    return () => {
+      document.body.style.overflow = "";
+    };
   }, [mobileOpen]);
 
-  const handleAnchor = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+  const handleAnchor = (
+    e: React.MouseEvent<HTMLAnchorElement>,
+    href: string,
+  ) => {
     e.preventDefault();
     setMobileOpen(false);
     const el = document.querySelector(href);
@@ -151,24 +190,45 @@ const NavBar = () => {
   };
 
   return (
-    <header className={`uos-nav${scrolled ? " is-scrolled" : ""}${mobileOpen ? " is-mobile-open" : ""}`}>
+    <header
+      className={`uos-nav${scrolled ? " is-scrolled" : ""}${mobileOpen ? " is-mobile-open" : ""}`}
+    >
       <div className="uos-nav-inner">
-        <a href="#" className="uos-brand" onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: "smooth" }); }}>
-          <span className="uos-brand-mark"><span className="uos-brand-dot" /></span>
-          <span className="uos-brand-name">UPSY<span className="uos-brand-os">/OS</span></span>
+        <a
+          href="#"
+          className="uos-brand"
+          onClick={(e) => {
+            e.preventDefault();
+            window.scrollTo({ top: 0, behavior: "smooth" });
+          }}
+        >
+          <span className="uos-brand-mark">
+            <span className="uos-brand-dot" />
+          </span>
+          <span className="uos-brand-name">
+            UPSY<span className="uos-brand-os">/OS</span>
+          </span>
         </a>
 
         <nav className="uos-nav-links">
           {NAV_LINKS.map((l) => (
-            <a key={l.href} href={l.href} onClick={(e) => handleAnchor(e, l.href)}>
+            <a
+              key={l.href}
+              href={l.href}
+              onClick={(e) => handleAnchor(e, l.href)}
+            >
               {l.label}
             </a>
           ))}
         </nav>
 
         <div className="uos-nav-cta">
-          <Link to="/contact" className="uos-btn-ghost uos-btn-sm">Book a Call</Link>
-          <Link to="/auth" className="uos-btn-primary uos-btn-sm">Start Free</Link>
+          <Link to="/contact" className="uos-btn-ghost uos-btn-sm">
+            Book a Call
+          </Link>
+          <Link to="/auth" className="uos-btn-primary uos-btn-sm">
+            Start Free
+          </Link>
         </div>
 
         <button
@@ -177,7 +237,9 @@ const NavBar = () => {
           aria-label="Toggle menu"
           aria-expanded={mobileOpen}
         >
-          <span /><span /><span />
+          <span />
+          <span />
+          <span />
         </button>
       </div>
 
@@ -196,7 +258,8 @@ const NavBar = () => {
             onClick={() => setMobileOpen(false)}
             aria-label="Close menu"
           >
-            <span /><span />
+            <span />
+            <span />
           </button>
         </div>
         <nav className="uos-nav-drawer-links">
@@ -205,16 +268,24 @@ const NavBar = () => {
               key={l.href}
               href={l.href}
               onClick={(e) => handleAnchor(e, l.href)}
-              style={{ transitionDelay: mobileOpen ? `${80 + i * 40}ms` : "0ms" }}
+              style={{
+                transitionDelay: mobileOpen ? `${80 + i * 40}ms` : "0ms",
+              }}
             >
-              <span className="uos-mono uos-nav-drawer-num">{String(i + 1).padStart(2, "0")}</span>
+              <span className="uos-mono uos-nav-drawer-num">
+                {String(i + 1).padStart(2, "0")}
+              </span>
               {l.label}
             </a>
           ))}
         </nav>
         <div className="uos-nav-drawer-cta">
-          <Link to="/contact" className="uos-btn-ghost">Book a Call</Link>
-          <Link to="/auth" className="uos-btn-primary">Start Free</Link>
+          <Link to="/contact" className="uos-btn-ghost">
+            Book a Call
+          </Link>
+          <Link to="/auth" className="uos-btn-primary">
+            Start Free
+          </Link>
         </div>
       </div>
     </header>
@@ -227,7 +298,8 @@ const Hero = () => (
     <div className="uos-hero-grid">
       <div className="uos-hero-left">
         <motion.div
-          initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
           className="uos-eyebrow"
         >
@@ -239,35 +311,43 @@ const Hero = () => (
           transition={{ duration: 1.1, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
           className="uos-hero-title"
         >
-          L'infrastructure psychologique<br />
+          L'infrastructure psychologique
+          <br />
           <span className="uos-accent-text">de demain.</span>
         </motion.h1>
         <motion.p
-          initial={{ opacity: 0 }} animate={{ opacity: 1 }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
           transition={{ duration: 1, delay: 0.5 }}
           className="uos-hero-sub"
         >
           Clinique. Sport. Développement. Gouverné par UPSY.
         </motion.p>
         <motion.div
-          initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.75 }}
           className="uos-hero-ctas"
         >
           <Link to="/auth" className="uos-btn-primary">
             Entrer dans l'écosystème <ArrowUpRight size={14} />
           </Link>
-          <Link to="/contact" className="uos-btn-ghost">Réserver un appel</Link>
+          <Link to="/contact" className="uos-btn-ghost">
+            Réserver un appel
+          </Link>
         </motion.div>
 
         <motion.div
-          initial={{ opacity: 0 }} animate={{ opacity: 1 }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
           transition={{ delay: 1.1, duration: 1 }}
           className="uos-telemetry"
         >
           {[
-            ["UPTIME", "99.97%"], ["WORKSPACES", "12"],
-            ["AI CALLS / 24H", "2,184"], ["LATENCY P95", "84ms"],
+            ["UPTIME", "99.97%"],
+            ["WORKSPACES", "12"],
+            ["AI CALLS / 24H", "2,184"],
+            ["LATENCY P95", "84ms"],
           ].map(([k, v]) => (
             <div key={k as string} className="uos-telem-item">
               <div className="uos-telem-k">{k}</div>
@@ -279,7 +359,8 @@ const Hero = () => (
 
       {/* Right: ambient instrument panel */}
       <motion.div
-        initial={{ opacity: 0, scale: 0.98 }} animate={{ opacity: 1, scale: 1 }}
+        initial={{ opacity: 0, scale: 0.98 }}
+        animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 1.4, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
         className="uos-hero-instrument"
       >
@@ -289,7 +370,9 @@ const Hero = () => (
 
     <div className="uos-scroll-cue">
       <span>SCROLL</span>
-      <div className="uos-scroll-line"><div className="uos-scroll-dot" /></div>
+      <div className="uos-scroll-line">
+        <div className="uos-scroll-dot" />
+      </div>
     </div>
   </section>
 );
@@ -306,18 +389,35 @@ const InstrumentPanel = () => (
       <svg viewBox="0 0 400 400" width="100%" height="100%">
         <defs>
           <radialGradient id="radarG" cx="50%" cy="50%" r="50%">
-            <stop offset="0%" stopColor="hsl(192, 100%, 50%)" stopOpacity="0.25" />
-            <stop offset="70%" stopColor="hsl(192, 100%, 50%)" stopOpacity="0.02" />
+            <stop
+              offset="0%"
+              stopColor="hsl(192, 100%, 50%)"
+              stopOpacity="0.25"
+            />
+            <stop
+              offset="70%"
+              stopColor="hsl(192, 100%, 50%)"
+              stopOpacity="0.02"
+            />
             <stop offset="100%" stopColor="transparent" />
           </radialGradient>
         </defs>
         <circle cx="200" cy="200" r="180" fill="url(#radarG)" />
         {[60, 110, 160].map((r, i) => (
           <motion.circle
-            key={r} cx="200" cy="200" r={r}
-            stroke="rgba(0,212,255,0.18)" strokeWidth="1" fill="none"
+            key={r}
+            cx="200"
+            cy="200"
+            r={r}
+            stroke="rgba(0,212,255,0.18)"
+            strokeWidth="1"
+            fill="none"
             animate={{ r: [r, r + 4, r] }}
-            transition={{ duration: 4 + i, repeat: Infinity, ease: "easeInOut" }}
+            transition={{
+              duration: 4 + i,
+              repeat: Infinity,
+              ease: "easeInOut",
+            }}
           />
         ))}
         {/* Orbiting nodes */}
@@ -333,26 +433,57 @@ const InstrumentPanel = () => (
             <motion.g
               animate={{ rotate: 360 }}
               transition={{ duration: n.dur, repeat: Infinity, ease: "linear" }}
-              style={{ transformOrigin: "200px 200px", transformBox: "fill-box" }}
+              style={{
+                transformOrigin: "200px 200px",
+                transformBox: "fill-box",
+              }}
             >
               <g transform={`rotate(${n.offset ?? 0} 200 200)`}>
-                <circle cx={200 + n.r} cy="200" r="3" fill="hsl(192, 100%, 60%)" />
-                <text x={200 + n.r + 8} y="204" fontSize="8" fontFamily="JetBrains Mono"
-                  fill="rgba(240,240,245,0.6)" letterSpacing="1.5">{n.label}</text>
+                <circle
+                  cx={200 + n.r}
+                  cy="200"
+                  r="3"
+                  fill="hsl(192, 100%, 60%)"
+                />
+                <text
+                  x={200 + n.r + 8}
+                  y="204"
+                  fontSize="8"
+                  fontFamily="JetBrains Mono"
+                  fill="rgba(240,240,245,0.6)"
+                  letterSpacing="1.5"
+                >
+                  {n.label}
+                </text>
               </g>
             </motion.g>
           </g>
         ))}
         {/* Core */}
         <circle cx="200" cy="200" r="6" fill="hsl(192, 100%, 70%)" />
-        <circle cx="200" cy="200" r="14" stroke="hsl(192, 100%, 60%)" strokeWidth="1" fill="none" opacity="0.4" />
+        <circle
+          cx="200"
+          cy="200"
+          r="14"
+          stroke="hsl(192, 100%, 60%)"
+          strokeWidth="1"
+          fill="none"
+          opacity="0.4"
+        />
       </svg>
     </div>
 
     <div className="uos-instr-grid">
       <div className="uos-instr-cell">
         <span className="uos-mono uos-cell-k">CHARGE</span>
-        <div className="uos-bar"><motion.div className="uos-bar-fill" initial={{ width: 0 }} animate={{ width: "68%" }} transition={{ delay: 1, duration: 1.4 }} /></div>
+        <div className="uos-bar">
+          <motion.div
+            className="uos-bar-fill"
+            initial={{ width: 0 }}
+            animate={{ width: "68%" }}
+            transition={{ delay: 1, duration: 1.4 }}
+          />
+        </div>
         <span className="uos-mono uos-cell-v">68%</span>
       </div>
       <div className="uos-instr-cell">
@@ -383,7 +514,11 @@ const PositioningReveal = () => {
             initial={{ opacity: 0, y: 30, filter: "blur(6px)" }}
             whileInView={{ opacity: 1, y: 0, filter: "blur(0)" }}
             viewport={{ once: true, margin: "-20%" }}
-            transition={{ duration: 1, delay: i * 0.2, ease: [0.16, 1, 0.3, 1] }}
+            transition={{
+              duration: 1,
+              delay: i * 0.2,
+              ease: [0.16, 1, 0.3, 1],
+            }}
             className={i === 2 ? "uos-pos-line uos-pos-accent" : "uos-pos-line"}
           >
             {line}
@@ -426,11 +561,14 @@ const EcosystemMap = () => {
           return (
             <motion.button
               key={n.name}
-              onMouseEnter={() => setHover(i)} onMouseLeave={() => setHover(null)}
+              onMouseEnter={() => setHover(i)}
+              onMouseLeave={() => setHover(null)}
               className={`uos-eco-node ${hover === i ? "is-hover" : ""}`}
               style={{ left: `${x}%`, top: `${y}%` }}
-              initial={{ opacity: 0, scale: 0.7 }} whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }} transition={{ delay: i * 0.08, duration: 0.6 }}
+              initial={{ opacity: 0, scale: 0.7 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ delay: i * 0.08, duration: 0.6 }}
             >
               <span className="uos-eco-dot" />
               <span className="uos-eco-label">{n.name}</span>
@@ -439,12 +577,26 @@ const EcosystemMap = () => {
           );
         })}
         {/* connecting lines */}
-        <svg className="uos-eco-lines" viewBox="0 0 100 100" preserveAspectRatio="none">
+        <svg
+          className="uos-eco-lines"
+          viewBox="0 0 100 100"
+          preserveAspectRatio="none"
+        >
           {ECOSYSTEM.map((n) => {
             const rad = (n.angle * Math.PI) / 180;
             const x = 50 + Math.cos(rad) * 36;
             const y = 50 + Math.sin(rad) * 36;
-            return <line key={n.name} x1="50" y1="50" x2={x} y2={y} stroke="rgba(0,212,255,0.15)" strokeWidth="0.15" />;
+            return (
+              <line
+                key={n.name}
+                x1="50"
+                y1="50"
+                x2={x}
+                y2={y}
+                stroke="rgba(0,212,255,0.15)"
+                strokeWidth="0.15"
+              />
+            );
           })}
         </svg>
       </div>
@@ -454,12 +606,31 @@ const EcosystemMap = () => {
 
 /* ─── Section 4: Three modes ────────────────────────────────────────────── */
 const MODES = [
-  { tag: "01", label: "FOCUS MODE", who: "Pour les psychologues",
-    items: ["Session active", "Notes IA · révisables", "Zéro distraction"], icon: Brain },
-  { tag: "02", label: "OPERATIONS MODE", who: "Pour les coordinateurs",
-    items: ["Coordination temps réel", "Flux opérationnel", "Alertes & escalades"], icon: Activity },
-  { tag: "03", label: "INTELLIGENCE MODE", who: "Pour les directions",
-    items: ["KPIs stratégiques", "Prévisions IA", "Tableau exécutif"], icon: Zap },
+  {
+    tag: "01",
+    label: "FOCUS MODE",
+    who: "Pour les psychologues",
+    items: ["Session active", "Notes IA · révisables", "Zéro distraction"],
+    icon: Brain,
+  },
+  {
+    tag: "02",
+    label: "OPERATIONS MODE",
+    who: "Pour les coordinateurs",
+    items: [
+      "Coordination temps réel",
+      "Flux opérationnel",
+      "Alertes & escalades",
+    ],
+    icon: Activity,
+  },
+  {
+    tag: "03",
+    label: "INTELLIGENCE MODE",
+    who: "Pour les directions",
+    items: ["KPIs stratégiques", "Prévisions IA", "Tableau exécutif"],
+    icon: Zap,
+  },
 ];
 const ThreeModes = () => (
   <section id="modes" className="uos-section">
@@ -469,10 +640,16 @@ const ThreeModes = () => (
     </div>
     <div className="uos-modes-grid">
       {MODES.map((m, i) => (
-        <motion.div key={m.label}
-          initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }}
+        <motion.div
+          key={m.label}
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-15%" }}
-          transition={{ delay: i * 0.12, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+          transition={{
+            delay: i * 0.12,
+            duration: 0.7,
+            ease: [0.16, 1, 0.3, 1],
+          }}
           className="uos-mode-card"
         >
           <div className="uos-mode-head">
@@ -482,7 +659,12 @@ const ThreeModes = () => (
           <h3 className="uos-mode-label">{m.label}</h3>
           <p className="uos-mode-who">{m.who}</p>
           <ul className="uos-mode-list">
-            {m.items.map(it => <li key={it}><span className="uos-mode-bullet" />{it}</li>)}
+            {m.items.map((it) => (
+              <li key={it}>
+                <span className="uos-mode-bullet" />
+                {it}
+              </li>
+            ))}
           </ul>
           <div className="uos-mode-accent" />
         </motion.div>
@@ -493,14 +675,16 @@ const ThreeModes = () => (
 
 /* ─── Section 5: AI Copilot showcase ────────────────────────────────────── */
 const CopilotShowcase = () => {
-  const draft = "Patient présente diminution marquée du score d'alliance (-12pts). Recommandation : revoir cadre thérapeutique session N+1. Signaux de retrait détectés sur les 3 dernières sessions. Risque modéré de dropout sous 30 jours.";
+  const draft =
+    "Patient présente diminution marquée du score d'alliance (-12pts). Recommandation : revoir cadre thérapeutique session N+1. Signaux de retrait détectés sur les 3 dernières sessions. Risque modéré de dropout sous 30 jours.";
   const [typed, setTyped] = useState("");
   const [started, setStarted] = useState(false);
   useEffect(() => {
     if (!started) return;
     let i = 0;
     const id = setInterval(() => {
-      i++; setTyped(draft.slice(0, i));
+      i++;
+      setTyped(draft.slice(0, i));
       if (i >= draft.length) clearInterval(id);
     }, 18);
     return () => clearInterval(id);
@@ -514,36 +698,53 @@ const CopilotShowcase = () => {
       </div>
       <div className="uos-copilot-grid">
         <motion.div
-          initial={{ opacity: 0, x: -24 }} whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true }} transition={{ duration: 0.8 }}
+          initial={{ opacity: 0, x: -24 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
           onViewportEnter={() => setStarted(true)}
           className="uos-copilot-left"
         >
           <div className="uos-copilot-scenario">
             <span className="uos-mono uos-copilot-k">SCÉNARIO · CAS #4827</span>
-            <p>Session 6 / 12. Le patient a manqué deux rendez-vous. Notes cliniques en attente. Évaluation de l'alliance thérapeutique à compléter.</p>
+            <p>
+              Session 6 / 12. Le patient a manqué deux rendez-vous. Notes
+              cliniques en attente. Évaluation de l'alliance thérapeutique à
+              compléter.
+            </p>
             <div className="uos-copilot-meta">
-              <span><Shield size={11} /> Données chiffrées · workspace LSSPM</span>
-              <span><Activity size={11} /> 3 signaux de risque détectés</span>
+              <span>
+                <Shield size={11} /> Données chiffrées · workspace LSSPM
+              </span>
+              <span>
+                <Activity size={11} /> 3 signaux de risque détectés
+              </span>
             </div>
           </div>
         </motion.div>
 
         <motion.div
-          initial={{ opacity: 0, x: 24 }} whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true }} transition={{ duration: 0.8, delay: 0.15 }}
+          initial={{ opacity: 0, x: 24 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8, delay: 0.15 }}
           className="uos-copilot-output"
         >
           <div className="uos-copilot-output-head">
             <span className="uos-mono">IA · DRAFT</span>
-            <span className="uos-mono uos-copilot-stamp">RÉVISABLE · JAMAIS AUTO-ENREGISTRÉ</span>
+            <span className="uos-mono uos-copilot-stamp">
+              RÉVISABLE · JAMAIS AUTO-ENREGISTRÉ
+            </span>
           </div>
           <p className="uos-copilot-text">
-            {typed}<span className="uos-caret">▍</span>
+            {typed}
+            <span className="uos-caret">▍</span>
           </p>
           <div className="uos-copilot-actions">
             <button className="uos-btn-ghost">Réécrire</button>
-            <button className="uos-btn-primary">Accepter et éditer <ArrowUpRight size={12} /></button>
+            <button className="uos-btn-primary">
+              Accepter et éditer <ArrowUpRight size={12} />
+            </button>
           </div>
         </motion.div>
       </div>
@@ -554,20 +755,30 @@ const CopilotShowcase = () => {
 /* ─── Section 6: Trust signals ──────────────────────────────────────────── */
 const TrustSignals = () => (
   <section className="uos-section uos-trust">
-    <h3 className="uos-trust-title">Adopté par les institutions qui définissent le standard.</h3>
+    <h3 className="uos-trust-title">
+      Adopté par les institutions qui définissent le standard.
+    </h3>
     <div className="uos-trust-logos">
-      {["UFC GYM MOROCCO", "UIC", "SOLETERRE", "LSSPM"].map(l => (
-        <span key={l} className="uos-logo">{l}</span>
+      {["UFC GYM MOROCCO", "UIC", "SOLETERRE", "LSSPM"].map((l) => (
+        <span key={l} className="uos-logo">
+          {l}
+        </span>
       ))}
     </div>
     <div className="uos-trust-counters">
       {[
-        ["PSYCHOLOGUES", "240+"], ["SESSIONS", "18,420"],
-        ["INSTITUTIONS", "12"], ["PAYS", "4"],
+        ["PSYCHOLOGUES", "240+"],
+        ["SESSIONS", "18,420"],
+        ["INSTITUTIONS", "12"],
+        ["PAYS", "4"],
       ].map(([k, v]) => (
-        <motion.div key={k as string} className="uos-trust-counter"
-          initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }} transition={{ duration: 0.6 }}
+        <motion.div
+          key={k as string}
+          className="uos-trust-counter"
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
         >
           <div className="uos-trust-v">{v}</div>
           <div className="uos-mono uos-trust-k">{k}</div>
@@ -582,15 +793,21 @@ const FinalCTA = () => (
   <section className="uos-final">
     <div className="uos-final-glow" aria-hidden />
     <motion.h2
-      initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }} transition={{ duration: 1 }}
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 1 }}
       className="uos-final-title"
     >
       Rejoignez l'infrastructure.
     </motion.h2>
     <div className="uos-final-ctas">
-      <Link to="/contact" className="uos-btn-primary uos-btn-lg">Demander une démo <ArrowUpRight size={14} /></Link>
-      <Link to="/auth" className="uos-btn-ghost uos-btn-lg">Créer un compte</Link>
+      <Link to="/contact" className="uos-btn-primary uos-btn-lg">
+        Demander une démo <ArrowUpRight size={14} />
+      </Link>
+      <Link to="/auth" className="uos-btn-ghost uos-btn-lg">
+        Créer un compte
+      </Link>
     </div>
   </section>
 );
@@ -602,16 +819,43 @@ const FooterStrip = () => (
       {/* Column 1: Brand + Bio */}
       <div className="uos-foot-col uos-foot-brand">
         <div className="uos-foot-brandmark">
-          <span className="uos-brand-mark"><span className="uos-brand-dot" /></span>
-          <span className="uos-foot-brandname">UPSY<span className="uos-brand-os">/OS</span></span>
+          <span className="uos-brand-mark">
+            <span className="uos-brand-dot" />
+          </span>
+          <span className="uos-foot-brandname">
+            UPSY<span className="uos-brand-os">/OS</span>
+          </span>
         </div>
         <p className="uos-foot-bio">
-          U.Psy est le système d'exploitation de la psychologie de performance. Infrastructure souveraine, conforme Law 09-08, pour praticiens, cliniques et institutions au Maroc et au-delà.
+          U.Psy est le système d'exploitation de la psychologie de performance.
+          Infrastructure souveraine, conforme Law 09-08, pour praticiens,
+          cliniques et institutions au Maroc et au-delà.
         </p>
         <div className="uos-foot-socials">
-          <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><Linkedin size={16} /></a>
-          <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><Instagram size={16} /></a>
-          <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" aria-label="YouTube"><Youtube size={16} /></a>
+          <a
+            href="https://linkedin.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="LinkedIn"
+          >
+            <Linkedin size={16} />
+          </a>
+          <a
+            href="https://instagram.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Instagram"
+          >
+            <Instagram size={16} />
+          </a>
+          <a
+            href="https://youtube.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="YouTube"
+          >
+            <Youtube size={16} />
+          </a>
         </div>
       </div>
 
@@ -621,7 +865,12 @@ const FooterStrip = () => (
         <a href="mailto:contact@upsy.ma" className="uos-foot-link">
           <Mail size={13} /> contact@upsy.ma
         </a>
-        <a href="https://wa.me/212000000000" target="_blank" rel="noopener noreferrer" className="uos-foot-link">
+        <a
+          href="https://wa.me/212000000000"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="uos-foot-link"
+        >
           <Phone size={13} /> WhatsApp
         </a>
       </div>
@@ -629,18 +878,32 @@ const FooterStrip = () => (
       {/* Column 3: Navigation */}
       <div className="uos-foot-col">
         <span className="uos-mono uos-foot-col-title">NAVIGATION</span>
-        <a href="#positioning" className="uos-foot-link">Système</a>
-        <a href="#ecosystem" className="uos-foot-link">Écosystème</a>
-        <a href="#modes" className="uos-foot-link">Modes</a>
-        <a href="#tiers" className="uos-foot-link">Tarifs</a>
+        <a href="#positioning" className="uos-foot-link">
+          Système
+        </a>
+        <a href="#ecosystem" className="uos-foot-link">
+          Écosystème
+        </a>
+        <a href="#modes" className="uos-foot-link">
+          Modes
+        </a>
+        <a href="#tiers" className="uos-foot-link">
+          Tarifs
+        </a>
       </div>
 
       {/* Column 4: Legal */}
       <div className="uos-foot-col">
         <span className="uos-mono uos-foot-col-title">LÉGAL</span>
-        <Link to="/privacy" className="uos-foot-link">Politique de confidentialité</Link>
-        <Link to="/terms" className="uos-foot-link">Conditions d'utilisation</Link>
-        <Link to="/legal" className="uos-foot-link">Mentions légales</Link>
+        <Link to="/privacy" className="uos-foot-link">
+          Politique de confidentialité
+        </Link>
+        <Link to="/terms" className="uos-foot-link">
+          Conditions d'utilisation
+        </Link>
+        <Link to="/legal" className="uos-foot-link">
+          Mentions légales
+        </Link>
       </div>
     </div>
 
@@ -699,19 +962,34 @@ const useCountUp = (target: number, start: boolean, duration = 1600) => {
   }, [start, target, duration]);
   return n;
 };
-const Counter = ({ value, suffix = "", decimals = 0 }: { value: number; suffix?: string; decimals?: number }) => {
+const Counter = ({
+  value,
+  suffix = "",
+  decimals = 0,
+}: {
+  value: number;
+  suffix?: string;
+  decimals?: number;
+}) => {
   const [vis, setVis] = useState(false);
   const n = useCountUp(value, vis);
   return (
     <motion.span onViewportEnter={() => setVis(true)} viewport={{ once: true }}>
-      {n.toFixed(decimals)}{suffix}
+      {n.toFixed(decimals)}
+      {suffix}
     </motion.span>
   );
 };
 const OUTCOMES = [
   { v: 73, s: "%", k: "RÉDUCTION TEMPS ADMIN", note: "vs. process manuel" },
   { v: 4.2, s: "x", d: 1, k: "VITESSE D'ESCALADE", note: "détection → action" },
-  { v: 99.97, s: "%", d: 2, k: "DISPONIBILITÉ SYSTÈME", note: "12 mois glissants" },
+  {
+    v: 99.97,
+    s: "%",
+    d: 2,
+    k: "DISPONIBILITÉ SYSTÈME",
+    note: "12 mois glissants",
+  },
   { v: 0, s: "", k: "FUITES DE DONNÉES", note: "depuis le déploiement" },
 ];
 const OutcomeMetrics = () => (
@@ -722,11 +1000,14 @@ const OutcomeMetrics = () => (
     </div>
     <div className="uos-outcomes-grid">
       {OUTCOMES.map((o, i) => (
-        <motion.div key={o.k}
-          initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
+        <motion.div
+          key={o.k}
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-15%" }}
           transition={{ delay: i * 0.1, duration: 0.7 }}
-          className="uos-outcome">
+          className="uos-outcome"
+        >
           <div className="uos-outcome-v">
             <Counter value={o.v} suffix={o.s} decimals={o.d ?? 0} />
           </div>
@@ -740,9 +1021,21 @@ const OutcomeMetrics = () => (
 
 /* ─── Voices of the system ──────────────────────────────────────────────── */
 const VOICES = [
-  { q: "Pour la première fois, notre coordination clinique ne dépend plus d'un Excel partagé. Le système tient.", who: "Directrice médicale", org: "Réseau clinique · Casablanca" },
-  { q: "On a vu un cas escalader en 11 minutes au lieu de 48 heures. Ça change ce qu'on peut promettre aux familles.", who: "Coordinateur d'urgence", org: "Programme humanitaire" },
-  { q: "Le copilote ne décide rien. Il pré-mâche. Mes psychologues récupèrent leur soirée. Personne ne se sent remplacé.", who: "Responsable de cellule", org: "Institution sportive" },
+  {
+    q: "Pour la première fois, notre coordination clinique ne dépend plus d'un Excel partagé. Le système tient.",
+    who: "Directrice médicale",
+    org: "Réseau clinique · Casablanca",
+  },
+  {
+    q: "On a vu un cas escalader en 11 minutes au lieu de 48 heures. Ça change ce qu'on peut promettre aux familles.",
+    who: "Coordinateur d'urgence",
+    org: "Programme humanitaire",
+  },
+  {
+    q: "Le copilote ne décide rien. Il pré-mâche. Mes psychologues récupèrent leur soirée. Personne ne se sent remplacé.",
+    who: "Responsable de cellule",
+    org: "Institution sportive",
+  },
 ];
 const VoicesOfSystem = () => (
   <section id="voices" className="uos-section">
@@ -752,10 +1045,18 @@ const VoicesOfSystem = () => (
     </div>
     <div className="uos-voices">
       {VOICES.map((v, i) => (
-        <motion.figure key={i} className="uos-voice"
-          initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }}
+        <motion.figure
+          key={i}
+          className="uos-voice"
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-10%" }}
-          transition={{ delay: i * 0.12, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}>
+          transition={{
+            delay: i * 0.12,
+            duration: 0.7,
+            ease: [0.16, 1, 0.3, 1],
+          }}
+        >
           <Quote size={18} className="uos-voice-icon" />
           <blockquote>{v.q}</blockquote>
           <figcaption>
@@ -770,10 +1071,34 @@ const VoicesOfSystem = () => (
 
 /* ─── Roadmap horizon (4-step timeline) ─────────────────────────────────── */
 const HORIZON = [
-  { tag: "T0", icon: Target, label: "FONDATIONS", desc: "Workspaces, copilote, opérations temps-réel.", state: "LIVE" },
-  { tag: "T+1", icon: Compass, label: "SCORING UNIFIÉ", desc: "Cohortes, signaux faibles, alertes prédictives.", state: "Q2" },
-  { tag: "T+2", icon: Layers, label: "INTÉGRATIONS SOUVERAINES", desc: "EMR, paie, biofeedback, dossiers institutionnels.", state: "Q3" },
-  { tag: "T+3", icon: Flag, label: "MENA → ∞", desc: "Multi-pays, multi-langue, gouvernance régionale.", state: "2026" },
+  {
+    tag: "T0",
+    icon: Target,
+    label: "FONDATIONS",
+    desc: "Workspaces, copilote, opérations temps-réel.",
+    state: "LIVE",
+  },
+  {
+    tag: "T+1",
+    icon: Compass,
+    label: "SCORING UNIFIÉ",
+    desc: "Cohortes, signaux faibles, alertes prédictives.",
+    state: "Q2",
+  },
+  {
+    tag: "T+2",
+    icon: Layers,
+    label: "INTÉGRATIONS SOUVERAINES",
+    desc: "EMR, paie, biofeedback, dossiers institutionnels.",
+    state: "Q3",
+  },
+  {
+    tag: "T+3",
+    icon: Flag,
+    label: "MENA → ∞",
+    desc: "Multi-pays, multi-langue, gouvernance régionale.",
+    state: "2026",
+  },
 ];
 const RoadmapHorizon = () => (
   <section className="uos-section">
@@ -784,14 +1109,20 @@ const RoadmapHorizon = () => (
     <div className="uos-horizon">
       <div className="uos-horizon-line" />
       {HORIZON.map((h, i) => (
-        <motion.div key={h.label} className="uos-horizon-step"
-          initial={{ opacity: 0, y: 18 }} whileInView={{ opacity: 1, y: 0 }}
+        <motion.div
+          key={h.label}
+          className="uos-horizon-step"
+          initial={{ opacity: 0, y: 18 }}
+          whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-10%" }}
-          transition={{ delay: i * 0.12, duration: 0.7 }}>
+          transition={{ delay: i * 0.12, duration: 0.7 }}
+        >
           <div className="uos-horizon-node">
             <h.icon size={14} />
           </div>
-          <span className="uos-mono uos-horizon-tag">{h.tag} · {h.state}</span>
+          <span className="uos-mono uos-horizon-tag">
+            {h.tag} · {h.state}
+          </span>
           <h3 className="uos-horizon-label">{h.label}</h3>
           <p className="uos-horizon-desc">{h.desc}</p>
         </motion.div>
@@ -836,14 +1167,34 @@ const SignalFeed = () => (
 
 /* ─── Architecture stack (4 protocol layers) ────────────────────────────── */
 const STACK = [
-  { tag: "L4", label: "GOVERNANCE", desc: "Tenants, rôles, conformité 09-08, audit",
-    items: ["RLS strict", "Audit ledger", "Sceau de session"], icon: Lock },
-  { tag: "L3", label: "INTELLIGENCE", desc: "Copilote, scoring, prévisions, signaux",
-    items: ["Gemini 2.5", "GPT-5", "Modèles in-house"], icon: Cpu },
-  { tag: "L2", label: "OPERATIONS", desc: "Tâches, routage, SLA, escalades, événements",
-    items: ["Bus temps-réel", "Workflows SOP", "Webhooks"], icon: Layers },
-  { tag: "L1", label: "DATA", desc: "Sessions, dossiers, biofeedback, cohortes",
-    items: ["Postgres chiffré", "Vault", "Object storage"], icon: Database },
+  {
+    tag: "L4",
+    label: "GOVERNANCE",
+    desc: "Tenants, rôles, conformité 09-08, audit",
+    items: ["RLS strict", "Audit ledger", "Sceau de session"],
+    icon: Lock,
+  },
+  {
+    tag: "L3",
+    label: "INTELLIGENCE",
+    desc: "Copilote, scoring, prévisions, signaux",
+    items: ["Gemini 2.5", "GPT-5", "Modèles in-house"],
+    icon: Cpu,
+  },
+  {
+    tag: "L2",
+    label: "OPERATIONS",
+    desc: "Tâches, routage, SLA, escalades, événements",
+    items: ["Bus temps-réel", "Workflows SOP", "Webhooks"],
+    icon: Layers,
+  },
+  {
+    tag: "L1",
+    label: "DATA",
+    desc: "Sessions, dossiers, biofeedback, cohortes",
+    items: ["Postgres chiffré", "Vault", "Object storage"],
+    icon: Database,
+  },
 ];
 const ArchitectureStack = () => (
   <section className="uos-section">
@@ -853,10 +1204,18 @@ const ArchitectureStack = () => (
     </div>
     <div className="uos-stack">
       {STACK.map((s, i) => (
-        <motion.div key={s.label} className="uos-stack-row"
-          initial={{ opacity: 0, x: -24 }} whileInView={{ opacity: 1, x: 0 }}
+        <motion.div
+          key={s.label}
+          className="uos-stack-row"
+          initial={{ opacity: 0, x: -24 }}
+          whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true, margin: "-10%" }}
-          transition={{ delay: i * 0.08, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}>
+          transition={{
+            delay: i * 0.08,
+            duration: 0.7,
+            ease: [0.16, 1, 0.3, 1],
+          }}
+        >
           <div className="uos-stack-tag">
             <span className="uos-mono">{s.tag}</span>
             <s.icon size={14} />
@@ -867,10 +1226,16 @@ const ArchitectureStack = () => (
               <p>{s.desc}</p>
             </div>
             <div className="uos-stack-items">
-              {s.items.map(it => <span key={it} className="uos-stack-chip uos-mono">{it}</span>)}
+              {s.items.map((it) => (
+                <span key={it} className="uos-stack-chip uos-mono">
+                  {it}
+                </span>
+              ))}
             </div>
           </div>
-          <div className="uos-stack-bar"><span style={{ width: `${(STACK.length - i) * 22 + 12}%` }} /></div>
+          <div className="uos-stack-bar">
+            <span style={{ width: `${(STACK.length - i) * 22 + 12}%` }} />
+          </div>
         </motion.div>
       ))}
     </div>
@@ -879,12 +1244,37 @@ const ArchitectureStack = () => (
 
 /* ─── Access tiers ──────────────────────────────────────────────────────── */
 const TIERS = [
-  { name: "STANDARD", price: "Sur invitation", who: "Praticiens indépendants",
-    feat: ["Focus Mode", "Copilote clinique", "1 workspace", "Support email"] },
-  { name: "PRO", price: "Contrat annuel", who: "Cliniques & cabinets",
-    feat: ["Operations Mode", "Multi-praticiens", "5 workspaces", "Routage & SLA", "SSO"], featured: true },
-  { name: "SOVEREIGN", price: "Sur mesure", who: "Institutions & écosystèmes",
-    feat: ["Intelligence Mode", "Workspaces illimités", "Données souveraines", "Intégrations sur mesure", "Account director"] },
+  {
+    name: "STANDARD",
+    price: "Sur invitation",
+    who: "Praticiens indépendants",
+    feat: ["Focus Mode", "Copilote clinique", "1 workspace", "Support email"],
+  },
+  {
+    name: "PRO",
+    price: "Contrat annuel",
+    who: "Cliniques & cabinets",
+    feat: [
+      "Operations Mode",
+      "Multi-praticiens",
+      "5 workspaces",
+      "Routage & SLA",
+      "SSO",
+    ],
+    featured: true,
+  },
+  {
+    name: "SOVEREIGN",
+    price: "Sur mesure",
+    who: "Institutions & écosystèmes",
+    feat: [
+      "Intelligence Mode",
+      "Workspaces illimités",
+      "Données souveraines",
+      "Intégrations sur mesure",
+      "Account director",
+    ],
+  },
 ];
 const AccessTiers = () => (
   <section id="tiers" className="uos-section">
@@ -894,21 +1284,34 @@ const AccessTiers = () => (
     </div>
     <div className="uos-tiers">
       {TIERS.map((t, i) => (
-        <motion.div key={t.name}
-          initial={{ opacity: 0, y: 28 }} whileInView={{ opacity: 1, y: 0 }}
+        <motion.div
+          key={t.name}
+          initial={{ opacity: 0, y: 28 }}
+          whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-10%" }}
           transition={{ delay: i * 0.1, duration: 0.7 }}
-          className={`uos-tier ${t.featured ? "is-featured" : ""}`}>
-          {t.featured && <span className="uos-mono uos-tier-badge">RECOMMANDÉ</span>}
+          className={`uos-tier ${t.featured ? "is-featured" : ""}`}
+        >
+          {t.featured && (
+            <span className="uos-mono uos-tier-badge">RECOMMANDÉ</span>
+          )}
           <div className="uos-tier-head">
             <span className="uos-mono uos-tier-name">{t.name}</span>
             <span className="uos-mono uos-tier-price">{t.price}</span>
           </div>
           <p className="uos-tier-who">{t.who}</p>
           <ul className="uos-tier-list">
-            {t.feat.map(f => <li key={f}><span className="uos-tier-tick" />{f}</li>)}
+            {t.feat.map((f) => (
+              <li key={f}>
+                <span className="uos-tier-tick" />
+                {f}
+              </li>
+            ))}
           </ul>
-          <Link to="/contact" className={t.featured ? "uos-btn-primary" : "uos-btn-ghost"}>
+          <Link
+            to="/contact"
+            className={t.featured ? "uos-btn-primary" : "uos-btn-ghost"}
+          >
             Demander l'accès <ArrowUpRight size={12} />
           </Link>
         </motion.div>

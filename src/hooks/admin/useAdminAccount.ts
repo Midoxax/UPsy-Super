@@ -6,10 +6,13 @@ export const useAdminUsersRich = (search?: string) =>
   useQuery({
     queryKey: ["admin-users-rich", search ?? ""],
     queryFn: async () => {
-      const { data, error } = await supabase.rpc("admin_list_users_rich" as any, {
-        _search: search || null,
-        _limit: 200,
-      });
+      const { data, error } = await supabase.rpc(
+        "admin_list_users_rich" as any,
+        {
+          _search: search || null,
+          _limit: 200,
+        },
+      );
       if (error) throw error;
       return (data ?? []) as Array<{
         id: string;
@@ -51,7 +54,9 @@ export const useForceSignout = () => {
   const qc = useQueryClient();
   return useMutation({
     mutationFn: async (userId: string) => {
-      const { error } = await supabase.rpc("admin_force_signout" as any, { _user_id: userId });
+      const { error } = await supabase.rpc("admin_force_signout" as any, {
+        _user_id: userId,
+      });
       if (error) throw error;
     },
     onSuccess: () => {
@@ -64,11 +69,22 @@ export const useForceSignout = () => {
 
 export const useSendPasswordReset = () => {
   return useMutation({
-    mutationFn: async ({ userId, email }: { userId: string; email: string }) => {
+    mutationFn: async ({
+      userId,
+      email,
+    }: {
+      userId: string;
+      email: string;
+    }) => {
       const redirectTo = `${window.location.origin}/reset-password`;
-      const { error } = await supabase.auth.resetPasswordForEmail(email, { redirectTo });
+      const { error } = await supabase.auth.resetPasswordForEmail(email, {
+        redirectTo,
+      });
       if (error) throw error;
-      await supabase.rpc("admin_log_password_reset" as any, { _user_id: userId, _email: email });
+      await supabase.rpc("admin_log_password_reset" as any, {
+        _user_id: userId,
+        _email: email,
+      });
     },
     onSuccess: () => toast.success("Password reset email sent"),
     onError: (e: Error) => toast.error(e.message),
@@ -79,7 +95,9 @@ export const useDeleteProfile = () => {
   const qc = useQueryClient();
   return useMutation({
     mutationFn: async (userId: string) => {
-      const { error } = await supabase.rpc("admin_delete_profile" as any, { _user_id: userId });
+      const { error } = await supabase.rpc("admin_delete_profile" as any, {
+        _user_id: userId,
+      });
       if (error) throw error;
     },
     onSuccess: () => {
@@ -94,11 +112,20 @@ export const useDeleteProfile = () => {
 export const useUpdateBookingStatus = () => {
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: async ({ bookingId, status }: { bookingId: string; status: string }) => {
-      const { error } = await supabase.rpc("admin_update_booking_status" as any, {
-        _booking_id: bookingId,
-        _new_status: status,
-      });
+    mutationFn: async ({
+      bookingId,
+      status,
+    }: {
+      bookingId: string;
+      status: string;
+    }) => {
+      const { error } = await supabase.rpc(
+        "admin_update_booking_status" as any,
+        {
+          _booking_id: bookingId,
+          _new_status: status,
+        },
+      );
       if (error) throw error;
     },
     onSuccess: (_d, vars) => {

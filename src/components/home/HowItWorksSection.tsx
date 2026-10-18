@@ -11,7 +11,8 @@ const steps = [
     titleKey: "howItWorks.step1.title" as const,
     descKey: "howItWorks.step1.description" as const,
     fallbackTitle: "Take a Self-Assessment",
-    fallbackDesc: "Understand your mental wellbeing with a quick evidence-based screening.",
+    fallbackDesc:
+      "Understand your mental wellbeing with a quick evidence-based screening.",
   },
   {
     number: "02",
@@ -19,7 +20,8 @@ const steps = [
     titleKey: "howItWorks.step2.title" as const,
     descKey: "howItWorks.step2.description" as const,
     fallbackTitle: "Find the Right Psychologist",
-    fallbackDesc: "Filter by language, specialty, availability, and session format.",
+    fallbackDesc:
+      "Filter by language, specialty, availability, and session format.",
   },
   {
     number: "03",
@@ -35,13 +37,19 @@ const HowItWorksSection = () => {
   const { t } = useLocale();
 
   return (
-    <section className="section-spacing liquid-bg" aria-label={t("howItWorks.ariaLabel") || "How it works"}>
+    <section
+      className="section-spacing liquid-bg"
+      aria-label={t("howItWorks.ariaLabel") || "How it works"}
+    >
       <div className="container-custom">
         <ScrollReveal>
           <div className="text-center mb-16">
-            <h2 className="text-h2 mb-4">{t("howItWorks.title") || "Start Your Mental Health Journey"}</h2>
+            <h2 className="text-h2 mb-4">
+              {t("howItWorks.title") || "Start Your Mental Health Journey"}
+            </h2>
             <p className="text-body text-muted-foreground">
-              {t("howItWorks.subtitle") || "Three simple steps to get the support you need."}
+              {t("howItWorks.subtitle") ||
+                "Three simple steps to get the support you need."}
             </p>
           </div>
         </ScrollReveal>
@@ -50,13 +58,15 @@ const HowItWorksSection = () => {
           {steps.map((step, i) => (
             <ScrollReveal key={step.number}>
               <div className="glass-card p-7 text-center relative">
-                <div className="text-5xl font-bold text-primary/15 mb-2">{step.number}</div>
-                <div
-                  className="w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-4 bg-primary/10 border-2 border-primary/25"
-                >
+                <div className="text-5xl font-bold text-primary/15 mb-2">
+                  {step.number}
+                </div>
+                <div className="w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-4 bg-primary/10 border-2 border-primary/25">
                   <step.icon className="w-7 h-7 text-primary" />
                 </div>
-                <h3 className="text-h3 mb-3">{t(step.titleKey) || step.fallbackTitle}</h3>
+                <h3 className="text-h3 mb-3">
+                  {t(step.titleKey) || step.fallbackTitle}
+                </h3>
                 <p className="text-body text-muted-foreground text-sm">
                   {t(step.descKey) || step.fallbackDesc}
                 </p>
@@ -73,7 +83,8 @@ const HowItWorksSection = () => {
         <div className="text-center mt-10">
           <Button variant="primary" size="lg" asChild>
             <Link to="/get-matched" className="inline-flex items-center gap-2">
-              {t("howItWorks.cta") || "Get Started Now"} <ArrowRight className="w-4 h-4" />
+              {t("howItWorks.cta") || "Get Started Now"}{" "}
+              <ArrowRight className="w-4 h-4" />
             </Link>
           </Button>
         </div>

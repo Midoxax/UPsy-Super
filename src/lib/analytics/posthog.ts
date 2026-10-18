@@ -58,7 +58,10 @@ export async function initPostHog(): Promise<void> {
   }
 }
 
-export function captureEvent(name: string, properties: Record<string, unknown> = {}): void {
+export function captureEvent(
+  name: string,
+  properties: Record<string, unknown> = {},
+): void {
   if (!initialized || !posthogInstance) return;
   posthogInstance.capture(name, scrub(properties));
 }

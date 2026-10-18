@@ -32,9 +32,13 @@ export const Route = createFileRoute("/api/public/ci-events")({
         const secret = process.env["CI_WEBHOOK_SECRET"];
         const url = process.env["SUPABASE_URL"];
         const svcKey = process.env["SUPABASE_SERVICE_ROLE_KEY"];
-        if (!secret || !url || !svcKey) return new Response("CI logging unavailable", { status: 503 });
+        if (!secret || !url || !svcKey)
+          return new Response("CI logging unavailable", { status: 503 });
 
-        const provided = (request.headers.get("authorization") ?? "").replace(/^Bearer\s+/i, "");
+        const provided = (request.headers.get("authorization") ?? "").replace(
+          /^Bearer\s+/i,
+          "",
+        );
         if (!provided || !constantTimeEqual(provided, secret)) {
           return new Response("Unauthorized", { status: 401 });
         }
@@ -47,17 +51,30 @@ export const Route = createFileRoute("/api/public/ci-events")({
         }
 
         const items = Array.isArray(payload) ? payload : [payload];
-        if (items.length > 25) return new Response("Batch too large", { status: 413 });
+        if (items.length > 25)
+          return new Response("Batch too large", { status: 413 });
 
-        const ip = (request.headers.get("x-forwarded-for") ?? "").split(",")[0]?.trim() || "ci";
-        const admin = createClient(url, svcKey, { auth: { persistSession: false } });
+        const ip =
+          (request.headers.get("x-forwarded-for") ?? "")
+            .split(",")[0]
+            ?.trim() || "ci";
+        const admin = createClient(url, svcKey, {
+          auth: { persistSession: false },
+        });
 
-        const { data: allowed } = await admin.rpc("check_and_increment_rate_limit", {
-          _key: `ci-events:${ip}`,
-          _max: 60,
-          _window_seconds: 3600,
-        } as never);
-        if (allowed === false) return new Response("Too many requests", { status: 429, headers: { "Retry-After": "60" } });
+        const { data: allowed } = await admin.rpc(
+          "check_and_increment_rate_limit",
+          {
+            _key: `ci-events:${ip}`,
+            _max: 60,
+            _window_seconds: 3600,
+          } as never,
+        );
+        if (allowed === false)
+          return new Response("Too many requests", {
+            status: 429,
+            headers: { "Retry-After": "60" },
+          });
 
         for (const raw of items) {
           const item = (raw ?? {}) as CiEvent;
@@ -65,19 +82,27 @@ export const Route = createFileRoute("/api/public/ci-events")({
             _event: item.event ?? "ci_event",
             _level: item.level ?? "info",
             _source: item.source ?? "deploy",
-            _message: typeof item.message === "string" ? item.message.slice(0, 2000) : null,
+            _message:
+              typeof item.message === "string"
+                ? item.message.slice(0, 2000)
+                : null,
             _environment: item.environment ?? "production",
             _release: item.release ?? null,
-            _route: typeof item.route === "string" ? item.route.slice(0, 200) : null,
-            _status_code: typeof item.status_code === "number" ? item.status_code : null,
+            _route:
+              typeof item.route === "string" ? item.route.slice(0, 200) : null,
+            _status_code:
+              typeof item.status_code === "number" ? item.status_code : null,
             _metadata: item.metadata ?? {},
           } as never);
         }
 
-        return new Response(JSON.stringify({ ok: true, logged: items.length }), {
-          status: 200,
-          headers: { "Content-Type": "application/json" },
-        });
+        return new Response(
+          JSON.stringify({ ok: true, logged: items.length }),
+          {
+            status: 200,
+            headers: { "Content-Type": "application/json" },
+          },
+        );
       },
     },
   },

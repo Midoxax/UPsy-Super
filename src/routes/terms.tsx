@@ -6,6 +6,8 @@ const Terms = lazy(() => import("@/pages/Terms"));
 
 export const Route = createFileRoute("/terms")({
   component: () => (
-    <PageTransition><Terms /></PageTransition>
+    <PageTransition>
+      <Terms />
+    </PageTransition>
   ),
 });

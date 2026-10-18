@@ -6,6 +6,8 @@ const AssessmentLab = lazy(() => import("@/pages/AssessmentLab"));
 
 export const Route = createFileRoute("/$locale/assessment-lab")({
   component: () => (
-    <PageTransition><AssessmentLab /></PageTransition>
+    <PageTransition>
+      <AssessmentLab />
+    </PageTransition>
   ),
 });

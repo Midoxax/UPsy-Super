@@ -3,11 +3,18 @@ import { useAdminAuth } from "@/hooks/useAdminAuth";
 import { useApplications } from "@/hooks/useApplications";
 import ApplicationsTable from "@/components/admin/ApplicationsTable";
 import Header from "@/components/Header";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 
 const Applications = () => {
   const { isAdmin, loading: authLoading } = useAdminAuth();
-  const { applications, isLoading, approveApplication, rejectApplication } = useApplications();
+  const { applications, isLoading, approveApplication, rejectApplication } =
+    useApplications();
 
   if (authLoading) {
     return (
@@ -27,8 +34,12 @@ const Applications = () => {
       <main className="container mx-auto px-4 py-8">
         <Card>
           <CardHeader>
-            <CardTitle className="text-3xl">Psychologist Applications</CardTitle>
-            <CardDescription>Review and manage psychologist applications</CardDescription>
+            <CardTitle className="text-3xl">
+              Psychologist Applications
+            </CardTitle>
+            <CardDescription>
+              Review and manage psychologist applications
+            </CardDescription>
           </CardHeader>
           <CardContent>
             {isLoading ? (

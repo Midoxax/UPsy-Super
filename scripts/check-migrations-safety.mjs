@@ -17,8 +17,12 @@
 import { readdirSync, readFileSync, statSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 
-const MIGRATIONS_DIR = new URL("../supabase/migrations", import.meta.url).pathname;
-const BASELINE_FILE = new URL("migrations-safety-baseline.json", import.meta.url).pathname;
+const MIGRATIONS_DIR = new URL("../supabase/migrations", import.meta.url)
+  .pathname;
+const BASELINE_FILE = new URL(
+  "migrations-safety-baseline.json",
+  import.meta.url,
+).pathname;
 const FAIL = "\x1b[31m";
 const WARN = "\x1b[33m";
 const GREEN = "\x1b[32m";
@@ -60,37 +64,60 @@ function collectViolations() {
 
   for (const file of files) {
     const sql = readFileSync(file, "utf8");
-    for (const m of findMatches(sql, /CREATE\s+TABLE\s+(?:IF\s+NOT\s+EXISTS\s+)?public\.("?[a-z_][a-z0-9_]*"?)\s*\(/gi)) {
+    for (const m of findMatches(
+      sql,
+      /CREATE\s+TABLE\s+(?:IF\s+NOT\s+EXISTS\s+)?public\.("?[a-z_][a-z0-9_]*"?)\s*\(/gi,
+    )) {
       const name = m[1].replace(/"/g, "");
       if (!created.has(name)) created.set(name, file);
     }
-    for (const m of findMatches(sql, /ALTER\s+TABLE\s+public\.("?[a-z_][a-z0-9_]*"?)\s+ENABLE\s+ROW\s+LEVEL\s+SECURITY/gi)) {
+    for (const m of findMatches(
+      sql,
+      /ALTER\s+TABLE\s+public\.("?[a-z_][a-z0-9_]*"?)\s+ENABLE\s+ROW\s+LEVEL\s+SECURITY/gi,
+    )) {
       rlsEnabled.add(m[1].replace(/"/g, ""));
     }
-    for (const m of findMatches(sql, /GRANT\s+[^;]+?\s+ON\s+public\.("?[a-z_][a-z0-9_]*"?)\s+TO/gi)) {
+    for (const m of findMatches(
+      sql,
+      /GRANT\s+[^;]+?\s+ON\s+public\.("?[a-z_][a-z0-9_]*"?)\s+TO/gi,
+    )) {
       granted.add(m[1].replace(/"/g, ""));
     }
-    for (const m of findMatches(sql, /CREATE\s+(?:OR\s+REPLACE\s+)?FUNCTION\s+public\.("?[a-z_][a-z0-9_]*"?)\s*\([^)]*\)[\s\S]*?SECURITY\s+DEFINER/gi)) {
+    for (const m of findMatches(
+      sql,
+      /CREATE\s+(?:OR\s+REPLACE\s+)?FUNCTION\s+public\.("?[a-z_][a-z0-9_]*"?)\s*\([^)]*\)[\s\S]*?SECURITY\s+DEFINER/gi,
+    )) {
       const name = m[1].replace(/"/g, "");
       if (!definerFns.has(name)) definerFns.set(name, file);
     }
-    for (const m of findMatches(sql, /GRANT\s+EXECUTE\s+ON\s+(?:FUNCTION\s+)?public\.("?[a-z_][a-z0-9_]*"?)\s+TO\s+anon/gi)) {
+    for (const m of findMatches(
+      sql,
+      /GRANT\s+EXECUTE\s+ON\s+(?:FUNCTION\s+)?public\.("?[a-z_][a-z0-9_]*"?)\s+TO\s+anon/gi,
+    )) {
       anonExecFns.add(m[1].replace(/"/g, ""));
     }
   }
 
   const violations = [];
   for (const [name, file] of created) {
-    if (!rlsEnabled.has(name)) violations.push(`${"rls_missing"}:${name}:${file.split("/").pop()}`);
-    if (!granted.has(name)) violations.push(`${"grant_missing"}:${name}:${file.split("/").pop()}`);
+    if (!rlsEnabled.has(name))
+      violations.push(`${"rls_missing"}:${name}:${file.split("/").pop()}`);
+    if (!granted.has(name))
+      violations.push(`${"grant_missing"}:${name}:${file.split("/").pop()}`);
   }
   for (const [name, file] of definerFns) {
     if (!anonExecFns.has(name)) continue;
     const sql = readFileSync(file, "utf8");
-    const bodyRe = new RegExp(`CREATE\\s+(?:OR\\s+REPLACE\\s+)?FUNCTION\\s+public\\.${name}\\s*\\([^)]*\\)[\\s\\S]*?\\$\\$`, "i");
+    const bodyRe = new RegExp(
+      `CREATE\\s+(?:OR\\s+REPLACE\\s+)?FUNCTION\\s+public\\.${name}\\s*\\([^)]*\\)[\\s\\S]*?\\$\\$`,
+      "i",
+    );
     const bm = bodyRe.exec(sql);
     const hasGuard = bm ? /has_role\s*\(/i.test(bm[0]) : false;
-    if (!hasGuard) violations.push(`anon_security_definer_no_guard:${name}:${file.split("/").pop()}`);
+    if (!hasGuard)
+      violations.push(
+        `anon_security_definer_no_guard:${name}:${file.split("/").pop()}`,
+      );
   }
   return { files: files.length, violations: violations.sort() };
 }
@@ -112,7 +139,9 @@ function main() {
 
   if (updateMode) {
     writeFileSync(BASELINE_FILE, JSON.stringify(violations, null, 2) + "\n");
-    console.log(`${GREEN}baseline written: ${violations.length} entries${RESET}`);
+    console.log(
+      `${GREEN}baseline written: ${violations.length} entries${RESET}`,
+    );
     process.exit(0);
   }
 
@@ -122,9 +151,13 @@ function main() {
   const fixed = [...baseline].filter((v) => !current.has(v));
 
   if (newViolations.length === 0) {
-    console.log(`${DIM}migrations safety: ${files} files, ${violations.length} known violations (baselineed), ${fixed.length} fixed since baseline${RESET}`);
+    console.log(
+      `${DIM}migrations safety: ${files} files, ${violations.length} known violations (baselineed), ${fixed.length} fixed since baseline${RESET}`,
+    );
     if (fixed.length > 0) {
-      console.log(`${GREEN}${fixed.length} previously-flagged issue(s) resolved — run \`node scripts/check-migrations-safety.mjs --update\` to refresh the baseline${RESET}`);
+      console.log(
+        `${GREEN}${fixed.length} previously-flagged issue(s) resolved — run \`node scripts/check-migrations-safety.mjs --update\` to refresh the baseline${RESET}`,
+      );
     }
     process.exit(0);
   }
@@ -133,9 +166,13 @@ function main() {
     const [rule, table, file] = v.split(":");
     const sev = rule === "anon_security_definer_no_guard" ? WARN : FAIL;
     const label = sev === WARN ? "warn" : "error";
-    console.log(`${sev}[${label}]${RESET} ${rule} on public.${table} (new — created/changed in ${file})`);
+    console.log(
+      `${sev}[${label}]${RESET} ${rule} on public.${table} (new — created/changed in ${file})`,
+    );
   }
-  console.log(`\n${FAIL}${newViolations.length} new regression(s) beyond baseline${RESET}`);
+  console.log(
+    `\n${FAIL}${newViolations.length} new regression(s) beyond baseline${RESET}`,
+  );
   process.exit(1);
 }
 

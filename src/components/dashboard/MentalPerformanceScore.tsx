@@ -3,7 +3,12 @@ import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
 import { useLocale } from "@/contexts/LocaleContext";
 import { Brain, TrendingUp, TrendingDown, Info } from "lucide-react";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import {
   RadialBarChart,
   RadialBar,
@@ -41,18 +46,41 @@ export default function MentalPerformanceScore({ refreshKey }: Props) {
 
   const load = async () => {
     setLoading(true);
-    const { data, error } = await supabase.rpc("compute_mps" as never, { _user_id: user!.id } as never);
+    const { data, error } = await supabase.rpc(
+      "compute_mps" as never,
+      { _user_id: user!.id } as never,
+    );
     if (!error && data) setMps(data as unknown as MPS);
     setLoading(false);
   };
 
   const dims = mps?.dimensions
     ? [
-        { name: t("mps.mood") || "Mood", value: mps.dimensions.mood, fill: "hsl(var(--primary))" },
-        { name: t("mps.consistency") || "Consistency", value: mps.dimensions.consistency, fill: "hsl(var(--accent))" },
-        { name: t("mps.engagement") || "Engagement", value: mps.dimensions.engagement, fill: "hsl(var(--primary))" },
-        { name: t("mps.recovery") || "Recovery", value: mps.dimensions.recovery, fill: "hsl(var(--accent))" },
-        { name: t("mps.growth") || "Growth", value: mps.dimensions.growth, fill: "hsl(var(--primary))" },
+        {
+          name: t("mps.mood") || "Mood",
+          value: mps.dimensions.mood,
+          fill: "hsl(var(--primary))",
+        },
+        {
+          name: t("mps.consistency") || "Consistency",
+          value: mps.dimensions.consistency,
+          fill: "hsl(var(--accent))",
+        },
+        {
+          name: t("mps.engagement") || "Engagement",
+          value: mps.dimensions.engagement,
+          fill: "hsl(var(--primary))",
+        },
+        {
+          name: t("mps.recovery") || "Recovery",
+          value: mps.dimensions.recovery,
+          fill: "hsl(var(--accent))",
+        },
+        {
+          name: t("mps.growth") || "Growth",
+          value: mps.dimensions.growth,
+          fill: "hsl(var(--primary))",
+        },
       ]
     : [];
 
@@ -81,12 +109,19 @@ export default function MentalPerformanceScore({ refreshKey }: Props) {
             </TooltipProvider>
           </h2>
           <p className="text-xs text-muted-foreground mt-1">
-            {t("mps.basedOn") || "Based on"} {mps?.sample_size ?? 0} {t("mps.checkIns") || "check-ins"}
+            {t("mps.basedOn") || "Based on"} {mps?.sample_size ?? 0}{" "}
+            {t("mps.checkIns") || "check-ins"}
           </p>
         </div>
         {delta !== 0 && (
-          <div className={`flex items-center gap-1 text-sm font-medium ${delta > 0 ? "text-accent" : "text-destructive"}`}>
-            {delta > 0 ? <TrendingUp className="w-4 h-4" /> : <TrendingDown className="w-4 h-4" />}
+          <div
+            className={`flex items-center gap-1 text-sm font-medium ${delta > 0 ? "text-accent" : "text-destructive"}`}
+          >
+            {delta > 0 ? (
+              <TrendingUp className="w-4 h-4" />
+            ) : (
+              <TrendingDown className="w-4 h-4" />
+            )}
             {delta > 0 ? "+" : ""}
             {delta}
           </div>
@@ -96,7 +131,9 @@ export default function MentalPerformanceScore({ refreshKey }: Props) {
       <div className="grid md:grid-cols-[200px_1fr] gap-6 items-center">
         <div className="relative h-[200px]">
           {loading ? (
-            <div className="h-full flex items-center justify-center text-muted-foreground text-sm">…</div>
+            <div className="h-full flex items-center justify-center text-muted-foreground text-sm">
+              …
+            </div>
           ) : (
             <>
               <ResponsiveContainer width="100%" height="100%">
@@ -107,12 +144,22 @@ export default function MentalPerformanceScore({ refreshKey }: Props) {
                   startAngle={90}
                   endAngle={-270}
                 >
-                  <PolarAngleAxis type="number" domain={[0, 100]} tick={false} />
-                  <RadialBar background={{ fill: "hsl(var(--muted))" } as never} dataKey="value" cornerRadius={20} />
+                  <PolarAngleAxis
+                    type="number"
+                    domain={[0, 100]}
+                    tick={false}
+                  />
+                  <RadialBar
+                    background={{ fill: "hsl(var(--muted))" } as never}
+                    dataKey="value"
+                    cornerRadius={20}
+                  />
                 </RadialBarChart>
               </ResponsiveContainer>
               <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-                <span className="text-4xl font-bold text-foreground">{total}</span>
+                <span className="text-4xl font-bold text-foreground">
+                  {total}
+                </span>
                 <span className="text-xs text-muted-foreground">/ 100</span>
               </div>
             </>

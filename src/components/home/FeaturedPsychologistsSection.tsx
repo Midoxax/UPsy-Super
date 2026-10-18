@@ -1,6 +1,13 @@
 import { Button } from "@/components/ui/button";
 import { Link } from "@/lib/router-compat";
-import { ArrowRight, MapPin, Star, Video, ShieldCheck, Clock } from "lucide-react";
+import {
+  ArrowRight,
+  MapPin,
+  Star,
+  Video,
+  ShieldCheck,
+  Clock,
+} from "lucide-react";
 import { useLocale } from "@/contexts/LocaleContext";
 import { getHomeCopy } from "@/lib/i18n/homeCopy";
 import ScrollReveal from "@/components/ScrollReveal";
@@ -33,7 +40,10 @@ const useSafeT = () => {
  */
 
 // Deterministic "next available" chip from an id so it doesn't flicker on re-render.
-const nextSlotLabel = (id: string, tf: (k: string, f: string) => string): string => {
+const nextSlotLabel = (
+  id: string,
+  tf: (k: string, f: string) => string,
+): string => {
   const seed = Array.from(id).reduce((a, c) => a + c.charCodeAt(0), 0);
   const options = [
     tf("featured.slot.today", "Today, 6:30 PM"),
@@ -71,8 +81,14 @@ const FeaturedPsychologistsSection = () => {
             offers_online: true,
             offers_in_person: true,
             bio: "Anxiety · CBT",
-            psychologist_specialties: [{ specialties: { name: "Anxiety" } }, { specialties: { name: "CBT" } }],
-            psychologist_languages: [{ languages: { name: "Arabic" } }, { languages: { name: "French" } }],
+            psychologist_specialties: [
+              { specialties: { name: "Anxiety" } },
+              { specialties: { name: "CBT" } },
+            ],
+            psychologist_languages: [
+              { languages: { name: "Arabic" } },
+              { languages: { name: "French" } },
+            ],
           },
           {
             id: "2",
@@ -84,8 +100,14 @@ const FeaturedPsychologistsSection = () => {
             offers_online: true,
             offers_in_person: false,
             bio: "Burnout · Schema",
-            psychologist_specialties: [{ specialties: { name: "Burnout" } }, { specialties: { name: "Schema" } }],
-            psychologist_languages: [{ languages: { name: "French" } }, { languages: { name: "English" } }],
+            psychologist_specialties: [
+              { specialties: { name: "Burnout" } },
+              { specialties: { name: "Schema" } },
+            ],
+            psychologist_languages: [
+              { languages: { name: "French" } },
+              { languages: { name: "English" } },
+            ],
           },
           {
             id: "3",
@@ -97,8 +119,14 @@ const FeaturedPsychologistsSection = () => {
             offers_online: true,
             offers_in_person: true,
             bio: "Couples · EMDR",
-            psychologist_specialties: [{ specialties: { name: "Couples" } }, { specialties: { name: "EMDR" } }],
-            psychologist_languages: [{ languages: { name: "Arabic" } }, { languages: { name: "English" } }],
+            psychologist_specialties: [
+              { specialties: { name: "Couples" } },
+              { specialties: { name: "EMDR" } },
+            ],
+            psychologist_languages: [
+              { languages: { name: "Arabic" } },
+              { languages: { name: "English" } },
+            ],
           },
         ];
 
@@ -111,12 +139,15 @@ const FeaturedPsychologistsSection = () => {
               {tf("featured.eyebrow", "Accredited psychologists")}
             </p>
             <h2 className="text-h2 mb-3">
-              {tf("featured.titleConversion", "Book with someone who fits — this week.")}
+              {tf(
+                "featured.titleConversion",
+                "Book with someone who fits — this week.",
+              )}
             </h2>
             <p className="text-body text-muted-foreground">
               {tf(
                 "featured.subtitleConversion",
-                "Every psychologist is licensed, verified, and available for a 50-min session. Choose your slot in under two minutes."
+                "Every psychologist is licensed, verified, and available for a 50-min session. Choose your slot in under two minutes.",
               )}
             </p>
           </div>
@@ -126,7 +157,9 @@ const FeaturedPsychologistsSection = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {displayPsychologists.map((psych: any) => {
               const specialty =
-                psych.psychologist_specialties?.[0]?.specialties?.name || psych.bio || "";
+                psych.psychologist_specialties?.[0]?.specialties?.name ||
+                psych.bio ||
+                "";
               const languages =
                 psych.psychologist_languages
                   ?.map((l: any) => l.languages?.name)
@@ -166,7 +199,10 @@ const FeaturedPsychologistsSection = () => {
                           <span
                             role="img"
                             className="absolute -bottom-1 -right-1 w-4 h-4 rounded-full bg-emerald-500 border-2 border-card"
-                            aria-label={tf("featured.availableToday", "Available today")}
+                            aria-label={tf(
+                              "featured.availableToday",
+                              "Available today",
+                            )}
                           />
                         )}
                       </div>
@@ -175,11 +211,17 @@ const FeaturedPsychologistsSection = () => {
                         <h3 className="font-display text-xl font-medium text-foreground leading-tight truncate tracking-tight">
                           {psych.full_name}
                         </h3>
-                        <p className="text-sm text-muted-foreground truncate">{specialty}</p>
+                        <p className="text-sm text-muted-foreground truncate">
+                          {specialty}
+                        </p>
                         <div className="flex items-center gap-1.5 mt-1.5">
                           <Star className="w-3.5 h-3.5 fill-primary text-primary" />
-                          <span className="text-sm font-medium text-foreground font-mono tabular-nums">4.9</span>
-                          <span className="text-xs text-muted-foreground">({reviews})</span>
+                          <span className="text-sm font-medium text-foreground font-mono tabular-nums">
+                            4.9
+                          </span>
+                          <span className="text-xs text-muted-foreground">
+                            ({reviews})
+                          </span>
                         </div>
                       </div>
                     </div>
@@ -190,7 +232,9 @@ const FeaturedPsychologistsSection = () => {
                         <MapPin className="w-3.5 h-3.5 shrink-0" />
                         <span className="truncate">
                           {psych.city}
-                          {psych.offers_online ? ` · ${tf("featured.videoOrInPerson", "Video or in-person")}` : ""}
+                          {psych.offers_online
+                            ? ` · ${tf("featured.videoOrInPerson", "Video or in-person")}`
+                            : ""}
                         </span>
                       </div>
                       {languages && (
@@ -208,7 +252,9 @@ const FeaturedPsychologistsSection = () => {
                         <p className="text-[10px] uppercase tracking-wider text-muted-foreground font-medium">
                           {tf("featured.nextAvailable", "Next available")}
                         </p>
-                        <p className="text-sm font-medium text-foreground truncate">{slot}</p>
+                        <p className="text-sm font-medium text-foreground truncate">
+                          {slot}
+                        </p>
                       </div>
                     </div>
 
@@ -226,12 +272,22 @@ const FeaturedPsychologistsSection = () => {
                       </div>
 
                       <div className="flex gap-2">
-                        <Button asChild variant="primary" size="sm" className="flex-1">
+                        <Button
+                          asChild
+                          variant="primary"
+                          size="sm"
+                          className="flex-1"
+                        >
                           <Link to={`/psychologists/${psych.slug}?book=1`}>
                             {tf("featured.bookNow", "Book a slot")}
                           </Link>
                         </Button>
-                        <Button asChild variant="ghost" size="sm" className="flex-1">
+                        <Button
+                          asChild
+                          variant="ghost"
+                          size="sm"
+                          className="flex-1"
+                        >
                           <Link to={`/psychologists/${psych.slug}`}>
                             {tf("featured.viewProfile", "View profile")}
                           </Link>
@@ -240,7 +296,10 @@ const FeaturedPsychologistsSection = () => {
 
                       <p className="mt-3 flex items-center gap-1.5 text-[11px] text-muted-foreground">
                         <ShieldCheck className="w-3 h-3 text-primary" />
-                        {tf("featured.guarantee", "Free rebook if not the right fit")}
+                        {tf(
+                          "featured.guarantee",
+                          "Free rebook if not the right fit",
+                        )}
                       </p>
                     </div>
                   </article>
@@ -252,7 +311,10 @@ const FeaturedPsychologistsSection = () => {
 
         <div className="text-center mt-10">
           <Button variant="secondary" size="lg" asChild>
-            <Link to="/psychologists" className="inline-flex items-center gap-2">
+            <Link
+              to="/psychologists"
+              className="inline-flex items-center gap-2"
+            >
               {tf("featured.viewAllConversion", "Browse all 50+ psychologists")}{" "}
               <ArrowRight className="w-4 h-4" />
             </Link>

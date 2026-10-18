@@ -53,7 +53,8 @@ export default function ReferralCard() {
       </CardHeader>
       <CardContent className="space-y-3">
         <p className="text-sm text-muted-foreground">
-          Share your link. When a friend completes their first session, you both get a free check-in credit.
+          Share your link. When a friend completes their first session, you both
+          get a free check-in credit.
         </p>
         <div className="flex gap-2">
           <Input readOnly value={link} className="text-xs" />

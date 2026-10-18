@@ -20,7 +20,15 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { Loader2, Save, History, TrendingUp, Percent, Wallet, Calculator } from "lucide-react";
+import {
+  Loader2,
+  Save,
+  History,
+  TrendingUp,
+  Percent,
+  Wallet,
+  Calculator,
+} from "lucide-react";
 import { format } from "date-fns";
 import { z } from "zod";
 
@@ -110,11 +118,11 @@ const PricingControl = () => {
   }, [pricing?.id]);
 
   const isDirty = pricing
-    ? form.commission_rate !== Number(pricing.commission_rate)
-      || form.deposit_percentage !== Number(pricing.deposit_percentage)
-      || form.vat_rate !== Number(pricing.vat_rate)
-      || form.min_session_price_mad !== Number(pricing.min_session_price_mad)
-      || form.max_session_price_mad !== Number(pricing.max_session_price_mad)
+    ? form.commission_rate !== Number(pricing.commission_rate) ||
+      form.deposit_percentage !== Number(pricing.deposit_percentage) ||
+      form.vat_rate !== Number(pricing.vat_rate) ||
+      form.min_session_price_mad !== Number(pricing.min_session_price_mad) ||
+      form.max_session_price_mad !== Number(pricing.max_session_price_mad)
     : true;
 
   const save = useMutation({
@@ -123,16 +131,22 @@ const PricingControl = () => {
       if (!parsed.success) {
         throw new Error(parsed.error.issues[0]?.message ?? "Invalid input");
       }
-      if (parsed.data.max_session_price_mad < parsed.data.min_session_price_mad) {
-        throw new Error("Le tarif maximum doit être supérieur ou égal au minimum.");
+      if (
+        parsed.data.max_session_price_mad < parsed.data.min_session_price_mad
+      ) {
+        throw new Error(
+          "Le tarif maximum doit être supérieur ou égal au minimum.",
+        );
       }
       if (!pricing) {
-        const { error } = await supabase.from("platform_pricing_config").insert({
-          ...parsed.data,
-          currency: "MAD",
-          is_active: true,
-          updated_by: user?.id,
-        });
+        const { error } = await supabase
+          .from("platform_pricing_config")
+          .insert({
+            ...parsed.data,
+            currency: "MAD",
+            is_active: true,
+            updated_by: user?.id,
+          });
         if (error) throw error;
       } else {
         const { error } = await supabase
@@ -146,31 +160,78 @@ const PricingControl = () => {
       queryClient.invalidateQueries({ queryKey: ["admin-pricing-config"] });
       queryClient.invalidateQueries({ queryKey: ["admin-pricing-history"] });
       queryClient.invalidateQueries({ queryKey: ["platform-pricing-active"] });
-      toast({ title: "Tarification mise à jour", description: "Les nouveaux paramètres sont actifs immédiatement." });
+      toast({
+        title: "Tarification mise à jour",
+        description: "Les nouveaux paramètres sont actifs immédiatement.",
+      });
     },
     onError: (e: Error) => {
-      toast({ title: "Échec de la sauvegarde", description: e.message, variant: "destructive" });
+      toast({
+        title: "Échec de la sauvegarde",
+        description: e.message,
+        variant: "destructive",
+      });
     },
   });
 
   // Live preview using a sample 600 MAD session
   const sample = 600;
-  const deposit = +(sample * form.deposit_percentage / 100).toFixed(2);
-  const commission = +(sample * form.commission_rate / 100).toFixed(2);
-  const vat = +(commission * form.vat_rate / 100).toFixed(2);
+  const deposit = +((sample * form.deposit_percentage) / 100).toFixed(2);
+  const commission = +((sample * form.commission_rate) / 100).toFixed(2);
+  const vat = +((commission * form.vat_rate) / 100).toFixed(2);
   const psychologistNet = +(sample - commission).toFixed(2);
   const platformNet = +(commission - vat).toFixed(2);
 
   if (isLoading) {
-    return <div className="flex justify-center py-16"><Loader2 className="h-6 w-6 animate-spin text-muted-foreground" /></div>;
+    return (
+      <div className="flex justify-center py-16">
+        <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
+      </div>
+    );
   }
 
-  const fields: { key: keyof typeof form; label: string; suffix: string; icon: ComponentType<{ className?: string }>; help: string }[] = [
-    { key: "commission_rate", label: "Commission plateforme", suffix: "%", icon: Percent, help: "Part qu'UPSY prélève sur chaque session." },
-    { key: "deposit_percentage", label: "Acompte à la réservation", suffix: "%", icon: Wallet, help: "Pourcentage payé par le client lors du booking." },
-    { key: "vat_rate", label: "TVA appliquée", suffix: "%", icon: Calculator, help: "Sur la commission UPSY uniquement." },
-    { key: "min_session_price_mad", label: "Tarif min. par session", suffix: "MAD", icon: TrendingUp, help: "Plancher autorisé pour les psychologues." },
-    { key: "max_session_price_mad", label: "Tarif max. par session", suffix: "MAD", icon: TrendingUp, help: "Plafond autorisé pour les psychologues." },
+  const fields: {
+    key: keyof typeof form;
+    label: string;
+    suffix: string;
+    icon: ComponentType<{ className?: string }>;
+    help: string;
+  }[] = [
+    {
+      key: "commission_rate",
+      label: "Commission plateforme",
+      suffix: "%",
+      icon: Percent,
+      help: "Part qu'UPSY prélève sur chaque session.",
+    },
+    {
+      key: "deposit_percentage",
+      label: "Acompte à la réservation",
+      suffix: "%",
+      icon: Wallet,
+      help: "Pourcentage payé par le client lors du booking.",
+    },
+    {
+      key: "vat_rate",
+      label: "TVA appliquée",
+      suffix: "%",
+      icon: Calculator,
+      help: "Sur la commission UPSY uniquement.",
+    },
+    {
+      key: "min_session_price_mad",
+      label: "Tarif min. par session",
+      suffix: "MAD",
+      icon: TrendingUp,
+      help: "Plancher autorisé pour les psychologues.",
+    },
+    {
+      key: "max_session_price_mad",
+      label: "Tarif max. par session",
+      suffix: "MAD",
+      icon: TrendingUp,
+      help: "Plafond autorisé pour les psychologues.",
+    },
   ];
 
   return (
@@ -181,12 +242,14 @@ const PricingControl = () => {
             <div>
               <h2 className="text-lg font-semibold">Paramètres tarifaires</h2>
               <p className="text-sm text-muted-foreground mt-1">
-                Ces réglages s'appliquent à toutes les sessions futures. L'historique est conservé.
+                Ces réglages s'appliquent à toutes les sessions futures.
+                L'historique est conservé.
               </p>
             </div>
             {pricing && (
               <span className="text-xs text-muted-foreground whitespace-nowrap">
-                Dernière maj : {format(new Date(pricing.updated_at), "dd MMM yyyy HH:mm")}
+                Dernière maj :{" "}
+                {format(new Date(pricing.updated_at), "dd MMM yyyy HH:mm")}
               </span>
             )}
           </div>
@@ -194,7 +257,10 @@ const PricingControl = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
             {fields.map(({ key, label, suffix, icon: Icon, help }) => (
               <div key={key} className="space-y-1.5">
-                <Label htmlFor={key} className="flex items-center gap-2 text-sm">
+                <Label
+                  htmlFor={key}
+                  className="flex items-center gap-2 text-sm"
+                >
                   <Icon className="h-3.5 w-3.5 text-muted-foreground" />
                   {label}
                 </Label>
@@ -206,7 +272,12 @@ const PricingControl = () => {
                     min={0}
                     max={key.includes("price") ? undefined : 100}
                     value={form[key] as number}
-                    onChange={(e) => setForm((f) => ({ ...f, [key]: parseFloat(e.target.value) || 0 }))}
+                    onChange={(e) =>
+                      setForm((f) => ({
+                        ...f,
+                        [key]: parseFloat(e.target.value) || 0,
+                      }))
+                    }
                     className="pr-14"
                   />
                   <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-muted-foreground">
@@ -218,12 +289,16 @@ const PricingControl = () => {
             ))}
 
             <div className="md:col-span-2 space-y-1.5">
-              <Label htmlFor="notes" className="text-sm">Raison du changement (audit)</Label>
+              <Label htmlFor="notes" className="text-sm">
+                Raison du changement (audit)
+              </Label>
               <Textarea
                 id="notes"
                 placeholder="Ex. Ajustement saisonnier, alignement marché, ..."
                 value={form.notes}
-                onChange={(e) => setForm((f) => ({ ...f, notes: e.target.value }))}
+                onChange={(e) =>
+                  setForm((f) => ({ ...f, notes: e.target.value }))
+                }
                 rows={2}
                 maxLength={500}
               />
@@ -234,7 +309,11 @@ const PricingControl = () => {
             <AlertDialog>
               <AlertDialogTrigger asChild>
                 <Button disabled={!isDirty || save.isPending} className="gap-2">
-                  {save.isPending ? <Loader2 className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />}
+                  {save.isPending ? (
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                  ) : (
+                    <Save className="h-4 w-4" />
+                  )}
                   Enregistrer
                 </Button>
               </AlertDialogTrigger>
@@ -242,13 +321,16 @@ const PricingControl = () => {
                 <AlertDialogHeader>
                   <AlertDialogTitle>Confirmer la modification</AlertDialogTitle>
                   <AlertDialogDescription>
-                    Ces nouveaux paramètres s'appliqueront immédiatement à toutes les sessions futures.
-                    L'ancienne version reste dans l'historique. Continuer ?
+                    Ces nouveaux paramètres s'appliqueront immédiatement à
+                    toutes les sessions futures. L'ancienne version reste dans
+                    l'historique. Continuer ?
                   </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
                   <AlertDialogCancel>Annuler</AlertDialogCancel>
-                  <AlertDialogAction onClick={() => save.mutate()}>Confirmer</AlertDialogAction>
+                  <AlertDialogAction onClick={() => save.mutate()}>
+                    Confirmer
+                  </AlertDialogAction>
                 </AlertDialogFooter>
               </AlertDialogContent>
             </AlertDialog>
@@ -261,20 +343,35 @@ const PricingControl = () => {
             <h3 className="font-semibold">Historique des modifications</h3>
           </div>
           {history.length === 0 ? (
-            <p className="text-sm text-muted-foreground">Aucune modification enregistrée pour le moment.</p>
+            <p className="text-sm text-muted-foreground">
+              Aucune modification enregistrée pour le moment.
+            </p>
           ) : (
             <div className="space-y-2">
               {history.map((h) => (
-                <div key={h.id} className="flex items-start justify-between gap-4 p-3 rounded-lg bg-surface border border-border text-sm">
+                <div
+                  key={h.id}
+                  className="flex items-start justify-between gap-4 p-3 rounded-lg bg-surface border border-border text-sm"
+                >
                   <div className="space-y-1 min-w-0">
                     <div className="flex flex-wrap gap-2 text-xs">
-                      <span className="px-2 py-0.5 rounded-sm bg-primary/10 text-primary">Commission {h.commission_rate}%</span>
-                      <span className="px-2 py-0.5 rounded-sm bg-primary/10 text-primary">Acompte {h.deposit_percentage}%</span>
-                      <span className="px-2 py-0.5 rounded-sm bg-primary/10 text-primary">TVA {h.vat_rate}%</span>
-                      <span className="px-2 py-0.5 rounded-sm bg-primary/10 text-primary">{h.min_session_price_mad}–{h.max_session_price_mad} MAD</span>
+                      <span className="px-2 py-0.5 rounded-sm bg-primary/10 text-primary">
+                        Commission {h.commission_rate}%
+                      </span>
+                      <span className="px-2 py-0.5 rounded-sm bg-primary/10 text-primary">
+                        Acompte {h.deposit_percentage}%
+                      </span>
+                      <span className="px-2 py-0.5 rounded-sm bg-primary/10 text-primary">
+                        TVA {h.vat_rate}%
+                      </span>
+                      <span className="px-2 py-0.5 rounded-sm bg-primary/10 text-primary">
+                        {h.min_session_price_mad}–{h.max_session_price_mad} MAD
+                      </span>
                     </div>
                     {h.change_reason && (
-                      <p className="text-xs text-muted-foreground truncate">{h.change_reason}</p>
+                      <p className="text-xs text-muted-foreground truncate">
+                        {h.change_reason}
+                      </p>
                     )}
                   </div>
                   <span className="text-xs text-muted-foreground whitespace-nowrap">
@@ -301,7 +398,9 @@ const PricingControl = () => {
             </div>
             <div className="flex justify-between">
               <dt className="text-muted-foreground">Solde dû</dt>
-              <dd className="font-semibold">{(sample - deposit).toFixed(2)} MAD</dd>
+              <dd className="font-semibold">
+                {(sample - deposit).toFixed(2)} MAD
+              </dd>
             </div>
             <div className="border-t border-border my-2" />
             <div className="flex justify-between">
@@ -319,7 +418,9 @@ const PricingControl = () => {
             <div className="border-t border-border my-2" />
             <div className="flex justify-between text-base">
               <dt className="text-muted-foreground">Reversé au psy</dt>
-              <dd className="font-bold text-foreground">{psychologistNet} MAD</dd>
+              <dd className="font-bold text-foreground">
+                {psychologistNet} MAD
+              </dd>
             </div>
           </dl>
         </Card>

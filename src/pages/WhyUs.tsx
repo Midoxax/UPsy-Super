@@ -144,7 +144,10 @@ const WhyUs = () => {
               className="flex flex-col sm:flex-row gap-3 justify-center"
             >
               <Button size="lg" asChild>
-                <Link to="/get-matched" className="inline-flex items-center gap-2">
+                <Link
+                  to="/get-matched"
+                  className="inline-flex items-center gap-2"
+                >
                   {t("whyUs.heroCtaPrimary") || "Find your match"}
                   <ArrowRight className="w-4 h-4" />
                 </Link>
@@ -221,38 +224,41 @@ const WhyUs = () => {
                 t(`whyUs.pillars.${pillar.key}.proof.c`),
               ].filter(Boolean);
               return (
-              <motion.div
-                key={pillar.key}
-                initial={{ opacity: 0, y: 24 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-60px" }}
-                transition={{ duration: 0.5, delay: (idx % 2) * 0.08 }}
-                className="glass-card p-7 rounded-3xl flex flex-col"
-              >
-                <div className="w-12 h-12 rounded-2xl flex items-center justify-center bg-primary/10 border border-primary/20 mb-5">
-                  <pillar.icon className="w-6 h-6 text-primary" />
-                </div>
-                <h3 className="text-h3 mb-3">
-                  {t(`whyUs.items.${pillar.key}.title`) || pillar.fallbackTitle}
-                </h3>
-                <p className="text-body text-muted-foreground text-sm leading-relaxed mb-5">
-                  {t(`whyUs.pillars.${pillar.key}.desc`) || t(`whyUs.items.${pillar.key}.desc`)}
-                </p>
-                <ul className="space-y-2 mb-6">
-                  {proof.map((p) => (
-                    <li key={p} className="flex items-start gap-2 text-sm">
-                      <Check className="w-4 h-4 text-secondary flex-shrink-0 mt-0.5" />
-                      <span>{p}</span>
-                    </li>
-                  ))}
-                </ul>
-                <Link
-                  to={pillar.href}
-                  className="mt-auto inline-flex items-center gap-1 text-sm text-primary font-medium hover:gap-2 transition-all"
+                <motion.div
+                  key={pillar.key}
+                  initial={{ opacity: 0, y: 24 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-60px" }}
+                  transition={{ duration: 0.5, delay: (idx % 2) * 0.08 }}
+                  className="glass-card p-7 rounded-3xl flex flex-col"
                 >
-                  {t(`whyUs.pillars.${pillar.key}.cta`)} <ArrowRight className="w-4 h-4" />
-                </Link>
-              </motion.div>
+                  <div className="w-12 h-12 rounded-2xl flex items-center justify-center bg-primary/10 border border-primary/20 mb-5">
+                    <pillar.icon className="w-6 h-6 text-primary" />
+                  </div>
+                  <h3 className="text-h3 mb-3">
+                    {t(`whyUs.items.${pillar.key}.title`) ||
+                      pillar.fallbackTitle}
+                  </h3>
+                  <p className="text-body text-muted-foreground text-sm leading-relaxed mb-5">
+                    {t(`whyUs.pillars.${pillar.key}.desc`) ||
+                      t(`whyUs.items.${pillar.key}.desc`)}
+                  </p>
+                  <ul className="space-y-2 mb-6">
+                    {proof.map((p) => (
+                      <li key={p} className="flex items-start gap-2 text-sm">
+                        <Check className="w-4 h-4 text-secondary flex-shrink-0 mt-0.5" />
+                        <span>{p}</span>
+                      </li>
+                    ))}
+                  </ul>
+                  <Link
+                    to={pillar.href}
+                    className="mt-auto inline-flex items-center gap-1 text-sm text-primary font-medium hover:gap-2 transition-all"
+                  >
+                    {t(`whyUs.pillars.${pillar.key}.cta`)}{" "}
+                    <ArrowRight className="w-4 h-4" />
+                  </Link>
+                </motion.div>
               );
             })}
           </div>
@@ -272,8 +278,10 @@ const WhyUs = () => {
             transition={{ duration: 0.6 }}
             className="text-h3 md:text-h2 italic text-foreground/90 leading-relaxed"
           >
-            “{t("whyUs.founderQuote") ||
-              "Morocco doesn't need another marketplace. It needs a system that takes psychology seriously — clinically, operationally, and culturally."}”
+            “
+            {t("whyUs.founderQuote") ||
+              "Morocco doesn't need another marketplace. It needs a system that takes psychology seriously — clinically, operationally, and culturally."}
+            ”
           </motion.blockquote>
           <p className="mt-6 text-sm text-muted-foreground">
             — Mehdi Felji, {t("founder.role") || "Founder of U.Psy"}
@@ -299,7 +307,10 @@ const WhyUs = () => {
           </p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <Button size="lg" asChild>
-              <Link to="/get-matched" className="inline-flex items-center gap-2">
+              <Link
+                to="/get-matched"
+                className="inline-flex items-center gap-2"
+              >
                 {t("whyUs.heroCtaPrimary") || "Find your match"}
                 <ArrowRight className="w-4 h-4" />
               </Link>

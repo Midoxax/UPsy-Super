@@ -77,9 +77,11 @@ if (offenders.length > 0) {
       `Vite only exposes ${ALLOWED_PREFIX}* to the client, so these are either dead\n` +
       `config or a credential now committed to git history.\n\n` +
       `Move them to your hosting provider's environment settings, or to\n` +
-      `.env.local (gitignored) for local development.\n`
+      `.env.local (gitignored) for local development.\n`,
   );
   process.exit(1);
 }
 
-console.log("Committed secret check passed — tracked .env files hold only VITE_* public values.");
+console.log(
+  "Committed secret check passed — tracked .env files hold only VITE_* public values.",
+);

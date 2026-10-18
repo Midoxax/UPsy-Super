@@ -14,13 +14,18 @@ export function useCrisisScreening() {
     if (trimmed.length < 3) return "low";
 
     try {
-      const { data, error } = await supabase.functions.invoke("crisis-screening", {
-        body: { text: trimmed },
-      });
+      const { data, error } = await supabase.functions.invoke(
+        "crisis-screening",
+        {
+          body: { text: trimmed },
+        },
+      );
       if (error || !data) return "low";
 
       const level: RiskLevel =
-        data.risk_level === "high" || data.risk_level === "moderate" ? data.risk_level : "low";
+        data.risk_level === "high" || data.risk_level === "moderate"
+          ? data.risk_level
+          : "low";
 
       if (level !== "low" && !sessionStorage.getItem(SESSION_FLAG)) {
         setRisk(level);

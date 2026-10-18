@@ -29,11 +29,15 @@ console.log(`CLOUDFLARE_API_TOKEN   ${mask(token)}`);
 console.log(`CLOUDFLARE_ACCOUNT_ID  ${mask(accountId)}`);
 
 if (!token || !accountId) {
-  console.error("::error::CLOUDFLARE_API_TOKEN and CLOUDFLARE_ACCOUNT_ID must both be set.");
+  console.error(
+    "::error::CLOUDFLARE_API_TOKEN and CLOUDFLARE_ACCOUNT_ID must both be set.",
+  );
   process.exit(2);
 }
 if (/\s/.test(token) || /\s/.test(accountId)) {
-  console.error("::error::A Cloudflare secret contains whitespace — it was probably pasted with a trailing newline or space.");
+  console.error(
+    "::error::A Cloudflare secret contains whitespace — it was probably pasted with a trailing newline or space.",
+  );
   process.exit(1);
 }
 
@@ -43,7 +47,11 @@ const call = async (path) => {
     signal: AbortSignal.timeout(15000),
   });
   let body = {};
-  try { body = await res.json(); } catch { /* non-JSON error page */ }
+  try {
+    body = await res.json();
+  } catch {
+    /* non-JSON error page */
+  }
   return { status: res.status, ok: body?.success === true, body };
 };
 
@@ -54,7 +62,9 @@ const firstError = (b) =>
 
 let failed = false;
 const report = (name, ok, detail) => {
-  console.log(`${ok ? "PASS" : "FAIL"}  ${name}${detail ? ` — ${detail}` : ""}`);
+  console.log(
+    `${ok ? "PASS" : "FAIL"}  ${name}${detail ? ` — ${detail}` : ""}`,
+  );
   if (!ok) failed = true;
 };
 
@@ -87,15 +97,21 @@ if (!account.ok) {
   const accounts = await call("/accounts");
   if (accounts.ok && Array.isArray(accounts.body?.result)) {
     if (accounts.body.result.length === 0) {
-      console.log("      This token can reach no accounts at all — it was created without Account Resources.");
+      console.log(
+        "      This token can reach no accounts at all — it was created without Account Resources.",
+      );
     } else {
-      console.log("      This token CAN reach the following account(s). Set CLOUDFLARE_ACCOUNT_ID to one of these ids:");
+      console.log(
+        "      This token CAN reach the following account(s). Set CLOUDFLARE_ACCOUNT_ID to one of these ids:",
+      );
       for (const a of accounts.body.result) {
         console.log(`        ${a.id}  ${a.name ?? ""}`);
       }
     }
   } else {
-    console.log(`      Could not enumerate accounts for this token — ${firstError(accounts.body)}`);
+    console.log(
+      `      Could not enumerate accounts for this token — ${firstError(accounts.body)}`,
+    );
   }
 }
 
@@ -112,7 +128,11 @@ report(
 );
 
 if (failed) {
-  console.error("::error::Cloudflare preflight failed — see the FAIL line(s) above. Fix that before the deploy step runs.");
+  console.error(
+    "::error::Cloudflare preflight failed — see the FAIL line(s) above. Fix that before the deploy step runs.",
+  );
   process.exit(1);
 }
-console.log("Cloudflare preflight passed — token, account and Workers permission all check out.");
+console.log(
+  "Cloudflare preflight passed — token, account and Workers permission all check out.",
+);

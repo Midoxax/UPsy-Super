@@ -2,10 +2,7 @@ import { create } from "zustand";
 
 // ─── Intent Types ───
 export type UserIntent =
-  | "EXPLORING"
-  | "READY_TO_ACT"
-  | "RESEARCHING"
-  | "SKEPTICAL";
+  "EXPLORING" | "READY_TO_ACT" | "RESEARCHING" | "SKEPTICAL";
 
 // ─── Signal Snapshot (collected during first 3-5s) ───
 export interface IntentSignals {
@@ -76,9 +73,14 @@ function detectReferrerType(): IntentSignals["referrerType"] {
     const searchEngines = ["google", "bing", "yahoo", "duckduckgo", "baidu"];
     if (searchEngines.some((se) => url.hostname.includes(se))) return "search";
     const socialPlatforms = [
-      "facebook", "twitter", "instagram", "linkedin", "tiktok",
+      "facebook",
+      "twitter",
+      "instagram",
+      "linkedin",
+      "tiktok",
     ];
-    if (socialPlatforms.some((sp) => url.hostname.includes(sp))) return "social";
+    if (socialPlatforms.some((sp) => url.hostname.includes(sp)))
+      return "social";
     if (url.hostname === window.location.hostname) return "direct";
     return "referral";
   } catch {
@@ -147,14 +149,14 @@ function classifyIntent(signals: IntentSignals): ClassificationResult {
     scores.READY_TO_ACT += 2;
     if (
       signals.clickedTargets.some(
-        (t) => t.includes("assessment") || t.includes("matched")
+        (t) => t.includes("assessment") || t.includes("matched"),
       )
     ) {
       scores.READY_TO_ACT += 2;
     }
     if (
       signals.clickedTargets.some(
-        (t) => t.includes("research") || t.includes("learn")
+        (t) => t.includes("research") || t.includes("learn"),
       )
     ) {
       scores.RESEARCHING += 2;
@@ -162,17 +164,17 @@ function classifyIntent(signals: IntentSignals): ClassificationResult {
   }
 
   // ── Find top two scores ──
-  const sorted = Object.entries(scores).sort(
-    ([, a], [, b]) => b - a
-  ) as [UserIntent, number][];
+  const sorted = Object.entries(scores).sort(([, a], [, b]) => b - a) as [
+    UserIntent,
+    number,
+  ][];
 
   const topIntent = sorted[0][0];
   const topScore = sorted[0][1];
   const secondScore = sorted[1][1];
 
   // Confidence = normalized gap between top and runner-up
-  const confidence =
-    topScore > 0 ? (topScore - secondScore) / topScore : 0;
+  const confidence = topScore > 0 ? (topScore - secondScore) / topScore : 0;
 
   // Low confidence → default to EXPLORING (safe fallback)
   if (confidence < 0.3) {

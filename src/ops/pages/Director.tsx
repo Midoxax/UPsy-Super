@@ -4,31 +4,59 @@ import { useOpsWorkspaces } from "../hooks/useOps";
 import { supabase } from "@/integrations/supabase/client";
 import { motion, AnimatePresence } from "framer-motion";
 import {
-  Send, Sparkles, Activity, ShieldAlert, Calendar, ListChecks,
-  Brain, Trash2, Cpu, Radio, Zap, ArrowUp,
+  Send,
+  Sparkles,
+  Activity,
+  ShieldAlert,
+  Calendar,
+  ListChecks,
+  Brain,
+  Trash2,
+  Cpu,
+  Radio,
+  Zap,
+  ArrowUp,
 } from "lucide-react";
 
 type Msg = { role: "user" | "assistant"; content: string; ts: number };
 
 const CAPABILITIES = [
-  { icon: Activity, label: "ANALYZE OPS", prompt: "Summarize all active operations and flag risks." },
-  { icon: ShieldAlert, label: "FLAG RISKS", prompt: "Which tasks are overdue or critical right now?" },
-  { icon: Calendar, label: "PLAN EVENT", prompt: "Draft a tighter timeline for our next event." },
-  { icon: ListChecks, label: "TRIAGE", prompt: "Triage open tasks by impact and urgency." },
-  { icon: Brain, label: "BRIEF TEAM", prompt: "Draft a psychological safety briefing for the team." },
+  {
+    icon: Activity,
+    label: "ANALYZE OPS",
+    prompt: "Summarize all active operations and flag risks.",
+  },
+  {
+    icon: ShieldAlert,
+    label: "FLAG RISKS",
+    prompt: "Which tasks are overdue or critical right now?",
+  },
+  {
+    icon: Calendar,
+    label: "PLAN EVENT",
+    prompt: "Draft a tighter timeline for our next event.",
+  },
+  {
+    icon: ListChecks,
+    label: "TRIAGE",
+    prompt: "Triage open tasks by impact and urgency.",
+  },
+  {
+    icon: Brain,
+    label: "BRIEF TEAM",
+    prompt: "Draft a psychological safety briefing for the team.",
+  },
 ];
 
 const Waveform = ({ active }: { active: boolean }) => (
   <div className="flex items-end gap-[3px] h-4">
-    {[0, 1, 2, 3, 4].map(i => (
+    {[0, 1, 2, 3, 4].map((i) => (
       <span
         key={i}
         className={active ? "ops-wave-bar" : ""}
         style={{
           height: "100%",
-          background: active
-            ? undefined
-            : "hsl(var(--ops-accent) / 0.25)",
+          background: active ? undefined : "hsl(var(--ops-accent) / 0.25)",
           width: 3,
           borderRadius: 2,
           animationDelay: `${i * 0.12}s`,
@@ -48,33 +76,56 @@ export const Director = () => {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   useEffect(() => {
-    scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: "smooth" });
+    scrollRef.current?.scrollTo({
+      top: scrollRef.current.scrollHeight,
+      behavior: "smooth",
+    });
   }, [messages, busy]);
 
   const send = async (override?: string) => {
     const text = (override ?? input).trim();
     if (!text || !current || busy) return;
-    const next: Msg[] = [...messages, { role: "user", content: text, ts: Date.now() }];
-    setMessages(next); setInput(""); setBusy(true);
+    const next: Msg[] = [
+      ...messages,
+      { role: "user", content: text, ts: Date.now() },
+    ];
+    setMessages(next);
+    setInput("");
+    setBusy(true);
     try {
       const { data, error } = await supabase.functions.invoke("ops-director", {
-        body: { workspace_id: current.id, messages: next.map(({ role, content }) => ({ role, content })) },
+        body: {
+          workspace_id: current.id,
+          messages: next.map(({ role, content }) => ({ role, content })),
+        },
       });
       if (error) throw error;
       const payload = data as any;
       const reply = payload?.message ?? payload?.reply ?? "(no reply)";
-      setMessages(m => [...m, { role: "assistant", content: reply, ts: Date.now() }]);
+      setMessages((m) => [
+        ...m,
+        { role: "assistant", content: reply, ts: Date.now() },
+      ]);
     } catch (e) {
-      setMessages(m => [...m, {
-        role: "assistant",
-        content: `[CHANNEL ERROR] ${e instanceof Error ? e.message : "uplink failed"}`,
-        ts: Date.now(),
-      }]);
-    } finally { setBusy(false); }
+      setMessages((m) => [
+        ...m,
+        {
+          role: "assistant",
+          content: `[CHANNEL ERROR] ${e instanceof Error ? e.message : "uplink failed"}`,
+          ts: Date.now(),
+        },
+      ]);
+    } finally {
+      setBusy(false);
+    }
   };
 
   const formatTime = (ts: number) =>
-    new Date(ts).toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit", second: "2-digit" });
+    new Date(ts).toLocaleTimeString("en-GB", {
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+    });
 
   const tokenCount = useMemo(
     () => messages.reduce((n, m) => n + Math.ceil(m.content.length / 4), 0),
@@ -87,7 +138,8 @@ export const Director = () => {
       <div className="flex items-end justify-between mb-6 gap-6">
         <div>
           <div className="ops-mono text-[10px] tracking-[0.35em] text-white/40 flex items-center gap-2">
-            <Radio className="h-3 w-3 ops-accent" /> / DIRECTOR · COGNITIVE UPLINK
+            <Radio className="h-3 w-3 ops-accent" /> / DIRECTOR · COGNITIVE
+            UPLINK
           </div>
           <h1 className="ops-display text-4xl mt-2 flex items-center gap-3">
             <span className="relative">
@@ -97,7 +149,8 @@ export const Director = () => {
             Director
           </h1>
           <div className="ops-mono text-[11px] text-white/40 mt-1">
-            WORKSPACE: <span className="ops-accent">{current?.name ?? "—"}</span>
+            WORKSPACE:{" "}
+            <span className="ops-accent">{current?.name ?? "—"}</span>
           </div>
         </div>
 
@@ -106,22 +159,32 @@ export const Director = () => {
           <div className="ops-glass px-4 py-2 flex items-center gap-3 ops-bracket">
             <Cpu className="h-4 w-4 ops-accent" />
             <div>
-              <div className="ops-mono text-[9px] tracking-[0.2em] text-white/40">MODEL</div>
+              <div className="ops-mono text-[9px] tracking-[0.2em] text-white/40">
+                MODEL
+              </div>
               <div className="ops-mono text-xs text-white/80">gpt-5 · OPS</div>
             </div>
           </div>
           <div className="ops-glass px-4 py-2 flex items-center gap-3 ops-bracket">
             <Zap className="h-4 w-4 ops-accent" />
             <div>
-              <div className="ops-mono text-[9px] tracking-[0.2em] text-white/40">TOKENS</div>
-              <div className="ops-mono text-xs text-white/80">{tokenCount.toLocaleString()}</div>
+              <div className="ops-mono text-[9px] tracking-[0.2em] text-white/40">
+                TOKENS
+              </div>
+              <div className="ops-mono text-xs text-white/80">
+                {tokenCount.toLocaleString()}
+              </div>
             </div>
           </div>
           <div className="ops-glass px-4 py-2 flex items-center gap-3 ops-bracket">
             <Waveform active={busy} />
             <div>
-              <div className="ops-mono text-[9px] tracking-[0.2em] text-white/40">LINK</div>
-              <div className="ops-mono text-xs ops-accent">{busy ? "STREAMING" : "READY"}</div>
+              <div className="ops-mono text-[9px] tracking-[0.2em] text-white/40">
+                LINK
+              </div>
+              <div className="ops-mono text-xs ops-accent">
+                {busy ? "STREAMING" : "READY"}
+              </div>
             </div>
           </div>
           {messages.length > 0 && (
@@ -142,7 +205,7 @@ export const Director = () => {
         className="ops-glass flex-1 p-6 overflow-y-auto space-y-5 relative ops-bracket"
       >
         {messages.length === 0 ? (
-          <EmptyState onPick={p => send(p)} />
+          <EmptyState onPick={(p) => send(p)} />
         ) : (
           <AnimatePresence initial={false}>
             {messages.map((m, i) => (
@@ -159,7 +222,11 @@ export const Director = () => {
           >
             <div className="h-2 w-2 rounded-full bg-[hsl(var(--ops-accent))] ops-pulse" />
             DIRECTOR PROCESSING
-            <span><span className="ops-dot" /><span className="ops-dot" /><span className="ops-dot" /></span>
+            <span>
+              <span className="ops-dot" />
+              <span className="ops-dot" />
+              <span className="ops-dot" />
+            </span>
           </motion.div>
         )}
       </div>
@@ -168,7 +235,7 @@ export const Director = () => {
       <div className="mt-4 space-y-3">
         {messages.length > 0 && (
           <div className="flex flex-wrap gap-2">
-            {CAPABILITIES.slice(0, 4).map(c => (
+            {CAPABILITIES.slice(0, 4).map((c) => (
               <button
                 key={c.label}
                 onClick={() => send(c.prompt)}
@@ -189,13 +256,13 @@ export const Director = () => {
               rows={1}
               className="flex-1 bg-transparent outline-hidden resize-none text-sm text-white/90 placeholder:text-white/30 py-3 max-h-40"
               value={input}
-              onChange={e => {
+              onChange={(e) => {
                 setInput(e.target.value);
                 const el = e.target;
                 el.style.height = "auto";
                 el.style.height = Math.min(el.scrollHeight, 160) + "px";
               }}
-              onKeyDown={e => {
+              onKeyDown={(e) => {
                 if (e.key === "Enter" && !e.shiftKey) {
                   e.preventDefault();
                   send();
@@ -209,7 +276,11 @@ export const Director = () => {
               disabled={busy || !input.trim()}
               title="Transmit"
             >
-              {busy ? <Send className="h-4 w-4 animate-pulse" /> : <ArrowUp className="h-4 w-4" />}
+              {busy ? (
+                <Send className="h-4 w-4 animate-pulse" />
+              ) : (
+                <ArrowUp className="h-4 w-4" />
+              )}
             </button>
           </div>
         </div>
@@ -241,7 +312,8 @@ const EmptyState = ({ onPick }: { onPick: (p: string) => void }) => (
     </motion.div>
     <h2 className="ops-display text-2xl mb-2">Cognitive uplink ready.</h2>
     <p className="text-white/50 text-sm max-w-md mb-8">
-      The Director observes your workspace in realtime. Issue a directive or select a capability to begin.
+      The Director observes your workspace in realtime. Issue a directive or
+      select a capability to begin.
     </p>
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 w-full max-w-3xl">
       {CAPABILITIES.map((c, i) => (
@@ -268,7 +340,13 @@ const EmptyState = ({ onPick }: { onPick: (p: string) => void }) => (
   </motion.div>
 );
 
-const MessageBubble = ({ msg, timeFmt }: { msg: Msg; timeFmt: (n: number) => string }) => {
+const MessageBubble = ({
+  msg,
+  timeFmt,
+}: {
+  msg: Msg;
+  timeFmt: (n: number) => string;
+}) => {
   const isUser = msg.role === "user";
   return (
     <motion.div
@@ -277,15 +355,21 @@ const MessageBubble = ({ msg, timeFmt }: { msg: Msg; timeFmt: (n: number) => str
       transition={{ duration: 0.25 }}
       className={`flex ${isUser ? "justify-end" : "justify-start"}`}
     >
-      <div className={`max-w-[82%] ops-holo ${isUser ? "ops-holo-user" : ""} p-4`}>
+      <div
+        className={`max-w-[82%] ops-holo ${isUser ? "ops-holo-user" : ""} p-4`}
+      >
         <div className="flex items-center justify-between mb-2 gap-4">
           <div className="flex items-center gap-2">
-            <span className={`h-1.5 w-1.5 rounded-full ${isUser ? "bg-[hsl(var(--ops-accent))]" : "bg-white/40"}`} />
+            <span
+              className={`h-1.5 w-1.5 rounded-full ${isUser ? "bg-[hsl(var(--ops-accent))]" : "bg-white/40"}`}
+            />
             <span className="ops-mono text-[10px] tracking-[0.25em] text-white/50">
               {isUser ? "OPERATOR" : "DIRECTOR.AI"}
             </span>
           </div>
-          <span className="ops-mono text-[9px] text-white/30">{timeFmt(msg.ts)}</span>
+          <span className="ops-mono text-[9px] text-white/30">
+            {timeFmt(msg.ts)}
+          </span>
         </div>
         <div className="text-sm text-white/90 whitespace-pre-wrap leading-relaxed relative z-10">
           {msg.content}

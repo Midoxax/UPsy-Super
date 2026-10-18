@@ -58,20 +58,23 @@ function brandedEmail(title: string, body: string, actionUrl?: string) {
 
 async function sendEmail(to: string, subject: string, html: string) {
   if (!RESEND_API_KEY || !LOVABLE_API_KEY) return { skipped: true };
-  const res = await fetch("https://connector-gateway.lovable.dev/resend/emails", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${LOVABLE_API_KEY}`,
-      "X-Connection-Api-Key": RESEND_API_KEY,
+  const res = await fetch(
+    "https://connector-gateway.lovable.dev/resend/emails",
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${LOVABLE_API_KEY}`,
+        "X-Connection-Api-Key": RESEND_API_KEY,
+      },
+      body: JSON.stringify({
+        from: sender(),
+        to: [to],
+        subject,
+        html,
+      }),
     },
-    body: JSON.stringify({
-      from: sender(),
-      to: [to],
-      subject,
-      html,
-    }),
-  });
+  );
   if (!res.ok) {
     const text = await res.text();
     return { error: text };
@@ -108,7 +111,10 @@ Deno.serve(async (req) => {
     if (!user_id || !type || !title) {
       return new Response(
         JSON.stringify({ error: "user_id, type and title are required" }),
-        { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+        {
+          status: 400,
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        },
       );
     }
 
@@ -163,14 +169,18 @@ Deno.serve(async (req) => {
     }
 
     return new Response(
-      JSON.stringify({ ok: true, notification_id: notif?.id ?? null, email: emailResult }),
-      { headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      JSON.stringify({
+        ok: true,
+        notification_id: notif?.id ?? null,
+        email: emailResult,
+      }),
+      { headers: { ...corsHeaders, "Content-Type": "application/json" } },
     );
   } catch (e) {
     console.error("send-notification error", e);
-    return new Response(
-      JSON.stringify({ error: (e as Error).message }),
-      { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }
-    );
+    return new Response(JSON.stringify({ error: (e as Error).message }), {
+      status: 500,
+      headers: { ...corsHeaders, "Content-Type": "application/json" },
+    });
   }
 });

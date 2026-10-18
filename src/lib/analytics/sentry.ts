@@ -65,7 +65,7 @@ function flushPending(): void {
     if (call.kind === "exception") {
       sentry.captureException(
         call.err,
-        call.context ? { extra: scrubObject(call.context) } : undefined
+        call.context ? { extra: scrubObject(call.context) } : undefined,
       );
     } else {
       sentry.setUser(call.userId ? { id: call.userId } : null);
@@ -123,12 +123,18 @@ export function initSentry(): void {
     });
 }
 
-export function captureException(err: unknown, context?: Record<string, unknown>): void {
+export function captureException(
+  err: unknown,
+  context?: Record<string, unknown>,
+): void {
   if (!initialized || !sentry) {
     enqueue({ kind: "exception", err, context });
     return;
   }
-  sentry.captureException(err, context ? { extra: scrubObject(context) } : undefined);
+  sentry.captureException(
+    err,
+    context ? { extra: scrubObject(context) } : undefined,
+  );
 }
 
 export function setSentryUser(userId: string | null): void {

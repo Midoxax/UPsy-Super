@@ -26,23 +26,26 @@ describe("OAuth does not depend on Lovable hosting", () => {
     // away. What matters — and what actually broke sign-in on a non-Lovable
     // host — is application code calling into it. Nothing may import it.
     const wrapper = resolve(ROOT, "src/integrations/lovable");
-    const offenders = readdirSync(resolve(ROOT, "src"), { recursive: true, encoding: "utf8" })
-      .filter((p) => /\.(ts|tsx)$/.test(p) && !p.startsWith("integrations/lovable"))
+    const offenders = readdirSync(resolve(ROOT, "src"), {
+      recursive: true,
+      encoding: "utf8",
+    })
+      .filter(
+        (p) => /\.(ts|tsx)$/.test(p) && !p.startsWith("integrations/lovable"),
+      )
       .filter((p) => {
         const body = readFileSync(resolve(ROOT, "src", p), "utf8");
         // Comments naming the package are documentation, not a dependency.
         return /^\s*import[^;]*from\s+["'](.*integrations\/lovable|@lovable\.dev\/cloud-auth-js)["']/m.test(
-          body
+          body,
         );
       });
     expect(
       offenders,
       `these files import the Lovable auth wrapper, which navigates to ` +
-        `/~oauth/initiate and 404s on any host that is not Lovable (${wrapper})`
+        `/~oauth/initiate and 404s on any host that is not Lovable (${wrapper})`,
     ).toEqual([]);
   });
-
-
 
   it("routes social sign-in through supabase.auth.signInWithOAuth", () => {
     // The call itself lives in the shared button component every surface
@@ -50,7 +53,7 @@ describe("OAuth does not depend on Lovable hosting", () => {
     const buttons = read("src/components/auth/SocialAuthButtons.tsx");
     expect(buttons).toMatch(/supabase\.auth\.signInWithOAuth/);
     expect(buttons, "sign-in must not call the Lovable wrapper").not.toMatch(
-      /lovable\.auth\.signInWithOAuth/
+      /lovable\.auth\.signInWithOAuth/,
     );
     // And the auth page must reach OAuth only through that component.
     const auth = read("src/pages/Auth.tsx");
@@ -77,7 +80,8 @@ describe("OAuth does not depend on Lovable hosting", () => {
  */
 describe("social sign-in buttons are gated on real configuration", () => {
   it("defaults to no providers until one is proven configured", async () => {
-    const { OAUTH_PROVIDERS, hasAnyOAuth, isOAuthEnabled } = await import("@/config/auth");
+    const { OAUTH_PROVIDERS, hasAnyOAuth, isOAuthEnabled } =
+      await import("@/config/auth");
     expect([...OAUTH_PROVIDERS]).toEqual([]);
     expect(hasAnyOAuth()).toBe(false);
     expect(isOAuthEnabled("google")).toBe(false);
@@ -88,7 +92,7 @@ describe("social sign-in buttons are gated on real configuration", () => {
     const config = read("src/config/auth.ts");
     expect(
       config,
-      "OAUTH_PROVIDERS must still read VITE_OAUTH_PROVIDERS"
+      "OAUTH_PROVIDERS must still read VITE_OAUTH_PROVIDERS",
     ).toMatch(/VITE_OAUTH_PROVIDERS/);
   });
 
@@ -96,9 +100,9 @@ describe("social sign-in buttons are gated on real configuration", () => {
     const buttons = read("src/components/auth/SocialAuthButtons.tsx");
     expect(buttons).toMatch(/isOAuthEnabled\("google"\)\s*&&/);
     expect(buttons).toMatch(/isOAuthEnabled\("apple"\)\s*&&/);
-    expect(buttons, "the whole block should disappear when nothing is enabled").toMatch(
-      /if\s*\(!hasAnyOAuth\(\)\)\s*return null/
-    );
+    expect(
+      buttons,
+      "the whole block should disappear when nothing is enabled",
+    ).toMatch(/if\s*\(!hasAnyOAuth\(\)\)\s*return null/);
   });
 });
-

@@ -6,6 +6,8 @@ const Resources = lazy(() => import("@/pages/Resources"));
 
 export const Route = createFileRoute("/resources")({
   component: () => (
-    <PageTransition><Resources /></PageTransition>
+    <PageTransition>
+      <Resources />
+    </PageTransition>
   ),
 });

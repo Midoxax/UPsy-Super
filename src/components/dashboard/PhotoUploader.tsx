@@ -35,11 +35,19 @@ export const PhotoUploader = ({ value, onChange }: Props) => {
       return;
     }
     if (!ALLOWED.includes(file.type)) {
-      toast({ title: "Invalid format", description: "JPG, PNG, or WebP only", variant: "destructive" });
+      toast({
+        title: "Invalid format",
+        description: "JPG, PNG, or WebP only",
+        variant: "destructive",
+      });
       return;
     }
     if (file.size > MAX_SIZE) {
-      toast({ title: "Too large", description: "Max 5 MB", variant: "destructive" });
+      toast({
+        title: "Too large",
+        description: "Max 5 MB",
+        variant: "destructive",
+      });
       return;
     }
 
@@ -62,14 +70,24 @@ export const PhotoUploader = ({ value, onChange }: Props) => {
       // Best-effort cleanup of previous photo in this bucket
       const oldPath = extractOldPath(value);
       if (oldPath && oldPath !== path) {
-        await supabase.storage.from(BUCKET).remove([oldPath]).catch(() => {});
+        await supabase.storage
+          .from(BUCKET)
+          .remove([oldPath])
+          .catch(() => {});
       }
 
       onChange(publicUrl);
       setProgress(100);
-      toast({ title: "Photo updated", description: "Don't forget to save your profile." });
+      toast({
+        title: "Photo updated",
+        description: "Don't forget to save your profile.",
+      });
     } catch (e: any) {
-      toast({ title: "Upload failed", description: e.message ?? String(e), variant: "destructive" });
+      toast({
+        title: "Upload failed",
+        description: e.message ?? String(e),
+        variant: "destructive",
+      });
     } finally {
       setUploading(false);
       setTimeout(() => setProgress(0), 600);
@@ -79,7 +97,10 @@ export const PhotoUploader = ({ value, onChange }: Props) => {
   const handleRemove = async () => {
     const oldPath = extractOldPath(value);
     if (oldPath) {
-      await supabase.storage.from(BUCKET).remove([oldPath]).catch(() => {});
+      await supabase.storage
+        .from(BUCKET)
+        .remove([oldPath])
+        .catch(() => {});
     }
     onChange(null);
   };
@@ -89,7 +110,11 @@ export const PhotoUploader = ({ value, onChange }: Props) => {
       <div className="flex items-center gap-4">
         <div className="h-24 w-24 rounded-full overflow-hidden bg-muted border border-border flex items-center justify-center flex-shrink-0">
           {value ? (
-            <img src={value} alt="Profile" className="h-full w-full object-cover" />
+            <img
+              src={value}
+              alt="Profile"
+              className="h-full w-full object-cover"
+            />
           ) : (
             <UserIcon className="h-10 w-10 text-muted-foreground" />
           )}
@@ -100,7 +125,9 @@ export const PhotoUploader = ({ value, onChange }: Props) => {
             type="file"
             accept={ALLOWED.join(",")}
             className="hidden"
-            onChange={(e) => e.target.files?.[0] && handleFile(e.target.files[0])}
+            onChange={(e) =>
+              e.target.files?.[0] && handleFile(e.target.files[0])
+            }
           />
           <Button
             type="button"
@@ -110,18 +137,32 @@ export const PhotoUploader = ({ value, onChange }: Props) => {
             disabled={uploading}
           >
             <Upload className="h-3.5 w-3.5 mr-2" />
-            {uploading ? "Uploading..." : value ? "Change photo" : "Upload photo"}
+            {uploading
+              ? "Uploading..."
+              : value
+                ? "Change photo"
+                : "Upload photo"}
           </Button>
           {value && (
-            <Button type="button" variant="ghost" size="sm" onClick={handleRemove} disabled={uploading}>
+            <Button
+              type="button"
+              variant="ghost"
+              size="sm"
+              onClick={handleRemove}
+              disabled={uploading}
+            >
               <X className="h-3.5 w-3.5 mr-2" />
               Remove
             </Button>
           )}
-          <p className="text-xs text-muted-foreground">JPG, PNG, or WebP · max 5 MB</p>
+          <p className="text-xs text-muted-foreground">
+            JPG, PNG, or WebP · max 5 MB
+          </p>
         </div>
       </div>
-      {progress > 0 && progress < 100 && <Progress value={progress} className="h-1" />}
+      {progress > 0 && progress < 100 && (
+        <Progress value={progress} className="h-1" />
+      )}
     </div>
   );
 };

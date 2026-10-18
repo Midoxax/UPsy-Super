@@ -84,9 +84,7 @@ export const useMyXpTotal = () => {
     queryKey: ["my-xp-total", user?.id],
     enabled: !!user,
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from("xp_events")
-        .select("xp");
+      const { data, error } = await supabase.from("xp_events").select("xp");
       if (error) throw error;
       return (data ?? []).reduce((acc, r: any) => acc + (r.xp ?? 0), 0);
     },
@@ -108,12 +106,16 @@ export const useUnlockSkillNode = () => {
     },
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: ["my-skill-nodes"] });
-      toast({ title: "Skill unlocked", description: "New node added to your tree." });
+      toast({
+        title: "Skill unlocked",
+        description: "New node added to your tree.",
+      });
     },
     onError: (e: any) => {
       toast({
         title: "Cannot unlock yet",
-        description: e?.message ?? "Earn more XP or unlock prerequisites first.",
+        description:
+          e?.message ?? "Earn more XP or unlock prerequisites first.",
         variant: "destructive",
       });
     },
@@ -140,7 +142,9 @@ export const useMyQuestProgress = () => {
     queryKey: ["my-quest-progress", user?.id],
     enabled: !!user,
     queryFn: async () => {
-      const { data, error } = await supabase.from("user_quest_progress").select("*");
+      const { data, error } = await supabase
+        .from("user_quest_progress")
+        .select("*");
       if (error) throw error;
       return (data ?? []) as unknown as UserQuestProgress[];
     },
@@ -162,15 +166,25 @@ export const useStartQuest = () => {
     },
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: ["my-quest-progress"] });
-      toast({ title: "Quest started", description: "Your progress will track automatically." });
+      toast({
+        title: "Quest started",
+        description: "Your progress will track automatically.",
+      });
     },
     onError: (e: any) =>
-      toast({ title: "Could not start", description: e?.message, variant: "destructive" }),
+      toast({
+        title: "Could not start",
+        description: e?.message,
+        variant: "destructive",
+      }),
   });
 };
 
 /** Count of completed targets / total targets for a quest. */
-export const questCompletionPct = (quest: Quest, progress?: UserQuestProgress | null) => {
+export const questCompletionPct = (
+  quest: Quest,
+  progress?: UserQuestProgress | null,
+) => {
   if (!progress) return 0;
   const counts = progress.state?.counts ?? {};
   const done = quest.steps.reduce(

@@ -9,11 +9,18 @@ export const Route = createFileRoute("/$locale/admin/finance")({
   head: () => ({
     meta: [
       { title: "Finance — U.Psy internal" },
-      { name: "description", content: "Invoicing, bank reconciliation and revenue ceiling tracking." },
+      {
+        name: "description",
+        content: "Invoicing, bank reconciliation and revenue ceiling tracking.",
+      },
       { name: "robots", content: "noindex,nofollow" },
     ],
   }),
   component: () => (
-    <AdminRoute><PageTransition><AdminFinance /></PageTransition></AdminRoute>
+    <AdminRoute>
+      <PageTransition>
+        <AdminFinance />
+      </PageTransition>
+    </AdminRoute>
   ),
 });

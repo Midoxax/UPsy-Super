@@ -1,7 +1,20 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { EmptyState } from "@/components/ui/empty-state";
 import { CreditCard } from "lucide-react";
@@ -13,10 +26,12 @@ const SubscriptionsOverview = () => {
     queryFn: async () => {
       const { data, error } = await supabase
         .from("subscriptions")
-        .select(`
+        .select(
+          `
           *,
           psychologist:psychologist_profiles(full_name, city)
-        `)
+        `,
+        )
         .order("created_at", { ascending: false });
 
       if (error) throw error;
@@ -29,7 +44,9 @@ const SubscriptionsOverview = () => {
       <Card>
         <CardHeader>
           <CardTitle>Subscriptions Overview</CardTitle>
-          <CardDescription>Monitor subscription status and revenue</CardDescription>
+          <CardDescription>
+            Monitor subscription status and revenue
+          </CardDescription>
         </CardHeader>
         <CardContent>
           <div className="flex items-center justify-center py-8">
@@ -46,17 +63,20 @@ const SubscriptionsOverview = () => {
     premium: "default",
   };
 
-  const statusColors: Record<string, "default" | "secondary" | "destructive"> = {
-    active: "default",
-    inactive: "destructive",
-    cancelled: "secondary",
-  };
+  const statusColors: Record<string, "default" | "secondary" | "destructive"> =
+    {
+      active: "default",
+      inactive: "destructive",
+      cancelled: "secondary",
+    };
 
   return (
     <Card>
       <CardHeader>
         <CardTitle>Subscriptions Overview</CardTitle>
-        <CardDescription>Monitor subscription status and revenue</CardDescription>
+        <CardDescription>
+          Monitor subscription status and revenue
+        </CardDescription>
       </CardHeader>
       <CardContent>
         {subscriptions?.length === 0 ? (
@@ -67,41 +87,45 @@ const SubscriptionsOverview = () => {
           />
         ) : (
           <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>Psychologist</TableHead>
-              <TableHead>Plan</TableHead>
-              <TableHead>Status</TableHead>
-              <TableHead>Started</TableHead>
-              <TableHead>Ends</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {subscriptions?.map((sub) => (
-              <TableRow key={sub.id}>
-                <TableCell className="font-medium">
-                  {sub.psychologist?.full_name || "Unknown"}
-                </TableCell>
-                <TableCell>
-                  <Badge variant={planColors[sub.plan_type] || "default"}>
-                    {sub.plan_type.toUpperCase()}
-                  </Badge>
-                </TableCell>
-                <TableCell>
-                  <Badge variant={statusColors[sub.status] || "default"}>
-                    {sub.status}
-                  </Badge>
-                </TableCell>
-                <TableCell>
-                  {sub.starts_at ? format(new Date(sub.starts_at), "MMM d, yyyy") : "N/A"}
-                </TableCell>
-                <TableCell>
-                  {sub.ends_at ? format(new Date(sub.ends_at), "MMM d, yyyy") : "No end date"}
-                </TableCell>
+            <TableHeader>
+              <TableRow>
+                <TableHead>Psychologist</TableHead>
+                <TableHead>Plan</TableHead>
+                <TableHead>Status</TableHead>
+                <TableHead>Started</TableHead>
+                <TableHead>Ends</TableHead>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+            </TableHeader>
+            <TableBody>
+              {subscriptions?.map((sub) => (
+                <TableRow key={sub.id}>
+                  <TableCell className="font-medium">
+                    {sub.psychologist?.full_name || "Unknown"}
+                  </TableCell>
+                  <TableCell>
+                    <Badge variant={planColors[sub.plan_type] || "default"}>
+                      {sub.plan_type.toUpperCase()}
+                    </Badge>
+                  </TableCell>
+                  <TableCell>
+                    <Badge variant={statusColors[sub.status] || "default"}>
+                      {sub.status}
+                    </Badge>
+                  </TableCell>
+                  <TableCell>
+                    {sub.starts_at
+                      ? format(new Date(sub.starts_at), "MMM d, yyyy")
+                      : "N/A"}
+                  </TableCell>
+                  <TableCell>
+                    {sub.ends_at
+                      ? format(new Date(sub.ends_at), "MMM d, yyyy")
+                      : "No end date"}
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
         )}
       </CardContent>
     </Card>

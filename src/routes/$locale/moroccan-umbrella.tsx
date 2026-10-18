@@ -6,6 +6,8 @@ const MoroccanUmbrella = lazy(() => import("@/pages/MoroccanUmbrella"));
 
 export const Route = createFileRoute("/$locale/moroccan-umbrella")({
   component: () => (
-    <PageTransition><MoroccanUmbrella /></PageTransition>
+    <PageTransition>
+      <MoroccanUmbrella />
+    </PageTransition>
   ),
 });

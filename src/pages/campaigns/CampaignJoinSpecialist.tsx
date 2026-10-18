@@ -27,8 +27,7 @@ const config: CampaignConfig = {
   ],
   primaryCta: { label: "Apply to the network", href: "#" },
   formTitle: "Start your application",
-  formSubtitle:
-    "We reply within 48h with a link to the accreditation dossier.",
+  formSubtitle: "We reply within 48h with a link to the accreditation dossier.",
   successTitle: "We've got your details 🤝",
   successBody:
     "Our accreditation team reviews within 48h. In the meantime, start the full application — it takes about 12 minutes.",

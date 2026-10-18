@@ -13,7 +13,11 @@ interface UsePsychologistsParams {
   pageSize?: number;
 }
 
-export const usePsychologists = ({ filters, page = 1, pageSize = 12 }: UsePsychologistsParams) => {
+export const usePsychologists = ({
+  filters,
+  page = 1,
+  pageSize = 12,
+}: UsePsychologistsParams) => {
   return useQuery({
     queryKey: ["psychologists", filters, page],
     queryFn: () => searchPsychologists({ filters, page, pageSize }),

@@ -5,6 +5,8 @@ import "@/ops/ops-theme.css";
 
 export const Route = createFileRoute("/ops/$workspace")({
   component: () => (
-    <ProtectedRoute><OpsLayout /></ProtectedRoute>
+    <ProtectedRoute>
+      <OpsLayout />
+    </ProtectedRoute>
   ),
 });

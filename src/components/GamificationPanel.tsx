@@ -1,6 +1,13 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { useUserProgress, useUserBadges, useAllBadges, useLevels, getLevelInfo, RARITY_STYLES } from "@/hooks/useGamification";
+import {
+  useUserProgress,
+  useUserBadges,
+  useAllBadges,
+  useLevels,
+  getLevelInfo,
+  RARITY_STYLES,
+} from "@/hooks/useGamification";
 import { Flame, Star, Zap, ChevronRight, Lock, Trophy } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -10,7 +17,10 @@ const LevelBar = () => {
 
   if (!progress || levels.length === 0) return null;
 
-  const { current, next, xpIntoLevel, xpNeededForNext, pct } = getLevelInfo(levels, progress.xp_total);
+  const { current, next, xpIntoLevel, xpNeededForNext, pct } = getLevelInfo(
+    levels,
+    progress.xp_total,
+  );
 
   return (
     <div className="space-y-2">
@@ -22,11 +32,15 @@ const LevelBar = () => {
           >
             {current.level}
           </div>
-          <span className="text-sm font-semibold">{current.name_fr ?? current.name}</span>
+          <span className="text-sm font-semibold">
+            {current.name_fr ?? current.name}
+          </span>
         </div>
         <div className="flex items-center gap-1.5">
           <Zap className="h-3.5 w-3.5 text-amber-500" />
-          <span className="text-xs font-semibold text-amber-600">{progress.xp_total.toLocaleString()} XP</span>
+          <span className="text-xs font-semibold text-amber-600">
+            {progress.xp_total.toLocaleString()} XP
+          </span>
         </div>
       </div>
 
@@ -41,14 +55,21 @@ const LevelBar = () => {
         <motion.div
           className="absolute inset-y-0 w-16 bg-gradient-to-r from-transparent via-white/30 to-transparent rounded-full"
           animate={{ x: ["-100%", "400%"] }}
-          transition={{ duration: 2, repeat: Infinity, repeatDelay: 3, ease: "easeInOut" }}
+          transition={{
+            duration: 2,
+            repeat: Infinity,
+            repeatDelay: 3,
+            ease: "easeInOut",
+          }}
           style={{ left: 0 }}
         />
       </div>
 
       {next && (
         <div className="flex justify-between text-[11px] text-muted-foreground">
-          <span>{xpIntoLevel} / {xpNeededForNext} XP</span>
+          <span>
+            {xpIntoLevel} / {xpNeededForNext} XP
+          </span>
           <span>Next: {next.name_fr ?? next.name}</span>
         </div>
       )}
@@ -63,14 +84,20 @@ const StreakDisplay = () => {
   const isOnFire = progress.streak_days >= 7;
 
   return (
-    <div className={cn(
-      "flex items-center gap-3 px-4 py-3 rounded-xl border",
-      isOnFire ? "border-amber-500/30 bg-amber-500/5" : "border-border bg-surface"
-    )}>
-      <div className={cn(
-        "w-10 h-10 rounded-xl flex items-center justify-center text-xl flex-shrink-0",
-        isOnFire ? "bg-amber-500/15" : "bg-muted"
-      )}>
+    <div
+      className={cn(
+        "flex items-center gap-3 px-4 py-3 rounded-xl border",
+        isOnFire
+          ? "border-amber-500/30 bg-amber-500/5"
+          : "border-border bg-surface",
+      )}
+    >
+      <div
+        className={cn(
+          "w-10 h-10 rounded-xl flex items-center justify-center text-xl flex-shrink-0",
+          isOnFire ? "bg-amber-500/15" : "bg-muted",
+        )}
+      >
         {isOnFire ? "🔥" : "✨"}
       </div>
       <div className="flex-1 min-w-0">
@@ -91,10 +118,18 @@ const StreakDisplay = () => {
 };
 
 const BadgeCard = ({
-  badge, earned, delay = 0
-}: { badge: any; earned: boolean; delay?: number }) => {
+  badge,
+  earned,
+  delay = 0,
+}: {
+  badge: any;
+  earned: boolean;
+  delay?: number;
+}) => {
   const [showTip, setShowTip] = useState(false);
-  const style = RARITY_STYLES[badge.rarity as keyof typeof RARITY_STYLES] ?? RARITY_STYLES.common;
+  const style =
+    RARITY_STYLES[badge.rarity as keyof typeof RARITY_STYLES] ??
+    RARITY_STYLES.common;
 
   return (
     <motion.div
@@ -105,13 +140,19 @@ const BadgeCard = ({
       onMouseEnter={() => setShowTip(true)}
       onMouseLeave={() => setShowTip(false)}
     >
-      <div className={cn(
-        "w-14 h-14 rounded-2xl border flex items-center justify-center text-2xl transition-all cursor-default",
-        earned
-          ? cn(style.border, style.bg, style.glow, "opacity-100")
-          : "border-border bg-muted/50 opacity-40 grayscale"
-      )}>
-        {earned ? badge.icon : <Lock className="h-4 w-4 text-muted-foreground/50" />}
+      <div
+        className={cn(
+          "w-14 h-14 rounded-2xl border flex items-center justify-center text-2xl transition-all cursor-default",
+          earned
+            ? cn(style.border, style.bg, style.glow, "opacity-100")
+            : "border-border bg-muted/50 opacity-40 grayscale",
+        )}
+      >
+        {earned ? (
+          badge.icon
+        ) : (
+          <Lock className="h-4 w-4 text-muted-foreground/50" />
+        )}
       </div>
 
       <AnimatePresence>
@@ -123,11 +164,18 @@ const BadgeCard = ({
             transition={{ duration: 0.15 }}
             className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-44 bg-background border border-border rounded-xl p-3 shadow-lg z-20 pointer-events-none"
           >
-            <p className="text-xs font-semibold">{badge.name_fr ?? badge.name}</p>
+            <p className="text-xs font-semibold">
+              {badge.name_fr ?? badge.name}
+            </p>
             <p className="text-[11px] text-muted-foreground mt-0.5 leading-snug">
               {badge.description_fr ?? badge.description}
             </p>
-            <div className={cn("text-[10px] font-bold mt-1.5 uppercase tracking-wide", style.text)}>
+            <div
+              className={cn(
+                "text-[10px] font-bold mt-1.5 uppercase tracking-wide",
+                style.text,
+              )}
+            >
               {badge.rarity} · +{badge.xp_reward} XP
             </div>
           </motion.div>
@@ -168,13 +216,17 @@ export const GamificationPanel = () => {
           <span className="text-muted-foreground text-xs">XP this week</span>
           <div className="flex items-center gap-1.5">
             <Zap className="h-3 w-3 text-amber-500" />
-            <span className="text-xs font-bold text-amber-600">+{progress.xp_this_week}</span>
+            <span className="text-xs font-bold text-amber-600">
+              +{progress.xp_this_week}
+            </span>
           </div>
         </div>
       )}
 
       <div className="space-y-3">
-        <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Badges</p>
+        <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider">
+          Badges
+        </p>
         <div className="flex flex-wrap gap-2">
           {badgesToShow.map((badge, i) => (
             <BadgeCard
@@ -191,7 +243,12 @@ export const GamificationPanel = () => {
             className="text-xs text-primary hover:underline flex items-center gap-1"
           >
             {showAll ? "Show less" : `View all (${allBadges.length})`}
-            <ChevronRight className={cn("h-3 w-3 transition-transform", showAll && "rotate-90")} />
+            <ChevronRight
+              className={cn(
+                "h-3 w-3 transition-transform",
+                showAll && "rotate-90",
+              )}
+            />
           </button>
         )}
       </div>

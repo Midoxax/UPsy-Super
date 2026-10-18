@@ -2,7 +2,13 @@ import { Link } from "@/lib/router-compat";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
-import { ArrowRight, ShieldCheck, Sparkles, TrendingUp, Zap } from "lucide-react";
+import {
+  ArrowRight,
+  ShieldCheck,
+  Sparkles,
+  TrendingUp,
+  Zap,
+} from "lucide-react";
 import { PlanComparisonGrid } from "@/components/dashboard/PlanComparisonGrid";
 import SEOHead from "@/components/SEOHead";
 
@@ -24,8 +30,9 @@ const SpecialistPricing = () => {
             Build your practice on U.Psy
           </h1>
           <p className="text-lg text-muted-foreground">
-            Free to get listed. Upgrade when you're ready for more visibility, deeper analytics,
-            and clinical AI tools that save you hours every week.
+            Free to get listed. Upgrade when you're ready for more visibility,
+            deeper analytics, and clinical AI tools that save you hours every
+            week.
           </p>
         </div>
 
@@ -34,21 +41,27 @@ const SpecialistPricing = () => {
             <TrendingUp className="h-5 w-5 text-primary flex-shrink-0 mt-0.5" />
             <div>
               <p className="font-semibold">Lower commission as you grow</p>
-              <p className="text-muted-foreground text-xs mt-0.5">20% on Free, down to 8% on Elite.</p>
+              <p className="text-muted-foreground text-xs mt-0.5">
+                20% on Free, down to 8% on Elite.
+              </p>
             </div>
           </Card>
           <Card className="p-4 flex items-start gap-3 bg-surface border-border">
             <Zap className="h-5 w-5 text-primary flex-shrink-0 mt-0.5" />
             <div>
               <p className="font-semibold">Unlock AI clinical tools</p>
-              <p className="text-muted-foreground text-xs mt-0.5">Session summaries and Nour assistant on Pro+.</p>
+              <p className="text-muted-foreground text-xs mt-0.5">
+                Session summaries and Nour assistant on Pro+.
+              </p>
             </div>
           </Card>
           <Card className="p-4 flex items-start gap-3 bg-surface border-border">
             <ShieldCheck className="h-5 w-5 text-primary flex-shrink-0 mt-0.5" />
             <div>
               <p className="font-semibold">Cancel anytime</p>
-              <p className="text-muted-foreground text-xs mt-0.5">No lock-in. Switch tiers from your dashboard.</p>
+              <p className="text-muted-foreground text-xs mt-0.5">
+                No lock-in. Switch tiers from your dashboard.
+              </p>
             </div>
           </Card>
         </div>
@@ -72,8 +85,9 @@ const SpecialistPricing = () => {
         </div>
 
         <p className="mt-12 text-center text-xs text-muted-foreground max-w-xl mx-auto">
-          Prices in MAD. Real online payments are not yet active — upgrades on this page run in test mode
-          and generate mock invoices for your records.
+          Prices in MAD. Real online payments are not yet active — upgrades on
+          this page run in test mode and generate mock invoices for your
+          records.
         </p>
       </div>
     </div>

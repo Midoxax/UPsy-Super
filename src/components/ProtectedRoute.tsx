@@ -29,7 +29,9 @@ export const ProtectedRoute = ({ children, role }: ProtectedRouteProps) => {
   if (!user) {
     const back = location.pathname + location.search;
     const safe = back && !back.startsWith("/auth") ? back : "";
-    const target = safe ? `/auth?redirect=${encodeURIComponent(safe)}` : "/auth";
+    const target = safe
+      ? `/auth?redirect=${encodeURIComponent(safe)}`
+      : "/auth";
     return <Navigate to={target} replace />;
   }
 

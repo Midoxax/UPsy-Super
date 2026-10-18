@@ -27,9 +27,16 @@ interface Step {
  * Visual timeline for a session: Proposed → Confirmed/Declined → Open.
  * Pure presentation; safe to drop into any card.
  */
-export default function SessionStatusTimeline({ status, className, compact = true }: Props) {
+export default function SessionStatusTimeline({
+  status,
+  className,
+  compact = true,
+}: Props) {
   const declined = status === "cancelled" || status === "declined";
-  const confirmed = status === "confirmed" || status === "in_progress" || status === "completed";
+  const confirmed =
+    status === "confirmed" ||
+    status === "in_progress" ||
+    status === "completed";
   const proposed = status === "proposed" || status === "pending";
 
   const steps: Step[] = [
@@ -43,7 +50,9 @@ export default function SessionStatusTimeline({ status, className, compact = tru
   ];
 
   // Determine step states
-  const stepState = (key: Step["key"]): "done" | "current" | "todo" | "error" => {
+  const stepState = (
+    key: Step["key"],
+  ): "done" | "current" | "todo" | "error" => {
     if (key === "proposed") {
       if (proposed) return "current";
       return "done";
@@ -77,10 +86,14 @@ export default function SessionStatusTimeline({ status, className, compact = tru
             <div
               className={cn(
                 "flex items-center gap-1.5 rounded-full border px-2 py-1 transition-colors",
-                state === "done" && "border-primary/40 bg-primary/10 text-primary",
-                state === "current" && "border-primary bg-primary text-primary-foreground",
-                state === "error" && "border-destructive/40 bg-destructive/10 text-destructive",
-                state === "todo" && "border-border text-muted-foreground bg-muted/20",
+                state === "done" &&
+                  "border-primary/40 bg-primary/10 text-primary",
+                state === "current" &&
+                  "border-primary bg-primary text-primary-foreground",
+                state === "error" &&
+                  "border-destructive/40 bg-destructive/10 text-destructive",
+                state === "todo" &&
+                  "border-border text-muted-foreground bg-muted/20",
               )}
             >
               <Icon className="h-3 w-3" />
@@ -93,8 +106,8 @@ export default function SessionStatusTimeline({ status, className, compact = tru
                   state === "done" || state === "current"
                     ? "bg-primary/40"
                     : state === "error"
-                    ? "bg-destructive/40"
-                    : "bg-border",
+                      ? "bg-destructive/40"
+                      : "bg-border",
                 )}
               />
             )}

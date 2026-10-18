@@ -2,7 +2,11 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Check, X, Sparkles } from "lucide-react";
-import { useAllPlans, useAllPlansPublic, type SpecialistPlan } from "@/hooks/useSpecialistPlan";
+import {
+  useAllPlans,
+  useAllPlansPublic,
+  type SpecialistPlan,
+} from "@/hooks/useSpecialistPlan";
 import { cn } from "@/lib/utils";
 
 interface Props {
@@ -88,33 +92,44 @@ export const PlanComparisonGrid = ({
               <div className="flex items-center justify-between">
                 <h3 className="text-xl font-bold capitalize">{plan.name}</h3>
                 {isCurrent && (
-                  <Badge variant="secondary" className="bg-primary/10 text-primary">
+                  <Badge
+                    variant="secondary"
+                    className="bg-primary/10 text-primary"
+                  >
                     Current
                   </Badge>
                 )}
               </div>
               {plan.tagline && (
-                <p className="mt-1 text-sm text-muted-foreground">{plan.tagline}</p>
+                <p className="mt-1 text-sm text-muted-foreground">
+                  {plan.tagline}
+                </p>
               )}
             </div>
 
             <div className="mb-4">
               <span className="text-3xl font-bold">
-                {plan.monthly_price_mad === 0 ? "Free" : `${plan.monthly_price_mad} MAD`}
+                {plan.monthly_price_mad === 0
+                  ? "Free"
+                  : `${plan.monthly_price_mad} MAD`}
               </span>
               {plan.monthly_price_mad > 0 && (
                 <span className="text-sm text-muted-foreground"> / month</span>
               )}
               {typeof plan.commission_rate === "number" && (
                 <p className="mt-1 text-xs text-muted-foreground">
-                  Platform commission: {(plan.commission_rate * 100).toFixed(0)}% per session
+                  Platform commission: {(plan.commission_rate * 100).toFixed(0)}
+                  % per session
                 </p>
               )}
             </div>
 
             <ul className="mb-6 space-y-2 text-sm">
               {FEATURE_ROWS.map((row) => (
-                <li key={row.key} className="flex items-center justify-between gap-3">
+                <li
+                  key={row.key}
+                  className="flex items-center justify-between gap-3"
+                >
                   <span className="text-muted-foreground">{row.label}</span>
                   {renderValue(plan, row.key)}
                 </li>
@@ -131,8 +146,10 @@ export const PlanComparisonGrid = ({
                 >
                   {isCurrent
                     ? "Current plan"
-                    : ctaLabel?.(plan) ??
-                      (plan.monthly_price_mad === 0 ? "Downgrade to Free" : `Upgrade to ${plan.name}`)}
+                    : (ctaLabel?.(plan) ??
+                      (plan.monthly_price_mad === 0
+                        ? "Downgrade to Free"
+                        : `Upgrade to ${plan.name}`))}
                 </Button>
               )}
             </div>

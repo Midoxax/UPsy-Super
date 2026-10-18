@@ -5,10 +5,15 @@ interface NeuralConnectorProps {
   className?: string;
 }
 
-const NeuralConnector = ({ variant = "synapse", className = "" }: NeuralConnectorProps) => {
+const NeuralConnector = ({
+  variant = "synapse",
+  className = "",
+}: NeuralConnectorProps) => {
   if (variant === "synapse") {
     return (
-      <div className={`flex items-center justify-center gap-4 my-12 ${className}`}>
+      <div
+        className={`flex items-center justify-center gap-4 my-12 ${className}`}
+      >
         <motion.div
           className="w-3 h-3 rounded-full bg-u-gold"
           animate={{
@@ -64,10 +69,28 @@ const NeuralConnector = ({ variant = "synapse", className = "" }: NeuralConnecto
             transition={{ duration: 1.5, ease: "easeInOut" }}
           />
           <defs>
-            <linearGradient id="neuralGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stopColor="hsl(var(--teal))" stopOpacity="0.8" />
-              <stop offset="50%" stopColor="hsl(var(--gold))" stopOpacity="0.8" />
-              <stop offset="100%" stopColor="hsl(var(--teal))" stopOpacity="0.8" />
+            <linearGradient
+              id="neuralGradient"
+              x1="0%"
+              y1="0%"
+              x2="100%"
+              y2="0%"
+            >
+              <stop
+                offset="0%"
+                stopColor="hsl(var(--teal))"
+                stopOpacity="0.8"
+              />
+              <stop
+                offset="50%"
+                stopColor="hsl(var(--gold))"
+                stopOpacity="0.8"
+              />
+              <stop
+                offset="100%"
+                stopColor="hsl(var(--teal))"
+                stopOpacity="0.8"
+              />
             </linearGradient>
           </defs>
         </svg>

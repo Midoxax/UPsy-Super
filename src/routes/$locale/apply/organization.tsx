@@ -6,6 +6,8 @@ const ApplyOrganization = lazy(() => import("@/pages/apply/ApplyOrganization"));
 
 export const Route = createFileRoute("/$locale/apply/organization")({
   component: () => (
-    <PageTransition><ApplyOrganization /></PageTransition>
+    <PageTransition>
+      <ApplyOrganization />
+    </PageTransition>
   ),
 });

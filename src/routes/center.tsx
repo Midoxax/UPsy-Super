@@ -6,6 +6,8 @@ const CenterHome = lazy(() => import("@/pages/center/CenterHome"));
 
 export const Route = createFileRoute("/center")({
   component: () => (
-    <PageTransition><CenterHome /></PageTransition>
+    <PageTransition>
+      <CenterHome />
+    </PageTransition>
   ),
 });

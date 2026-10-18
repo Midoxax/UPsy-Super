@@ -4,7 +4,8 @@ import { z } from "https://deno.land/x/zod@v3.22.4/mod.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
+  "Access-Control-Allow-Headers":
+    "authorization, x-client-info, apikey, content-type",
 };
 
 // Input validation schema
@@ -17,12 +18,17 @@ const corsHeaders = {
 // error instead of the graceful unfiltered fallback below.
 const MatchRequestSchema = z.object({
   specialtyNeeded: z.string().uuid("Invalid specialty ID format").optional(),
-  languagesPreferred: z.array(z.string().uuid("Invalid language ID format"))
+  languagesPreferred: z
+    .array(z.string().uuid("Invalid language ID format"))
     .max(10, "Maximum 10 languages allowed")
     .optional(),
-  budgetMax: z.number().positive("Budget must be positive").max(10000, "Budget exceeds maximum").optional(),
+  budgetMax: z
+    .number()
+    .positive("Budget must be positive")
+    .max(10000, "Budget exceeds maximum")
+    .optional(),
   locationCity: z.string().max(100, "City name too long").optional(),
-  prefersOnline: z.boolean()
+  prefersOnline: z.boolean(),
 });
 
 interface MatchRequest {
@@ -39,38 +45,42 @@ const rateLimiter = new Map<string, { count: number; resetTime: number }>();
 // Error sanitization utility
 function sanitizeError(error: any): string {
   const errorMap: Record<string, string> = {
-    'duplicate key': 'A record with this information already exists',
-    'foreign key': 'Referenced resource not found',
-    'not null': 'Required field is missing',
-    'invalid input': 'Invalid data provided',
-    'connection': 'Service temporarily unavailable',
-    'timeout': 'Request timed out, please try again',
+    "duplicate key": "A record with this information already exists",
+    "foreign key": "Referenced resource not found",
+    "not null": "Required field is missing",
+    "invalid input": "Invalid data provided",
+    connection: "Service temporarily unavailable",
+    timeout: "Request timed out, please try again",
   };
-  
-  const errorMsg = error.message?.toLowerCase() || '';
+
+  const errorMsg = error.message?.toLowerCase() || "";
   for (const [key, message] of Object.entries(errorMap)) {
     if (errorMsg.includes(key)) {
       return message;
     }
   }
-  
-  return 'An error occurred while finding matches';
+
+  return "An error occurred while finding matches";
 }
 
 // Rate limiting check
-function checkRateLimit(ip: string, maxRequests: number, windowMs: number): boolean {
+function checkRateLimit(
+  ip: string,
+  maxRequests: number,
+  windowMs: number,
+): boolean {
   const now = Date.now();
   const record = rateLimiter.get(ip);
-  
+
   if (!record || now > record.resetTime) {
     rateLimiter.set(ip, { count: 1, resetTime: now + windowMs });
     return true;
   }
-  
+
   if (record.count >= maxRequests) {
     return false;
   }
-  
+
   record.count++;
   return true;
 }
@@ -82,50 +92,69 @@ serve(async (req) => {
 
   try {
     // Rate limiting: 10 requests per minute per IP
-    const clientIp = req.headers.get('x-forwarded-for')?.split(',')[0].trim() || 
-                     req.headers.get('x-real-ip') || 
-                     'unknown';
-    
+    const clientIp =
+      req.headers.get("x-forwarded-for")?.split(",")[0].trim() ||
+      req.headers.get("x-real-ip") ||
+      "unknown";
+
     if (!checkRateLimit(clientIp, 10, 60000)) {
       console.warn(`Rate limit exceeded for IP: ${clientIp}`);
       return new Response(
-        JSON.stringify({ 
-          success: false, 
-          error: 'Too many requests. Please try again in a minute.' 
+        JSON.stringify({
+          success: false,
+          error: "Too many requests. Please try again in a minute.",
         }),
-        { status: 429, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+        {
+          status: 429,
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        },
       );
     }
 
     const supabaseClient = createClient(
       Deno.env.get("SUPABASE_URL") ?? "",
-      Deno.env.get("SUPABASE_ANON_KEY") ?? ""
+      Deno.env.get("SUPABASE_ANON_KEY") ?? "",
     );
 
     // Validate input
     const rawBody = await req.json();
     let validatedInput: MatchRequest;
-    
+
     try {
       validatedInput = MatchRequestSchema.parse(rawBody);
     } catch (validationError) {
       if (validationError instanceof z.ZodError) {
         console.warn("Validation error:", validationError.errors);
         return new Response(
-          JSON.stringify({ 
-            success: false, 
-            error: 'Invalid request data',
-            details: validationError.errors.map(e => e.message)
+          JSON.stringify({
+            success: false,
+            error: "Invalid request data",
+            details: validationError.errors.map((e) => e.message),
           }),
-          { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+          {
+            status: 400,
+            headers: { ...corsHeaders, "Content-Type": "application/json" },
+          },
         );
       }
       throw validationError;
     }
 
-    const { specialtyNeeded, languagesPreferred, budgetMax, locationCity, prefersOnline } = validatedInput;
+    const {
+      specialtyNeeded,
+      languagesPreferred,
+      budgetMax,
+      locationCity,
+      prefersOnline,
+    } = validatedInput;
 
-    console.log("Finding matches for:", { specialtyNeeded, languagesPreferred, budgetMax, locationCity, prefersOnline });
+    console.log("Finding matches for:", {
+      specialtyNeeded,
+      languagesPreferred,
+      budgetMax,
+      locationCity,
+      prefersOnline,
+    });
 
     // Try strict matching first — only when a specialty was actually given.
     let profiles: any[] | null = null;
@@ -134,7 +163,8 @@ serve(async (req) => {
     if (specialtyNeeded) {
       let query = supabaseClient
         .from("psychologist_profiles")
-        .select(`
+        .select(
+          `
           id,
           full_name,
           bio,
@@ -148,7 +178,8 @@ serve(async (req) => {
           slug,
           psychologist_specialties!inner(specialty_id),
           psychologist_languages!inner(language_id)
-        `)
+        `,
+        )
         .eq("is_published", true)
         .eq("psychologist_specialties.specialty_id", specialtyNeeded);
 
@@ -178,11 +209,14 @@ serve(async (req) => {
 
     // Fallback: no specialty given, or strict search found nothing
     if (!profiles || profiles.length === 0) {
-      console.log("No strict matches, trying fallback without specialty filter...");
-      
+      console.log(
+        "No strict matches, trying fallback without specialty filter...",
+      );
+
       let fallbackQuery = supabaseClient
         .from("psychologist_profiles")
-        .select(`
+        .select(
+          `
           id,
           full_name,
           bio,
@@ -196,7 +230,8 @@ serve(async (req) => {
           slug,
           psychologist_specialties(specialty_id),
           psychologist_languages(language_id)
-        `)
+        `,
+        )
         .eq("is_published", true);
 
       if (prefersOnline) {
@@ -207,7 +242,7 @@ serve(async (req) => {
 
       const fallbackResult = await fallbackQuery;
       profiles = fallbackResult.data;
-      
+
       console.log("Fallback found profiles:", profiles?.length);
     }
 
@@ -216,8 +251,12 @@ serve(async (req) => {
       let score = 0;
 
       // Check language match
-      const profileLanguageIds = profile.psychologist_languages.map((pl: any) => pl.language_id);
-      const languageMatch = (languagesPreferred ?? []).some((lang) => profileLanguageIds.includes(lang));
+      const profileLanguageIds = profile.psychologist_languages.map(
+        (pl: any) => pl.language_id,
+      );
+      const languageMatch = (languagesPreferred ?? []).some((lang) =>
+        profileLanguageIds.includes(lang),
+      );
       if (languageMatch) score += 3;
 
       // Check city match (exact or nearby)
@@ -226,11 +265,14 @@ serve(async (req) => {
         const searchCityLower = locationCity.toLowerCase();
         if (cityLower === searchCityLower) {
           score += 2;
-        } else if (cityLower.includes(searchCityLower) || searchCityLower.includes(cityLower)) {
+        } else if (
+          cityLower.includes(searchCityLower) ||
+          searchCityLower.includes(cityLower)
+        ) {
           score += 1; // Partial city match
         }
       }
-      
+
       // Bonus for online if no city preference
       if (!locationCity && profile.offers_online) {
         score += 1;
@@ -254,7 +296,12 @@ serve(async (req) => {
       .slice(0, 3)
       .map((match) => {
         // Fetch full specialty and language data
-        const { psychologist_specialties, psychologist_languages, score, ...rest } = match;
+        const {
+          psychologist_specialties,
+          psychologist_languages,
+          score,
+          ...rest
+        } = match;
         return rest;
       });
 
@@ -278,7 +325,7 @@ serve(async (req) => {
           specialties: specialties?.map((s: any) => s.specialties) || [],
           languages: languages?.map((l: any) => l.languages) || [],
         };
-      })
+      }),
     );
 
     return new Response(
@@ -288,7 +335,7 @@ serve(async (req) => {
       }),
       {
         headers: { ...corsHeaders, "Content-Type": "application/json" },
-      }
+      },
     );
   } catch (error: any) {
     // Log full error details server-side for debugging
@@ -296,9 +343,9 @@ serve(async (req) => {
       timestamp: new Date().toISOString(),
       error: error.message,
       stack: error.stack,
-      name: error.name
+      name: error.name,
     });
-    
+
     // Return sanitized error to client
     return new Response(
       JSON.stringify({
@@ -308,7 +355,7 @@ serve(async (req) => {
       {
         status: 500,
         headers: { ...corsHeaders, "Content-Type": "application/json" },
-      }
+      },
     );
   }
 });

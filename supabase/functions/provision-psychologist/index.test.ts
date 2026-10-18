@@ -1,20 +1,32 @@
 import "https://deno.land/std@0.224.0/dotenv/load.ts";
-import { assertEquals, assert } from "https://deno.land/std@0.224.0/assert/mod.ts";
+import {
+  assertEquals,
+  assert,
+} from "https://deno.land/std@0.224.0/assert/mod.ts";
 
 const SUPABASE_URL = Deno.env.get("VITE_SUPABASE_URL")!;
 const ANON_KEY = Deno.env.get("VITE_SUPABASE_PUBLISHABLE_KEY")!;
 const FN_URL = `${SUPABASE_URL}/functions/v1/provision-psychologist`;
 
 async function call(body: unknown, opts: { auth?: boolean } = { auth: true }) {
-  const headers: Record<string, string> = { "Content-Type": "application/json" };
+  const headers: Record<string, string> = {
+    "Content-Type": "application/json",
+  };
   if (opts.auth !== false) headers["Authorization"] = `Bearer ${ANON_KEY}`;
-  const res = await fetch(FN_URL, { method: "POST", headers, body: JSON.stringify(body) });
+  const res = await fetch(FN_URL, {
+    method: "POST",
+    headers,
+    body: JSON.stringify(body),
+  });
   const json = await res.json().catch(() => ({}));
   return { status: res.status, json };
 }
 
 Deno.test("rejects invalid uuid (validation)", async () => {
-  const { status, json } = await call({ applicationId: "not-a-uuid", adminUserId: "also-bad" });
+  const { status, json } = await call({
+    applicationId: "not-a-uuid",
+    adminUserId: "also-bad",
+  });
   assertEquals(status, 400);
   assertEquals(json.errorCode, "VALIDATION");
 });

@@ -28,15 +28,17 @@ describe("sign-in does not gate on signup password complexity", () => {
 
   const handleLogin = source.slice(
     source.indexOf("const handleLogin ="),
-    source.indexOf("const handleSignup =")
+    source.indexOf("const handleSignup ="),
   );
   const handleSignup = source.slice(
     source.indexOf("const handleSignup ="),
-    source.indexOf("const handleSuggestPassword =")
+    source.indexOf("const handleSuggestPassword ="),
   );
 
   it("never runs passwordSchema against the login password", () => {
-    expect(handleLogin).not.toMatch(/passwordSchema\.parse\(loginData\.password\)/);
+    expect(handleLogin).not.toMatch(
+      /passwordSchema\.parse\(loginData\.password\)/,
+    );
   });
 
   it("still requires a password to be entered before calling signIn", () => {
@@ -46,7 +48,9 @@ describe("sign-in does not gate on signup password complexity", () => {
   });
 
   it("keeps the complexity check on signup, where it belongs", () => {
-    expect(handleSignup).toMatch(/passwordSchema\.parse\(signupData\.password\)/);
+    expect(handleSignup).toMatch(
+      /passwordSchema\.parse\(signupData\.password\)/,
+    );
   });
 
   it("blocks signup until Terms of Service / Privacy Policy is accepted", () => {
@@ -54,11 +58,15 @@ describe("sign-in does not gate on signup password complexity", () => {
   });
 
   it("tracks the pending-verification email so a resend action has a target", () => {
-    expect(handleSignup).toMatch(/setPendingVerificationEmail\(signupData\.email\)/);
+    expect(handleSignup).toMatch(
+      /setPendingVerificationEmail\(signupData\.email\)/,
+    );
   });
 
   it("offers a resend-verification action via supabase.auth.resend", () => {
-    expect(source).toMatch(/supabase\.auth\.resend\(\{ type: "signup", email: pendingVerificationEmail \}\)/);
+    expect(source).toMatch(
+      /supabase\.auth\.resend\(\{\s*type: "signup",\s*email: pendingVerificationEmail,?\s*\}\)/,
+    );
   });
 });
 
@@ -66,14 +74,24 @@ describe("friendlyAuthError", () => {
   const t = (key: string) => key;
 
   it("translates the common Supabase auth failures", () => {
-    expect(friendlyAuthError("Invalid login credentials", t)).toBe("auth.errorInvalidCredentials");
-    expect(friendlyAuthError("Email not confirmed", t)).toBe("auth.errorEmailNotConfirmed");
-    expect(friendlyAuthError("User already registered", t)).toBe("auth.errorEmailTaken");
-    expect(friendlyAuthError("Email rate limit exceeded", t)).toBe("auth.errorRateLimited");
+    expect(friendlyAuthError("Invalid login credentials", t)).toBe(
+      "auth.errorInvalidCredentials",
+    );
+    expect(friendlyAuthError("Email not confirmed", t)).toBe(
+      "auth.errorEmailNotConfirmed",
+    );
+    expect(friendlyAuthError("User already registered", t)).toBe(
+      "auth.errorEmailTaken",
+    );
+    expect(friendlyAuthError("Email rate limit exceeded", t)).toBe(
+      "auth.errorRateLimited",
+    );
   });
 
   it("is case-insensitive, since Supabase's casing is not a stable contract", () => {
-    expect(friendlyAuthError("INVALID LOGIN CREDENTIALS", t)).toBe("auth.errorInvalidCredentials");
+    expect(friendlyAuthError("INVALID LOGIN CREDENTIALS", t)).toBe(
+      "auth.errorInvalidCredentials",
+    );
   });
 
   it("falls through to the raw message for anything unrecognized", () => {

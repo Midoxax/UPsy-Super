@@ -75,7 +75,10 @@ export interface EventPayloads {
     price_minor?: number;
     currency?: string;
   };
-  "booking.cancelled": { cancelled_by: "client" | "specialist" | "system"; reason_code?: string };
+  "booking.cancelled": {
+    cancelled_by: "client" | "specialist" | "system";
+    reason_code?: string;
+  };
   "session.completed": { specialist_id: string; duration_minutes: number };
   "session.no_show": { party: "client" | "specialist" };
 
@@ -83,7 +86,10 @@ export interface EventPayloads {
   /** Instrument and band only. Never item-level responses or raw scores. */
   "assessment.completed": { instrument: string; band?: string };
   /** Signals that escalation is required. Carries no clinical detail. */
-  "risk.flagged": { severity: "low" | "moderate" | "high"; requires_escalation: boolean };
+  "risk.flagged": {
+    severity: "low" | "moderate" | "high";
+    requires_escalation: boolean;
+  };
   "risk.escalated": { escalated_to: string };
 
   // --- Supply -------------------------------------------------------------
@@ -94,11 +100,31 @@ export interface EventPayloads {
   // --- Revenue operations -------------------------------------------------
   // Models the approved pipeline: lead -> opportunity -> organization ->
   // proposal -> contract -> program -> participants -> delivery -> renewal.
-  "lead.captured": { source: string; organization_type?: OrganizationType; country?: string };
-  "opportunity.created": { estimated_seats?: number; estimated_value_minor?: number; currency?: string };
-  "opportunity.stage_changed": { from_stage: string; to_stage: string; pipeline: string };
-  "organization.created": { organization_type: OrganizationType; country?: string };
-  "proposal.sent": { organization_id: string; seats: number; value_minor: number; currency: string };
+  "lead.captured": {
+    source: string;
+    organization_type?: OrganizationType;
+    country?: string;
+  };
+  "opportunity.created": {
+    estimated_seats?: number;
+    estimated_value_minor?: number;
+    currency?: string;
+  };
+  "opportunity.stage_changed": {
+    from_stage: string;
+    to_stage: string;
+    pipeline: string;
+  };
+  "organization.created": {
+    organization_type: OrganizationType;
+    country?: string;
+  };
+  "proposal.sent": {
+    organization_id: string;
+    seats: number;
+    value_minor: number;
+    currency: string;
+  };
   "proposal.accepted": { organization_id: string };
   "contract.signed": {
     organization_id: string;
@@ -109,13 +135,33 @@ export interface EventPayloads {
     currency: string;
   };
   "contract.renewed": { organization_id: string; previous_contract_id: string };
-  "program.launched": { organization_id: string; contract_id: string; seats: number };
-  "program.participant_enrolled": { program_id: string; organization_id: string };
+  "program.launched": {
+    organization_id: string;
+    contract_id: string;
+    seats: number;
+  };
+  "program.participant_enrolled": {
+    program_id: string;
+    organization_id: string;
+  };
 
   // --- Billing ------------------------------------------------------------
-  "invoice.issued": { organization_id?: string; amount_minor: number; currency: string; due_on: string };
-  "invoice.paid": { organization_id?: string; amount_minor: number; currency: string };
-  "payment.completed": { amount_minor: number; currency: string; provider: string };
+  "invoice.issued": {
+    organization_id?: string;
+    amount_minor: number;
+    currency: string;
+    due_on: string;
+  };
+  "invoice.paid": {
+    organization_id?: string;
+    amount_minor: number;
+    currency: string;
+  };
+  "payment.completed": {
+    amount_minor: number;
+    currency: string;
+    provider: string;
+  };
   "payment.failed": { provider: string; failure_code?: string };
 
   // --- Learning -----------------------------------------------------------
@@ -153,7 +199,12 @@ export type OrganizationType =
  * Known consumers. Adding one here and replaying is how a new integration is
  * onboarded — producers never change.
  */
-export const EVENT_CONSUMERS = ["crm", "warehouse", "notifications", "partner_webhook"] as const;
+export const EVENT_CONSUMERS = [
+  "crm",
+  "warehouse",
+  "notifications",
+  "partner_webhook",
+] as const;
 export type EventConsumer = (typeof EVENT_CONSUMERS)[number];
 
 /**
@@ -164,7 +215,9 @@ export type EventConsumer = (typeof EVENT_CONSUMERS)[number];
  * to a third-party sales tool would be a privacy incident rather than a
  * feature. Where a consumer is omitted, the event simply is not delivered to it.
  */
-export const DEFAULT_ROUTING: Partial<Record<EventName, readonly EventConsumer[]>> = {
+export const DEFAULT_ROUTING: Partial<
+  Record<EventName, readonly EventConsumer[]>
+> = {
   "user.registered": ["crm", "warehouse"],
   "lead.captured": ["crm", "warehouse"],
   "opportunity.created": ["crm", "warehouse"],

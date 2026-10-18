@@ -44,17 +44,16 @@
  */
 
 /** Providers this deployment is configured for. Empty until proven otherwise. */
-export const OAUTH_PROVIDERS: ReadonlyArray<"google" | "apple"> = (
+export const OAUTH_PROVIDERS: ReadonlyArray<"google" | "apple"> =
   // Neither provider has a client ID/secret configured in Supabase Auth
   // (confirmed in production: signing in returns 400 "missing OAuth secret").
   // Default to none until a provider is actually set up per the TURNING GOOGLE ON
   // steps above. `VITE_OAUTH_PROVIDERS` can enable one once it's real, e.g. "google".
   ((import.meta.env.VITE_OAUTH_PROVIDERS as string | undefined)?.trim() || "")
 
-)
-  .split(",")
-  .map((p) => p.trim().toLowerCase())
-  .filter((p): p is "google" | "apple" => p === "google" || p === "apple");
+    .split(",")
+    .map((p) => p.trim().toLowerCase())
+    .filter((p): p is "google" | "apple" => p === "google" || p === "apple");
 
 export const isOAuthEnabled = (provider: "google" | "apple"): boolean =>
   OAUTH_PROVIDERS.includes(provider);

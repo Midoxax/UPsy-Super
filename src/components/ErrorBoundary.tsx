@@ -51,9 +51,12 @@ export class ErrorBoundary extends Component<Props, State> {
                 <AlertTriangle className="w-8 h-8 text-destructive" />
               </div>
             </div>
-            <h1 className="text-h2 text-foreground mb-4">Something went wrong</h1>
+            <h1 className="text-h2 text-foreground mb-4">
+              Something went wrong
+            </h1>
             <p className="text-body text-muted-foreground mb-6">
-              We're sorry for the inconvenience. Please try refreshing the page or returning to the homepage.
+              We're sorry for the inconvenience. Please try refreshing the page
+              or returning to the homepage.
             </p>
             {this.state.error && (
               <details className="mb-6 text-left">
@@ -66,12 +69,13 @@ export class ErrorBoundary extends Component<Props, State> {
               </details>
             )}
             <div className="flex gap-4 justify-center">
-              <Button onClick={() => window.location.reload()} variant="outline">
+              <Button
+                onClick={() => window.location.reload()}
+                variant="outline"
+              >
                 Refresh Page
               </Button>
-              <Button onClick={this.handleReset}>
-                Go Home
-              </Button>
+              <Button onClick={this.handleReset}>Go Home</Button>
             </div>
           </div>
         </div>

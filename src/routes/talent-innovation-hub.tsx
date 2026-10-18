@@ -6,6 +6,8 @@ const TalentInnovationHub = lazy(() => import("@/pages/TalentInnovationHub"));
 
 export const Route = createFileRoute("/talent-innovation-hub")({
   component: () => (
-    <PageTransition><TalentInnovationHub /></PageTransition>
+    <PageTransition>
+      <TalentInnovationHub />
+    </PageTransition>
   ),
 });

@@ -1,7 +1,20 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 import { Switch } from "@/components/ui/switch";
 import { useToast } from "@/hooks/use-toast";
 import { Badge } from "@/components/ui/badge";
@@ -26,7 +39,13 @@ const PsychologistDirectory = () => {
   });
 
   const togglePublished = useMutation({
-    mutationFn: async ({ id, isPublished }: { id: string; isPublished: boolean }) => {
+    mutationFn: async ({
+      id,
+      isPublished,
+    }: {
+      id: string;
+      isPublished: boolean;
+    }) => {
       const { error } = await supabase
         .from("psychologist_profiles")
         .update({ is_published: isPublished })
@@ -55,7 +74,9 @@ const PsychologistDirectory = () => {
       <Card>
         <CardHeader>
           <CardTitle>Psychologist Directory</CardTitle>
-          <CardDescription>Manage psychologist profiles and visibility</CardDescription>
+          <CardDescription>
+            Manage psychologist profiles and visibility
+          </CardDescription>
         </CardHeader>
         <CardContent>
           <div className="flex items-center justify-center py-8">
@@ -70,7 +91,9 @@ const PsychologistDirectory = () => {
     <Card>
       <CardHeader>
         <CardTitle>Psychologist Directory</CardTitle>
-        <CardDescription>Manage psychologist profiles and visibility</CardDescription>
+        <CardDescription>
+          Manage psychologist profiles and visibility
+        </CardDescription>
       </CardHeader>
       <CardContent>
         {psychologists?.length === 0 ? (
@@ -81,40 +104,45 @@ const PsychologistDirectory = () => {
           />
         ) : (
           <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>Name</TableHead>
-              <TableHead>City</TableHead>
-              <TableHead>Rate (MAD/hr)</TableHead>
-              <TableHead>Accredited</TableHead>
-              <TableHead>Active</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {psychologists?.map((psych) => (
-              <TableRow key={psych.id}>
-                <TableCell className="font-medium">{psych.full_name}</TableCell>
-                <TableCell>{psych.city || "N/A"}</TableCell>
-                <TableCell>{psych.hourly_rate_mad || "N/A"}</TableCell>
-                <TableCell>
-                  {psych.is_accredited ? (
-                    <Badge variant="secondary">Yes</Badge>
-                  ) : (
-                    <Badge variant="outline">No</Badge>
-                  )}
-                </TableCell>
-                <TableCell>
-                  <Switch
-                    checked={psych.is_published ?? false}
-                    onCheckedChange={(checked) =>
-                      togglePublished.mutate({ id: psych.id, isPublished: checked })
-                    }
-                  />
-                </TableCell>
+            <TableHeader>
+              <TableRow>
+                <TableHead>Name</TableHead>
+                <TableHead>City</TableHead>
+                <TableHead>Rate (MAD/hr)</TableHead>
+                <TableHead>Accredited</TableHead>
+                <TableHead>Active</TableHead>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+            </TableHeader>
+            <TableBody>
+              {psychologists?.map((psych) => (
+                <TableRow key={psych.id}>
+                  <TableCell className="font-medium">
+                    {psych.full_name}
+                  </TableCell>
+                  <TableCell>{psych.city || "N/A"}</TableCell>
+                  <TableCell>{psych.hourly_rate_mad || "N/A"}</TableCell>
+                  <TableCell>
+                    {psych.is_accredited ? (
+                      <Badge variant="secondary">Yes</Badge>
+                    ) : (
+                      <Badge variant="outline">No</Badge>
+                    )}
+                  </TableCell>
+                  <TableCell>
+                    <Switch
+                      checked={psych.is_published ?? false}
+                      onCheckedChange={(checked) =>
+                        togglePublished.mutate({
+                          id: psych.id,
+                          isPublished: checked,
+                        })
+                      }
+                    />
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
         )}
       </CardContent>
     </Card>

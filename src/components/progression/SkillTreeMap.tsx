@@ -49,9 +49,13 @@ export const SkillTreeMap = ({ tree }: Props) => {
 
       <div className="space-y-6">
         {tiers.map((row, i) => (
-          <div key={i} className="grid gap-3" style={{
-            gridTemplateColumns: `repeat(${Math.max(row.length, 1)}, minmax(0,1fr))`,
-          }}>
+          <div
+            key={i}
+            className="grid gap-3"
+            style={{
+              gridTemplateColumns: `repeat(${Math.max(row.length, 1)}, minmax(0,1fr))`,
+            }}
+          >
             {row.map((node) => {
               const isOwned = ownedSet.has(node.id);
               const prereqMet = node.requires.every((r) => ownedSet.has(r));
@@ -62,11 +66,12 @@ export const SkillTreeMap = ({ tree }: Props) => {
                 <div
                   key={node.id}
                   className={`relative rounded-u-md border p-3 text-center transition-all
-                    ${isOwned
-                      ? "border-primary/40 bg-primary/10"
-                      : canUnlock
-                        ? "border-amber-500/40 bg-amber-500/5 ring-1 ring-amber-500/20"
-                        : "border-border/40 bg-muted/20 opacity-70"
+                    ${
+                      isOwned
+                        ? "border-primary/40 bg-primary/10"
+                        : canUnlock
+                          ? "border-amber-500/40 bg-amber-500/5 ring-1 ring-amber-500/20"
+                          : "border-border/40 bg-muted/20 opacity-70"
                     }`}
                 >
                   <div className="flex items-center justify-center mb-1">
@@ -89,7 +94,10 @@ export const SkillTreeMap = ({ tree }: Props) => {
                       className="mt-2 h-6 w-full text-[10px]"
                       disabled={unlock.isPending}
                       onClick={() =>
-                        unlock.mutate({ tree_slug: tree.slug, node_id: node.id })
+                        unlock.mutate({
+                          tree_slug: tree.slug,
+                          node_id: node.id,
+                        })
                       }
                     >
                       Unlock

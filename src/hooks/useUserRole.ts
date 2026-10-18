@@ -46,14 +46,14 @@ export const useUserRole = () => {
   const primaryRole: AppRole | "user" = roles.includes("admin")
     ? "admin"
     : roles.includes("psychologist")
-    ? "psychologist"
-    : roles.includes("athlete")
-    ? "athlete"
-    : roles.includes("coach")
-    ? "coach"
-    : roles.includes("organization")
-    ? "organization"
-    : "user";
+      ? "psychologist"
+      : roles.includes("athlete")
+        ? "athlete"
+        : roles.includes("coach")
+          ? "coach"
+          : roles.includes("organization")
+            ? "organization"
+            : "user";
 
   return {
     roles,

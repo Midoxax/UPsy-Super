@@ -21,18 +21,25 @@ export const useAccreditationUpload = () => {
 
   const validate = (file: File, kind: UploadKind) => {
     if (kind === "photo") {
-      if (!PHOTO_TYPES.includes(file.type)) throw new Error("Photo: JPG/PNG/WebP uniquement");
+      if (!PHOTO_TYPES.includes(file.type))
+        throw new Error("Photo: JPG/PNG/WebP uniquement");
       if (file.size > MAX_PHOTO_SIZE) throw new Error("Photo: max 5 MB");
     } else if (kind === "video") {
-      if (!VIDEO_TYPES.includes(file.type)) throw new Error("Vidéo: MP4/WebM uniquement");
+      if (!VIDEO_TYPES.includes(file.type))
+        throw new Error("Vidéo: MP4/WebM uniquement");
       if (file.size > MAX_VIDEO_SIZE) throw new Error("Vidéo: max 50 MB");
     } else {
-      if (!DOC_TYPES.includes(file.type)) throw new Error("Document: PDF/JPG/PNG uniquement");
+      if (!DOC_TYPES.includes(file.type))
+        throw new Error("Document: PDF/JPG/PNG uniquement");
       if (file.size > MAX_DOC_SIZE) throw new Error("Document: max 10 MB");
     }
   };
 
-  const uploadFile = async (file: File, slot: string, kind: UploadKind): Promise<string> => {
+  const uploadFile = async (
+    file: File,
+    slot: string,
+    kind: UploadKind,
+  ): Promise<string> => {
     if (!user) throw new Error("Non authentifié");
     validate(file, kind);
     setUploading(true);
@@ -55,7 +62,9 @@ export const useAccreditationUpload = () => {
   };
 
   const getSignedUrl = async (path: string, expiresIn = 600) => {
-    const { data, error } = await supabase.storage.from(BUCKET).createSignedUrl(path, expiresIn);
+    const { data, error } = await supabase.storage
+      .from(BUCKET)
+      .createSignedUrl(path, expiresIn);
     if (error) throw error;
     return data.signedUrl;
   };

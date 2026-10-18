@@ -6,6 +6,8 @@ const VideoCall = lazy(() => import("@/pages/VideoCall"));
 
 export const Route = createFileRoute("/session/$sessionId")({
   component: () => (
-    <ProtectedRoute><VideoCall /></ProtectedRoute>
+    <ProtectedRoute>
+      <VideoCall />
+    </ProtectedRoute>
   ),
 });

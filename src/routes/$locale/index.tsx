@@ -4,6 +4,8 @@ import PageTransition from "@/components/PageTransition";
 
 export const Route = createFileRoute("/$locale/")({
   component: () => (
-    <PageTransition><Index /></PageTransition>
+    <PageTransition>
+      <Index />
+    </PageTransition>
   ),
 });

@@ -34,7 +34,8 @@ function genToken() {
 }
 
 Deno.serve(async (req) => {
-  if (req.method === "OPTIONS") return new Response("ok", { headers: corsHeaders });
+  if (req.method === "OPTIONS")
+    return new Response("ok", { headers: corsHeaders });
 
   const log = createLogger(req, "propose-session");
 
@@ -46,10 +47,10 @@ Deno.serve(async (req) => {
     const authHeader = req.headers.get("Authorization") ?? "";
     const token = authHeader.replace("Bearer ", "");
     if (!token) {
-      return new Response(
-        JSON.stringify({ error: "Missing authentication" }),
-        { status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" } },
-      );
+      return new Response(JSON.stringify({ error: "Missing authentication" }), {
+        status: 401,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
     }
 
     const userClient = createClient(SUPABASE_URL, ANON_KEY, {
@@ -57,10 +58,10 @@ Deno.serve(async (req) => {
     });
     const { data: userData, error: userErr } = await userClient.auth.getUser();
     if (userErr || !userData.user) {
-      return new Response(
-        JSON.stringify({ error: "Invalid session" }),
-        { status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" } },
-      );
+      return new Response(JSON.stringify({ error: "Invalid session" }), {
+        status: 401,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
     }
     const psychologistId = userData.user.id;
 
@@ -76,55 +77,67 @@ Deno.serve(async (req) => {
     if (!roleRow) {
       return new Response(
         JSON.stringify({ error: "Only psychologists can propose sessions" }),
-        { status: 403, headers: { ...corsHeaders, "Content-Type": "application/json" } },
+        {
+          status: 403,
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        },
       );
     }
 
     const body = (await req.json()) as Body;
     if (!body.client_email || !isValidEmail(body.client_email)) {
-      return new Response(
-        JSON.stringify({ error: "Invalid client email" }),
-        { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } },
-      );
+      return new Response(JSON.stringify({ error: "Invalid client email" }), {
+        status: 400,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
     }
     if (!body.scheduled_at || isNaN(new Date(body.scheduled_at).getTime())) {
-      return new Response(
-        JSON.stringify({ error: "Invalid scheduled date" }),
-        { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } },
-      );
+      return new Response(JSON.stringify({ error: "Invalid scheduled date" }), {
+        status: 400,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
     }
     if (new Date(body.scheduled_at) < new Date()) {
       return new Response(
         JSON.stringify({ error: "Scheduled date must be in the future" }),
-        { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } },
+        {
+          status: 400,
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        },
       );
     }
     if (![30, 45, 50, 60, 90].includes(body.duration_minutes)) {
-      return new Response(
-        JSON.stringify({ error: "Invalid duration" }),
-        { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } },
-      );
+      return new Response(JSON.stringify({ error: "Invalid duration" }), {
+        status: 400,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
     }
     // Normalize "video" → "online" for consistency with booking modal
     if (body.session_type === "video") body.session_type = "online";
     if (!["online", "in_person", "phone"].includes(body.session_type)) {
-      return new Response(
-        JSON.stringify({ error: "Invalid session type" }),
-        { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } },
-      );
+      return new Response(JSON.stringify({ error: "Invalid session type" }), {
+        status: 400,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
     }
 
     // Slot validation: in-future + inside availability window + no overlapping booking
-    const { data: slotCheck, error: slotErr } = await admin.rpc("check_proposal_slot", {
-      _psy: psychologistId,
-      _start: body.scheduled_at,
-      _duration: body.duration_minutes,
-    });
+    const { data: slotCheck, error: slotErr } = await admin.rpc(
+      "check_proposal_slot",
+      {
+        _psy: psychologistId,
+        _start: body.scheduled_at,
+        _duration: body.duration_minutes,
+      },
+    );
     if (slotErr) {
       log.error("slot check error", slotErr);
       return new Response(
         JSON.stringify({ error: "Could not validate slot" }),
-        { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } },
+        {
+          status: 500,
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        },
       );
     }
     const check = slotCheck as { ok: boolean; reason?: string } | null;
@@ -152,7 +165,10 @@ Deno.serve(async (req) => {
       });
       return new Response(
         JSON.stringify({ error: messages[reason] ?? "Invalid slot", reason }),
-        { status: 409, headers: { ...corsHeaders, "Content-Type": "application/json" } },
+        {
+          status: 409,
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        },
       );
     }
 
@@ -166,7 +182,8 @@ Deno.serve(async (req) => {
       .select("id,email")
       .ilike("email", email)
       .limit(1);
-    const existing = existingRows?.[0] as { id: string; email: string } | undefined;
+    const existing = existingRows?.[0] as
+      { id: string; email: string } | undefined;
     const patientId = existing?.id ?? psychologistId; // placeholder when unknown; RLS uses patient_email too
 
     const proposalToken = genToken();
@@ -193,10 +210,10 @@ Deno.serve(async (req) => {
 
     if (insertErr) {
       log.error("insert error", insertErr);
-      return new Response(
-        JSON.stringify({ error: insertErr.message }),
-        { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } },
-      );
+      return new Response(JSON.stringify({ error: insertErr.message }), {
+        status: 500,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
     }
 
     // Get psychologist display info for the email
@@ -284,7 +301,10 @@ Deno.serve(async (req) => {
       }
     }
 
-    log.info("proposal created", { bookingId: booking.id, emailSent: !!RESEND_API_KEY });
+    log.info("proposal created", {
+      bookingId: booking.id,
+      emailSent: !!RESEND_API_KEY,
+    });
     return new Response(
       JSON.stringify({
         ok: true,
@@ -295,9 +315,9 @@ Deno.serve(async (req) => {
     );
   } catch (e: any) {
     log.error("unhandled error", e);
-    return new Response(
-      JSON.stringify({ error: "Internal error" }),
-      { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } },
-    );
+    return new Response(JSON.stringify({ error: "Internal error" }), {
+      status: 500,
+      headers: { ...corsHeaders, "Content-Type": "application/json" },
+    });
   }
 });

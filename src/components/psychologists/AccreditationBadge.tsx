@@ -62,14 +62,27 @@ interface AccreditationBadgeProps {
   className?: string;
 }
 
-export const AccreditationBadge = ({ tier, variant = "compact", className }: AccreditationBadgeProps) => {
+export const AccreditationBadge = ({
+  tier,
+  variant = "compact",
+  className,
+}: AccreditationBadgeProps) => {
   const key = (tier && tier in TIERS ? tier : "basic") as TierKey;
   const t = TIERS[key];
   const Icon = t.icon;
 
   if (variant === "compact") {
     return (
-      <div className={cn("inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border text-xs font-semibold", t.bg, t.border, t.color, t.ring, className)}>
+      <div
+        className={cn(
+          "inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border text-xs font-semibold",
+          t.bg,
+          t.border,
+          t.color,
+          t.ring,
+          className,
+        )}
+      >
         <Icon className="w-3.5 h-3.5" />
         {t.label}
       </div>
@@ -77,13 +90,30 @@ export const AccreditationBadge = ({ tier, variant = "compact", className }: Acc
   }
 
   return (
-    <div className={cn("rounded-2xl border p-6 space-y-4", t.bg, t.border, t.ring, className)}>
+    <div
+      className={cn(
+        "rounded-2xl border p-6 space-y-4",
+        t.bg,
+        t.border,
+        t.ring,
+        className,
+      )}
+    >
       <div className="flex items-center gap-3">
-        <div className={cn("w-12 h-12 rounded-xl flex items-center justify-center", t.bg, "border", t.border)}>
+        <div
+          className={cn(
+            "w-12 h-12 rounded-xl flex items-center justify-center",
+            t.bg,
+            "border",
+            t.border,
+          )}
+        >
           <Icon className={cn("w-6 h-6", t.color)} />
         </div>
         <div>
-          <p className={cn("text-lg font-bold", t.color)}>{t.label} Accreditation</p>
+          <p className={cn("text-lg font-bold", t.color)}>
+            {t.label} Accreditation
+          </p>
           <p className="text-sm text-muted-foreground">{t.description}</p>
         </div>
       </div>
@@ -95,9 +125,15 @@ export const AccreditationBadge = ({ tier, variant = "compact", className }: Acc
             key={i}
             className={cn(
               "h-1.5 flex-1 rounded-full transition-all",
-              i < t.level ? "bg-current opacity-60" : "bg-muted-foreground/10"
+              i < t.level ? "bg-current opacity-60" : "bg-muted-foreground/10",
             )}
-            style={i < t.level ? { color: `var(--${key === "elite" ? "violet" : key === "premium" ? "amber" : key === "verified" ? "emerald" : key === "provisional" ? "blue" : "muted-foreground"})` } : undefined}
+            style={
+              i < t.level
+                ? {
+                    color: `var(--${key === "elite" ? "violet" : key === "premium" ? "amber" : key === "verified" ? "emerald" : key === "provisional" ? "blue" : "muted-foreground"})`,
+                  }
+                : undefined
+            }
           />
         ))}
       </div>
@@ -111,8 +147,12 @@ export const AccreditationBadge = ({ tier, variant = "compact", className }: Acc
   );
 };
 
-export const getTierFromProfile = (accreditationLevel: string | null | undefined, isAccredited: boolean | null | undefined): TierKey => {
-  if (accreditationLevel && accreditationLevel in TIERS) return accreditationLevel as TierKey;
+export const getTierFromProfile = (
+  accreditationLevel: string | null | undefined,
+  isAccredited: boolean | null | undefined,
+): TierKey => {
+  if (accreditationLevel && accreditationLevel in TIERS)
+    return accreditationLevel as TierKey;
   if (isAccredited) return "verified";
   return "basic";
 };

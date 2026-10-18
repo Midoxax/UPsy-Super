@@ -6,6 +6,8 @@ const Unsubscribe = lazy(() => import("@/pages/Unsubscribe"));
 
 export const Route = createFileRoute("/$locale/unsubscribe")({
   component: () => (
-    <PageTransition><Unsubscribe /></PageTransition>
+    <PageTransition>
+      <Unsubscribe />
+    </PageTransition>
   ),
 });

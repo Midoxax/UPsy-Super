@@ -1,7 +1,9 @@
 export type Locale = "en" | "fr" | "ar";
 
 export function normalizeLocale(input: unknown): Locale {
-  const v = String(input || "").toLowerCase().slice(0, 2);
+  const v = String(input || "")
+    .toLowerCase()
+    .slice(0, 2);
   if (v === "en" || v === "ar") return v;
   return "fr";
 }
@@ -19,7 +21,11 @@ export const BRAND = {
   muted: "#6B7280",
 };
 
-export function shellHtml(opts: { locale: Locale; title: string; body: string }): string {
+export function shellHtml(opts: {
+  locale: Locale;
+  title: string;
+  body: string;
+}): string {
   const dir = dirFor(opts.locale);
   return `<!doctype html>
 <html lang="${opts.locale}" dir="${dir}">

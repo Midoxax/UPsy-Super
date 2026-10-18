@@ -76,7 +76,7 @@ export const NotificationBell = () => {
                     onClick={() => handleClick(n)}
                     className={cn(
                       "w-full text-left px-4 py-3 hover:bg-muted/50 transition-colors",
-                      !n.read_at && "bg-primary/5"
+                      !n.read_at && "bg-primary/5",
                     )}
                   >
                     <div className="flex items-start gap-2">

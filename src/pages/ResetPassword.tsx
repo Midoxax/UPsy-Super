@@ -5,9 +5,24 @@ import { useLocale } from "@/contexts/LocaleContext";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
-import { Loader2, Brain, CheckCircle, Eye, EyeOff, Sparkles, Check, X } from "lucide-react";
+import {
+  Loader2,
+  Brain,
+  CheckCircle,
+  Eye,
+  EyeOff,
+  Sparkles,
+  Check,
+  X,
+} from "lucide-react";
 import { z } from "zod";
 
 const passwordSchema = z
@@ -75,7 +90,8 @@ const ResetPassword = () => {
 
   const rules = checkRules(password);
   const strength = strengthOf(password);
-  const passwordsMatch = confirmPassword.length > 0 && password === confirmPassword;
+  const passwordsMatch =
+    confirmPassword.length > 0 && password === confirmPassword;
 
   const handleSuggest = async () => {
     const sug = generateStrongPassword(16);
@@ -85,15 +101,23 @@ const ResetPassword = () => {
     setShowConfirm(true);
     try {
       await navigator.clipboard.writeText(sug);
-      toast({ title: "Strong password generated", description: "Copied to clipboard." });
+      toast({
+        title: "Strong password generated",
+        description: "Copied to clipboard.",
+      });
     } catch {
-      toast({ title: "Strong password generated", description: "Save it in your password manager when prompted." });
+      toast({
+        title: "Strong password generated",
+        description: "Save it in your password manager when prompted.",
+      });
     }
   };
 
   useEffect(() => {
     // Listen for PASSWORD_RECOVERY event from the auth hash
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((event) => {
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((event) => {
       if (event === "PASSWORD_RECOVERY") {
         setIsRecovery(true);
       }
@@ -109,7 +133,11 @@ const ResetPassword = () => {
       passwordSchema.parse(password);
 
       if (password !== confirmPassword) {
-        toast({ title: "Error", description: "Passwords do not match", variant: "destructive" });
+        toast({
+          title: "Error",
+          description: "Passwords do not match",
+          variant: "destructive",
+        });
         setIsLoading(false);
         return;
       }
@@ -117,15 +145,26 @@ const ResetPassword = () => {
       const { error } = await supabase.auth.updateUser({ password });
 
       if (error) {
-        toast({ title: "Error", description: error.message, variant: "destructive" });
+        toast({
+          title: "Error",
+          description: error.message,
+          variant: "destructive",
+        });
       } else {
         setIsSuccess(true);
-        toast({ title: "Password updated", description: "Your password has been reset successfully." });
+        toast({
+          title: "Password updated",
+          description: "Your password has been reset successfully.",
+        });
         setTimeout(() => navigate("/auth"), 3000);
       }
     } catch (error) {
       if (error instanceof z.ZodError) {
-        toast({ title: "Weak password", description: error.errors[0].message, variant: "destructive" });
+        toast({
+          title: "Weak password",
+          description: error.errors[0].message,
+          variant: "destructive",
+        });
       }
     } finally {
       setIsLoading(false);
@@ -138,7 +177,9 @@ const ResetPassword = () => {
         <Card className="w-full max-w-md bg-surface border-border text-center">
           <CardContent className="pt-8 pb-8 space-y-4">
             <CheckCircle className="w-16 h-16 text-green-500 mx-auto" />
-            <h2 className="text-xl font-semibold text-foreground">Password Reset Successful</h2>
+            <h2 className="text-xl font-semibold text-foreground">
+              Password Reset Successful
+            </h2>
             <p className="text-muted-foreground">Redirecting to login...</p>
           </CardContent>
         </Card>
@@ -187,7 +228,11 @@ const ResetPassword = () => {
                   className="absolute right-2 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
                   aria-label={showPw ? "Hide password" : "Show password"}
                 >
-                  {showPw ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                  {showPw ? (
+                    <EyeOff className="w-4 h-4" />
+                  ) : (
+                    <Eye className="w-4 h-4" />
+                  )}
                 </button>
               </div>
               {password && (
@@ -203,7 +248,10 @@ const ResetPassword = () => {
                     ))}
                   </div>
                   <p className="text-xs text-muted-foreground">
-                    Strength: <span className="font-medium text-foreground">{strength.label}</span>
+                    Strength:{" "}
+                    <span className="font-medium text-foreground">
+                      {strength.label}
+                    </span>
                   </p>
                   <ul className="text-xs text-muted-foreground space-y-0.5 pt-1">
                     {[
@@ -219,7 +267,9 @@ const ResetPassword = () => {
                         ) : (
                           <X className="w-3 h-3 text-muted-foreground" />
                         )}
-                        <span className={r.ok ? "text-foreground" : ""}>{r.label}</span>
+                        <span className={r.ok ? "text-foreground" : ""}>
+                          {r.label}
+                        </span>
                       </li>
                     ))}
                   </ul>
@@ -245,27 +295,45 @@ const ResetPassword = () => {
                   className="absolute right-2 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
                   aria-label={showConfirm ? "Hide password" : "Show password"}
                 >
-                  {showConfirm ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                  {showConfirm ? (
+                    <EyeOff className="w-4 h-4" />
+                  ) : (
+                    <Eye className="w-4 h-4" />
+                  )}
                 </button>
               </div>
               {confirmPassword.length > 0 && (
-                <p className={`text-xs flex items-center gap-1 ${passwordsMatch ? "text-green-500" : "text-destructive"}`}>
-                  {passwordsMatch ? <Check className="w-3 h-3" /> : <X className="w-3 h-3" />}
-                  {passwordsMatch ? "Passwords match" : "Passwords do not match"}
+                <p
+                  className={`text-xs flex items-center gap-1 ${passwordsMatch ? "text-green-500" : "text-destructive"}`}
+                >
+                  {passwordsMatch ? (
+                    <Check className="w-3 h-3" />
+                  ) : (
+                    <X className="w-3 h-3" />
+                  )}
+                  {passwordsMatch
+                    ? "Passwords match"
+                    : "Passwords do not match"}
                 </p>
               )}
               <p className="text-[11px] text-muted-foreground pt-1">
-                Tip: Google Password Manager and iCloud Keychain will offer to save & sync this password.
+                Tip: Google Password Manager and iCloud Keychain will offer to
+                save & sync this password.
               </p>
             </div>
             <Button
               type="submit"
               variant="primary"
               className="w-full"
-              disabled={isLoading || (confirmPassword.length > 0 && !passwordsMatch)}
+              disabled={
+                isLoading || (confirmPassword.length > 0 && !passwordsMatch)
+              }
             >
               {isLoading ? (
-                <><Loader2 className="mr-2 h-4 w-4 animate-spin" />Updating...</>
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Updating...
+                </>
               ) : (
                 "Reset Password"
               )}

@@ -5,18 +5,21 @@ import { sender } from "../_shared/sender.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
+  "Access-Control-Allow-Headers":
+    "authorization, x-client-info, apikey, content-type",
 };
 
 serve(async (req) => {
-  if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
+  if (req.method === "OPTIONS")
+    return new Response(null, { headers: corsHeaders });
 
   try {
     // Authenticate caller
     const authHeader = req.headers.get("Authorization");
     if (!authHeader?.startsWith("Bearer ")) {
       return new Response(JSON.stringify({ error: "Unauthorized" }), {
-        status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" },
+        status: 401,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
     const userClient = createClient(
@@ -27,23 +30,32 @@ serve(async (req) => {
     const { data: userData, error: userErr } = await userClient.auth.getUser();
     if (userErr || !userData?.user) {
       return new Response(JSON.stringify({ error: "Unauthorized" }), {
-        status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" },
+        status: 401,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
     const callerId = userData.user.id;
-    const { data: roles } = await userClient.from("user_roles").select("role").eq("user_id", callerId);
+    const { data: roles } = await userClient
+      .from("user_roles")
+      .select("role")
+      .eq("user_id", callerId);
     const isAdmin = (roles ?? []).some((r: any) => r.role === "admin");
 
     const { client_id, psychologist_id, booking_id } = await req.json();
     if (!client_id || !psychologist_id) {
-      return new Response(JSON.stringify({ error: "Missing client_id or psychologist_id" }), {
-        status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" },
-      });
+      return new Response(
+        JSON.stringify({ error: "Missing client_id or psychologist_id" }),
+        {
+          status: 400,
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        },
+      );
     }
     // Authorize: caller must be the linked psychologist or admin
     if (!isAdmin && callerId !== psychologist_id) {
       return new Response(JSON.stringify({ error: "Forbidden" }), {
-        status: 403, headers: { ...corsHeaders, "Content-Type": "application/json" },
+        status: 403,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
 
@@ -56,7 +68,8 @@ serve(async (req) => {
     // Get client email
     const { data: user } = await supabase.auth.admin.getUserById(client_id);
     const email = user?.user?.email;
-    const firstName = user?.user?.user_metadata?.full_name?.split(" ")[0] || "Bonjour";
+    const firstName =
+      user?.user?.user_metadata?.full_name?.split(" ")[0] || "Bonjour";
 
     // Get psychologist name
     const { data: psyProfile } = await supabase
@@ -75,9 +88,16 @@ serve(async (req) => {
         .eq("id", booking_id)
         .maybeSingle();
       if (booking?.scheduled_at) {
-        sessionDate = new Date(booking.scheduled_at).toLocaleDateString("fr-FR", {
-          weekday: "long", day: "numeric", month: "long", hour: "2-digit", minute: "2-digit",
-        });
+        sessionDate = new Date(booking.scheduled_at).toLocaleDateString(
+          "fr-FR",
+          {
+            weekday: "long",
+            day: "numeric",
+            month: "long",
+            hour: "2-digit",
+            minute: "2-digit",
+          },
+        );
       }
     }
 
@@ -119,7 +139,8 @@ serve(async (req) => {
   } catch (e: any) {
     console.error("notify-intake-trigger error:", e);
     return new Response(JSON.stringify({ error: "Internal error" }), {
-      status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" },
+      status: 500,
+      headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
   }
 });

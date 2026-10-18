@@ -10,7 +10,12 @@ interface WordRevealProps {
 }
 
 /** Mask-clip word-by-word reveal for cinematic headlines. */
-const WordReveal = ({ text, className = "", as = "h1", delay = 0 }: WordRevealProps) => {
+const WordReveal = ({
+  text,
+  className = "",
+  as = "h1",
+  delay = 0,
+}: WordRevealProps) => {
   const reduced = useReducedMotionSafe();
   const Tag = motion[as] as typeof motion.h1;
 
@@ -34,9 +39,16 @@ const WordReveal = ({ text, className = "", as = "h1", delay = 0 }: WordRevealPr
         <span
           key={i}
           aria-hidden="true"
-          style={{ display: "inline-block", overflow: "hidden", verticalAlign: "bottom" }}
+          style={{
+            display: "inline-block",
+            overflow: "hidden",
+            verticalAlign: "bottom",
+          }}
         >
-          <motion.span variants={wordItem} style={{ display: "inline-block", willChange: "transform" }}>
+          <motion.span
+            variants={wordItem}
+            style={{ display: "inline-block", willChange: "transform" }}
+          >
             {word}
             {i < words.length - 1 ? "\u00A0" : ""}
           </motion.span>

@@ -31,8 +31,16 @@ const CHROME = process.env.CHROME_PATH || undefined;
 
 // Public marketing surface.
 const ROUTES = [
-  "/", "/about", "/services", "/psychologists", "/pricing",
-  "/contact", "/auth", "/founder", "/resources", "/apply",
+  "/",
+  "/about",
+  "/services",
+  "/psychologists",
+  "/pricing",
+  "/contact",
+  "/auth",
+  "/founder",
+  "/resources",
+  "/apply",
 ];
 
 // Category A: the routes a beta user must be able to reach.
@@ -43,10 +51,20 @@ const ROUTES = [
 // nothing else in the pipeline would catch it. These cannot be logged into
 // from CI, so this asserts the boundary, not the flow behind it.
 const CRITICAL_ROUTES = [
-  "/auth", "/auth/mfa-setup", "/apply/wizard", "/apply/organization",
-  "/get-matched", "/dashboard", "/dashboard/client", "/dashboard/specialist",
-  "/dashboard/organization", "/my-space", "/intake", "/book-a-call",
-  "/session/test-id", "/booking/respond/test-token",
+  "/auth",
+  "/auth/mfa-setup",
+  "/apply/wizard",
+  "/apply/organization",
+  "/get-matched",
+  "/dashboard",
+  "/dashboard/client",
+  "/dashboard/specialist",
+  "/dashboard/organization",
+  "/my-space",
+  "/intake",
+  "/book-a-call",
+  "/session/test-id",
+  "/booking/respond/test-token",
 ];
 const BREAKPOINTS = [
   { name: "phone", width: 390, height: 844 },
@@ -74,7 +92,12 @@ async function auditPage(ctx, route, bp, theme) {
     await page.goto(BASE + route, { waitUntil: "load", timeout: 60000 });
     await page.waitForTimeout(700);
   } catch (e) {
-    record("critical", "load", `${route} ${bp.name}/${theme}`, `navigation failed: ${String(e).slice(0, 90)}`);
+    record(
+      "critical",
+      "load",
+      `${route} ${bp.name}/${theme}`,
+      `navigation failed: ${String(e).slice(0, 90)}`,
+    );
     await page.close();
     return;
   }
@@ -91,9 +114,20 @@ async function auditPage(ctx, route, bp, theme) {
         if (r.width > 0 && r.right > vw + 1) {
           overflowing.push({
             tag: el.tagName.toLowerCase(),
-            cls: (typeof el.className === "string" ? el.className : "").slice(0, 70),
+            cls: (typeof el.className === "string" ? el.className : "").slice(
+              0,
+              70,
+            ),
             over: Math.round(r.right - vw),
-            depth: (() => { let d = 0, n = el; while (n.parentElement) { d++; n = n.parentElement; } return d; })(),
+            depth: (() => {
+              let d = 0,
+                n = el;
+              while (n.parentElement) {
+                d++;
+                n = n.parentElement;
+              }
+              return d;
+            })(),
           });
         }
       });
@@ -110,37 +144,53 @@ async function auditPage(ctx, route, bp, theme) {
     const small = [];
     const isVisuallyHidden = (el) => {
       const cs = getComputedStyle(el);
-      return cs.visibility === "hidden" || cs.clip === "rect(0px, 0px, 0px, 0px)" ||
-             cs.clipPath === "inset(50%)" || el.closest(".sr-only") !== null ||
-             el.classList.contains("sr-only");
+      return (
+        cs.visibility === "hidden" ||
+        cs.clip === "rect(0px, 0px, 0px, 0px)" ||
+        cs.clipPath === "inset(50%)" ||
+        el.closest(".sr-only") !== null ||
+        el.classList.contains("sr-only")
+      );
     };
     const isInlineInText = (el) => {
       if (el.tagName !== "A") return false;
       const parent = el.parentElement;
       if (!parent) return false;
       // Sitting among sibling text rather than laid out as its own control.
-      return getComputedStyle(el).display.startsWith("inline") &&
-             (parent.textContent || "").trim().length > (el.textContent || "").trim().length;
+      return (
+        getComputedStyle(el).display.startsWith("inline") &&
+        (parent.textContent || "").trim().length >
+          (el.textContent || "").trim().length
+      );
     };
-    document.querySelectorAll('a,button,[role="button"],input,select,textarea').forEach((el) => {
-      const r = el.getBoundingClientRect();
-      if (r.width === 0 || r.height === 0) return;           // hidden
-      if (isVisuallyHidden(el) || isInlineInText(el)) return;
-      if (r.width < MIN || r.height < MIN) {
-        small.push({
-          tag: el.tagName.toLowerCase(),
-          label: (el.getAttribute("aria-label") || el.textContent || "").trim().slice(0, 28),
-          size: `${Math.round(r.width)}x${Math.round(r.height)}`,
-        });
-      }
-    });
+    document
+      .querySelectorAll('a,button,[role="button"],input,select,textarea')
+      .forEach((el) => {
+        const r = el.getBoundingClientRect();
+        if (r.width === 0 || r.height === 0) return; // hidden
+        if (isVisuallyHidden(el) || isInlineInText(el)) return;
+        if (r.width < MIN || r.height < MIN) {
+          small.push({
+            tag: el.tagName.toLowerCase(),
+            label: (el.getAttribute("aria-label") || el.textContent || "")
+              .trim()
+              .slice(0, 28),
+            size: `${Math.round(r.width)}x${Math.round(r.height)}`,
+          });
+        }
+      });
 
     // Raw translation identifiers rendered as copy, e.g. "pricing.heroTitle".
-    const leaks = (document.body.innerText.match(/\b[a-z][a-zA-Z0-9]*\.[a-z][a-zA-Z0-9]{2,}\b/g) || [])
-      .filter((s) => !/\.(com|ma|org|net|io|fr|png|jpg|svg|webp)$/.test(s));
+    const leaks = (
+      document.body.innerText.match(
+        /\b[a-z][a-zA-Z0-9]*\.[a-z][a-zA-Z0-9]{2,}\b/g,
+      ) || []
+    ).filter((s) => !/\.(com|ma|org|net|io|fr|png|jpg|svg|webp)$/.test(s));
 
     return {
-      overflow, overflowing: overflowing.slice(0, 3), small: small.slice(0, 5),
+      overflow,
+      overflowing: overflowing.slice(0, 3),
+      small: small.slice(0, 5),
       leaks: [...new Set(leaks)].slice(0, 4),
       textLen: document.body.innerText.trim().length,
       crashed: document.body.innerText.includes("Something went wrong"),
@@ -151,18 +201,37 @@ async function auditPage(ctx, route, bp, theme) {
 
   const where = `${route || "/"} ${bp.name}/${theme}`;
 
-  if (dom.crashed) record("critical", "crash", where, "ErrorBoundary fallback rendered");
-  if (dom.textLen < 400) record("critical", "empty", where, `only ${dom.textLen} chars of text`);
-  if (dom.isDark !== (theme === "dark")) record("serious", "theme", where, `expected ${theme}, html.dark=${dom.isDark}`);
+  if (dom.crashed)
+    record("critical", "crash", where, "ErrorBoundary fallback rendered");
+  if (dom.textLen < 400)
+    record("critical", "empty", where, `only ${dom.textLen} chars of text`);
+  if (dom.isDark !== (theme === "dark"))
+    record(
+      "serious",
+      "theme",
+      where,
+      `expected ${theme}, html.dark=${dom.isDark}`,
+    );
   if (dom.overflow > 1) {
     const w = dom.overflowing[0];
-    record("serious", "overflow", where,
-      `${dom.overflow}px` + (w ? ` — <${w.tag} class="${w.cls}"> +${w.over}px` : ""));
+    record(
+      "serious",
+      "overflow",
+      where,
+      `${dom.overflow}px` +
+        (w ? ` — <${w.tag} class="${w.cls}"> +${w.over}px` : ""),
+    );
   }
-  for (const l of dom.leaks) record("serious", "i18n", where, `raw key rendered: "${l}"`);
+  for (const l of dom.leaks)
+    record("serious", "i18n", where, `raw key rendered: "${l}"`);
   for (const e of errors) record("serious", "js-error", where, e);
   for (const s of dom.small) {
-    record("moderate", "touch-target", where, `<${s.tag}> ${s.size} "${s.label}"`);
+    record(
+      "moderate",
+      "touch-target",
+      where,
+      `<${s.tag}> ${s.size} "${s.label}"`,
+    );
   }
 
   // axe only needs one width per theme; violations are not width-dependent
@@ -173,11 +242,24 @@ async function auditPage(ctx, route, bp, theme) {
         .withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa"])
         .analyze();
       for (const v of res.violations) {
-        record(v.impact === "critical" ? "critical" : v.impact === "serious" ? "serious" : "moderate",
-          "a11y", where, `${v.id}: ${v.help} (${v.nodes.length} node${v.nodes.length === 1 ? "" : "s"})`);
+        record(
+          v.impact === "critical"
+            ? "critical"
+            : v.impact === "serious"
+              ? "serious"
+              : "moderate",
+          "a11y",
+          where,
+          `${v.id}: ${v.help} (${v.nodes.length} node${v.nodes.length === 1 ? "" : "s"})`,
+        );
       }
     } catch (e) {
-      record("moderate", "a11y", where, `axe failed: ${String(e).slice(0, 80)}`);
+      record(
+        "moderate",
+        "a11y",
+        where,
+        `axe failed: ${String(e).slice(0, 80)}`,
+      );
     }
   }
 
@@ -186,10 +268,13 @@ async function auditPage(ctx, route, bp, theme) {
 
 const browser = await chromium.launch(CHROME ? { executablePath: CHROME } : {});
 
-const themeInit = (t) => `try{localStorage.setItem('u-psy-theme-v2','${t}')}catch(e){}`;
+const themeInit = (t) =>
+  `try{localStorage.setItem('u-psy-theme-v2','${t}')}catch(e){}`;
 
 const routes = FULL
-  ? [...ROUTES, ...CRITICAL_ROUTES].flatMap((r) => LOCALES.map((l) => l + (r === "/" ? "/" : r)))
+  ? [...ROUTES, ...CRITICAL_ROUTES].flatMap((r) =>
+      LOCALES.map((l) => l + (r === "/" ? "/" : r)),
+    )
   : [...ROUTES, ...CRITICAL_ROUTES];
 const breakpoints = FULL ? BREAKPOINTS : [BREAKPOINTS[0], BREAKPOINTS[2]];
 
@@ -224,7 +309,8 @@ await browser.close();
  * set AUDIT_FAIL_ON=serious to ratchet the gate up; that is the point of
  * making it a variable rather than a constant.
  */
-const FAIL_ON = process.env.AUDIT_FAIL_ON === "serious" ? "serious" : "critical";
+const FAIL_ON =
+  process.env.AUDIT_FAIL_ON === "serious" ? "serious" : "critical";
 const FAILING = FAIL_ON === "serious" ? ["critical", "serious"] : ["critical"];
 const bySeverity = { critical: [], serious: [], moderate: [] };
 for (const f of findings) bySeverity[f.severity].push(f);
@@ -243,13 +329,17 @@ function group(list) {
   return [...m.values()].sort((a, b) => b.count - a.count);
 }
 
-console.log(`\nAudited ${checked} page loads — ${routes.length} routes x ${breakpoints.length} widths x ${THEMES.length} themes\n`);
+console.log(
+  `\nAudited ${checked} page loads — ${routes.length} routes x ${breakpoints.length} widths x ${THEMES.length} themes\n`,
+);
 let exitCode = 0;
 for (const sev of ["critical", "serious", "moderate"]) {
   const g = group(bySeverity[sev]);
   if (!g.length) continue;
   if (FAILING.includes(sev)) exitCode = 1;
-  console.log(`${sev.toUpperCase()} (${bySeverity[sev].length} occurrences, ${g.length} distinct)`);
+  console.log(
+    `${sev.toUpperCase()} (${bySeverity[sev].length} occurrences, ${g.length} distinct)`,
+  );
   for (const f of g.slice(0, 18)) {
     console.log(`  [${f.area}] ${f.detail}`);
     console.log(`      x${f.count}  e.g. ${f.examples.join(", ")}`);
@@ -262,6 +352,6 @@ console.log(
   exitCode
     ? `FAILED — ${FAIL_ON}+ findings present (gate: AUDIT_FAIL_ON=${FAIL_ON}).`
     : `PASSED — no ${FAIL_ON}-level findings. ` +
-      `${bySeverity.serious.length} serious / ${bySeverity.moderate.length} moderate reported above, not gated.`
+        `${bySeverity.serious.length} serious / ${bySeverity.moderate.length} moderate reported above, not gated.`,
 );
 process.exit(exitCode);

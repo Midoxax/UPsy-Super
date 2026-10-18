@@ -33,7 +33,8 @@ const COPY = {
     subject: "Bienvenue chez U.Psy — votre compte psychologue est prêt",
     greeting: (n: string) => `Bienvenue, ${n} !`,
     intro: "Félicitations — votre dossier a été approuvé.",
-    credsNew: "Votre compte est prêt. Utilisez ces identifiants pour vous connecter :",
+    credsNew:
+      "Votre compte est prêt. Utilisez ces identifiants pour vous connecter :",
     credsExisting: (e: string) =>
       `Votre compte existant (${e}) a été enrichi avec l'accès psychologue. Utilisez votre mot de passe actuel — ou réinitialisez-le depuis la page de connexion.`,
     emailLabel: "Email",
@@ -69,7 +70,10 @@ const COPY = {
   },
 };
 
-export function buildApprovalEmail(p: ApprovalParams): { subject: string; html: string } {
+export function buildApprovalEmail(p: ApprovalParams): {
+  subject: string;
+  html: string;
+} {
   const locale: Locale = normalizeLocale(p.locale);
   const c = COPY[locale];
   const credsBlock = p.isNewUser
@@ -94,5 +98,8 @@ export function buildApprovalEmail(p: ApprovalParams): { subject: string; html: 
     <p style="margin-top:24px;color:#6B7280;">${c.closing}</p>
   `;
 
-  return { subject: c.subject, html: shellHtml({ locale, title: c.subject, body }) };
+  return {
+    subject: c.subject,
+    html: shellHtml({ locale, title: c.subject, body }),
+  };
 }

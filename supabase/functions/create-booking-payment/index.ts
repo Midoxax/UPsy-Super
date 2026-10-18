@@ -4,7 +4,8 @@ import { z } from "https://deno.land/x/zod@v3.22.4/mod.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
+  "Access-Control-Allow-Headers":
+    "authorization, x-client-info, apikey, content-type",
 };
 
 const BodySchema = z.object({
@@ -19,13 +20,15 @@ const BodySchema = z.object({
 });
 
 serve(async (req) => {
-  if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
+  if (req.method === "OPTIONS")
+    return new Response(null, { headers: corsHeaders });
 
   try {
     const authHeader = req.headers.get("Authorization");
     if (!authHeader) {
       return new Response(JSON.stringify({ error: "Unauthorized" }), {
-        status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" },
+        status: 401,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
 
@@ -35,10 +38,14 @@ serve(async (req) => {
       { global: { headers: { Authorization: authHeader } } },
     );
 
-    const { data: { user }, error: userErr } = await supabase.auth.getUser();
+    const {
+      data: { user },
+      error: userErr,
+    } = await supabase.auth.getUser();
     if (userErr || !user) {
       return new Response(JSON.stringify({ error: "Unauthorized" }), {
-        status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" },
+        status: 401,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
     const userId = user.id;
@@ -46,7 +53,8 @@ serve(async (req) => {
     const parsed = BodySchema.safeParse(await req.json());
     if (!parsed.success) {
       return new Response(JSON.stringify({ error: parsed.error.flatten() }), {
-        status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" },
+        status: 400,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
     const input = parsed.data;
@@ -59,23 +67,35 @@ serve(async (req) => {
     // Load psychologist + pricing config
     const { data: psy, error: psyErr } = await admin
       .from("psychologist_profiles")
-      .select("id, full_name, hourly_rate_mad, deposit_percentage, is_published")
+      .select(
+        "id, full_name, hourly_rate_mad, deposit_percentage, is_published",
+      )
       .eq("id", input.psychologistId)
       .single();
     if (psyErr || !psy || !psy.is_published) {
-      return new Response(JSON.stringify({ error: "Psychologist not available" }), {
-        status: 404, headers: { ...corsHeaders, "Content-Type": "application/json" },
-      });
+      return new Response(
+        JSON.stringify({ error: "Psychologist not available" }),
+        {
+          status: 404,
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        },
+      );
     }
     if (!psy.hourly_rate_mad) {
-      return new Response(JSON.stringify({ error: "Psychologist has no rate set" }), {
-        status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" },
-      });
+      return new Response(
+        JSON.stringify({ error: "Psychologist has no rate set" }),
+        {
+          status: 400,
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        },
+      );
     }
 
     const { data: pricing } = await admin
       .from("platform_pricing_config")
-      .select("commission_rate, vat_rate, deposit_percentage, min_session_price_mad, max_session_price_mad")
+      .select(
+        "commission_rate, vat_rate, deposit_percentage, min_session_price_mad, max_session_price_mad",
+      )
       .eq("is_active", true)
       .order("created_at", { ascending: false })
       .limit(1)
@@ -84,7 +104,8 @@ serve(async (req) => {
     const commissionRate = Number(pricing?.commission_rate ?? 20) / 100;
     const vatRate = Number(pricing?.vat_rate ?? 20) / 100;
     const total = Number(psy.hourly_rate_mad);
-    const depositPct = Number(psy.deposit_percentage ?? pricing?.deposit_percentage ?? 50) / 100;
+    const depositPct =
+      Number(psy.deposit_percentage ?? pricing?.deposit_percentage ?? 50) / 100;
     const depositAmount = Math.round(total * depositPct * 100) / 100;
     const balanceAmount = Math.round((total - depositAmount) * 100) / 100;
     const commission = Math.round(total * commissionRate * 100) / 100;
@@ -111,9 +132,16 @@ serve(async (req) => {
       .select("id")
       .single();
     if (bookErr || !booking) {
-      return new Response(JSON.stringify({ error: "Could not create booking", detail: bookErr?.message }), {
-        status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" },
-      });
+      return new Response(
+        JSON.stringify({
+          error: "Could not create booking",
+          detail: bookErr?.message,
+        }),
+        {
+          status: 500,
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        },
+      );
     }
 
     // Create deposit transaction (mock provider)
@@ -137,9 +165,16 @@ serve(async (req) => {
       .select("id")
       .single();
     if (txErr) {
-      return new Response(JSON.stringify({ error: "Could not create transaction", detail: txErr.message }), {
-        status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" },
-      });
+      return new Response(
+        JSON.stringify({
+          error: "Could not create transaction",
+          detail: txErr.message,
+        }),
+        {
+          status: 500,
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        },
+      );
     }
 
     return new Response(
@@ -159,14 +194,16 @@ serve(async (req) => {
           currency: "MAD",
         },
         provider: "mock",
-        message: "Mock payment created — call simulate-payment-webhook to complete",
+        message:
+          "Mock payment created — call simulate-payment-webhook to complete",
       }),
       { headers: { ...corsHeaders, "Content-Type": "application/json" } },
     );
   } catch (err) {
     console.error("create-booking-payment error:", err);
     return new Response(JSON.stringify({ error: "Internal error" }), {
-      status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" },
+      status: 500,
+      headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
   }
 });

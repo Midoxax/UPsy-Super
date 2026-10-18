@@ -1,8 +1,15 @@
 import { Link, useLocation } from "@/lib/router-compat";
 import { useEffect, useRef } from "react";
-import { 
-  Users, Sparkles, Briefcase, Building, Award, 
-  Lightbulb, MessageCircle, BookOpen, ChevronRight 
+import {
+  Users,
+  Sparkles,
+  Briefcase,
+  Building,
+  Award,
+  Lightbulb,
+  MessageCircle,
+  BookOpen,
+  ChevronRight,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useIsMobile } from "@/hooks/use-mobile";
@@ -16,7 +23,7 @@ const megaMenuItems = [
     icon: Users,
     value: "Browse 50+ verified specialists",
     cta: "Search now",
-    color: "text-u-gold"
+    color: "text-u-gold",
   },
   {
     title: "Get Matched",
@@ -24,7 +31,7 @@ const megaMenuItems = [
     icon: Sparkles,
     value: "AI finds your perfect fit in 3 min",
     cta: "Take quiz",
-    color: "text-u-teal"
+    color: "text-u-teal",
   },
   {
     title: "Services",
@@ -32,7 +39,7 @@ const megaMenuItems = [
     icon: Briefcase,
     value: "Individual + sport + clinical packages",
     cta: "View pricing",
-    color: "text-u-gold"
+    color: "text-u-gold",
   },
   {
     title: "For Organizations",
@@ -40,7 +47,7 @@ const megaMenuItems = [
     icon: Building,
     value: "Team workshops & institutional support",
     cta: "Learn more",
-    color: "text-u-maroon"
+    color: "text-u-maroon",
   },
   {
     title: "Accreditation",
@@ -48,7 +55,7 @@ const megaMenuItems = [
     icon: Award,
     value: "Join our network of excellence",
     cta: "Apply now",
-    color: "text-u-teal"
+    color: "text-u-teal",
   },
   {
     title: "Innovation Hub",
@@ -56,7 +63,7 @@ const megaMenuItems = [
     icon: Lightbulb,
     value: "R&D, tech, & performance insights",
     cta: "Explore",
-    color: "text-u-maroon"
+    color: "text-u-maroon",
   },
   {
     title: "Skool",
@@ -64,7 +71,7 @@ const megaMenuItems = [
     icon: MessageCircle,
     value: "Free community & mental health resources",
     cta: "Join free",
-    color: "text-u-teal"
+    color: "text-u-teal",
   },
   {
     title: "Resources",
@@ -72,8 +79,8 @@ const megaMenuItems = [
     icon: BookOpen,
     value: "Articles, tools & guides",
     cta: "Browse",
-    color: "text-u-gold"
-  }
+    color: "text-u-gold",
+  },
 ];
 
 interface MegaMenuProps {
@@ -87,11 +94,15 @@ export function MegaMenu({ isOpen, onClose }: MegaMenuProps) {
   const menuRef = useRef<HTMLDivElement>(null);
   const { locale, t } = useLocale();
 
-  const localizedMenuItems = megaMenuItems.map(item => ({
+  const localizedMenuItems = megaMenuItems.map((item) => ({
     ...item,
-    title: t(`nav.${item.href.split('/').pop()?.replace(/-/g, '') || item.title.toLowerCase().replace(/\s+/g, '')}`),
-    value: t(`nav.${item.href.split('/').pop()?.replace(/-/g, '') || item.title.toLowerCase().replace(/\s+/g, '')}Value`),
-    cta: t(`cta.${item.cta.toLowerCase().replace(/\s+/g, '')}`),
+    title: t(
+      `nav.${item.href.split("/").pop()?.replace(/-/g, "") || item.title.toLowerCase().replace(/\s+/g, "")}`,
+    ),
+    value: t(
+      `nav.${item.href.split("/").pop()?.replace(/-/g, "") || item.title.toLowerCase().replace(/\s+/g, "")}Value`,
+    ),
+    cta: t(`cta.${item.cta.toLowerCase().replace(/\s+/g, "")}`),
   }));
 
   // Close on route change
@@ -102,13 +113,13 @@ export function MegaMenu({ isOpen, onClose }: MegaMenuProps) {
   // Close on outside click
   useEffect(() => {
     if (!isOpen) return;
-    
+
     const handleClick = (e: MouseEvent) => {
       if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
         onClose();
       }
     };
-    
+
     document.addEventListener("mousedown", handleClick);
     return () => document.removeEventListener("mousedown", handleClick);
   }, [isOpen, onClose]);
@@ -116,11 +127,11 @@ export function MegaMenu({ isOpen, onClose }: MegaMenuProps) {
   // Close on escape
   useEffect(() => {
     if (!isOpen) return;
-    
+
     const handleEscape = (e: KeyboardEvent) => {
       if (e.key === "Escape") onClose();
     };
-    
+
     document.addEventListener("keydown", handleEscape);
     return () => document.removeEventListener("keydown", handleEscape);
   }, [isOpen, onClose]);
@@ -129,7 +140,7 @@ export function MegaMenu({ isOpen, onClose }: MegaMenuProps) {
 
   if (isMobile) {
     return (
-      <div 
+      <div
         ref={menuRef}
         className="absolute top-full left-0 right-0 bg-u-surface/98 backdrop-blur-2xl border-t border-u-gray-700/50 shadow-[0_12px_48px_rgba(0,0,0,0.6)] z-50 max-h-[80vh] overflow-y-auto"
         role="menu"
@@ -146,10 +157,20 @@ export function MegaMenu({ isOpen, onClose }: MegaMenuProps) {
                 className="flex items-start gap-4 p-4 rounded-lg bg-u-gray-700/20 hover:bg-u-gray-700/40 transition-colors"
                 onClick={onClose}
               >
-                <Icon className={cn("w-6 h-6 flex-shrink-0 mt-0.5", megaMenuItems[idx].color)} strokeWidth={2} />
+                <Icon
+                  className={cn(
+                    "w-6 h-6 flex-shrink-0 mt-0.5",
+                    megaMenuItems[idx].color,
+                  )}
+                  strokeWidth={2}
+                />
                 <div className="flex-1 min-w-0">
-                  <div className="text-u-gray-100 font-semibold mb-1">{item.title}</div>
-                  <div className="text-u-gray-400 text-sm mb-3">{item.value}</div>
+                  <div className="text-u-gray-100 font-semibold mb-1">
+                    {item.title}
+                  </div>
+                  <div className="text-u-gray-400 text-sm mb-3">
+                    {item.value}
+                  </div>
                   <div className="text-u-teal text-sm font-medium inline-flex items-center gap-1">
                     {item.cta} <ChevronRight className="w-4 h-4" />
                   </div>
@@ -163,7 +184,7 @@ export function MegaMenu({ isOpen, onClose }: MegaMenuProps) {
   }
 
   return (
-    <div 
+    <div
       ref={menuRef}
       className="absolute top-full left-0 right-0 bg-u-surface/98 backdrop-blur-2xl border-t border-u-gray-700/50 shadow-[0_12px_48px_rgba(0,0,0,0.6)] z-50 mega-menu max-h-[80vh] overflow-y-auto"
       role="menu"
@@ -181,11 +202,14 @@ export function MegaMenu({ isOpen, onClose }: MegaMenuProps) {
                 className={cn(
                   "mega-menu-column px-6 py-8 transition-all duration-200",
                   "hover:bg-u-gray-700/20",
-                  index === megaMenuItems.length - 1 && "border-r-0"
+                  index === megaMenuItems.length - 1 && "border-r-0",
                 )}
                 onClick={onClose}
               >
-                <Icon className={cn("w-6 h-6 mb-4", megaMenuItems[index].color)} strokeWidth={2} />
+                <Icon
+                  className={cn("w-6 h-6 mb-4", megaMenuItems[index].color)}
+                  strokeWidth={2}
+                />
                 <div className="text-u-gray-100 font-semibold text-base mb-2">
                   {item.title}
                 </div>

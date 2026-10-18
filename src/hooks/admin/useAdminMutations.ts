@@ -50,12 +50,23 @@ export const useRevokeRole = () => {
 export const useSuspendUser = () => {
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: async ({ userId, suspended, reason }: { userId: string; suspended: boolean; reason?: string }) => {
-      const { data, error } = await supabase.rpc("admin_set_user_suspended" as any, {
-        _user_id: userId,
-        _suspended: suspended,
-        _reason: reason ?? null,
-      });
+    mutationFn: async ({
+      userId,
+      suspended,
+      reason,
+    }: {
+      userId: string;
+      suspended: boolean;
+      reason?: string;
+    }) => {
+      const { data, error } = await supabase.rpc(
+        "admin_set_user_suspended" as any,
+        {
+          _user_id: userId,
+          _suspended: suspended,
+          _reason: reason ?? null,
+        },
+      );
       if (error) throw error;
       return data;
     },
@@ -72,11 +83,20 @@ export const useSuspendUser = () => {
 export const useCancelBooking = () => {
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: async ({ bookingId, reason }: { bookingId: string; reason?: string }) => {
-      const { data, error } = await supabase.rpc("admin_cancel_booking" as any, {
-        _booking_id: bookingId,
-        _reason: reason ?? null,
-      });
+    mutationFn: async ({
+      bookingId,
+      reason,
+    }: {
+      bookingId: string;
+      reason?: string;
+    }) => {
+      const { data, error } = await supabase.rpc(
+        "admin_cancel_booking" as any,
+        {
+          _booking_id: bookingId,
+          _reason: reason ?? null,
+        },
+      );
       if (error) throw error;
       return data;
     },
@@ -91,11 +111,20 @@ export const useCancelBooking = () => {
 export const useRefundBooking = () => {
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: async ({ bookingId, reason }: { bookingId: string; reason?: string }) => {
-      const { data, error } = await supabase.rpc("admin_refund_booking" as any, {
-        _booking_id: bookingId,
-        _reason: reason ?? null,
-      });
+    mutationFn: async ({
+      bookingId,
+      reason,
+    }: {
+      bookingId: string;
+      reason?: string;
+    }) => {
+      const { data, error } = await supabase.rpc(
+        "admin_refund_booking" as any,
+        {
+          _booking_id: bookingId,
+          _reason: reason ?? null,
+        },
+      );
       if (error) throw error;
       return data;
     },
@@ -111,10 +140,19 @@ export const useRefundBooking = () => {
 export const useRescheduleBooking = () => {
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: async ({ bookingId, scheduledAt }: { bookingId: string; scheduledAt: string }) => {
+    mutationFn: async ({
+      bookingId,
+      scheduledAt,
+    }: {
+      bookingId: string;
+      scheduledAt: string;
+    }) => {
       const { error } = await supabase
         .from("bookings")
-        .update({ scheduled_at: scheduledAt, updated_at: new Date().toISOString() })
+        .update({
+          scheduled_at: scheduledAt,
+          updated_at: new Date().toISOString(),
+        })
         .eq("id", bookingId);
       if (error) throw error;
     },
@@ -130,10 +168,18 @@ export const useRescheduleBooking = () => {
 export const useRetryProvisioning = () => {
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: async ({ applicationId }: { applicationId: string; adminUserId?: string }) => {
-      const { data, error } = await supabase.functions.invoke("provision-psychologist", {
-        body: { applicationId },
-      });
+    mutationFn: async ({
+      applicationId,
+    }: {
+      applicationId: string;
+      adminUserId?: string;
+    }) => {
+      const { data, error } = await supabase.functions.invoke(
+        "provision-psychologist",
+        {
+          body: { applicationId },
+        },
+      );
       if (error) throw error;
       return data;
     },
@@ -150,7 +196,13 @@ export const useRetryProvisioning = () => {
 export const useTogglePsychologistPublish = () => {
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: async ({ id, published }: { id: string; published: boolean }) => {
+    mutationFn: async ({
+      id,
+      published,
+    }: {
+      id: string;
+      published: boolean;
+    }) => {
       const { error } = await supabase
         .from("psychologist_profiles")
         .update({ is_published: published })
