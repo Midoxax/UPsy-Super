@@ -74,13 +74,20 @@ export function useNavigate(): NavigateFn {
 
 // ---------- useLocation ----------
 
+function withPrefix(prefix: string, value: string | undefined): string {
+  if (!value) return "";
+  return value.startsWith(prefix) ? value : prefix + value;
+}
+
 export function useLocation() {
   const loc = tsLocation();
   return useMemo(
     () => ({
       pathname: loc.pathname,
-      search: loc.searchStr ? `?${loc.searchStr}` : "",
-      hash: loc.hash ?? "",
+      // react-router shape: search starts with "?", hash with "#". TanStack's
+      // searchStr already carries the "?" and its hash has no "#".
+      search: withPrefix("?", loc.searchStr),
+      hash: withPrefix("#", loc.hash),
       state: (loc.state ?? null) as unknown,
       key: loc.pathname + (loc.searchStr ?? ""),
     }),

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "@/lib/router-compat";
+import { Link, useLocation } from "@/lib/router-compat";
 import { Button } from "@/components/ui/button";
 import { Loader2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
@@ -177,7 +177,8 @@ export const SignInPrompt = ({
   className,
 }: SignInPromptProps) => {
   const { t } = useLocale();
-  const target = redirect ?? window.location.pathname + window.location.search;
+  const location = useLocation();
+  const target = redirect ?? location.pathname + location.search;
   const href =
     target && !target.startsWith("/auth")
       ? `/auth?redirect=${encodeURIComponent(target)}`
