@@ -6,7 +6,13 @@ import React, {
   ReactNode,
 } from "react";
 import { useNavigate, useLocation } from "@/lib/router-compat";
-import { translations } from "@/lib/i18n/translations";
+import {
+  getMessages,
+  englishMessages,
+  isLocaleLoaded,
+  loadLocale,
+  type Messages,
+} from "@/lib/i18n/messages";
 import {
   getCookie,
   setCookie,
@@ -21,6 +27,8 @@ interface LocaleContextType {
   locale: Locale;
   setLocale: (locale: Locale) => void;
   t: (key: string) => string;
+  /** The active locale's message table, or English until it has loaded. */
+  messages: Messages;
 }
 
 const LocaleContext = createContext<LocaleContextType | undefined>(undefined);
@@ -34,6 +42,8 @@ export const LocaleProvider = ({ children }: { children: ReactNode }) => {
   const [locale, setLocaleState] = useState<Locale>(() =>
     getLocaleFromPath(location.pathname),
   );
+  // Bumped when a lazily loaded locale arrives, so the tree re-renders with it.
+  const [, setLoadedVersion] = useState(0);
   const [overrides, setOverrides] = useState<
     Record<string, Record<string, string>>
   >({});
@@ -126,6 +136,22 @@ export const LocaleProvider = ({ children }: { children: ReactNode }) => {
     }
   }, [location.pathname]);
 
+  // Fetch the active locale's messages if they are not in the bundle yet.
+  // Until they arrive, t() serves English, its normal fallback.
+  useEffect(() => {
+    if (isLocaleLoaded(locale)) return;
+    let cancelled = false;
+    loadLocale(locale).then(
+      () => {
+        if (!cancelled) setLoadedVersion((v) => v + 1);
+      },
+      (error) => console.error(`[i18n] failed to load "${locale}"`, error),
+    );
+    return () => {
+      cancelled = true;
+    };
+  }, [locale]);
+
   // Set text direction for RTL languages
   useEffect(() => {
     document.documentElement.dir = locale === "ar" ? "rtl" : "ltr";
@@ -137,6 +163,9 @@ export const LocaleProvider = ({ children }: { children: ReactNode }) => {
 
   const setLocale = (newLocale: Locale) => {
     setCookie("lng", newLocale, 180);
+    // Start the fetch now rather than after the re-render; failures are
+    // handled by the loading effect.
+    loadLocale(newLocale).catch(() => {});
     setLocaleState(newLocale);
 
     const currentPath = stripLocalePrefix(location.pathname);
@@ -150,7 +179,7 @@ export const LocaleProvider = ({ children }: { children: ReactNode }) => {
     if (override !== undefined) return override;
 
     const lookup = (loc: Locale): string | undefined => {
-      let value: unknown = translations[loc];
+      let value: unknown = getMessages(loc);
       for (const k of key.split(".")) {
         value = (value as Record<string, unknown> | undefined)?.[k];
       }
@@ -177,7 +206,14 @@ export const LocaleProvider = ({ children }: { children: ReactNode }) => {
   };
 
   return (
-    <LocaleContext.Provider value={{ locale, setLocale, t }}>
+    <LocaleContext.Provider
+      value={{
+        locale,
+        setLocale,
+        t,
+        messages: getMessages(locale) ?? englishMessages(),
+      }}
+    >
       {children}
     </LocaleContext.Provider>
   );

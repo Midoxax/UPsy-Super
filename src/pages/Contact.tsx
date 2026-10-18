@@ -15,7 +15,7 @@ import { Link } from "@/lib/router-compat";
 import ScrollReveal from "@/components/ScrollReveal";
 import NeuralConnector from "@/components/ui/neural-connector";
 import { useLocale } from "@/contexts/LocaleContext";
-import { translations } from "@/lib/i18n/translations";
+import { englishMessages } from "@/lib/i18n/messages";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import DataPrivacyNotice from "@/components/DataPrivacyNotice";
@@ -30,11 +30,11 @@ const contactSchema = z.object({
 });
 
 const Contact = () => {
-  const { t, locale } = useLocale();
+  const { t, locale, messages } = useLocale();
   const { toast } = useToast();
   const faqQuestions =
-    (translations[locale] as any).contact?.faq?.questions ??
-    (translations.en as any).contact.faq.questions;
+    (messages as any).contact?.faq?.questions ??
+    (englishMessages() as any).contact.faq.questions;
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
     name: "",

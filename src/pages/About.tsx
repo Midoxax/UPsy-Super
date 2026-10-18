@@ -1,13 +1,13 @@
 import { CheckCircle2 } from "lucide-react";
 import { useLocale } from "@/contexts/LocaleContext";
-import { translations } from "@/lib/i18n/translations";
+import { englishMessages } from "@/lib/i18n/messages";
 import SEOHead from "@/components/SEOHead";
 
 const About = () => {
-  const { t, locale } = useLocale();
+  const { t, locale, messages } = useLocale();
 
-  const loc = translations[locale] as any;
-  const enLoc = translations.en as any;
+  const loc = messages as any;
+  const enLoc = englishMessages() as any;
   const credentialsList =
     loc.about?.credentials?.list ?? enLoc.about.credentials.list;
   const philosophyList =

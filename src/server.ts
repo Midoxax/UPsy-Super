@@ -3,6 +3,12 @@ import "./lib/error-capture";
 import { consumeLastCapturedError } from "./lib/error-capture";
 import { renderErrorPage } from "./lib/error-page";
 import { applySecurityHeaders } from "./lib/security-headers";
+import { registerLocales } from "./lib/i18n/messages";
+import { translations } from "./lib/i18n/translations";
+
+// The browser fetches non-English copy on demand; the server renders any
+// locale on any request, so it holds them all and never waits on a load.
+registerLocales(translations);
 
 type ServerEntry = {
   fetch: (

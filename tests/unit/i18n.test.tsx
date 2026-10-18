@@ -9,9 +9,10 @@
  *
  * The rule under test: requested locale → English → empty string.
  */
-import { describe, it, expect, beforeEach, vi } from "vitest";
+import { describe, it, expect, beforeEach, beforeAll, vi } from "vitest";
 import { render, screen } from "@testing-library/react";
 import { LocaleProvider, useLocale } from "@/contexts/LocaleContext";
+import { isLocaleLoaded, loadLocale } from "@/lib/i18n/messages";
 
 // The provider loads DB overrides on mount; keep tests offline and
 // deterministic by stubbing the query to resolve empty.
@@ -63,7 +64,22 @@ beforeEach(() => {
 
 const out = () => screen.getByTestId("out").textContent;
 
+describe("lazy locale loading", () => {
+  // Runs first, before anything has loaded French: non-English copy is a
+  // separate chunk, and until it arrives the provider must serve English (the
+  // fallback) and then re-render in French on its own.
+  it("serves English until the locale chunk arrives, then switches", async () => {
+    expect(isLocaleLoaded("fr")).toBe(false);
+    renderAt("/fr", "nav.home");
+    expect(out()).toBe("Home");
+    await vi.waitFor(() => expect(out()).toBe("Accueil"));
+    expect(isLocaleLoaded("fr")).toBe(true);
+  });
+});
+
 describe("t() resolution", () => {
+  // The client entry loads the URL's locale before hydrating; mirror that.
+  beforeAll(() => Promise.all([loadLocale("fr"), loadLocale("ar")]));
   beforeEach(() => localStorage.clear());
 
   it("returns the translation for the active locale", () => {
