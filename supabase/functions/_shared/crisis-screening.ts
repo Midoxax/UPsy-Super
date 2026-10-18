@@ -38,3 +38,18 @@ export function mergeRisk(ai: RiskLevel, keyword: RiskLevel): RiskLevel {
   const order: Record<RiskLevel, number> = { low: 0, moderate: 1, high: 2 };
   return order[ai] >= order[keyword] ? ai : keyword;
 }
+
+/**
+ * Final screening result from the keyword screen and the AI classifier.
+ *
+ * `ai` is null when the classifier could not answer (no key, HTTP error,
+ * network failure, unrecognised output). Never report "low" on that basis:
+ * a keyword hit still stands, and otherwise the result is "unavailable".
+ */
+export function resolveRisk(
+  ai: RiskLevel | null,
+  keyword: RiskLevel,
+): ScreeningResult {
+  if (ai === null) return keyword === "low" ? "unavailable" : keyword;
+  return mergeRisk(ai, keyword);
+}

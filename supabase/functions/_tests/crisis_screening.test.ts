@@ -1,5 +1,9 @@
 import { assertEquals } from "https://deno.land/std@0.224.0/assert/mod.ts";
-import { keywordScreen, mergeRisk } from "../_shared/crisis-screening.ts";
+import {
+  keywordScreen,
+  mergeRisk,
+  resolveRisk,
+} from "../_shared/crisis-screening.ts";
 
 Deno.test(
   "crisis screening — explicit high-risk multilingual phrases are high",
@@ -28,3 +32,11 @@ Deno.test(
     assertEquals(mergeRisk("low", "moderate"), "moderate");
   },
 );
+
+Deno.test("crisis screening — classifier outage never reports low risk", () => {
+  assertEquals(resolveRisk(null, "low"), "unavailable");
+  assertEquals(resolveRisk(null, "moderate"), "moderate");
+  assertEquals(resolveRisk(null, "high"), "high");
+  assertEquals(resolveRisk("low", "moderate"), "moderate");
+  assertEquals(resolveRisk("high", "low"), "high");
+});
