@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "@/lib/router-compat";
+import { useLocation, useNavigate } from "@/lib/router-compat";
 import { useAuth } from "@/contexts/AuthContext";
 import { useLocale } from "@/contexts/LocaleContext";
 import { Button } from "@/components/ui/button";
@@ -80,6 +80,9 @@ const passwordStrength = (
 
 const Auth = () => {
   const navigate = useNavigate();
+  // Read the query string through the router, not window: these initialisers
+  // also run during server rendering, where window is undefined.
+  const { search } = useLocation();
   const { signIn, signUp, user, loading: authLoading } = useAuth();
   const { toast } = useToast();
   const { t } = useLocale();
@@ -88,7 +91,7 @@ const Auth = () => {
   // Optional prefill from acquisition funnels (e.g. /observatoire band A).
   // State-initialisation only — no change to sign-in, sign-up or redirect logic.
   const [signupData, setSignupData] = useState(() => {
-    const p = new URLSearchParams(window.location.search);
+    const p = new URLSearchParams(search);
     return {
       email: (p.get("email") || "").slice(0, 200),
       password: "",
@@ -97,14 +100,11 @@ const Auth = () => {
     };
   });
   const [defaultTab] = useState(() =>
-    new URLSearchParams(window.location.search).get("mode") === "signup"
-      ? "signup"
-      : "login",
+    new URLSearchParams(search).get("mode") === "signup" ? "signup" : "login",
   );
   // Destination the user was heading to before being bounced to /auth.
   const [oauthRedirect] = useState(
-    () =>
-      new URLSearchParams(window.location.search).get("redirect") || undefined,
+    () => new URLSearchParams(search).get("redirect") || undefined,
   );
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);

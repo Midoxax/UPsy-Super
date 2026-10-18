@@ -184,7 +184,9 @@ const Footer = () => {
               {/* Crisis guidance must never be the least readable text on the
                   page — gold on ivory measured 1.74:1. destructive is both
                   semantically right and high-contrast in either theme. */}
-              <strong className="text-destructive">⚠ Important:</strong>{" "}
+              <strong className="text-destructive dark:text-red-300">
+                ⚠ Important:
+              </strong>{" "}
               {t("footer.crisis") ||
                 "If you are in immediate danger, please call emergency services. U.Psy is not a crisis service."}
             </p>

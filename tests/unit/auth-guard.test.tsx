@@ -147,6 +147,23 @@ describe("post-login redirect", () => {
     );
   });
 
+  it("keeps the first login target while the /auth page is loading", () => {
+    // After <Navigate> fires, the guard can re-render with the new location
+    // before the /auth route mounts. Recomputing there used to replace the
+    // target with a bare /auth and drop the redirect.
+    const { rerender } = renderGuard(undefined, "/dashboard/specialist");
+    locationState.pathname = "/auth";
+    locationState.search = `?redirect=${encodeURIComponent("/dashboard/specialist")}`;
+    rerender(
+      <ProtectedRoute>
+        <div>PROTECTED CONTENT</div>
+      </ProtectedRoute>,
+    );
+    expect(navigatedTo()).toBe(
+      `/auth?redirect=${encodeURIComponent("/dashboard/specialist")}`,
+    );
+  });
+
   it("does not build a redirect loop back to /auth", () => {
     renderGuard(undefined, "/auth");
     // Guard must not send /auth -> /auth?redirect=/auth.
