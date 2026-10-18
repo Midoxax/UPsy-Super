@@ -105,16 +105,30 @@ jobs:
         with:
           deno-version: v2.x
 
-      # Non-blocking on arrival, deliberately. These files have never been
-      # checked, so the size of the backlog is unknown, and a gate that is red
-      # the day it lands gets switched off along with everything it would have
-      # caught. Read the output, fix what it finds, then drop
-      # continue-on-error — same ratchet as lint.
-      # --node-modules-dir=auto because the functions import npm packages by
-      # bare specifier (`npm:resend@2.0.0`). Without it Deno 2 refuses to
-      # resolve them and aborts on the first file it meets.
+      # Each function is checked the way Supabase deploys it. A function with
+      # its own deno.json (the React Email ones pin react@18.3.1 and its types
+      # there) is checked against that config in isolation; checked together
+      # from the repo root, its templates picked up the app's React 19 types
+      # from node_modules and failed with ~95 false TS2786 errors.
+      # The rest are checked together with --node-modules-dir=auto, because
+      # they import npm packages by bare specifier (`npm:resend@2.0.0`) and
+      # Deno 2 refuses to resolve them without it.
       - name: Type check edge functions
-        run: deno check --node-modules-dir=auto supabase/functions/*/index.ts supabase/functions/_shared/*.ts
+        run: |
+          set -euo pipefail
+          shared=()
+          for dir in supabase/functions/*/; do
+            name="$(basename "$dir")"
+            [[ "$name" == _* ]] && continue
+            if [ -f "${dir}deno.json" ]; then
+              echo "::group::${name} (own deno.json)"
+              deno check --node-modules-dir=none --config "${dir}deno.json" "${dir}index.ts"
+              echo "::endgroup::"
+            else
+              shared+=("${dir}index.ts")
+            fi
+          done
+          deno check --node-modules-dir=auto "${shared[@]}" supabase/functions/_shared/*.ts
 
       # Behavioural coverage. Every other gate checks the shape of the output;
       # these assert what the code actually does — i18n fallback resolution,
