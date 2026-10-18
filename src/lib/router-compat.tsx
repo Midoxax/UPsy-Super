@@ -10,12 +10,13 @@ import {
   useSearch as tsSearch,
   useRouter,
   Link as TSLink,
-  Navigate as TSNavigate,
   Outlet as TSOutlet,
 } from "@tanstack/react-router";
 import {
   useMemo,
   useCallback,
+  useEffect,
+  useRef,
   forwardRef,
   type ComponentProps,
   type ReactNode,
@@ -192,16 +193,26 @@ export function Navigate({
   replace?: boolean;
   state?: unknown;
 }) {
-  const { pathname, search, hash } = parseTo(to);
-  return (
-    <TSNavigate
-      to={pathname as never}
-      search={search as never}
-      hash={hash}
-      state={state as never}
-      replace={replace}
-    />
-  );
+  const navigate = tsNavigate();
+  // Navigate once per target. TanStack's <Navigate> re-navigates whenever its
+  // props object changes, and a parent that keeps re-rendering (an auth guard
+  // waiting on state) hands it a new object every render: each navigation
+  // restarts the router load, which re-renders, which navigates again, so the
+  // redirect never commits and the main thread spins.
+  const navigatedTo = useRef<string | null>(null);
+  useEffect(() => {
+    if (navigatedTo.current === to) return;
+    navigatedTo.current = to;
+    const { pathname, search, hash } = parseTo(to);
+    navigate({
+      to: pathname as never,
+      search: search as never,
+      hash,
+      state: state as never,
+      replace,
+    });
+  }, [to, replace, state, navigate]);
+  return null;
 }
 
 // ---------- Outlet ----------
