@@ -9,6 +9,12 @@ const SpecialistDashboard = lazy(() => import("@/pages/SpecialistDashboard"));
 
 export const Route = createFileRoute("/$locale/dashboard/specialist")({
   component: () => (
-    <ProtectedRoute role="psychologist"><PageTransition><ErrorBoundary fallback={<DashboardErrorFallback />}><SpecialistDashboard /></ErrorBoundary></PageTransition></ProtectedRoute>
+    <ProtectedRoute role="psychologist">
+      <PageTransition>
+        <ErrorBoundary fallback={<DashboardErrorFallback />}>
+          <SpecialistDashboard />
+        </ErrorBoundary>
+      </PageTransition>
+    </ProtectedRoute>
   ),
 });

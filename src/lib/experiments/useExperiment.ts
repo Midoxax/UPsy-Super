@@ -16,12 +16,13 @@ import {
  * must always render, so an experiment that fails to resolve degrades to the
  * control copy instead of blanking the page.
  */
-export function useExperimentVariant<T extends string>(definition: ExperimentDefinition): T {
+export function useExperimentVariant<T extends string>(
+  definition: ExperimentDefinition,
+): T {
   const assignments = useRouterState({
     select: (state) => {
       const rootLoaderData = state.matches[0]?.loaderData as
-        | { experiments?: ExperimentAssignments }
-        | undefined;
+        { experiments?: ExperimentAssignments } | undefined;
       return rootLoaderData?.experiments;
     },
   });
@@ -38,7 +39,10 @@ export function useExperimentVariant<T extends string>(definition: ExperimentDef
  * Guarded by a ref rather than an empty dep array: React double-invokes effects
  * in dev StrictMode, which would otherwise double-count every exposure.
  */
-export function useExperimentExposure(experimentId: string, variant: string): void {
+export function useExperimentExposure(
+  experimentId: string,
+  variant: string,
+): void {
   const fired = useRef<string | null>(null);
 
   useEffect(() => {

@@ -47,7 +47,11 @@ const KINDS = [
 ];
 
 const mad = (n: number) =>
-  new Intl.NumberFormat("fr-MA", { style: "currency", currency: "MAD", maximumFractionDigits: 2 }).format(n);
+  new Intl.NumberFormat("fr-MA", {
+    style: "currency",
+    currency: "MAD",
+    maximumFractionDigits: 2,
+  }).format(n);
 
 const statusTone: Record<Invoice["status"], string> = {
   issued: "bg-amber-500/10 text-amber-600 border-amber-500/20",
@@ -58,7 +62,9 @@ const statusTone: Record<Invoice["status"], string> = {
 
 const daysOverdue = (inv: Invoice) => {
   if (!inv.due_at || inv.status === "paid" || inv.status === "void") return 0;
-  const diff = Math.floor((Date.now() - new Date(inv.due_at).getTime()) / 864e5);
+  const diff = Math.floor(
+    (Date.now() - new Date(inv.due_at).getTime()) / 864e5,
+  );
   return diff > 0 ? diff : 0;
 };
 
@@ -70,17 +76,37 @@ const FinanceManager = () => {
   const contacts = useContactOptions();
   const { issueInvoice, recordPayment, voidInvoice } = useFinanceMutations();
 
-  const [form, setForm] = useState({ contactId: "", subtotal: "", kind: "client_session", dueDays: "7", notes: "" });
-  const [pay, setPay] = useState({ invoiceId: "", amount: "", receivedAt: new Date().toISOString().slice(0, 10), bankRef: "" });
+  const [form, setForm] = useState({
+    contactId: "",
+    subtotal: "",
+    kind: "client_session",
+    dueDays: "7",
+    notes: "",
+  });
+  const [pay, setPay] = useState({
+    invoiceId: "",
+    amount: "",
+    receivedAt: new Date().toISOString().slice(0, 10),
+    bankRef: "",
+  });
 
   const rows = invoices.data ?? [];
   const outstanding = useMemo(
-    () => rows.filter((i) => i.status === "issued" || i.status === "partially_paid"),
+    () =>
+      rows.filter(
+        (i) => i.status === "issued" || i.status === "partially_paid",
+      ),
     [rows],
   );
-  const overdue = useMemo(() => outstanding.filter((i) => daysOverdue(i) > 0), [outstanding]);
+  const overdue = useMemo(
+    () => outstanding.filter((i) => daysOverdue(i) > 0),
+    [outstanding],
+  );
   const collected = revenue.data?.collected ?? 0;
-  const ceilingPct = Math.min(100, Math.round((collected / AE_CEILING_MAD) * 100));
+  const ceilingPct = Math.min(
+    100,
+    Math.round((collected / AE_CEILING_MAD) * 100),
+  );
 
   const submitInvoice = async () => {
     const subtotal = Number(form.subtotal);
@@ -97,9 +123,17 @@ const FinanceManager = () => {
         notes: form.notes || undefined,
       });
       toast.success(`Invoice ${inv?.number ?? ""} issued`);
-      setForm({ contactId: "", subtotal: "", kind: "client_session", dueDays: "7", notes: "" });
+      setForm({
+        contactId: "",
+        subtotal: "",
+        kind: "client_session",
+        dueDays: "7",
+        notes: "",
+      });
     } catch (e) {
-      toast.error(e instanceof Error ? e.message : "Could not issue the invoice.");
+      toast.error(
+        e instanceof Error ? e.message : "Could not issue the invoice.",
+      );
     }
   };
 
@@ -117,9 +151,16 @@ const FinanceManager = () => {
         bankRef: pay.bankRef || undefined,
       });
       toast.success("Payment matched");
-      setPay({ invoiceId: "", amount: "", receivedAt: new Date().toISOString().slice(0, 10), bankRef: "" });
+      setPay({
+        invoiceId: "",
+        amount: "",
+        receivedAt: new Date().toISOString().slice(0, 10),
+        bankRef: "",
+      });
     } catch (e) {
-      toast.error(e instanceof Error ? e.message : "Could not record the payment.");
+      toast.error(
+        e instanceof Error ? e.message : "Could not record the payment.",
+      );
     }
   };
 
@@ -141,30 +182,58 @@ const FinanceManager = () => {
     <div className="space-y-6">
       <div className="grid gap-4 md:grid-cols-4">
         <Card>
-          <CardHeader className="pb-2"><CardTitle className="text-sm font-medium text-muted-foreground">Collected YTD</CardTitle></CardHeader>
-          <CardContent><p className="text-2xl font-mono">{mad(collected)}</p></CardContent>
-        </Card>
-        <Card>
-          <CardHeader className="pb-2"><CardTitle className="text-sm font-medium text-muted-foreground">Issued YTD</CardTitle></CardHeader>
-          <CardContent><p className="text-2xl font-mono">{mad(revenue.data?.issued ?? 0)}</p></CardContent>
-        </Card>
-        <Card>
-          <CardHeader className="pb-2"><CardTitle className="text-sm font-medium text-muted-foreground">Outstanding</CardTitle></CardHeader>
+          <CardHeader className="pb-2">
+            <CardTitle className="text-sm font-medium text-muted-foreground">
+              Collected YTD
+            </CardTitle>
+          </CardHeader>
           <CardContent>
-            <p className="text-2xl font-mono">{mad(outstanding.reduce((s, i) => s + Number(i.total_mad), 0))}</p>
-            <p className="text-xs text-muted-foreground mt-1">{overdue.length} overdue</p>
+            <p className="text-2xl font-mono">{mad(collected)}</p>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader className="pb-2">
+            <CardTitle className="text-sm font-medium text-muted-foreground">
+              Issued YTD
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-2xl font-mono">
+              {mad(revenue.data?.issued ?? 0)}
+            </p>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader className="pb-2">
+            <CardTitle className="text-sm font-medium text-muted-foreground">
+              Outstanding
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-2xl font-mono">
+              {mad(outstanding.reduce((s, i) => s + Number(i.total_mad), 0))}
+            </p>
+            <p className="text-xs text-muted-foreground mt-1">
+              {overdue.length} overdue
+            </p>
           </CardContent>
         </Card>
         <Card className={ceilingPct >= 80 ? "border-amber-500/40" : undefined}>
           <CardHeader className="pb-2">
             <CardTitle className="text-sm font-medium text-muted-foreground flex items-center gap-2">
-              {ceilingPct >= 80 ? <AlertTriangle className="h-4 w-4 text-amber-600" /> : <ShieldCheck className="h-4 w-4" />}
+              {ceilingPct >= 80 ? (
+                <AlertTriangle className="h-4 w-4 text-amber-600" />
+              ) : (
+                <ShieldCheck className="h-4 w-4" />
+              )}
               AE ceiling
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-2">
             <Progress value={ceilingPct} />
-            <p className="text-xs text-muted-foreground">{ceilingPct}% of {mad(AE_CEILING_MAD)}</p>
+            <p className="text-xs text-muted-foreground">
+              {ceilingPct}% of {mad(AE_CEILING_MAD)}
+            </p>
           </CardContent>
         </Card>
       </div>
@@ -179,7 +248,9 @@ const FinanceManager = () => {
         <TabsContent value="invoices" className="mt-4 space-y-4">
           <div className="flex flex-wrap items-center gap-2">
             <Select value={statusFilter} onValueChange={setStatusFilter}>
-              <SelectTrigger className="w-48"><SelectValue /></SelectTrigger>
+              <SelectTrigger className="w-48">
+                <SelectValue />
+              </SelectTrigger>
               <SelectContent>
                 <SelectItem value="all">All statuses</SelectItem>
                 <SelectItem value="issued">Issued</SelectItem>
@@ -196,36 +267,69 @@ const FinanceManager = () => {
           <Card>
             <CardContent className="p-0 overflow-x-auto">
               {invoices.isLoading ? (
-                <div className="p-8 flex justify-center"><Loader2 className="h-5 w-5 animate-spin" /></div>
+                <div className="p-8 flex justify-center">
+                  <Loader2 className="h-5 w-5 animate-spin" />
+                </div>
               ) : rows.length === 0 ? (
-                <p className="p-8 text-sm text-muted-foreground text-center">No invoices yet.</p>
+                <p className="p-8 text-sm text-muted-foreground text-center">
+                  No invoices yet.
+                </p>
               ) : (
                 <table className="w-full text-sm">
                   <thead className="text-left text-xs uppercase tracking-wider text-muted-foreground border-b">
                     <tr>
-                      <th scope="col" className="p-3">Number</th>
-                      <th scope="col" className="p-3">Issued</th>
-                      <th scope="col" className="p-3">Kind</th>
-                      <th scope="col" className="p-3">Total</th>
-                      <th scope="col" className="p-3">Status</th>
-                      <th scope="col" className="p-3">Reference</th>
-                      <th scope="col" className="p-3 text-right">Action</th>
+                      <th scope="col" className="p-3">
+                        Number
+                      </th>
+                      <th scope="col" className="p-3">
+                        Issued
+                      </th>
+                      <th scope="col" className="p-3">
+                        Kind
+                      </th>
+                      <th scope="col" className="p-3">
+                        Total
+                      </th>
+                      <th scope="col" className="p-3">
+                        Status
+                      </th>
+                      <th scope="col" className="p-3">
+                        Reference
+                      </th>
+                      <th scope="col" className="p-3 text-right">
+                        Action
+                      </th>
                     </tr>
                   </thead>
                   <tbody>
                     {rows.map((i) => (
                       <tr key={i.id} className="border-b last:border-0">
                         <td className="p-3 font-mono">{i.number}</td>
-                        <td className="p-3 text-muted-foreground">{i.issued_at}</td>
-                        <td className="p-3">{KINDS.find((k) => k.key === i.kind)?.label ?? i.kind}</td>
-                        <td className="p-3 font-mono">{mad(Number(i.total_mad))}</td>
+                        <td className="p-3 text-muted-foreground">
+                          {i.issued_at}
+                        </td>
                         <td className="p-3">
-                          <Badge variant="outline" className={statusTone[i.status]}>{i.status.replace("_", " ")}</Badge>
+                          {KINDS.find((k) => k.key === i.kind)?.label ?? i.kind}
+                        </td>
+                        <td className="p-3 font-mono">
+                          {mad(Number(i.total_mad))}
+                        </td>
+                        <td className="p-3">
+                          <Badge
+                            variant="outline"
+                            className={statusTone[i.status]}
+                          >
+                            {i.status.replace("_", " ")}
+                          </Badge>
                           {daysOverdue(i) > 0 && (
-                            <span className="ml-2 text-xs text-amber-600">D+{daysOverdue(i)}</span>
+                            <span className="ml-2 text-xs text-amber-600">
+                              D+{daysOverdue(i)}
+                            </span>
                           )}
                         </td>
-                        <td className="p-3 font-mono text-xs text-muted-foreground">{i.payment_ref}</td>
+                        <td className="p-3 font-mono text-xs text-muted-foreground">
+                          {i.payment_ref}
+                        </td>
                         <td className="p-3 text-right">
                           {i.status !== "paid" && i.status !== "void" && (
                             <Button
@@ -249,52 +353,97 @@ const FinanceManager = () => {
         <TabsContent value="issue" className="mt-4">
           <Card>
             <CardHeader>
-              <CardTitle className="text-base flex items-center gap-2"><FileText className="h-4 w-4" /> Issue an invoice</CardTitle>
+              <CardTitle className="text-base flex items-center gap-2">
+                <FileText className="h-4 w-4" /> Issue an invoice
+              </CardTitle>
             </CardHeader>
             <CardContent className="grid gap-4 md:grid-cols-2">
               <div className="space-y-2">
                 <Label htmlFor="fin-contact">Contact</Label>
-                <Select value={form.contactId} onValueChange={(v) => setForm((f) => ({ ...f, contactId: v }))}>
-                  <SelectTrigger id="fin-contact"><SelectValue placeholder="Select a contact" /></SelectTrigger>
+                <Select
+                  value={form.contactId}
+                  onValueChange={(v) =>
+                    setForm((f) => ({ ...f, contactId: v }))
+                  }
+                >
+                  <SelectTrigger id="fin-contact">
+                    <SelectValue placeholder="Select a contact" />
+                  </SelectTrigger>
                   <SelectContent>
                     {(contacts.data ?? []).map((c) => (
-                      <SelectItem key={c.id} value={c.id}>{c.full_name || c.email}</SelectItem>
+                      <SelectItem key={c.id} value={c.id}>
+                        {c.full_name || c.email}
+                      </SelectItem>
                     ))}
                   </SelectContent>
                 </Select>
               </div>
               <div className="space-y-2">
                 <Label htmlFor="fin-kind">Kind</Label>
-                <Select value={form.kind} onValueChange={(v) => setForm((f) => ({ ...f, kind: v }))}>
-                  <SelectTrigger id="fin-kind"><SelectValue /></SelectTrigger>
+                <Select
+                  value={form.kind}
+                  onValueChange={(v) => setForm((f) => ({ ...f, kind: v }))}
+                >
+                  <SelectTrigger id="fin-kind">
+                    <SelectValue />
+                  </SelectTrigger>
                   <SelectContent>
-                    {KINDS.map((k) => <SelectItem key={k.key} value={k.key}>{k.label}</SelectItem>)}
+                    {KINDS.map((k) => (
+                      <SelectItem key={k.key} value={k.key}>
+                        {k.label}
+                      </SelectItem>
+                    ))}
                   </SelectContent>
                 </Select>
               </div>
               <div className="space-y-2">
                 <Label htmlFor="fin-amount">Amount (MAD, VAT-exempt)</Label>
-                <Input id="fin-amount" inputMode="decimal" value={form.subtotal}
-                  onChange={(e) => setForm((f) => ({ ...f, subtotal: e.target.value }))} placeholder="600" />
+                <Input
+                  id="fin-amount"
+                  inputMode="decimal"
+                  value={form.subtotal}
+                  onChange={(e) =>
+                    setForm((f) => ({ ...f, subtotal: e.target.value }))
+                  }
+                  placeholder="600"
+                />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="fin-due">Due in (days)</Label>
-                <Input id="fin-due" inputMode="numeric" value={form.dueDays}
-                  onChange={(e) => setForm((f) => ({ ...f, dueDays: e.target.value }))} />
+                <Input
+                  id="fin-due"
+                  inputMode="numeric"
+                  value={form.dueDays}
+                  onChange={(e) =>
+                    setForm((f) => ({ ...f, dueDays: e.target.value }))
+                  }
+                />
               </div>
               <div className="space-y-2 md:col-span-2">
                 <Label htmlFor="fin-notes">Description</Label>
-                <Textarea id="fin-notes" value={form.notes}
-                  onChange={(e) => setForm((f) => ({ ...f, notes: e.target.value }))}
-                  placeholder="Protocol / session description shown on the invoice" />
+                <Textarea
+                  id="fin-notes"
+                  value={form.notes}
+                  onChange={(e) =>
+                    setForm((f) => ({ ...f, notes: e.target.value }))
+                  }
+                  placeholder="Protocol / session description shown on the invoice"
+                />
               </div>
               <div className="md:col-span-2 flex items-center justify-between gap-4">
                 <p className="text-xs text-muted-foreground max-w-md">
-                  TVA non applicable — régime de l'auto-entrepreneur. The number is allocated
-                  server-side and can never be reused or deleted.
+                  TVA non applicable — régime de l'auto-entrepreneur. The number
+                  is allocated server-side and can never be reused or deleted.
                 </p>
-                <Button onClick={submitInvoice} disabled={issueInvoice.isPending}>
-                  {issueInvoice.isPending ? <Loader2 className="h-4 w-4 mr-2 animate-spin" /> : <Plus className="h-4 w-4 mr-2" />}
+                <Button
+                  onClick={submitInvoice}
+                  disabled={issueInvoice.isPending}
+                >
+                  {issueInvoice.isPending ? (
+                    <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                  ) : (
+                    <Plus className="h-4 w-4 mr-2" />
+                  )}
                   Issue
                 </Button>
               </div>
@@ -305,38 +454,70 @@ const FinanceManager = () => {
         <TabsContent value="reconcile" className="mt-4 space-y-4">
           <Card>
             <CardHeader>
-              <CardTitle className="text-base flex items-center gap-2"><Banknote className="h-4 w-4" /> Match a bank transfer</CardTitle>
+              <CardTitle className="text-base flex items-center gap-2">
+                <Banknote className="h-4 w-4" /> Match a bank transfer
+              </CardTitle>
             </CardHeader>
             <CardContent className="grid gap-4 md:grid-cols-2">
               <div className="space-y-2">
                 <Label htmlFor="pay-invoice">Invoice</Label>
-                <Select value={pay.invoiceId} onValueChange={(v) => setPay((p) => ({ ...p, invoiceId: v }))}>
-                  <SelectTrigger id="pay-invoice"><SelectValue placeholder="Outstanding invoices" /></SelectTrigger>
+                <Select
+                  value={pay.invoiceId}
+                  onValueChange={(v) => setPay((p) => ({ ...p, invoiceId: v }))}
+                >
+                  <SelectTrigger id="pay-invoice">
+                    <SelectValue placeholder="Outstanding invoices" />
+                  </SelectTrigger>
                   <SelectContent>
                     {outstanding.map((i) => (
-                      <SelectItem key={i.id} value={i.id}>{i.number} — {mad(Number(i.total_mad))}</SelectItem>
+                      <SelectItem key={i.id} value={i.id}>
+                        {i.number} — {mad(Number(i.total_mad))}
+                      </SelectItem>
                     ))}
                   </SelectContent>
                 </Select>
               </div>
               <div className="space-y-2">
                 <Label htmlFor="pay-amount">Amount received (MAD)</Label>
-                <Input id="pay-amount" inputMode="decimal" value={pay.amount}
-                  onChange={(e) => setPay((p) => ({ ...p, amount: e.target.value }))} />
+                <Input
+                  id="pay-amount"
+                  inputMode="decimal"
+                  value={pay.amount}
+                  onChange={(e) =>
+                    setPay((p) => ({ ...p, amount: e.target.value }))
+                  }
+                />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="pay-date">Value date</Label>
-                <Input id="pay-date" type="date" value={pay.receivedAt}
-                  onChange={(e) => setPay((p) => ({ ...p, receivedAt: e.target.value }))} />
+                <Input
+                  id="pay-date"
+                  type="date"
+                  value={pay.receivedAt}
+                  onChange={(e) =>
+                    setPay((p) => ({ ...p, receivedAt: e.target.value }))
+                  }
+                />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="pay-ref">Bank reference</Label>
-                <Input id="pay-ref" value={pay.bankRef}
-                  onChange={(e) => setPay((p) => ({ ...p, bankRef: e.target.value }))} placeholder="Statement line ref" />
+                <Input
+                  id="pay-ref"
+                  value={pay.bankRef}
+                  onChange={(e) =>
+                    setPay((p) => ({ ...p, bankRef: e.target.value }))
+                  }
+                  placeholder="Statement line ref"
+                />
               </div>
               <div className="md:col-span-2 flex justify-end">
-                <Button onClick={submitPayment} disabled={recordPayment.isPending}>
-                  {recordPayment.isPending ? <Loader2 className="h-4 w-4 mr-2 animate-spin" /> : null}
+                <Button
+                  onClick={submitPayment}
+                  disabled={recordPayment.isPending}
+                >
+                  {recordPayment.isPending ? (
+                    <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                  ) : null}
                   Record payment
                 </Button>
               </div>
@@ -344,27 +525,45 @@ const FinanceManager = () => {
           </Card>
 
           <Card>
-            <CardHeader><CardTitle className="text-base">Recent payments</CardTitle></CardHeader>
+            <CardHeader>
+              <CardTitle className="text-base">Recent payments</CardTitle>
+            </CardHeader>
             <CardContent className="p-0 overflow-x-auto">
               {(payments.data ?? []).length === 0 ? (
-                <p className="p-6 text-sm text-muted-foreground text-center">Nothing matched yet.</p>
+                <p className="p-6 text-sm text-muted-foreground text-center">
+                  Nothing matched yet.
+                </p>
               ) : (
                 <table className="w-full text-sm">
                   <thead className="text-left text-xs uppercase tracking-wider text-muted-foreground border-b">
                     <tr>
-                      <th scope="col" className="p-3">Date</th>
-                      <th scope="col" className="p-3">Amount</th>
-                      <th scope="col" className="p-3">Method</th>
-                      <th scope="col" className="p-3">Bank ref</th>
+                      <th scope="col" className="p-3">
+                        Date
+                      </th>
+                      <th scope="col" className="p-3">
+                        Amount
+                      </th>
+                      <th scope="col" className="p-3">
+                        Method
+                      </th>
+                      <th scope="col" className="p-3">
+                        Bank ref
+                      </th>
                     </tr>
                   </thead>
                   <tbody>
                     {(payments.data ?? []).map((p) => (
                       <tr key={p.id} className="border-b last:border-0">
-                        <td className="p-3 text-muted-foreground">{p.received_at}</td>
-                        <td className="p-3 font-mono">{mad(Number(p.amount_mad))}</td>
+                        <td className="p-3 text-muted-foreground">
+                          {p.received_at}
+                        </td>
+                        <td className="p-3 font-mono">
+                          {mad(Number(p.amount_mad))}
+                        </td>
                         <td className="p-3">{p.method}</td>
-                        <td className="p-3 font-mono text-xs text-muted-foreground">{p.bank_ref ?? "—"}</td>
+                        <td className="p-3 font-mono text-xs text-muted-foreground">
+                          {p.bank_ref ?? "—"}
+                        </td>
                       </tr>
                     ))}
                   </tbody>

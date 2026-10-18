@@ -3,7 +3,13 @@ import { useNavigate } from "@/lib/router-compat";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
@@ -55,7 +61,8 @@ export default function MfaSetup() {
     if (!factorId || code.length !== 6) return;
     setVerifying(true);
     try {
-      const { data: challenge, error: cErr } = await supabase.auth.mfa.challenge({ factorId });
+      const { data: challenge, error: cErr } =
+        await supabase.auth.mfa.challenge({ factorId });
       if (cErr) throw cErr;
       const { error: vErr } = await supabase.auth.mfa.verify({
         factorId,
@@ -63,7 +70,10 @@ export default function MfaSetup() {
         code,
       });
       if (vErr) throw vErr;
-      toast({ title: "Two-factor enabled", description: "Your account is now protected by TOTP." });
+      toast({
+        title: "Two-factor enabled",
+        description: "Your account is now protected by TOTP.",
+      });
       navigate("/dashboard", { replace: true });
     } catch (err: any) {
       toast({
@@ -90,7 +100,11 @@ export default function MfaSetup() {
         </CardHeader>
         <CardContent className="space-y-4">
           {!factorId ? (
-            <Button onClick={startEnrollment} disabled={enrolling} className="w-full">
+            <Button
+              onClick={startEnrollment}
+              disabled={enrolling}
+              className="w-full"
+            >
               {enrolling && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
               Start setup
             </Button>
@@ -103,11 +117,14 @@ export default function MfaSetup() {
               )}
               {secret && (
                 <p className="text-center text-xs text-muted-foreground break-all">
-                  Or enter this secret manually: <span className="font-mono">{secret}</span>
+                  Or enter this secret manually:{" "}
+                  <span className="font-mono">{secret}</span>
                 </p>
               )}
               <div className="space-y-2">
-                <Label htmlFor="code">6-digit code from your authenticator</Label>
+                <Label htmlFor="code">
+                  6-digit code from your authenticator
+                </Label>
                 <Input
                   id="code"
                   inputMode="numeric"

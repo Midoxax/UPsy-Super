@@ -109,12 +109,14 @@ export const useUserProgress = () => {
         .eq("user_id", user.id)
         .maybeSingle();
       if (error) throw error;
-      return (data as UserProgress | null) ?? {
-        xp_total: 0,
-        xp_this_week: 0,
-        streak_days: 0,
-        streak_best: 0,
-      };
+      return (
+        (data as UserProgress | null) ?? {
+          xp_total: 0,
+          xp_this_week: 0,
+          streak_days: 0,
+          streak_best: 0,
+        }
+      );
     },
     enabled: !!user,
   });
@@ -131,7 +133,10 @@ export const useUserBadges = () => {
         .select("badge_slug, earned_at")
         .eq("user_id", user.id);
       if (error) throw error;
-      return (data ?? []).map((b) => ({ slug: b.badge_slug, earned_at: b.earned_at }));
+      return (data ?? []).map((b) => ({
+        slug: b.badge_slug,
+        earned_at: b.earned_at,
+      }));
     },
     enabled: !!user,
   });
@@ -143,21 +148,32 @@ export const useAwardXp = () => {
   const qc = useQueryClient();
   const { toast } = useToast();
   return useMutation({
-    mutationFn: async (params: { action: string; xp?: number; metadata?: Record<string, unknown> }) => {
+    mutationFn: async (params: {
+      action: string;
+      xp?: number;
+      metadata?: Record<string, unknown>;
+    }) => {
       const { data, error } = await supabase.rpc("award_xp", {
         p_action: params.action,
         p_xp: params.xp ?? 10,
         p_metadata: (params.metadata ?? {}) as any,
       });
       if (error) throw error;
-      return data as { xp_awarded: number; xp_total: number; streak_days: number };
+      return data as {
+        xp_awarded: number;
+        xp_total: number;
+        streak_days: number;
+      };
     },
     onSuccess: (data) => {
       qc.invalidateQueries({ queryKey: ["user-progress"] });
       qc.invalidateQueries({ queryKey: ["user-badges"] });
       qc.invalidateQueries({ queryKey: ["leaderboard"] });
       if (data?.xp_awarded) {
-        toast({ title: `+${data.xp_awarded} XP`, description: `Total: ${data.xp_total} XP` });
+        toast({
+          title: `+${data.xp_awarded} XP`,
+          description: `Total: ${data.xp_total} XP`,
+        });
       }
     },
     onError: () => {
@@ -189,7 +205,9 @@ export const useDailyChallenge = () => {
     queryKey: ["daily-challenge", user?.id],
     queryFn: async () => {
       if (!user) return null;
-      const { data, error } = await supabase.rpc("get_or_assign_daily_challenge");
+      const { data, error } = await supabase.rpc(
+        "get_or_assign_daily_challenge",
+      );
       if (error) throw error;
       return data as unknown as DailyChallenge;
     },
@@ -214,7 +232,10 @@ export const useCompleteDailyChallenge = () => {
       qc.invalidateQueries({ queryKey: ["user-progress"] });
       qc.invalidateQueries({ queryKey: ["leaderboard"] });
       if (data?.ok) {
-        toast({ title: "Challenge complete! 🎉", description: `+${data.xp_awarded} XP earned` });
+        toast({
+          title: "Challenge complete! 🎉",
+          description: `+${data.xp_awarded} XP earned`,
+        });
       }
     },
   });

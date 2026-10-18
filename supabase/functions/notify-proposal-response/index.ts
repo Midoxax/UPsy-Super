@@ -27,7 +27,8 @@ const escape = (s: string) =>
     .replace(/'/g, "&#39;");
 
 Deno.serve(async (req) => {
-  if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
+  if (req.method === "OPTIONS")
+    return new Response(null, { headers: corsHeaders });
 
   const log = createLogger(req, "notify-proposal-response");
 
@@ -53,9 +54,8 @@ Deno.serve(async (req) => {
     //
     // getUser validates the token against the auth server rather than parsing
     // claims locally. Marginally slower, available in every 2.x, and stricter.
-    const { data: claimsData, error: claimsErr } = await userClient.auth.getUser(
-      authHeader.replace("Bearer ", ""),
-    );
+    const { data: claimsData, error: claimsErr } =
+      await userClient.auth.getUser(authHeader.replace("Bearer ", ""));
     if (claimsErr || !claimsData?.user?.id) {
       return new Response(JSON.stringify({ error: "Unauthorized" }), {
         status: 401,
@@ -88,10 +88,13 @@ Deno.serve(async (req) => {
 
     if (bErr || !booking) {
       log.warn("booking not found", { error: bErr?.message });
-      return new Response(JSON.stringify({ ok: false, error: "booking_not_found" }), {
-        status: 404,
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
-      });
+      return new Response(
+        JSON.stringify({ ok: false, error: "booking_not_found" }),
+        {
+          status: 404,
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        },
+      );
     }
 
     // --- AUTHZ: only the patient on this booking (or an admin) may notify a response ---
@@ -116,15 +119,23 @@ Deno.serve(async (req) => {
         .select("id, full_name")
         .eq("id", booking.psychologist_id)
         .maybeSingle(),
-      sb.from("profiles").select("id, full_name").eq("id", booking.patient_id).maybeSingle(),
+      sb
+        .from("profiles")
+        .select("id, full_name")
+        .eq("id", booking.patient_id)
+        .maybeSingle(),
     ]);
 
     // Emails: pull from auth.users for both parties
-    const { data: psyAuth } = await sb.auth.admin.getUserById(booking.psychologist_id);
+    const { data: psyAuth } = await sb.auth.admin.getUserById(
+      booking.psychologist_id,
+    );
     const psyEmail = psyAuth?.user?.email ?? null;
     let patientEmail = booking.patient_email ?? null;
     if (!patientEmail && booking.patient_id) {
-      const { data: pAuth } = await sb.auth.admin.getUserById(booking.patient_id);
+      const { data: pAuth } = await sb.auth.admin.getUserById(
+        booking.patient_id,
+      );
       patientEmail = pAuth?.user?.email ?? null;
     }
 
@@ -164,8 +175,8 @@ Deno.serve(async (req) => {
             ? `<p style="margin:0 0 16px">The room is now open. Join securely:</p>
                <p><a href="${joinUrl}" style="background:#6B1F2A;color:#fff;padding:10px 18px;border-radius:8px;text-decoration:none;display:inline-block">Join session</a></p>`
             : reason
-            ? `<p style="margin:0 0 12px"><strong>Reason given:</strong> ${escape(reason)}</p>`
-            : `<p style="margin:0 0 12px;color:#666">No reason was provided.</p>`
+              ? `<p style="margin:0 0 12px"><strong>Reason given:</strong> ${escape(reason)}</p>`
+              : `<p style="margin:0 0 12px;color:#666">No reason was provided.</p>`
         }
         <hr style="border:none;border-top:1px solid #eee;margin:24px 0">
         <p style="font-size:12px;color:#888">U.Psy · upsy.ma</p>
@@ -215,7 +226,12 @@ Deno.serve(async (req) => {
         }
       };
       if (psyEmail) psyEmailSent = await send(psyEmail, subjectPsy, psyHtml);
-      if (patientEmail) patientEmailSent = await send(patientEmail, subjectPatient, patientHtml);
+      if (patientEmail)
+        patientEmailSent = await send(
+          patientEmail,
+          subjectPatient,
+          patientHtml,
+        );
     } else {
       log.warn("RESEND_API_KEY not set — skipping email");
     }
@@ -226,7 +242,9 @@ Deno.serve(async (req) => {
         user_id: booking.psychologist_id,
         type: accepted ? "session_accepted" : "session_declined",
         title: subjectPsy,
-        body: accepted ? "Your client accepted the session." : reason || "Your client declined the session.",
+        body: accepted
+          ? "Your client accepted the session."
+          : reason || "Your client declined the session.",
         data: { booking_id: booking.id, action: body.action },
       });
     } catch (e) {

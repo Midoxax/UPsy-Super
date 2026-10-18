@@ -7,6 +7,10 @@ const Applications = lazy(() => import("@/pages/admin/Applications"));
 
 export const Route = createFileRoute("/$locale/admin/applications")({
   component: () => (
-    <AdminRoute><PageTransition><Applications /></PageTransition></AdminRoute>
+    <AdminRoute>
+      <PageTransition>
+        <Applications />
+      </PageTransition>
+    </AdminRoute>
   ),
 });

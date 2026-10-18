@@ -15,9 +15,12 @@ export const useProposeSession = () => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: async (input: ProposeSessionInput) => {
-      const { data, error } = await supabase.functions.invoke("propose-session", {
-        body: input,
-      });
+      const { data, error } = await supabase.functions.invoke(
+        "propose-session",
+        {
+          body: input,
+        },
+      );
       if (error) throw error;
       if (data?.error) throw new Error(data.error);
       return data;
@@ -38,7 +41,9 @@ export const usePendingInvitations = () => {
       if (!user) return [];
       const { data, error } = await supabase
         .from("bookings")
-        .select("id, scheduled_at, duration_minutes, session_type, patient_notes, psychologist_id, proposal_expires_at, amount_mad")
+        .select(
+          "id, scheduled_at, duration_minutes, session_type, patient_notes, psychologist_id, proposal_expires_at, amount_mad",
+        )
         .eq("patient_id", user.id)
         .eq("status", "proposed")
         .order("scheduled_at", { ascending: true });
@@ -120,14 +125,22 @@ export const respondToProposalByToken = async (
     _reason: reason ?? undefined,
   });
   if (error) throw error;
-  return data as { ok: boolean; error?: string; status?: string; booking_id?: string };
+  return data as {
+    ok: boolean;
+    error?: string;
+    status?: string;
+    booking_id?: string;
+  };
 };
 
 export const fetchProposalByToken = async (token: string) => {
   // Use the secure RPC instead of direct table read — the public RLS policy was
   // removed because it leaked every active proposal. The RPC returns only the
   // row matching this token (and only if not expired).
-  const { data: rows, error } = await supabase.rpc("get_booking_by_token" as any, { _token: token });
+  const { data: rows, error } = await supabase.rpc(
+    "get_booking_by_token" as any,
+    { _token: token },
+  );
   if (error) throw error;
   const data = Array.isArray(rows) ? (rows[0] as any) : null;
   if (!data) return null;

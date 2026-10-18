@@ -6,6 +6,8 @@ const GetMatched = lazy(() => import("@/pages/GetMatched"));
 
 export const Route = createFileRoute("/$locale/get-matched")({
   component: () => (
-    <PageTransition><GetMatched /></PageTransition>
+    <PageTransition>
+      <GetMatched />
+    </PageTransition>
   ),
 });

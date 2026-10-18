@@ -3,7 +3,10 @@
 // indirectly via a string-substitution check. The goal is to assert that
 // malicious org input never lands as raw HTML.
 
-import { assert, assertEquals } from "https://deno.land/std@0.224.0/assert/mod.ts";
+import {
+  assert,
+  assertEquals,
+} from "https://deno.land/std@0.224.0/assert/mod.ts";
 
 function escapeHtml(s: unknown): string {
   if (s === null || s === undefined) return "";
@@ -34,9 +37,15 @@ Deno.test("escapeHtml neutralises script tags", () => {
     const out = escapeHtml(p);
     assert(!out.includes("<script>"), `raw <script> leaked for: ${p}`);
     // raw quotes must be escaped (otherwise an attacker can break out of attrs)
-    assert(!/['"]/.test(out.replace(/&#39;|&quot;/g, "")), `raw quote leaked for: ${p}`);
+    assert(
+      !/['"]/.test(out.replace(/&#39;|&quot;/g, "")),
+      `raw quote leaked for: ${p}`,
+    );
     // < and > must be escaped (no tag injection possible)
-    assert(!/[<>]/.test(out.replace(/&lt;|&gt;/g, "")), `raw angle bracket leaked for: ${p}`);
+    assert(
+      !/[<>]/.test(out.replace(/&lt;|&gt;/g, "")),
+      `raw angle bracket leaked for: ${p}`,
+    );
   }
 });
 
@@ -44,7 +53,10 @@ Deno.test("safeUrl rejects javascript: and data: schemes", () => {
   assertEquals(safeUrl("javascript:alert(1)"), "");
   assertEquals(safeUrl("data:text/html,<script>alert(1)</script>"), "");
   assertEquals(safeUrl("http://insecure.example/x.png"), "");
-  assertEquals(safeUrl("https://cdn.example.com/logo.png"), "https://cdn.example.com/logo.png");
+  assertEquals(
+    safeUrl("https://cdn.example.com/logo.png"),
+    "https://cdn.example.com/logo.png",
+  );
 });
 
 Deno.test("safeUrl escapes attribute-breaking characters in https URLs", () => {
@@ -81,7 +93,10 @@ Deno.test("invoice template with hostile org fields renders safely", () => {
   // are always escaped.
   const interpolatedRegions = html.match(/&quot;[^&]*&quot;/g) ?? [];
   for (const region of interpolatedRegions) {
-    assert(!/[<>"]/.test(region.replace(/&quot;/g, "")), "unescaped char inside quoted region");
+    assert(
+      !/[<>"]/.test(region.replace(/&quot;/g, "")),
+      "unescaped char inside quoted region",
+    );
   }
   assert(!html.includes("javascript:"), "javascript: scheme leaked");
   assert(!html.includes("<svg "), "raw <svg leaked");

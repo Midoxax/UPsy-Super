@@ -24,7 +24,9 @@ const failures = [];
 // --- 1. Every VITE_* the source reads must be documented in .env.example ----
 const examplePath = resolve(ROOT, ".env.example");
 if (!existsSync(examplePath)) {
-  failures.push(".env.example is missing — the env contract for a cutover is undocumented.");
+  failures.push(
+    ".env.example is missing — the env contract for a cutover is undocumented.",
+  );
 } else {
   const example = readFileSync(examplePath, "utf8");
   const used = new Set();
@@ -38,7 +40,9 @@ if (!existsSync(examplePath)) {
       }
       if (!/\.(ts|tsx|mjs|js)$/.test(entry)) continue;
       const source = readFileSync(full, "utf8");
-      for (const match of source.matchAll(/import\.meta\.env\.(VITE_[A-Z0-9_]+)/g)) {
+      for (const match of source.matchAll(
+        /import\.meta\.env\.(VITE_[A-Z0-9_]+)/g,
+      )) {
         used.add(match[1]);
       }
     }
@@ -69,14 +73,20 @@ for (const file of ["vercel.json", "netlify.toml", "public/_redirects"]) {
 const pkg = JSON.parse(readFileSync(resolve(ROOT, "package.json"), "utf8"));
 for (const script of ["deploy", "deploy:preview"]) {
   if (!pkg.scripts?.[script]) {
-    failures.push(`package.json is missing the "${script}" script used by the deploy workflow.`);
+    failures.push(
+      `package.json is missing the "${script}" script used by the deploy workflow.`,
+    );
   }
 }
 
 if (failures.length > 0) {
-  console.error("check:deploy — independent hosting is not deployable as configured:\n");
+  console.error(
+    "check:deploy — independent hosting is not deployable as configured:\n",
+  );
   for (const failure of failures) console.error(`  • ${failure}`);
   process.exit(1);
 }
 
-console.log("check:deploy — env contract, routing and deploy scripts are consistent.");
+console.log(
+  "check:deploy — env contract, routing and deploy scripts are consistent.",
+);

@@ -75,8 +75,13 @@ function allows(directive: string, origin: string): boolean {
  */
 function configuredOrigins(): Array<{ key: string; origin: string }> {
   const envPath = resolve(ROOT, ".env");
-  const env = readFileSync(existsSync(envPath) ? envPath : resolve(ROOT, ".env.example"), "utf8");
-  const ownOrigin = JSON.parse(readFileSync(resolve(ROOT, "package.json"), "utf8")).homepage;
+  const env = readFileSync(
+    existsSync(envPath) ? envPath : resolve(ROOT, ".env.example"),
+    "utf8",
+  );
+  const ownOrigin = JSON.parse(
+    readFileSync(resolve(ROOT, "package.json"), "utf8"),
+  ).homepage;
   const out: Array<{ key: string; origin: string }> = [];
   for (const line of env.split("\n")) {
     const trimmed = line.trim();
@@ -103,7 +108,7 @@ describe("CSP covers configured services", () => {
         allows("connect-src", origin),
         `${key} points at ${origin}, which connect-src does not allow. The browser ` +
           `will block every request to it in production. Add it to CONNECT_SRC in ` +
-          `src/lib/security-headers.ts.`
+          `src/lib/security-headers.ts.`,
       ).toBe(true);
     }
   });
@@ -111,10 +116,12 @@ describe("CSP covers configured services", () => {
   it("allows Supabase over both HTTPS and websockets", () => {
     // Realtime subscriptions use wss://; allowing only https:// breaks them in
     // a way that looks like a Supabase outage rather than a policy problem.
-    expect(allows("connect-src", "https://skxxvgjjdshcopybokdt.supabase.co")).toBe(true);
+    expect(
+      allows("connect-src", "https://skxxvgjjdshcopybokdt.supabase.co"),
+    ).toBe(true);
     expect(
       directiveOf("connect-src").some((s) => s.startsWith("wss://")),
-      "connect-src has no wss:// source — Supabase Realtime cannot connect"
+      "connect-src has no wss:// source — Supabase Realtime cannot connect",
     ).toBe(true);
   });
 });
@@ -143,7 +150,9 @@ describe("CSP keeps its load-bearing directives", () => {
     // until someone frames the app or sniffs a MIME type.
     expect(SECURITY_HEADERS["x-content-type-options"]).toBe("nosniff");
     expect(SECURITY_HEADERS["x-frame-options"]).toBe("DENY");
-    expect(SECURITY_HEADERS["strict-transport-security"]).toMatch(/max-age=\d+/);
+    expect(SECURITY_HEADERS["strict-transport-security"]).toMatch(
+      /max-age=\d+/,
+    );
     expect(SECURITY_HEADERS["referrer-policy"]).toBeTruthy();
   });
 });
@@ -165,7 +174,7 @@ const rootRoute = readFileSync(resolve(ROOT, "src/routes/__root.tsx"), "utf8");
 /** Pull a head entry's content, e.g. metaContent("og:url"). */
 function metaContent(name: string): string | undefined {
   const re = new RegExp(
-    `(?:property|name):\\s*"${name.replace(/[.*+?^$()|[\\]\\\\]/g, "\\\\$&")}"\\s*,\\s*content:\\s*"([^"]+)"`
+    `(?:property|name):\\s*"${name.replace(/[.*+?^$()|[\\]\\\\]/g, "\\\\$&")}"\\s*,\\s*content:\\s*"([^"]+)"`,
   );
   return rootRoute.match(re)?.[1];
 }
@@ -173,23 +182,32 @@ function metaContent(name: string): string | undefined {
 describe("SEO origin is internally consistent", () => {
   const robots = readFileSync(resolve(ROOT, "public/robots.txt"), "utf8");
   const homepage: string = JSON.parse(
-    readFileSync(resolve(ROOT, "package.json"), "utf8")
+    readFileSync(resolve(ROOT, "package.json"), "utf8"),
   ).homepage;
 
   it("package.json declares a homepage", () => {
-    expect(homepage, "homepage drives the sitemap, robots and production check").toMatch(
-      /^https:\/\/[^/]+$/
-    );
+    expect(
+      homepage,
+      "homepage drives the sitemap, robots and production check",
+    ).toMatch(/^https:\/\/[^/]+$/);
   });
 
   it("the root canonical and og:url match the declared homepage", () => {
-    const canonical = rootRoute.match(/rel:\s*"canonical",\s*href:\s*"([^"]+)"/)?.[1];
+    const canonical = rootRoute.match(
+      /rel:\s*"canonical",\s*href:\s*"([^"]+)"/,
+    )?.[1];
     const ogUrl = metaContent("og:url");
-    for (const [name, value] of [["canonical", canonical], ["og:url", ogUrl]] as const) {
-      expect(value, `${name} is absent from src/routes/__root.tsx`).toBeTruthy();
+    for (const [name, value] of [
+      ["canonical", canonical],
+      ["og:url", ogUrl],
+    ] as const) {
+      expect(
+        value,
+        `${name} is absent from src/routes/__root.tsx`,
+      ).toBeTruthy();
       expect(
         new URL(value!).origin,
-        `${name} points at ${value}, but the site is served from ${homepage}`
+        `${name} points at ${value}, but the site is served from ${homepage}`,
       ).toBe(homepage);
     }
   });
@@ -202,9 +220,16 @@ describe("SEO origin is internally consistent", () => {
 
   it("no absolute URL in the root head points at a different first-party origin", () => {
     // Third-party hosts are expected; a *different* first-party origin is the bug.
-    const origins = [...rootRoute.matchAll(/https:\/\/[a-z0-9.-]+/g)].map((m) => m[0]);
-    const strayFirstParty = [...new Set(origins.filter((o) => /upsy/i.test(o) && o !== homepage))];
-    expect(strayFirstParty, "a stale first-party origin is still hardcoded").toEqual([]);
+    const origins = [...rootRoute.matchAll(/https:\/\/[a-z0-9.-]+/g)].map(
+      (m) => m[0],
+    );
+    const strayFirstParty = [
+      ...new Set(origins.filter((o) => /upsy/i.test(o) && o !== homepage)),
+    ];
+    expect(
+      strayFirstParty,
+      "a stale first-party origin is still hardcoded",
+    ).toEqual([]);
   });
 });
 
@@ -227,7 +252,12 @@ describe("og:image is real and correctly typed", () => {
 
   /** Magic bytes, because the extension has already lied once. */
   function sniff(buf: Buffer): "png" | "jpeg" | "unknown" {
-    if (buf.subarray(0, 8).equals(Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]))) return "png";
+    if (
+      buf
+        .subarray(0, 8)
+        .equals(Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]))
+    )
+      return "png";
     if (buf[0] === 0xff && buf[1] === 0xd8 && buf[2] === 0xff) return "jpeg";
     return "unknown";
   }
@@ -237,7 +267,7 @@ describe("og:image is real and correctly typed", () => {
     const path = new URL(ogImage).pathname;
     expect(
       existsSync(resolve(ROOT, "public", path.replace(/^\//, ""))),
-      `og:image points at ${path}, which is not in public/ — every share will request a 404`
+      `og:image points at ${path}, which is not in public/ — every share will request a 404`,
     ).toBe(true);
   });
 
@@ -248,7 +278,7 @@ describe("og:image is real and correctly typed", () => {
     expect(
       actual,
       `${path} contains ${actual} bytes but og:image:type says ${declaredType}. ` +
-        `nosniff is set, so the client is told not to correct this.`
+        `nosniff is set, so the client is told not to correct this.`,
     ).toBe(declared);
   });
 
@@ -256,7 +286,10 @@ describe("og:image is real and correctly typed", () => {
     const path = new URL(ogImage).pathname.replace(/^\//, "");
     const actual = sniff(readFileSync(resolve(ROOT, "public", path)));
     const ext = path.split(".").pop()?.replace("jpg", "jpeg");
-    expect(actual, `${path} is ${actual} data — rename it so its extension matches`).toBe(ext);
+    expect(
+      actual,
+      `${path} is ${actual} data — rename it so its extension matches`,
+    ).toBe(ext);
   });
 });
 
@@ -276,7 +309,7 @@ describe("deep links have a server entry behind them", () => {
     expect(
       viteConfig,
       "vite.config.ts must point tanstackStart.server.entry at src/server.ts, " +
-        "or the SSR error wrapper is never invoked"
+        "or the SSR error wrapper is never invoked",
     ).toMatch(/server:\s*{\s*entry:\s*"server"/);
   });
 
@@ -284,7 +317,7 @@ describe("deep links have a server entry behind them", () => {
     expect(
       existsSync(resolve(ROOT, "vercel.json")),
       "vercel.json is back — routing now lives in the Worker entry, and two " +
-        "sources of routing truth is how the deep-link 404 happened before"
+        "sources of routing truth is how the deep-link 404 happened before",
     ).toBe(false);
   });
 });

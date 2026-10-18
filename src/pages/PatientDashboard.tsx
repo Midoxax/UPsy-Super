@@ -8,13 +8,36 @@ import { useToast } from "@/hooks/use-toast";
 import ScrollReveal from "@/components/ScrollReveal";
 import MaroonDivider from "@/components/ui/maroon-divider";
 import {
-  Heart, Brain, Calendar, TrendingUp, Smile, Frown, Meh,
-  BarChart3, BookOpen, Plus, ChevronRight, Zap, Moon, Sun, Award,
-  FileText, PenSquare, User, CreditCard,
+  Heart,
+  Brain,
+  Calendar,
+  TrendingUp,
+  Smile,
+  Frown,
+  Meh,
+  BarChart3,
+  BookOpen,
+  Plus,
+  ChevronRight,
+  Zap,
+  Moon,
+  Sun,
+  Award,
+  FileText,
+  PenSquare,
+  User,
+  CreditCard,
 } from "lucide-react";
 import { ListChecks, LogOut, ShieldCheck } from "lucide-react";
 import { Link } from "@/lib/router-compat";
-import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
+import {
+  AreaChart,
+  Area,
+  XAxis,
+  YAxis,
+  Tooltip,
+  ResponsiveContainer,
+} from "recharts";
 import UpcomingSessionsCard from "@/components/dashboard/UpcomingSessionsCard";
 import PendingInvitationsCard from "@/components/dashboard/PendingInvitationsCard";
 import AnamnesisCard from "@/components/dashboard/AnamnesisCard";
@@ -68,11 +91,21 @@ const PatientDashboard = () => {
   const awardXp = useAwardXp();
 
   const MOOD_ICONS = [
-    { score: 1, icon: Frown, label: t('mood.veryLow'), color: "text-destructive" },
-    { score: 2, icon: Frown, label: t('mood.low'), color: "text-orange-400" },
-    { score: 3, icon: Meh, label: t('mood.neutral'), color: "text-muted-foreground" },
-    { score: 4, icon: Smile, label: t('mood.good'), color: "text-u-turquoise" },
-    { score: 5, icon: Smile, label: t('mood.great'), color: "text-primary" },
+    {
+      score: 1,
+      icon: Frown,
+      label: t("mood.veryLow"),
+      color: "text-destructive",
+    },
+    { score: 2, icon: Frown, label: t("mood.low"), color: "text-orange-400" },
+    {
+      score: 3,
+      icon: Meh,
+      label: t("mood.neutral"),
+      color: "text-muted-foreground",
+    },
+    { score: 4, icon: Smile, label: t("mood.good"), color: "text-u-turquoise" },
+    { score: 5, icon: Smile, label: t("mood.great"), color: "text-primary" },
   ];
 
   useEffect(() => {
@@ -82,9 +115,24 @@ const PatientDashboard = () => {
 
   const loadData = async () => {
     const [moodRes, assessRes, enrollRes] = await Promise.all([
-      supabase.from("mood_entries").select("*").eq("user_id", user!.id).order("recorded_at", { ascending: false }).limit(30),
-      supabase.from("assessment_results").select("*, assessment:assessments(title, category)").eq("user_id", user!.id).order("completed_at", { ascending: false }).limit(5),
-      supabase.from("course_enrollments").select("*, course:courses(title, category, duration_hours)").eq("user_id", user!.id).order("created_at", { ascending: false }).limit(5),
+      supabase
+        .from("mood_entries")
+        .select("*")
+        .eq("user_id", user!.id)
+        .order("recorded_at", { ascending: false })
+        .limit(30),
+      supabase
+        .from("assessment_results")
+        .select("*, assessment:assessments(title, category)")
+        .eq("user_id", user!.id)
+        .order("completed_at", { ascending: false })
+        .limit(5),
+      supabase
+        .from("course_enrollments")
+        .select("*, course:courses(title, category, duration_hours)")
+        .eq("user_id", user!.id)
+        .order("created_at", { ascending: false })
+        .limit(5),
     ]);
     if (moodRes.data) setEntries(moodRes.data as MoodEntry[]);
     if (assessRes.data) setAssessmentResults(assessRes.data);
@@ -101,7 +149,11 @@ const PatientDashboard = () => {
       notes: notes || null,
     });
     if (error) {
-      toast({ title: "Error", description: "Failed to save mood entry", variant: "destructive" });
+      toast({
+        title: "Error",
+        description: "Failed to save mood entry",
+        variant: "destructive",
+      });
     } else {
       awardXp.mutate({ action: "mood_log", xp: 10 });
       setShowForm(false);
@@ -114,26 +166,44 @@ const PatientDashboard = () => {
   };
 
   const chartData = [...entries].reverse().map((e) => ({
-    date: new Date(e.recorded_at).toLocaleDateString("en", { month: "short", day: "numeric" }),
+    date: new Date(e.recorded_at).toLocaleDateString("en", {
+      month: "short",
+      day: "numeric",
+    }),
     mood: e.mood_score,
     energy: e.energy_level || 0,
     stress: e.stress_level || 0,
   }));
 
-  const avgMood = entries.length > 0 ? (entries.reduce((s, e) => s + e.mood_score, 0) / entries.length).toFixed(1) : "—";
-  const avgStress = entries.filter((e) => e.stress_level).length > 0
-    ? (entries.filter((e) => e.stress_level).reduce((s, e) => s + (e.stress_level || 0), 0) / entries.filter((e) => e.stress_level).length).toFixed(1)
-    : "—";
+  const avgMood =
+    entries.length > 0
+      ? (
+          entries.reduce((s, e) => s + e.mood_score, 0) / entries.length
+        ).toFixed(1)
+      : "—";
+  const avgStress =
+    entries.filter((e) => e.stress_level).length > 0
+      ? (
+          entries
+            .filter((e) => e.stress_level)
+            .reduce((s, e) => s + (e.stress_level || 0), 0) /
+          entries.filter((e) => e.stress_level).length
+        ).toFixed(1)
+      : "—";
 
   if (!user) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="glass-card p-12 text-center max-w-md">
           <Heart className="w-12 h-12 text-primary mx-auto mb-4" />
-          <h2 className="text-h2 mb-2">{t('auth.signInRequired')}</h2>
-          <p className="text-muted-foreground mb-6">{t('auth.signInRequiredDesc')}</p>
+          <h2 className="text-h2 mb-2">{t("auth.signInRequired")}</h2>
+          <p className="text-muted-foreground mb-6">
+            {t("auth.signInRequiredDesc")}
+          </p>
           <SocialAuthButtons className="mb-4 text-left" />
-          <Button variant="primary" asChild className="w-full"><Link to="/auth">{t('auth.signIn')}</Link></Button>
+          <Button variant="primary" asChild className="w-full">
+            <Link to="/auth">{t("auth.signIn")}</Link>
+          </Button>
         </div>
       </div>
     );
@@ -141,15 +211,21 @@ const PatientDashboard = () => {
 
   return (
     <div className="min-h-screen">
-      <CrisisModal open={crisis.open} onOpenChange={crisis.setOpen} riskLevel={crisis.risk} />
+      <CrisisModal
+        open={crisis.open}
+        onOpenChange={crisis.setOpen}
+        riskLevel={crisis.risk}
+      />
 
       {/* Hero */}
       <section className="hero-neural-bg relative py-8">
         <div className="container-custom relative z-10">
           <ScrollReveal>
             <div className="space-y-2">
-              <h1 className="text-h1">{t('dashboard.welcomeBack')}</h1>
-              <p className="text-muted-foreground">{t('dashboard.welcomeSubtitle')}</p>
+              <h1 className="text-h1">{t("dashboard.welcomeBack")}</h1>
+              <p className="text-muted-foreground">
+                {t("dashboard.welcomeSubtitle")}
+              </p>
             </div>
           </ScrollReveal>
         </div>
@@ -241,15 +317,41 @@ const PatientDashboard = () => {
               {/* Quick Stats */}
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 {[
-                  { label: t('dashboard.avgMood'), value: avgMood, icon: Smile, accent: "text-primary" },
-                  { label: t('dashboard.avgStress'), value: avgStress, icon: Zap, accent: "text-destructive" },
-                  { label: t('dashboard.entries'), value: entries.length.toString(), icon: BarChart3, accent: "text-accent" },
-                  { label: t('dashboard.assessments'), value: assessmentResults.length.toString(), icon: Brain, accent: "text-primary" },
+                  {
+                    label: t("dashboard.avgMood"),
+                    value: avgMood,
+                    icon: Smile,
+                    accent: "text-primary",
+                  },
+                  {
+                    label: t("dashboard.avgStress"),
+                    value: avgStress,
+                    icon: Zap,
+                    accent: "text-destructive",
+                  },
+                  {
+                    label: t("dashboard.entries"),
+                    value: entries.length.toString(),
+                    icon: BarChart3,
+                    accent: "text-accent",
+                  },
+                  {
+                    label: t("dashboard.assessments"),
+                    value: assessmentResults.length.toString(),
+                    icon: Brain,
+                    accent: "text-primary",
+                  },
                 ].map((stat) => (
                   <div key={stat.label} className="glass-card p-5 text-center">
-                    <stat.icon className={`w-6 h-6 mx-auto mb-2 ${stat.accent}`} />
-                    <p className="text-2xl font-bold text-foreground">{stat.value}</p>
-                    <p className="text-xs text-muted-foreground">{stat.label}</p>
+                    <stat.icon
+                      className={`w-6 h-6 mx-auto mb-2 ${stat.accent}`}
+                    />
+                    <p className="text-2xl font-bold text-foreground">
+                      {stat.value}
+                    </p>
+                    <p className="text-xs text-muted-foreground">
+                      {stat.label}
+                    </p>
                   </div>
                 ))}
               </div>
@@ -260,31 +362,67 @@ const PatientDashboard = () => {
                   <div className="flex items-center justify-between mb-6">
                     <h2 className="text-h3 flex items-center gap-2">
                       <TrendingUp className="w-5 h-5 text-primary" />
-                      {t('dashboard.moodTrends')}
+                      {t("dashboard.moodTrends")}
                     </h2>
-                    <Button variant="secondary" size="sm" onClick={() => setShowForm(true)}>
+                    <Button
+                      variant="secondary"
+                      size="sm"
+                      onClick={() => setShowForm(true)}
+                    >
                       <Plus className="h-4 w-4 mr-1" />
-                      {t('dashboard.logMood')}
+                      {t("dashboard.logMood")}
                     </Button>
                   </div>
                   {chartData.length > 1 ? (
                     <ResponsiveContainer width="100%" height={220}>
                       <AreaChart data={chartData}>
                         <defs>
-                          <linearGradient id="moodGrad" x1="0" y1="0" x2="0" y2="1">
-                            <stop offset="5%" stopColor="hsl(42,100%,50%)" stopOpacity={0.3} />
-                            <stop offset="95%" stopColor="hsl(42,100%,50%)" stopOpacity={0} />
+                          <linearGradient
+                            id="moodGrad"
+                            x1="0"
+                            y1="0"
+                            x2="0"
+                            y2="1"
+                          >
+                            <stop
+                              offset="5%"
+                              stopColor="hsl(42,100%,50%)"
+                              stopOpacity={0.3}
+                            />
+                            <stop
+                              offset="95%"
+                              stopColor="hsl(42,100%,50%)"
+                              stopOpacity={0}
+                            />
                           </linearGradient>
                         </defs>
-                        <XAxis dataKey="date" tick={{ fontSize: 11, fill: "hsl(0,0%,45%)" }} />
-                        <YAxis domain={[1, 5]} tick={{ fontSize: 11, fill: "hsl(0,0%,45%)" }} />
-                        <Tooltip contentStyle={{ background: "hsl(0,0%,13%)", border: "1px solid rgba(255,255,255,0.08)", borderRadius: 12 }} />
-                        <Area type="monotone" dataKey="mood" stroke="hsl(42,100%,50%)" fill="url(#moodGrad)" strokeWidth={2} />
+                        <XAxis
+                          dataKey="date"
+                          tick={{ fontSize: 11, fill: "hsl(0,0%,45%)" }}
+                        />
+                        <YAxis
+                          domain={[1, 5]}
+                          tick={{ fontSize: 11, fill: "hsl(0,0%,45%)" }}
+                        />
+                        <Tooltip
+                          contentStyle={{
+                            background: "hsl(0,0%,13%)",
+                            border: "1px solid rgba(255,255,255,0.08)",
+                            borderRadius: 12,
+                          }}
+                        />
+                        <Area
+                          type="monotone"
+                          dataKey="mood"
+                          stroke="hsl(42,100%,50%)"
+                          fill="url(#moodGrad)"
+                          strokeWidth={2}
+                        />
                       </AreaChart>
                     </ResponsiveContainer>
                   ) : (
                     <div className="h-[220px] flex items-center justify-center text-muted-foreground text-sm">
-                      {t('dashboard.logMinEntries')}
+                      {t("dashboard.logMinEntries")}
                     </div>
                   )}
                 </div>
@@ -293,21 +431,30 @@ const PatientDashboard = () => {
                 <div className="glass-card p-6 space-y-5">
                   <h3 className="text-h3 flex items-center gap-2">
                     <Heart className="w-5 h-5 text-primary" />
-                    {showForm ? t('dashboard.howFeeling') : t('dashboard.quickCheckIn')}
+                    {showForm
+                      ? t("dashboard.howFeeling")
+                      : t("dashboard.quickCheckIn")}
                   </h3>
 
                   {!showForm ? (
                     <div className="space-y-4">
-                      <p className="text-sm text-muted-foreground">{t('dashboard.tapToLog')}</p>
+                      <p className="text-sm text-muted-foreground">
+                        {t("dashboard.tapToLog")}
+                      </p>
                       <div className="flex justify-between">
                         {MOOD_ICONS.map((m) => (
                           <button
                             key={m.score}
                             className="flex flex-col items-center gap-1 p-3 rounded-xl transition-all hover:bg-muted/30"
-                            onClick={() => { setMoodScore(m.score); setShowForm(true); }}
+                            onClick={() => {
+                              setMoodScore(m.score);
+                              setShowForm(true);
+                            }}
                           >
                             <m.icon className={`w-8 h-8 ${m.color}`} />
-                            <span className="text-[10px] text-muted-foreground">{m.label}</span>
+                            <span className="text-[10px] text-muted-foreground">
+                              {m.label}
+                            </span>
                           </button>
                         ))}
                       </div>
@@ -327,29 +474,66 @@ const PatientDashboard = () => {
                       </div>
 
                       <div>
-                        <p className="text-xs text-muted-foreground mb-2 flex items-center gap-1"><Sun className="w-3 h-3" /> {t('dashboard.energyLevel')}</p>
+                        <p className="text-xs text-muted-foreground mb-2 flex items-center gap-1">
+                          <Sun className="w-3 h-3" />{" "}
+                          {t("dashboard.energyLevel")}
+                        </p>
                         <div className="flex gap-1">
                           {[1, 2, 3, 4, 5].map((v) => (
-                            <button key={v} className={`flex-1 h-8 rounded-lg text-xs font-medium transition-all ${energyLevel === v ? "bg-accent text-accent-foreground" : "bg-muted/30 text-muted-foreground"}`}
-                              onClick={() => setEnergyLevel(v)}>{v}</button>
+                            <button
+                              key={v}
+                              className={`flex-1 h-8 rounded-lg text-xs font-medium transition-all ${energyLevel === v ? "bg-accent text-accent-foreground" : "bg-muted/30 text-muted-foreground"}`}
+                              onClick={() => setEnergyLevel(v)}
+                            >
+                              {v}
+                            </button>
                           ))}
                         </div>
                       </div>
 
                       <div>
-                        <p className="text-xs text-muted-foreground mb-2 flex items-center gap-1"><Zap className="w-3 h-3" /> {t('dashboard.stressLevel')}</p>
+                        <p className="text-xs text-muted-foreground mb-2 flex items-center gap-1">
+                          <Zap className="w-3 h-3" />{" "}
+                          {t("dashboard.stressLevel")}
+                        </p>
                         <div className="flex gap-1">
                           {[1, 2, 3, 4, 5].map((v) => (
-                            <button key={v} className={`flex-1 h-8 rounded-lg text-xs font-medium transition-all ${stressLevel === v ? "bg-destructive text-destructive-foreground" : "bg-muted/30 text-muted-foreground"}`}
-                              onClick={() => setStressLevel(v)}>{v}</button>
+                            <button
+                              key={v}
+                              className={`flex-1 h-8 rounded-lg text-xs font-medium transition-all ${stressLevel === v ? "bg-destructive text-destructive-foreground" : "bg-muted/30 text-muted-foreground"}`}
+                              onClick={() => setStressLevel(v)}
+                            >
+                              {v}
+                            </button>
                           ))}
                         </div>
                       </div>
 
-                      <textarea placeholder="Notes..." value={notes} onChange={(e) => setNotes(e.target.value)} rows={2} className="w-full rounded-xl bg-muted/30 border border-border px-3 py-2 text-sm" />
+                      <textarea
+                        placeholder="Notes..."
+                        value={notes}
+                        onChange={(e) => setNotes(e.target.value)}
+                        rows={2}
+                        className="w-full rounded-xl bg-muted/30 border border-border px-3 py-2 text-sm"
+                      />
                       <div className="flex gap-2">
-                        <Button variant="ghost" size="sm" onClick={() => setShowForm(false)} className="flex-1">{t('dashboard.cancel')}</Button>
-                        <Button variant="primary" size="sm" onClick={submitMood} disabled={moodScore === 0} className="flex-1">{t('dashboard.save')}</Button>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => setShowForm(false)}
+                          className="flex-1"
+                        >
+                          {t("dashboard.cancel")}
+                        </Button>
+                        <Button
+                          variant="primary"
+                          size="sm"
+                          onClick={submitMood}
+                          disabled={moodScore === 0}
+                          className="flex-1"
+                        >
+                          {t("dashboard.save")}
+                        </Button>
                       </div>
                     </div>
                   )}
@@ -372,24 +556,47 @@ const PatientDashboard = () => {
               <div className="grid md:grid-cols-2 gap-6">
                 <div className="glass-card p-6">
                   <div className="flex items-center justify-between mb-4">
-                    <h3 className="text-h3 flex items-center gap-2"><Brain className="w-5 h-5 text-primary" /> {t('dashboard.assessments')}</h3>
-                    <Button variant="ghost" size="sm" asChild><Link to="/assessments">{t('dashboard.viewAll')} <ChevronRight className="ml-1 h-3 w-3" /></Link></Button>
+                    <h3 className="text-h3 flex items-center gap-2">
+                      <Brain className="w-5 h-5 text-primary" />{" "}
+                      {t("dashboard.assessments")}
+                    </h3>
+                    <Button variant="ghost" size="sm" asChild>
+                      <Link to="/assessments">
+                        {t("dashboard.viewAll")}{" "}
+                        <ChevronRight className="ml-1 h-3 w-3" />
+                      </Link>
+                    </Button>
                   </div>
                   {assessmentResults.length === 0 ? (
                     <div className="text-center py-8">
-                      <p className="text-sm text-muted-foreground mb-4">{t('dashboard.noAssessments')}</p>
-                      <Button variant="secondary" size="sm" asChild><Link to="/assessments">{t('dashboard.takeAssessment')}</Link></Button>
+                      <p className="text-sm text-muted-foreground mb-4">
+                        {t("dashboard.noAssessments")}
+                      </p>
+                      <Button variant="secondary" size="sm" asChild>
+                        <Link to="/assessments">
+                          {t("dashboard.takeAssessment")}
+                        </Link>
+                      </Button>
                     </div>
                   ) : (
                     <div className="space-y-3">
                       {assessmentResults.map((r: any) => (
-                        <div key={r.id} className="flex items-center justify-between p-3 rounded-xl bg-muted/20">
+                        <div
+                          key={r.id}
+                          className="flex items-center justify-between p-3 rounded-xl bg-muted/20"
+                        >
                           <div>
-                            <p className="text-sm font-medium text-foreground">{r.assessment?.title}</p>
-                            <p className="text-xs text-muted-foreground">{new Date(r.completed_at).toLocaleDateString()}</p>
+                            <p className="text-sm font-medium text-foreground">
+                              {r.assessment?.title}
+                            </p>
+                            <p className="text-xs text-muted-foreground">
+                              {new Date(r.completed_at).toLocaleDateString()}
+                            </p>
                           </div>
                           {r.total_score !== null && (
-                            <span className="text-lg font-bold text-primary">{r.total_score}</span>
+                            <span className="text-lg font-bold text-primary">
+                              {r.total_score}
+                            </span>
                           )}
                         </div>
                       ))}
@@ -399,24 +606,45 @@ const PatientDashboard = () => {
 
                 <div className="glass-card p-6">
                   <div className="flex items-center justify-between mb-4">
-                    <h3 className="text-h3 flex items-center gap-2"><BookOpen className="w-5 h-5 text-accent" /> {t('dashboard.courses')}</h3>
-                    <Button variant="ghost" size="sm" asChild><Link to="/resources">{t('dashboard.browse')} <ChevronRight className="ml-1 h-3 w-3" /></Link></Button>
+                    <h3 className="text-h3 flex items-center gap-2">
+                      <BookOpen className="w-5 h-5 text-accent" />{" "}
+                      {t("dashboard.courses")}
+                    </h3>
+                    <Button variant="ghost" size="sm" asChild>
+                      <Link to="/resources">
+                        {t("dashboard.browse")}{" "}
+                        <ChevronRight className="ml-1 h-3 w-3" />
+                      </Link>
+                    </Button>
                   </div>
                   {enrollments.length === 0 ? (
                     <div className="text-center py-8">
-                      <p className="text-sm text-muted-foreground mb-4">{t('dashboard.noCourses')}</p>
-                      <Button variant="secondary" size="sm" asChild><Link to="/resources">{t('dashboard.exploreCourses')}</Link></Button>
+                      <p className="text-sm text-muted-foreground mb-4">
+                        {t("dashboard.noCourses")}
+                      </p>
+                      <Button variant="secondary" size="sm" asChild>
+                        <Link to="/resources">
+                          {t("dashboard.exploreCourses")}
+                        </Link>
+                      </Button>
                     </div>
                   ) : (
                     <div className="space-y-3">
                       {enrollments.map((e: any) => (
                         <div key={e.id} className="p-3 rounded-xl bg-muted/20">
                           <div className="flex items-center justify-between mb-2">
-                            <p className="text-sm font-medium text-foreground">{e.course?.title}</p>
-                            <span className="text-xs text-primary font-medium">{Math.round(e.progress_percent || 0)}%</span>
+                            <p className="text-sm font-medium text-foreground">
+                              {e.course?.title}
+                            </p>
+                            <span className="text-xs text-primary font-medium">
+                              {Math.round(e.progress_percent || 0)}%
+                            </span>
                           </div>
                           <div className="w-full h-1.5 rounded-full bg-muted">
-                            <div className="h-full rounded-full bg-primary transition-all" style={{ width: `${e.progress_percent || 0}%` }} />
+                            <div
+                              className="h-full rounded-full bg-primary transition-all"
+                              style={{ width: `${e.progress_percent || 0}%` }}
+                            />
                           </div>
                         </div>
                       ))}
@@ -428,14 +656,42 @@ const PatientDashboard = () => {
               {/* Quick Actions */}
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 {[
-                  { label: t('dashboard.takeAssessmentAction'), icon: Brain, href: "/assessments", accent: "text-primary" },
-                  { label: t('dashboard.aiAssistant'), icon: Heart, href: "/ai-assistant", accent: "text-accent" },
-                  { label: t('dashboard.findPsychologist'), icon: Calendar, href: "/psychologists", accent: "text-primary" },
-                  { label: t('dashboard.myCertificates'), icon: Award, href: "#", accent: "text-primary" },
+                  {
+                    label: t("dashboard.takeAssessmentAction"),
+                    icon: Brain,
+                    href: "/assessments",
+                    accent: "text-primary",
+                  },
+                  {
+                    label: t("dashboard.aiAssistant"),
+                    icon: Heart,
+                    href: "/ai-assistant",
+                    accent: "text-accent",
+                  },
+                  {
+                    label: t("dashboard.findPsychologist"),
+                    icon: Calendar,
+                    href: "/psychologists",
+                    accent: "text-primary",
+                  },
+                  {
+                    label: t("dashboard.myCertificates"),
+                    icon: Award,
+                    href: "#",
+                    accent: "text-primary",
+                  },
                 ].map((action) => (
-                  <Link key={action.label} to={action.href} className="glass-card p-5 text-center group hover:shadow-glass-hover transition-all">
-                    <action.icon className={`w-7 h-7 mx-auto mb-2 ${action.accent} group-hover:scale-110 transition-transform`} />
-                    <p className="text-sm font-medium text-foreground">{action.label}</p>
+                  <Link
+                    key={action.label}
+                    to={action.href}
+                    className="glass-card p-5 text-center group hover:shadow-glass-hover transition-all"
+                  >
+                    <action.icon
+                      className={`w-7 h-7 mx-auto mb-2 ${action.accent} group-hover:scale-110 transition-transform`}
+                    />
+                    <p className="text-sm font-medium text-foreground">
+                      {action.label}
+                    </p>
                   </Link>
                 ))}
               </div>
@@ -450,27 +706,50 @@ const PatientDashboard = () => {
             <TabsContent value="assessments" className="space-y-6">
               <div className="glass-card p-6">
                 <div className="flex items-center justify-between mb-4">
-                  <h2 className="text-h3 flex items-center gap-2"><Brain className="w-5 h-5 text-primary" /> Assessment History</h2>
-                  <Button variant="primary" size="sm" asChild><Link to="/assessments">Take Assessment</Link></Button>
+                  <h2 className="text-h3 flex items-center gap-2">
+                    <Brain className="w-5 h-5 text-primary" /> Assessment
+                    History
+                  </h2>
+                  <Button variant="primary" size="sm" asChild>
+                    <Link to="/assessments">Take Assessment</Link>
+                  </Button>
                 </div>
                 {assessmentResults.length === 0 ? (
                   <div className="text-center py-12">
                     <Brain className="w-12 h-12 text-muted-foreground/40 mx-auto mb-4" />
-                    <p className="text-muted-foreground">No assessments completed yet</p>
+                    <p className="text-muted-foreground">
+                      No assessments completed yet
+                    </p>
                   </div>
                 ) : (
                   <div className="space-y-3">
                     {assessmentResults.map((r: any) => (
-                      <div key={r.id} className="flex items-center justify-between p-4 rounded-xl bg-muted/20">
+                      <div
+                        key={r.id}
+                        className="flex items-center justify-between p-4 rounded-xl bg-muted/20"
+                      >
                         <div>
-                          <p className="text-sm font-semibold text-foreground">{r.assessment?.title}</p>
-                          <p className="text-xs text-muted-foreground">{new Date(r.completed_at).toLocaleDateString()} · {r.assessment?.category}</p>
-                          {r.interpretation && <p className="text-xs text-muted-foreground mt-1">{r.interpretation}</p>}
+                          <p className="text-sm font-semibold text-foreground">
+                            {r.assessment?.title}
+                          </p>
+                          <p className="text-xs text-muted-foreground">
+                            {new Date(r.completed_at).toLocaleDateString()} ·{" "}
+                            {r.assessment?.category}
+                          </p>
+                          {r.interpretation && (
+                            <p className="text-xs text-muted-foreground mt-1">
+                              {r.interpretation}
+                            </p>
+                          )}
                         </div>
                         {r.total_score !== null && (
                           <div className="text-center">
-                            <span className="text-2xl font-bold text-primary">{r.total_score}</span>
-                            <p className="text-[10px] text-muted-foreground">Score</p>
+                            <span className="text-2xl font-bold text-primary">
+                              {r.total_score}
+                            </span>
+                            <p className="text-[10px] text-muted-foreground">
+                              Score
+                            </p>
                           </div>
                         )}
                       </div>

@@ -84,7 +84,11 @@ describe("event shape", () => {
     trackFunnelFailed(FUNNELS.match, "no_results");
 
     const names = captureEvent.mock.calls.map((c) => c[0]);
-    expect(names).toEqual(["match.step_viewed", "match.completed", "match.failed"]);
+    expect(names).toEqual([
+      "match.step_viewed",
+      "match.completed",
+      "match.failed",
+    ]);
     for (const n of names) {
       expect(n).toMatch(/^[a-z][a-z0-9_]*\.[a-z][a-z0-9_]*$/);
     }
@@ -146,13 +150,26 @@ describe("payload safety", () => {
       "locale",
     ]);
 
-    trackFunnelStep(FUNNELS.match, "needs", { selection_count: 3, locale: "fr" });
-    trackFunnelCompleted(FUNNELS.match, { result_count: 4, session_type: "online" });
-    trackFunnelFailed(FUNNELS.booking, "not_authenticated", { is_authenticated: false });
+    trackFunnelStep(FUNNELS.match, "needs", {
+      selection_count: 3,
+      locale: "fr",
+    });
+    trackFunnelCompleted(FUNNELS.match, {
+      result_count: 4,
+      session_type: "online",
+    });
+    trackFunnelFailed(FUNNELS.booking, "not_authenticated", {
+      is_authenticated: false,
+    });
 
-    for (const [, payload] of captureEvent.mock.calls as [string, Record<string, unknown>][]) {
+    for (const [, payload] of captureEvent.mock.calls as [
+      string,
+      Record<string, unknown>,
+    ][]) {
       for (const k of Object.keys(payload)) {
-        expect(allowed.has(k), `unexpected key "${k}" in funnel payload`).toBe(true);
+        expect(allowed.has(k), `unexpected key "${k}" in funnel payload`).toBe(
+          true,
+        );
       }
     }
   });
@@ -162,6 +179,8 @@ describe("payload safety", () => {
     // carry request detail; a code stays groupable across releases.
     trackFunnelFailed(FUNNELS.booking, "request_failed");
     const payload = captureEvent.mock.calls[0][1] as Record<string, unknown>;
-    expect(["not_authenticated", "no_results", "request_failed"]).toContain(payload.reason_code);
+    expect(["not_authenticated", "no_results", "request_failed"]).toContain(
+      payload.reason_code,
+    );
   });
 });

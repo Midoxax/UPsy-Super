@@ -1,6 +1,13 @@
 import { useState } from "react";
 import { Application } from "@/hooks/useApplications";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { EmptyState } from "@/components/ui/empty-state";
@@ -13,10 +20,18 @@ import { useAdminAuth } from "@/hooks/useAdminAuth";
 interface ApplicationsTableProps {
   applications: Application[];
   onApprove: (params: { applicationId: string; adminUserId: string }) => void;
-  onReject: (params: { applicationId: string; adminUserId: string; reason?: string }) => void;
+  onReject: (params: {
+    applicationId: string;
+    adminUserId: string;
+    reason?: string;
+  }) => void;
 }
 
-const ApplicationsTable = ({ applications, onApprove, onReject }: ApplicationsTableProps) => {
+const ApplicationsTable = ({
+  applications,
+  onApprove,
+  onReject,
+}: ApplicationsTableProps) => {
   const { user } = useAdminAuth();
   const [selectedApp, setSelectedApp] = useState<Application | null>(null);
   const [showApprovalModal, setShowApprovalModal] = useState(false);
@@ -90,7 +105,10 @@ const ApplicationsTable = ({ applications, onApprove, onReject }: ApplicationsTa
                     <div className="flex flex-col gap-1">
                       <span>{app.full_name}</span>
                       {app.notes?.startsWith("[Observatoire") && (
-                        <Badge variant="outline" className="w-fit text-[10px] uppercase tracking-wide">
+                        <Badge
+                          variant="outline"
+                          className="w-fit text-[10px] uppercase tracking-wide"
+                        >
                           Observatoire — interest only, dossier incomplete
                         </Badge>
                       )}
@@ -98,16 +116,28 @@ const ApplicationsTable = ({ applications, onApprove, onReject }: ApplicationsTa
                   </TableCell>
                   <TableCell>{app.email}</TableCell>
                   <TableCell>{app.phone || "—"}</TableCell>
-                  <TableCell>{app.accreditation_number ? "Yes" : "No"}</TableCell>
+                  <TableCell>
+                    {app.accreditation_number ? "Yes" : "No"}
+                  </TableCell>
                   <TableCell>{getStatusBadge(app.status)}</TableCell>
-                  <TableCell>{format(new Date(app.submitted_at), "MMM d, yyyy")}</TableCell>
+                  <TableCell>
+                    {format(new Date(app.submitted_at), "MMM d, yyyy")}
+                  </TableCell>
                   <TableCell>
                     {app.status === "pending" && (
                       <div className="flex gap-2">
-                        <Button size="sm" variant="default" onClick={() => handleApprove(app)}>
+                        <Button
+                          size="sm"
+                          variant="default"
+                          onClick={() => handleApprove(app)}
+                        >
                           Approve
                         </Button>
-                        <Button size="sm" variant="destructive" onClick={() => handleReject(app)}>
+                        <Button
+                          size="sm"
+                          variant="destructive"
+                          onClick={() => handleReject(app)}
+                        >
                           Reject
                         </Button>
                       </div>

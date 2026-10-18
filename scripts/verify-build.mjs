@@ -38,14 +38,18 @@ const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 // See scripts/build-output.mjs for why.
 const DIRS = buildDirs();
 if (!DIRS) {
-  console.error("No build output (looked for .output/ and dist/) — run `npm run build` first.");
+  console.error(
+    "No build output (looked for .output/ and dist/) — run `npm run build` first.",
+  );
   process.exit(1);
 }
 const { root: DIST, client: CLIENT, server: SERVER } = DIRS;
 
 // Size limits live in bundle-budget.json next to the client budgets, so raising
 // one is a reviewed change rather than an edit buried in a script.
-const budget = JSON.parse(readFileSync(resolve(ROOT, "bundle-budget.json"), "utf8"));
+const budget = JSON.parse(
+  readFileSync(resolve(ROOT, "bundle-budget.json"), "utf8"),
+);
 const OUT = relative(ROOT, DIST) || ".";
 const CLIENT_LABEL = `${OUT}/${relative(DIST, CLIENT)}`;
 console.log(`Verifying build output in ${OUT}/`);
@@ -55,21 +59,30 @@ const warnings = [];
 const fail = (m) => failures.push(m);
 const warn = (m) => warnings.push(m);
 
-for (const [label, dir] of [[relative(DIST, CLIENT), CLIENT], ["server", SERVER]]) {
+for (const [label, dir] of [
+  [relative(DIST, CLIENT), CLIENT],
+  ["server", SERVER],
+]) {
   if (!existsSync(dir)) {
-    console.error(`${OUT}/${label}/ missing — the build produced no ${label} output.`);
+    console.error(
+      `${OUT}/${label}/ missing — the build produced no ${label} output.`,
+    );
     process.exit(1);
   }
 }
 
 // 1. The Worker is deployable: an entry module and the config wrangler reads.
 const workerEntry = resolve(SERVER, "index.mjs");
-if (!existsSync(workerEntry)) fail(`${OUT}/server/index.mjs missing — no Worker entry to deploy`);
-else if (statSync(workerEntry).size === 0) fail(`${OUT}/server/index.mjs is empty`);
+if (!existsSync(workerEntry))
+  fail(`${OUT}/server/index.mjs missing — no Worker entry to deploy`);
+else if (statSync(workerEntry).size === 0)
+  fail(`${OUT}/server/index.mjs is empty`);
 
 const wranglerConfig = resolve(SERVER, "wrangler.json");
 if (!existsSync(wranglerConfig)) {
-  fail(`${OUT}/server/wrangler.json missing — \`npm run deploy\` has nothing to point at`);
+  fail(
+    `${OUT}/server/wrangler.json missing — \`npm run deploy\` has nothing to point at`,
+  );
 } else {
   try {
     const cfg = JSON.parse(readFileSync(wranglerConfig, "utf8"));
@@ -93,11 +106,17 @@ if (!existsSync(assetsDir)) {
   const assets = readdirSync(assetsDir);
   const js = assets.filter((f) => f.endsWith(".js"));
   const css = assets.filter((f) => f.endsWith(".css"));
-  if (js.length === 0) fail(`no JavaScript emitted into ${CLIENT_LABEL}/assets/`);
-  if (css.length === 0) warn(`no stylesheet emitted into ${CLIENT_LABEL}/assets/`);
-  const empty = assets.filter((f) => statSync(resolve(assetsDir, f)).size === 0);
+  if (js.length === 0)
+    fail(`no JavaScript emitted into ${CLIENT_LABEL}/assets/`);
+  if (css.length === 0)
+    warn(`no stylesheet emitted into ${CLIENT_LABEL}/assets/`);
+  const empty = assets.filter(
+    (f) => statSync(resolve(assetsDir, f)).size === 0,
+  );
   for (const f of empty) fail(`${CLIENT_LABEL}/assets/${f} is empty`);
-  console.log(`  ${assets.length} client assets (${js.length} js, ${css.length} css)`);
+  console.log(
+    `  ${assets.length} client assets (${js.length} js, ${css.length} css)`,
+  );
 }
 
 // 2b. Product analytics actually made it into the bundle.
@@ -119,7 +138,9 @@ if (!existsSync(assetsDir)) {
   if (existsSync(assetsDir2)) {
     const bundled = readdirSync(assetsDir2)
       .filter((f) => f.endsWith(".js"))
-      .some((f) => /\bphc_[A-Za-z0-9]/.test(readFileSync(resolve(assetsDir2, f), "utf8")));
+      .some((f) =>
+        /\bphc_[A-Za-z0-9]/.test(readFileSync(resolve(assetsDir2, f), "utf8")),
+      );
     if (!bundled) {
       warn(
         "no PostHog key found in the client bundle — product analytics is inert " +
@@ -135,23 +156,31 @@ if (!existsSync(assetsDir)) {
 for (const file of ["robots.txt", "sitemap.xml"]) {
   const p = resolve(CLIENT, file);
   if (!existsSync(p)) fail(`${file} missing from build output`);
-  else if (statSync(p).size < 20) fail(`${file} is suspiciously small (${statSync(p).size} bytes)`);
+  else if (statSync(p).size < 20)
+    fail(`${file} is suspiciously small (${statSync(p).size} bytes)`);
 }
 
 const robotsPath = resolve(CLIENT, "robots.txt");
 if (existsSync(robotsPath)) {
   const robots = readFileSync(robotsPath, "utf8");
   if (/^\s*Disallow:\s*\/\s*$/im.test(robots) && !/Allow:/i.test(robots)) {
-    fail("robots.txt disallows the entire site — this would deindex production");
+    fail(
+      "robots.txt disallows the entire site — this would deindex production",
+    );
   }
-  if (!/Sitemap:/i.test(robots)) warn("robots.txt does not advertise a Sitemap:");
+  if (!/Sitemap:/i.test(robots))
+    warn("robots.txt does not advertise a Sitemap:");
 }
 
 // 4. No unreplaced deploy-time placeholders in shipped text files.
-const textFiles = readdirSync(CLIENT).filter((f) => /\.(html|txt|xml|json|webmanifest|js)$/.test(f));
+const textFiles = readdirSync(CLIENT).filter((f) =>
+  /\.(html|txt|xml|json|webmanifest|js)$/.test(f),
+);
 for (const file of textFiles) {
   const body = readFileSync(resolve(CLIENT, file), "utf8");
-  for (const name of new Set([...body.matchAll(/\{\{([A-Z0-9_]+)\}\}/g)].map((m) => m[1]))) {
+  for (const name of new Set(
+    [...body.matchAll(/\{\{([A-Z0-9_]+)\}\}/g)].map((m) => m[1]),
+  )) {
     fail(`unreplaced placeholder {{${name}}} shipped in ${file}`);
   }
 }
@@ -177,7 +206,8 @@ function gzipTotal(dir) {
   for (const entry of readdirSync(dir, { withFileTypes: true })) {
     const full = resolve(dir, entry.name);
     if (entry.isDirectory()) total += gzipTotal(full);
-    else if (/\.(mjs|js|json|wasm)$/.test(entry.name)) total += gzipSync(readFileSync(full)).length;
+    else if (/\.(mjs|js|json|wasm)$/.test(entry.name))
+      total += gzipSync(readFileSync(full)).length;
   }
   return total;
 }
@@ -185,7 +215,9 @@ function gzipTotal(dir) {
 const workerGzip = gzipTotal(SERVER);
 const workerMib = workerGzip / 1024 / 1024;
 const pct = (workerMib / LIMIT_MIB) * 100;
-console.log(`  Worker bundle ${workerMib.toFixed(2)} MiB gzipped — ${pct.toFixed(0)}% of the ${LIMIT_MIB} MiB limit`);
+console.log(
+  `  Worker bundle ${workerMib.toFixed(2)} MiB gzipped — ${pct.toFixed(0)}% of the ${LIMIT_MIB} MiB limit`,
+);
 
 if (workerMib > LIMIT_MIB) {
   fail(
@@ -211,4 +243,6 @@ if (failures.length) {
   console.error();
   process.exit(1);
 }
-console.log("\nProduction build verified — Worker entry, client assets and crawler files all present.");
+console.log(
+  "\nProduction build verified — Worker entry, client assets and crawler files all present.",
+);

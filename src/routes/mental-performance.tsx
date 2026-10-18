@@ -6,6 +6,8 @@ const MentalPerformance = lazy(() => import("@/pages/MentalPerformance"));
 
 export const Route = createFileRoute("/mental-performance")({
   component: () => (
-    <PageTransition><MentalPerformance /></PageTransition>
+    <PageTransition>
+      <MentalPerformance />
+    </PageTransition>
   ),
 });

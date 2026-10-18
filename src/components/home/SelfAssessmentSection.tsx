@@ -9,13 +9,29 @@ const SelfAssessmentSection = () => {
   const { t } = useLocale();
 
   const assessments = [
-    { icon: HeartPulse, labelKey: "selfAssessment.anxiety" as const, fallback: "Anxiety Screening" },
-    { icon: Brain, labelKey: "selfAssessment.stress" as const, fallback: "Stress Assessment" },
-    { icon: Flame, labelKey: "selfAssessment.burnout" as const, fallback: "Burnout Check" },
+    {
+      icon: HeartPulse,
+      labelKey: "selfAssessment.anxiety" as const,
+      fallback: "Anxiety Screening",
+    },
+    {
+      icon: Brain,
+      labelKey: "selfAssessment.stress" as const,
+      fallback: "Stress Assessment",
+    },
+    {
+      icon: Flame,
+      labelKey: "selfAssessment.burnout" as const,
+      fallback: "Burnout Check",
+    },
   ];
 
   return (
-    <section className="py-28 md:py-36 relative overflow-hidden" id="self-assessment" aria-labelledby="self-assessment-heading">
+    <section
+      className="py-28 md:py-36 relative overflow-hidden"
+      id="self-assessment"
+      aria-labelledby="self-assessment-heading"
+    >
       {/* Warm atmospheric glow — dominant section feel */}
       <div
         className="absolute inset-0 pointer-events-none"
@@ -47,7 +63,8 @@ const SelfAssessmentSection = () => {
 
           {/* Duration badge */}
           <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-primary/8 text-primary border border-primary/12 mb-5">
-            <Clock className="w-3 h-3" /> {t("selfAssessment.duration") || "Takes only 2 minutes"}
+            <Clock className="w-3 h-3" />{" "}
+            {t("selfAssessment.duration") || "Takes only 2 minutes"}
           </span>
 
           <h2 id="self-assessment-heading" className="text-h2 mb-4">
@@ -60,7 +77,8 @@ const SelfAssessmentSection = () => {
           </p>
 
           <p className="text-sm text-muted-foreground max-w-md mx-auto mb-8 italic">
-            {t("selfAssessment.reassurance") || "Completely confidential. Never shared with anyone."}
+            {t("selfAssessment.reassurance") ||
+              "Completely confidential. Never shared with anyone."}
           </p>
 
           {/* Assessment types */}
@@ -71,14 +89,18 @@ const SelfAssessmentSection = () => {
                 className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-background/60 border border-border/40 text-sm text-muted-foreground"
               >
                 <a.icon className="w-4 h-4 text-primary/70" />
-                <span className="font-medium">{t(a.labelKey) || a.fallback}</span>
+                <span className="font-medium">
+                  {t(a.labelKey) || a.fallback}
+                </span>
               </div>
             ))}
           </div>
 
           {/* Primary CTA — THE conversion moment */}
           <Button variant="primary" size="hero" asChild>
-            <Link to="/get-matched">{t("selfAssessment.cta") || "Start Assessment"}</Link>
+            <Link to="/get-matched">
+              {t("selfAssessment.cta") || "Start Assessment"}
+            </Link>
           </Button>
         </motion.div>
       </div>

@@ -1,6 +1,11 @@
 import SEOHead from "@/components/SEOHead";
 import { Card, CardContent } from "@/components/ui/card";
-import { GraduationCap, HeartHandshake, ClipboardList, Users } from "lucide-react";
+import {
+  GraduationCap,
+  HeartHandshake,
+  ClipboardList,
+  Users,
+} from "lucide-react";
 
 const stats = [
   { value: "247", label: "Students screened" },
@@ -42,17 +47,21 @@ export default function Soleterre() {
       />
       <main className="min-h-screen bg-background">
         <section className="container mx-auto px-4 py-20 text-center">
-          <h1 className="text-5xl md:text-6xl font-display font-bold mb-4">Soleterre: student wellbeing, measured.</h1>
+          <h1 className="text-5xl md:text-6xl font-display font-bold mb-4">
+            Soleterre: student wellbeing, measured.
+          </h1>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto mb-8">
-            A school wellbeing partnership bringing PERMA and EPOCH assessments to Moroccan classrooms —
-            starting with Kenitra and Qaria.
+            A school wellbeing partnership bringing PERMA and EPOCH assessments
+            to Moroccan classrooms — starting with Kenitra and Qaria.
           </p>
         </section>
 
         <section className="container mx-auto px-4 pb-16 grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
           {stats.map((s) => (
             <div key={s.label}>
-              <p className="text-3xl md:text-4xl font-display font-bold text-primary font-mono tabular-nums">{s.value}</p>
+              <p className="text-3xl md:text-4xl font-display font-bold text-primary font-mono tabular-nums">
+                {s.value}
+              </p>
               <p className="text-sm text-muted-foreground mt-1">{s.label}</p>
             </div>
           ))}
@@ -63,7 +72,9 @@ export default function Soleterre() {
             <Card key={i} className="glass-card">
               <CardContent className="p-6 space-y-2">
                 <f.icon className="h-8 w-8 text-primary" />
-                <h3 className="font-display text-lg font-semibold">{f.title}</h3>
+                <h3 className="font-display text-lg font-semibold">
+                  {f.title}
+                </h3>
                 <p className="text-sm text-muted-foreground">{f.desc}</p>
               </CardContent>
             </Card>

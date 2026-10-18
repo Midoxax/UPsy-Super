@@ -59,7 +59,11 @@ const SpaceView = () => {
       setDraft("");
       toast({ title: "Posted", description: "Your post is live." });
     } catch (e: any) {
-      toast({ title: "Could not post", description: e.message, variant: "destructive" });
+      toast({
+        title: "Could not post",
+        description: e.message,
+        variant: "destructive",
+      });
     }
   };
 
@@ -94,10 +98,15 @@ const SpaceView = () => {
                   </span>
                 </div>
                 <h1 className="text-h2 font-bold">{space.name}</h1>
-                <p className="text-muted-foreground mt-1">{space.description}</p>
+                <p className="text-muted-foreground mt-1">
+                  {space.description}
+                </p>
               </div>
               {!isMember && user && (
-                <Button onClick={() => joinSpace.mutate(space.id)} disabled={joinSpace.isPending}>
+                <Button
+                  onClick={() => joinSpace.mutate(space.id)}
+                  disabled={joinSpace.isPending}
+                >
                   Join space
                 </Button>
               )}
@@ -151,10 +160,16 @@ const SpaceView = () => {
             {posts?.map((post) => (
               <Card key={post.id} className="p-5 bg-card/60 backdrop-blur">
                 <p className="text-xs text-muted-foreground mb-2">
-                  {formatDistanceToNow(new Date(post.created_at), { addSuffix: true })}
+                  {formatDistanceToNow(new Date(post.created_at), {
+                    addSuffix: true,
+                  })}
                 </p>
-                {post.title && <h3 className="font-semibold mb-1.5">{post.title}</h3>}
-                <p className="whitespace-pre-wrap text-sm leading-relaxed">{post.body}</p>
+                {post.title && (
+                  <h3 className="font-semibold mb-1.5">{post.title}</h3>
+                )}
+                <p className="whitespace-pre-wrap text-sm leading-relaxed">
+                  {post.body}
+                </p>
                 <div className="flex items-center gap-4 mt-4 pt-3 border-t border-border/40">
                   <button
                     onClick={() => react.mutate({ postId: post.id })}

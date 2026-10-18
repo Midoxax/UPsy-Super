@@ -6,6 +6,8 @@ const ForAthletes = lazy(() => import("@/pages/funnels/ForAthletes"));
 
 export const Route = createFileRoute("/for-athletes")({
   component: () => (
-    <PageTransition><ForAthletes /></PageTransition>
+    <PageTransition>
+      <ForAthletes />
+    </PageTransition>
   ),
 });

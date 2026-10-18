@@ -1,7 +1,13 @@
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+} from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
@@ -22,9 +28,30 @@ const OrgProgramsTab = () => {
 
   // Mock assigned programs
   const assignedPrograms = [
-    { id: "1", title: "Stress Management Workshop", category: "wellbeing", enrolledCount: 24, completionRate: 68, status: "active" },
-    { id: "2", title: "Leadership & Emotional Intelligence", category: "performance", enrolledCount: 12, completionRate: 45, status: "active" },
-    { id: "3", title: "Burnout Prevention Protocol", category: "clinical", enrolledCount: 8, completionRate: 90, status: "completed" },
+    {
+      id: "1",
+      title: "Stress Management Workshop",
+      category: "wellbeing",
+      enrolledCount: 24,
+      completionRate: 68,
+      status: "active",
+    },
+    {
+      id: "2",
+      title: "Leadership & Emotional Intelligence",
+      category: "performance",
+      enrolledCount: 12,
+      completionRate: 45,
+      status: "active",
+    },
+    {
+      id: "3",
+      title: "Burnout Prevention Protocol",
+      category: "clinical",
+      enrolledCount: 8,
+      completionRate: 90,
+      status: "completed",
+    },
   ];
 
   return (
@@ -32,7 +59,9 @@ const OrgProgramsTab = () => {
       <div className="flex items-center justify-between">
         <div>
           <h3 className="text-lg font-semibold">Program Management</h3>
-          <p className="text-sm text-muted-foreground">Assign and track mental health programs for your organization</p>
+          <p className="text-sm text-muted-foreground">
+            Assign and track mental health programs for your organization
+          </p>
         </div>
         <Button className="gap-2">
           <Plus className="h-4 w-4" />
@@ -43,16 +72,25 @@ const OrgProgramsTab = () => {
       {/* Active Programs */}
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
         {assignedPrograms.map((program) => (
-          <Card key={program.id} className="hover:border-primary/30 transition-colors">
+          <Card
+            key={program.id}
+            className="hover:border-primary/30 transition-colors"
+          >
             <CardHeader className="pb-3">
               <div className="flex items-start justify-between">
-                <Badge variant="outline" className={
-                  program.status === "completed" ? "bg-chart-2/10 text-chart-2 border-chart-2/20" :
-                  "bg-primary/10 text-primary border-primary/20"
-                }>
+                <Badge
+                  variant="outline"
+                  className={
+                    program.status === "completed"
+                      ? "bg-chart-2/10 text-chart-2 border-chart-2/20"
+                      : "bg-primary/10 text-primary border-primary/20"
+                  }
+                >
                   {program.status === "completed" ? "Completed" : "Active"}
                 </Badge>
-                <Badge variant="secondary" className="text-xs">{program.category}</Badge>
+                <Badge variant="secondary" className="text-xs">
+                  {program.category}
+                </Badge>
               </div>
               <CardTitle className="text-base mt-2">{program.title}</CardTitle>
             </CardHeader>
@@ -90,16 +128,23 @@ const OrgProgramsTab = () => {
               <BookOpen className="h-5 w-5" />
               Available Programs Catalog
             </CardTitle>
-            <CardDescription>Browse and assign programs from the U.Psy library</CardDescription>
+            <CardDescription>
+              Browse and assign programs from the U.Psy library
+            </CardDescription>
           </CardHeader>
           <CardContent>
             <div className="space-y-3">
               {courses.slice(0, 6).map((course) => (
-                <div key={course.id} className="flex items-center justify-between p-3 rounded-lg border border-border/50 hover:bg-muted/20 transition-colors">
+                <div
+                  key={course.id}
+                  className="flex items-center justify-between p-3 rounded-lg border border-border/50 hover:bg-muted/20 transition-colors"
+                >
                   <div className="flex-1">
                     <p className="font-medium text-sm">{course.title}</p>
                     <div className="flex items-center gap-3 mt-1">
-                      <Badge variant="secondary" className="text-xs">{course.category}</Badge>
+                      <Badge variant="secondary" className="text-xs">
+                        {course.category}
+                      </Badge>
                       {course.duration_hours && (
                         <span className="flex items-center gap-1 text-xs text-muted-foreground">
                           <Clock className="h-3 w-3" />
@@ -108,7 +153,9 @@ const OrgProgramsTab = () => {
                       )}
                     </div>
                   </div>
-                  <Button variant="outline" size="sm">Assign</Button>
+                  <Button variant="outline" size="sm">
+                    Assign
+                  </Button>
                 </div>
               ))}
             </div>

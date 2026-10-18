@@ -6,11 +6,16 @@
  * own text rather than being silently swallowed, so a genuinely new failure
  * mode is still visible instead of disappearing behind a generic string.
  */
-export const friendlyAuthError = (raw: string, t: (key: string) => string): string => {
+export const friendlyAuthError = (
+  raw: string,
+  t: (key: string) => string,
+): string => {
   const msg = raw.toLowerCase();
-  if (msg.includes("invalid login credentials")) return t('auth.errorInvalidCredentials');
-  if (msg.includes("email not confirmed")) return t('auth.errorEmailNotConfirmed');
-  if (msg.includes("user already registered")) return t('auth.errorEmailTaken');
-  if (msg.includes("rate limit")) return t('auth.errorRateLimited');
+  if (msg.includes("invalid login credentials"))
+    return t("auth.errorInvalidCredentials");
+  if (msg.includes("email not confirmed"))
+    return t("auth.errorEmailNotConfirmed");
+  if (msg.includes("user already registered")) return t("auth.errorEmailTaken");
+  if (msg.includes("rate limit")) return t("auth.errorRateLimited");
   return raw;
 };

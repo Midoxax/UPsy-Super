@@ -6,6 +6,8 @@ const Observatoire = lazy(() => import("@/pages/Observatoire"));
 
 export const Route = createFileRoute("/observatoire")({
   component: () => (
-    <PageTransition><Observatoire /></PageTransition>
+    <PageTransition>
+      <Observatoire />
+    </PageTransition>
   ),
 });

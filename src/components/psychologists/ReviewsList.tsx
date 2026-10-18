@@ -55,7 +55,9 @@ const ReviewsList = ({ psychologistId }: ReviewsListProps) => {
 
   const avgRating =
     reviews.length > 0
-      ? (reviews.reduce((sum, r) => sum + r.rating, 0) / reviews.length).toFixed(1)
+      ? (
+          reviews.reduce((sum, r) => sum + r.rating, 0) / reviews.length
+        ).toFixed(1)
       : null;
 
   const getInitials = (id: string) => {
@@ -70,8 +72,10 @@ const ReviewsList = ({ psychologistId }: ReviewsListProps) => {
     if (days === 0) return "Today";
     if (days === 1) return "Yesterday";
     if (days < 7) return `${days} days ago`;
-    if (days < 30) return `${Math.floor(days / 7)} week${Math.floor(days / 7) > 1 ? "s" : ""} ago`;
-    if (days < 365) return `${Math.floor(days / 30)} month${Math.floor(days / 30) > 1 ? "s" : ""} ago`;
+    if (days < 30)
+      return `${Math.floor(days / 7)} week${Math.floor(days / 7) > 1 ? "s" : ""} ago`;
+    if (days < 365)
+      return `${Math.floor(days / 30)} month${Math.floor(days / 30) > 1 ? "s" : ""} ago`;
     return `${Math.floor(days / 365)} year${Math.floor(days / 365) > 1 ? "s" : ""} ago`;
   };
 
@@ -97,8 +101,12 @@ const ReviewsList = ({ psychologistId }: ReviewsListProps) => {
                   />
                 ))}
               </div>
-              <span className="text-lg font-bold text-foreground">{avgRating}</span>
-              <span className="text-sm text-muted-foreground">({reviews.length})</span>
+              <span className="text-lg font-bold text-foreground">
+                {avgRating}
+              </span>
+              <span className="text-sm text-muted-foreground">
+                ({reviews.length})
+              </span>
             </div>
           )}
         </div>

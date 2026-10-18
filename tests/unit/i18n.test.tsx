@@ -23,7 +23,11 @@ vi.mock("@/integrations/supabase/client", () => ({
 
 // The provider reaches the router only through the compat shim; stubbing it
 // keeps these tests about locale resolution rather than router setup.
-const locationState = vi.hoisted(() => ({ pathname: "/", search: "", hash: "" }));
+const locationState = vi.hoisted(() => ({
+  pathname: "/",
+  search: "",
+  hash: "",
+}));
 vi.mock("@/lib/router-compat", () => ({
   useLocation: () => locationState,
   useNavigate: () => vi.fn(),
@@ -42,7 +46,7 @@ function renderAt(path: string, key: string) {
   return render(
     <LocaleProvider>
       <Probe k={key} />
-    </LocaleProvider>
+    </LocaleProvider>,
   );
 }
 
@@ -58,7 +62,6 @@ beforeEach(() => {
 });
 
 const out = () => screen.getByTestId("out").textContent;
-
 
 describe("t() resolution", () => {
   beforeEach(() => localStorage.clear());
@@ -113,6 +116,8 @@ describe("RTL", () => {
 
   it("leaves direction ltr for French", async () => {
     renderAt("/fr", "nav.home");
-    await vi.waitFor(() => expect(document.documentElement.dir).not.toBe("rtl"));
+    await vi.waitFor(() =>
+      expect(document.documentElement.dir).not.toBe("rtl"),
+    );
   });
 });

@@ -5,7 +5,13 @@ import { useLocale } from "@/contexts/LocaleContext";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useToast } from "@/hooks/use-toast";
@@ -15,7 +21,6 @@ import { supabase } from "@/integrations/supabase/client";
 import { friendlyAuthError } from "@/lib/auth/friendlyAuthError";
 import { SocialAuthButtons } from "@/components/auth/SocialAuthButtons";
 import { Link } from "@/lib/router-compat";
-
 
 const emailSchema = z.string().email("Invalid email address");
 const passwordSchema = z
@@ -56,7 +61,9 @@ const checkPasswordRules = (pw: string) => ({
   symbol: /[^A-Za-z0-9]/.test(pw),
 });
 
-const passwordStrength = (pw: string): { score: number; label: string; color: string } => {
+const passwordStrength = (
+  pw: string,
+): { score: number; label: string; color: string } => {
   const r = checkPasswordRules(pw);
   let score = 0;
   if (r.length) score++;
@@ -90,17 +97,22 @@ const Auth = () => {
     };
   });
   const [defaultTab] = useState(() =>
-    new URLSearchParams(window.location.search).get("mode") === "signup" ? "signup" : "login"
+    new URLSearchParams(window.location.search).get("mode") === "signup"
+      ? "signup"
+      : "login",
   );
   // Destination the user was heading to before being bounced to /auth.
   const [oauthRedirect] = useState(
-    () => new URLSearchParams(window.location.search).get("redirect") || undefined
+    () =>
+      new URLSearchParams(window.location.search).get("redirect") || undefined,
   );
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
   const [lastAttempt, setLastAttempt] = useState(0);
   const [termsAccepted, setTermsAccepted] = useState(false);
-  const [pendingVerificationEmail, setPendingVerificationEmail] = useState<string | null>(null);
+  const [pendingVerificationEmail, setPendingVerificationEmail] = useState<
+    string | null
+  >(null);
   const [isResending, setIsResending] = useState(false);
 
   // Auto-redirect once a session is available (covers OAuth round-trip and
@@ -108,14 +120,20 @@ const Auth = () => {
   useEffect(() => {
     if (authLoading) return;
     if (!user) return;
-    const redirectTo = new URLSearchParams(window.location.search).get("redirect");
+    const redirectTo = new URLSearchParams(window.location.search).get(
+      "redirect",
+    );
     navigate(redirectTo || "/my-space", { replace: true });
   }, [user, authLoading, navigate]);
 
   const throttle = () => {
     const now = Date.now();
     if (now - lastAttempt < 2000) {
-      toast({ title: "Please wait", description: "Too many attempts. Try again shortly.", variant: "destructive" });
+      toast({
+        title: "Please wait",
+        description: "Too many attempts. Try again shortly.",
+        variant: "destructive",
+      });
       return true;
     }
     setLastAttempt(now);
@@ -135,18 +153,38 @@ const Auth = () => {
       // fail here with a client-side "must contain a number" message instead of
       // reaching Supabase at all — indistinguishable to the user from a real
       // wrong-password error, except it can never be fixed by retyping correctly.
-      if (!loginData.password) throw new z.ZodError([{ code: "custom", path: ["password"], message: t('auth.passwordRequired') }]);
+      if (!loginData.password)
+        throw new z.ZodError([
+          {
+            code: "custom",
+            path: ["password"],
+            message: t("auth.passwordRequired"),
+          },
+        ]);
       const { error } = await signIn(loginData.email, loginData.password);
       if (error) {
-        toast({ title: t('auth.loginFailed'), description: friendlyAuthError(error.message, t), variant: "destructive" });
+        toast({
+          title: t("auth.loginFailed"),
+          description: friendlyAuthError(error.message, t),
+          variant: "destructive",
+        });
       } else {
-        toast({ title: t('auth.welcomeBack'), description: t('auth.welcomeBackDesc') });
-        const redirectTo = new URLSearchParams(window.location.search).get("redirect");
+        toast({
+          title: t("auth.welcomeBack"),
+          description: t("auth.welcomeBackDesc"),
+        });
+        const redirectTo = new URLSearchParams(window.location.search).get(
+          "redirect",
+        );
         navigate(redirectTo || "/my-space", { replace: true });
       }
     } catch (error) {
       if (error instanceof z.ZodError) {
-        toast({ title: t('auth.validationError'), description: error.errors[0].message, variant: "destructive" });
+        toast({
+          title: t("auth.validationError"),
+          description: error.errors[0].message,
+          variant: "destructive",
+        });
       }
     } finally {
       setIsLoading(false);
@@ -160,29 +198,51 @@ const Auth = () => {
     try {
       emailSchema.parse(signupData.email);
       passwordSchema.parse(signupData.password);
-      if (!signupData.fullName.trim()) throw new Error(t('auth.errorFullNameRequired'));
+      if (!signupData.fullName.trim())
+        throw new Error(t("auth.errorFullNameRequired"));
       if (signupData.password !== signupData.confirmPassword) {
-        throw new Error(t('auth.errorPasswordsNoMatch'));
+        throw new Error(t("auth.errorPasswordsNoMatch"));
       }
-      if (!termsAccepted) throw new Error(t('auth.errorTermsRequired'));
+      if (!termsAccepted) throw new Error(t("auth.errorTermsRequired"));
 
-      const redirectTo = new URLSearchParams(window.location.search).get("redirect") || undefined;
-      const { error } = await signUp(signupData.email, signupData.password, signupData.fullName, redirectTo);
+      const redirectTo =
+        new URLSearchParams(window.location.search).get("redirect") ||
+        undefined;
+      const { error } = await signUp(
+        signupData.email,
+        signupData.password,
+        signupData.fullName,
+        redirectTo,
+      );
       if (error) {
-        toast({ title: t('auth.signupFailed'), description: friendlyAuthError(error.message, t), variant: "destructive" });
+        toast({
+          title: t("auth.signupFailed"),
+          description: friendlyAuthError(error.message, t),
+          variant: "destructive",
+        });
       } else {
         // Don't navigate — user must verify email first
         setPendingVerificationEmail(signupData.email);
         toast({
-          title: t('auth.checkEmail') || "Check your email",
-          description: t('auth.verifyEmailDesc') || "We sent a verification link to your email. Please confirm before signing in.",
+          title: t("auth.checkEmail") || "Check your email",
+          description:
+            t("auth.verifyEmailDesc") ||
+            "We sent a verification link to your email. Please confirm before signing in.",
         });
       }
     } catch (error) {
       if (error instanceof z.ZodError) {
-        toast({ title: t('auth.validationError'), description: error.errors[0].message, variant: "destructive" });
+        toast({
+          title: t("auth.validationError"),
+          description: error.errors[0].message,
+          variant: "destructive",
+        });
       } else if (error instanceof Error) {
-        toast({ title: "Error", description: error.message, variant: "destructive" });
+        toast({
+          title: "Error",
+          description: error.message,
+          variant: "destructive",
+        });
       }
     } finally {
       setIsLoading(false);
@@ -191,14 +251,19 @@ const Auth = () => {
 
   const handleSuggestPassword = async () => {
     const suggested = generateStrongPassword(16);
-    setSignupData((prev) => ({ ...prev, password: suggested, confirmPassword: suggested }));
+    setSignupData((prev) => ({
+      ...prev,
+      password: suggested,
+      confirmPassword: suggested,
+    }));
     setShowPassword(true);
     setShowConfirm(true);
     try {
       await navigator.clipboard.writeText(suggested);
       toast({
         title: "Strong password generated",
-        description: "Copied to clipboard. Your browser/Google Password Manager will offer to save it on signup.",
+        description:
+          "Copied to clipboard. Your browser/Google Password Manager will offer to save it on signup.",
       });
     } catch {
       toast({
@@ -212,22 +277,34 @@ const Auth = () => {
     if (!pendingVerificationEmail || isResending) return;
     setIsResending(true);
     try {
-      const { error } = await supabase.auth.resend({ type: "signup", email: pendingVerificationEmail });
+      const { error } = await supabase.auth.resend({
+        type: "signup",
+        email: pendingVerificationEmail,
+      });
       if (error) {
-        toast({ title: t('auth.signupFailed'), description: friendlyAuthError(error.message, t), variant: "destructive" });
+        toast({
+          title: t("auth.signupFailed"),
+          description: friendlyAuthError(error.message, t),
+          variant: "destructive",
+        });
       } else {
-        toast({ title: t('auth.resendVerificationSent'), description: t('auth.resendVerificationDesc') });
+        toast({
+          title: t("auth.resendVerificationSent"),
+          description: t("auth.resendVerificationDesc"),
+        });
       }
     } finally {
       setIsResending(false);
     }
   };
 
-  const emailFormatValid = (email: string) => emailSchema.safeParse(email).success;
+  const emailFormatValid = (email: string) =>
+    emailSchema.safeParse(email).success;
   const pwRules = checkPasswordRules(signupData.password);
   const pwStrength = passwordStrength(signupData.password);
   const passwordsMatch =
-    signupData.confirmPassword.length > 0 && signupData.password === signupData.confirmPassword;
+    signupData.confirmPassword.length > 0 &&
+    signupData.password === signupData.confirmPassword;
 
   return (
     <div className="min-h-screen bg-background flex items-center justify-center p-4">
@@ -237,15 +314,17 @@ const Auth = () => {
             <Brain className="w-12 h-12 text-primary" />
           </div>
           <CardTitle className="font-display text-3xl md:text-4xl font-normal tracking-tight">
-            {t('auth.portalTitle')}
+            {t("auth.portalTitle")}
           </CardTitle>
-          <CardDescription className="font-sans text-base">{t('auth.portalDesc')}</CardDescription>
+          <CardDescription className="font-sans text-base">
+            {t("auth.portalDesc")}
+          </CardDescription>
         </CardHeader>
         <CardContent>
           <Tabs defaultValue={defaultTab} className="w-full">
             <TabsList className="grid w-full grid-cols-2">
-              <TabsTrigger value="login">{t('auth.login')}</TabsTrigger>
-              <TabsTrigger value="signup">{t('auth.signUp')}</TabsTrigger>
+              <TabsTrigger value="login">{t("auth.login")}</TabsTrigger>
+              <TabsTrigger value="signup">{t("auth.signUp")}</TabsTrigger>
             </TabsList>
 
             <TabsContent value="login">
@@ -253,38 +332,83 @@ const Auth = () => {
                 <SocialAuthButtons withDivider redirect={oauthRedirect} />
                 <form onSubmit={handleLogin} className="space-y-4">
                   <div className="space-y-2">
-                    <Label htmlFor="login-email">{t('auth.email')}</Label>
-                    <Input id="login-email" type="email" required autoComplete="email" value={loginData.email}
-                      onChange={(e) => setLoginData({ ...loginData, email: e.target.value })}
-                      placeholder="your@email.com" className="bg-background" />
+                    <Label htmlFor="login-email">{t("auth.email")}</Label>
+                    <Input
+                      id="login-email"
+                      type="email"
+                      required
+                      autoComplete="email"
+                      value={loginData.email}
+                      onChange={(e) =>
+                        setLoginData({ ...loginData, email: e.target.value })
+                      }
+                      placeholder="your@email.com"
+                      className="bg-background"
+                    />
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="login-password">{t('auth.password')}</Label>
-                    <Input id="login-password" type="password" required autoComplete="current-password" value={loginData.password}
-                      onChange={(e) => setLoginData({ ...loginData, password: e.target.value })}
-                      placeholder="••••••••" className="bg-background" />
+                    <Label htmlFor="login-password">{t("auth.password")}</Label>
+                    <Input
+                      id="login-password"
+                      type="password"
+                      required
+                      autoComplete="current-password"
+                      value={loginData.password}
+                      onChange={(e) =>
+                        setLoginData({ ...loginData, password: e.target.value })
+                      }
+                      placeholder="••••••••"
+                      className="bg-background"
+                    />
                   </div>
-                  <Button type="submit" variant="primary" className="w-full" disabled={isLoading}>
-                    {isLoading ? <><Loader2 className="mr-2 h-4 w-4 animate-spin" />{t('auth.loggingIn')}</> : t('auth.login')}
+                  <Button
+                    type="submit"
+                    variant="primary"
+                    className="w-full"
+                    disabled={isLoading}
+                  >
+                    {isLoading ? (
+                      <>
+                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                        {t("auth.loggingIn")}
+                      </>
+                    ) : (
+                      t("auth.login")
+                    )}
                   </Button>
-                  <button type="button"
+                  <button
+                    type="button"
                     className="w-full text-sm text-muted-foreground hover:text-primary transition-colors mt-2"
                     onClick={async () => {
                       if (!loginData.email) {
-                        toast({ title: t('auth.enterEmail'), description: t('auth.enterEmailDesc'), variant: "destructive" });
+                        toast({
+                          title: t("auth.enterEmail"),
+                          description: t("auth.enterEmailDesc"),
+                          variant: "destructive",
+                        });
                         return;
                       }
                       try {
-                        await supabase.auth.resetPasswordForEmail(loginData.email, {
-                          redirectTo: `${window.location.origin}/reset-password`,
+                        await supabase.auth.resetPasswordForEmail(
+                          loginData.email,
+                          {
+                            redirectTo: `${window.location.origin}/reset-password`,
+                          },
+                        );
+                        toast({
+                          title: t("auth.checkEmail"),
+                          description: t("auth.checkEmailDesc"),
                         });
-                        toast({ title: t('auth.checkEmail'), description: t('auth.checkEmailDesc') });
                       } catch {
-                        toast({ title: "Error", description: "Failed to send reset email.", variant: "destructive" });
+                        toast({
+                          title: "Error",
+                          description: "Failed to send reset email.",
+                          variant: "destructive",
+                        });
                       }
                     }}
                   >
-                    {t('auth.forgotPassword')}
+                    {t("auth.forgotPassword")}
                   </button>
                 </form>
               </div>
@@ -295,17 +419,41 @@ const Auth = () => {
                 <SocialAuthButtons withDivider redirect={oauthRedirect} />
                 <form onSubmit={handleSignup} className="space-y-4">
                   <div className="space-y-2">
-                    <Label htmlFor="signup-name">{t('auth.fullName')}</Label>
-                    <Input id="signup-name" type="text" required autoComplete="name" value={signupData.fullName}
-                      onChange={(e) => setSignupData({ ...signupData, fullName: e.target.value })}
-                      placeholder="John Doe" className="bg-background" />
+                    <Label htmlFor="signup-name">{t("auth.fullName")}</Label>
+                    <Input
+                      id="signup-name"
+                      type="text"
+                      required
+                      autoComplete="name"
+                      value={signupData.fullName}
+                      onChange={(e) =>
+                        setSignupData({
+                          ...signupData,
+                          fullName: e.target.value,
+                        })
+                      }
+                      placeholder="John Doe"
+                      className="bg-background"
+                    />
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="signup-email">{t('auth.email')}</Label>
+                    <Label htmlFor="signup-email">{t("auth.email")}</Label>
                     <div className="relative">
-                      <Input id="signup-email" type="email" required autoComplete="email" value={signupData.email}
-                        onChange={(e) => setSignupData({ ...signupData, email: e.target.value })}
-                        placeholder="your@email.com" className="bg-background pr-8" />
+                      <Input
+                        id="signup-email"
+                        type="email"
+                        required
+                        autoComplete="email"
+                        value={signupData.email}
+                        onChange={(e) =>
+                          setSignupData({
+                            ...signupData,
+                            email: e.target.value,
+                          })
+                        }
+                        placeholder="your@email.com"
+                        className="bg-background pr-8"
+                      />
                       {signupData.email.length > 0 && (
                         <span className="absolute right-2 top-1/2 -translate-y-1/2">
                           {emailFormatValid(signupData.email) ? (
@@ -316,13 +464,18 @@ const Auth = () => {
                         </span>
                       )}
                     </div>
-                    {signupData.email.length > 0 && !emailFormatValid(signupData.email) && (
-                      <p className="text-xs text-destructive">{t('auth.errorInvalidEmailFormat')}</p>
-                    )}
+                    {signupData.email.length > 0 &&
+                      !emailFormatValid(signupData.email) && (
+                        <p className="text-xs text-destructive">
+                          {t("auth.errorInvalidEmailFormat")}
+                        </p>
+                      )}
                   </div>
                   <div className="space-y-2">
                     <div className="flex items-center justify-between">
-                      <Label htmlFor="signup-password">{t('auth.password')}</Label>
+                      <Label htmlFor="signup-password">
+                        {t("auth.password")}
+                      </Label>
                       <button
                         type="button"
                         onClick={handleSuggestPassword}
@@ -339,7 +492,12 @@ const Auth = () => {
                         required
                         autoComplete="new-password"
                         value={signupData.password}
-                        onChange={(e) => setSignupData({ ...signupData, password: e.target.value })}
+                        onChange={(e) =>
+                          setSignupData({
+                            ...signupData,
+                            password: e.target.value,
+                          })
+                        }
                         placeholder="••••••••"
                         className="bg-background pr-10"
                       />
@@ -347,9 +505,15 @@ const Auth = () => {
                         type="button"
                         onClick={() => setShowPassword((s) => !s)}
                         className="absolute right-2 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
-                        aria-label={showPassword ? "Hide password" : "Show password"}
+                        aria-label={
+                          showPassword ? "Hide password" : "Show password"
+                        }
                       >
-                        {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                        {showPassword ? (
+                          <EyeOff className="w-4 h-4" />
+                        ) : (
+                          <Eye className="w-4 h-4" />
+                        )}
                       </button>
                     </div>
                     {signupData.password && (
@@ -359,29 +523,51 @@ const Auth = () => {
                             <div
                               key={i}
                               className={`h-1 flex-1 rounded-full transition-colors ${
-                                i <= pwStrength.score ? pwStrength.color : "bg-muted"
+                                i <= pwStrength.score
+                                  ? pwStrength.color
+                                  : "bg-muted"
                               }`}
                             />
                           ))}
                         </div>
                         <p className="text-xs text-muted-foreground">
-                          Strength: <span className="font-medium text-foreground">{pwStrength.label}</span>
+                          Strength:{" "}
+                          <span className="font-medium text-foreground">
+                            {pwStrength.label}
+                          </span>
                         </p>
                         <ul className="text-xs text-muted-foreground space-y-0.5 pt-1">
                           {[
-                            { ok: pwRules.length, label: "At least 8 characters" },
-                            { ok: pwRules.upper, label: "One uppercase letter" },
-                            { ok: pwRules.lower, label: "One lowercase letter" },
+                            {
+                              ok: pwRules.length,
+                              label: "At least 8 characters",
+                            },
+                            {
+                              ok: pwRules.upper,
+                              label: "One uppercase letter",
+                            },
+                            {
+                              ok: pwRules.lower,
+                              label: "One lowercase letter",
+                            },
                             { ok: pwRules.number, label: "One number" },
-                            { ok: pwRules.symbol, label: "One symbol (recommended)" },
+                            {
+                              ok: pwRules.symbol,
+                              label: "One symbol (recommended)",
+                            },
                           ].map((r) => (
-                            <li key={r.label} className="flex items-center gap-1.5">
+                            <li
+                              key={r.label}
+                              className="flex items-center gap-1.5"
+                            >
                               {r.ok ? (
                                 <Check className="w-3 h-3 text-green-500" />
                               ) : (
                                 <X className="w-3 h-3 text-muted-foreground" />
                               )}
-                              <span className={r.ok ? "text-foreground" : ""}>{r.label}</span>
+                              <span className={r.ok ? "text-foreground" : ""}>
+                                {r.label}
+                              </span>
                             </li>
                           ))}
                         </ul>
@@ -389,7 +575,9 @@ const Auth = () => {
                     )}
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="signup-confirm-password">Confirm password</Label>
+                    <Label htmlFor="signup-confirm-password">
+                      Confirm password
+                    </Label>
                     <div className="relative">
                       <Input
                         id="signup-confirm-password"
@@ -397,7 +585,12 @@ const Auth = () => {
                         required
                         autoComplete="new-password"
                         value={signupData.confirmPassword}
-                        onChange={(e) => setSignupData({ ...signupData, confirmPassword: e.target.value })}
+                        onChange={(e) =>
+                          setSignupData({
+                            ...signupData,
+                            confirmPassword: e.target.value,
+                          })
+                        }
                         placeholder="••••••••"
                         className="bg-background pr-10"
                       />
@@ -405,19 +598,34 @@ const Auth = () => {
                         type="button"
                         onClick={() => setShowConfirm((s) => !s)}
                         className="absolute right-2 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
-                        aria-label={showConfirm ? "Hide password" : "Show password"}
+                        aria-label={
+                          showConfirm ? "Hide password" : "Show password"
+                        }
                       >
-                        {showConfirm ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                        {showConfirm ? (
+                          <EyeOff className="w-4 h-4" />
+                        ) : (
+                          <Eye className="w-4 h-4" />
+                        )}
                       </button>
                     </div>
                     {signupData.confirmPassword.length > 0 && (
-                      <p className={`text-xs flex items-center gap-1 ${passwordsMatch ? "text-green-500" : "text-destructive"}`}>
-                        {passwordsMatch ? <Check className="w-3 h-3" /> : <X className="w-3 h-3" />}
-                        {passwordsMatch ? t('auth.passwordsMatch') : t('auth.errorPasswordsNoMatch')}
+                      <p
+                        className={`text-xs flex items-center gap-1 ${passwordsMatch ? "text-green-500" : "text-destructive"}`}
+                      >
+                        {passwordsMatch ? (
+                          <Check className="w-3 h-3" />
+                        ) : (
+                          <X className="w-3 h-3" />
+                        )}
+                        {passwordsMatch
+                          ? t("auth.passwordsMatch")
+                          : t("auth.errorPasswordsNoMatch")}
                       </p>
                     )}
                     <p className="text-[11px] text-muted-foreground pt-1">
-                      Tip: Google Password Manager and iCloud Keychain will offer to save & sync this password to your account.
+                      Tip: Google Password Manager and iCloud Keychain will
+                      offer to save & sync this password to your account.
                     </p>
                   </div>
                   <div className="flex items-start gap-2">
@@ -427,28 +635,45 @@ const Auth = () => {
                       onCheckedChange={(v) => setTermsAccepted(v === true)}
                       className="mt-0.5"
                     />
-                    <Label htmlFor="terms-accepted" className="text-xs font-normal text-muted-foreground leading-snug cursor-pointer">
-                      {t('auth.agreeToTerms').split('{terms}')[0]}
-                      <Link to="/terms" target="_blank" className="text-primary hover:underline">
-                        {t('auth.termsOfService')}
+                    <Label
+                      htmlFor="terms-accepted"
+                      className="text-xs font-normal text-muted-foreground leading-snug cursor-pointer"
+                    >
+                      {t("auth.agreeToTerms").split("{terms}")[0]}
+                      <Link
+                        to="/terms"
+                        target="_blank"
+                        className="text-primary hover:underline"
+                      >
+                        {t("auth.termsOfService")}
                       </Link>
-                      {t('auth.agreeToTerms').split('{terms}')[1]?.split('{privacy}')[0]}
-                      <Link to="/privacy" target="_blank" className="text-primary hover:underline">
-                        {t('auth.privacyPolicy')}
+                      {
+                        t("auth.agreeToTerms")
+                          .split("{terms}")[1]
+                          ?.split("{privacy}")[0]
+                      }
+                      <Link
+                        to="/privacy"
+                        target="_blank"
+                        className="text-primary hover:underline"
+                      >
+                        {t("auth.privacyPolicy")}
                       </Link>
-                      {t('auth.agreeToTerms').split('{privacy}')[1]}
+                      {t("auth.agreeToTerms").split("{privacy}")[1]}
                     </Label>
                   </div>
                   {pendingVerificationEmail && (
                     <div className="rounded-md bg-muted/50 p-3 text-xs text-muted-foreground flex items-center justify-between gap-2">
-                      <span>{t('auth.checkEmail')}</span>
+                      <span>{t("auth.checkEmail")}</span>
                       <button
                         type="button"
                         onClick={handleResendVerification}
                         disabled={isResending}
                         className="text-primary hover:underline whitespace-nowrap disabled:opacity-50"
                       >
-                        {isResending ? t('auth.resendingVerification') : t('auth.resendVerification')}
+                        {isResending
+                          ? t("auth.resendingVerification")
+                          : t("auth.resendVerification")}
                       </button>
                     </div>
                   )}
@@ -456,9 +681,20 @@ const Auth = () => {
                     type="submit"
                     variant="primary"
                     className="w-full"
-                    disabled={isLoading || !termsAccepted || (signupData.confirmPassword.length > 0 && !passwordsMatch)}
+                    disabled={
+                      isLoading ||
+                      !termsAccepted ||
+                      (signupData.confirmPassword.length > 0 && !passwordsMatch)
+                    }
                   >
-                    {isLoading ? <><Loader2 className="mr-2 h-4 w-4 animate-spin" />{t('auth.creatingAccount')}</> : t('auth.createAccount')}
+                    {isLoading ? (
+                      <>
+                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                        {t("auth.creatingAccount")}
+                      </>
+                    ) : (
+                      t("auth.createAccount")
+                    )}
                   </Button>
                 </form>
               </div>

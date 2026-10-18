@@ -9,14 +9,29 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import {
-  Select, SelectContent, SelectItem, SelectTrigger, SelectValue,
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
 } from "@/components/ui/select";
 import {
-  Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger,
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
 } from "@/components/ui/dialog";
 import {
-  ClipboardList, Plus, Loader2, Target, Trash2, CheckCircle2,
-  Calendar, User, RefreshCw,
+  ClipboardList,
+  Plus,
+  Loader2,
+  Target,
+  Trash2,
+  CheckCircle2,
+  Calendar,
+  User,
+  RefreshCw,
 } from "lucide-react";
 import { format } from "date-fns";
 
@@ -55,9 +70,16 @@ const STATUS_COLORS: Record<string, string> = {
 };
 
 const INTERVENTION_OPTIONS = [
-  "CBT", "Schema Therapy", "EMDR", "ACT", "DBT",
-  "Psychodynamic", "Motivational Interviewing", "Mindfulness-Based",
-  "Solution-Focused", "Narrative Therapy",
+  "CBT",
+  "Schema Therapy",
+  "EMDR",
+  "ACT",
+  "DBT",
+  "Psychodynamic",
+  "Motivational Interviewing",
+  "Mindfulness-Based",
+  "Solution-Focused",
+  "Narrative Therapy",
 ];
 
 const TreatmentPlansTab = () => {
@@ -73,7 +95,9 @@ const TreatmentPlansTab = () => {
   // Form state
   const [clientId, setClientId] = useState("");
   const [problems, setProblems] = useState<string[]>([""]);
-  const [goals, setGoals] = useState<Goal[]>([{ description: "", status: "pending" }]);
+  const [goals, setGoals] = useState<Goal[]>([
+    { description: "", status: "pending" },
+  ]);
   const [interventions, setInterventions] = useState<string[]>([]);
   const [estimatedSessions, setEstimatedSessions] = useState("");
   const [reviewAt, setReviewAt] = useState("");
@@ -103,7 +127,7 @@ const TreatmentPlansTab = () => {
           presenting_problems: (p.presenting_problems as any) || [],
           goals: (p.goals as any) || [],
           client_profile: { full_name: nameMap.get(p.client_id) || "Unknown" },
-        }))
+        })),
       );
     }
     setLoading(false);
@@ -121,11 +145,19 @@ const TreatmentPlansTab = () => {
         .from("profiles")
         .select("id, full_name")
         .in("id", ids);
-      setClients((profiles || []).map((p) => ({ id: p.id, full_name: p.full_name || "—" })));
+      setClients(
+        (profiles || []).map((p) => ({
+          id: p.id,
+          full_name: p.full_name || "—",
+        })),
+      );
     }
   }, [user]);
 
-  useEffect(() => { loadPlans(); loadClients(); }, [loadPlans, loadClients]);
+  useEffect(() => {
+    loadPlans();
+    loadClients();
+  }, [loadPlans, loadClients]);
 
   const resetForm = () => {
     setClientId("");
@@ -142,8 +174,12 @@ const TreatmentPlansTab = () => {
   const openEdit = (plan: TreatmentPlan) => {
     setEditId(plan.id);
     setClientId(plan.client_id);
-    setProblems(plan.presenting_problems.length ? plan.presenting_problems : [""]);
-    setGoals(plan.goals.length ? plan.goals : [{ description: "", status: "pending" }]);
+    setProblems(
+      plan.presenting_problems.length ? plan.presenting_problems : [""],
+    );
+    setGoals(
+      plan.goals.length ? plan.goals : [{ description: "", status: "pending" }],
+    );
     setInterventions(plan.interventions || []);
     setEstimatedSessions(plan.estimated_sessions?.toString() || "");
     setReviewAt(plan.review_at ? plan.review_at.split("T")[0] : "");
@@ -161,7 +197,9 @@ const TreatmentPlansTab = () => {
       presenting_problems: problems.filter(Boolean),
       goals: goals.filter((g) => g.description) as any,
       interventions,
-      estimated_sessions: estimatedSessions ? parseInt(estimatedSessions) : null,
+      estimated_sessions: estimatedSessions
+        ? parseInt(estimatedSessions)
+        : null,
       review_at: reviewAt || null,
       notes: planNotes || null,
       status: planStatus as any,
@@ -173,7 +211,11 @@ const TreatmentPlansTab = () => {
 
     setSaving(false);
     if (result.error) {
-      toast({ title: "Error", description: result.error.message, variant: "destructive" });
+      toast({
+        title: "Error",
+        description: result.error.message,
+        variant: "destructive",
+      });
     } else {
       toast({ title: editId ? "Plan updated" : "Plan created" });
       setOpen(false);
@@ -197,7 +239,13 @@ const TreatmentPlansTab = () => {
           <ClipboardList className="h-5 w-5 text-primary" />
           Treatment Plans
         </h2>
-        <Dialog open={open} onOpenChange={(v) => { setOpen(v); if (!v) resetForm(); }}>
+        <Dialog
+          open={open}
+          onOpenChange={(v) => {
+            setOpen(v);
+            if (!v) resetForm();
+          }}
+        >
           <DialogTrigger asChild>
             <Button size="sm" className="gap-1.5">
               <Plus className="h-4 w-4" /> New Plan
@@ -205,17 +253,27 @@ const TreatmentPlansTab = () => {
           </DialogTrigger>
           <DialogContent className="max-w-2xl max-h-[85vh] overflow-y-auto">
             <DialogHeader>
-              <DialogTitle>{editId ? "Edit Treatment Plan" : "New Treatment Plan"}</DialogTitle>
+              <DialogTitle>
+                {editId ? "Edit Treatment Plan" : "New Treatment Plan"}
+              </DialogTitle>
             </DialogHeader>
             <div className="space-y-5 pt-2">
               {/* Client */}
               <div className="space-y-1.5">
                 <Label>Client</Label>
-                <Select value={clientId} onValueChange={setClientId} disabled={!!editId}>
-                  <SelectTrigger><SelectValue placeholder="Select client" /></SelectTrigger>
+                <Select
+                  value={clientId}
+                  onValueChange={setClientId}
+                  disabled={!!editId}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select client" />
+                  </SelectTrigger>
                   <SelectContent>
                     {clients.map((c) => (
-                      <SelectItem key={c.id} value={c.id}>{c.full_name}</SelectItem>
+                      <SelectItem key={c.id} value={c.id}>
+                        {c.full_name}
+                      </SelectItem>
                     ))}
                   </SelectContent>
                 </Select>
@@ -225,7 +283,9 @@ const TreatmentPlansTab = () => {
               <div className="space-y-1.5">
                 <Label>Status</Label>
                 <Select value={planStatus} onValueChange={setPlanStatus}>
-                  <SelectTrigger><SelectValue /></SelectTrigger>
+                  <SelectTrigger>
+                    <SelectValue />
+                  </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="draft">Draft</SelectItem>
                     <SelectItem value="active">Active</SelectItem>
@@ -242,17 +302,31 @@ const TreatmentPlansTab = () => {
                   <div key={i} className="flex gap-2">
                     <Input
                       value={p}
-                      onChange={(e) => { const n = [...problems]; n[i] = e.target.value; setProblems(n); }}
+                      onChange={(e) => {
+                        const n = [...problems];
+                        n[i] = e.target.value;
+                        setProblems(n);
+                      }}
                       placeholder={`Problem ${i + 1}`}
                     />
                     {problems.length > 1 && (
-                      <Button variant="ghost" size="icon" onClick={() => setProblems(problems.filter((_, j) => j !== i))}>
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        onClick={() =>
+                          setProblems(problems.filter((_, j) => j !== i))
+                        }
+                      >
                         <Trash2 className="h-4 w-4" />
                       </Button>
                     )}
                   </div>
                 ))}
-                <Button variant="outline" size="sm" onClick={() => setProblems([...problems, ""])}>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setProblems([...problems, ""])}
+                >
                   <Plus className="h-3 w-3 mr-1" /> Add problem
                 </Button>
               </div>
@@ -265,23 +339,41 @@ const TreatmentPlansTab = () => {
                     <div className="flex gap-2">
                       <Input
                         value={g.description}
-                        onChange={(e) => { const n = [...goals]; n[i] = { ...n[i], description: e.target.value }; setGoals(n); }}
+                        onChange={(e) => {
+                          const n = [...goals];
+                          n[i] = { ...n[i], description: e.target.value };
+                          setGoals(n);
+                        }}
                         placeholder="Goal description"
                         className="flex-1"
                       />
                       <Select
                         value={g.status}
-                        onValueChange={(v) => { const n = [...goals]; n[i] = { ...n[i], status: v as Goal["status"] }; setGoals(n); }}
+                        onValueChange={(v) => {
+                          const n = [...goals];
+                          n[i] = { ...n[i], status: v as Goal["status"] };
+                          setGoals(n);
+                        }}
                       >
-                        <SelectTrigger className="w-32"><SelectValue /></SelectTrigger>
+                        <SelectTrigger className="w-32">
+                          <SelectValue />
+                        </SelectTrigger>
                         <SelectContent>
                           <SelectItem value="pending">Pending</SelectItem>
-                          <SelectItem value="in_progress">In Progress</SelectItem>
+                          <SelectItem value="in_progress">
+                            In Progress
+                          </SelectItem>
                           <SelectItem value="achieved">Achieved</SelectItem>
                         </SelectContent>
                       </Select>
                       {goals.length > 1 && (
-                        <Button variant="ghost" size="icon" onClick={() => setGoals(goals.filter((_, j) => j !== i))}>
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          onClick={() =>
+                            setGoals(goals.filter((_, j) => j !== i))
+                          }
+                        >
                           <Trash2 className="h-4 w-4" />
                         </Button>
                       )}
@@ -290,19 +382,33 @@ const TreatmentPlansTab = () => {
                       <Input
                         type="date"
                         value={g.target_date || ""}
-                        onChange={(e) => { const n = [...goals]; n[i] = { ...n[i], target_date: e.target.value }; setGoals(n); }}
+                        onChange={(e) => {
+                          const n = [...goals];
+                          n[i] = { ...n[i], target_date: e.target.value };
+                          setGoals(n);
+                        }}
                         className="w-44"
                       />
                       <Input
                         value={g.notes || ""}
-                        onChange={(e) => { const n = [...goals]; n[i] = { ...n[i], notes: e.target.value }; setGoals(n); }}
+                        onChange={(e) => {
+                          const n = [...goals];
+                          n[i] = { ...n[i], notes: e.target.value };
+                          setGoals(n);
+                        }}
                         placeholder="Notes"
                         className="flex-1"
                       />
                     </div>
                   </Card>
                 ))}
-                <Button variant="outline" size="sm" onClick={() => setGoals([...goals, { description: "", status: "pending" }])}>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() =>
+                    setGoals([...goals, { description: "", status: "pending" }])
+                  }
+                >
                   <Plus className="h-3 w-3 mr-1" /> Add goal
                 </Button>
               </div>
@@ -314,11 +420,15 @@ const TreatmentPlansTab = () => {
                   {INTERVENTION_OPTIONS.map((opt) => (
                     <Badge
                       key={opt}
-                      variant={interventions.includes(opt) ? "default" : "outline"}
+                      variant={
+                        interventions.includes(opt) ? "default" : "outline"
+                      }
                       className="cursor-pointer select-none"
                       onClick={() =>
                         setInterventions((prev) =>
-                          prev.includes(opt) ? prev.filter((x) => x !== opt) : [...prev, opt]
+                          prev.includes(opt)
+                            ? prev.filter((x) => x !== opt)
+                            : [...prev, opt],
                         )
                       }
                     >
@@ -332,22 +442,41 @@ const TreatmentPlansTab = () => {
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-1.5">
                   <Label>Estimated Sessions</Label>
-                  <Input type="number" min="1" value={estimatedSessions} onChange={(e) => setEstimatedSessions(e.target.value)} />
+                  <Input
+                    type="number"
+                    min="1"
+                    value={estimatedSessions}
+                    onChange={(e) => setEstimatedSessions(e.target.value)}
+                  />
                 </div>
                 <div className="space-y-1.5">
                   <Label>Next Review Date</Label>
-                  <Input type="date" value={reviewAt} onChange={(e) => setReviewAt(e.target.value)} />
+                  <Input
+                    type="date"
+                    value={reviewAt}
+                    onChange={(e) => setReviewAt(e.target.value)}
+                  />
                 </div>
               </div>
 
               {/* Notes */}
               <div className="space-y-1.5">
                 <Label>Clinical Notes</Label>
-                <Textarea value={planNotes} onChange={(e) => setPlanNotes(e.target.value)} rows={3} />
+                <Textarea
+                  value={planNotes}
+                  onChange={(e) => setPlanNotes(e.target.value)}
+                  rows={3}
+                />
               </div>
 
-              <Button onClick={handleSave} disabled={saving || !clientId} className="w-full">
-                {saving ? <Loader2 className="h-4 w-4 animate-spin mr-2" /> : null}
+              <Button
+                onClick={handleSave}
+                disabled={saving || !clientId}
+                className="w-full"
+              >
+                {saving ? (
+                  <Loader2 className="h-4 w-4 animate-spin mr-2" />
+                ) : null}
                 {editId ? "Update Plan" : "Create Plan"}
               </Button>
             </div>
@@ -363,28 +492,40 @@ const TreatmentPlansTab = () => {
       ) : (
         <div className="space-y-4">
           {plans.map((plan) => (
-            <Card key={plan.id} className="cursor-pointer hover:shadow-md transition-shadow" onClick={() => openEdit(plan)}>
+            <Card
+              key={plan.id}
+              className="cursor-pointer hover:shadow-md transition-shadow"
+              onClick={() => openEdit(plan)}
+            >
               <CardHeader className="pb-2">
                 <div className="flex items-center justify-between">
                   <CardTitle className="text-base flex items-center gap-2">
                     <User className="h-4 w-4 text-muted-foreground" />
                     {plan.client_profile?.full_name || "Client"}
                   </CardTitle>
-                  <Badge className={STATUS_COLORS[plan.status] || ""}>{plan.status}</Badge>
+                  <Badge className={STATUS_COLORS[plan.status] || ""}>
+                    {plan.status}
+                  </Badge>
                 </div>
               </CardHeader>
               <CardContent className="space-y-2">
                 {plan.presenting_problems.length > 0 && (
                   <div className="flex flex-wrap gap-1.5">
                     {plan.presenting_problems.map((p, i) => (
-                      <Badge key={i} variant="outline" className="text-xs">{p}</Badge>
+                      <Badge key={i} variant="outline" className="text-xs">
+                        {p}
+                      </Badge>
                     ))}
                   </div>
                 )}
                 <div className="flex items-center gap-4 text-xs text-muted-foreground">
                   <span className="flex items-center gap-1">
                     <Target className="h-3 w-3" />
-                    {plan.goals.filter((g: Goal) => g.status === "achieved").length}/{plan.goals.length} goals achieved
+                    {
+                      plan.goals.filter((g: Goal) => g.status === "achieved")
+                        .length
+                    }
+                    /{plan.goals.length} goals achieved
                   </span>
                   {plan.interventions?.length > 0 && (
                     <span>{plan.interventions.join(", ")}</span>

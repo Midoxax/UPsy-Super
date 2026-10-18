@@ -27,7 +27,9 @@ const pct = (n: number) => `${(n * 100).toFixed(1)}%`;
 const num = (n: number) => n.toLocaleString();
 
 function downloadJson(name: string, data: unknown) {
-  const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
+  const blob = new Blob([JSON.stringify(data, null, 2)], {
+    type: "application/json",
+  });
   const url = URL.createObjectURL(blob);
   const a = document.createElement("a");
   a.href = url;
@@ -37,7 +39,9 @@ function downloadJson(name: string, data: unknown) {
 }
 
 function VariantTable({ data }: { data: FunnelMetrics }) {
-  const rows = Object.entries(data.by_variant).sort((a, b) => b[1].conversions - a[1].conversions);
+  const rows = Object.entries(data.by_variant).sort(
+    (a, b) => b[1].conversions - a[1].conversions,
+  );
   return (
     <div className="rounded-lg border border-border/70 overflow-hidden">
       <table className="w-full text-xs">
@@ -52,16 +56,33 @@ function VariantTable({ data }: { data: FunnelMetrics }) {
         </thead>
         <tbody>
           {rows.length === 0 ? (
-            <tr><td colSpan={5} className="px-3 py-6 text-center text-muted-foreground">No events in window.</td></tr>
-          ) : rows.map(([variant, m]) => (
-            <tr key={variant} className="border-t border-border/40">
-              <td className="px-3 py-2 font-mono">{variant}</td>
-              <td className="px-3 py-2 text-right tabular-nums">{num(m.events)}</td>
-              <td className="px-3 py-2 text-right tabular-nums">{num(m.conversions)}</td>
-              <td className="px-3 py-2 text-right tabular-nums font-medium">{pct(m.rate)}</td>
-              <td className="px-3 py-2"><Progress value={m.rate * 100} className="h-1.5" /></td>
+            <tr>
+              <td
+                colSpan={5}
+                className="px-3 py-6 text-center text-muted-foreground"
+              >
+                No events in window.
+              </td>
             </tr>
-          ))}
+          ) : (
+            rows.map(([variant, m]) => (
+              <tr key={variant} className="border-t border-border/40">
+                <td className="px-3 py-2 font-mono">{variant}</td>
+                <td className="px-3 py-2 text-right tabular-nums">
+                  {num(m.events)}
+                </td>
+                <td className="px-3 py-2 text-right tabular-nums">
+                  {num(m.conversions)}
+                </td>
+                <td className="px-3 py-2 text-right tabular-nums font-medium">
+                  {pct(m.rate)}
+                </td>
+                <td className="px-3 py-2">
+                  <Progress value={m.rate * 100} className="h-1.5" />
+                </td>
+              </tr>
+            ))
+          )}
         </tbody>
       </table>
     </div>
@@ -69,7 +90,9 @@ function VariantTable({ data }: { data: FunnelMetrics }) {
 }
 
 function SourceTable({ data }: { data: FunnelMetrics }) {
-  const rows = Object.entries(data.by_source).sort((a, b) => b[1].events - a[1].events);
+  const rows = Object.entries(data.by_source).sort(
+    (a, b) => b[1].events - a[1].events,
+  );
   return (
     <div className="rounded-lg border border-border/70 overflow-hidden">
       <table className="w-full text-xs">
@@ -83,15 +106,30 @@ function SourceTable({ data }: { data: FunnelMetrics }) {
         </thead>
         <tbody>
           {rows.length === 0 ? (
-            <tr><td colSpan={4} className="px-3 py-6 text-center text-muted-foreground">No events in window.</td></tr>
-          ) : rows.map(([source, m]) => (
-            <tr key={source} className="border-t border-border/40">
-              <td className="px-3 py-2 font-mono">{source}</td>
-              <td className="px-3 py-2 text-right tabular-nums">{num(m.events)}</td>
-              <td className="px-3 py-2 text-right tabular-nums">{num(m.conversions)}</td>
-              <td className="px-3 py-2 text-right tabular-nums font-medium">{pct(m.rate)}</td>
+            <tr>
+              <td
+                colSpan={4}
+                className="px-3 py-6 text-center text-muted-foreground"
+              >
+                No events in window.
+              </td>
             </tr>
-          ))}
+          ) : (
+            rows.map(([source, m]) => (
+              <tr key={source} className="border-t border-border/40">
+                <td className="px-3 py-2 font-mono">{source}</td>
+                <td className="px-3 py-2 text-right tabular-nums">
+                  {num(m.events)}
+                </td>
+                <td className="px-3 py-2 text-right tabular-nums">
+                  {num(m.conversions)}
+                </td>
+                <td className="px-3 py-2 text-right tabular-nums font-medium">
+                  {pct(m.rate)}
+                </td>
+              </tr>
+            ))
+          )}
         </tbody>
       </table>
     </div>
@@ -102,18 +140,36 @@ function ObservatoireReport({ report }: { report: ObservatoireFunnelReport }) {
   return (
     <div className="space-y-4">
       <div className="grid grid-cols-3 gap-3">
-        <Card className="border-border/70"><CardContent className="p-4">
-          <p className="text-[11px] uppercase tracking-[0.18em] text-muted-foreground">Starts</p>
-          <p className="text-2xl font-heading tabular-nums mt-1">{num(report.total_starts)}</p>
-        </CardContent></Card>
-        <Card className="border-border/70"><CardContent className="p-4">
-          <p className="text-[11px] uppercase tracking-[0.18em] text-muted-foreground">Completions</p>
-          <p className="text-2xl font-heading tabular-nums mt-1">{num(report.completions)}</p>
-        </CardContent></Card>
-        <Card className="border-border/70"><CardContent className="p-4">
-          <p className="text-[11px] uppercase tracking-[0.18em] text-muted-foreground">Completion rate</p>
-          <p className="text-2xl font-heading tabular-nums mt-1">{pct(report.completion_rate)}</p>
-        </CardContent></Card>
+        <Card className="border-border/70">
+          <CardContent className="p-4">
+            <p className="text-[11px] uppercase tracking-[0.18em] text-muted-foreground">
+              Starts
+            </p>
+            <p className="text-2xl font-heading tabular-nums mt-1">
+              {num(report.total_starts)}
+            </p>
+          </CardContent>
+        </Card>
+        <Card className="border-border/70">
+          <CardContent className="p-4">
+            <p className="text-[11px] uppercase tracking-[0.18em] text-muted-foreground">
+              Completions
+            </p>
+            <p className="text-2xl font-heading tabular-nums mt-1">
+              {num(report.completions)}
+            </p>
+          </CardContent>
+        </Card>
+        <Card className="border-border/70">
+          <CardContent className="p-4">
+            <p className="text-[11px] uppercase tracking-[0.18em] text-muted-foreground">
+              Completion rate
+            </p>
+            <p className="text-2xl font-heading tabular-nums mt-1">
+              {pct(report.completion_rate)}
+            </p>
+          </CardContent>
+        </Card>
       </div>
 
       <div className="rounded-lg border border-border/70 overflow-hidden">
@@ -130,9 +186,15 @@ function ObservatoireReport({ report }: { report: ObservatoireFunnelReport }) {
             {report.steps.map((s) => (
               <tr key={s.step} className="border-t border-border/40">
                 <td className="px-3 py-2">{s.label}</td>
-                <td className="px-3 py-2 text-right tabular-nums">{num(s.count)}</td>
-                <td className="px-3 py-2 text-right tabular-nums">{pct(s.rate)}</td>
-                <td className="px-3 py-2"><Progress value={s.rate * 100} className="h-1.5" /></td>
+                <td className="px-3 py-2 text-right tabular-nums">
+                  {num(s.count)}
+                </td>
+                <td className="px-3 py-2 text-right tabular-nums">
+                  {pct(s.rate)}
+                </td>
+                <td className="px-3 py-2">
+                  <Progress value={s.rate * 100} className="h-1.5" />
+                </td>
               </tr>
             ))}
           </tbody>
@@ -141,7 +203,9 @@ function ObservatoireReport({ report }: { report: ObservatoireFunnelReport }) {
 
       {Object.keys(report.by_track ?? {}).length > 0 && (
         <div>
-          <p className="text-[11px] uppercase tracking-[0.18em] text-muted-foreground mb-2">By track</p>
+          <p className="text-[11px] uppercase tracking-[0.18em] text-muted-foreground mb-2">
+            By track
+          </p>
           <div className="flex flex-wrap gap-2">
             {Object.entries(report.by_track).map(([track, m]) => (
               <Badge key={track} variant="outline" className="text-xs">
@@ -154,10 +218,14 @@ function ObservatoireReport({ report }: { report: ObservatoireFunnelReport }) {
 
       {Object.keys(report.lead_tags ?? {}).length > 0 && (
         <div>
-          <p className="text-[11px] uppercase tracking-[0.18em] text-muted-foreground mb-2">Lead tags (survey-derived)</p>
+          <p className="text-[11px] uppercase tracking-[0.18em] text-muted-foreground mb-2">
+            Lead tags (survey-derived)
+          </p>
           <div className="flex flex-wrap gap-2">
             {Object.entries(report.lead_tags).map(([tag, n]) => (
-              <Badge key={tag} variant="outline" className="text-xs">{tag}: {num(n)}</Badge>
+              <Badge key={tag} variant="outline" className="text-xs">
+                {tag}: {num(n)}
+              </Badge>
             ))}
           </div>
         </div>
@@ -175,9 +243,11 @@ export default function CrmFunnelPanel() {
 
   if (!roleOk) {
     return (
-      <Card><CardContent className="p-8 text-center text-sm text-muted-foreground">
-        You do not have CRM access.
-      </CardContent></Card>
+      <Card>
+        <CardContent className="p-8 text-center text-sm text-muted-foreground">
+          You do not have CRM access.
+        </CardContent>
+      </Card>
     );
   }
 
@@ -186,11 +256,19 @@ export default function CrmFunnelPanel() {
       <Card>
         <CardHeader className="pb-3">
           <CardTitle className="text-sm font-heading flex items-center justify-between">
-            <span className="flex items-center gap-2"><Funnel className="h-4 w-4 text-muted-foreground" /> Campaign funnel performance</span>
+            <span className="flex items-center gap-2">
+              <Funnel className="h-4 w-4 text-muted-foreground" /> Campaign
+              funnel performance
+            </span>
             <Button
               variant="outline"
               size="sm"
-              onClick={() => downloadJson(`funnel-metrics-${new Date().toISOString().slice(0, 10)}.json`, metrics.data)}
+              onClick={() =>
+                downloadJson(
+                  `funnel-metrics-${new Date().toISOString().slice(0, 10)}.json`,
+                  metrics.data,
+                )
+              }
               disabled={!metrics.data}
               className="h-7 text-xs"
             >
@@ -198,7 +276,8 @@ export default function CrmFunnelPanel() {
             </Button>
           </CardTitle>
           <p className="text-xs text-muted-foreground">
-            Conversions by hero variant, traffic source, and UTM — last 30 days by default.
+            Conversions by hero variant, traffic source, and UTM — last 30 days
+            by default.
           </p>
         </CardHeader>
         <CardContent className="space-y-4">
@@ -207,27 +286,49 @@ export default function CrmFunnelPanel() {
           ) : metrics.data ? (
             <>
               <div className="grid grid-cols-3 gap-3">
-                <Card className="border-border/70"><CardContent className="p-4">
-                  <p className="text-[11px] uppercase tracking-[0.18em] text-muted-foreground">Total events</p>
-                  <p className="text-2xl font-heading tabular-nums mt-1">{num(metrics.data.total_events)}</p>
-                </CardContent></Card>
-                <Card className="border-border/70"><CardContent className="p-4">
-                  <p className="text-[11px] uppercase tracking-[0.18em] text-muted-foreground">Conversion rate</p>
-                  <p className="text-2xl font-heading tabular-nums mt-1">{pct(metrics.data.conversion_rate)}</p>
-                </CardContent></Card>
-                <Card className="border-border/70"><CardContent className="p-4">
-                  <p className="text-[11px] uppercase tracking-[0.18em] text-muted-foreground">Variants tested</p>
-                  <p className="text-2xl font-heading tabular-nums mt-1">{Object.keys(metrics.data.by_variant).length}</p>
-                </CardContent></Card>
+                <Card className="border-border/70">
+                  <CardContent className="p-4">
+                    <p className="text-[11px] uppercase tracking-[0.18em] text-muted-foreground">
+                      Total events
+                    </p>
+                    <p className="text-2xl font-heading tabular-nums mt-1">
+                      {num(metrics.data.total_events)}
+                    </p>
+                  </CardContent>
+                </Card>
+                <Card className="border-border/70">
+                  <CardContent className="p-4">
+                    <p className="text-[11px] uppercase tracking-[0.18em] text-muted-foreground">
+                      Conversion rate
+                    </p>
+                    <p className="text-2xl font-heading tabular-nums mt-1">
+                      {pct(metrics.data.conversion_rate)}
+                    </p>
+                  </CardContent>
+                </Card>
+                <Card className="border-border/70">
+                  <CardContent className="p-4">
+                    <p className="text-[11px] uppercase tracking-[0.18em] text-muted-foreground">
+                      Variants tested
+                    </p>
+                    <p className="text-2xl font-heading tabular-nums mt-1">
+                      {Object.keys(metrics.data.by_variant).length}
+                    </p>
+                  </CardContent>
+                </Card>
               </div>
               <VariantTable data={metrics.data} />
               <div>
-                <p className="text-[11px] uppercase tracking-[0.18em] text-muted-foreground mb-2 flex items-center gap-1.5"><Globe className="h-3 w-3" /> By source</p>
+                <p className="text-[11px] uppercase tracking-[0.18em] text-muted-foreground mb-2 flex items-center gap-1.5">
+                  <Globe className="h-3 w-3" /> By source
+                </p>
                 <SourceTable data={metrics.data} />
               </div>
             </>
           ) : metrics.error ? (
-            <p className="text-xs text-destructive">Failed to load funnel metrics.</p>
+            <p className="text-xs text-destructive">
+              Failed to load funnel metrics.
+            </p>
           ) : null}
         </CardContent>
       </Card>
@@ -235,10 +336,18 @@ export default function CrmFunnelPanel() {
       <Card>
         <CardHeader className="pb-3">
           <CardTitle className="text-sm font-heading flex items-center justify-between">
-            <span className="flex items-center gap-2"><FlaskConical className="h-4 w-4 text-muted-foreground" /> Observatoire funnel report</span>
+            <span className="flex items-center gap-2">
+              <FlaskConical className="h-4 w-4 text-muted-foreground" />{" "}
+              Observatoire funnel report
+            </span>
             <div className="flex items-center gap-2">
-              <Select value={String(days)} onValueChange={(v) => setDays(Number(v))}>
-                <SelectTrigger className="h-7 w-28 text-xs"><SelectValue /></SelectTrigger>
+              <Select
+                value={String(days)}
+                onValueChange={(v) => setDays(Number(v))}
+              >
+                <SelectTrigger className="h-7 w-28 text-xs">
+                  <SelectValue />
+                </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="1">Last 24h</SelectItem>
                   <SelectItem value="7">Last 7 days</SelectItem>
@@ -248,7 +357,9 @@ export default function CrmFunnelPanel() {
               <Button
                 variant="outline"
                 size="sm"
-                onClick={() => downloadJson(`observatoire-funnel-${days}d.json`, obs.data)}
+                onClick={() =>
+                  downloadJson(`observatoire-funnel-${days}d.json`, obs.data)
+                }
                 disabled={!obs.data}
                 className="h-7 text-xs"
               >
@@ -257,7 +368,8 @@ export default function CrmFunnelPanel() {
             </div>
           </CardTitle>
           <p className="text-xs text-muted-foreground">
-            End-to-end completion rates and lead tagging — survey answers are never linked to contacts.
+            End-to-end completion rates and lead tagging — survey answers are
+            never linked to contacts.
           </p>
         </CardHeader>
         <CardContent>

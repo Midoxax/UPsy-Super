@@ -41,7 +41,9 @@ const BUDGET_FILE = resolve(ROOT, "bundle-budget.json");
 const BASE = (process.env.BASE || "http://127.0.0.1:4173").replace(/\/$/, "");
 
 if (!existsSync(CLIENT)) {
-  console.error("No client build output (looked for .output/ and dist/) — run `npm run build` first.");
+  console.error(
+    "No client build output (looked for .output/ and dist/) — run `npm run build` first.",
+  );
   process.exit(1);
 }
 
@@ -49,25 +51,33 @@ let html;
 try {
   const res = await fetch(`${BASE}/`, { headers: { accept: "text/html" } });
   if (!res.ok) {
-    console.error(`GET ${BASE}/ returned ${res.status} — the preview server is not serving the homepage.`);
+    console.error(
+      `GET ${BASE}/ returned ${res.status} — the preview server is not serving the homepage.`,
+    );
     process.exit(1);
   }
   html = await res.text();
 } catch (error) {
   console.error(
     `Could not reach ${BASE}/ (${error.message}).\n` +
-      "Start the built Worker first (npm run preview:cf) or set BASE to a running server."
+      "Start the built Worker first (npm run preview:cf) or set BASE to a running server.",
   );
   process.exit(1);
 }
 
 // Everything fetched before first render: entry tags plus modulepreload hints.
-const referenced = [...html.matchAll(/(?:src|href)="(\/assets\/[^"]+\.(?:js|css))"/g)].map((m) => m[1]);
-const preloaded = [...html.matchAll(/rel="modulepreload"[^>]*href="(\/assets\/[^"]+)"/g)].map((m) => m[1]);
+const referenced = [
+  ...html.matchAll(/(?:src|href)="(\/assets\/[^"]+\.(?:js|css))"/g),
+].map((m) => m[1]);
+const preloaded = [
+  ...html.matchAll(/rel="modulepreload"[^>]*href="(\/assets\/[^"]+)"/g),
+].map((m) => m[1]);
 const critical = [...new Set([...referenced, ...preloaded])];
 
 if (critical.length === 0) {
-  console.error("The served homepage references no /assets/ bundles at all — is this the production build?");
+  console.error(
+    "The served homepage references no /assets/ bundles at all — is this the production build?",
+  );
   process.exit(1);
 }
 
@@ -89,9 +99,13 @@ for (const file of critical) {
 files.sort((a, b) => b.gz - a.gz);
 
 if (missing.length) {
-  console.error("The served document references assets that are not in the client build output:\n");
+  console.error(
+    "The served document references assets that are not in the client build output:\n",
+  );
   for (const m of missing) console.error(`  - ${m}`);
-  console.error("\nThe server and the client build are out of sync — rebuild before measuring.\n");
+  console.error(
+    "\nThe server and the client build are out of sync — rebuild before measuring.\n",
+  );
   process.exit(1);
 }
 
@@ -116,7 +130,8 @@ console.log("Critical-path payload (gzipped)\n");
 for (const f of files.slice(0, 6)) {
   console.log(`  ${(f.gz / 1024).toFixed(1).padStart(7)} KB  ${f.file}`);
 }
-if (files.length > 6) console.log(`  ${String(files.length - 6).padStart(7)} more`);
+if (files.length > 6)
+  console.log(`  ${String(files.length - 6).padStart(7)} more`);
 console.log();
 
 /**
@@ -139,7 +154,7 @@ for (const [key, limit] of Object.entries(budget)) {
   const over = value > allowed;
   console.log(
     `  ${(over ? "OVER" : "ok").padEnd(5)} ${key.padEnd(18)} ${String(value).padStart(7)} KB ` +
-      `(budget ${limit} KB, ${sign}${delta} KB, fails above ${allowed} KB)`
+      `(budget ${limit} KB, ${sign}${delta} KB, fails above ${allowed} KB)`,
   );
   if (over) failed = true;
 }
@@ -150,7 +165,7 @@ if (failed) {
       "If the growth is intended, raise the number in bundle-budget.json in the\n" +
       "same commit so the cost is visible in review. If it is not, find what was\n" +
       "added to the critical path — usually a static import into a module the\n" +
-      "entry already reaches.\n"
+      "entry already reaches.\n",
   );
   process.exit(1);
 }

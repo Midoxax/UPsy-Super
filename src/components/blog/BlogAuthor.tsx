@@ -15,10 +15,14 @@ const BlogAuthor = () => {
           </span>
         </div>
         <p className="text-sm text-muted-foreground leading-relaxed mb-3">
-          Founder of U.Psy and architect of the Performance Psychology System — a framework that turns
-          mental health into a measurable, trainable system for individuals, teams and organizations.
+          Founder of U.Psy and architect of the Performance Psychology System —
+          a framework that turns mental health into a measurable, trainable
+          system for individuals, teams and organizations.
         </p>
-        <Link to="/founder" className="text-sm text-primary font-medium hover:underline">
+        <Link
+          to="/founder"
+          className="text-sm text-primary font-medium hover:underline"
+        >
           About the founder →
         </Link>
       </div>

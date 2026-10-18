@@ -6,7 +6,14 @@ import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
 import {
-  FileText, Upload, Download, Trash2, Loader2, File, FileImage, FileSpreadsheet,
+  FileText,
+  Upload,
+  Download,
+  Trash2,
+  Loader2,
+  File,
+  FileImage,
+  FileSpreadsheet,
 } from "lucide-react";
 
 interface Document {
@@ -23,13 +30,16 @@ interface Document {
 const TYPE_COLORS: Record<string, string> = {
   invoice: "bg-accent/20 text-accent border-accent/30",
   report: "bg-primary/20 text-primary border-primary/30",
-  certificate: "bg-[hsl(var(--u-clinical))]/20 text-[hsl(var(--u-clinical))] border-[hsl(var(--u-clinical))]/30",
+  certificate:
+    "bg-[hsl(var(--u-clinical))]/20 text-[hsl(var(--u-clinical))] border-[hsl(var(--u-clinical))]/30",
   other: "bg-muted text-muted-foreground border-border",
 };
 
 const FileIcon = ({ mime }: { mime: string | null }) => {
-  if (mime?.startsWith("image/")) return <FileImage className="w-5 h-5 text-primary" />;
-  if (mime?.includes("spreadsheet") || mime?.includes("csv")) return <FileSpreadsheet className="w-5 h-5 text-accent" />;
+  if (mime?.startsWith("image/"))
+    return <FileImage className="w-5 h-5 text-primary" />;
+  if (mime?.includes("spreadsheet") || mime?.includes("csv"))
+    return <FileSpreadsheet className="w-5 h-5 text-accent" />;
   return <File className="w-5 h-5 text-muted-foreground" />;
 };
 
@@ -73,20 +83,26 @@ const DocumentsTab = () => {
       .upload(filePath, file);
 
     if (uploadError) {
-      toast({ title: "Upload failed", description: uploadError.message, variant: "destructive" });
+      toast({
+        title: "Upload failed",
+        description: uploadError.message,
+        variant: "destructive",
+      });
       setUploading(false);
       return;
     }
 
-    const { data: urlData } = supabase.storage.from("user-documents").getPublicUrl(filePath);
+    const { data: urlData } = supabase.storage
+      .from("user-documents")
+      .getPublicUrl(filePath);
 
     const docType = file.name.toLowerCase().includes("invoice")
       ? "invoice"
       : file.name.toLowerCase().includes("report")
-      ? "report"
-      : file.name.toLowerCase().includes("certificate")
-      ? "certificate"
-      : "other";
+        ? "report"
+        : file.name.toLowerCase().includes("certificate")
+          ? "certificate"
+          : "other";
 
     await supabase.from("documents").insert({
       user_id: user.id,
@@ -98,7 +114,10 @@ const DocumentsTab = () => {
       mime_type: file.type,
     });
 
-    toast({ title: "Uploaded", description: `${file.name} uploaded successfully` });
+    toast({
+      title: "Uploaded",
+      description: `${file.name} uploaded successfully`,
+    });
     setUploading(false);
     loadDocuments();
   };
@@ -130,14 +149,31 @@ const DocumentsTab = () => {
           <h2 className="text-h3 flex items-center gap-2">
             <FileText className="w-5 h-5 text-primary" /> Documents
           </h2>
-          <p className="text-sm text-muted-foreground">Invoices, reports, and certificates in one place.</p>
+          <p className="text-sm text-muted-foreground">
+            Invoices, reports, and certificates in one place.
+          </p>
         </div>
         <div className="relative">
-          <Button variant="primary" size="sm" disabled={uploading} onClick={() => document.getElementById("doc-upload")?.click()}>
-            {uploading ? <Loader2 className="h-4 w-4 animate-spin mr-1" /> : <Upload className="h-4 w-4 mr-1" />}
+          <Button
+            variant="primary"
+            size="sm"
+            disabled={uploading}
+            onClick={() => document.getElementById("doc-upload")?.click()}
+          >
+            {uploading ? (
+              <Loader2 className="h-4 w-4 animate-spin mr-1" />
+            ) : (
+              <Upload className="h-4 w-4 mr-1" />
+            )}
             Upload
           </Button>
-          <input id="doc-upload" type="file" className="hidden" onChange={handleUpload} accept=".pdf,.doc,.docx,.xls,.xlsx,.png,.jpg,.jpeg" />
+          <input
+            id="doc-upload"
+            type="file"
+            className="hidden"
+            onChange={handleUpload}
+            accept=".pdf,.doc,.docx,.xls,.xlsx,.png,.jpg,.jpeg"
+          />
         </div>
       </div>
 
@@ -145,32 +181,53 @@ const DocumentsTab = () => {
         <div className="glass-card p-12 text-center">
           <FileText className="w-12 h-12 text-muted-foreground/40 mx-auto mb-4" />
           <p className="text-muted-foreground mb-4">No documents yet</p>
-          <p className="text-xs text-muted-foreground">Upload invoices, reports, or certificates here.</p>
+          <p className="text-xs text-muted-foreground">
+            Upload invoices, reports, or certificates here.
+          </p>
         </div>
       ) : (
         <div className="space-y-2">
           {documents.map((doc) => (
-            <div key={doc.id} className="glass-card p-4 flex items-center gap-4">
+            <div
+              key={doc.id}
+              className="glass-card p-4 flex items-center gap-4"
+            >
               <FileIcon mime={doc.mime_type} />
               <div className="flex-1 min-w-0">
-                <p className="text-sm font-medium text-foreground truncate">{doc.title}</p>
+                <p className="text-sm font-medium text-foreground truncate">
+                  {doc.title}
+                </p>
                 <div className="flex items-center gap-2 text-xs text-muted-foreground">
                   <span>{new Date(doc.created_at).toLocaleDateString()}</span>
-                  {doc.file_size_bytes && <span>· {formatBytes(doc.file_size_bytes)}</span>}
+                  {doc.file_size_bytes && (
+                    <span>· {formatBytes(doc.file_size_bytes)}</span>
+                  )}
                 </div>
               </div>
-              <Badge className={TYPE_COLORS[doc.document_type] || TYPE_COLORS.other} variant="outline">
+              <Badge
+                className={TYPE_COLORS[doc.document_type] || TYPE_COLORS.other}
+                variant="outline"
+              >
                 {doc.document_type}
               </Badge>
               <div className="flex gap-1">
                 {doc.file_url && (
                   <Button variant="ghost" size="sm" asChild>
-                    <a href={doc.file_url} target="_blank" rel="noopener noreferrer">
+                    <a
+                      href={doc.file_url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
                       <Download className="h-4 w-4" />
                     </a>
                   </Button>
                 )}
-                <Button variant="ghost" size="sm" className="text-destructive hover:text-destructive" onClick={() => deleteDocument(doc)}>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="text-destructive hover:text-destructive"
+                  onClick={() => deleteDocument(doc)}
+                >
                   <Trash2 className="h-4 w-4" />
                 </Button>
               </div>

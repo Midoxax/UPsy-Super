@@ -1,19 +1,45 @@
 import { useMemo, useState } from "react";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import {
-  Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle,
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
 } from "@/components/ui/dialog";
 import {
-  Select, SelectContent, SelectItem, SelectTrigger, SelectValue,
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
 } from "@/components/ui/select";
-import { LifeBuoy, Loader2, MessageSquare, Search, Send, CheckCircle2, XCircle } from "lucide-react";
+import {
+  LifeBuoy,
+  Loader2,
+  MessageSquare,
+  Search,
+  Send,
+  CheckCircle2,
+  XCircle,
+} from "lucide-react";
 import { format } from "date-fns";
 import {
-  useAllTickets, useTicketMessages, usePostTicketMessage, useUpdateTicketStatus,
+  useAllTickets,
+  useTicketMessages,
+  usePostTicketMessage,
+  useUpdateTicketStatus,
   type SupportTicket,
 } from "@/hooks/useSupportTickets";
 import { useToast } from "@/hooks/use-toast";
@@ -26,7 +52,14 @@ const STATUS_COLORS: Record<string, string> = {
   closed: "bg-muted text-muted-foreground",
 };
 
-const STATUSES = ["all", "open", "pending_admin", "pending_user", "resolved", "closed"];
+const STATUSES = [
+  "all",
+  "open",
+  "pending_admin",
+  "pending_user",
+  "resolved",
+  "closed",
+];
 
 const SupportInbox = () => {
   const { data: tickets = [], isLoading } = useAllTickets();
@@ -37,14 +70,17 @@ const SupportInbox = () => {
   const filtered = useMemo(() => {
     return tickets.filter((t) => {
       if (filter !== "all" && t.status !== filter) return false;
-      if (search && !t.subject.toLowerCase().includes(search.toLowerCase())) return false;
+      if (search && !t.subject.toLowerCase().includes(search.toLowerCase()))
+        return false;
       return true;
     });
   }, [tickets, filter, search]);
 
   const counts = useMemo(() => {
     const c: Record<string, number> = {};
-    tickets.forEach((t) => { c[t.status] = (c[t.status] ?? 0) + 1; });
+    tickets.forEach((t) => {
+      c[t.status] = (c[t.status] ?? 0) + 1;
+    });
     return c;
   }, [tickets]);
 
@@ -72,11 +108,15 @@ const SupportInbox = () => {
               />
             </div>
             <Select value={filter} onValueChange={setFilter}>
-              <SelectTrigger className="w-44"><SelectValue /></SelectTrigger>
+              <SelectTrigger className="w-44">
+                <SelectValue />
+              </SelectTrigger>
               <SelectContent>
                 {STATUSES.map((s) => (
                   <SelectItem key={s} value={s}>
-                    {s === "all" ? `All (${tickets.length})` : `${s.replace("_", " ")} (${counts[s] ?? 0})`}
+                    {s === "all"
+                      ? `All (${tickets.length})`
+                      : `${s.replace("_", " ")} (${counts[s] ?? 0})`}
                   </SelectItem>
                 ))}
               </SelectContent>
@@ -86,9 +126,13 @@ const SupportInbox = () => {
       </CardHeader>
       <CardContent>
         {isLoading ? (
-          <div className="flex justify-center py-10"><Loader2 className="h-6 w-6 animate-spin text-primary" /></div>
+          <div className="flex justify-center py-10">
+            <Loader2 className="h-6 w-6 animate-spin text-primary" />
+          </div>
         ) : filtered.length === 0 ? (
-          <p className="py-10 text-center text-sm text-muted-foreground">No tickets match.</p>
+          <p className="py-10 text-center text-sm text-muted-foreground">
+            No tickets match.
+          </p>
         ) : (
           <div className="space-y-2">
             {filtered.map((t) => (
@@ -102,14 +146,23 @@ const SupportInbox = () => {
                     <div className="flex items-center gap-2">
                       <p className="font-medium truncate">{t.subject}</p>
                       {t.priority !== "normal" && (
-                        <Badge variant="outline" className="text-[10px] uppercase">{t.priority}</Badge>
+                        <Badge
+                          variant="outline"
+                          className="text-[10px] uppercase"
+                        >
+                          {t.priority}
+                        </Badge>
                       )}
                     </div>
                     <p className="text-xs text-muted-foreground mt-1">
-                      {t.category} · user {t.user_id.slice(0, 8)} · updated {format(new Date(t.last_message_at), "PPp")}
+                      {t.category} · user {t.user_id.slice(0, 8)} · updated{" "}
+                      {format(new Date(t.last_message_at), "PPp")}
                     </p>
                   </div>
-                  <Badge variant="secondary" className={STATUS_COLORS[t.status] ?? ""}>
+                  <Badge
+                    variant="secondary"
+                    className={STATUS_COLORS[t.status] ?? ""}
+                  >
                     {t.status.replace("_", " ")}
                   </Badge>
                 </div>
@@ -131,8 +184,14 @@ const SupportInbox = () => {
 };
 
 const AdminTicketDialog = ({
-  ticketId, ticket, onClose,
-}: { ticketId: string; ticket?: SupportTicket; onClose: () => void }) => {
+  ticketId,
+  ticket,
+  onClose,
+}: {
+  ticketId: string;
+  ticket?: SupportTicket;
+  onClose: () => void;
+}) => {
   const { data: messages = [], isLoading } = useTicketMessages(ticketId);
   const post = usePostTicketMessage();
   const updateStatus = useUpdateTicketStatus();
@@ -145,7 +204,11 @@ const AdminTicketDialog = ({
       await post.mutateAsync({ ticketId, body: reply.trim(), isAdmin: true });
       setReply("");
     } catch (e: any) {
-      toast({ title: "Send failed", description: e.message, variant: "destructive" });
+      toast({
+        title: "Send failed",
+        description: e.message,
+        variant: "destructive",
+      });
     }
   };
 
@@ -154,7 +217,11 @@ const AdminTicketDialog = ({
       await updateStatus.mutateAsync({ ticketId, status });
       toast({ title: "Ticket updated", description: `Status: ${status}` });
     } catch (e: any) {
-      toast({ title: "Update failed", description: e.message, variant: "destructive" });
+      toast({
+        title: "Update failed",
+        description: e.message,
+        variant: "destructive",
+      });
     }
   };
 
@@ -175,7 +242,9 @@ const AdminTicketDialog = ({
 
         <div className="max-h-[400px] overflow-y-auto space-y-3 py-2">
           {isLoading ? (
-            <div className="flex justify-center py-6"><Loader2 className="h-5 w-5 animate-spin text-primary" /></div>
+            <div className="flex justify-center py-6">
+              <Loader2 className="h-5 w-5 animate-spin text-primary" />
+            </div>
           ) : (
             messages.map((m) => (
               <div
@@ -187,7 +256,9 @@ const AdminTicketDialog = ({
                 }`}
               >
                 <div className="flex items-center gap-2 mb-1 text-xs text-muted-foreground">
-                  <span className="font-medium capitalize">{m.author_role === "admin" ? "Support team" : "User"}</span>
+                  <span className="font-medium capitalize">
+                    {m.author_role === "admin" ? "Support team" : "User"}
+                  </span>
                   <span>·</span>
                   <span>{format(new Date(m.created_at), "PPp")}</span>
                 </div>
@@ -208,15 +279,33 @@ const AdminTicketDialog = ({
             />
             <div className="flex flex-wrap items-center justify-between gap-2">
               <div className="flex gap-2">
-                <Button variant="outline" size="sm" onClick={() => setStatus("resolved")} className="gap-1.5">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setStatus("resolved")}
+                  className="gap-1.5"
+                >
                   <CheckCircle2 className="h-4 w-4" /> Mark resolved
                 </Button>
-                <Button variant="outline" size="sm" onClick={() => setStatus("closed")} className="gap-1.5">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setStatus("closed")}
+                  className="gap-1.5"
+                >
                   <XCircle className="h-4 w-4" /> Close
                 </Button>
               </div>
-              <Button onClick={send} disabled={post.isPending || !reply.trim()} className="gap-1.5">
-                {post.isPending ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />}
+              <Button
+                onClick={send}
+                disabled={post.isPending || !reply.trim()}
+                className="gap-1.5"
+              >
+                {post.isPending ? (
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                ) : (
+                  <Send className="h-4 w-4" />
+                )}
                 Reply
               </Button>
             </div>
@@ -225,7 +314,13 @@ const AdminTicketDialog = ({
 
         {isClosed && (
           <DialogFooter>
-            <Button variant="outline" size="sm" onClick={() => setStatus("open")}>Reopen</Button>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setStatus("open")}
+            >
+              Reopen
+            </Button>
           </DialogFooter>
         )}
       </DialogContent>

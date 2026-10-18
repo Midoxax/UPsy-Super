@@ -7,7 +7,13 @@ import { format } from "date-fns";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Card } from "@/components/ui/card";
 import { downloadCsv } from "@/lib/admin/csv";
 import { Download, Loader2, Search } from "lucide-react";
@@ -39,7 +45,12 @@ export default function GrowthLeads() {
   const [stage, setStage] = useState<string>("all");
   const [source, setSource] = useState<string>("all");
 
-  const { data: leads = [], isLoading, refetch, isRefetching } = useQuery({
+  const {
+    data: leads = [],
+    isLoading,
+    refetch,
+    isRefetching,
+  } = useQuery({
     queryKey: ["admin-growth-leads"],
     queryFn: async () => {
       const { data, error } = await supabase
@@ -57,7 +68,13 @@ export default function GrowthLeads() {
     const q = search.trim().toLowerCase();
     const cap = maxScore ? Number(maxScore) : null;
     return leads.filter((l) => {
-      if (q && !`${l.email} ${l.full_name ?? ""} ${l.phone ?? ""}`.toLowerCase().includes(q)) return false;
+      if (
+        q &&
+        !`${l.email} ${l.full_name ?? ""} ${l.phone ?? ""}`
+          .toLowerCase()
+          .includes(q)
+      )
+        return false;
       if (stage !== "all" && l.nurture_stage !== stage) return false;
       if (source !== "all" && l.source !== source) return false;
       if (pillar !== "all") {
@@ -72,11 +89,17 @@ export default function GrowthLeads() {
   }, [leads, search, pillar, maxScore, stage, source]);
 
   const sources = useMemo(
-    () => Array.from(new Set(leads.map((l) => l.source).filter(Boolean))).sort(),
-    [leads]
+    () =>
+      Array.from(new Set(leads.map((l) => l.source).filter(Boolean))).sort(),
+    [leads],
   );
 
-  if (loading) return <div className="p-8"><Loader2 className="animate-spin" /></div>;
+  if (loading)
+    return (
+      <div className="p-8">
+        <Loader2 className="animate-spin" />
+      </div>
+    );
   if (!isAdmin) return <Navigate to="/" replace />;
 
   const exportCsv = () => {
@@ -101,7 +124,11 @@ export default function GrowthLeads() {
 
   return (
     <div className="container mx-auto px-4 py-8 max-w-7xl">
-      <SEOHead path="/admin/growth-leads" title="Growth Leads — Admin" description="Review and export growth leads" />
+      <SEOHead
+        path="/admin/growth-leads"
+        title="Growth Leads — Admin"
+        description="Review and export growth leads"
+      />
       <div className="flex items-center justify-between mb-6 flex-wrap gap-3">
         <div>
           <h1 className="font-display text-3xl">Growth Leads</h1>
@@ -110,7 +137,11 @@ export default function GrowthLeads() {
           </p>
         </div>
         <div className="flex gap-2">
-          <Button variant="outline" onClick={() => refetch()} disabled={isRefetching}>
+          <Button
+            variant="outline"
+            onClick={() => refetch()}
+            disabled={isRefetching}
+          >
             Refresh
           </Button>
           <Button onClick={exportCsv} disabled={!filtered.length}>
@@ -121,11 +152,15 @@ export default function GrowthLeads() {
 
       <Card className="p-4 mb-4 grid gap-3 md:grid-cols-4">
         <Select value={source} onValueChange={setSource}>
-          <SelectTrigger><SelectValue placeholder="Source" /></SelectTrigger>
+          <SelectTrigger>
+            <SelectValue placeholder="Source" />
+          </SelectTrigger>
           <SelectContent>
             <SelectItem value="all">All sources</SelectItem>
             {sources.map((s) => (
-              <SelectItem key={s} value={s}>{s}</SelectItem>
+              <SelectItem key={s} value={s}>
+                {s}
+              </SelectItem>
             ))}
           </SelectContent>
         </Select>
@@ -139,22 +174,30 @@ export default function GrowthLeads() {
           />
         </div>
         <Select value={pillar} onValueChange={(v) => setPillar(v as any)}>
-          <SelectTrigger><SelectValue placeholder="Pillar" /></SelectTrigger>
+          <SelectTrigger>
+            <SelectValue placeholder="Pillar" />
+          </SelectTrigger>
           <SelectContent>
             <SelectItem value="all">All pillars</SelectItem>
             {PILLARS.map((p) => (
-              <SelectItem key={p} value={p}>{p}</SelectItem>
+              <SelectItem key={p} value={p}>
+                {p}
+              </SelectItem>
             ))}
           </SelectContent>
         </Select>
         <Input
           type="number"
-          placeholder={pillar === "all" ? "Max total score" : `Max ${pillar} score`}
+          placeholder={
+            pillar === "all" ? "Max total score" : `Max ${pillar} score`
+          }
           value={maxScore}
           onChange={(e) => setMaxScore(e.target.value)}
         />
         <Select value={stage} onValueChange={setStage}>
-          <SelectTrigger><SelectValue placeholder="Stage" /></SelectTrigger>
+          <SelectTrigger>
+            <SelectValue placeholder="Stage" />
+          </SelectTrigger>
           <SelectContent>
             <SelectItem value="all">All stages</SelectItem>
             <SelectItem value="d0">d0</SelectItem>
@@ -184,10 +227,21 @@ export default function GrowthLeads() {
             </thead>
             <tbody>
               {isLoading && (
-                <tr><td colSpan={9} className="p-8 text-center"><Loader2 className="animate-spin inline" /></td></tr>
+                <tr>
+                  <td colSpan={9} className="p-8 text-center">
+                    <Loader2 className="animate-spin inline" />
+                  </td>
+                </tr>
               )}
               {!isLoading && filtered.length === 0 && (
-                <tr><td colSpan={9} className="p-8 text-center text-muted-foreground">No leads match your filters.</td></tr>
+                <tr>
+                  <td
+                    colSpan={9}
+                    className="p-8 text-center text-muted-foreground"
+                  >
+                    No leads match your filters.
+                  </td>
+                </tr>
               )}
               {filtered.map((l) => (
                 <tr key={l.id} className="border-t hover:bg-muted/30">
@@ -196,19 +250,33 @@ export default function GrowthLeads() {
                   </td>
                   <td className="p-3">
                     <div className="font-medium">{l.full_name || "—"}</div>
-                    <div className="text-xs text-muted-foreground">{l.email}</div>
-                    {l.phone && <div className="text-xs text-muted-foreground">{l.phone}</div>}
+                    <div className="text-xs text-muted-foreground">
+                      {l.email}
+                    </div>
+                    {l.phone && (
+                      <div className="text-xs text-muted-foreground">
+                        {l.phone}
+                      </div>
+                    )}
                   </td>
-                  <td className="p-3"><Badge variant="outline">{l.source}</Badge></td>
-                  <td className="p-3 font-mono tabular-nums">{l.score_total ?? "—"}</td>
+                  <td className="p-3">
+                    <Badge variant="outline">{l.source}</Badge>
+                  </td>
+                  <td className="p-3 font-mono tabular-nums">
+                    {l.score_total ?? "—"}
+                  </td>
                   {PILLARS.map((p) => (
                     <td key={p} className="p-3 font-mono tabular-nums">
                       {l.score_breakdown?.[p] ?? "—"}
                     </td>
                   ))}
                   <td className="p-3">
-                    <Badge variant={l.converted_user_id ? "default" : "secondary"}>
-                      {l.converted_user_id ? "converted" : l.nurture_stage ?? "d0"}
+                    <Badge
+                      variant={l.converted_user_id ? "default" : "secondary"}
+                    >
+                      {l.converted_user_id
+                        ? "converted"
+                        : (l.nurture_stage ?? "d0")}
                     </Badge>
                   </td>
                 </tr>

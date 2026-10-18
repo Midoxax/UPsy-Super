@@ -3,7 +3,8 @@ import type { ScaleConfig } from "./PsychometricScale";
 export const PHQ9_CONFIG: ScaleConfig = {
   id: "phq9",
   title: "PHQ-9 — Dépression",
-  instruction: "Au cours des 2 dernières semaines, à quelle fréquence as-tu été affecté·e par les problèmes suivants ?",
+  instruction:
+    "Au cours des 2 dernières semaines, à quelle fréquence as-tu été affecté·e par les problèmes suivants ?",
   crisisItemId: 9,
   options: [
     { value: 0, label: "Jamais" },
@@ -14,13 +15,25 @@ export const PHQ9_CONFIG: ScaleConfig = {
   items: [
     { id: 1, text: "Peu d'intérêt ou de plaisir à faire les choses" },
     { id: 2, text: "Sentiment d'être triste, déprimé·e ou désespéré·e" },
-    { id: 3, text: "Difficultés à s'endormir, rester endormi·e, ou dormir trop" },
+    {
+      id: 3,
+      text: "Difficultés à s'endormir, rester endormi·e, ou dormir trop",
+    },
     { id: 4, text: "Sensation de fatigue ou peu d'énergie" },
     { id: 5, text: "Manque d'appétit ou alimentation excessive" },
-    { id: 6, text: "Mauvaise opinion de toi-même, sentiment d'être un·e raté·e ou d'avoir déçu ses proches" },
+    {
+      id: 6,
+      text: "Mauvaise opinion de toi-même, sentiment d'être un·e raté·e ou d'avoir déçu ses proches",
+    },
     { id: 7, text: "Difficultés à se concentrer (lecture, télé, travail…)" },
-    { id: 8, text: "Lenteur ou agitation visibles, ou être plus agité·e que d'habitude" },
-    { id: 9, text: "Pensées qu'il vaudrait mieux ne plus être en vie ou de te faire du mal" },
+    {
+      id: 8,
+      text: "Lenteur ou agitation visibles, ou être plus agité·e que d'habitude",
+    },
+    {
+      id: 9,
+      text: "Pensées qu'il vaudrait mieux ne plus être en vie ou de te faire du mal",
+    },
   ],
   scoringBands: [
     { min: 0, max: 4, label: "Symptômes minimaux", color: "green" },
@@ -34,7 +47,8 @@ export const PHQ9_CONFIG: ScaleConfig = {
 export const GAD7_CONFIG: ScaleConfig = {
   id: "gad7",
   title: "GAD-7 — Anxiété",
-  instruction: "Au cours des 2 dernières semaines, à quelle fréquence as-tu été affecté·e par les problèmes suivants ?",
+  instruction:
+    "Au cours des 2 dernières semaines, à quelle fréquence as-tu été affecté·e par les problèmes suivants ?",
   options: [
     { value: 0, label: "Jamais" },
     { value: 1, label: "Plusieurs jours" },
@@ -71,15 +85,41 @@ export const PSS10_CONFIG: ScaleConfig = {
   ],
   items: [
     { id: 1, text: "…été dérangé·e par quelque chose d'inattendu ?" },
-    { id: 2, text: "…senti que tu n'étais pas capable de contrôler les choses importantes de ta vie ?" },
+    {
+      id: 2,
+      text: "…senti que tu n'étais pas capable de contrôler les choses importantes de ta vie ?",
+    },
     { id: 3, text: "…senti·e nerveux·se et stressé·e ?" },
-    { id: 4, text: "…géré avec succès les soucis de la vie quotidienne ?", reversed: true },
-    { id: 5, text: "…senti que tu faisais face efficacement aux changements importants ?", reversed: true },
-    { id: 6, text: "…eu confiance dans ta capacité à gérer tes problèmes personnels ?", reversed: true },
-    { id: 7, text: "…senti que les choses allaient comme tu le voulais ?", reversed: true },
+    {
+      id: 4,
+      text: "…géré avec succès les soucis de la vie quotidienne ?",
+      reversed: true,
+    },
+    {
+      id: 5,
+      text: "…senti que tu faisais face efficacement aux changements importants ?",
+      reversed: true,
+    },
+    {
+      id: 6,
+      text: "…eu confiance dans ta capacité à gérer tes problèmes personnels ?",
+      reversed: true,
+    },
+    {
+      id: 7,
+      text: "…senti que les choses allaient comme tu le voulais ?",
+      reversed: true,
+    },
     { id: 8, text: "…trouvé qu'il y avait trop de choses à faire ?" },
-    { id: 9, text: "…été capable de contrôler tes irritations ?", reversed: true },
-    { id: 10, text: "…senti que les difficultés s'accumulaient au point de ne plus pouvoir y faire face ?" },
+    {
+      id: 9,
+      text: "…été capable de contrôler tes irritations ?",
+      reversed: true,
+    },
+    {
+      id: 10,
+      text: "…senti que les difficultés s'accumulaient au point de ne plus pouvoir y faire face ?",
+    },
   ],
   scoringBands: [
     { min: 0, max: 13, label: "Stress faible", color: "green" },
@@ -94,9 +134,18 @@ export const AUDIT_C_CONFIG: ScaleConfig = {
   instruction: "Quelques questions sur ta consommation d'alcool.",
   options: [],
   items: [
-    { id: 1, text: "À quelle fréquence consommes-tu des boissons alcoolisées ?" },
-    { id: 2, text: "Combien de verres standards consommes-tu un jour typique où tu bois ?" },
-    { id: 3, text: "À quelle fréquence consommes-tu 6 verres ou plus en une seule occasion ?" },
+    {
+      id: 1,
+      text: "À quelle fréquence consommes-tu des boissons alcoolisées ?",
+    },
+    {
+      id: 2,
+      text: "Combien de verres standards consommes-tu un jour typique où tu bois ?",
+    },
+    {
+      id: 3,
+      text: "À quelle fréquence consommes-tu 6 verres ou plus en une seule occasion ?",
+    },
   ],
   scoringBands: [
     { min: 0, max: 2, label: "Consommation faible", color: "green" },
@@ -106,7 +155,10 @@ export const AUDIT_C_CONFIG: ScaleConfig = {
 };
 
 // AUDIT-C has per-item custom options
-export const AUDIT_C_ITEM_OPTIONS: Record<number, { value: number; label: string }[]> = {
+export const AUDIT_C_ITEM_OPTIONS: Record<
+  number,
+  { value: number; label: string }[]
+> = {
   1: [
     { value: 0, label: "Jamais" },
     { value: 1, label: "Mensuellement ou moins" },

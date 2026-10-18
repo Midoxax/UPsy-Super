@@ -7,6 +7,10 @@ const AdminGrowthLeads = lazy(() => import("@/pages/admin/GrowthLeads"));
 
 export const Route = createFileRoute("/$locale/admin/growth-leads")({
   component: () => (
-    <AdminRoute><PageTransition><AdminGrowthLeads /></PageTransition></AdminRoute>
+    <AdminRoute>
+      <PageTransition>
+        <AdminGrowthLeads />
+      </PageTransition>
+    </AdminRoute>
   ),
 });

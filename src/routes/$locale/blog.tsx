@@ -6,6 +6,8 @@ const BlogIndex = lazy(() => import("@/pages/blog/BlogIndex"));
 
 export const Route = createFileRoute("/$locale/blog")({
   component: () => (
-    <PageTransition><BlogIndex /></PageTransition>
+    <PageTransition>
+      <BlogIndex />
+    </PageTransition>
   ),
 });

@@ -6,6 +6,8 @@ const ResetPassword = lazy(() => import("@/pages/ResetPassword"));
 
 export const Route = createFileRoute("/$locale/reset-password")({
   component: () => (
-    <PageTransition><ResetPassword /></PageTransition>
+    <PageTransition>
+      <ResetPassword />
+    </PageTransition>
   ),
 });

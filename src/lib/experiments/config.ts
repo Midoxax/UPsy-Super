@@ -35,7 +35,10 @@ export type HomeHeroVariant = (typeof HOME_HERO_EXPERIMENT.variants)[number];
 /** Every experiment id mapped to its assigned variant for this visitor. */
 export type ExperimentAssignments = Record<string, string>;
 
-export function isValidVariant(definition: ExperimentDefinition, value: string | undefined): boolean {
+export function isValidVariant(
+  definition: ExperimentDefinition,
+  value: string | undefined,
+): boolean {
   return !!value && definition.variants.includes(value);
 }
 

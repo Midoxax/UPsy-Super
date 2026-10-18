@@ -6,6 +6,8 @@ const Legal = lazy(() => import("@/pages/Legal"));
 
 export const Route = createFileRoute("/$locale/legal")({
   component: () => (
-    <PageTransition><Legal /></PageTransition>
+    <PageTransition>
+      <Legal />
+    </PageTransition>
   ),
 });

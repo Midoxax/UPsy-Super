@@ -12,7 +12,14 @@ interface Props {
   variant?: "ghost" | "outline" | "default";
 }
 
-export const ExportCsvButton = ({ filename, rows, columns, label = "Export CSV", size = "sm", variant = "outline" }: Props) => {
+export const ExportCsvButton = ({
+  filename,
+  rows,
+  columns,
+  label = "Export CSV",
+  size = "sm",
+  variant = "outline",
+}: Props) => {
   const handleClick = () => {
     if (!rows.length) {
       toast.error("Nothing to export");
@@ -22,7 +29,12 @@ export const ExportCsvButton = ({ filename, rows, columns, label = "Export CSV",
     toast.success(`Exported ${rows.length} row${rows.length === 1 ? "" : "s"}`);
   };
   return (
-    <Button size={size} variant={variant} onClick={handleClick} className="gap-1.5">
+    <Button
+      size={size}
+      variant={variant}
+      onClick={handleClick}
+      className="gap-1.5"
+    >
       <Download className="h-3.5 w-3.5" />
       {label}
     </Button>

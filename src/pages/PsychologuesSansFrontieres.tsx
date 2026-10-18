@@ -54,10 +54,22 @@ const PSF_PILLARS = [
 ];
 
 const PSF_STATS = [
-  { value: "500+", labelKey: "psf.statSessions", fallback: "Free Sessions Delivered" },
+  {
+    value: "500+",
+    labelKey: "psf.statSessions",
+    fallback: "Free Sessions Delivered",
+  },
   { value: "12", labelKey: "psf.statRegions", fallback: "Regions Covered" },
-  { value: "50+", labelKey: "psf.statVolunteers", fallback: "Volunteer Psychologists" },
-  { value: "3,000+", labelKey: "psf.statBeneficiaries", fallback: "Beneficiaries Reached" },
+  {
+    value: "50+",
+    labelKey: "psf.statVolunteers",
+    fallback: "Volunteer Psychologists",
+  },
+  {
+    value: "3,000+",
+    labelKey: "psf.statBeneficiaries",
+    fallback: "Beneficiaries Reached",
+  },
 ];
 
 const PSF_PROGRAMS = [
@@ -99,7 +111,13 @@ const PsychologuesSansFrontieres = () => {
     <main className="flex-1 bg-background">
       {/* Hero */}
       <section className="section-spacing liquid-bg relative overflow-hidden">
-        <div className="absolute inset-0 opacity-10" style={{ background: "radial-gradient(circle at 30% 50%, hsl(var(--secondary)), transparent 60%)" }} />
+        <div
+          className="absolute inset-0 opacity-10"
+          style={{
+            background:
+              "radial-gradient(circle at 30% 50%, hsl(var(--secondary)), transparent 60%)",
+          }}
+        />
         <div className="container-custom relative z-10">
           <ScrollReveal>
             <div className="max-w-4xl mx-auto text-center">
@@ -118,13 +136,14 @@ const PsychologuesSansFrontieres = () => {
               <p className="text-xl text-muted-foreground mb-8 max-w-3xl mx-auto leading-relaxed">
                 {safeT(
                   "psf.heroSubtitle",
-                  "Bringing free, ethical mental health support to underserved communities across Morocco and beyond. Because mental health is a right, not a privilege."
+                  "Bringing free, ethical mental health support to underserved communities across Morocco and beyond. Because mental health is a right, not a privilege.",
                 )}
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Button variant="secondary" size="hero" asChild>
                   <Link to="/apply" className="inline-flex items-center gap-2">
-                    {safeT("psf.volunteerCta", "Volunteer as Psychologist")} <ArrowRight className="w-4 h-4" />
+                    {safeT("psf.volunteerCta", "Volunteer as Psychologist")}{" "}
+                    <ArrowRight className="w-4 h-4" />
                   </Link>
                 </Button>
                 <Button variant="outline" size="lg" asChild>
@@ -151,7 +170,7 @@ const PsychologuesSansFrontieres = () => {
               <p className="text-lg text-muted-foreground">
                 {safeT(
                   "psf.missionDesc",
-                  "Psychologues Sans Frontières operates under the U.Psy umbrella to bridge the gap between mental health need and access. We deploy volunteer psychologists to communities where professional support is scarce or nonexistent."
+                  "Psychologues Sans Frontières operates under the U.Psy umbrella to bridge the gap between mental health need and access. We deploy volunteer psychologists to communities where professional support is scarce or nonexistent.",
                 )}
               </p>
             </div>
@@ -191,14 +210,21 @@ const PsychologuesSansFrontieres = () => {
                   {safeT("psf.impactTitle", "Our Impact So Far")}
                 </h2>
                 <p className="text-body text-muted-foreground">
-                  {safeT("psf.impactDesc", "Every number represents a life touched, a community strengthened.")}
+                  {safeT(
+                    "psf.impactDesc",
+                    "Every number represents a life touched, a community strengthened.",
+                  )}
                 </p>
               </div>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
                 {PSF_STATS.map((stat, i) => (
                   <div key={i} className="text-center">
-                    <div className="text-3xl md:text-4xl font-bold text-secondary mb-2">{stat.value}</div>
-                    <div className="text-sm text-muted-foreground">{safeT(stat.labelKey, stat.fallback)}</div>
+                    <div className="text-3xl md:text-4xl font-bold text-secondary mb-2">
+                      {stat.value}
+                    </div>
+                    <div className="text-sm text-muted-foreground">
+                      {safeT(stat.labelKey, stat.fallback)}
+                    </div>
                   </div>
                 ))}
               </div>
@@ -218,7 +244,10 @@ const PsychologuesSansFrontieres = () => {
                 {safeT("psf.programsTitle", "Our Programs")}
               </h2>
               <p className="text-body text-muted-foreground max-w-2xl mx-auto">
-                {safeT("psf.programsDesc", "Targeted interventions designed for maximum community impact.")}
+                {safeT(
+                  "psf.programsDesc",
+                  "Targeted interventions designed for maximum community impact.",
+                )}
               </p>
             </div>
           </ScrollReveal>
@@ -232,8 +261,12 @@ const PsychologuesSansFrontieres = () => {
                       <program.icon className="w-6 h-6 text-primary" />
                     </div>
                     <div>
-                      <h3 className="text-lg font-semibold text-foreground mb-2">{program.title}</h3>
-                      <p className="text-body text-muted-foreground">{program.description}</p>
+                      <h3 className="text-lg font-semibold text-foreground mb-2">
+                        {program.title}
+                      </h3>
+                      <p className="text-body text-muted-foreground">
+                        {program.description}
+                      </p>
                     </div>
                   </div>
                 </StaggerItem>
@@ -285,13 +318,24 @@ const PsychologuesSansFrontieres = () => {
             ].map((item, i) => (
               <ScrollReveal key={i} delay={i * 100}>
                 <div className="glass-card p-8 text-center h-full flex flex-col">
-                  <div className="text-xs font-mono text-secondary/60 mb-3">{item.step}</div>
+                  <div className="text-xs font-mono text-secondary/60 mb-3">
+                    {item.step}
+                  </div>
                   <div className="w-14 h-14 rounded-full bg-secondary/10 flex items-center justify-center mx-auto mb-4 border border-secondary/20">
                     <item.icon className="w-7 h-7 text-secondary" />
                   </div>
-                  <h3 className="text-lg font-semibold text-foreground mb-3">{item.title}</h3>
-                  <p className="text-sm text-muted-foreground mb-6 flex-1">{item.desc}</p>
-                  <Button variant="secondary" size="sm" asChild className="w-full">
+                  <h3 className="text-lg font-semibold text-foreground mb-3">
+                    {item.title}
+                  </h3>
+                  <p className="text-sm text-muted-foreground mb-6 flex-1">
+                    {item.desc}
+                  </p>
+                  <Button
+                    variant="secondary"
+                    size="sm"
+                    asChild
+                    className="w-full"
+                  >
                     <Link to={item.link}>{item.cta}</Link>
                   </Button>
                 </div>
@@ -305,28 +349,42 @@ const PsychologuesSansFrontieres = () => {
 
       {/* Final CTA */}
       <section className="section-spacing relative overflow-hidden">
-        <div className="absolute inset-0" style={{ background: "radial-gradient(circle at center, hsl(var(--secondary) / 0.15), transparent 70%)" }} />
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              "radial-gradient(circle at center, hsl(var(--secondary) / 0.15), transparent 70%)",
+          }}
+        />
         <div className="container-custom relative z-10">
           <ScrollReveal>
             <div className="glass-card p-10 md:p-16 max-w-3xl mx-auto text-center">
               <h2 className="text-h2 mb-4">
-                {safeT("psf.ctaTitle", "Mental Health Is a Right, Not a Privilege")}
+                {safeT(
+                  "psf.ctaTitle",
+                  "Mental Health Is a Right, Not a Privilege",
+                )}
               </h2>
               <p className="text-body text-muted-foreground mb-8">
                 {safeT(
                   "psf.ctaDesc",
-                  "Join Psychologues Sans Frontières and help us reach every community in Morocco that needs mental health support."
+                  "Join Psychologues Sans Frontières and help us reach every community in Morocco that needs mental health support.",
                 )}
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Button variant="secondary" size="hero" asChild>
                   <Link to="/apply" className="inline-flex items-center gap-2">
-                    {safeT("psf.ctaVolunteer", "Become a Volunteer")} <ArrowRight className="w-4 h-4" />
+                    {safeT("psf.ctaVolunteer", "Become a Volunteer")}{" "}
+                    <ArrowRight className="w-4 h-4" />
                   </Link>
                 </Button>
                 <Button variant="outline" size="lg" asChild>
-                  <Link to="/contact" className="inline-flex items-center gap-2">
-                    <Mail className="w-4 h-4" /> {safeT("psf.ctaContact", "Get in Touch")}
+                  <Link
+                    to="/contact"
+                    className="inline-flex items-center gap-2"
+                  >
+                    <Mail className="w-4 h-4" />{" "}
+                    {safeT("psf.ctaContact", "Get in Touch")}
                   </Link>
                 </Button>
               </div>

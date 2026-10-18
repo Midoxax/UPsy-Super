@@ -1,12 +1,21 @@
 import { useState, useEffect } from "react";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useToast } from "@/hooks/use-toast";
-import { usePsychologistProfile, useUpdateProfile } from "@/hooks/usePsychologistDashboard";
+import {
+  usePsychologistProfile,
+  useUpdateProfile,
+} from "@/hooks/usePsychologistDashboard";
 import { useSpecialties, useLanguages } from "@/hooks/usePsychologists";
 import { Loader2, Save } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
@@ -90,7 +99,7 @@ export const ProfileTab = () => {
             selectedSpecialties.map((specialtyId) => ({
               psychologist_id: user.id,
               specialty_id: specialtyId,
-            }))
+            })),
           );
         }
 
@@ -106,7 +115,7 @@ export const ProfileTab = () => {
             selectedLanguages.map((languageId) => ({
               psychologist_id: user.id,
               language_id: languageId,
-            }))
+            })),
           );
         }
       }
@@ -118,7 +127,8 @@ export const ProfileTab = () => {
     } catch (error) {
       toast({
         title: "Update Failed",
-        description: error instanceof Error ? error.message : "Failed to update profile",
+        description:
+          error instanceof Error ? error.message : "Failed to update profile",
         variant: "destructive",
       });
     }
@@ -138,7 +148,9 @@ export const ProfileTab = () => {
     <Card className="bg-surface border-border">
       <CardHeader>
         <CardTitle>Profile Information</CardTitle>
-        <CardDescription>Update your professional profile details</CardDescription>
+        <CardDescription>
+          Update your professional profile details
+        </CardDescription>
       </CardHeader>
       <CardContent>
         <div className="mb-6">
@@ -155,7 +167,9 @@ export const ProfileTab = () => {
                 id="full_name"
                 required
                 value={formData.full_name}
-                onChange={(e) => setFormData({ ...formData, full_name: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, full_name: e.target.value })
+                }
                 className="bg-background"
               />
             </div>
@@ -165,7 +179,9 @@ export const ProfileTab = () => {
               <Input
                 id="city"
                 value={formData.city}
-                onChange={(e) => setFormData({ ...formData, city: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, city: e.target.value })
+                }
                 placeholder="e.g., Casablanca"
                 className="bg-background"
               />
@@ -176,7 +192,9 @@ export const ProfileTab = () => {
             <Label>Profile photo</Label>
             <PhotoUploader
               value={formData.photo_url}
-              onChange={(url) => setFormData({ ...formData, photo_url: url ?? "" })}
+              onChange={(url) =>
+                setFormData({ ...formData, photo_url: url ?? "" })
+              }
             />
           </div>
 
@@ -185,7 +203,9 @@ export const ProfileTab = () => {
             <Textarea
               id="bio"
               value={formData.bio}
-              onChange={(e) => setFormData({ ...formData, bio: e.target.value })}
+              onChange={(e) =>
+                setFormData({ ...formData, bio: e.target.value })
+              }
               placeholder="Tell clients about your experience, approach, and expertise..."
               className="bg-background min-h-[150px]"
             />
@@ -201,13 +221,23 @@ export const ProfileTab = () => {
                     checked={selectedSpecialties.includes(specialty.id)}
                     onCheckedChange={(checked) => {
                       if (checked) {
-                        setSelectedSpecialties([...selectedSpecialties, specialty.id]);
+                        setSelectedSpecialties([
+                          ...selectedSpecialties,
+                          specialty.id,
+                        ]);
                       } else {
-                        setSelectedSpecialties(selectedSpecialties.filter((id) => id !== specialty.id));
+                        setSelectedSpecialties(
+                          selectedSpecialties.filter(
+                            (id) => id !== specialty.id,
+                          ),
+                        );
                       }
                     }}
                   />
-                  <label htmlFor={`specialty-${specialty.id}`} className="text-sm cursor-pointer">
+                  <label
+                    htmlFor={`specialty-${specialty.id}`}
+                    className="text-sm cursor-pointer"
+                  >
                     {specialty.name}
                   </label>
                 </div>
@@ -225,13 +255,21 @@ export const ProfileTab = () => {
                     checked={selectedLanguages.includes(language.id)}
                     onCheckedChange={(checked) => {
                       if (checked) {
-                        setSelectedLanguages([...selectedLanguages, language.id]);
+                        setSelectedLanguages([
+                          ...selectedLanguages,
+                          language.id,
+                        ]);
                       } else {
-                        setSelectedLanguages(selectedLanguages.filter((id) => id !== language.id));
+                        setSelectedLanguages(
+                          selectedLanguages.filter((id) => id !== language.id),
+                        );
                       }
                     }}
                   />
-                  <label htmlFor={`language-${language.id}`} className="text-sm cursor-pointer">
+                  <label
+                    htmlFor={`language-${language.id}`}
+                    className="text-sm cursor-pointer"
+                  >
                     {language.name}
                   </label>
                 </div>
@@ -247,10 +285,16 @@ export const ProfileTab = () => {
                   id="offers_online"
                   checked={formData.offers_online}
                   onCheckedChange={(checked) =>
-                    setFormData({ ...formData, offers_online: checked as boolean })
+                    setFormData({
+                      ...formData,
+                      offers_online: checked as boolean,
+                    })
                   }
                 />
-                <label htmlFor="offers_online" className="text-sm cursor-pointer">
+                <label
+                  htmlFor="offers_online"
+                  className="text-sm cursor-pointer"
+                >
                   Offer online sessions
                 </label>
               </div>
@@ -259,10 +303,16 @@ export const ProfileTab = () => {
                   id="offers_in_person"
                   checked={formData.offers_in_person}
                   onCheckedChange={(checked) =>
-                    setFormData({ ...formData, offers_in_person: checked as boolean })
+                    setFormData({
+                      ...formData,
+                      offers_in_person: checked as boolean,
+                    })
                   }
                 />
-                <label htmlFor="offers_in_person" className="text-sm cursor-pointer">
+                <label
+                  htmlFor="offers_in_person"
+                  className="text-sm cursor-pointer"
+                >
                   Offer in-person sessions
                 </label>
               </div>
@@ -277,12 +327,19 @@ export const ProfileTab = () => {
                 setFormData({ ...formData, is_published: checked as boolean })
               }
             />
-            <label htmlFor="is_published" className="text-sm cursor-pointer font-medium">
+            <label
+              htmlFor="is_published"
+              className="text-sm cursor-pointer font-medium"
+            >
               Publish profile (make visible in directory)
             </label>
           </div>
 
-          <Button type="submit" variant="primary" disabled={updateProfile.isPending}>
+          <Button
+            type="submit"
+            variant="primary"
+            disabled={updateProfile.isPending}
+          >
             {updateProfile.isPending ? (
               <>
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />

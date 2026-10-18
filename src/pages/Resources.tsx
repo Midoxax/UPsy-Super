@@ -4,13 +4,28 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Link } from "@/lib/router-compat";
 import {
-  BookOpen, FileText, Headphones, Video, Download, ArrowRight,
-  Search, Clock, Star, Sparkles, Play, ExternalLink,
+  BookOpen,
+  FileText,
+  Headphones,
+  Video,
+  Download,
+  ArrowRight,
+  Search,
+  Clock,
+  Star,
+  Sparkles,
+  Play,
+  ExternalLink,
 } from "lucide-react";
 import ScrollReveal from "@/components/ScrollReveal";
 import StaggerContainer, { StaggerItem } from "@/components/StaggerContainer";
 import SEOHead from "@/components/SEOHead";
-import { useResources, useTopics, useTrackResource, type Resource } from "@/hooks/useResources";
+import {
+  useResources,
+  useTopics,
+  useTrackResource,
+  type Resource,
+} from "@/hooks/useResources";
 import { cn } from "@/lib/utils";
 
 const FORMAT_ICONS: Record<string, any> = {
@@ -57,7 +72,9 @@ const ResourceCard = ({ resource }: { resource: Resource }) => {
           {resource.title}
         </h3>
         {resource.summary && (
-          <p className="text-sm text-muted-foreground line-clamp-2 mb-3">{resource.summary}</p>
+          <p className="text-sm text-muted-foreground line-clamp-2 mb-3">
+            {resource.summary}
+          </p>
         )}
         <div className="flex items-center justify-between text-sm text-muted-foreground">
           <span className="flex items-center gap-1">
@@ -78,7 +95,12 @@ const ResourceCard = ({ resource }: { resource: Resource }) => {
   }
 
   return isExternal ? (
-    <a href={href} target="_blank" rel="noopener noreferrer" onClick={handleClick}>
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      onClick={handleClick}
+    >
       {inner}
     </a>
   ) : (
@@ -141,7 +163,8 @@ const Resources = () => {
                 Practical tools for your mental performance
               </h1>
               <p className="text-h3 text-muted-foreground mb-8 max-w-2xl mx-auto">
-                Articles, worksheets, audio and video — curated by clinicians, free to use.
+                Articles, worksheets, audio and video — curated by clinicians,
+                free to use.
               </p>
               <div className="flex items-center gap-3 max-w-xl mx-auto bg-card border border-border rounded-xl p-2">
                 <Search className="w-5 h-5 text-muted-foreground ml-3" />
@@ -171,13 +194,15 @@ const Resources = () => {
                     "px-4 py-2 rounded-full text-sm font-medium border transition-colors inline-flex items-center gap-1.5",
                     active
                       ? "border-primary bg-primary text-primary-foreground"
-                      : "border-border bg-background text-foreground hover:border-primary/40 hover:bg-primary/5"
+                      : "border-border bg-background text-foreground hover:border-primary/40 hover:bg-primary/5",
                   )}
                 >
                   <Icon className="w-3.5 h-3.5" />
                   {f.label}
                   {f.value && formatCounts[f.value] != null && (
-                    <span className="text-[10px] opacity-70">({formatCounts[f.value]})</span>
+                    <span className="text-[10px] opacity-70">
+                      ({formatCounts[f.value]})
+                    </span>
                   )}
                 </button>
               );
@@ -195,7 +220,7 @@ const Resources = () => {
                   "px-3 py-1.5 rounded-full text-xs font-medium border transition-colors",
                   !topic
                     ? "border-secondary bg-secondary/10 text-secondary"
-                    : "border-border text-muted-foreground hover:text-foreground"
+                    : "border-border text-muted-foreground hover:text-foreground",
                 )}
               >
                 All topics
@@ -208,7 +233,7 @@ const Resources = () => {
                     "px-3 py-1.5 rounded-full text-xs font-medium border transition-colors inline-flex items-center gap-1",
                     topic === tp.slug
                       ? "border-secondary bg-secondary/10 text-secondary"
-                      : "border-border text-muted-foreground hover:text-foreground"
+                      : "border-border text-muted-foreground hover:text-foreground",
                   )}
                 >
                   {tp.icon && <span>{tp.icon}</span>}
@@ -254,7 +279,10 @@ const Resources = () => {
           {isLoading ? (
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
               {Array.from({ length: 6 }).map((_, i) => (
-                <div key={i} className="h-56 rounded-2xl bg-muted/30 animate-pulse" />
+                <div
+                  key={i}
+                  className="h-56 rounded-2xl bg-muted/30 animate-pulse"
+                />
               ))}
             </div>
           ) : isError ? (
@@ -271,8 +299,17 @@ const Resources = () => {
             </div>
           ) : resources.length === 0 ? (
             <div className="text-center py-16 glass-card">
-              <p className="text-muted-foreground mb-4">No resources match your filters.</p>
-              <Button variant="ghost" onClick={() => { setSearch(""); setTopic(null); setFormat(null); }}>
+              <p className="text-muted-foreground mb-4">
+                No resources match your filters.
+              </p>
+              <Button
+                variant="ghost"
+                onClick={() => {
+                  setSearch("");
+                  setTopic(null);
+                  setFormat(null);
+                }}
+              >
                 Clear filters
               </Button>
             </div>
@@ -293,9 +330,12 @@ const Resources = () => {
         <section className="container-custom pb-20 text-center">
           <ScrollReveal>
             <div className="max-w-2xl mx-auto glass-card p-8">
-              <h2 className="text-h2 text-foreground mb-4">Want personalized resources?</h2>
+              <h2 className="text-h2 text-foreground mb-4">
+                Want personalized resources?
+              </h2>
               <p className="text-body text-muted-foreground mb-6">
-                Track your mood, complete daily challenges, and earn XP — we'll recommend the right next steps.
+                Track your mood, complete daily challenges, and earn XP — we'll
+                recommend the right next steps.
               </p>
               <Button size="lg" variant="default" asChild>
                 <Link to="/auth" className="inline-flex items-center gap-2">

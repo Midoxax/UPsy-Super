@@ -6,6 +6,8 @@ const Membership = lazy(() => import("@/pages/Membership"));
 
 export const Route = createFileRoute("/membership")({
   component: () => (
-    <PageTransition><Membership /></PageTransition>
+    <PageTransition>
+      <Membership />
+    </PageTransition>
   ),
 });

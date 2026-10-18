@@ -1,18 +1,39 @@
 import { useEffect, useState } from "react";
 import { useSearchParams } from "@/lib/router-compat";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import {
-  Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger,
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
 } from "@/components/ui/dialog";
 import { LifeBuoy, Plus, Loader2, MessageSquare, Send } from "lucide-react";
 import { format } from "date-fns";
 import {
-  useMyTickets, useCreateTicket, useTicketMessages, usePostTicketMessage,
+  useMyTickets,
+  useCreateTicket,
+  useTicketMessages,
+  usePostTicketMessage,
   type SupportTicket,
 } from "@/hooks/useSupportTickets";
 import { useToast } from "@/hooks/use-toast";
@@ -56,7 +77,9 @@ export const SupportTab = () => {
               <LifeBuoy className="h-4 w-4 text-primary" />
               Support
             </CardTitle>
-            <CardDescription>Open a ticket and our team will reply in your language.</CardDescription>
+            <CardDescription>
+              Open a ticket and our team will reply in your language.
+            </CardDescription>
           </div>
           <Dialog open={newOpen} onOpenChange={setNewOpen}>
             <DialogTrigger asChild>
@@ -89,10 +112,14 @@ export const SupportTab = () => {
                     <div className="min-w-0 flex-1">
                       <p className="font-medium truncate">{t.subject}</p>
                       <p className="text-xs text-muted-foreground mt-1">
-                        {t.category} · updated {format(new Date(t.last_message_at), "PPp")}
+                        {t.category} · updated{" "}
+                        {format(new Date(t.last_message_at), "PPp")}
                       </p>
                     </div>
-                    <Badge variant="secondary" className={STATUS_COLORS[t.status] ?? ""}>
+                    <Badge
+                      variant="secondary"
+                      className={STATUS_COLORS[t.status] ?? ""}
+                    >
                       {t.status.replace("_", " ")}
                     </Badge>
                   </div>
@@ -124,11 +151,24 @@ const NewTicketDialog = ({ onClose }: { onClose: () => void }) => {
   const submit = async () => {
     if (!subject.trim() || !body.trim()) return;
     try {
-      await create.mutateAsync({ subject: subject.trim(), category, body: body.trim() });
-      toast({ title: "Ticket opened", description: "We'll reply as soon as possible." });
-      setSubject(""); setBody(""); onClose();
+      await create.mutateAsync({
+        subject: subject.trim(),
+        category,
+        body: body.trim(),
+      });
+      toast({
+        title: "Ticket opened",
+        description: "We'll reply as soon as possible.",
+      });
+      setSubject("");
+      setBody("");
+      onClose();
     } catch (e: any) {
-      toast({ title: "Could not open ticket", description: e.message, variant: "destructive" });
+      toast({
+        title: "Could not open ticket",
+        description: e.message,
+        variant: "destructive",
+      });
     }
   };
 
@@ -142,13 +182,23 @@ const NewTicketDialog = ({ onClose }: { onClose: () => void }) => {
       </DialogHeader>
       <div className="space-y-3 py-2">
         <div>
-          <label className="text-xs font-medium text-muted-foreground">Subject</label>
-          <Input value={subject} onChange={(e) => setSubject(e.target.value)} maxLength={200} />
+          <label className="text-xs font-medium text-muted-foreground">
+            Subject
+          </label>
+          <Input
+            value={subject}
+            onChange={(e) => setSubject(e.target.value)}
+            maxLength={200}
+          />
         </div>
         <div>
-          <label className="text-xs font-medium text-muted-foreground">Category</label>
+          <label className="text-xs font-medium text-muted-foreground">
+            Category
+          </label>
           <Select value={category} onValueChange={setCategory}>
-            <SelectTrigger><SelectValue /></SelectTrigger>
+            <SelectTrigger>
+              <SelectValue />
+            </SelectTrigger>
             <SelectContent>
               <SelectItem value="billing">Billing</SelectItem>
               <SelectItem value="technical">Technical</SelectItem>
@@ -160,14 +210,30 @@ const NewTicketDialog = ({ onClose }: { onClose: () => void }) => {
           </Select>
         </div>
         <div>
-          <label className="text-xs font-medium text-muted-foreground">Message</label>
-          <Textarea value={body} onChange={(e) => setBody(e.target.value)} rows={5} maxLength={10000} />
+          <label className="text-xs font-medium text-muted-foreground">
+            Message
+          </label>
+          <Textarea
+            value={body}
+            onChange={(e) => setBody(e.target.value)}
+            rows={5}
+            maxLength={10000}
+          />
         </div>
       </div>
       <DialogFooter>
-        <Button variant="outline" onClick={onClose}>Cancel</Button>
-        <Button onClick={submit} disabled={create.isPending || !subject.trim() || !body.trim()}>
-          {create.isPending ? <Loader2 className="h-4 w-4 animate-spin" /> : "Submit"}
+        <Button variant="outline" onClick={onClose}>
+          Cancel
+        </Button>
+        <Button
+          onClick={submit}
+          disabled={create.isPending || !subject.trim() || !body.trim()}
+        >
+          {create.isPending ? (
+            <Loader2 className="h-4 w-4 animate-spin" />
+          ) : (
+            "Submit"
+          )}
         </Button>
       </DialogFooter>
     </DialogContent>
@@ -175,8 +241,14 @@ const NewTicketDialog = ({ onClose }: { onClose: () => void }) => {
 };
 
 const TicketDetailDialog = ({
-  ticketId, ticket, onClose,
-}: { ticketId: string; ticket?: SupportTicket; onClose: () => void }) => {
+  ticketId,
+  ticket,
+  onClose,
+}: {
+  ticketId: string;
+  ticket?: SupportTicket;
+  onClose: () => void;
+}) => {
   const { data: messages = [], isLoading } = useTicketMessages(ticketId);
   const [reply, setReply] = useState("");
   const post = usePostTicketMessage();
@@ -188,7 +260,11 @@ const TicketDetailDialog = ({
       await post.mutateAsync({ ticketId, body: reply.trim() });
       setReply("");
     } catch (e: any) {
-      toast({ title: "Send failed", description: e.message, variant: "destructive" });
+      toast({
+        title: "Send failed",
+        description: e.message,
+        variant: "destructive",
+      });
     }
   };
 
@@ -207,7 +283,9 @@ const TicketDetailDialog = ({
 
         <div className="max-h-[400px] overflow-y-auto space-y-3 py-2">
           {isLoading ? (
-            <div className="flex justify-center py-6"><Loader2 className="h-5 w-5 animate-spin text-primary" /></div>
+            <div className="flex justify-center py-6">
+              <Loader2 className="h-5 w-5 animate-spin text-primary" />
+            </div>
           ) : (
             messages.map((m) => (
               <div
@@ -219,7 +297,9 @@ const TicketDetailDialog = ({
                 }`}
               >
                 <div className="flex items-center gap-2 mb-1 text-xs text-muted-foreground">
-                  <span className="font-medium capitalize">{m.author_role === "admin" ? "Support team" : "You"}</span>
+                  <span className="font-medium capitalize">
+                    {m.author_role === "admin" ? "Support team" : "You"}
+                  </span>
                   <span>·</span>
                   <span>{format(new Date(m.created_at), "PPp")}</span>
                 </div>
@@ -229,23 +309,33 @@ const TicketDetailDialog = ({
           )}
         </div>
 
-        {ticket && ticket.status !== "closed" && ticket.status !== "resolved" && (
-          <div className="space-y-2 pt-2 border-t border-border">
-            <Textarea
-              value={reply}
-              onChange={(e) => setReply(e.target.value)}
-              placeholder="Write a reply…"
-              rows={3}
-              maxLength={10000}
-            />
-            <div className="flex justify-end">
-              <Button onClick={send} disabled={post.isPending || !reply.trim()} className="gap-1.5">
-                {post.isPending ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />}
-                Send reply
-              </Button>
+        {ticket &&
+          ticket.status !== "closed" &&
+          ticket.status !== "resolved" && (
+            <div className="space-y-2 pt-2 border-t border-border">
+              <Textarea
+                value={reply}
+                onChange={(e) => setReply(e.target.value)}
+                placeholder="Write a reply…"
+                rows={3}
+                maxLength={10000}
+              />
+              <div className="flex justify-end">
+                <Button
+                  onClick={send}
+                  disabled={post.isPending || !reply.trim()}
+                  className="gap-1.5"
+                >
+                  {post.isPending ? (
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                  ) : (
+                    <Send className="h-4 w-4" />
+                  )}
+                  Send reply
+                </Button>
+              </div>
             </div>
-          </div>
-        )}
+          )}
       </DialogContent>
     </Dialog>
   );

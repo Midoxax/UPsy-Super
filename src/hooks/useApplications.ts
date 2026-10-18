@@ -36,10 +36,18 @@ export const useApplications = () => {
   });
 
   const approveApplication = useMutation({
-    mutationFn: async ({ applicationId }: { applicationId: string; adminUserId?: string }) => {
-      const { data, error } = await supabase.functions.invoke("provision-psychologist", {
-        body: { applicationId },
-      });
+    mutationFn: async ({
+      applicationId,
+    }: {
+      applicationId: string;
+      adminUserId?: string;
+    }) => {
+      const { data, error } = await supabase.functions.invoke(
+        "provision-psychologist",
+        {
+          body: { applicationId },
+        },
+      );
 
       if (error) throw error;
       if (!data.success) throw new Error(data.error || "Provisioning failed");
@@ -50,7 +58,8 @@ export const useApplications = () => {
       queryClient.invalidateQueries({ queryKey: ["applications"] });
       toast({
         title: "Success",
-        description: "Psychologist provisioned successfully. Welcome email sent.",
+        description:
+          "Psychologist provisioned successfully. Welcome email sent.",
       });
     },
     onError: (error: Error) => {
@@ -71,9 +80,12 @@ export const useApplications = () => {
       adminUserId?: string;
       reason?: string;
     }) => {
-      const { data, error } = await supabase.functions.invoke("send-rejection-email", {
-        body: { applicationId, reason },
-      });
+      const { data, error } = await supabase.functions.invoke(
+        "send-rejection-email",
+        {
+          body: { applicationId, reason },
+        },
+      );
 
       if (error) throw error;
       if (!data.success) throw new Error(data.error || "Rejection failed");

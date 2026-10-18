@@ -24,6 +24,5 @@ export const useAssessmentStore = create<AssessmentState>((set) => ({
   hasCompletedAssessment: false,
   setResult: (result) =>
     set({ latestResult: result, hasCompletedAssessment: true }),
-  clearResult: () =>
-    set({ latestResult: null, hasCompletedAssessment: false }),
+  clearResult: () => set({ latestResult: null, hasCompletedAssessment: false }),
 }));

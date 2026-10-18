@@ -52,7 +52,10 @@ const ReviewFormModal = ({
 
       if (error) throw error;
 
-      toast({ title: "Review submitted", description: "Thank you for your feedback!" });
+      toast({
+        title: "Review submitted",
+        description: "Thank you for your feedback!",
+      });
       onReviewSubmitted?.();
       onClose();
     } catch (err: any) {
@@ -123,9 +126,16 @@ const ReviewFormModal = ({
             <Button variant="outline" onClick={onClose}>
               Cancel
             </Button>
-            <Button variant="primary" onClick={handleSubmit} disabled={loading || rating === 0}>
+            <Button
+              variant="primary"
+              onClick={handleSubmit}
+              disabled={loading || rating === 0}
+            >
               {loading ? (
-                <><Loader2 className="mr-2 h-4 w-4 animate-spin" /> Submitting...</>
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />{" "}
+                  Submitting...
+                </>
               ) : (
                 "Submit Review"
               )}

@@ -44,7 +44,10 @@ const mtime = (p) => (existsSync(p) ? statSync(p).mtimeMs : 0);
 export function buildRoot() {
   const built = CANDIDATES.map((name) => ({ name, dir: resolve(ROOT, name) }))
     .filter(({ dir }) => existsSync(resolve(dir, "server", "index.mjs")))
-    .sort((a, b) => mtime(resolve(b.dir, "server")) - mtime(resolve(a.dir, "server")));
+    .sort(
+      (a, b) =>
+        mtime(resolve(b.dir, "server")) - mtime(resolve(a.dir, "server")),
+    );
 
   if (built.length > 0) return built[0].dir;
 
@@ -86,10 +89,15 @@ export function buildDirs() {
 // Prints a path for shell interpolation. Exits non-zero (with the reason on
 // stderr) rather than printing an empty string, so `--config $(…)` fails loudly
 // instead of handing wrangler an empty argument.
-if (process.argv[1] && resolve(process.argv[1]) === resolve(fileURLToPath(import.meta.url))) {
+if (
+  process.argv[1] &&
+  resolve(process.argv[1]) === resolve(fileURLToPath(import.meta.url))
+) {
   const dirs = buildDirs();
   if (!dirs) {
-    console.error("No build output found (looked for .output/ and dist/) — run `npm run build` first.");
+    console.error(
+      "No build output found (looked for .output/ and dist/) — run `npm run build` first.",
+    );
     process.exit(1);
   }
   const flag = process.argv[2] ?? "--wrangler";
@@ -101,7 +109,9 @@ if (process.argv[1] && resolve(process.argv[1]) === resolve(fileURLToPath(import
   };
   const value = map[flag];
   if (!value) {
-    console.error(`Unknown flag ${flag}. Use one of: ${Object.keys(map).join(", ")}`);
+    console.error(
+      `Unknown flag ${flag}. Use one of: ${Object.keys(map).join(", ")}`,
+    );
     process.exit(1);
   }
   // Relative to the repo root: wrangler resolves --config against the cwd, and

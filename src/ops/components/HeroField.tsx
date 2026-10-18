@@ -24,7 +24,7 @@ export const HeroField = () => {
   const orbits = [
     { rx: 520, ry: 200, opacity: 0.22, dur: 60, dir: 1 },
     { rx: 720, ry: 280, opacity: 0.16, dur: 90, dir: -1 },
-    { rx: 920, ry: 360, opacity: 0.1,  dur: 120, dir: 1 },
+    { rx: 920, ry: 360, opacity: 0.1, dur: 120, dir: 1 },
   ];
 
   return (
@@ -60,13 +60,21 @@ export const HeroField = () => {
                 strokeWidth="1"
                 strokeDasharray="2 8"
                 animate={{ rotate: 360 * o.dir }}
-                transition={{ duration: o.dur, ease: "linear", repeat: Infinity }}
+                transition={{
+                  duration: o.dur,
+                  ease: "linear",
+                  repeat: Infinity,
+                }}
                 style={{ transformOrigin: "center" }}
               />
               {/* Traveling beacon along each orbit */}
               <motion.g
                 animate={{ rotate: 360 * o.dir }}
-                transition={{ duration: o.dur * 0.6, ease: "linear", repeat: Infinity }}
+                transition={{
+                  duration: o.dur * 0.6,
+                  ease: "linear",
+                  repeat: Infinity,
+                }}
                 style={{ transformOrigin: "center" }}
               >
                 <circle
@@ -74,7 +82,9 @@ export const HeroField = () => {
                   cy="0"
                   r="4"
                   fill="hsl(var(--ops-accent))"
-                  style={{ filter: "drop-shadow(0 0 8px hsl(var(--ops-accent)))" }}
+                  style={{
+                    filter: "drop-shadow(0 0 8px hsl(var(--ops-accent)))",
+                  }}
                 />
               </motion.g>
             </g>
@@ -82,19 +92,35 @@ export const HeroField = () => {
 
           {/* Central core */}
           <motion.circle
-            cx="0" cy="0" r="6"
+            cx="0"
+            cy="0"
+            r="6"
             fill="hsl(var(--ops-accent))"
             animate={{ scale: [1, 1.4, 1], opacity: [0.9, 1, 0.9] }}
             transition={{ duration: 2.4, repeat: Infinity, ease: "easeInOut" }}
             style={{ filter: "drop-shadow(0 0 16px hsl(var(--ops-accent)))" }}
           />
-          <circle cx="0" cy="0" r="24" fill="none" stroke="hsl(var(--ops-accent) / 0.3)" strokeWidth="1" />
-          <circle cx="0" cy="0" r="48" fill="none" stroke="hsl(var(--ops-accent) / 0.15)" strokeWidth="1" />
+          <circle
+            cx="0"
+            cy="0"
+            r="24"
+            fill="none"
+            stroke="hsl(var(--ops-accent) / 0.3)"
+            strokeWidth="1"
+          />
+          <circle
+            cx="0"
+            cy="0"
+            r="48"
+            fill="none"
+            stroke="hsl(var(--ops-accent) / 0.15)"
+            strokeWidth="1"
+          />
         </svg>
       </div>
 
       {/* Floating signal nodes */}
-      {nodes.map(n => (
+      {nodes.map((n) => (
         <motion.span
           key={n.id}
           className="absolute rounded-full"

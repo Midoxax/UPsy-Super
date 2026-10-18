@@ -1,6 +1,16 @@
 import { useAuth } from "@/contexts/AuthContext";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { LayoutDashboard, Users, BookOpen, BarChart3, UserCheck, CreditCard, FileText, Activity, Palette } from "lucide-react";
+import {
+  LayoutDashboard,
+  Users,
+  BookOpen,
+  BarChart3,
+  UserCheck,
+  CreditCard,
+  FileText,
+  Activity,
+  Palette,
+} from "lucide-react";
 import OrgOverviewTab from "@/components/organization/OrgOverviewTab";
 import OrgUsersTab from "@/components/organization/OrgUsersTab";
 import OrgProgramsTab from "@/components/organization/OrgProgramsTab";
@@ -23,7 +33,9 @@ const OrganizationDashboard = () => {
           className="space-y-6"
           onValueChange={() => {
             requestAnimationFrame(() => {
-              document.getElementById("org-tabs-top")?.scrollIntoView({ behavior: "smooth", block: "start" });
+              document
+                .getElementById("org-tabs-top")
+                ?.scrollIntoView({ behavior: "smooth", block: "start" });
             });
           }}
         >
@@ -66,15 +78,33 @@ const OrganizationDashboard = () => {
             </TabsTrigger>
           </TabsList>
 
-          <TabsContent value="overview"><OrgOverviewTab /></TabsContent>
-          <TabsContent value="pulse"><OrgPulseTab /></TabsContent>
-          <TabsContent value="users"><OrgUsersTab /></TabsContent>
-          <TabsContent value="programs"><OrgProgramsTab /></TabsContent>
-          <TabsContent value="psychologists"><OrgPsychologistsTab /></TabsContent>
-          <TabsContent value="reports"><OrgReportsTab /></TabsContent>
-          <TabsContent value="analytics"><OrgAnalyticsTab /></TabsContent>
-          <TabsContent value="billing"><OrgBillingTab /></TabsContent>
-          <TabsContent value="branding"><OrgBrandingTab /></TabsContent>
+          <TabsContent value="overview">
+            <OrgOverviewTab />
+          </TabsContent>
+          <TabsContent value="pulse">
+            <OrgPulseTab />
+          </TabsContent>
+          <TabsContent value="users">
+            <OrgUsersTab />
+          </TabsContent>
+          <TabsContent value="programs">
+            <OrgProgramsTab />
+          </TabsContent>
+          <TabsContent value="psychologists">
+            <OrgPsychologistsTab />
+          </TabsContent>
+          <TabsContent value="reports">
+            <OrgReportsTab />
+          </TabsContent>
+          <TabsContent value="analytics">
+            <OrgAnalyticsTab />
+          </TabsContent>
+          <TabsContent value="billing">
+            <OrgBillingTab />
+          </TabsContent>
+          <TabsContent value="branding">
+            <OrgBrandingTab />
+          </TabsContent>
         </Tabs>
       </div>
     </section>

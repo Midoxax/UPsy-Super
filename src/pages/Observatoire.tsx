@@ -11,7 +11,15 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Link, useSearchParams } from "@/lib/router-compat";
 import { motion } from "framer-motion";
-import { ShieldCheck, Lock, ArrowRight, ArrowLeft, Check, Users, Stethoscope } from "lucide-react";
+import {
+  ShieldCheck,
+  Lock,
+  ArrowRight,
+  ArrowLeft,
+  Check,
+  Users,
+  Stethoscope,
+} from "lucide-react";
 import SEOHead from "@/components/SEOHead";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -47,7 +55,10 @@ const BARRIER_LABELS: Record<string, { fr: string; ar: string }> = {
   barrier_availability: { fr: "La disponibilité", ar: "التوفر" },
   barrier_stigma: { fr: "Le regard des autres", ar: "نظرة الآخرين" },
   barrier_trust: { fr: "La confiance", ar: "الثقة" },
-  barrier_awareness: { fr: "Savoir vers qui se tourner", ar: "معرفة الجهة المناسبة" },
+  barrier_awareness: {
+    fr: "Savoir vers qui se tourner",
+    ar: "معرفة الجهة المناسبة",
+  },
   barrier_teleconsultation: { fr: "Le distanciel", ar: "الاستشارة عن بعد" },
 };
 
@@ -97,14 +108,17 @@ export default function Observatoire() {
           const v = answers[q.id];
           return v !== undefined && v !== null && v !== "";
         }).length,
-    [answers, sections]
+    [answers, sections],
   );
 
   const utm = useMemo(() => readUtm(params), [params]);
   const storedReferral =
-    typeof sessionStorage !== "undefined" ? sessionStorage.getItem("upsy_referral_code") : null;
+    typeof sessionStorage !== "undefined"
+      ? sessionStorage.getItem("upsy_referral_code")
+      : null;
   // Attribution reuses the existing /invite/:code → `referrals` mechanism.
-  const ambassadorCode = params.get("code") || params.get("amb") || storedReferral || null;
+  const ambassadorCode =
+    params.get("code") || params.get("amb") || storedReferral || null;
   const referralSource = params.get("ref") || utm.utm_source || null;
 
   const score = useMemo(() => computeIntentScore(answers), [answers]);
@@ -121,18 +135,27 @@ export default function Observatoire() {
         _total_steps: sections.length,
         _completed: completed,
         _referral_source: referralSource ?? undefined,
-        _ambassador_code: ambassadorCode ? ambassadorCode.slice(0, 64)  : undefined,
+        _ambassador_code: ambassadorCode
+          ? ambassadorCode.slice(0, 64)
+          : undefined,
         _device_type: deviceType(),
         _duration_seconds: Math.round((Date.now() - startedAt.current) / 1000),
-        _vw_coherent: track === "patient" ? (vanWestendorpCoherent(payload) ?? undefined) : undefined,
+        _vw_coherent:
+          track === "patient"
+            ? (vanWestendorpCoherent(payload) ?? undefined)
+            : undefined,
       });
       if (error) throw error;
     },
-    [track, lang, sections.length, referralSource, ambassadorCode]
+    [track, lang, sections.length, referralSource, ambassadorCode],
   );
 
   useEffect(() => {
-    pushDataLayer({ event: "observatoire_view", page_path: "/observatoire", locale: lang });
+    pushDataLayer({
+      event: "observatoire_view",
+      page_path: "/observatoire",
+      locale: lang,
+    });
   }, [lang]);
 
   const beginSurvey = () => {
@@ -142,12 +165,20 @@ export default function Observatoire() {
     }
     startedAt.current = Date.now();
     setPhase("survey");
-    pushDataLayer({ event: "observatoire_start", survey_track: track, locale: lang });
+    pushDataLayer({
+      event: "observatoire_start",
+      survey_track: track,
+      locale: lang,
+    });
   };
 
   const goNext = async () => {
     const missing = section.questions.filter(
-      (q) => !isOptional(q) && (answers[q.id] === undefined || answers[q.id] === null || answers[q.id] === "")
+      (q) =>
+        !isOptional(q) &&
+        (answers[q.id] === undefined ||
+          answers[q.id] === null ||
+          answers[q.id] === ""),
     );
     if (missing.length) {
       setShowErrors(true);
@@ -196,14 +227,22 @@ export default function Observatoire() {
     setOptInSaving(true);
     try {
       const referralCode =
-        typeof sessionStorage !== "undefined" ? sessionStorage.getItem("upsy_referral_code") : null;
-      const breakdown = buildLeadBreakdown(track, answers, score, { referral_code: referralCode, utm });
+        typeof sessionStorage !== "undefined"
+          ? sessionStorage.getItem("upsy_referral_code")
+          : null;
+      const breakdown = buildLeadBreakdown(track, answers, score, {
+        referral_code: referralCode,
+        utm,
+      });
 
       const { error } = await supabase.from("growth_leads").insert({
         email: email.toLowerCase().trim(),
         full_name: name.trim() || null,
         phone: phone.trim() || null,
-        source: track === "patient" ? "observatoire_patient" : "observatoire_psychologist",
+        source:
+          track === "patient"
+            ? "observatoire_patient"
+            : "observatoire_psychologist",
         locale: lang,
         consent_marketing: true,
         nurture_stage: "d0",
@@ -220,11 +259,18 @@ export default function Observatoire() {
         _phone: phone.trim() || undefined,
         _locale: lang,
         _contact_type: track === "psychologist" ? "specialist" : "client",
-        _source: track === "patient" ? "observatoire_patient" : "observatoire_psychologist",
+        _source:
+          track === "patient"
+            ? "observatoire_patient"
+            : "observatoire_psychologist",
         _first_touch: (utm ?? {}) as never,
         _activity_kind: "form_submitted",
         _activity_subject: "Observatoire opt-in",
-        _activity_metadata: { track, band: score.band, referral_code: referralCode } as never,
+        _activity_metadata: {
+          track,
+          band: score.band,
+          referral_code: referralCode,
+        } as never,
         _consent_purpose: "newsletter",
         _consent_granted: true,
         _consent_evidence: {
@@ -235,7 +281,6 @@ export default function Observatoire() {
         } as never,
       });
 
-
       // Psychologists additionally enter the accreditation pipeline as a light
       // expression of interest (the full 48-field dossier comes later at /apply).
       if (track === "psychologist") {
@@ -245,7 +290,10 @@ export default function Observatoire() {
           preferred_locale: lang,
           phone: phone.trim() || null,
           city: typeof answers.city === "string" ? answers.city : null,
-          years_experience: typeof answers.years_practice === "number" ? answers.years_practice : null,
+          years_experience:
+            typeof answers.years_practice === "number"
+              ? answers.years_practice
+              : null,
           notes:
             `[Observatoire — expression of interest, dossier incomplete] ` +
             `commission_band=${answers.commission_band ?? "?"}; ` +
@@ -257,14 +305,19 @@ export default function Observatoire() {
 
       // Organisation interest becomes a commercial enquiry, not a formal
       // B2B onboarding application (no ICE/RC/seat data available here).
-      if (track === "patient" && answers.org_interest === true && orgName.trim()) {
+      if (
+        track === "patient" &&
+        answers.org_interest === true &&
+        orgName.trim()
+      ) {
         await supabase.from("proposal_requests").insert({
           organization_name: orgName.trim(),
           contact_name: name.trim() || email.split("@")[0],
           email: email.toLowerCase().trim(),
           phone: phone.trim() || null,
           service_interest: "observatoire_employee_signal",
-          message: "[Observatoire] Employee signalled employer interest during the research survey.",
+          message:
+            "[Observatoire] Employee signalled employer interest during the research survey.",
           status: "pending",
         });
       }
@@ -285,28 +338,49 @@ export default function Observatoire() {
     }
   };
 
-  const bandLabel = score.band === "A" ? c.bandA : score.band === "B" ? c.bandB : c.bandC;
-  const bandDesc = score.band === "A" ? c.bandADesc : score.band === "B" ? c.bandBDesc : c.bandCDesc;
+  const bandLabel =
+    score.band === "A" ? c.bandA : score.band === "B" ? c.bandB : c.bandC;
+  const bandDesc =
+    score.band === "A"
+      ? c.bandADesc
+      : score.band === "B"
+        ? c.bandBDesc
+        : c.bandCDesc;
 
   const shell = (children: React.ReactNode) => (
     <div className="marketing-night min-h-screen">
-      <SEOHead path="/observatoire" title={c.seoTitle} description={c.seoDescription} />
-      <div className="container-custom py-14 lg:py-20 max-w-3xl">{children}</div>
+      <SEOHead
+        path="/observatoire"
+        title={c.seoTitle}
+        description={c.seoDescription}
+      />
+      <div className="container-custom py-14 lg:py-20 max-w-3xl">
+        {children}
+      </div>
     </div>
   );
 
   // ─── Consent gate ──────────────────────────────────────────────────────────
   if (phase === "consent") {
     return shell(
-      <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
+      <motion.div
+        initial={{ opacity: 0, y: 12 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+      >
         <p className="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/5 px-3 py-1.5 text-xs font-mono uppercase tracking-widest text-primary">
           <ShieldCheck className="h-3.5 w-3.5" />
           {c.eyebrow}
         </p>
         <h1 className="mt-6 font-display text-4xl md:text-6xl leading-[1.05] tracking-tight">
-          {c.title} <span className="italic accent-italic text-primary">{c.titleAccent}</span>
+          {c.title}{" "}
+          <span className="italic accent-italic text-primary">
+            {c.titleAccent}
+          </span>
         </h1>
-        <p className="mt-5 text-lg text-muted-foreground leading-relaxed">{c.lede}</p>
+        <p className="mt-5 text-lg text-muted-foreground leading-relaxed">
+          {c.lede}
+        </p>
 
         <Card className="glass-card mt-10">
           <CardHeader>
@@ -342,11 +416,15 @@ export default function Observatoire() {
                         setSectionIdx(0);
                       }}
                       className={`rounded-u-card border p-4 text-start transition-colors ${
-                        active ? "border-primary bg-primary/10" : "border-border/60 hover:bg-muted/30"
+                        active
+                          ? "border-primary bg-primary/10"
+                          : "border-border/60 hover:bg-muted/30"
                       }`}
                     >
                       <Icon className="h-5 w-5 text-primary mb-2" />
-                      <span className="block font-medium">{tk === "patient" ? c.trackPatient : c.trackPsy}</span>
+                      <span className="block font-medium">
+                        {tk === "patient" ? c.trackPatient : c.trackPsy}
+                      </span>
                       <span className="block text-xs text-muted-foreground mt-1 leading-relaxed">
                         {tk === "patient" ? c.trackPatientDesc : c.trackPsyDesc}
                       </span>
@@ -362,19 +440,27 @@ export default function Observatoire() {
                 checked={consent}
                 onCheckedChange={(v) => setConsent(v === true)}
               />
-              <Label htmlFor="obs-consent" className="text-sm leading-relaxed font-normal">
+              <Label
+                htmlFor="obs-consent"
+                className="text-sm leading-relaxed font-normal"
+              >
                 {c.consentLabel}
               </Label>
             </div>
 
-            <Button size="lg" className="w-full" onClick={beginSurvey} disabled={!consent}>
+            <Button
+              size="lg"
+              className="w-full"
+              onClick={beginSurvey}
+              disabled={!consent}
+            >
               {c.start}
               <ArrowRight className="ms-2 h-4 w-4 rtl:rotate-180" />
             </Button>
             <p className="text-xs text-muted-foreground">{c.law0908}</p>
           </CardContent>
         </Card>
-      </motion.div>
+      </motion.div>,
     );
   }
 
@@ -390,13 +476,20 @@ export default function Observatoire() {
             </span>
           </div>
           <Progress value={(answeredCount / total) * 100} className="h-2" />
-          <CardTitle className="font-display text-2xl pt-2">{section.title[lang]}</CardTitle>
-          {section.subtitle && <p className="text-sm text-muted-foreground">{section.subtitle[lang]}</p>}
+          <CardTitle className="font-display text-2xl pt-2">
+            {section.title[lang]}
+          </CardTitle>
+          {section.subtitle && (
+            <p className="text-sm text-muted-foreground">
+              {section.subtitle[lang]}
+            </p>
+          )}
         </CardHeader>
         <CardContent className="space-y-4">
           {section.questions.map((q) => {
             // The optional org name only appears when interest was declared.
-            if (q.id === "org_name" && answers.org_interest !== true) return null;
+            if (q.id === "org_name" && answers.org_interest !== true)
+              return null;
             return (
               <QuestionField
                 key={q.id}
@@ -410,17 +503,27 @@ export default function Observatoire() {
           })}
 
           <div className="flex items-center justify-between gap-3 pt-2">
-            <Button variant="ghost" onClick={goBack} disabled={sectionIdx === 0 || saving}>
+            <Button
+              variant="ghost"
+              onClick={goBack}
+              disabled={sectionIdx === 0 || saving}
+            >
               <ArrowLeft className="me-2 h-4 w-4 rtl:rotate-180" />
               {c.back}
             </Button>
             <Button onClick={goNext} disabled={saving} size="lg">
-              {saving ? c.saving : sectionIdx === sections.length - 1 ? c.finish : c.next}
-              {!saving && <ArrowRight className="ms-2 h-4 w-4 rtl:rotate-180" />}
+              {saving
+                ? c.saving
+                : sectionIdx === sections.length - 1
+                  ? c.finish
+                  : c.next}
+              {!saving && (
+                <ArrowRight className="ms-2 h-4 w-4 rtl:rotate-180" />
+              )}
             </Button>
           </div>
         </CardContent>
-      </Card>
+      </Card>,
     );
   }
 
@@ -428,15 +531,22 @@ export default function Observatoire() {
   if (phase === "results") {
     const barriers = rankBarriers(answers).slice(0, 3);
     return shell(
-      <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}>
+      <motion.div
+        initial={{ opacity: 0, y: 12 }}
+        animate={{ opacity: 1, y: 0 }}
+      >
         <Card className="glass-card">
           <CardHeader>
-            <CardTitle className="font-display text-2xl">{c.resultsTitle}</CardTitle>
+            <CardTitle className="font-display text-2xl">
+              {c.resultsTitle}
+            </CardTitle>
             <p className="text-sm text-muted-foreground">{c.resultsLede}</p>
           </CardHeader>
           <CardContent className="space-y-8">
             <div className="rounded-u-card border border-primary/30 bg-primary/5 p-5">
-              <p className="text-xs uppercase tracking-[0.18em] text-primary mb-1">{c.yourProfile}</p>
+              <p className="text-xs uppercase tracking-[0.18em] text-primary mb-1">
+                {c.yourProfile}
+              </p>
               <p className="font-display text-3xl">{bandLabel}</p>
               <p className="mt-3 text-sm leading-relaxed">{bandDesc}</p>
             </div>
@@ -448,7 +558,9 @@ export default function Observatoire() {
                   <div key={b.key} className="space-y-1">
                     <div className="flex justify-between text-sm">
                       <span>{BARRIER_LABELS[b.key]?.[lang] ?? b.key}</span>
-                      <span className="font-mono tabular-nums">{b.value}/5</span>
+                      <span className="font-mono tabular-nums">
+                        {b.value}/5
+                      </span>
                     </div>
                     <Progress value={(b.value / 5) * 100} className="h-1.5" />
                   </div>
@@ -458,9 +570,12 @@ export default function Observatoire() {
 
             {track === "patient" && coherent !== null && (
               <div className="rounded-u-card border border-border bg-muted/30 p-4">
-                <p className="text-xs uppercase tracking-[0.18em] text-primary mb-2">{c.priceRead}</p>
+                <p className="text-xs uppercase tracking-[0.18em] text-primary mb-2">
+                  {c.priceRead}
+                </p>
                 <p className="font-mono tabular-nums text-lg">
-                  {String(answers.vw_bargain ?? "—")} – {String(answers.vw_expensive ?? "—")} MAD
+                  {String(answers.vw_bargain ?? "—")} –{" "}
+                  {String(answers.vw_expensive ?? "—")} MAD
                 </p>
                 <p className="mt-1 text-sm text-muted-foreground">
                   {coherent ? c.priceCoherent : c.priceIncoherent}
@@ -477,7 +592,11 @@ export default function Observatoire() {
                       <Link
                         to={`/auth?mode=signup&redirect=${encodeURIComponent("/get-matched?source=observatoire")}`}
                         onClick={() =>
-                          pushDataLayer({ event: "observatoire_cta", band: "A", cta: "signup" })
+                          pushDataLayer({
+                            event: "observatoire_cta",
+                            band: "A",
+                            cta: "signup",
+                          })
                         }
                       >
                         {c.ctaCreateAccount}
@@ -488,7 +607,11 @@ export default function Observatoire() {
                       <Link
                         to="/psychologists?source=observatoire"
                         onClick={() =>
-                          pushDataLayer({ event: "observatoire_cta", band: score.band, cta: "explore" })
+                          pushDataLayer({
+                            event: "observatoire_cta",
+                            band: score.band,
+                            cta: "explore",
+                          })
                         }
                       >
                         {c.ctaExplore}
@@ -496,7 +619,13 @@ export default function Observatoire() {
                     </Button>
                   )}
                   <Button asChild size="lg" variant="outline">
-                    <Link to={score.band === "A" ? "/psychologists?source=observatoire" : "/free-score"}>
+                    <Link
+                      to={
+                        score.band === "A"
+                          ? "/psychologists?source=observatoire"
+                          : "/free-score"
+                      }
+                    >
                       {score.band === "A" ? c.ctaExplore : "Bilan gratuit"}
                     </Link>
                   </Button>
@@ -506,26 +635,37 @@ export default function Observatoire() {
                   <Button asChild size="lg">
                     <Link
                       to="/apply?source=observatoire"
-                      onClick={() => pushDataLayer({ event: "observatoire_cta", cta: "apply" })}
+                      onClick={() =>
+                        pushDataLayer({
+                          event: "observatoire_cta",
+                          cta: "apply",
+                        })
+                      }
                     >
                       {c.ctaApply}
                     </Link>
                   </Button>
                   <Button asChild size="lg" variant="outline">
-                    <Link to="/pricing-specialists">{lang === "ar" ? "شروط الشبكة" : "Conditions du réseau"}</Link>
+                    <Link to="/pricing-specialists">
+                      {lang === "ar" ? "شروط الشبكة" : "Conditions du réseau"}
+                    </Link>
                   </Button>
                 </>
               )}
             </div>
 
             <div className="border-t border-border/60 pt-6">
-              <Button variant="secondary" className="w-full" onClick={() => setPhase("optin")}>
+              <Button
+                variant="secondary"
+                className="w-full"
+                onClick={() => setPhase("optin")}
+              >
                 {c.keepInTouch}
               </Button>
             </div>
           </CardContent>
         </Card>
-      </motion.div>
+      </motion.div>,
     );
   }
 
@@ -534,8 +674,12 @@ export default function Observatoire() {
     return shell(
       <Card className="glass-card">
         <CardHeader>
-          <p className="text-xs font-mono uppercase tracking-widest text-primary">{c.separateStep}</p>
-          <CardTitle className="font-display text-2xl">{c.keepInTouch}</CardTitle>
+          <p className="text-xs font-mono uppercase tracking-widest text-primary">
+            {c.separateStep}
+          </p>
+          <CardTitle className="font-display text-2xl">
+            {c.keepInTouch}
+          </CardTitle>
           <p className="text-sm text-muted-foreground leading-relaxed">
             {track === "psychologist" ? c.psyOptInDesc : c.keepInTouchDesc}
           </p>
@@ -553,18 +697,30 @@ export default function Observatoire() {
           </div>
           <div className="space-y-1.5">
             <Label htmlFor="obs-name">{c.nameLabel}</Label>
-            <Input id="obs-name" value={name} onChange={(e) => setName(e.target.value)} />
+            <Input
+              id="obs-name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
           </div>
           <div className="space-y-1.5">
             <Label htmlFor="obs-phone">{c.phoneLabel}</Label>
-            <Input id="obs-phone" type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} />
+            <Input
+              id="obs-phone"
+              type="tel"
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
+            />
           </div>
           {track === "patient" && answers.org_interest === true && (
             <div className="space-y-1.5">
               <Label htmlFor="obs-org">{c.orgNameLabel}</Label>
               <Input
                 id="obs-org"
-                value={orgName || (typeof answers.org_name === "string" ? answers.org_name : "")}
+                value={
+                  orgName ||
+                  (typeof answers.org_name === "string" ? answers.org_name : "")
+                }
                 onChange={(e) => setOrgName(e.target.value)}
               />
             </div>
@@ -576,7 +732,10 @@ export default function Observatoire() {
               checked={marketingConsent}
               onCheckedChange={(v) => setMarketingConsent(v === true)}
             />
-            <Label htmlFor="obs-marketing" className="text-xs leading-relaxed font-normal">
+            <Label
+              htmlFor="obs-marketing"
+              className="text-xs leading-relaxed font-normal"
+            >
               {c.marketingConsent}
             </Label>
           </div>
@@ -590,11 +749,15 @@ export default function Observatoire() {
           >
             {optInSaving ? c.saving : c.submitOptIn}
           </Button>
-          <Button variant="ghost" className="w-full" onClick={() => setPhase("results")}>
+          <Button
+            variant="ghost"
+            className="w-full"
+            onClick={() => setPhase("results")}
+          >
             {c.noThanks}
           </Button>
         </CardContent>
-      </Card>
+      </Card>,
     );
   }
 
@@ -605,7 +768,9 @@ export default function Observatoire() {
         <CardTitle className="font-display text-2xl">{c.optInDone}</CardTitle>
       </CardHeader>
       <CardContent className="space-y-6">
-        <p className="text-sm text-muted-foreground leading-relaxed">{c.optInDoneDesc}</p>
+        <p className="text-sm text-muted-foreground leading-relaxed">
+          {c.optInDoneDesc}
+        </p>
         <div className="grid gap-3 sm:grid-cols-2">
           <Button asChild size="lg">
             <Link
@@ -613,24 +778,26 @@ export default function Observatoire() {
                 track === "psychologist"
                   ? "/apply?source=observatoire"
                   : score.band === "A"
-                  ? `/auth?mode=signup&email=${encodeURIComponent(email.trim())}&name=${encodeURIComponent(
-                      name.trim()
-                    )}&redirect=${encodeURIComponent("/get-matched?source=observatoire")}`
-                  : "/psychologists?source=observatoire"
+                    ? `/auth?mode=signup&email=${encodeURIComponent(email.trim())}&name=${encodeURIComponent(
+                        name.trim(),
+                      )}&redirect=${encodeURIComponent("/get-matched?source=observatoire")}`
+                    : "/psychologists?source=observatoire"
               }
             >
               {track === "psychologist"
                 ? c.ctaApply
                 : score.band === "A"
-                ? c.ctaCreateAccount
-                : c.ctaExplore}
+                  ? c.ctaCreateAccount
+                  : c.ctaExplore}
             </Link>
           </Button>
           <Button asChild size="lg" variant="outline">
-            <Link to="/">{lang === "ar" ? "العودة إلى الرئيسية" : "Retour à l'accueil"}</Link>
+            <Link to="/">
+              {lang === "ar" ? "العودة إلى الرئيسية" : "Retour à l'accueil"}
+            </Link>
           </Button>
         </div>
       </CardContent>
-    </Card>
+    </Card>,
   );
 }

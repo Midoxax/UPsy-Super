@@ -7,6 +7,10 @@ const AIAssistant = lazy(() => import("@/pages/AIAssistant"));
 
 export const Route = createFileRoute("/$locale/ai-assistant")({
   component: () => (
-    <ProtectedRoute><PageTransition><AIAssistant /></PageTransition></ProtectedRoute>
+    <ProtectedRoute>
+      <PageTransition>
+        <AIAssistant />
+      </PageTransition>
+    </ProtectedRoute>
   ),
 });

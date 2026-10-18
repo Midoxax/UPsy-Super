@@ -6,6 +6,8 @@ const PsychologistProfile = lazy(() => import("@/pages/PsychologistProfile"));
 
 export const Route = createFileRoute("/psychologists/$id")({
   component: () => (
-    <PageTransition><PsychologistProfile /></PageTransition>
+    <PageTransition>
+      <PsychologistProfile />
+    </PageTransition>
   ),
 });

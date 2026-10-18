@@ -87,11 +87,15 @@ const Membership = () => {
             performance protocols, certifications, and AI guidance.
           </p>
           <div className="inline-flex items-center gap-3 rounded-u-md border border-border/50 bg-card/60 px-4 py-2 backdrop-blur">
-            <span className={!annual ? "font-semibold" : "text-muted-foreground"}>
+            <span
+              className={!annual ? "font-semibold" : "text-muted-foreground"}
+            >
               Monthly
             </span>
             <Switch checked={annual} onCheckedChange={setAnnual} />
-            <span className={annual ? "font-semibold" : "text-muted-foreground"}>
+            <span
+              className={annual ? "font-semibold" : "text-muted-foreground"}
+            >
               Annual
             </span>
             <Badge variant="outline" className="ml-1">

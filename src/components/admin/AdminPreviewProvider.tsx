@@ -1,6 +1,7 @@
 import { createContext, useContext, ReactNode } from "react";
 
-type PreviewRole = "psychologist" | "user" | "organization" | "athlete" | "coach";
+type PreviewRole =
+  "psychologist" | "user" | "organization" | "athlete" | "coach";
 
 interface PreviewCtx {
   isPreview: boolean;
@@ -26,7 +27,9 @@ export function AdminPreviewProvider({
   children: ReactNode;
 }) {
   return (
-    <Ctx.Provider value={{ isPreview: true, previewRole: role, previewUserId: userId }}>
+    <Ctx.Provider
+      value={{ isPreview: true, previewRole: role, previewUserId: userId }}
+    >
       {children}
     </Ctx.Provider>
   );

@@ -45,24 +45,43 @@ const Scale = ({
   </div>
 );
 
-const QuestionField = ({ question: q, lang, value, onChange, showError }: Props) => {
-  const invalid = showError && (value === null || value === undefined || value === "");
+const QuestionField = ({
+  question: q,
+  lang,
+  value,
+  onChange,
+  showError,
+}: Props) => {
+  const invalid =
+    showError && (value === null || value === undefined || value === "");
 
   return (
     <div
       className={cn(
         "space-y-3 rounded-u-card border p-4 transition-colors",
-        invalid ? "border-destructive/60 bg-destructive/5" : "border-border/60 bg-muted/20"
+        invalid
+          ? "border-destructive/60 bg-destructive/5"
+          : "border-border/60 bg-muted/20",
       )}
     >
-      <Label htmlFor={q.id} className="text-base leading-relaxed font-medium block">
+      <Label
+        htmlFor={q.id}
+        className="text-base leading-relaxed font-medium block"
+      >
         {q.label[lang]}
       </Label>
-      {q.help && <p className="text-sm text-muted-foreground">{q.help[lang]}</p>}
+      {q.help && (
+        <p className="text-sm text-muted-foreground">{q.help[lang]}</p>
+      )}
 
       {q.kind === "likert" && (
         <>
-          <Scale count={5} from={1} value={typeof value === "number" ? value : null} onChange={onChange} />
+          <Scale
+            count={5}
+            from={1}
+            value={typeof value === "number" ? value : null}
+            onChange={onChange}
+          />
           {q.anchors && (
             <div className="flex justify-between text-xs text-muted-foreground">
               <span>{q.anchors[0][lang]}</span>
@@ -75,7 +94,12 @@ const QuestionField = ({ question: q, lang, value, onChange, showError }: Props)
       {q.kind === "nps" && (
         <div className="overflow-x-auto -mx-1 px-1">
           <div className="min-w-[420px]">
-            <Scale count={11} from={0} value={typeof value === "number" ? value : null} onChange={onChange} />
+            <Scale
+              count={11}
+              from={0}
+              value={typeof value === "number" ? value : null}
+              onChange={onChange}
+            />
           </div>
         </div>
       )}
@@ -140,7 +164,9 @@ const QuestionField = ({ question: q, lang, value, onChange, showError }: Props)
             }}
           />
           {q.kind === "price" && (
-            <span className="text-sm text-muted-foreground">{lang === "ar" ? "درهم" : "MAD"}</span>
+            <span className="text-sm text-muted-foreground">
+              {lang === "ar" ? "درهم" : "MAD"}
+            </span>
           )}
         </div>
       )}

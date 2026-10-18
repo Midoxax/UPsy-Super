@@ -23,7 +23,11 @@ serve(async (req) => {
 
   let event: Stripe.Event;
   try {
-    event = await stripe.webhooks.constructEventAsync(payload, signature, webhookSecret);
+    event = await stripe.webhooks.constructEventAsync(
+      payload,
+      signature,
+      webhookSecret,
+    );
   } catch (err) {
     console.error("academy-stripe-webhook signature error:", err);
     return new Response("Invalid signature", { status: 400 });
@@ -38,18 +42,24 @@ serve(async (req) => {
     switch (event.type) {
       case "checkout.session.completed": {
         const session = event.data.object as Stripe.Checkout.Session;
-        const userId = session.client_reference_id ?? session.metadata?.supabase_user_id;
+        const userId =
+          session.client_reference_id ?? session.metadata?.supabase_user_id;
         if (!userId || !session.subscription || !session.customer) break;
 
-        const subscription = await stripe.subscriptions.retrieve(session.subscription as string);
+        const subscription = await stripe.subscriptions.retrieve(
+          session.subscription as string,
+        );
         await admin.from("all_access_subscriptions").upsert(
           {
             user_id: userId,
             stripe_customer_id: session.customer as string,
             stripe_subscription_id: subscription.id,
             status: subscription.status,
-            billing_cycle: session.metadata?.plan === "yearly" ? "yearly" : "monthly",
-            current_period_end: new Date(subscription.current_period_end * 1000).toISOString(),
+            billing_cycle:
+              session.metadata?.plan === "yearly" ? "yearly" : "monthly",
+            current_period_end: new Date(
+              subscription.current_period_end * 1000,
+            ).toISOString(),
             cancel_at_period_end: subscription.cancel_at_period_end,
           },
           { onConflict: "user_id" },
@@ -63,7 +73,9 @@ serve(async (req) => {
         const userId = subscription.metadata?.supabase_user_id;
         const query = admin.from("all_access_subscriptions").update({
           status: subscription.status,
-          current_period_end: new Date(subscription.current_period_end * 1000).toISOString(),
+          current_period_end: new Date(
+            subscription.current_period_end * 1000,
+          ).toISOString(),
           cancel_at_period_end: subscription.cancel_at_period_end,
         });
         if (userId) {

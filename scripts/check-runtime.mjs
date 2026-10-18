@@ -33,7 +33,9 @@ const read = (f) => readFileSync(resolve(ROOT, f), "utf8");
 const pkg = JSON.parse(read("package.json"));
 const enginesRange = pkg.engines?.node;
 if (!enginesRange) {
-  console.error("package.json declares no engines.node — the runtime is unpinned.");
+  console.error(
+    "package.json declares no engines.node — the runtime is unpinned.",
+  );
   process.exit(1);
 }
 
@@ -57,12 +59,14 @@ const runningMajor = Number(process.versions.node.split(".")[0]);
 const problems = [];
 
 if (Number.isNaN(enginesMajor) || Number.isNaN(nvmrcMajor)) {
-  problems.push(`Could not parse a major version from engines.node="${enginesRange}" or .nvmrc="${nvmrc}".`);
+  problems.push(
+    `Could not parse a major version from engines.node="${enginesRange}" or .nvmrc="${nvmrc}".`,
+  );
 } else if (enginesMajor !== nvmrcMajor) {
   problems.push(
     `Declaration drift: .nvmrc pins Node ${nvmrcMajor} but engines.node says "${enginesRange}" (major ${enginesMajor}).\n` +
       `  .nvmrc drives local shells and CI; engines.node drives Vercel's build image.\n` +
-      `  Left split, local and production run different majors with everything green.`
+      `  Left split, local and production run different majors with everything green.`,
   );
 }
 
@@ -70,7 +74,7 @@ if (!Number.isNaN(enginesMajor) && runningMajor !== enginesMajor) {
   problems.push(
     `Running Node ${process.versions.node}, but this project pins Node ${enginesMajor}.\n` +
       `  A pass on the wrong major proves nothing about CI or production — that is\n` +
-      `  exactly how a green local run shipped a CI failure. Run \`nvm use\`.`
+      `  exactly how a green local run shipped a CI failure. Run \`nvm use\`.`,
   );
 }
 
@@ -79,12 +83,12 @@ if (problems.length) {
   for (const p of problems) console.error(`  - ${p}\n`);
   console.error(
     "To change the pinned version, update .nvmrc and engines.node together,\n" +
-      "then re-run the full pipeline. See the runtime contract in DEPLOYMENT.md.\n"
+      "then re-run the full pipeline. See the runtime contract in DEPLOYMENT.md.\n",
   );
   process.exit(1);
 }
 
 console.log(
   `Runtime contract OK — Node ${process.versions.node}, npm ${process.env.npm_config_user_agent?.match(/npm\/(\S+)/)?.[1] ?? "?"}; ` +
-    `.nvmrc and engines.node both pin major ${enginesMajor}.`
+    `.nvmrc and engines.node both pin major ${enginesMajor}.`,
 );

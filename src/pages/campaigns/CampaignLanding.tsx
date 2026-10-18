@@ -36,7 +36,11 @@ export type CampaignConfig = {
 };
 
 const emailSchema = z.string().trim().email("Enter a valid email").max(255);
-const nameSchema = z.string().trim().min(1, "Your name helps us personalize").max(120);
+const nameSchema = z
+  .string()
+  .trim()
+  .min(1, "Your name helps us personalize")
+  .max(120);
 const phoneSchema = z
   .string()
   .trim()
@@ -87,11 +91,14 @@ const CampaignLanding = ({ config }: { config: CampaignConfig }) => {
     const fieldErrors: Record<string, string> = {};
     const nameCheck = nameSchema.safeParse(name);
     const emailCheck = emailSchema.safeParse(email);
-    if (!nameCheck.success) fieldErrors.name = nameCheck.error.issues[0].message;
-    if (!emailCheck.success) fieldErrors.email = emailCheck.error.issues[0].message;
+    if (!nameCheck.success)
+      fieldErrors.name = nameCheck.error.issues[0].message;
+    if (!emailCheck.success)
+      fieldErrors.email = emailCheck.error.issues[0].message;
     if (config.askPhone || whatsapp) {
       const phoneCheck = phoneSchema.safeParse(phone);
-      if (!phoneCheck.success) fieldErrors.phone = phoneCheck.error.issues[0].message;
+      if (!phoneCheck.success)
+        fieldErrors.phone = phoneCheck.error.issues[0].message;
     }
     if (!consent) fieldErrors.consent = "Required to continue (Law 09-08)";
     if (Object.keys(fieldErrors).length) {
@@ -123,12 +130,16 @@ const CampaignLanding = ({ config }: { config: CampaignConfig }) => {
         _full_name: nameCheck.data!,
         _phone: phone.trim() || undefined,
         _locale: (navigator.language || "fr").split("-")[0],
-        _contact_type: config.audience === "specialist" ? "specialist" : "client",
+        _contact_type:
+          config.audience === "specialist" ? "specialist" : "client",
         _source: config.source,
         _first_touch: attribution as never,
         _activity_kind: "form_submitted",
         _activity_subject: `Campaign — ${config.slug}`,
-        _activity_metadata: { organization: org.trim() || null, whatsapp_opt_in: whatsapp } as never,
+        _activity_metadata: {
+          organization: org.trim() || null,
+          whatsapp_opt_in: whatsapp,
+        } as never,
         _consent_purpose: "newsletter",
         _consent_granted: consent,
         _consent_evidence: {
@@ -150,7 +161,8 @@ const CampaignLanding = ({ config }: { config: CampaignConfig }) => {
     } catch (err) {
       toast({
         title: "Something went wrong",
-        description: err instanceof Error ? err.message : "Please try again in a moment.",
+        description:
+          err instanceof Error ? err.message : "Please try again in a moment.",
         variant: "destructive",
       });
     } finally {
@@ -206,7 +218,10 @@ const CampaignLanding = ({ config }: { config: CampaignConfig }) => {
 
             <ul className="mt-10 space-y-3">
               {config.bullets.map((b) => (
-                <li key={b} className="flex items-start gap-3 text-foreground/80">
+                <li
+                  key={b}
+                  className="flex items-start gap-3 text-foreground/80"
+                >
                   <Check className="h-5 w-5 text-primary shrink-0 mt-0.5" />
                   <span>{b}</span>
                 </li>
@@ -240,7 +255,9 @@ const CampaignLanding = ({ config }: { config: CampaignConfig }) => {
                   <div className="mx-auto h-14 w-14 rounded-full bg-primary/15 flex items-center justify-center">
                     <Check className="h-7 w-7 text-primary" />
                   </div>
-                  <h2 className="mt-5 font-display text-2xl">{config.successTitle}</h2>
+                  <h2 className="mt-5 font-display text-2xl">
+                    {config.successTitle}
+                  </h2>
                   <p className="mt-3 text-sm text-foreground/70 leading-relaxed">
                     {config.successBody}
                   </p>
@@ -254,7 +271,9 @@ const CampaignLanding = ({ config }: { config: CampaignConfig }) => {
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-4" noValidate>
                   <div>
-                    <h2 className="font-display text-2xl">{config.formTitle}</h2>
+                    <h2 className="font-display text-2xl">
+                      {config.formTitle}
+                    </h2>
                     <p className="text-sm text-muted-foreground mt-1">
                       {config.formSubtitle}
                     </p>
@@ -271,7 +290,9 @@ const CampaignLanding = ({ config }: { config: CampaignConfig }) => {
                       required
                     />
                     {errors.name && (
-                      <p className="text-xs text-destructive mt-1">{errors.name}</p>
+                      <p className="text-xs text-destructive mt-1">
+                        {errors.name}
+                      </p>
                     )}
                   </div>
 
@@ -287,7 +308,9 @@ const CampaignLanding = ({ config }: { config: CampaignConfig }) => {
                       required
                     />
                     {errors.email && (
-                      <p className="text-xs text-destructive mt-1">{errors.email}</p>
+                      <p className="text-xs text-destructive mt-1">
+                        {errors.email}
+                      </p>
                     )}
                   </div>
 
@@ -304,7 +327,9 @@ const CampaignLanding = ({ config }: { config: CampaignConfig }) => {
                         maxLength={20}
                       />
                       {errors.phone && (
-                        <p className="text-xs text-destructive mt-1">{errors.phone}</p>
+                        <p className="text-xs text-destructive mt-1">
+                          {errors.phone}
+                        </p>
                       )}
                     </div>
                   )}
@@ -328,7 +353,8 @@ const CampaignLanding = ({ config }: { config: CampaignConfig }) => {
                       className="mt-0.5"
                     />
                     <span className="text-foreground/80 leading-relaxed">
-                      Send updates on WhatsApp too (optional, unsubscribe anytime).
+                      Send updates on WhatsApp too (optional, unsubscribe
+                      anytime).
                     </span>
                   </label>
 
@@ -340,11 +366,16 @@ const CampaignLanding = ({ config }: { config: CampaignConfig }) => {
                       required
                     />
                     <span className="text-muted-foreground leading-relaxed">
-                      I agree to receive personalized messages from U.Psy and I've read the{" "}
-                      <Link to="/privacy" className="underline hover:text-foreground">
+                      I agree to receive personalized messages from U.Psy and
+                      I've read the{" "}
+                      <Link
+                        to="/privacy"
+                        className="underline hover:text-foreground"
+                      >
                         privacy notice
                       </Link>
-                      . Data protected under Moroccan Law 09-08 — CNDP compliant.
+                      . Data protected under Moroccan Law 09-08 — CNDP
+                      compliant.
                     </span>
                   </label>
                   {errors.consent && (

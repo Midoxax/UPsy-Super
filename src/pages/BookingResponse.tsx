@@ -1,11 +1,29 @@
 import { useEffect, useState } from "react";
 import { useParams, Link } from "@/lib/router-compat";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Loader2, Check, X, CalendarClock, AlertTriangle, Video, MapPin, Phone } from "lucide-react";
+import {
+  Loader2,
+  Check,
+  X,
+  CalendarClock,
+  AlertTriangle,
+  Video,
+  MapPin,
+  Phone,
+} from "lucide-react";
 import { format } from "date-fns";
-import { fetchProposalByToken, respondToProposalByToken } from "@/hooks/useProposeSession";
+import {
+  fetchProposalByToken,
+  respondToProposalByToken,
+} from "@/hooks/useProposeSession";
 
 const typeIcon = {
   video: Video,
@@ -18,7 +36,9 @@ const BookingResponse = () => {
   const [loading, setLoading] = useState(true);
   const [proposal, setProposal] = useState<any | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const [submitting, setSubmitting] = useState<"accept" | "decline" | null>(null);
+  const [submitting, setSubmitting] = useState<"accept" | "decline" | null>(
+    null,
+  );
   const [result, setResult] = useState<"confirmed" | "cancelled" | null>(null);
 
   useEffect(() => {
@@ -30,7 +50,10 @@ const BookingResponse = () => {
     fetchProposalByToken(token)
       .then((p) => {
         if (!p) setError("invalid_token");
-        else if (p.proposal_expires_at && new Date(p.proposal_expires_at) < new Date())
+        else if (
+          p.proposal_expires_at &&
+          new Date(p.proposal_expires_at) < new Date()
+        )
           setError("expired");
         else if (p.status !== "proposed") setError("already_responded");
         else setProposal(p);
@@ -75,7 +98,9 @@ const BookingResponse = () => {
               )}
             </div>
             <CardTitle>
-              {result === "confirmed" ? "Session confirmed" : "Invitation declined"}
+              {result === "confirmed"
+                ? "Session confirmed"
+                : "Invitation declined"}
             </CardTitle>
             <CardDescription>
               {result === "confirmed"
@@ -99,15 +124,15 @@ const BookingResponse = () => {
               {error === "expired"
                 ? "This invitation has expired"
                 : error === "already_responded"
-                ? "Invitation already answered"
-                : "Invalid link"}
+                  ? "Invitation already answered"
+                  : "Invalid link"}
             </CardTitle>
             <CardDescription>
               {error === "expired"
                 ? "Session proposals expire after 72 hours. Contact your psychologist to reschedule."
                 : error === "already_responded"
-                ? "This invitation has already been accepted or declined."
-                : "We couldn't find this invitation. The link may be malformed."}
+                  ? "This invitation has already been accepted or declined."
+                  : "We couldn't find this invitation. The link may be malformed."}
             </CardDescription>
           </CardHeader>
           <CardContent className="text-center">
@@ -124,13 +149,16 @@ const BookingResponse = () => {
               Session invitation
             </CardTitle>
             <CardDescription>
-              Your psychologist has proposed a session. Please accept or decline.
+              Your psychologist has proposed a session. Please accept or
+              decline.
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-6">
             <div className="flex items-center gap-4 rounded-lg border border-border bg-surface p-4">
               <Avatar className="h-14 w-14 border border-border">
-                <AvatarImage src={proposal.psychologist?.photo_url ?? undefined} />
+                <AvatarImage
+                  src={proposal.psychologist?.photo_url ?? undefined}
+                />
                 <AvatarFallback>
                   {(proposal.psychologist?.full_name ?? "P").slice(0, 1)}
                 </AvatarFallback>
@@ -161,7 +189,9 @@ const BookingResponse = () => {
                 <p className="font-semibold mt-1 flex items-center gap-2 capitalize">
                   {(() => {
                     const Icon =
-                      typeIcon[proposal.session_type as keyof typeof typeIcon] ?? Video;
+                      typeIcon[
+                        proposal.session_type as keyof typeof typeIcon
+                      ] ?? Video;
                     return <Icon className="h-4 w-4" />;
                   })()}
                   {proposal.session_type.replace("_", " ")}
@@ -171,8 +201,12 @@ const BookingResponse = () => {
 
             {proposal.patient_notes && (
               <div className="rounded-lg border border-border bg-muted/30 p-3">
-                <p className="text-xs uppercase text-muted-foreground">Note from psychologist</p>
-                <p className="text-sm mt-1 italic">"{proposal.patient_notes}"</p>
+                <p className="text-xs uppercase text-muted-foreground">
+                  Note from psychologist
+                </p>
+                <p className="text-sm mt-1 italic">
+                  "{proposal.patient_notes}"
+                </p>
               </div>
             )}
 
@@ -207,7 +241,8 @@ const BookingResponse = () => {
             </div>
 
             <p className="text-xs text-muted-foreground text-center">
-              Conformément à la loi 09-08, vos données personnelles sont protégées.
+              Conformément à la loi 09-08, vos données personnelles sont
+              protégées.
             </p>
           </CardContent>
         </Card>

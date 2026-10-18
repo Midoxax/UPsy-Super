@@ -26,7 +26,12 @@ const BookRedirect = () => {
 
   if (!slug) return <Navigate to="/psychologists" replace />;
   const src = params.get("src") || "share";
-  return <Navigate to={`/psychologists/${slug}?book=1&src=${encodeURIComponent(src)}`} replace />;
+  return (
+    <Navigate
+      to={`/psychologists/${slug}?book=1&src=${encodeURIComponent(src)}`}
+      replace
+    />
+  );
 };
 
 export default BookRedirect;

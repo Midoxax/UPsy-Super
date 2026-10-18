@@ -19,7 +19,9 @@ export default function HomePricingSection() {
     <section id="pricing" className="py-24 md:py-32">
       <div className="container-custom">
         <div className="text-center mb-14 max-w-2xl mx-auto">
-          <p className="text-xs font-medium tracking-[0.18em] uppercase text-primary mb-4">{c.eyebrow}</p>
+          <p className="text-xs font-medium tracking-[0.18em] uppercase text-primary mb-4">
+            {c.eyebrow}
+          </p>
           <h2 className="text-h2 mb-4">{c.title}</h2>
           <p className="text-body text-muted-foreground">{c.subtitle}</p>
         </div>
@@ -43,13 +45,22 @@ export default function HomePricingSection() {
                   {c.badge}
                 </span>
               )}
-              <h3 className="font-display text-2xl font-medium tracking-tight mb-1">{tier.name}</h3>
-              <p className="text-sm text-muted-foreground mb-5">{tier.tagline}</p>
+              <h3 className="font-display text-2xl font-medium tracking-tight mb-1">
+                {tier.name}
+              </h3>
+              <p className="text-sm text-muted-foreground mb-5">
+                {tier.tagline}
+              </p>
               <div className="mb-5">
-                <span className="font-mono tabular-nums text-4xl font-semibold text-foreground" data-numeric>
+                <span
+                  className="font-mono tabular-nums text-4xl font-semibold text-foreground"
+                  data-numeric
+                >
                   {tier.price}
                 </span>
-                <span className="text-sm text-muted-foreground ml-2">{tier.cadence}</span>
+                <span className="text-sm text-muted-foreground ml-2">
+                  {tier.cadence}
+                </span>
               </div>
               <ul className="space-y-2.5 mb-8 flex-1">
                 {tier.bullets.map((b) => (
@@ -76,7 +87,10 @@ export default function HomePricingSection() {
 
         <p className="text-center text-sm text-muted-foreground mt-10">
           {c.footnote}{" "}
-          <Link to="/pricing" className="text-primary underline underline-offset-4">
+          <Link
+            to="/pricing"
+            className="text-primary underline underline-offset-4"
+          >
             {c.footnoteLink}
           </Link>
         </p>

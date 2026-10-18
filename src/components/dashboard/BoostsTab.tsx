@@ -1,19 +1,41 @@
 import type { ComponentType } from "react";
 import { useState } from "react";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import {
-  Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle,
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import {
-  Rocket, Star, Home, Info, Loader2, CheckCircle2, Tag, X, TrendingUp,
+  Rocket,
+  Star,
+  Home,
+  Info,
+  Loader2,
+  CheckCircle2,
+  Tag,
+  X,
+  TrendingUp,
 } from "lucide-react";
 import { format } from "date-fns";
 import {
-  BOOST_CATALOG, useActiveBoosts, usePurchaseBoost, type BoostPackage,
+  BOOST_CATALOG,
+  useActiveBoosts,
+  usePurchaseBoost,
+  type BoostPackage,
 } from "@/hooks/useBoosts";
 import { useValidateCoupon, type CouponValidation } from "@/hooks/useCoupons";
 import { useToast } from "@/hooks/use-toast";
@@ -102,8 +124,9 @@ export const BoostsTab = () => {
       <Alert className="border-amber-500/30 bg-amber-500/5">
         <Info className="h-4 w-4 text-amber-600" />
         <AlertDescription className="text-xs">
-          Boosts are in <strong>test mode</strong> — no real money is charged. Boosts increase your
-          ranking in directory search and (Homepage Feature) on the U.Psy homepage.
+          Boosts are in <strong>test mode</strong> — no real money is charged.
+          Boosts increase your ranking in directory search and (Homepage
+          Feature) on the U.Psy homepage.
         </AlertDescription>
       </Alert>
 
@@ -115,7 +138,9 @@ export const BoostsTab = () => {
               <Rocket className="h-4 w-4 text-primary" />
               Active boosts
             </CardTitle>
-            <CardDescription>Currently increasing your visibility</CardDescription>
+            <CardDescription>
+              Currently increasing your visibility
+            </CardDescription>
           </CardHeader>
           <CardContent className="space-y-2">
             {active.map((b) => {
@@ -179,14 +204,26 @@ export const BoostsTab = () => {
                 </div>
                 <div>
                   <h4 className="font-semibold text-foreground">{pkg.name}</h4>
-                  <p className="text-xs text-muted-foreground mt-1">{pkg.description}</p>
+                  <p className="text-xs text-muted-foreground mt-1">
+                    {pkg.description}
+                  </p>
                 </div>
                 <div className="flex items-baseline gap-1.5 mt-auto">
-                  <span className="text-2xl font-bold text-foreground">{pkg.priceMad}</span>
-                  <span className="text-xs text-muted-foreground">MAD · {pkg.durationDays}d</span>
+                  <span className="text-2xl font-bold text-foreground">
+                    {pkg.priceMad}
+                  </span>
+                  <span className="text-xs text-muted-foreground">
+                    MAD · {pkg.durationDays}d
+                  </span>
                 </div>
-                <p className="text-[11px] text-muted-foreground">≈ {pkg.priceEur} EUR</p>
-                <Button onClick={() => openPurchase(pkg)} size="sm" className="w-full">
+                <p className="text-[11px] text-muted-foreground">
+                  ≈ {pkg.priceEur} EUR
+                </p>
+                <Button
+                  onClick={() => openPurchase(pkg)}
+                  size="sm"
+                  className="w-full"
+                >
                   Activate boost
                 </Button>
               </Card>
@@ -212,7 +249,9 @@ export const BoostsTab = () => {
                   {format(new Date(b.starts_at), "MMM d")} →{" "}
                   {format(new Date(b.ends_at), "MMM d")}
                 </span>
-                <span className="text-xs">{Number(b.amount_mad).toFixed(0)} MAD</span>
+                <span className="text-xs">
+                  {Number(b.amount_mad).toFixed(0)} MAD
+                </span>
               </div>
             ))}
           </CardContent>
@@ -295,7 +334,11 @@ export const BoostsTab = () => {
             <Button variant="outline" onClick={() => setPending(null)}>
               Cancel
             </Button>
-            <Button onClick={handleConfirm} disabled={purchase.isPending} className="gap-2">
+            <Button
+              onClick={handleConfirm}
+              disabled={purchase.isPending}
+              className="gap-2"
+            >
               {purchase.isPending ? (
                 <Loader2 className="h-4 w-4 animate-spin" />
               ) : (

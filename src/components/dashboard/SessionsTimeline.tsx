@@ -2,7 +2,13 @@ import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
 import { useLocale } from "@/contexts/LocaleContext";
-import { Calendar, Video, Star, ChevronRight, CalendarClock } from "lucide-react";
+import {
+  Calendar,
+  Video,
+  Star,
+  ChevronRight,
+  CalendarClock,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "@/lib/router-compat";
 
@@ -59,7 +65,10 @@ export default function SessionsTimeline() {
   const canJoin = (b: Booking) => {
     const start = new Date(b.scheduled_at).getTime();
     const now = Date.now();
-    return now >= start - 10 * 60 * 1000 && now <= start + b.duration_minutes * 60 * 1000;
+    return (
+      now >= start - 10 * 60 * 1000 &&
+      now <= start + b.duration_minutes * 60 * 1000
+    );
   };
 
   const formatDateTime = (iso: string) =>
@@ -80,7 +89,8 @@ export default function SessionsTimeline() {
         </h2>
         <Button variant="ghost" size="sm" asChild>
           <Link to="/psychologists">
-            {t("dashboard.book") || "Book"} <ChevronRight className="ml-1 h-3 w-3" />
+            {t("dashboard.book") || "Book"}{" "}
+            <ChevronRight className="ml-1 h-3 w-3" />
           </Link>
         </Button>
       </div>
@@ -95,7 +105,9 @@ export default function SessionsTimeline() {
           <p className="text-sm font-medium text-foreground">
             {upcoming.psychologist_name || "—"}
           </p>
-          <p className="text-xs text-muted-foreground mt-1">{formatDateTime(upcoming.scheduled_at)}</p>
+          <p className="text-xs text-muted-foreground mt-1">
+            {formatDateTime(upcoming.scheduled_at)}
+          </p>
           <div className="flex gap-2 mt-3">
             {upcoming.status === "proposed" ? (
               <Button variant="outline" size="sm" asChild>
@@ -131,10 +143,17 @@ export default function SessionsTimeline() {
             {t("dashboard.recentSessions") || "Recent"}
           </p>
           {past.map((b) => (
-            <div key={b.id} className="flex items-center justify-between p-3 rounded-xl bg-muted/20">
+            <div
+              key={b.id}
+              className="flex items-center justify-between p-3 rounded-xl bg-muted/20"
+            >
               <div>
-                <p className="text-sm font-medium text-foreground">{b.psychologist_name || "—"}</p>
-                <p className="text-xs text-muted-foreground">{formatDateTime(b.scheduled_at)}</p>
+                <p className="text-sm font-medium text-foreground">
+                  {b.psychologist_name || "—"}
+                </p>
+                <p className="text-xs text-muted-foreground">
+                  {formatDateTime(b.scheduled_at)}
+                </p>
               </div>
               {b.status === "completed" && (
                 <Button variant="ghost" size="sm">

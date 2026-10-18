@@ -27,7 +27,9 @@ export function useNudges() {
 
       if (cancelled || !data) return;
 
-      const nudges = evaluateNudges(data as { mood_score: number; recorded_at: string }[]);
+      const nudges = evaluateNudges(
+        data as { mood_score: number; recorded_at: string }[],
+      );
       for (const n of nudges) {
         if (shownRef.current.has(n.id)) continue;
         shownRef.current.add(n.id);

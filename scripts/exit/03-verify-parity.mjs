@@ -86,19 +86,24 @@ const problems = [];
 
 for (const table of srcCounts.keys()) {
   if (!tgtCounts.has(table)) {
-    problems.push(`MISSING TABLE  ${table} — exists in source, absent from target`);
+    problems.push(
+      `MISSING TABLE  ${table} — exists in source, absent from target`,
+    );
   }
 }
 for (const table of tgtCounts.keys()) {
   if (!srcCounts.has(table)) {
-    problems.push(`EXTRA TABLE    ${table} — exists in target, absent from source`);
+    problems.push(
+      `EXTRA TABLE    ${table} — exists in target, absent from source`,
+    );
   }
 }
 
 for (const [table, [n]] of srcCounts) {
   const t = tgtCounts.get(table);
   if (!t) continue;
-  if (t[0] !== n) problems.push(`ROW COUNT      ${table}: source ${n}, target ${t[0]}`);
+  if (t[0] !== n)
+    problems.push(`ROW COUNT      ${table}: source ${n}, target ${t[0]}`);
 }
 
 for (const [table, [rls, policies]] of srcSec) {
@@ -116,7 +121,9 @@ for (const [table, [rls, policies]] of srcSec) {
 }
 
 if (srcUsers !== tgtUsers) {
-  problems.push(`ACCOUNTS      auth.users: source ${srcUsers}, target ${tgtUsers}`);
+  problems.push(
+    `ACCOUNTS      auth.users: source ${srcUsers}, target ${tgtUsers}`,
+  );
 }
 
 // A table with RLS off in BOTH databases is a pre-existing hole, not a
@@ -131,7 +138,9 @@ console.log(`Accounts        : ${srcUsers} → ${tgtUsers}`);
 
 if (openTables.length > 0) {
   console.log("");
-  console.log(`Note: ${openTables.length} table(s) have RLS disabled on BOTH sides:`);
+  console.log(
+    `Note: ${openTables.length} table(s) have RLS disabled on BOTH sides:`,
+  );
   for (const t of openTables) console.log(`  • ${t}`);
   console.log("Not a restore failure, but review before the domain goes live.");
 }
@@ -142,9 +151,13 @@ if (problems.length > 0) {
   console.error("");
   for (const p of problems) console.error(`  ${p}`);
   console.error("");
-  console.error("Do not point the domain at the new database until this is clean.");
+  console.error(
+    "Do not point the domain at the new database until this is clean.",
+  );
   process.exit(1);
 }
 
 console.log("");
-console.log("Parity OK — every table, row count, RLS flag and policy count matches.");
+console.log(
+  "Parity OK — every table, row count, RLS flag and policy count matches.",
+);

@@ -6,6 +6,8 @@ const WhyUs = lazy(() => import("@/pages/WhyUs"));
 
 export const Route = createFileRoute("/why-us")({
   component: () => (
-    <PageTransition><WhyUs /></PageTransition>
+    <PageTransition>
+      <WhyUs />
+    </PageTransition>
   ),
 });

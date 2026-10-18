@@ -16,9 +16,13 @@ export function mockMatchMedia(prefersDark: boolean) {
   const mql = {
     matches: prefersDark,
     media: "(prefers-color-scheme: dark)",
-    addEventListener: (_: string, cb: (e: MediaQueryListEvent) => void) => listeners.add(cb),
-    removeEventListener: (_: string, cb: (e: MediaQueryListEvent) => void) => listeners.delete(cb),
-    addListener: () => {}, removeListener: () => {}, onchange: null,
+    addEventListener: (_: string, cb: (e: MediaQueryListEvent) => void) =>
+      listeners.add(cb),
+    removeEventListener: (_: string, cb: (e: MediaQueryListEvent) => void) =>
+      listeners.delete(cb),
+    addListener: () => {},
+    removeListener: () => {},
+    onchange: null,
     dispatchEvent: () => false,
   } as unknown as MediaQueryList;
   vi.stubGlobal("matchMedia", vi.fn().mockReturnValue(mql));

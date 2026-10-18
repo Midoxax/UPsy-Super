@@ -7,9 +7,14 @@ interface BreathingOrbProps {
 }
 
 /** The brand breath — gold/burgundy orb. 4-7-8 cadence. */
-const BreathingOrb = ({ size = 220, className = "", intensity = "default" }: BreathingOrbProps) => {
+const BreathingOrb = ({
+  size = 220,
+  className = "",
+  intensity = "default",
+}: BreathingOrbProps) => {
   const reduced = useReducedMotionSafe();
-  const opacity = intensity === "subtle" ? 0.35 : intensity === "strong" ? 0.8 : 0.55;
+  const opacity =
+    intensity === "subtle" ? 0.35 : intensity === "strong" ? 0.8 : 0.55;
 
   return (
     <div

@@ -1,5 +1,11 @@
 import { useCallback, useEffect, useState } from "react";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Loader2, Link2, Unlink, ShieldCheck } from "lucide-react";
@@ -43,7 +49,8 @@ const ConnectedAccountsCard = () => {
 
   if (!hasAnyOAuth()) return null;
 
-  const linked = (p: Provider) => identities?.some((i) => i.provider === p) ?? false;
+  const linked = (p: Provider) =>
+    identities?.some((i) => i.provider === p) ?? false;
   const hasPassword = identities?.some((i) => i.provider === "email") ?? false;
 
   const link = async (provider: Provider) => {
@@ -76,7 +83,8 @@ const ConnectedAccountsCard = () => {
     if ((identities?.length ?? 0) < 2) {
       toast({
         title: "Keep at least one sign-in method",
-        description: "Add a password or another provider before removing this one.",
+        description:
+          "Add a password or another provider before removing this one.",
         variant: "destructive",
       });
       return;
@@ -107,7 +115,8 @@ const ConnectedAccountsCard = () => {
           Connected sign-in methods
         </CardTitle>
         <CardDescription>
-          Link Google or Apple to this account so you always land on the same profile — no duplicates.
+          Link Google or Apple to this account so you always land on the same
+          profile — no duplicates.
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-3">
@@ -115,18 +124,25 @@ const ConnectedAccountsCard = () => {
           <div className="text-sm">
             <p className="font-medium">Email &amp; password</p>
             <p className="text-muted-foreground text-xs">
-              {hasPassword ? "Active on this account" : "Not set — use “Forgot password” to add one"}
+              {hasPassword
+                ? "Active on this account"
+                : "Not set — use “Forgot password” to add one"}
             </p>
           </div>
           {hasPassword && <Badge variant="secondary">Connected</Badge>}
         </div>
 
         {OAUTH_PROVIDERS.map((provider) => (
-          <div key={provider} className="flex items-center justify-between rounded-xl border border-border/60 p-3">
+          <div
+            key={provider}
+            className="flex items-center justify-between rounded-xl border border-border/60 p-3"
+          >
             <div className="text-sm">
               <p className="font-medium">{LABEL[provider]}</p>
               <p className="text-muted-foreground text-xs">
-                {linked(provider) ? "Connected" : `Sign in faster with ${LABEL[provider]}`}
+                {linked(provider)
+                  ? "Connected"
+                  : `Sign in faster with ${LABEL[provider]}`}
               </p>
             </div>
             {identities === null ? (
@@ -146,7 +162,11 @@ const ConnectedAccountsCard = () => {
                 Disconnect
               </Button>
             ) : (
-              <Button size="sm" disabled={pending !== null} onClick={() => link(provider)}>
+              <Button
+                size="sm"
+                disabled={pending !== null}
+                onClick={() => link(provider)}
+              >
                 {pending === provider ? (
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                 ) : (

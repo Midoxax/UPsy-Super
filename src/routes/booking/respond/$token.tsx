@@ -6,6 +6,8 @@ const BookingResponse = lazy(() => import("@/pages/BookingResponse"));
 
 export const Route = createFileRoute("/booking/respond/$token")({
   component: () => (
-    <PageTransition><BookingResponse /></PageTransition>
+    <PageTransition>
+      <BookingResponse />
+    </PageTransition>
   ),
 });

@@ -40,14 +40,18 @@ export type JournalEntry = {
 // Score = weighted blend on a 0-100 scale.
 // stress + cognitive_load are inverted (lower = better readiness).
 export function computeReadinessScore(d: {
-  mood: number; sleep: number; stress: number; energy: number; cognitive_load: number;
+  mood: number;
+  sleep: number;
+  stress: number;
+  energy: number;
+  cognitive_load: number;
 }): number {
   const inv = (n: number) => 11 - n; // 1..10 -> 10..1
   const weighted =
-    d.mood * 0.20 +
+    d.mood * 0.2 +
     d.sleep * 0.25 +
-    inv(d.stress) * 0.20 +
-    d.energy * 0.20 +
+    inv(d.stress) * 0.2 +
+    d.energy * 0.2 +
     inv(d.cognitive_load) * 0.15;
   return Math.max(0, Math.min(100, Math.round(weighted * 10)));
 }
@@ -63,11 +67,27 @@ export function useAthleteHub() {
     setLoading(true);
     const [cRes, pRes, jRes] = await Promise.all([
       user
-        ? supabase.from("readiness_checkins").select("*").eq("user_id", user.id).order("created_at", { ascending: false }).limit(30)
+        ? supabase
+            .from("readiness_checkins")
+            .select("*")
+            .eq("user_id", user.id)
+            .order("created_at", { ascending: false })
+            .limit(30)
         : Promise.resolve({ data: [], error: null } as any),
-      supabase.from("athlete_protocols").select("*").eq("is_published", true).order("duration_minutes"),
+      supabase
+        .from("athlete_protocols")
+        .select("*")
+        .eq("is_published", true)
+        .order("duration_minutes"),
       user
-        ? supabase.from("journal_entries").select("id,title,content,mood_tag,created_at,ai_summary,themes,synthesized_at").eq("user_id", user.id).order("created_at", { ascending: false }).limit(10)
+        ? supabase
+            .from("journal_entries")
+            .select(
+              "id,title,content,mood_tag,created_at,ai_summary,themes,synthesized_at",
+            )
+            .eq("user_id", user.id)
+            .order("created_at", { ascending: false })
+            .limit(10)
         : Promise.resolve({ data: [], error: null } as any),
     ]);
     if (cRes.data) setCheckins(cRes.data as Checkin[]);
@@ -76,42 +96,81 @@ export function useAthleteHub() {
     setLoading(false);
   }, [user]);
 
-  useEffect(() => { load(); }, [load]);
-
-  const submitCheckin = useCallback(async (input: {
-    mood: number; sleep: number; stress: number; energy: number; cognitive_load: number; note?: string;
-  }) => {
-    if (!user) return { error: new Error("not signed in") };
-    const score = computeReadinessScore(input);
-    const { error } = await supabase.from("readiness_checkins").insert({ ...input, user_id: user.id, score });
-    if (!error) await load();
-    return { error, score };
-  }, [user, load]);
-
-  const logProtocol = useCallback(async (protocolId: string, durationMinutes: number) => {
-    if (!user) return { error: new Error("not signed in") };
-    const { error } = await supabase.from("protocol_completions").insert({
-      user_id: user.id, protocol_id: protocolId, duration_minutes: durationMinutes,
-    });
-    return { error };
-  }, [user]);
-
-  const addJournalEntry = useCallback(async (entry: { title?: string; content: string; mood_tag?: string }) => {
-    if (!user) return { error: new Error("not signed in") };
-    const { error } = await supabase.from("journal_entries").insert({ ...entry, user_id: user.id });
-    if (!error) await load();
-    return { error };
-  }, [user, load]);
-
-  const synthesizeEntry = useCallback(async (entryId: string) => {
-    const { data, error } = await supabase.functions.invoke("journal-synthesize", {
-      body: { entry_id: entryId },
-    });
-    if (!error) await load();
-    return { error, data };
+  useEffect(() => {
+    load();
   }, [load]);
+
+  const submitCheckin = useCallback(
+    async (input: {
+      mood: number;
+      sleep: number;
+      stress: number;
+      energy: number;
+      cognitive_load: number;
+      note?: string;
+    }) => {
+      if (!user) return { error: new Error("not signed in") };
+      const score = computeReadinessScore(input);
+      const { error } = await supabase
+        .from("readiness_checkins")
+        .insert({ ...input, user_id: user.id, score });
+      if (!error) await load();
+      return { error, score };
+    },
+    [user, load],
+  );
+
+  const logProtocol = useCallback(
+    async (protocolId: string, durationMinutes: number) => {
+      if (!user) return { error: new Error("not signed in") };
+      const { error } = await supabase.from("protocol_completions").insert({
+        user_id: user.id,
+        protocol_id: protocolId,
+        duration_minutes: durationMinutes,
+      });
+      return { error };
+    },
+    [user],
+  );
+
+  const addJournalEntry = useCallback(
+    async (entry: { title?: string; content: string; mood_tag?: string }) => {
+      if (!user) return { error: new Error("not signed in") };
+      const { error } = await supabase
+        .from("journal_entries")
+        .insert({ ...entry, user_id: user.id });
+      if (!error) await load();
+      return { error };
+    },
+    [user, load],
+  );
+
+  const synthesizeEntry = useCallback(
+    async (entryId: string) => {
+      const { data, error } = await supabase.functions.invoke(
+        "journal-synthesize",
+        {
+          body: { entry_id: entryId },
+        },
+      );
+      if (!error) await load();
+      return { error, data };
+    },
+    [load],
+  );
 
   const latestScore = checkins[0]?.score ?? null;
 
-  return { checkins, protocols, journal, loading, latestScore, submitCheckin, logProtocol, addJournalEntry, synthesizeEntry, reload: load };
+  return {
+    checkins,
+    protocols,
+    journal,
+    loading,
+    latestScore,
+    submitCheckin,
+    logProtocol,
+    addJournalEntry,
+    synthesizeEntry,
+    reload: load,
+  };
 }

@@ -7,10 +7,20 @@ import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
 import {
-  Select, SelectContent, SelectItem, SelectTrigger, SelectValue,
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
 } from "@/components/ui/select";
 import {
-  FileText, Plus, Loader2, Calendar, User, Pencil, Trash2,
+  FileText,
+  Plus,
+  Loader2,
+  Calendar,
+  User,
+  Pencil,
+  Trash2,
 } from "lucide-react";
 import { format } from "date-fns";
 import AISummaryButton from "@/components/dashboard/AISummaryButton";
@@ -92,27 +102,37 @@ const SessionNotesTab = () => {
         .from("profiles")
         .select("id, full_name")
         .in("id", clientIds);
-      const profileMap = new Map(profiles?.map((p) => [p.id, p.full_name || "Client"]) || []);
+      const profileMap = new Map(
+        profiles?.map((p) => [p.id, p.full_name || "Client"]) || [],
+      );
 
-      setSessions(sessionsData.map((s) => ({
-        ...s,
-        client_name: profileMap.get(s.client_id) || "Client",
-      })));
+      setSessions(
+        sessionsData.map((s) => ({
+          ...s,
+          client_name: profileMap.get(s.client_id) || "Client",
+        })),
+      );
 
       // Enrich notes with session info
       if (notesData) {
         const sessionMap = new Map(sessionsData.map((s) => [s.id, s]));
-        setNotes(notesData.map((n: any) => {
-          const session = sessionMap.get(n.session_id);
-          return {
-            ...n,
-            session: session ? {
-              date_time: session.date_time,
-              client_id: session.client_id,
-              client_profile: { full_name: profileMap.get(session.client_id) || null },
-            } : undefined,
-          };
-        }));
+        setNotes(
+          notesData.map((n: any) => {
+            const session = sessionMap.get(n.session_id);
+            return {
+              ...n,
+              session: session
+                ? {
+                    date_time: session.date_time,
+                    client_id: session.client_id,
+                    client_profile: {
+                      full_name: profileMap.get(session.client_id) || null,
+                    },
+                  }
+                : undefined,
+            };
+          }),
+        );
       }
     }
     setLoading(false);
@@ -129,7 +149,11 @@ const SessionNotesTab = () => {
     });
     setSaving(false);
     if (error) {
-      toast({ title: "Error", description: "Failed to save note", variant: "destructive" });
+      toast({
+        title: "Error",
+        description: "Failed to save note",
+        variant: "destructive",
+      });
     } else {
       toast({ title: "Saved", description: "Session note recorded" });
       setShowForm(false);
@@ -160,9 +184,16 @@ const SessionNotesTab = () => {
           <h2 className="text-h3 flex items-center gap-2">
             <FileText className="w-5 h-5 text-primary" /> Session Notes
           </h2>
-          <p className="text-sm text-muted-foreground">Clinical notes linked to your sessions.</p>
+          <p className="text-sm text-muted-foreground">
+            Clinical notes linked to your sessions.
+          </p>
         </div>
-        <Button variant="primary" size="sm" onClick={() => setShowForm(true)} disabled={sessions.length === 0}>
+        <Button
+          variant="primary"
+          size="sm"
+          onClick={() => setShowForm(true)}
+          disabled={sessions.length === 0}
+        >
           <Plus className="h-4 w-4 mr-1" /> Add Note
         </Button>
       </div>
@@ -176,7 +207,8 @@ const SessionNotesTab = () => {
             <SelectContent>
               {sessions.map((s) => (
                 <SelectItem key={s.id} value={s.id}>
-                  {s.client_name} — {format(new Date(s.date_time), "MMM d, yyyy")}
+                  {s.client_name} —{" "}
+                  {format(new Date(s.date_time), "MMM d, yyyy")}
                 </SelectItem>
               ))}
             </SelectContent>
@@ -187,15 +219,38 @@ const SessionNotesTab = () => {
             </SelectTrigger>
             <SelectContent>
               {NOTE_TYPES.map((t) => (
-                <SelectItem key={t.value} value={t.value}>{t.label}</SelectItem>
+                <SelectItem key={t.value} value={t.value}>
+                  {t.label}
+                </SelectItem>
               ))}
             </SelectContent>
           </Select>
-          <Textarea placeholder="Write clinical notes..." value={noteContent} onChange={(e) => setNoteContent(e.target.value)} rows={6} className="bg-muted/30" />
+          <Textarea
+            placeholder="Write clinical notes..."
+            value={noteContent}
+            onChange={(e) => setNoteContent(e.target.value)}
+            rows={6}
+            className="bg-muted/30"
+          />
           <div className="flex gap-2">
-            <Button variant="ghost" size="sm" onClick={() => setShowForm(false)}>Cancel</Button>
-            <Button variant="primary" size="sm" onClick={saveNote} disabled={!noteContent.trim() || !selectedSession || saving}>
-              {saving ? <Loader2 className="h-4 w-4 animate-spin mr-1" /> : <Pencil className="h-4 w-4 mr-1" />}
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => setShowForm(false)}
+            >
+              Cancel
+            </Button>
+            <Button
+              variant="primary"
+              size="sm"
+              onClick={saveNote}
+              disabled={!noteContent.trim() || !selectedSession || saving}
+            >
+              {saving ? (
+                <Loader2 className="h-4 w-4 animate-spin mr-1" />
+              ) : (
+                <Pencil className="h-4 w-4 mr-1" />
+              )}
               Save Note
             </Button>
           </div>
@@ -215,27 +270,38 @@ const SessionNotesTab = () => {
                 <div>
                   <div className="flex items-center gap-2 mb-1">
                     <Badge variant="outline" className="text-[10px]">
-                      {NOTE_TYPES.find((t) => t.value === note.note_type)?.label || note.note_type}
+                      {NOTE_TYPES.find((t) => t.value === note.note_type)
+                        ?.label || note.note_type}
                     </Badge>
                     {note.session?.client_profile?.full_name && (
                       <span className="text-xs text-muted-foreground flex items-center gap-1">
-                        <User className="w-3 h-3" /> {note.session.client_profile.full_name}
+                        <User className="w-3 h-3" />{" "}
+                        {note.session.client_profile.full_name}
                       </span>
                     )}
                   </div>
                   <span className="text-xs text-muted-foreground flex items-center gap-1">
                     <Calendar className="w-3 h-3" />
-                    {note.session?.date_time ? format(new Date(note.session.date_time), "MMM d, yyyy") : format(new Date(note.created_at), "MMM d, yyyy")}
+                    {note.session?.date_time
+                      ? format(new Date(note.session.date_time), "MMM d, yyyy")
+                      : format(new Date(note.created_at), "MMM d, yyyy")}
                   </span>
                 </div>
                 <div className="flex items-center gap-1">
                   <AISummaryButton notes={note.content} />
-                  <Button variant="ghost" size="sm" className="text-destructive" onClick={() => deleteNote(note.id)}>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="text-destructive"
+                    onClick={() => deleteNote(note.id)}
+                  >
                     <Trash2 className="h-3.5 w-3.5" />
                   </Button>
                 </div>
               </div>
-              <p className="text-sm text-muted-foreground whitespace-pre-line">{note.content}</p>
+              <p className="text-sm text-muted-foreground whitespace-pre-line">
+                {note.content}
+              </p>
             </div>
           ))}
         </div>

@@ -1,6 +1,13 @@
 import { useEffect, useRef, useState } from "react";
 import { NavLink, Outlet, useLocation, useParams } from "@/lib/router-compat";
-import { Activity, Calendar, Compass, ListChecks, Sparkles, Plus } from "lucide-react";
+import {
+  Activity,
+  Calendar,
+  Compass,
+  ListChecks,
+  Sparkles,
+  Plus,
+} from "lucide-react";
 import { useOpsWorkspaces } from "./hooks/useOps";
 import { motion } from "framer-motion";
 import "./ops-theme.css";
@@ -42,7 +49,9 @@ export const OpsLayout = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
         >
-          <div className="ops-mono text-[10px] tracking-[0.3em] text-white/40">U.PSY // OPERATIONS</div>
+          <div className="ops-mono text-[10px] tracking-[0.3em] text-white/40">
+            U.PSY // OPERATIONS
+          </div>
           <div className="ops-display text-2xl mt-1">
             UPSY <span className="ops-accent ops-glow">OPS</span>
           </div>
@@ -59,10 +68,14 @@ export const OpsLayout = () => {
           <select
             className="ops-select mt-1"
             value={current?.slug ?? ""}
-            onChange={(e) => { window.location.href = `/ops/${e.target.value}/command`; }}
+            onChange={(e) => {
+              window.location.href = `/ops/${e.target.value}/command`;
+            }}
           >
-            {workspaces.map(w => (
-              <option key={w.id} value={w.slug}>{w.name}</option>
+            {workspaces.map((w) => (
+              <option key={w.id} value={w.slug}>
+                {w.name}
+              </option>
             ))}
           </select>
         </motion.div>
@@ -70,7 +83,9 @@ export const OpsLayout = () => {
         {/* Navigation */}
         <nav className="flex flex-col gap-1">
           {navItems.map((item) => {
-            const isActive = location.pathname === item.to || location.pathname.startsWith(`${item.to}/`);
+            const isActive =
+              location.pathname === item.to ||
+              location.pathname.startsWith(`${item.to}/`);
             return (
               <NavLink
                 key={item.to}
@@ -83,14 +98,24 @@ export const OpsLayout = () => {
                   animate={{ x: isActive ? 4 : 0 }}
                   transition={{ type: "spring", stiffness: 400, damping: 25 }}
                 >
-                  <item.icon className={`h-4 w-4 ${isActive ? "text-[hsl(var(--ops-accent))]" : "text-white/40"}`} />
-                  <span className={isActive ? "text-[hsl(var(--ops-accent))]" : ""}>{item.label}</span>
+                  <item.icon
+                    className={`h-4 w-4 ${isActive ? "text-[hsl(var(--ops-accent))]" : "text-white/40"}`}
+                  />
+                  <span
+                    className={isActive ? "text-[hsl(var(--ops-accent))]" : ""}
+                  >
+                    {item.label}
+                  </span>
                   {isActive && (
                     <motion.div
                       layoutId="nav-indicator"
                       className="absolute -left-[14px] top-1/2 -translate-y-1/2 w-1 h-5 rounded-full bg-[hsl(var(--ops-accent))]"
                       style={{ boxShadow: "0 0 12px hsl(var(--ops-accent))" }}
-                      transition={{ type: "spring", stiffness: 400, damping: 25 }}
+                      transition={{
+                        type: "spring",
+                        stiffness: 400,
+                        damping: 25,
+                      }}
                     />
                   )}
                 </motion.div>
@@ -116,7 +141,9 @@ export const OpsLayout = () => {
         <div className="mt-4 pt-4 border-t border-white/5 ops-mono text-[9px] text-white/25 space-y-1.5">
           <div className="flex items-center justify-between">
             <span>SYSTEM TIME</span>
-            <span className="text-white/50">{time.toLocaleTimeString("en-GB", { hour12: false })}</span>
+            <span className="text-white/50">
+              {time.toLocaleTimeString("en-GB", { hour12: false })}
+            </span>
           </div>
           <div className="flex items-center justify-between">
             <span>UPTIME</span>
@@ -127,7 +154,9 @@ export const OpsLayout = () => {
           </div>
           <div className="flex items-center justify-between">
             <span>LATENCY</span>
-            <span className="text-white/50">{Math.floor(12 + Math.random() * 18)}ms</span>
+            <span className="text-white/50">
+              {Math.floor(12 + Math.random() * 18)}ms
+            </span>
           </div>
         </div>
       </aside>

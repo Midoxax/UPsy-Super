@@ -7,7 +7,12 @@ const corsHeaders = {
     "authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version",
 };
 
-const VALID_TYPES = ["course_completion", "assessment_completion", "psychologist_accreditation", "mooc_training"] as const;
+const VALID_TYPES = [
+  "course_completion",
+  "assessment_completion",
+  "psychologist_accreditation",
+  "mooc_training",
+] as const;
 
 const TYPE_LABELS: Record<string, string> = {
   course_completion: "Course Completion",
@@ -25,19 +30,37 @@ function escapeHtml(str: string): string {
     .replace(/'/g, "&#039;");
 }
 
-function validateInput(body: unknown): { valid: true; data: { certificate_type: string; title: string; description?: string; reference_id?: string } } | { valid: false; error: string } {
-  if (!body || typeof body !== "object") return { valid: false, error: "Invalid request body" };
+function validateInput(body: unknown):
+  | {
+      valid: true;
+      data: {
+        certificate_type: string;
+        title: string;
+        description?: string;
+        reference_id?: string;
+      };
+    }
+  | { valid: false; error: string } {
+  if (!body || typeof body !== "object")
+    return { valid: false, error: "Invalid request body" };
   const b = body as Record<string, unknown>;
 
   if (!b.certificate_type || !VALID_TYPES.includes(b.certificate_type as any)) {
     return { valid: false, error: "Invalid certificate_type" };
   }
-  if (typeof b.title !== "string" || b.title.trim().length === 0 || b.title.length > 200) {
+  if (
+    typeof b.title !== "string" ||
+    b.title.trim().length === 0 ||
+    b.title.length > 200
+  ) {
     return { valid: false, error: "Title must be 1-200 characters" };
   }
   if (b.description !== undefined && b.description !== null) {
     if (typeof b.description !== "string" || b.description.length > 500) {
-      return { valid: false, error: "Description must be at most 500 characters" };
+      return {
+        valid: false,
+        error: "Description must be at most 500 characters",
+      };
     }
   }
   if (b.reference_id !== undefined && b.reference_id !== null) {
@@ -63,7 +86,7 @@ function generateCertificateHTML(
   certificateType: string,
   certificateNumber: string,
   issuedAt: string,
-  description?: string
+  description?: string,
 ): string {
   const typeLabel = TYPE_LABELS[certificateType] || escapeHtml(certificateType);
   const formattedDate = new Date(issuedAt).toLocaleDateString("en-US", {
@@ -125,7 +148,7 @@ function generateEmailHTML(
   recipientName: string,
   title: string,
   certificateType: string,
-  certificateNumber: string
+  certificateNumber: string,
 ): string {
   const typeLabel = TYPE_LABELS[certificateType] || escapeHtml(certificateType);
   const safeRecipient = escapeHtml(recipientName);
@@ -177,20 +200,30 @@ Deno.serve(async (req) => {
   try {
     const authHeader = req.headers.get("authorization");
     if (!authHeader) {
-      return new Response(JSON.stringify({ error: "No authorization header" }), {
-        status: 401,
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
-      });
+      return new Response(
+        JSON.stringify({ error: "No authorization header" }),
+        {
+          status: 401,
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        },
+      );
     }
 
     const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
     const supabaseServiceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
     const resendApiKey = Deno.env.get("RESEND_API_KEY");
 
-    const supabaseAuth = createClient(supabaseUrl, Deno.env.get("SUPABASE_ANON_KEY")!, {
-      global: { headers: { Authorization: authHeader } },
-    });
-    const { data: { user }, error: authError } = await supabaseAuth.auth.getUser();
+    const supabaseAuth = createClient(
+      supabaseUrl,
+      Deno.env.get("SUPABASE_ANON_KEY")!,
+      {
+        global: { headers: { Authorization: authHeader } },
+      },
+    );
+    const {
+      data: { user },
+      error: authError,
+    } = await supabaseAuth.auth.getUser();
     if (authError || !user) {
       return new Response(JSON.stringify({ error: "Unauthorized" }), {
         status: 401,
@@ -209,7 +242,8 @@ Deno.serve(async (req) => {
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
-    const { certificate_type, reference_id, title, description } = validation.data;
+    const { certificate_type, reference_id, title, description } =
+      validation.data;
 
     const { data: profile } = await supabaseAdmin
       .from("profiles")
@@ -217,7 +251,11 @@ Deno.serve(async (req) => {
       .eq("id", user.id)
       .single();
 
-    const recipientName = profile?.full_name || user.user_metadata?.full_name || user.email || "Participant";
+    const recipientName =
+      profile?.full_name ||
+      user.user_metadata?.full_name ||
+      user.email ||
+      "Participant";
 
     if (reference_id) {
       const { data: existing } = await supabaseAdmin
@@ -229,14 +267,17 @@ Deno.serve(async (req) => {
         .maybeSingle();
 
       if (existing) {
-        return new Response(JSON.stringify({ 
-          success: true, 
-          message: "Certificate already exists",
-          certificate_id: existing.id 
-        }), {
-          status: 200,
-          headers: { ...corsHeaders, "Content-Type": "application/json" },
-        });
+        return new Response(
+          JSON.stringify({
+            success: true,
+            message: "Certificate already exists",
+            certificate_id: existing.id,
+          }),
+          {
+            status: 200,
+            headers: { ...corsHeaders, "Content-Type": "application/json" },
+          },
+        );
       }
     }
 
@@ -259,20 +300,28 @@ Deno.serve(async (req) => {
 
     if (insertError) {
       console.error("Insert error:", insertError);
-      return new Response(JSON.stringify({ error: "Failed to create certificate" }), {
-        status: 500,
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
-      });
+      return new Response(
+        JSON.stringify({ error: "Failed to create certificate" }),
+        {
+          status: 500,
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        },
+      );
     }
 
     if (resendApiKey && user.email) {
       try {
-        const emailHtml = generateEmailHTML(recipientName, title, certificate_type, cert.certificate_number);
-        
+        const emailHtml = generateEmailHTML(
+          recipientName,
+          title,
+          certificate_type,
+          cert.certificate_number,
+        );
+
         const emailRes = await fetch("https://api.resend.com/emails", {
           method: "POST",
           headers: {
-            "Authorization": `Bearer ${resendApiKey}`,
+            Authorization: `Bearer ${resendApiKey}`,
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
@@ -291,21 +340,24 @@ Deno.serve(async (req) => {
       }
     }
 
-    return new Response(JSON.stringify({ 
-      success: true, 
-      certificate: cert,
-      certificate_html: generateCertificateHTML(
-        recipientName,
-        title,
-        certificate_type,
-        cert.certificate_number,
-        cert.issued_at,
-        description
-      ),
-    }), {
-      status: 200,
-      headers: { ...corsHeaders, "Content-Type": "application/json" },
-    });
+    return new Response(
+      JSON.stringify({
+        success: true,
+        certificate: cert,
+        certificate_html: generateCertificateHTML(
+          recipientName,
+          title,
+          certificate_type,
+          cert.certificate_number,
+          cert.issued_at,
+          description,
+        ),
+      }),
+      {
+        status: 200,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      },
+    );
   } catch (err) {
     console.error("Certificate generation error:", err);
     return new Response(JSON.stringify({ error: "Internal server error" }), {

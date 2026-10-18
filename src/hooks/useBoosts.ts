@@ -35,7 +35,8 @@ export const BOOST_CATALOG: BoostPackage[] = [
   {
     id: "homepage_feature",
     name: "Homepage Feature",
-    description: "Appear in 'Featured Specialists' on the homepage for 14 days.",
+    description:
+      "Appear in 'Featured Specialists' on the homepage for 14 days.",
     durationDays: 14,
     priceMad: 899,
     priceEur: 89,

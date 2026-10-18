@@ -47,7 +47,7 @@ function dedupeKey(name: string, payload: Record<string, unknown>): string {
 export function track(
   name: string,
   payload: Record<string, unknown> = {},
-  deduplicate = true
+  deduplicate = true,
 ): void {
   if (deduplicate) {
     const key = dedupeKey(name, payload);

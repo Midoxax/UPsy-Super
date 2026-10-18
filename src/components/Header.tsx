@@ -2,14 +2,31 @@ import { useEffect, useState } from "react";
 import { Link, useLocation } from "@/lib/router-compat";
 import { Button } from "@/components/ui/button";
 import {
-  Menu, X, User, ChevronDown, Umbrella, Heart, Award,
-  HeartPulse, GraduationCap, Activity, Building2, Users, Sparkles,
-  BookOpen, Brain, Trophy, Stethoscope, Compass, Crown, Landmark,
+  Menu,
+  X,
+  User,
+  ChevronDown,
+  Umbrella,
+  Heart,
+  Award,
+  HeartPulse,
+  GraduationCap,
+  Activity,
+  Building2,
+  Users,
+  Sparkles,
+  BookOpen,
+  Brain,
+  Trophy,
+  Stethoscope,
+  Compass,
+  Crown,
+  Landmark,
 } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { useLocale } from "@/contexts/LocaleContext";
 import { addLocalePrefix, stripLocalePrefix } from "@/lib/i18n/utils";
-import logo from "@/assets/upsy-logo-hero.png";
+import logo from "@/assets/upsy-logo-mark.webp";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
 import ThemeToggle from "@/components/ThemeToggle";
 import NotificationBell from "@/components/NotificationBell";
@@ -35,22 +52,51 @@ const Header = () => {
   // Build a redirect-aware /auth path so post-login returns to current page.
   const authHref = (() => {
     const path = location.pathname + location.search;
-    const safe = path && !path.startsWith("/auth") && !path.startsWith("/reset-password") ? path : "";
+    const safe =
+      path && !path.startsWith("/auth") && !path.startsWith("/reset-password")
+        ? path
+        : "";
     const base = addLocalePrefix("/auth", locale);
     return safe ? `${base}?redirect=${encodeURIComponent(safe)}` : base;
   })();
 
   // U.Psy 2.0 IA — 5 top-level pillars
-  type NavDropdownItem = { name: string; href: string; icon?: React.ComponentType<any>; featured?: boolean; desc?: string };
-  const navigation: { name: string; href: string; icon?: React.ComponentType<any>; dropdown?: NavDropdownItem[] }[] = [
+  type NavDropdownItem = {
+    name: string;
+    href: string;
+    icon?: React.ComponentType<any>;
+    featured?: boolean;
+    desc?: string;
+  };
+  const navigation: {
+    name: string;
+    href: string;
+    icon?: React.ComponentType<any>;
+    dropdown?: NavDropdownItem[];
+  }[] = [
     {
       name: "Care",
       href: "/psychologists",
       icon: HeartPulse,
       dropdown: [
-        { name: "Find a psychologist", href: "/psychologists", icon: Stethoscope, desc: "Browse accredited specialists" },
-        { name: "Get matched", href: "/get-matched", icon: Compass, desc: "6-step intelligent matching" },
-        { name: "Self-assessment", href: "/assessment-lab", icon: Brain, desc: "Clinical screenings (GAD-7, PHQ-9)" },
+        {
+          name: "Find a psychologist",
+          href: "/psychologists",
+          icon: Stethoscope,
+          desc: "Browse accredited specialists",
+        },
+        {
+          name: "Get matched",
+          href: "/get-matched",
+          icon: Compass,
+          desc: "6-step intelligent matching",
+        },
+        {
+          name: "Self-assessment",
+          href: "/assessment-lab",
+          icon: Brain,
+          desc: "Clinical screenings (GAD-7, PHQ-9)",
+        },
         { name: "Programs & services", href: "/services", icon: BookOpen },
       ],
     },
@@ -59,11 +105,37 @@ const Header = () => {
       href: "/center",
       icon: GraduationCap,
       dropdown: [
-        { name: "Communities", href: "/center", icon: Users, featured: true, desc: "Spaces, feeds, discussions" },
-        { name: "Schools & academies", href: "/center/schools", icon: Landmark, desc: "11 schools + Civic & Social Impact Academy" },
-        { name: "Courses & learning", href: "/learn", icon: BookOpen, desc: "Cohort-based & self-paced" },
-        { name: "Certifications", href: "/learn?tab=certifications", icon: Award, desc: "Performance Psychology pathways" },
-        { name: "Mentors", href: "/psychologists?type=mentor", icon: Sparkles, desc: "1:1 elite guidance" },
+        {
+          name: "Communities",
+          href: "/center",
+          icon: Users,
+          featured: true,
+          desc: "Spaces, feeds, discussions",
+        },
+        {
+          name: "Schools & academies",
+          href: "/center/schools",
+          icon: Landmark,
+          desc: "11 schools + Civic & Social Impact Academy",
+        },
+        {
+          name: "Courses & learning",
+          href: "/learn",
+          icon: BookOpen,
+          desc: "Cohort-based & self-paced",
+        },
+        {
+          name: "Certifications",
+          href: "/learn?tab=certifications",
+          icon: Award,
+          desc: "Performance Psychology pathways",
+        },
+        {
+          name: "Mentors",
+          href: "/psychologists?type=mentor",
+          icon: Sparkles,
+          desc: "1:1 elite guidance",
+        },
       ],
     },
     {
@@ -71,9 +143,25 @@ const Header = () => {
       href: "/athlete-hub",
       icon: Activity,
       dropdown: [
-        { name: "Performance dashboard", href: "/athlete-hub", icon: Trophy, featured: true, desc: "Readiness, protocols, journal" },
-        { name: "AI Coach (Nour)", href: "/ai-assistant", icon: Sparkles, desc: "Performance & reflective AI" },
-        { name: "For athletes", href: "/for-athletes", icon: Activity, desc: "Why elite performers train here" },
+        {
+          name: "Performance dashboard",
+          href: "/athlete-hub",
+          icon: Trophy,
+          featured: true,
+          desc: "Readiness, protocols, journal",
+        },
+        {
+          name: "AI Coach (Nour)",
+          href: "/ai-assistant",
+          icon: Sparkles,
+          desc: "Performance & reflective AI",
+        },
+        {
+          name: "For athletes",
+          href: "/for-athletes",
+          icon: Activity,
+          desc: "Why elite performers train here",
+        },
       ],
     },
     {
@@ -81,23 +169,51 @@ const Header = () => {
       href: "/for-organizations",
       icon: Building2,
       dropdown: [
-        { name: "Teams & enterprises", href: "/for-organizations", icon: Building2, desc: "Pulse, programs, dashboards" },
-        { name: "Consulting", href: "/services/consulting-for-organizations", icon: Stethoscope },
-        { name: "Talent Innovation Hub", href: "/talent-innovation-hub", icon: Brain, desc: "Research & applied science" },
-        { name: "Apply as an organization", href: "/apply/organization", icon: Award },
+        {
+          name: "Teams & enterprises",
+          href: "/for-organizations",
+          icon: Building2,
+          desc: "Pulse, programs, dashboards",
+        },
+        {
+          name: "Consulting",
+          href: "/services/consulting-for-organizations",
+          icon: Stethoscope,
+        },
+        {
+          name: "Talent Innovation Hub",
+          href: "/talent-innovation-hub",
+          icon: Brain,
+          desc: "Research & applied science",
+        },
+        {
+          name: "Apply as an organization",
+          href: "/apply/organization",
+          icon: Award,
+        },
       ],
     },
     {
       name: "About",
       href: "/about",
       dropdown: [
-        { name: "Membership", href: "/membership", icon: Crown, featured: true, desc: "7 tiers — Discover → Elite" },
+        {
+          name: "Membership",
+          href: "/membership",
+          icon: Crown,
+          featured: true,
+          desc: "7 tiers — Discover → Elite",
+        },
         { name: "Founder", href: "/founder", icon: Award, featured: true },
         { name: "Our story", href: "/about" },
-        { name: "The Moroccan Umbrella", href: "/moroccan-umbrella", icon: Umbrella },
+        {
+          name: "The Moroccan Umbrella",
+          href: "/moroccan-umbrella",
+          icon: Umbrella,
+        },
         { name: "Psychologues Sans Frontières", href: "/psf", icon: Heart },
         { name: "Blog", href: "/blog", icon: BookOpen },
-        { name: t('nav.contact'), href: "/contact" },
+        { name: t("nav.contact"), href: "/contact" },
         { name: "Apply for accreditation", href: "/apply" },
         { name: "For specialists · Pricing", href: "/pricing-specialists" },
       ],
@@ -135,7 +251,10 @@ const Header = () => {
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden lg:flex items-center gap-1" aria-label="Primary">
+          <nav
+            className="hidden lg:flex items-center gap-1"
+            aria-label="Primary"
+          >
             {navigation.map((item) => (
               <div key={item.name} className="relative group">
                 <Link
@@ -148,23 +267,31 @@ const Header = () => {
                   }`}
                 >
                   {item.name}
-                  {item.dropdown && <ChevronDown className="h-3.5 w-3.5 transition-transform group-hover:rotate-180" />}
+                  {item.dropdown && (
+                    <ChevronDown className="h-3.5 w-3.5 transition-transform group-hover:rotate-180" />
+                  )}
                 </Link>
                 {item.dropdown && (
-                  <div className={`absolute top-full left-0 mt-2 ${item.dropdown.some(d => d.desc) ? 'w-80' : 'w-60'} opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50`}>
+                  <div
+                    className={`absolute top-full left-0 mt-2 ${item.dropdown.some((d) => d.desc) ? "w-80" : "w-60"} opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50`}
+                  >
                     <div className="glass-effect rounded-xl border border-border/50 py-1.5 shadow-lg">
                       {item.dropdown.map((subItem) => (
                         <Link
                           key={subItem.name}
                           to={addLocalePrefix(subItem.href, locale)}
-                          aria-current={isActive(subItem.href) ? "page" : undefined}
+                          aria-current={
+                            isActive(subItem.href) ? "page" : undefined
+                          }
                           className={`flex items-start gap-3 px-4 py-2.5 text-sm transition-colors ${
                             subItem.featured
                               ? "text-primary font-semibold bg-primary/5 hover:bg-primary/10"
                               : "text-foreground/80 hover:text-primary hover:bg-primary/5"
                           }`}
                         >
-                          {subItem.icon && <subItem.icon className="h-4 w-4 shrink-0 mt-0.5" />}
+                          {subItem.icon && (
+                            <subItem.icon className="h-4 w-4 shrink-0 mt-0.5" />
+                          )}
                           <div className="flex-1 min-w-0">
                             <div className="flex items-center gap-2">
                               <span className="truncate">{subItem.name}</span>
@@ -175,7 +302,9 @@ const Header = () => {
                               )}
                             </div>
                             {subItem.desc && (
-                              <p className="text-xs text-muted-foreground mt-0.5 leading-snug">{subItem.desc}</p>
+                              <p className="text-xs text-muted-foreground mt-0.5 leading-snug">
+                                {subItem.desc}
+                              </p>
                             )}
                           </div>
                         </Link>
@@ -191,14 +320,20 @@ const Header = () => {
           <div className="hidden lg:flex items-center gap-2">
             <ThemeToggle />
             <LanguageSwitcher className="mr-1" />
-            <InstallAppButton variant="ghost" size="sm" label="" aria-label="Install U.Psy app" className="hidden lg:inline-flex" />
+            <InstallAppButton
+              variant="ghost"
+              size="sm"
+              label=""
+              aria-label="Install U.Psy app"
+              className="hidden lg:inline-flex"
+            />
             {user && <ViewAsSwitcher compact />}
             {user && <NotificationBell />}
             {user ? (
               <Button variant="primary" size="sm" asChild>
-                <Link to={addLocalePrefix('/my-space', locale)}>
+                <Link to={addLocalePrefix("/my-space", locale)}>
                   <User className="mr-2 h-4 w-4" />
-                  {t('nav.mySpace')}
+                  {t("nav.mySpace")}
                 </Link>
               </Button>
             ) : (
@@ -207,10 +342,12 @@ const Header = () => {
                   to={authHref}
                   className="text-sm text-foreground/70 hover:text-foreground transition-colors px-3 py-2"
                 >
-                  {t('nav.login')}
+                  {t("nav.login")}
                 </Link>
                 <Button variant="primary" size="sm" asChild>
-                  <Link to={addLocalePrefix('/psychologists', locale)}>{t('nav.findPsychologist')}</Link>
+                  <Link to={addLocalePrefix("/psychologists", locale)}>
+                    {t("nav.findPsychologist")}
+                  </Link>
                 </Button>
               </>
             )}
@@ -235,15 +372,21 @@ const Header = () => {
                   <button
                     onClick={() => {
                       if (item.dropdown) {
-                        setOpenDropdown(openDropdown === item.name ? null : item.name);
+                        setOpenDropdown(
+                          openDropdown === item.name ? null : item.name,
+                        );
                       } else {
                         setIsMobileMenuOpen(false);
                         setOpenDropdown(null);
                       }
                     }}
-                    aria-current={!item.dropdown && isActive(item.href) ? "page" : undefined}
+                    aria-current={
+                      !item.dropdown && isActive(item.href) ? "page" : undefined
+                    }
                     className={`flex items-center justify-between w-full text-sm font-medium transition-colors rounded-lg px-3 py-2.5 ${
-                      isActive(item.href) ? "text-primary bg-primary/8" : "text-foreground/70 hover:text-foreground hover:bg-muted/50"
+                      isActive(item.href)
+                        ? "text-primary bg-primary/8"
+                        : "text-foreground/70 hover:text-foreground hover:bg-muted/50"
                     }`}
                   >
                     {!item.dropdown ? (
@@ -263,7 +406,9 @@ const Header = () => {
                       <span>{item.name}</span>
                     )}
                     {item.dropdown && (
-                      <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${openDropdown === item.name ? 'rotate-180' : ''}`} />
+                      <ChevronDown
+                        className={`w-4 h-4 transition-transform duration-200 ${openDropdown === item.name ? "rotate-180" : ""}`}
+                      />
                     )}
                   </button>
                   {item.dropdown && openDropdown === item.name && (
@@ -272,7 +417,9 @@ const Header = () => {
                         <Link
                           key={subItem.name}
                           to={addLocalePrefix(subItem.href, locale)}
-                          aria-current={isActive(subItem.href) ? "page" : undefined}
+                          aria-current={
+                            isActive(subItem.href) ? "page" : undefined
+                          }
                           onClick={() => {
                             setIsMobileMenuOpen(false);
                             setOpenDropdown(null);
@@ -283,7 +430,9 @@ const Header = () => {
                               : "text-foreground/60 hover:text-primary hover:bg-primary/5"
                           }`}
                         >
-                          {subItem.icon && <subItem.icon className="h-4 w-4 shrink-0" />}
+                          {subItem.icon && (
+                            <subItem.icon className="h-4 w-4 shrink-0" />
+                          )}
                           {subItem.name}
                           {subItem.featured && (
                             <span className="ml-auto text-[10px] font-bold uppercase tracking-wider bg-primary/10 text-primary px-1.5 py-0.5 rounded-full">
@@ -302,25 +451,49 @@ const Header = () => {
                   <LanguageSwitcher />
                 </div>
                 <div className="px-3">
-                  <InstallAppButton variant="outline" size="sm" className="w-full" label="Install U.Psy app" />
+                  <InstallAppButton
+                    variant="outline"
+                    size="sm"
+                    className="w-full"
+                    label="Install U.Psy app"
+                  />
                 </div>
                 {user ? (
                   <Button variant="primary" size="sm" asChild>
-                    <Link to={addLocalePrefix('/my-space', locale)} onClick={() => setIsMobileMenuOpen(false)}>
+                    <Link
+                      to={addLocalePrefix("/my-space", locale)}
+                      onClick={() => setIsMobileMenuOpen(false)}
+                    >
                       <User className="mr-2 h-4 w-4" />
-                      {t('nav.mySpace')}
+                      {t("nav.mySpace")}
                     </Link>
                   </Button>
                 ) : (
                   <div className="flex gap-2 px-3">
-                    <Button variant="secondary" size="sm" asChild className="flex-1">
-                      <Link to={authHref} onClick={() => setIsMobileMenuOpen(false)}>
-                        {t('nav.login')}
+                    <Button
+                      variant="secondary"
+                      size="sm"
+                      asChild
+                      className="flex-1"
+                    >
+                      <Link
+                        to={authHref}
+                        onClick={() => setIsMobileMenuOpen(false)}
+                      >
+                        {t("nav.login")}
                       </Link>
                     </Button>
-                    <Button variant="primary" size="sm" asChild className="flex-1">
-                      <Link to={addLocalePrefix('/psychologists', locale)} onClick={() => setIsMobileMenuOpen(false)}>
-                        {t('nav.findPsychologist')}
+                    <Button
+                      variant="primary"
+                      size="sm"
+                      asChild
+                      className="flex-1"
+                    >
+                      <Link
+                        to={addLocalePrefix("/psychologists", locale)}
+                        onClick={() => setIsMobileMenuOpen(false)}
+                      >
+                        {t("nav.findPsychologist")}
                       </Link>
                     </Button>
                   </div>

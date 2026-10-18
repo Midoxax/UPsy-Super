@@ -7,6 +7,10 @@ const Notifications = lazy(() => import("@/pages/Notifications"));
 
 export const Route = createFileRoute("/notifications")({
   component: () => (
-    <ProtectedRoute><PageTransition><Notifications /></PageTransition></ProtectedRoute>
+    <ProtectedRoute>
+      <PageTransition>
+        <Notifications />
+      </PageTransition>
+    </ProtectedRoute>
   ),
 });

@@ -36,7 +36,7 @@ export function trackCTAClick(
   label: string,
   location: string,
   pagePath: string,
-  extra: Record<string, unknown> = {}
+  extra: Record<string, unknown> = {},
 ): void {
   pushDataLayer({
     event: "cta_click",

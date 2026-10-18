@@ -2,7 +2,19 @@ import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "@/lib/router-compat";
 import { format, addDays, startOfDay, isSameDay, isPast } from "date-fns";
 import { fr, ar } from "date-fns/locale";
-import { Calendar, Clock, Video, MapPin, Phone, ChevronLeft, ChevronRight, Loader2, CheckCircle, ShieldCheck, Lock } from "lucide-react";
+import {
+  Calendar,
+  Clock,
+  Video,
+  MapPin,
+  Phone,
+  ChevronLeft,
+  ChevronRight,
+  Loader2,
+  CheckCircle,
+  ShieldCheck,
+  Lock,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
@@ -57,15 +69,17 @@ export const BookingWidget = ({
   const [selectedSlot, setSelectedSlot] = useState<string | null>(null);
   const [sessionType, setSessionType] = useState<SessionType>("video");
   const [notes, setNotes] = useState("");
-  const [step, setStep] = useState<"date" | "slot" | "confirm" | "success">("date");
+  const [step, setStep] = useState<"date" | "slot" | "confirm" | "success">(
+    "date",
+  );
 
   const weekDays = Array.from({ length: 7 }, (_, i) =>
-    addDays(startOfDay(new Date()), weekOffset * 7 + i)
+    addDays(startOfDay(new Date()), weekOffset * 7 + i),
   );
 
   const { data: slots = [], isLoading: slotsLoading } = useAvailableSlots(
     psychologistId,
-    selectedDate
+    selectedDate,
   );
   const createBooking = useCreateBooking();
 
@@ -105,7 +119,8 @@ export const BookingWidget = ({
         } catch (err) {
           toast({
             title: "Couldn't finalize your slot",
-            description: err instanceof Error ? err.message : "Please pick a time again.",
+            description:
+              err instanceof Error ? err.message : "Please pick a time again.",
             variant: "destructive",
           });
           setStep("confirm");
@@ -114,7 +129,7 @@ export const BookingWidget = ({
     } catch {
       /* ignore corrupted state */
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user, psychologistId]);
 
   const handleDateSelect = (date: Date) => {
@@ -149,7 +164,8 @@ export const BookingWidget = ({
       }
       toast({
         title: "Slot held for you",
-        description: "Create your account to confirm. Your time won't be given away.",
+        description:
+          "Create your account to confirm. Your time won't be given away.",
       });
       navigate(`/auth?redirect=${encodeURIComponent(pending.return_path)}`);
       return;
@@ -184,8 +200,9 @@ export const BookingWidget = ({
           <h3 className="text-lg font-semibold">Session requested</h3>
           <p className="text-sm text-muted-foreground mt-1">
             {psychologistName} will confirm your session on{" "}
-            {selectedDate && format(selectedDate, "EEEE d MMMM", { locale: dateLocale })} at{" "}
-            {selectedSlot && format(new Date(selectedSlot), "HH:mm")}.
+            {selectedDate &&
+              format(selectedDate, "EEEE d MMMM", { locale: dateLocale })}{" "}
+            at {selectedSlot && format(new Date(selectedSlot), "HH:mm")}.
           </p>
         </div>
         <p className="text-xs text-muted-foreground">
@@ -238,7 +255,9 @@ export const BookingWidget = ({
       <div className="grid grid-cols-7 gap-1">
         {weekDays.map((day) => {
           const past = isPast(day) && !isSameDay(day, new Date());
-          const isSelected = selectedDate ? isSameDay(day, selectedDate) : false;
+          const isSelected = selectedDate
+            ? isSameDay(day, selectedDate)
+            : false;
           return (
             <button
               key={day.toISOString()}
@@ -249,7 +268,7 @@ export const BookingWidget = ({
                 "hover:bg-primary/10 disabled:opacity-30 disabled:cursor-not-allowed",
                 isSelected
                   ? "bg-primary text-primary-foreground hover:bg-primary"
-                  : "text-foreground"
+                  : "text-foreground",
               )}
             >
               <span className="text-[10px] uppercase tracking-wide opacity-60">
@@ -292,7 +311,7 @@ export const BookingWidget = ({
                       "flex items-center justify-center gap-1.5 rounded-lg border px-3 py-2 text-sm transition-all",
                       isSelectedSlot
                         ? "border-primary bg-primary text-primary-foreground"
-                        : "border-border bg-background hover:border-primary/50 hover:bg-primary/5"
+                        : "border-border bg-background hover:border-primary/50 hover:bg-primary/5",
                     )}
                   >
                     <Clock className="h-3 w-3" />
@@ -314,7 +333,7 @@ export const BookingWidget = ({
             </p>
             <div className="flex gap-2 flex-wrap">
               {SESSION_TYPES.filter(
-                (t) => t.value !== "in_person" || offersInPerson
+                (t) => t.value !== "in_person" || offersInPerson,
               ).map(({ value, label, icon: Icon }) => (
                 <button
                   key={value}
@@ -323,7 +342,7 @@ export const BookingWidget = ({
                     "flex items-center gap-1.5 rounded-lg border px-3 py-1.5 text-xs transition-all",
                     sessionType === value
                       ? "border-primary bg-primary/10 text-primary font-medium"
-                      : "border-border text-muted-foreground hover:border-primary/40"
+                      : "border-border text-muted-foreground hover:border-primary/40",
                   )}
                 >
                   <Icon className="h-3 w-3" />
@@ -334,16 +353,30 @@ export const BookingWidget = ({
           </div>
 
           <div className="text-sm space-y-1.5 text-muted-foreground font-sans">
-            <p><span className="text-foreground font-medium">With:</span> <span className="font-display">{psychologistName}</span></p>
+            <p>
+              <span className="text-foreground font-medium">With:</span>{" "}
+              <span className="font-display">{psychologistName}</span>
+            </p>
             <p>
               <span className="text-foreground font-medium">When:</span>{" "}
               <span className="font-mono tabular-nums text-foreground/90">
-                {format(new Date(selectedSlot), "EEEE d MMMM 'at' HH:mm", { locale: dateLocale })}
+                {format(new Date(selectedSlot), "EEEE d MMMM 'at' HH:mm", {
+                  locale: dateLocale,
+                })}
               </span>
             </p>
-            <p><span className="text-foreground font-medium">Duration:</span> <span className="font-mono tabular-nums">50</span> minutes</p>
+            <p>
+              <span className="text-foreground font-medium">Duration:</span>{" "}
+              <span className="font-mono tabular-nums">50</span> minutes
+            </p>
             {hourlyRate && (
-              <p><span className="text-foreground font-medium">Fee:</span> <span className="font-mono tabular-nums text-foreground">{Math.round((hourlyRate * 50 / 60) * 100) / 100}</span> MAD</p>
+              <p>
+                <span className="text-foreground font-medium">Fee:</span>{" "}
+                <span className="font-mono tabular-nums text-foreground">
+                  {Math.round(((hourlyRate * 50) / 60) * 100) / 100}
+                </span>{" "}
+                MAD
+              </p>
             )}
           </div>
 
@@ -364,14 +397,19 @@ export const BookingWidget = ({
             <div className="flex items-start gap-2 text-xs text-emerald-800 dark:text-emerald-200 bg-emerald-500/10 border border-emerald-500/20 rounded-lg px-3 py-2">
               <ShieldCheck className="h-3.5 w-3.5 mt-0.5 shrink-0 text-emerald-500" />
               <span>
-                Pick your time now — we'll hold it while you create your account.
-                Free rebook if it's not the right fit.
+                Pick your time now — we'll hold it while you create your
+                account. Free rebook if it's not the right fit.
               </span>
             </div>
           )}
 
           <div className="flex gap-2">
-            <Button variant="outline" size="sm" onClick={() => setStep("slot")} className="flex-1">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setStep("slot")}
+              className="flex-1"
+            >
               Back
             </Button>
             <Button

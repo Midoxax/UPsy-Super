@@ -9,7 +9,8 @@
  * AddressAutocomplete in the admin edit drawer) and falls back to a
  * city-level view when only `city` is on file.
  */
-const MAPS_API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY as string | undefined;
+const MAPS_API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY as
+  string | undefined;
 
 interface LocationMapProps {
   city: string;
@@ -21,7 +22,9 @@ export function LocationMap({ city, officeLat, officeLng }: LocationMapProps) {
   if (!MAPS_API_KEY) return null;
 
   const hasCoords = officeLat != null && officeLng != null;
-  const query = hasCoords ? `${officeLat},${officeLng}` : encodeURIComponent(`${city}, Morocco`);
+  const query = hasCoords
+    ? `${officeLat},${officeLng}`
+    : encodeURIComponent(`${city}, Morocco`);
   const zoom = hasCoords ? 15 : 12;
 
   return (

@@ -7,6 +7,10 @@ const IntakeForm = lazy(() => import("@/pages/IntakeForm"));
 
 export const Route = createFileRoute("/$locale/intake")({
   component: () => (
-    <ProtectedRoute><PageTransition><IntakeForm /></PageTransition></ProtectedRoute>
+    <ProtectedRoute>
+      <PageTransition>
+        <IntakeForm />
+      </PageTransition>
+    </ProtectedRoute>
   ),
 });

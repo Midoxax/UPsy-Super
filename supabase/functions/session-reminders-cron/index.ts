@@ -9,7 +9,8 @@ import { sender } from "../_shared/sender.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
+  "Access-Control-Allow-Headers":
+    "authorization, x-client-info, apikey, content-type",
 };
 
 type Wave = "24h" | "1h" | "5min";
@@ -32,11 +33,14 @@ interface BookingRow {
   reminder_channels: string[] | null;
 }
 
-const WAVE_WINDOWS: Record<Wave, { earliestMinutes: number; latestMinutes: number }> = {
+const WAVE_WINDOWS: Record<
+  Wave,
+  { earliestMinutes: number; latestMinutes: number }
+> = {
   // wave triggers when the booking starts within [earliest, latest] minutes from now
-  "24h":  { earliestMinutes: 23 * 60 + 30, latestMinutes: 24 * 60 + 30 }, // 23h30 → 24h30
-  "1h":   { earliestMinutes: 50,           latestMinutes: 70 },
-  "5min": { earliestMinutes: 1,            latestMinutes: 10 },
+  "24h": { earliestMinutes: 23 * 60 + 30, latestMinutes: 24 * 60 + 30 }, // 23h30 → 24h30
+  "1h": { earliestMinutes: 50, latestMinutes: 70 },
+  "5min": { earliestMinutes: 1, latestMinutes: 10 },
 };
 
 const WAVE_FOR_RECIPIENT: Record<RecipientRole, Wave[]> = {
@@ -46,8 +50,12 @@ const WAVE_FOR_RECIPIENT: Record<RecipientRole, Wave[]> = {
 
 function formatDate(iso: string, locale = "fr-FR") {
   return new Date(iso).toLocaleString(locale, {
-    weekday: "long", day: "numeric", month: "long", year: "numeric",
-    hour: "2-digit", minute: "2-digit",
+    weekday: "long",
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
   });
 }
 
@@ -63,8 +71,8 @@ function emailHtml(p: {
     p.wave === "5min"
       ? "Your session starts in a few minutes"
       : p.wave === "1h"
-      ? "Your session starts in 1 hour"
-      : "Reminder: your session is tomorrow";
+        ? "Your session starts in 1 hour"
+        : "Reminder: your session is tomorrow";
   return `<!DOCTYPE html><html><head><meta charset="utf-8"></head>
 <body style="margin:0;padding:0;background:#ffffff;font-family:Arial,sans-serif;color:#1a1a1a;">
   <div style="max-width:560px;margin:0 auto;padding:32px 24px;">
@@ -92,7 +100,10 @@ function emailHtml(p: {
 }
 
 async function sendEmail(opts: {
-  apiKey: string; to: string; subject: string; html: string;
+  apiKey: string;
+  to: string;
+  subject: string;
+  html: string;
 }): Promise<boolean> {
   try {
     const resp = await fetch("https://api.resend.com/emails", {
@@ -108,7 +119,8 @@ async function sendEmail(opts: {
         html: opts.html,
       }),
     });
-    if (!resp.ok) console.warn("[reminder] resend failed", resp.status, await resp.text());
+    if (!resp.ok)
+      console.warn("[reminder] resend failed", resp.status, await resp.text());
     return resp.ok;
   } catch (e) {
     console.warn("[reminder] resend error", e);
@@ -119,9 +131,9 @@ async function sendEmail(opts: {
 async function sendWhatsAppApi(opts: {
   phoneNumberId: string;
   token: string;
-  toE164: string;        // without leading +
+  toE164: string; // without leading +
   templateName?: string; // approved template
-  bodyText?: string;     // freeform (only works inside 24h window)
+  bodyText?: string; // freeform (only works inside 24h window)
 }): Promise<boolean> {
   try {
     const url = `https://graph.facebook.com/v20.0/${opts.phoneNumberId}/messages`;
@@ -145,7 +157,12 @@ async function sendWhatsAppApi(opts: {
       },
       body: JSON.stringify(payload),
     });
-    if (!resp.ok) console.warn("[reminder] whatsapp failed", resp.status, await resp.text());
+    if (!resp.ok)
+      console.warn(
+        "[reminder] whatsapp failed",
+        resp.status,
+        await resp.text(),
+      );
     return resp.ok;
   } catch (e) {
     console.warn("[reminder] whatsapp error", e);
@@ -154,7 +171,8 @@ async function sendWhatsAppApi(opts: {
 }
 
 Deno.serve(async (req) => {
-  if (req.method === "OPTIONS") return new Response("ok", { headers: corsHeaders });
+  if (req.method === "OPTIONS")
+    return new Response("ok", { headers: corsHeaders });
 
   // Require cron secret for invocation
   const cronSecret = Deno.env.get("CRON_SECRET");
@@ -162,7 +180,8 @@ Deno.serve(async (req) => {
     const provided = req.headers.get("Authorization") ?? "";
     if (provided !== `Bearer ${cronSecret}`) {
       return new Response(JSON.stringify({ error: "Unauthorized" }), {
-        status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" },
+        status: 401,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
   }
@@ -190,11 +209,14 @@ Deno.serve(async (req) => {
   if (error) {
     console.error("[reminder] bookings query failed", error);
     return new Response(JSON.stringify({ ok: false, error: error.message }), {
-      status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" },
+      status: 500,
+      headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
   }
 
-  let scanned = 0, dispatched = 0, skipped = 0;
+  let scanned = 0,
+    dispatched = 0,
+    skipped = 0;
   const origin = "https://upsy.ma";
 
   for (const b of (bookings ?? []) as BookingRow[]) {
@@ -206,18 +228,36 @@ Deno.serve(async (req) => {
     let wave: Wave | null = null;
     for (const w of ["5min", "1h", "24h"] as Wave[]) {
       const win = WAVE_WINDOWS[w];
-      if (minutesUntil >= win.earliestMinutes && minutesUntil <= win.latestMinutes) {
-        wave = w; break;
+      if (
+        minutesUntil >= win.earliestMinutes &&
+        minutesUntil <= win.latestMinutes
+      ) {
+        wave = w;
+        break;
       }
     }
-    if (!wave) { skipped++; continue; }
+    if (!wave) {
+      skipped++;
+      continue;
+    }
 
     // Per-booking toggles
-    if (wave === "24h" && !b.reminder_24h_enabled) { skipped++; continue; }
-    if (wave === "1h" && !b.reminder_1h_enabled) { skipped++; continue; }
-    if (wave === "5min" && !b.reminder_5min_enabled) { skipped++; continue; }
+    if (wave === "24h" && !b.reminder_24h_enabled) {
+      skipped++;
+      continue;
+    }
+    if (wave === "1h" && !b.reminder_1h_enabled) {
+      skipped++;
+      continue;
+    }
+    if (wave === "5min" && !b.reminder_5min_enabled) {
+      skipped++;
+      continue;
+    }
 
-    const channels = new Set<string>(b.reminder_channels ?? ["email", "in_app"]);
+    const channels = new Set<string>(
+      b.reminder_channels ?? ["email", "in_app"],
+    );
     const joinUrl = b.video_room_id
       ? `${origin}/video-call/${b.video_room_id}`
       : `${origin}/my-space?tab=sessions`;
@@ -225,19 +265,29 @@ Deno.serve(async (req) => {
 
     // Look up emails (specialist email comes from auth.users)
     const { data: psyAuth } = await admin
-      .schema("auth").from("users").select("email").eq("id", b.psychologist_id).maybeSingle();
+      .schema("auth")
+      .from("users")
+      .select("email")
+      .eq("id", b.psychologist_id)
+      .maybeSingle();
     const psyEmail = (psyAuth as any)?.email ?? null;
 
     let clientEmail = b.patient_email;
     if (!clientEmail && b.patient_id) {
       const { data: cAuth } = await admin
-        .schema("auth").from("users").select("email").eq("id", b.patient_id).maybeSingle();
+        .schema("auth")
+        .from("users")
+        .select("email")
+        .eq("id", b.patient_id)
+        .maybeSingle();
       clientEmail = (cAuth as any)?.email ?? null;
     }
 
     const { data: psyProfile } = await admin
       .from("psychologist_profiles")
-      .select("full_name").eq("id", b.psychologist_id).maybeSingle();
+      .select("full_name")
+      .eq("id", b.psychologist_id)
+      .maybeSingle();
     const psyName = psyProfile?.full_name ?? "your psychologist";
 
     for (const role of ["client", "specialist"] as RecipientRole[]) {
@@ -260,7 +310,11 @@ Deno.serve(async (req) => {
         : `Reminder: your session with ${psyName} is coming up.`;
 
       // 1) In-app notification
-      if (channels.has("in_app") && !sentChannels.has("in_app") && recipientUserId) {
+      if (
+        channels.has("in_app") &&
+        !sentChannels.has("in_app") &&
+        recipientUserId
+      ) {
         const { error: nErr } = await admin.from("notifications").insert({
           user_id: recipientUserId,
           type: "session_reminder",
@@ -268,42 +322,58 @@ Deno.serve(async (req) => {
             wave === "5min"
               ? "Session starting in a few minutes"
               : wave === "1h"
-              ? "Session starting in 1 hour"
-              : "Session tomorrow",
+                ? "Session starting in 1 hour"
+                : "Session tomorrow",
           body: isSpecialist
             ? `Upcoming session — ${whenLabel}.`
             : `Session with ${psyName} — ${whenLabel}.`,
-          action_url: b.session_type === "video" ? joinUrl : "/my-space?tab=sessions",
+          action_url:
+            b.session_type === "video" ? joinUrl : "/my-space?tab=sessions",
           metadata: { booking_id: b.id, wave, role },
         });
         if (!nErr) {
           await admin.from("booking_reminders_sent").insert({
-            booking_id: b.id, reminder_type: wave, recipient_role: role, channel: "in_app",
+            booking_id: b.id,
+            reminder_type: wave,
+            recipient_role: role,
+            channel: "in_app",
           });
           dispatched++;
         }
       }
 
       // 2) Email
-      if (channels.has("email") && !sentChannels.has("email") && recipientEmail && RESEND_API_KEY) {
+      if (
+        channels.has("email") &&
+        !sentChannels.has("email") &&
+        recipientEmail &&
+        RESEND_API_KEY
+      ) {
         const subject =
           wave === "5min"
             ? `Starting now — ${psyName}`
             : wave === "1h"
-            ? `In 1 hour — session with ${psyName}`
-            : `Tomorrow — session with ${psyName}`;
+              ? `In 1 hour — session with ${psyName}`
+              : `Tomorrow — session with ${psyName}`;
         const ok = await sendEmail({
           apiKey: RESEND_API_KEY,
           to: recipientEmail,
           subject,
           html: emailHtml({
-            joinUrl, whenLabel, durationMin: b.duration_minutes,
-            wave, greeting, isSpecialist,
+            joinUrl,
+            whenLabel,
+            durationMin: b.duration_minutes,
+            wave,
+            greeting,
+            isSpecialist,
           }),
         });
         if (ok) {
           await admin.from("booking_reminders_sent").insert({
-            booking_id: b.id, reminder_type: wave, recipient_role: role, channel: "email",
+            booking_id: b.id,
+            reminder_type: wave,
+            recipient_role: role,
+            channel: "email",
           });
           dispatched++;
         }
@@ -314,7 +384,8 @@ Deno.serve(async (req) => {
         !isSpecialist &&
         channels.has("whatsapp") &&
         !sentChannels.has("whatsapp_api") &&
-        WA_TOKEN && WA_PHONE_ID &&
+        WA_TOKEN &&
+        WA_PHONE_ID &&
         b.patient_phone
       ) {
         const phone = b.patient_phone.replace(/[^\d]/g, "");
@@ -322,8 +393,8 @@ Deno.serve(async (req) => {
           wave === "5min"
             ? `U.Psy — your session with ${psyName} starts now. Join: ${joinUrl}`
             : wave === "1h"
-            ? `U.Psy reminder — your session with ${psyName} starts in 1 hour. ${whenLabel}. Join: ${joinUrl}`
-            : `U.Psy reminder — your session with ${psyName} is tomorrow at ${whenLabel}. Join: ${joinUrl}`;
+              ? `U.Psy reminder — your session with ${psyName} starts in 1 hour. ${whenLabel}. Join: ${joinUrl}`
+              : `U.Psy reminder — your session with ${psyName} is tomorrow at ${whenLabel}. Join: ${joinUrl}`;
         const ok = await sendWhatsAppApi({
           phoneNumberId: WA_PHONE_ID,
           token: WA_TOKEN,
@@ -333,7 +404,10 @@ Deno.serve(async (req) => {
         });
         if (ok) {
           await admin.from("booking_reminders_sent").insert({
-            booking_id: b.id, reminder_type: wave, recipient_role: role, channel: "whatsapp_api",
+            booking_id: b.id,
+            reminder_type: wave,
+            recipient_role: role,
+            channel: "whatsapp_api",
             metadata: { phone_used: phone },
           });
           dispatched++;

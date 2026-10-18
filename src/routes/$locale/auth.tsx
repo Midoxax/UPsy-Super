@@ -6,6 +6,8 @@ const Auth = lazy(() => import("@/pages/Auth"));
 
 export const Route = createFileRoute("/$locale/auth")({
   component: () => (
-    <PageTransition><Auth /></PageTransition>
+    <PageTransition>
+      <Auth />
+    </PageTransition>
   ),
 });

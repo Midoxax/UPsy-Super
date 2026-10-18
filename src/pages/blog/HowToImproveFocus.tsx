@@ -1,6 +1,11 @@
 import { Link } from "@/lib/router-compat";
 import { Button } from "@/components/ui/button";
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 import SEOHead from "@/components/SEOHead";
 import BlogArticleSchema from "@/components/BlogArticleSchema";
 import BlogAuthor from "@/components/blog/BlogAuthor";
@@ -71,8 +76,9 @@ export default function HowToImproveFocus() {
                   How to Improve Focus and Concentration
                 </h1>
                 <p className="text-body text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-                  Focus is not a personality trait. It is a trainable skill — and the levers that
-                  move it most are surprisingly few. Here is the evidence-based playbook.
+                  Focus is not a personality trait. It is a trainable skill —
+                  and the levers that move it most are surprisingly few. Here is
+                  the evidence-based playbook.
                 </p>
               </div>
             </ScrollReveal>
@@ -87,14 +93,17 @@ export default function HowToImproveFocus() {
                   <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
                     <Brain className="w-5 h-5 text-primary" />
                   </div>
-                  <h2 className="text-h2 font-display">What focus actually is</h2>
+                  <h2 className="text-h2 font-display">
+                    What focus actually is
+                  </h2>
                 </div>
                 <p className="text-body text-muted-foreground leading-relaxed">
-                  Focus is the trained capacity to <em>hold</em> attention on one thing and{" "}
-                  <em>release</em> it when you choose. Most focus problems are not attention
-                  deficits — they are release deficits. The mind gets grabbed by a notification,
-                  a thought, a tab, and never returns cleanly. Improving focus means reducing what
-                  grabs you and training the return.
+                  Focus is the trained capacity to <em>hold</em> attention on
+                  one thing and <em>release</em> it when you choose. Most focus
+                  problems are not attention deficits — they are release
+                  deficits. The mind gets grabbed by a notification, a thought,
+                  a tab, and never returns cleanly. Improving focus means
+                  reducing what grabs you and training the return.
                 </p>
               </section>
             </ScrollReveal>
@@ -105,22 +114,40 @@ export default function HowToImproveFocus() {
                   <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
                     <Target className="w-5 h-5 text-primary" />
                   </div>
-                  <h2 className="text-h2 font-display">The four levers that move it</h2>
+                  <h2 className="text-h2 font-display">
+                    The four levers that move it
+                  </h2>
                 </div>
                 <div className="grid gap-4">
                   {[
-                    { t: "One protected deep-work block", d: "60–90 minutes, same time daily, phone in another room. This single habit outperforms every productivity system." },
-                    { t: "Sleep 7+ hours", d: "Every hour under 7 costs roughly one IQ point of working memory the next day. There is no workaround." },
-                    { t: "Single-tasking discipline", d: "Every context-switch costs 15–25 minutes of recovery time. Batch shallow work into two windows a day." },
-                    { t: "A fixed start ritual", d: "Same drink, same seat, same music. The ritual becomes a conditioned start signal — you stop needing willpower." },
+                    {
+                      t: "One protected deep-work block",
+                      d: "60–90 minutes, same time daily, phone in another room. This single habit outperforms every productivity system.",
+                    },
+                    {
+                      t: "Sleep 7+ hours",
+                      d: "Every hour under 7 costs roughly one IQ point of working memory the next day. There is no workaround.",
+                    },
+                    {
+                      t: "Single-tasking discipline",
+                      d: "Every context-switch costs 15–25 minutes of recovery time. Batch shallow work into two windows a day.",
+                    },
+                    {
+                      t: "A fixed start ritual",
+                      d: "Same drink, same seat, same music. The ritual becomes a conditioned start signal — you stop needing willpower.",
+                    },
                   ].map((lever, i) => (
                     <div key={i} className="glass-card p-5 flex gap-4">
                       <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
-                        <span className="font-mono tabular-nums text-sm text-primary">{i + 1}</span>
+                        <span className="font-mono tabular-nums text-sm text-primary">
+                          {i + 1}
+                        </span>
                       </div>
                       <div>
                         <h3 className="font-display text-lg mb-1">{lever.t}</h3>
-                        <p className="text-sm text-muted-foreground leading-relaxed">{lever.d}</p>
+                        <p className="text-sm text-muted-foreground leading-relaxed">
+                          {lever.d}
+                        </p>
                       </div>
                     </div>
                   ))}
@@ -134,13 +161,39 @@ export default function HowToImproveFocus() {
                   <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
                     <Timer className="w-5 h-5 text-primary" />
                   </div>
-                  <h2 className="text-h2 font-display">A 4-week focus protocol</h2>
+                  <h2 className="text-h2 font-display">
+                    A 4-week focus protocol
+                  </h2>
                 </div>
                 <ul className="space-y-3 text-body text-muted-foreground leading-relaxed list-none">
-                  <li><strong className="text-foreground">Week 1 — Remove leaks.</strong> Phone in another room during your first deep block. Notifications off for everything but calls and family.</li>
-                  <li><strong className="text-foreground">Week 2 — Install the block.</strong> 60 minutes, same time, one tab, one document. Miss a day, restart the streak the next day.</li>
-                  <li><strong className="text-foreground">Week 3 — Add the ritual.</strong> Same start cue every day. Extend the block to 90 minutes if the 60 feels easy.</li>
-                  <li><strong className="text-foreground">Week 4 — Protect recovery.</strong> Hard stop on work by 8pm three nights per week. Sleep is the multiplier under every other lever.</li>
+                  <li>
+                    <strong className="text-foreground">
+                      Week 1 — Remove leaks.
+                    </strong>{" "}
+                    Phone in another room during your first deep block.
+                    Notifications off for everything but calls and family.
+                  </li>
+                  <li>
+                    <strong className="text-foreground">
+                      Week 2 — Install the block.
+                    </strong>{" "}
+                    60 minutes, same time, one tab, one document. Miss a day,
+                    restart the streak the next day.
+                  </li>
+                  <li>
+                    <strong className="text-foreground">
+                      Week 3 — Add the ritual.
+                    </strong>{" "}
+                    Same start cue every day. Extend the block to 90 minutes if
+                    the 60 feels easy.
+                  </li>
+                  <li>
+                    <strong className="text-foreground">
+                      Week 4 — Protect recovery.
+                    </strong>{" "}
+                    Hard stop on work by 8pm three nights per week. Sleep is the
+                    multiplier under every other lever.
+                  </li>
                 </ul>
               </section>
             </ScrollReveal>
@@ -154,9 +207,10 @@ export default function HowToImproveFocus() {
                   <h2 className="text-h2 font-display">When to get help</h2>
                 </div>
                 <p className="text-body text-muted-foreground leading-relaxed">
-                  If four weeks of honest sleep + block + phone hygiene do not move the needle, book
-                  a session. Persistent focus problems commonly come from anxiety, low-grade
-                  depression, thyroid or iron deficiency, or undiagnosed ADHD — all treatable, none
+                  If four weeks of honest sleep + block + phone hygiene do not
+                  move the needle, book a session. Persistent focus problems
+                  commonly come from anxiety, low-grade depression, thyroid or
+                  iron deficiency, or undiagnosed ADHD — all treatable, none
                   reachable through willpower alone.
                 </p>
               </section>
@@ -168,7 +222,9 @@ export default function HowToImproveFocus() {
                   <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
                     <Coffee className="w-5 h-5 text-primary" />
                   </div>
-                  <h2 className="text-h2 font-display">Frequently asked questions</h2>
+                  <h2 className="text-h2 font-display">
+                    Frequently asked questions
+                  </h2>
                 </div>
                 <Accordion type="single" collapsible className="w-full">
                   {FAQ.map((f, i) => (
@@ -187,14 +243,20 @@ export default function HowToImproveFocus() {
 
             <ScrollReveal>
               <section className="glass-card p-8 md:p-12 text-center space-y-4">
-                <h2 className="text-h2 font-display">Measure your focus baseline</h2>
+                <h2 className="text-h2 font-display">
+                  Measure your focus baseline
+                </h2>
                 <p className="text-body text-muted-foreground max-w-xl mx-auto">
-                  Take the 2-minute Mental Performance Score and see where focus sits against
-                  regulation, recovery, and meaning. Free, private, no card.
+                  Take the 2-minute Mental Performance Score and see where focus
+                  sits against regulation, recovery, and meaning. Free, private,
+                  no card.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-3 justify-center pt-2">
                   <Button variant="primary" size="lg" asChild>
-                    <Link to="/free-score" className="inline-flex items-center gap-2">
+                    <Link
+                      to="/free-score"
+                      className="inline-flex items-center gap-2"
+                    >
                       Get your free score <ArrowRight className="w-4 h-4" />
                     </Link>
                   </Button>

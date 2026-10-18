@@ -9,11 +9,18 @@ export const Route = createFileRoute("/admin/crm")({
   head: () => ({
     meta: [
       { title: "CRM — U.Psy internal" },
-      { name: "description", content: "Internal acquisition and contact command surface." },
+      {
+        name: "description",
+        content: "Internal acquisition and contact command surface.",
+      },
       { name: "robots", content: "noindex,nofollow" },
     ],
   }),
   component: () => (
-    <AdminRoute><PageTransition><AdminCRM /></PageTransition></AdminRoute>
+    <AdminRoute>
+      <PageTransition>
+        <AdminCRM />
+      </PageTransition>
+    </AdminRoute>
   ),
 });

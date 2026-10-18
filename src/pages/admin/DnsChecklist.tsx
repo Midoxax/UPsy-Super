@@ -7,7 +7,13 @@ import { useEffect, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { CheckCircle2, Clock, Globe, RefreshCw, AlertTriangle } from "lucide-react";
+import {
+  CheckCircle2,
+  Clock,
+  Globe,
+  RefreshCw,
+  AlertTriangle,
+} from "lucide-react";
 
 type HealthCheck = {
   name: string;
@@ -23,7 +29,8 @@ type HealthBody = {
   timestamp: string;
 };
 
-const PREVIEW_HOST = "id-preview--355cf905-7152-433f-b59d-dda69a853e16.lovable.app";
+const PREVIEW_HOST =
+  "id-preview--355cf905-7152-433f-b59d-dda69a853e16.lovable.app";
 const PROD_HOST = "www.upsy.ma";
 
 const RECORDS = [
@@ -85,14 +92,16 @@ export default function DnsChecklist() {
     setProdError(null);
     try {
       const [pv, pr] = await Promise.allSettled([
-        fetch(`https://${PREVIEW_HOST}/api/public/health`, { cache: "no-store" }).then((r) =>
-          r.ok ? r.json() : Promise.reject(`HTTP ${r.status}`),
-        ),
-        fetch(`https://${PROD_HOST}/api/public/health`, { cache: "no-store" }).then((r) =>
-          r.ok ? r.json() : Promise.reject(`HTTP ${r.status}`),
-        ),
+        fetch(`https://${PREVIEW_HOST}/api/public/health`, {
+          cache: "no-store",
+        }).then((r) => (r.ok ? r.json() : Promise.reject(`HTTP ${r.status}`))),
+        fetch(`https://${PROD_HOST}/api/public/health`, {
+          cache: "no-store",
+        }).then((r) => (r.ok ? r.json() : Promise.reject(`HTTP ${r.status}`))),
       ]);
-      setPreviewHealth(pv.status === "fulfilled" ? (pv.value as HealthBody) : null);
+      setPreviewHealth(
+        pv.status === "fulfilled" ? (pv.value as HealthBody) : null,
+      );
       if (pr.status === "fulfilled") {
         setProdHealth(pr.value as HealthBody);
       } else {
@@ -117,7 +126,13 @@ export default function DnsChecklist() {
       <CheckCircle2
         className={`h-3.5 w-3.5 ${c.ok ? "text-emerald-500" : "text-destructive"}`}
       />
-      <span className={c.ok ? "text-foreground" : "text-muted-foreground line-through"}>{c.name}</span>
+      <span
+        className={
+          c.ok ? "text-foreground" : "text-muted-foreground line-through"
+        }
+      >
+        {c.name}
+      </span>
       {!c.ok && c.detail ? (
         <span className="text-muted-foreground">— {c.detail}</span>
       ) : null}
@@ -143,11 +158,23 @@ export default function DnsChecklist() {
             {title}
           </span>
           {body ? (
-            <Badge variant="outline" className={body.status === "ok" ? "border-emerald-500/40 text-emerald-600" : "border-amber-500/40 text-amber-600"}>
+            <Badge
+              variant="outline"
+              className={
+                body.status === "ok"
+                  ? "border-emerald-500/40 text-emerald-600"
+                  : "border-amber-500/40 text-amber-600"
+              }
+            >
               {body.status}
             </Badge>
           ) : (
-            <Badge variant="outline" className="border-destructive/40 text-destructive">down</Badge>
+            <Badge
+              variant="outline"
+              className="border-destructive/40 text-destructive"
+            >
+              down
+            </Badge>
           )}
         </CardTitle>
         <p className="text-[11px] text-muted-foreground font-mono">{host}</p>
@@ -164,7 +191,8 @@ export default function DnsChecklist() {
           </>
         ) : (
           <p className="text-xs text-muted-foreground">
-            {error ?? "Unreachable — DNS not propagated or deploy not published."}
+            {error ??
+              "Unreachable — DNS not propagated or deploy not published."}
           </p>
         )}
       </CardContent>
@@ -177,23 +205,41 @@ export default function DnsChecklist() {
         <div>
           <h1 className="text-2xl font-heading">DNS cutover checklist</h1>
           <p className="text-sm text-muted-foreground mt-1">
-            Exact records, TTLs, and success signals for pointing upsy.ma at the Lovable edge.
+            Exact records, TTLs, and success signals for pointing upsy.ma at the
+            Lovable edge.
           </p>
         </div>
-        <Button variant="outline" size="sm" onClick={probe} disabled={loading} className="h-8">
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={probe}
+          disabled={loading}
+          className="h-8"
+        >
           <RefreshCw className="h-3.5 w-3.5 mr-1.5" />
           Re-probe
         </Button>
       </div>
 
       <div className="grid md:grid-cols-2 gap-4">
-        <HealthCard title="Preview (stable)" host={PREVIEW_HOST} body={previewHealth} />
-        <HealthCard title="Production" host={PROD_HOST} body={prodHealth} error={prodError} />
+        <HealthCard
+          title="Preview (stable)"
+          host={PREVIEW_HOST}
+          body={previewHealth}
+        />
+        <HealthCard
+          title="Production"
+          host={PROD_HOST}
+          body={prodHealth}
+          error={prodError}
+        />
       </div>
 
       <Card>
         <CardHeader className="pb-3">
-          <CardTitle className="text-sm font-heading">Records to update</CardTitle>
+          <CardTitle className="text-sm font-heading">
+            Records to update
+          </CardTitle>
         </CardHeader>
         <CardContent className="space-y-3">
           <div className="rounded-lg border border-border/70 overflow-hidden">
@@ -208,7 +254,10 @@ export default function DnsChecklist() {
               </thead>
               <tbody>
                 {RECORDS.map((r) => (
-                  <tr key={r.type + r.host} className="border-t border-border/40">
+                  <tr
+                    key={r.type + r.host}
+                    className="border-t border-border/40"
+                  >
                     <td className="px-3 py-2 font-mono">{r.type}</td>
                     <td className="px-3 py-2 font-mono">{r.host}</td>
                     <td className="px-3 py-2">{r.value}</td>
@@ -219,7 +268,10 @@ export default function DnsChecklist() {
             </table>
           </div>
           {RECORDS.map((r) => (
-            <p key={r.type + r.host} className="text-[11px] text-muted-foreground">
+            <p
+              key={r.type + r.host}
+              className="text-[11px] text-muted-foreground"
+            >
               <span className="font-mono">{r.host}</span> — {r.note}
             </p>
           ))}
@@ -265,12 +317,13 @@ export default function DnsChecklist() {
         </CardHeader>
         <CardContent className="text-xs text-muted-foreground space-y-1">
           <p>
-            If production is broken, restore the previous DNS A/CNAME values from the screenshot
-            taken pre-cutover. TTL was lowered to 300, so recovery completes within ~5 minutes.
+            If production is broken, restore the previous DNS A/CNAME values
+            from the screenshot taken pre-cutover. TTL was lowered to 300, so
+            recovery completes within ~5 minutes.
           </p>
           <p>
-            For a code-level rollback, use the one-click Worker rollback in GitHub Actions
-            (`.github/workflows/rollback.yml`).
+            For a code-level rollback, use the one-click Worker rollback in
+            GitHub Actions (`.github/workflows/rollback.yml`).
           </p>
         </CardContent>
       </Card>

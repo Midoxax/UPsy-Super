@@ -10,7 +10,10 @@ const NotFound = () => {
     // `ReferenceError: window is not defined` inside renderToReadableStream,
     // turning every 404 into a failed server render. An effect only ever runs in
     // the browser, which is also the only place this log was ever visible.
-    console.error("404 Error: User attempted to access non-existent route:", window.location.pathname);
+    console.error(
+      "404 Error: User attempted to access non-existent route:",
+      window.location.pathname,
+    );
   }, []);
 
   return (
@@ -20,8 +23,8 @@ const NotFound = () => {
         <p className="text-body text-muted-foreground mb-6">
           Oops! This page doesn't exist.
         </p>
-        <Link 
-          to="/" 
+        <Link
+          to="/"
           className="text-u-orange hover:text-u-orange/80 underline font-medium transition-colors"
         >
           Return to Home

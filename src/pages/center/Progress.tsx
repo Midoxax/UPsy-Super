@@ -57,8 +57,8 @@ const ProgressPage = () => {
               </Badge>
               <h1 className="text-h1 font-bold">Your path</h1>
               <p className="text-muted-foreground mt-2 max-w-2xl">
-                Skill trees grow as you train. Quests turn lessons, journals, and
-                check-ins into structured missions with XP rewards.
+                Skill trees grow as you train. Quests turn lessons, journals,
+                and check-ins into structured missions with XP rewards.
               </p>
             </div>
             <Card className="px-5 py-3 flex items-center gap-4 bg-gradient-to-r from-primary/5 to-accent/5 border-primary/20">
@@ -66,7 +66,9 @@ const ProgressPage = () => {
                 <div className="text-[10px] uppercase tracking-wider text-muted-foreground">
                   Total XP
                 </div>
-                <div className="text-2xl font-bold tabular-nums">{xpTotal.toLocaleString()}</div>
+                <div className="text-2xl font-bold tabular-nums">
+                  {xpTotal.toLocaleString()}
+                </div>
               </div>
             </Card>
           </header>
@@ -131,7 +133,8 @@ const ProgressPage = () => {
             <TabsContent value="completed" className="mt-6">
               {completedQuests.length === 0 ? (
                 <Card className="p-12 text-center text-muted-foreground">
-                  No completed quests yet. Start one — they're how you build streaks of mastery.
+                  No completed quests yet. Start one — they're how you build
+                  streaks of mastery.
                 </Card>
               ) : (
                 <Grid>
@@ -152,7 +155,13 @@ const ProgressPage = () => {
   );
 };
 
-const Section = ({ title, children }: { title: string; children: React.ReactNode }) => (
+const Section = ({
+  title,
+  children,
+}: {
+  title: string;
+  children: React.ReactNode;
+}) => (
   <div>
     <h2 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground mb-3">
       {title}

@@ -87,13 +87,20 @@ export default function RecommendationsRail() {
               className="group p-4 rounded-2xl bg-muted/20 hover:bg-muted/40 transition-all border border-transparent hover:border-primary/20"
             >
               <Icon className="w-5 h-5 text-primary mb-3" />
-              <p className="text-sm font-medium text-foreground mb-1 line-clamp-2">{r.title}</p>
-              <p className="text-xs text-muted-foreground line-clamp-2">{r.description}</p>
+              <p className="text-sm font-medium text-foreground mb-1 line-clamp-2">
+                {r.title}
+              </p>
+              <p className="text-xs text-muted-foreground line-clamp-2">
+                {r.description}
+              </p>
               {r.reason && (
-                <p className="text-[10px] text-primary/80 mt-2 italic">{r.reason}</p>
+                <p className="text-[10px] text-primary/80 mt-2 italic">
+                  {r.reason}
+                </p>
               )}
               <div className="mt-3 flex items-center gap-1 text-xs text-primary opacity-0 group-hover:opacity-100 transition-opacity">
-                {t("dashboard.open") || "Open"} <ArrowRight className="w-3 h-3" />
+                {t("dashboard.open") || "Open"}{" "}
+                <ArrowRight className="w-3 h-3" />
               </div>
             </Link>
           );

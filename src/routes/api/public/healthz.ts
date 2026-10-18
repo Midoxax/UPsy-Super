@@ -7,7 +7,11 @@ import { createFileRoute } from "@tanstack/react-router";
 export const Route = createFileRoute("/api/public/healthz")({
   server: {
     handlers: {
-      GET: async () => new Response("ok", { status: 200, headers: { "Cache-Control": "no-store" } }),
+      GET: async () =>
+        new Response("ok", {
+          status: 200,
+          headers: { "Cache-Control": "no-store" },
+        }),
     },
   },
 });

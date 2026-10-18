@@ -34,10 +34,17 @@ function buildIcs(opts: {
   url: string;
 }) {
   const fmt = (d: Date) =>
-    d.toISOString().replace(/[-:]/g, "").replace(/\.\d{3}/, "");
+    d
+      .toISOString()
+      .replace(/[-:]/g, "")
+      .replace(/\.\d{3}/, "");
   const end = new Date(opts.start.getTime() + opts.durationMin * 60 * 1000);
   const escape = (s: string) =>
-    s.replace(/\\/g, "\\\\").replace(/\n/g, "\\n").replace(/,/g, "\\,").replace(/;/g, "\\;");
+    s
+      .replace(/\\/g, "\\\\")
+      .replace(/\n/g, "\\n")
+      .replace(/,/g, "\\,")
+      .replace(/;/g, "\\;");
   return [
     "BEGIN:VCALENDAR",
     "VERSION:2.0",
@@ -64,7 +71,8 @@ function buildIcs(opts: {
 }
 
 Deno.serve(async (req) => {
-  if (req.method === "OPTIONS") return new Response("ok", { headers: corsHeaders });
+  if (req.method === "OPTIONS")
+    return new Response("ok", { headers: corsHeaders });
 
   try {
     const SUPABASE_URL = Deno.env.get("SUPABASE_URL")!;
@@ -74,10 +82,10 @@ Deno.serve(async (req) => {
     const authHeader = req.headers.get("Authorization") ?? "";
     const token = authHeader.replace("Bearer ", "");
     if (!token) {
-      return new Response(
-        JSON.stringify({ error: "Missing authentication" }),
-        { status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" } },
-      );
+      return new Response(JSON.stringify({ error: "Missing authentication" }), {
+        status: 401,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
     }
 
     const userClient = createClient(SUPABASE_URL, ANON_KEY, {
@@ -85,10 +93,10 @@ Deno.serve(async (req) => {
     });
     const { data: userData, error: userErr } = await userClient.auth.getUser();
     if (userErr || !userData.user) {
-      return new Response(
-        JSON.stringify({ error: "Invalid session" }),
-        { status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" } },
-      );
+      return new Response(JSON.stringify({ error: "Invalid session" }), {
+        status: 401,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
     }
     const psychologistId = userData.user.id;
     const admin = createClient(SUPABASE_URL, SERVICE_KEY);
@@ -102,36 +110,42 @@ Deno.serve(async (req) => {
     if (!roleRow) {
       return new Response(
         JSON.stringify({ error: "Only psychologists can send meeting links" }),
-        { status: 403, headers: { ...corsHeaders, "Content-Type": "application/json" } },
+        {
+          status: 403,
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        },
       );
     }
 
     const body = (await req.json()) as Body;
     if (!body.client_email || !isValidEmail(body.client_email)) {
-      return new Response(
-        JSON.stringify({ error: "Invalid client email" }),
-        { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } },
-      );
+      return new Response(JSON.stringify({ error: "Invalid client email" }), {
+        status: 400,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
     }
     if (!body.scheduled_at || isNaN(new Date(body.scheduled_at).getTime())) {
-      return new Response(
-        JSON.stringify({ error: "Invalid scheduled date" }),
-        { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } },
-      );
+      return new Response(JSON.stringify({ error: "Invalid scheduled date" }), {
+        status: 400,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
     }
     // Allow "now-ish" — must be at least 5 minutes in the past tolerance
     const startMs = new Date(body.scheduled_at).getTime();
     if (startMs < Date.now() - 5 * 60 * 1000) {
       return new Response(
         JSON.stringify({ error: "Scheduled time is in the past" }),
-        { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } },
+        {
+          status: 400,
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        },
       );
     }
     if (![30, 45, 50, 60, 90].includes(body.duration_minutes)) {
-      return new Response(
-        JSON.stringify({ error: "Invalid duration" }),
-        { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } },
-      );
+      return new Response(JSON.stringify({ error: "Invalid duration" }), {
+        status: 400,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
     }
 
     // Conflict check (no availability/1h-future enforcement; this is the "instant" path)
@@ -154,7 +168,10 @@ Deno.serve(async (req) => {
           error: "You already have a booking that overlaps with this time.",
           reason: "slot_conflict",
         }),
-        { status: 409, headers: { ...corsHeaders, "Content-Type": "application/json" } },
+        {
+          status: 409,
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        },
       );
     }
 
@@ -167,7 +184,8 @@ Deno.serve(async (req) => {
       .select("id,email")
       .ilike("email", email)
       .limit(1);
-    const existingUser = existingRows?.[0] as { id: string; email: string } | undefined;
+    const existingUser = existingRows?.[0] as
+      { id: string; email: string } | undefined;
 
     const { data: booking, error: insertErr } = await admin
       .from("bookings")
@@ -190,8 +208,13 @@ Deno.serve(async (req) => {
     if (insertErr || !booking) {
       console.error("[send-meeting-link] insert error", insertErr);
       return new Response(
-        JSON.stringify({ error: insertErr?.message ?? "Could not create booking" }),
-        { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } },
+        JSON.stringify({
+          error: insertErr?.message ?? "Could not create booking",
+        }),
+        {
+          status: 500,
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        },
       );
     }
 
@@ -272,7 +295,10 @@ Deno.serve(async (req) => {
         title: `${psyName} invited you to a session`,
         body: `${dateStr} · ${body.duration_minutes} min`,
         action_url: joinUrl,
-        metadata: { booking_id: booking.id, video_room_id: booking.video_room_id },
+        metadata: {
+          booking_id: booking.id,
+          video_room_id: booking.video_room_id,
+        },
       });
     }
 
@@ -320,7 +346,10 @@ Deno.serve(async (req) => {
         });
         emailSent = resp.ok;
         if (!resp.ok) {
-          console.warn("[send-meeting-link] email send failed", await resp.text());
+          console.warn(
+            "[send-meeting-link] email send failed",
+            await resp.text(),
+          );
         }
       } catch (e) {
         console.warn("[send-meeting-link] email error", e);
@@ -342,9 +371,9 @@ Deno.serve(async (req) => {
     );
   } catch (e: any) {
     console.error("[send-meeting-link] unhandled", e);
-    return new Response(
-      JSON.stringify({ error: "Internal error" }),
-      { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } },
-    );
+    return new Response(JSON.stringify({ error: "Internal error" }), {
+      status: 500,
+      headers: { ...corsHeaders, "Content-Type": "application/json" },
+    });
   }
 });

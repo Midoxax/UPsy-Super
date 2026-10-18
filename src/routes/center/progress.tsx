@@ -7,6 +7,10 @@ const CenterProgress = lazy(() => import("@/pages/center/Progress"));
 
 export const Route = createFileRoute("/center/progress")({
   component: () => (
-    <ProtectedRoute><PageTransition><CenterProgress /></PageTransition></ProtectedRoute>
+    <ProtectedRoute>
+      <PageTransition>
+        <CenterProgress />
+      </PageTransition>
+    </ProtectedRoute>
   ),
 });

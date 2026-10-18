@@ -6,6 +6,8 @@ const Press = lazy(() => import("@/pages/Press"));
 
 export const Route = createFileRoute("/$locale/press")({
   component: () => (
-    <PageTransition><Press /></PageTransition>
+    <PageTransition>
+      <Press />
+    </PageTransition>
   ),
 });

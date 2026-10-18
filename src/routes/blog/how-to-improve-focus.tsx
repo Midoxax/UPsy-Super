@@ -6,6 +6,8 @@ const HowToImproveFocus = lazy(() => import("@/pages/blog/HowToImproveFocus"));
 
 export const Route = createFileRoute("/blog/how-to-improve-focus")({
   component: () => (
-    <PageTransition><HowToImproveFocus /></PageTransition>
+    <PageTransition>
+      <HowToImproveFocus />
+    </PageTransition>
   ),
 });

@@ -6,6 +6,8 @@ const Founder = lazy(() => import("@/pages/Founder"));
 
 export const Route = createFileRoute("/founder")({
   component: () => (
-    <PageTransition><Founder /></PageTransition>
+    <PageTransition>
+      <Founder />
+    </PageTransition>
   ),
 });

@@ -6,6 +6,8 @@ const BrandGuidelines = lazy(() => import("@/pages/BrandGuidelines"));
 
 export const Route = createFileRoute("/$locale/brand")({
   component: () => (
-    <PageTransition><BrandGuidelines /></PageTransition>
+    <PageTransition>
+      <BrandGuidelines />
+    </PageTransition>
   ),
 });

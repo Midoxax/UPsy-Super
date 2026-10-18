@@ -72,9 +72,13 @@ const MetricTile = ({
     <CardContent className="p-4">
       <div className="flex items-start justify-between gap-3">
         <div>
-          <p className="text-[11px] uppercase tracking-[0.18em] text-muted-foreground">{label}</p>
+          <p className="text-[11px] uppercase tracking-[0.18em] text-muted-foreground">
+            {label}
+          </p>
           <p className="text-2xl font-heading tabular-nums mt-1">{value}</p>
-          {hint ? <p className="text-xs text-muted-foreground mt-1">{hint}</p> : null}
+          {hint ? (
+            <p className="text-xs text-muted-foreground mt-1">{hint}</p>
+          ) : null}
         </div>
         <Icon className="h-4 w-4 text-muted-foreground shrink-0" />
       </div>
@@ -83,8 +87,16 @@ const MetricTile = ({
 );
 
 const AuditTrail = () => {
-  const [filters, setFilters] = useState<AuditFilters>({ dataClass: "all", action: "all", limit: 200 });
-  const { data: stats, isLoading: statsLoading, refetch: refetchStats } = useAuditStats(30);
+  const [filters, setFilters] = useState<AuditFilters>({
+    dataClass: "all",
+    action: "all",
+    limit: 200,
+  });
+  const {
+    data: stats,
+    isLoading: statsLoading,
+    refetch: refetchStats,
+  } = useAuditStats(30);
   const { data: entries = [], isLoading, refetch } = useAuditSearch(filters);
   const { data: requests = [] } = useDataSubjectRequests();
   const updateRequest = useUpdateDataSubjectRequest();
@@ -93,7 +105,9 @@ const AuditTrail = () => {
   const actions = useMemo(() => Object.keys(stats?.by_action ?? {}), [stats]);
 
   const exportCsv = () => {
-    const blob = new Blob([auditEntriesToCsv(entries)], { type: "text/csv;charset=utf-8" });
+    const blob = new Blob([auditEntriesToCsv(entries)], {
+      type: "text/csv;charset=utf-8",
+    });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
@@ -102,14 +116,16 @@ const AuditTrail = () => {
     URL.revokeObjectURL(url);
   };
 
-  const set = (patch: Partial<AuditFilters>) => setFilters((f) => ({ ...f, ...patch }));
+  const set = (patch: Partial<AuditFilters>) =>
+    setFilters((f) => ({ ...f, ...patch }));
 
   return (
     <div className="space-y-6">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div className="flex items-center gap-2 text-xs text-muted-foreground">
           <Lock className="h-3.5 w-3.5" />
-          Append-only · six-year retention · clinical content never stored in the log
+          Append-only · six-year retention · clinical content never stored in
+          the log
         </div>
         <Button
           variant="outline"
@@ -126,26 +142,44 @@ const AuditTrail = () => {
       </div>
 
       <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
-        <MetricTile label="Events (30d)" value={statsLoading ? "—" : (stats?.total ?? 0)} icon={FileClock} />
+        <MetricTile
+          label="Events (30d)"
+          value={statsLoading ? "—" : (stats?.total ?? 0)}
+          icon={FileClock}
+        />
         <MetricTile
           label="Clinical touches"
           value={statsLoading ? "—" : (stats?.clinical ?? 0)}
           hint="C1 writes + reads"
           icon={ShieldCheck}
         />
-        <MetricTile label="Sensitive reads" value={statsLoading ? "—" : (stats?.reads ?? 0)} icon={Eye} />
-        <MetricTile label="Distinct actors" value={statsLoading ? "—" : (stats?.actors ?? 0)} icon={Users} />
+        <MetricTile
+          label="Sensitive reads"
+          value={statsLoading ? "—" : (stats?.reads ?? 0)}
+          icon={Eye}
+        />
+        <MetricTile
+          label="Distinct actors"
+          value={statsLoading ? "—" : (stats?.actors ?? 0)}
+          icon={Users}
+        />
         <MetricTile
           label="Subject requests"
           value={statsLoading ? "—" : (stats?.open_requests ?? 0)}
-          hint={stats?.overdue_requests ? `${stats.overdue_requests} overdue` : "none overdue"}
+          hint={
+            stats?.overdue_requests
+              ? `${stats.overdue_requests} overdue`
+              : "none overdue"
+          }
           icon={Filter}
         />
       </div>
 
       <Tabs defaultValue="trail" className="space-y-4">
         <TabsList className="bg-surface border border-border p-1 rounded-xl">
-          <TabsTrigger value="trail" className="text-xs">Access trail</TabsTrigger>
+          <TabsTrigger value="trail" className="text-xs">
+            Access trail
+          </TabsTrigger>
           <TabsTrigger value="requests" className="text-xs">
             Data-subject requests
             {stats?.open_requests ? (
@@ -154,7 +188,9 @@ const AuditTrail = () => {
               </span>
             ) : null}
           </TabsTrigger>
-          <TabsTrigger value="ops" className="text-xs">Operations log</TabsTrigger>
+          <TabsTrigger value="ops" className="text-xs">
+            Operations log
+          </TabsTrigger>
         </TabsList>
 
         <TabsContent value="trail" className="space-y-4">
@@ -194,25 +230,38 @@ const AuditTrail = () => {
                 <Label className="text-xs">Data class</Label>
                 <Select
                   value={filters.dataClass ?? "all"}
-                  onValueChange={(v) => set({ dataClass: v as DataClass | "all" })}
+                  onValueChange={(v) =>
+                    set({ dataClass: v as DataClass | "all" })
+                  }
                 >
-                  <SelectTrigger className="h-9 text-xs"><SelectValue /></SelectTrigger>
+                  <SelectTrigger className="h-9 text-xs">
+                    <SelectValue />
+                  </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="all">All classes</SelectItem>
                     {(Object.keys(DATA_CLASS_LABEL) as DataClass[]).map((c) => (
-                      <SelectItem key={c} value={c}>{c} · {DATA_CLASS_LABEL[c]}</SelectItem>
+                      <SelectItem key={c} value={c}>
+                        {c} · {DATA_CLASS_LABEL[c]}
+                      </SelectItem>
                     ))}
                   </SelectContent>
                 </Select>
               </div>
               <div className="space-y-1.5">
                 <Label className="text-xs">Action</Label>
-                <Select value={filters.action ?? "all"} onValueChange={(v) => set({ action: v })}>
-                  <SelectTrigger className="h-9 text-xs"><SelectValue /></SelectTrigger>
+                <Select
+                  value={filters.action ?? "all"}
+                  onValueChange={(v) => set({ action: v })}
+                >
+                  <SelectTrigger className="h-9 text-xs">
+                    <SelectValue />
+                  </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="all">All actions</SelectItem>
                     {actions.map((a) => (
-                      <SelectItem key={a} value={a}>{a}</SelectItem>
+                      <SelectItem key={a} value={a}>
+                        {a}
+                      </SelectItem>
                     ))}
                   </SelectContent>
                 </Select>
@@ -243,7 +292,9 @@ const AuditTrail = () => {
           <Card>
             <CardHeader className="pb-3 flex-row items-center justify-between space-y-0">
               <CardTitle className="text-base">
-                {isLoading ? "Loading…" : `${entries.length} event${entries.length === 1 ? "" : "s"}`}
+                {isLoading
+                  ? "Loading…"
+                  : `${entries.length} event${entries.length === 1 ? "" : "s"}`}
               </CardTitle>
               <Button
                 variant="outline"
@@ -272,27 +323,45 @@ const AuditTrail = () => {
                   </thead>
                   <tbody>
                     {entries.map((e) => (
-                      <tr key={e.id} className="border-t border-border/60 align-top">
-                        <td className="px-4 py-2 whitespace-nowrap tabular-nums">{fmt(e.created_at)}</td>
+                      <tr
+                        key={e.id}
+                        className="border-t border-border/60 align-top"
+                      >
+                        <td className="px-4 py-2 whitespace-nowrap tabular-nums">
+                          {fmt(e.created_at)}
+                        </td>
                         <td className="px-4 py-2">
-                          <div className="font-medium">{e.actor_email ?? e.user_id ?? "system"}</div>
+                          <div className="font-medium">
+                            {e.actor_email ?? e.user_id ?? "system"}
+                          </div>
                           {e.actor_role ? (
-                            <div className="text-muted-foreground">{e.actor_role}</div>
+                            <div className="text-muted-foreground">
+                              {e.actor_role}
+                            </div>
                           ) : null}
                         </td>
-                        <td className="px-4 py-2 whitespace-nowrap">{e.action}</td>
+                        <td className="px-4 py-2 whitespace-nowrap">
+                          {e.action}
+                        </td>
                         <td className="px-4 py-2">
                           <div>{e.resource_type}</div>
                           {e.record_ref ? (
-                            <div className="text-muted-foreground truncate max-w-[14ch]">{e.record_ref}</div>
+                            <div className="text-muted-foreground truncate max-w-[14ch]">
+                              {e.record_ref}
+                            </div>
                           ) : null}
                         </td>
                         <td className="px-4 py-2">
-                          <Badge variant="outline" className={CLASS_STYLE[e.data_class]}>
+                          <Badge
+                            variant="outline"
+                            className={CLASS_STYLE[e.data_class]}
+                          >
                             {e.data_class}
                           </Badge>
                         </td>
-                        <td className="px-4 py-2">{e.subject_email ?? e.subject_id ?? "—"}</td>
+                        <td className="px-4 py-2">
+                          {e.subject_email ?? e.subject_id ?? "—"}
+                        </td>
                         <td className="px-4 py-2 text-muted-foreground">
                           {(e.changed?.fields ?? []).join(", ") || "—"}
                         </td>
@@ -300,7 +369,10 @@ const AuditTrail = () => {
                     ))}
                     {!isLoading && entries.length === 0 ? (
                       <tr>
-                        <td colSpan={7} className="px-4 py-10 text-center text-muted-foreground">
+                        <td
+                          colSpan={7}
+                          className="px-4 py-10 text-center text-muted-foreground"
+                        >
                           No events match these filters.
                         </td>
                       </tr>
@@ -321,19 +393,26 @@ const AuditTrail = () => {
             </Card>
           ) : (
             requests.map((r) => {
-              const overdue = r.status !== "fulfilled" && new Date(r.due_at) < new Date();
+              const overdue =
+                r.status !== "fulfilled" && new Date(r.due_at) < new Date();
               return (
-                <Card key={r.id} className={overdue ? "border-destructive/40" : undefined}>
+                <Card
+                  key={r.id}
+                  className={overdue ? "border-destructive/40" : undefined}
+                >
                   <CardContent className="p-4 space-y-3">
                     <div className="flex flex-wrap items-center justify-between gap-2">
                       <div>
                         <p className="font-medium text-sm">{r.email}</p>
                         <p className="text-xs text-muted-foreground">
-                          {r.request_type} · filed {fmt(r.created_at)} · due {fmt(r.due_at)}
+                          {r.request_type} · filed {fmt(r.created_at)} · due{" "}
+                          {fmt(r.due_at)}
                         </p>
                       </div>
                       <div className="flex items-center gap-2">
-                        {overdue ? <Badge variant="destructive">Overdue</Badge> : null}
+                        {overdue ? (
+                          <Badge variant="destructive">Overdue</Badge>
+                        ) : null}
                         <Badge variant="outline">{r.status}</Badge>
                       </div>
                     </div>
@@ -342,7 +421,9 @@ const AuditTrail = () => {
                       rows={2}
                       placeholder="Handling notes (what was exported, what was restricted rather than deleted, legal basis)"
                       value={noteDraft[r.id] ?? r.notes ?? ""}
-                      onChange={(e) => setNoteDraft((d) => ({ ...d, [r.id]: e.target.value }))}
+                      onChange={(e) =>
+                        setNoteDraft((d) => ({ ...d, [r.id]: e.target.value }))
+                      }
                     />
                     <div className="flex flex-wrap gap-2">
                       {["in_progress", "fulfilled", "refused"].map((s) => (
@@ -353,7 +434,11 @@ const AuditTrail = () => {
                           className="text-xs"
                           disabled={updateRequest.isPending}
                           onClick={() =>
-                            updateRequest.mutate({ id: r.id, status: s, notes: noteDraft[r.id] ?? r.notes ?? "" })
+                            updateRequest.mutate({
+                              id: r.id,
+                              status: s,
+                              notes: noteDraft[r.id] ?? r.notes ?? "",
+                            })
                           }
                         >
                           Mark {s.replace("_", " ")}

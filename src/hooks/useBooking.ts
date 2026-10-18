@@ -101,7 +101,10 @@ export const usePsychologistBookings = () => {
 
 // ── Patient: available slots for a psychologist on a date ─────────────────────
 
-export const useAvailableSlots = (psychologistId: string, date: Date | null) => {
+export const useAvailableSlots = (
+  psychologistId: string,
+  date: Date | null,
+) => {
   return useQuery({
     queryKey: ["available-slots", psychologistId, date?.toISOString()],
     queryFn: async () => {
@@ -144,7 +147,8 @@ export const useCreateBooking = () => {
         .maybeSingle();
       if (psyError) throw psyError;
       const rate = psy?.hourly_rate_mad ?? 0;
-      const amount = Math.round((rate * booking.duration_minutes / 60) * 100) / 100;
+      const amount =
+        Math.round(((rate * booking.duration_minutes) / 60) * 100) / 100;
 
       const { error } = await supabase.from("bookings").insert({
         psychologist_id: booking.psychologist_id,

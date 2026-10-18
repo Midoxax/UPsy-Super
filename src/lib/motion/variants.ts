@@ -18,7 +18,11 @@ export const chapter: Variants = {
 /** Child item used inside `chapter` parent. */
 export const chapterItem: Variants = {
   hidden: { opacity: 0, y: 24 },
-  show: { opacity: 1, y: 0, transition: { duration: DUR.base, ease: EASE.exhale } },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: DUR.base, ease: EASE.exhale },
+  },
 };
 
 /** Crystal dissolve — used by route transitions. */

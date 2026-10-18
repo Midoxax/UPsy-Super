@@ -4,7 +4,22 @@ import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { Video, PhoneOff, ArrowLeft, Loader2, ShieldAlert, Wifi, WifiOff, RefreshCw, Clock, Check, X, CalendarClock, AlertTriangle, LifeBuoy } from "lucide-react";
+import {
+  Video,
+  PhoneOff,
+  ArrowLeft,
+  Loader2,
+  ShieldAlert,
+  Wifi,
+  WifiOff,
+  RefreshCw,
+  Clock,
+  Check,
+  X,
+  CalendarClock,
+  AlertTriangle,
+  LifeBuoy,
+} from "lucide-react";
 import { toast } from "sonner";
 import { useRespondToInvitation } from "@/hooks/useProposeSession";
 import SessionStatusTimeline from "@/components/dashboard/SessionStatusTimeline";
@@ -37,14 +52,30 @@ const loadJitsiScript = (): Promise<void> =>
   new Promise((resolve, reject) => {
     if (window.JitsiMeetExternalAPI) return resolve();
     const timeout = setTimeout(
-      () => reject(new Error("Jitsi script load timed out — check your network or ad-blocker.")),
+      () =>
+        reject(
+          new Error(
+            "Jitsi script load timed out — check your network or ad-blocker.",
+          ),
+        ),
       15000,
     );
-    const finish = (fn: () => void) => () => { clearTimeout(timeout); fn(); };
-    const existing = document.querySelector<HTMLScriptElement>(`script[src="${JITSI_SCRIPT_SRC}"]`);
+    const finish = (fn: () => void) => () => {
+      clearTimeout(timeout);
+      fn();
+    };
+    const existing = document.querySelector<HTMLScriptElement>(
+      `script[src="${JITSI_SCRIPT_SRC}"]`,
+    );
     if (existing) {
-      existing.addEventListener("load", finish(() => resolve()));
-      existing.addEventListener("error", finish(() => reject(new Error("Failed to load Jitsi"))));
+      existing.addEventListener(
+        "load",
+        finish(() => resolve()),
+      );
+      existing.addEventListener(
+        "error",
+        finish(() => reject(new Error("Failed to load Jitsi"))),
+      );
       return;
     }
     const s = document.createElement("script");
@@ -76,7 +107,9 @@ const VideoCall = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [embedReady, setEmbedReady] = useState(false);
-  const [connectionState, setConnectionState] = useState<"connecting" | "connected" | "disconnected">("connecting");
+  const [connectionState, setConnectionState] = useState<
+    "connecting" | "connected" | "disconnected"
+  >("connecting");
   const [now, setNow] = useState(Date.now());
   const [reconnectKey, setReconnectKey] = useState(0);
   const respond = useRespondToInvitation();
@@ -100,7 +133,9 @@ const VideoCall = () => {
 
       const { data, error: fetchErr } = await supabase
         .from("bookings")
-        .select("id, scheduled_at, duration_minutes, status, session_type, video_room_id, patient_id, psychologist_id")
+        .select(
+          "id, scheduled_at, duration_minutes, status, session_type, video_room_id, patient_id, psychologist_id",
+        )
         .eq("id", sessionId)
         .maybeSingle();
 
@@ -118,7 +153,11 @@ const VideoCall = () => {
       }
 
       // Status must be active
-      if (!["confirmed", "pending", "in_progress", "proposed"].includes(data.status)) {
+      if (
+        !["confirmed", "pending", "in_progress", "proposed"].includes(
+          data.status,
+        )
+      ) {
         setError(`This session is ${data.status}.`);
         setLoading(false);
         return;
@@ -150,7 +189,8 @@ const VideoCall = () => {
   }, [user, sessionId]);
 
   const isPatient = !!booking && !!user && booking.patient_id === user.id;
-  const isPsychologist = !!booking && !!user && booking.psychologist_id === user.id;
+  const isPsychologist =
+    !!booking && !!user && booking.psychologist_id === user.id;
 
   const handleAcceptInvite = async () => {
     if (!booking) return;
@@ -161,7 +201,9 @@ const VideoCall = () => {
       // Refetch booking to update status / mount Jitsi if window is open
       const { data } = await supabase
         .from("bookings")
-        .select("id, scheduled_at, duration_minutes, status, session_type, video_room_id, patient_id, psychologist_id")
+        .select(
+          "id, scheduled_at, duration_minutes, status, session_type, video_room_id, patient_id, psychologist_id",
+        )
         .eq("id", booking.id)
         .maybeSingle();
       if (data) setBooking(data as BookingRow);
@@ -191,7 +233,10 @@ const VideoCall = () => {
     if (!booking) return { phase: "loading" as const, opensInMs: 0 };
     const startsAt = new Date(booking.scheduled_at).getTime();
     if (now < startsAt - JOIN_EARLY_MS) {
-      return { phase: "early" as const, opensInMs: startsAt - JOIN_EARLY_MS - now };
+      return {
+        phase: "early" as const,
+        opensInMs: startsAt - JOIN_EARLY_MS - now,
+      };
     }
     return { phase: "open" as const, opensInMs: 0 };
   }, [booking, now]);
@@ -223,7 +268,9 @@ const VideoCall = () => {
     if (booking.status === "proposed") return; // not joinable yet
     if (windowState.phase !== "open") return;
     if (!booking.video_room_id) {
-      setError("This session has no video room. Please contact your specialist.");
+      setError(
+        "This session has no video room. Please contact your specialist.",
+      );
       return;
     }
     let cancelled = false;
@@ -234,9 +281,11 @@ const VideoCall = () => {
     (async () => {
       try {
         await loadJitsiScript();
-        if (cancelled || !containerRef.current || !window.JitsiMeetExternalAPI) return;
+        if (cancelled || !containerRef.current || !window.JitsiMeetExternalAPI)
+          return;
 
-        const displayName = user.user_metadata?.full_name || user.email || "Participant";
+        const displayName =
+          user.user_metadata?.full_name || user.email || "Participant";
         const api = new window.JitsiMeetExternalAPI(JITSI_DOMAIN, {
           roomName: booking.video_room_id,
           parentNode: containerRef.current,
@@ -256,9 +305,17 @@ const VideoCall = () => {
             SHOW_WATERMARK_FOR_GUESTS: false,
             DEFAULT_BACKGROUND: "#0F0F0F",
             TOOLBAR_BUTTONS: [
-              "microphone", "camera", "desktop", "fullscreen",
-              "fodeviceselection", "hangup", "chat", "raisehand",
-              "videoquality", "tileview", "settings",
+              "microphone",
+              "camera",
+              "desktop",
+              "fullscreen",
+              "fodeviceselection",
+              "hangup",
+              "chat",
+              "raisehand",
+              "videoquality",
+              "tileview",
+              "settings",
             ],
           },
         });
@@ -321,7 +378,9 @@ const VideoCall = () => {
         <div className="glass-card p-12 text-center max-w-md">
           <ShieldAlert className="w-12 h-12 text-primary mx-auto mb-4" />
           <h2 className="text-h2 mb-2">Sign In Required</h2>
-          <p className="text-muted-foreground mb-6">Please sign in to join a video session.</p>
+          <p className="text-muted-foreground mb-6">
+            Please sign in to join a video session.
+          </p>
           <SocialAuthButtons className="mb-4" />
           <Button variant="primary" asChild className="w-full">
             <Link to="/auth">Sign In</Link>
@@ -380,18 +439,24 @@ const VideoCall = () => {
           <div className="rounded-xl border border-border p-4 text-left mb-5 bg-muted/20">
             <p className="text-sm">
               <span className="text-muted-foreground">With: </span>
-              <span className="font-medium">{psyName || "Your specialist"}</span>
+              <span className="font-medium">
+                {psyName || "Your specialist"}
+              </span>
             </p>
             <p className="text-sm">
               <span className="text-muted-foreground">When: </span>
               {dt.toLocaleString(undefined, {
-                weekday: "short", month: "short", day: "numeric",
-                hour: "2-digit", minute: "2-digit",
+                weekday: "short",
+                month: "short",
+                day: "numeric",
+                hour: "2-digit",
+                minute: "2-digit",
               })}
             </p>
             <p className="text-sm capitalize">
               <span className="text-muted-foreground">Type: </span>
-              {booking.session_type.replace("_", " ")} · {booking.duration_minutes} min
+              {booking.session_type.replace("_", " ")} ·{" "}
+              {booking.duration_minutes} min
             </p>
           </div>
           {respondError && (
@@ -400,20 +465,28 @@ const VideoCall = () => {
           {isPatient ? (
             declineMode ? (
               <div className="space-y-3 text-left">
-                <label className="text-xs text-muted-foreground" htmlFor="decline-reason">
+                <label
+                  className="text-xs text-muted-foreground"
+                  htmlFor="decline-reason"
+                >
                   Reason for declining (optional)
                 </label>
                 <Textarea
                   id="decline-reason"
                   value={declineReason}
-                  onChange={(e) => setDeclineReason(e.target.value.slice(0, 500))}
+                  onChange={(e) =>
+                    setDeclineReason(e.target.value.slice(0, 500))
+                  }
                   placeholder="Let your specialist know why, if you'd like"
                   rows={3}
                 />
                 <div className="flex gap-2 justify-end">
                   <Button
                     variant="ghost"
-                    onClick={() => { setDeclineMode(false); setDeclineReason(""); }}
+                    onClick={() => {
+                      setDeclineMode(false);
+                      setDeclineReason("");
+                    }}
                     disabled={respond.isPending}
                   >
                     Back
@@ -447,7 +520,8 @@ const VideoCall = () => {
                   onClick={handleAcceptInvite}
                   disabled={respond.isPending}
                 >
-                  {respond.isPending && respond.variables?.action === "accept" ? (
+                  {respond.isPending &&
+                  respond.variables?.action === "accept" ? (
                     <Loader2 className="h-4 w-4 mr-1 animate-spin" />
                   ) : (
                     <Check className="h-4 w-4 mr-1" />
@@ -462,7 +536,8 @@ const VideoCall = () => {
             </Button>
           )}
           <p className="text-xs text-muted-foreground mt-4">
-            Conformément à la loi 09-08, vos données personnelles sont protégées.
+            Conformément à la loi 09-08, vos données personnelles sont
+            protégées.
           </p>
         </div>
       </div>
@@ -488,8 +563,11 @@ const VideoCall = () => {
           <p className="text-xs text-muted-foreground mb-6">
             Session with {psyName || "your specialist"} ·{" "}
             {new Date(booking.scheduled_at).toLocaleString(undefined, {
-              weekday: "short", month: "short", day: "numeric",
-              hour: "2-digit", minute: "2-digit",
+              weekday: "short",
+              month: "short",
+              day: "numeric",
+              hour: "2-digit",
+              minute: "2-digit",
             })}
           </p>
           <Button variant="outline" onClick={() => navigate("/my-space")}>
@@ -505,7 +583,11 @@ const VideoCall = () => {
       {/* Top Bar */}
       <div className="flex items-center justify-between px-4 py-3 border-b border-border bg-card">
         <div className="flex items-center gap-3">
-          <Button variant="ghost" size="sm" onClick={() => navigate("/my-space")}>
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => navigate("/my-space")}
+          >
             <ArrowLeft className="h-4 w-4 mr-1" /> Dashboard
           </Button>
           <div className="hidden sm:flex items-center gap-3">
@@ -515,16 +597,26 @@ const VideoCall = () => {
             </span>
             {booking && (
               <SessionStatusTimeline
-                status={connectionState === "connected" ? "in_progress" : booking.status}
+                status={
+                  connectionState === "connected"
+                    ? "in_progress"
+                    : booking.status
+                }
               />
             )}
             <span className="ml-2 inline-flex items-center gap-1 text-xs text-muted-foreground">
               {connectionState === "connected" ? (
-                <><Wifi className="h-3 w-3 text-primary" /> Connected</>
+                <>
+                  <Wifi className="h-3 w-3 text-primary" /> Connected
+                </>
               ) : connectionState === "connecting" ? (
-                <><Loader2 className="h-3 w-3 animate-spin" /> Connecting…</>
+                <>
+                  <Loader2 className="h-3 w-3 animate-spin" /> Connecting…
+                </>
               ) : (
-                <><WifiOff className="h-3 w-3 text-destructive" /> Disconnected</>
+                <>
+                  <WifiOff className="h-3 w-3 text-destructive" /> Disconnected
+                </>
               )}
             </span>
           </div>
@@ -549,9 +641,12 @@ const VideoCall = () => {
               <div className="flex items-start gap-3 flex-1">
                 <AlertTriangle className="h-5 w-5 text-destructive shrink-0 mt-0.5" />
                 <div className="text-sm">
-                  <p className="font-medium text-foreground">Meeting room failed to load</p>
+                  <p className="font-medium text-foreground">
+                    Meeting room failed to load
+                  </p>
                   <p className="text-muted-foreground mt-0.5">
-                    Check your internet, then tap retry. If the issue persists, contact support.
+                    Check your internet, then tap retry. If the issue persists,
+                    contact support.
                   </p>
                 </div>
               </div>

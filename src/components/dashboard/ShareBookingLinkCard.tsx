@@ -1,21 +1,41 @@
 import { useMemo, useState } from "react";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
-import { Link2, Copy, Check, MessageCircle, Mail, Smartphone } from "lucide-react";
+import {
+  Link2,
+  Copy,
+  Check,
+  MessageCircle,
+  Mail,
+  Smartphone,
+} from "lucide-react";
 
 interface ShareBookingLinkCardProps {
   slug?: string | null;
   isPublished?: boolean;
 }
 
-export const ShareBookingLinkCard = ({ slug, isPublished }: ShareBookingLinkCardProps) => {
+export const ShareBookingLinkCard = ({
+  slug,
+  isPublished,
+}: ShareBookingLinkCardProps) => {
   const { toast } = useToast();
   const [copied, setCopied] = useState(false);
 
-  const origin = typeof window !== "undefined" ? window.location.origin : "https://upsy.ma";
-  const link = useMemo(() => (slug ? `${origin}/b/${slug}` : ""), [origin, slug]);
+  const origin =
+    typeof window !== "undefined" ? window.location.origin : "https://upsy.ma";
+  const link = useMemo(
+    () => (slug ? `${origin}/b/${slug}` : ""),
+    [origin, slug],
+  );
 
   const message = `Hi! You can book a session with me directly here: ${link}`;
 
@@ -25,9 +45,16 @@ export const ShareBookingLinkCard = ({ slug, isPublished }: ShareBookingLinkCard
       await navigator.clipboard.writeText(link);
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
-      toast({ title: "Link copied", description: "Share it with your client." });
+      toast({
+        title: "Link copied",
+        description: "Share it with your client.",
+      });
     } catch {
-      toast({ title: "Copy failed", description: "Please copy manually.", variant: "destructive" });
+      toast({
+        title: "Copy failed",
+        description: "Please copy manually.",
+        variant: "destructive",
+      });
     }
   };
 
@@ -59,20 +86,38 @@ export const ShareBookingLinkCard = ({ slug, isPublished }: ShareBookingLinkCard
           Your booking link
         </CardTitle>
         <CardDescription>
-          Share this link by WhatsApp, email, or SMS — clients land directly on your calendar.
+          Share this link by WhatsApp, email, or SMS — clients land directly on
+          your calendar.
           {!isPublished && (
             <span className="block mt-1 text-amber-600 text-xs">
-              Heads up: your profile isn't published yet, so the link won't be reachable until you publish.
+              Heads up: your profile isn't published yet, so the link won't be
+              reachable until you publish.
             </span>
           )}
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-3">
         <div className="flex gap-2">
-          <Input readOnly value={link} className="bg-background font-mono text-xs" />
-          <Button type="button" onClick={copyLink} variant="outline" size="sm" className="shrink-0">
-            {copied ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
-            <span className="ml-1.5 hidden sm:inline">{copied ? "Copied" : "Copy"}</span>
+          <Input
+            readOnly
+            value={link}
+            className="bg-background font-mono text-xs"
+          />
+          <Button
+            type="button"
+            onClick={copyLink}
+            variant="outline"
+            size="sm"
+            className="shrink-0"
+          >
+            {copied ? (
+              <Check className="h-4 w-4" />
+            ) : (
+              <Copy className="h-4 w-4" />
+            )}
+            <span className="ml-1.5 hidden sm:inline">
+              {copied ? "Copied" : "Copy"}
+            </span>
           </Button>
         </div>
         <div className="flex flex-wrap gap-2">

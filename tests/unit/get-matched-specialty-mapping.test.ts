@@ -24,11 +24,15 @@ describe("GetMatched need-to-specialty mapping", () => {
   const source = read("src/pages/GetMatched.tsx");
 
   it("no longer matches need labels against specialty names by exact equality", () => {
-    expect(source).not.toMatch(/s\.name\.toLowerCase\(\) === need\.toLowerCase\(\)/);
+    expect(source).not.toMatch(
+      /s\.name\.toLowerCase\(\) === need\.toLowerCase\(\)/,
+    );
   });
 
   it("matches by keyword substring instead", () => {
-    expect(source).toMatch(/def\.specialtyKeywords\.some\(\(kw\) => s\.name\.toLowerCase\(\)\.includes\(kw\)\)/);
+    expect(source).toMatch(
+      /def\.specialtyKeywords\.some\(\(kw\) => s\.name\.toLowerCase\(\)\.includes\(kw\)\)/,
+    );
   });
 
   it("never falls back to an arbitrary specialty when nothing matched", () => {
@@ -36,11 +40,15 @@ describe("GetMatched need-to-specialty mapping", () => {
   });
 
   it("omits specialtyNeeded from the request instead of sending a bogus value", () => {
-    expect(source).toMatch(/if \(needToSpecialty\[0\]\) body\.specialtyNeeded = needToSpecialty\[0\];/);
+    expect(source).toMatch(
+      /if \(needToSpecialty\[0\]\) body\.specialtyNeeded = needToSpecialty\[0\];/,
+    );
   });
 
   it("omits languagesPreferred instead of sending an empty array that fails validation", () => {
-    expect(source).toMatch(/if \(languageId\) body\.languagesPreferred = \[languageId\];/);
+    expect(source).toMatch(
+      /if \(languageId\) body\.languagesPreferred = \[languageId\];/,
+    );
   });
 });
 
@@ -48,11 +56,15 @@ describe("find-matches edge function accepts an unfiltered request", () => {
   const source = read("supabase/functions/find-matches/index.ts");
 
   it("no longer requires specialtyNeeded", () => {
-    expect(source).toMatch(/specialtyNeeded: z\.string\(\)\.uuid\("Invalid specialty ID format"\)\.optional\(\)/);
+    expect(source).toMatch(
+      /specialtyNeeded: z\.string\(\)\.uuid\("Invalid specialty ID format"\)\.optional\(\)/,
+    );
   });
 
   it("no longer requires at least one language", () => {
-    expect(source).not.toMatch(/\.min\(1, "At least one language is required"\)/);
+    expect(source).not.toMatch(
+      /\.min\(1, "At least one language is required"\)/,
+    );
   });
 
   it("skips the strict specialty query entirely when none was given", () => {

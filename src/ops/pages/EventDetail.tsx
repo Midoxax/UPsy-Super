@@ -1,42 +1,71 @@
 import { useParams } from "@/lib/router-compat";
-import { useOpsEvent, updateTaskState, type OpsTaskState } from "../hooks/useOps";
+import {
+  useOpsEvent,
+  updateTaskState,
+  type OpsTaskState,
+} from "../hooks/useOps";
 import StateBadge from "../components/StateBadge";
 import { motion } from "framer-motion";
-import { ShieldAlert, ChevronLeft, CheckCircle2, Circle, Clock, AlertTriangle } from "lucide-react";
+import {
+  ShieldAlert,
+  ChevronLeft,
+  CheckCircle2,
+  Circle,
+  Clock,
+  AlertTriangle,
+} from "lucide-react";
 import { Link } from "@/lib/router-compat";
 
 const NEXT: Partial<Record<OpsTaskState, OpsTaskState>> = {
-  pending: "active", active: "completed", blocked: "active", delayed: "active", escalated: "active",
+  pending: "active",
+  active: "completed",
+  blocked: "active",
+  delayed: "active",
+  escalated: "active",
 };
 
 const STATUS_META: Record<string, { label: string; color: string }> = {
-  draft:     { label: "DRAFT",     color: "text-white/50" },
-  planning:  { label: "PLANNING",  color: "text-cyan-300" },
-  active:    { label: "ACTIVE",    color: "text-emerald-300" },
+  draft: { label: "DRAFT", color: "text-white/50" },
+  planning: { label: "PLANNING", color: "text-cyan-300" },
+  active: { label: "ACTIVE", color: "text-emerald-300" },
   completed: { label: "COMPLETED", color: "text-blue-300" },
-  archived:  { label: "ARCHIVED",  color: "text-white/30" },
+  archived: { label: "ARCHIVED", color: "text-white/30" },
 };
 
 export const EventDetail = () => {
-  const { workspace: slug, eventId } = useParams<{ workspace: string; eventId: string }>();
+  const { workspace: slug, eventId } = useParams<{
+    workspace: string;
+    eventId: string;
+  }>();
   const { event, phases, tasks, loading } = useOpsEvent(eventId);
 
-  if (loading) return (
-    <div className="p-8">
-      <div className="ops-mono text-xs text-white/40 animate-pulse">LOADING OPERATIONAL DATA…</div>
-    </div>
-  );
-  if (!event) return (
-    <div className="p-8">
-      <div className="ops-mono text-xs text-white/40">EVENT NOT FOUND IN REGISTRY.</div>
-    </div>
-  );
+  if (loading)
+    return (
+      <div className="p-8">
+        <div className="ops-mono text-xs text-white/40 animate-pulse">
+          LOADING OPERATIONAL DATA…
+        </div>
+      </div>
+    );
+  if (!event)
+    return (
+      <div className="p-8">
+        <div className="ops-mono text-xs text-white/40">
+          EVENT NOT FOUND IN REGISTRY.
+        </div>
+      </div>
+    );
 
   const statusMeta = STATUS_META[event.status] ?? STATUS_META.draft;
   const totalTasks = tasks.length;
-  const completedTasks = tasks.filter(t => ["completed","validated"].includes(t.state)).length;
-  const progress = totalTasks === 0 ? 0 : Math.round((completedTasks / totalTasks) * 100);
-  const blockedCount = tasks.filter(t => ["blocked","delayed","escalated"].includes(t.state)).length;
+  const completedTasks = tasks.filter((t) =>
+    ["completed", "validated"].includes(t.state),
+  ).length;
+  const progress =
+    totalTasks === 0 ? 0 : Math.round((completedTasks / totalTasks) * 100);
+  const blockedCount = tasks.filter((t) =>
+    ["blocked", "delayed", "escalated"].includes(t.state),
+  ).length;
 
   return (
     <div className="p-8 max-w-5xl mx-auto">
@@ -46,7 +75,10 @@ export const EventDetail = () => {
         animate={{ opacity: 1, x: 0 }}
         transition={{ duration: 0.4 }}
       >
-        <Link to={`/ops/${slug}/events`} className="inline-flex items-center gap-1 ops-mono text-[11px] text-white/30 hover:text-white/60 transition mb-6">
+        <Link
+          to={`/ops/${slug}/events`}
+          className="inline-flex items-center gap-1 ops-mono text-[11px] text-white/30 hover:text-white/60 transition mb-6"
+        >
           <ChevronLeft className="h-3 w-3" /> BACK TO REGISTRY
         </Link>
       </motion.div>
@@ -62,7 +94,9 @@ export const EventDetail = () => {
           <span className="ops-mono text-[10px] tracking-[0.2em] text-white/30 uppercase">
             {event.event_type.replace(/_/g, " ")}
           </span>
-          <span className={`ops-mono text-[9px] tracking-[0.15em] px-2 py-0.5 rounded-sm border border-white/10 ${statusMeta.color}`}>
+          <span
+            className={`ops-mono text-[9px] tracking-[0.15em] px-2 py-0.5 rounded-sm border border-white/10 ${statusMeta.color}`}
+          >
             {statusMeta.label}
           </span>
         </div>
@@ -82,7 +116,13 @@ export const EventDetail = () => {
             <div className="ops-label mb-2">OVERALL PROGRESS</div>
             <div className="relative w-20 h-20 mx-auto md:mx-0">
               <svg className="w-20 h-20 -rotate-90" viewBox="0 0 36 36">
-                <path className="text-white/5" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" strokeWidth="2.5" />
+                <path
+                  className="text-white/5"
+                  d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2.5"
+                />
                 <path
                   className="text-[hsl(var(--ops-accent))]"
                   strokeDasharray={`${progress}, 100`}
@@ -104,17 +144,27 @@ export const EventDetail = () => {
           <div>
             <div className="ops-label">TASKS</div>
             <div className="ops-display text-3xl mt-1">{totalTasks}</div>
-            <div className="ops-mono text-[10px] text-white/30 mt-1">{completedTasks} COMPLETED</div>
+            <div className="ops-mono text-[10px] text-white/30 mt-1">
+              {completedTasks} COMPLETED
+            </div>
           </div>
           <div>
             <div className="ops-label">PHASES</div>
             <div className="ops-display text-3xl mt-1">{phases.length}</div>
-            <div className="ops-mono text-[10px] text-white/30 mt-1">OPERATIONAL SEGMENTS</div>
+            <div className="ops-mono text-[10px] text-white/30 mt-1">
+              OPERATIONAL SEGMENTS
+            </div>
           </div>
           <div>
             <div className="ops-label">BLOCKED</div>
-            <div className={`ops-display text-3xl mt-1 ${blockedCount > 0 ? "text-orange-300" : ""}`}>{blockedCount}</div>
-            <div className="ops-mono text-[10px] text-white/30 mt-1">REQUIRES ATTENTION</div>
+            <div
+              className={`ops-display text-3xl mt-1 ${blockedCount > 0 ? "text-orange-300" : ""}`}
+            >
+              {blockedCount}
+            </div>
+            <div className="ops-mono text-[10px] text-white/30 mt-1">
+              REQUIRES ATTENTION
+            </div>
           </div>
         </div>
 
@@ -144,9 +194,14 @@ export const EventDetail = () => {
           </motion.div>
         )}
         {phases.map((p, i) => {
-          const phaseTasks = tasks.filter(t => t.phase_id === p.id);
-          const phaseDone = phaseTasks.filter(t => ["completed","validated"].includes(t.state)).length;
-          const phaseProgress = phaseTasks.length === 0 ? 0 : Math.round((phaseDone / phaseTasks.length) * 100);
+          const phaseTasks = tasks.filter((t) => t.phase_id === p.id);
+          const phaseDone = phaseTasks.filter((t) =>
+            ["completed", "validated"].includes(t.state),
+          ).length;
+          const phaseProgress =
+            phaseTasks.length === 0
+              ? 0
+              : Math.round((phaseDone / phaseTasks.length) * 100);
 
           return (
             <motion.section
@@ -167,40 +222,63 @@ export const EventDetail = () => {
                     </span>
                   </div>
                   <h2 className="ops-display text-2xl">{p.title}</h2>
-                  {p.description && <p className="text-white/50 text-sm mt-2 max-w-2xl">{p.description}</p>}
+                  {p.description && (
+                    <p className="text-white/50 text-sm mt-2 max-w-2xl">
+                      {p.description}
+                    </p>
+                  )}
                 </div>
                 {/* Mini progress */}
                 <div className="hidden md:block w-24">
                   <div className="h-1 w-full bg-white/[0.04] rounded-full overflow-hidden">
                     <div
                       className="h-full rounded-full bg-[hsl(var(--ops-accent))]"
-                      style={{ width: `${phaseProgress}%`, transition: "width 0.6s ease" }}
+                      style={{
+                        width: `${phaseProgress}%`,
+                        transition: "width 0.6s ease",
+                      }}
                     />
                   </div>
-                  <div className="ops-mono text-[9px] text-white/30 mt-1 text-right">{phaseProgress}%</div>
+                  <div className="ops-mono text-[9px] text-white/30 mt-1 text-right">
+                    {phaseProgress}%
+                  </div>
                 </div>
               </div>
 
               <ul className="divide-y divide-white/5">
-                {phaseTasks.map(t => (
-                  <li key={t.id} className="py-3 flex items-start justify-between gap-4 group">
+                {phaseTasks.map((t) => (
+                  <li
+                    key={t.id}
+                    className="py-3 flex items-start justify-between gap-4 group"
+                  >
                     <div className="min-w-0 flex-1">
                       <div className="flex items-center gap-2">
-                        <span className="text-white/90 text-sm group-hover:text-white transition-colors">{t.title}</span>
+                        <span className="text-white/90 text-sm group-hover:text-white transition-colors">
+                          {t.title}
+                        </span>
                         {t.psych_safety_flag && (
-                          <ShieldAlert className="h-3.5 w-3.5 text-orange-300" aria-label="Psychological safety flag" />
+                          <ShieldAlert
+                            className="h-3.5 w-3.5 text-orange-300"
+                            aria-label="Psychological safety flag"
+                          />
                         )}
                       </div>
                       <div className="ops-mono text-[10px] text-white/40 mt-1 flex gap-3 flex-wrap">
                         {t.owner_role && <span>OWNER · {t.owner_role}</span>}
                         {t.deadline && (
-                          <span className={`flex items-center gap-1 ${new Date(t.deadline) < new Date() && t.state !== "completed" ? "text-red-300" : ""}`}>
+                          <span
+                            className={`flex items-center gap-1 ${new Date(t.deadline) < new Date() && t.state !== "completed" ? "text-red-300" : ""}`}
+                          >
                             <Clock className="h-2.5 w-2.5" />
                             DUE · {new Date(t.deadline).toLocaleDateString()}
                           </span>
                         )}
                       </div>
-                      {t.description && <p className="text-white/45 text-xs mt-1.5">{t.description}</p>}
+                      {t.description && (
+                        <p className="text-white/45 text-xs mt-1.5">
+                          {t.description}
+                        </p>
+                      )}
                     </div>
                     <div className="flex items-center gap-2 shrink-0">
                       <StateBadge state={t.state} />
@@ -216,7 +294,9 @@ export const EventDetail = () => {
                   </li>
                 ))}
                 {phaseTasks.length === 0 && (
-                  <li className="py-4 text-white/20 text-xs ops-mono text-center">NO TASKS IN THIS PHASE</li>
+                  <li className="py-4 text-white/20 text-xs ops-mono text-center">
+                    NO TASKS IN THIS PHASE
+                  </li>
                 )}
               </ul>
             </motion.section>

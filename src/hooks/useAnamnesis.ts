@@ -68,7 +68,11 @@ const empty = (clientId: string): AnamnesisData => ({
   consent_given: false,
 });
 
-export const useAnamnesis = (clientId?: string, psychologistId?: string | null, bookingId?: string | null) => {
+export const useAnamnesis = (
+  clientId?: string,
+  psychologistId?: string | null,
+  bookingId?: string | null,
+) => {
   const { user } = useAuth();
   const targetClient = clientId || user?.id;
   const [data, setData] = useState<AnamnesisData | null>(null);
@@ -97,67 +101,117 @@ export const useAnamnesis = (clientId?: string, psychologistId?: string | null, 
         });
       }
       setData(rows[0] as any);
-    }
-    else setData(empty(targetClient));
+    } else setData(empty(targetClient));
     setLoading(false);
   }, [targetClient]);
 
-  useEffect(() => { load(); }, [load]);
+  useEffect(() => {
+    load();
+  }, [load]);
 
-  const save = useCallback(async (patch: Partial<AnamnesisData>) => {
-    if (!targetClient) return null;
-    setSaving(true);
-    const merged: AnamnesisData = { ...(data || empty(targetClient)), ...patch };
-    if (psychologistId && !merged.psychologist_id) merged.psychologist_id = psychologistId;
-    if (bookingId && !merged.booking_id) merged.booking_id = bookingId;
-    if (merged.status === "draft") merged.status = "in_progress";
+  const save = useCallback(
+    async (patch: Partial<AnamnesisData>) => {
+      if (!targetClient) return null;
+      setSaving(true);
+      const merged: AnamnesisData = {
+        ...(data || empty(targetClient)),
+        ...patch,
+      };
+      if (psychologistId && !merged.psychologist_id)
+        merged.psychologist_id = psychologistId;
+      if (bookingId && !merged.booking_id) merged.booking_id = bookingId;
+      if (merged.status === "draft") merged.status = "in_progress";
 
-    let result;
-    if (merged.id) {
-      const { id, ...rest } = merged;
-      result = await supabase.from("client_anamneses").update(rest).eq("id", id).select().single();
-    } else {
-      const { id, ...rest } = merged as any;
-      result = await supabase.from("client_anamneses").insert(rest).select().single();
-    }
-    setSaving(false);
-    if (result.data) setData(result.data as any);
-    return result;
-  }, [data, targetClient, psychologistId, bookingId]);
+      let result;
+      if (merged.id) {
+        const { id, ...rest } = merged;
+        result = await supabase
+          .from("client_anamneses")
+          .update(rest)
+          .eq("id", id)
+          .select()
+          .single();
+      } else {
+        const { id, ...rest } = merged as any;
+        result = await supabase
+          .from("client_anamneses")
+          .insert(rest)
+          .select()
+          .single();
+      }
+      setSaving(false);
+      if (result.data) setData(result.data as any);
+      return result;
+    },
+    [data, targetClient, psychologistId, bookingId],
+  );
 
-  const autoSave = useCallback((patch: Partial<AnamnesisData>) => {
-    if (saveTimer.current) window.clearTimeout(saveTimer.current);
-    saveTimer.current = window.setTimeout(() => { save(patch); }, 800);
-  }, [save]);
+  const autoSave = useCallback(
+    (patch: Partial<AnamnesisData>) => {
+      if (saveTimer.current) window.clearTimeout(saveTimer.current);
+      saveTimer.current = window.setTimeout(() => {
+        save(patch);
+      }, 800);
+    },
+    [save],
+  );
 
   const complete = useCallback(async () => {
-    return save({ status: "completed", completed_at: new Date().toISOString() });
+    return save({
+      status: "completed",
+      completed_at: new Date().toISOString(),
+    });
   }, [save]);
 
   const giveConsent = useCallback(async () => {
     return save({ consent_given: true, consent_at: new Date().toISOString() });
   }, [save]);
 
-  const markReviewed = useCallback(async (notes?: string) => {
-    const patch: Partial<AnamnesisData> = {
-      status: "reviewed",
-      reviewed_at: new Date().toISOString(),
-    };
-    if (notes && notes.trim()) {
-      (patch as any).goals = { ...(data?.goals || {}), review_notes: notes.trim() };
-    }
-    return save(patch);
-  }, [save, data]);
+  const markReviewed = useCallback(
+    async (notes?: string) => {
+      const patch: Partial<AnamnesisData> = {
+        status: "reviewed",
+        reviewed_at: new Date().toISOString(),
+      };
+      if (notes && notes.trim()) {
+        (patch as any).goals = {
+          ...(data?.goals || {}),
+          review_notes: notes.trim(),
+        };
+      }
+      return save(patch);
+    },
+    [save, data],
+  );
 
   const progress = (() => {
     if (!data) return 0;
     const sections: AnamnesisSection[] = [
-      "identity", "presenting_complaint", "history_personal", "history_family",
-      "medical", "lifestyle", "risk_screening", "goals",
+      "identity",
+      "presenting_complaint",
+      "history_personal",
+      "history_family",
+      "medical",
+      "lifestyle",
+      "risk_screening",
+      "goals",
     ];
-    const filled = sections.filter((s) => Object.keys(data[s] || {}).length > 0).length;
+    const filled = sections.filter(
+      (s) => Object.keys(data[s] || {}).length > 0,
+    ).length;
     return Math.round((filled / sections.length) * 100);
   })();
 
-  return { data, loading, saving, save, autoSave, complete, giveConsent, markReviewed, reload: load, progress };
+  return {
+    data,
+    loading,
+    saving,
+    save,
+    autoSave,
+    complete,
+    giveConsent,
+    markReviewed,
+    reload: load,
+    progress,
+  };
 };

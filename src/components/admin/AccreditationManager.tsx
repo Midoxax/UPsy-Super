@@ -1,8 +1,21 @@
 import { useMemo, useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -10,9 +23,24 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { EmptyState } from "@/components/ui/empty-state";
 import { useToast } from "@/hooks/use-toast";
 import { useAdminAuth } from "@/hooks/useAdminAuth";
-import { Shield, FileCheck, Eye, Search, RefreshCw, CheckCircle2, AlertTriangle, XCircle } from "lucide-react";
+import {
+  Shield,
+  FileCheck,
+  Eye,
+  Search,
+  RefreshCw,
+  CheckCircle2,
+  AlertTriangle,
+  XCircle,
+} from "lucide-react";
 import { format } from "date-fns";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import ApprovalModal from "./ApprovalModal";
 import RejectionModal from "./RejectionModal";
 import AccreditationDrawer from "./AccreditationDrawer";
@@ -22,10 +50,13 @@ import { useRetryProvisioning } from "@/hooks/admin/useAdminMutations";
 
 type AccreditationLevel = "provisional" | "verified" | "accredited";
 
-const LEVEL_CONFIG: Record<AccreditationLevel, { label: string; color: "outline" | "secondary" | "default"; icon: string }> = {
+const LEVEL_CONFIG: Record<
+  AccreditationLevel,
+  { label: string; color: "outline" | "secondary" | "default"; icon: string }
+> = {
   provisional: { label: "Provisional", color: "outline", icon: "🔵" },
-  verified:    { label: "Verified",    color: "secondary", icon: "🟡" },
-  accredited:  { label: "Accredited",  color: "default", icon: "🟢" },
+  verified: { label: "Verified", color: "secondary", icon: "🟡" },
+  accredited: { label: "Accredited", color: "default", icon: "🟢" },
 };
 
 const AccreditationManager = () => {
@@ -60,7 +91,9 @@ const AccreditationManager = () => {
     queryFn: async () => {
       const { data, error } = await supabase
         .from("provisioning_attempts" as any)
-        .select("application_id,status,error_code,error_message,duration_ms,created_at")
+        .select(
+          "application_id,status,error_code,error_message,duration_ms,created_at",
+        )
         .order("created_at", { ascending: false })
         .limit(500);
       if (error) throw error;
@@ -89,7 +122,9 @@ const AccreditationManager = () => {
       const last = (lastAttempts as any)[a.id];
       const matchesFilter =
         filter === "all" ||
-        (filter === "failed" ? last && last.status !== "success" : a.status === filter);
+        (filter === "failed"
+          ? last && last.status !== "success"
+          : a.status === filter);
       const q = search.trim().toLowerCase();
       const matchesSearch =
         !q ||
@@ -100,47 +135,83 @@ const AccreditationManager = () => {
   }, [applications, filter, search, lastAttempts]);
 
   const approveApplication = useMutation({
-    mutationFn: async ({ applicationId }: { applicationId: string; adminUserId?: string }) => {
-      const { data, error } = await supabase.functions.invoke("provision-psychologist", {
-        body: { applicationId },
-      });
+    mutationFn: async ({
+      applicationId,
+    }: {
+      applicationId: string;
+      adminUserId?: string;
+    }) => {
+      const { data, error } = await supabase.functions.invoke(
+        "provision-psychologist",
+        {
+          body: { applicationId },
+        },
+      );
       if (error) throw error;
       if (!data.success) throw new Error(data.error || "Provisioning failed");
       return data;
     },
     onSuccess: (data: any) => {
-      queryClient.invalidateQueries({ queryKey: ["accreditation-applications"] });
+      queryClient.invalidateQueries({
+        queryKey: ["accreditation-applications"],
+      });
       queryClient.invalidateQueries({ queryKey: ["last-attempts-per-app"] });
       queryClient.invalidateQueries({ queryKey: ["admin-stats-enhanced"] });
       const desc = data?.alreadyProvisioned
         ? "Account already fully provisioned — no changes needed."
         : data?.reusedExistingUser
-        ? "✅ Reused existing user account and finished missing steps."
-        : "✅ New user account created and welcome email sent.";
+          ? "✅ Reused existing user account and finished missing steps."
+          : "✅ New user account created and welcome email sent.";
       toast({ title: "Approved", description: desc });
     },
     onError: (e: Error) =>
-      toast({ title: "Provisioning failed", description: e.message, variant: "destructive" }),
+      toast({
+        title: "Provisioning failed",
+        description: e.message,
+        variant: "destructive",
+      }),
   });
 
   const rejectApplication = useMutation({
-    mutationFn: async ({ applicationId, reason }: { applicationId: string; adminUserId?: string; reason?: string }) => {
-      const { data, error } = await supabase.functions.invoke("send-rejection-email", {
-        body: { applicationId, reason },
-      });
+    mutationFn: async ({
+      applicationId,
+      reason,
+    }: {
+      applicationId: string;
+      adminUserId?: string;
+      reason?: string;
+    }) => {
+      const { data, error } = await supabase.functions.invoke(
+        "send-rejection-email",
+        {
+          body: { applicationId, reason },
+        },
+      );
       if (error) throw error;
       if (!data.success) throw new Error(data.error || "Rejection failed");
       return data;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["accreditation-applications"] });
-      toast({ title: "Rejected", description: "Application rejected. Email sent." });
+      queryClient.invalidateQueries({
+        queryKey: ["accreditation-applications"],
+      });
+      toast({
+        title: "Rejected",
+        description: "Application rejected. Email sent.",
+      });
     },
-    onError: (e: Error) => toast({ title: "Error", description: e.message, variant: "destructive" }),
+    onError: (e: Error) =>
+      toast({ title: "Error", description: e.message, variant: "destructive" }),
   });
 
   const inlineLevelChange = useMutation({
-    mutationFn: async ({ id, level }: { id: string; level: AccreditationLevel }) => {
+    mutationFn: async ({
+      id,
+      level,
+    }: {
+      id: string;
+      level: AccreditationLevel;
+    }) => {
       const { error } = await supabase
         .from("psychologist_applications")
         .update({ accreditation_level: level })
@@ -148,10 +219,13 @@ const AccreditationManager = () => {
       if (error) throw error;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["accreditation-applications"] });
+      queryClient.invalidateQueries({
+        queryKey: ["accreditation-applications"],
+      });
       toast({ title: "Level updated" });
     },
-    onError: (e: Error) => toast({ title: "Error", description: e.message, variant: "destructive" }),
+    onError: (e: Error) =>
+      toast({ title: "Error", description: e.message, variant: "destructive" }),
   });
 
   /* ---------- Bulk actions ---------- */
@@ -161,27 +235,42 @@ const AccreditationManager = () => {
   const toggleOne = (id: string, on: boolean) => {
     setSelectedIds((prev) => {
       const next = new Set(prev);
-      if (on) next.add(id); else next.delete(id);
+      if (on) next.add(id);
+      else next.delete(id);
       return next;
     });
   };
 
   const bulkApprove = async () => {
     if (!user) return;
-    const targets = filtered.filter((a) => selectedIds.has(a.id) && a.status === "pending");
+    const targets = filtered.filter(
+      (a) => selectedIds.has(a.id) && a.status === "pending",
+    );
     if (!targets.length) {
-      toast({ title: "Nothing to approve", description: "Select pending applications first." });
+      toast({
+        title: "Nothing to approve",
+        description: "Select pending applications first.",
+      });
       return;
     }
-    let ok = 0, fail = 0;
+    let ok = 0,
+      fail = 0;
     for (const t of targets) {
       try {
-        await approveApplication.mutateAsync({ applicationId: t.id, adminUserId: user.id });
+        await approveApplication.mutateAsync({
+          applicationId: t.id,
+          adminUserId: user.id,
+        });
         ok++;
-      } catch { fail++; }
+      } catch {
+        fail++;
+      }
     }
     setSelectedIds(new Set());
-    toast({ title: "Bulk approve done", description: `${ok} ok · ${fail} failed` });
+    toast({
+      title: "Bulk approve done",
+      description: `${ok} ok · ${fail} failed`,
+    });
   };
 
   const bulkRetry = async () => {
@@ -194,15 +283,21 @@ const AccreditationManager = () => {
       toast({ title: "Nothing to retry" });
       return;
     }
-    let ok = 0, fail = 0;
+    let ok = 0,
+      fail = 0;
     for (const t of targets) {
       try {
         await retry.mutateAsync({ applicationId: t.id, adminUserId: user.id });
         ok++;
-      } catch { fail++; }
+      } catch {
+        fail++;
+      }
     }
     setSelectedIds(new Set());
-    toast({ title: "Bulk retry done", description: `${ok} ok · ${fail} failed` });
+    toast({
+      title: "Bulk retry done",
+      description: `${ok} ok · ${fail} failed`,
+    });
   };
 
   const csvRows = filtered.map((a) => ({
@@ -216,26 +311,49 @@ const AccreditationManager = () => {
   }));
 
   const getStatusBadge = (status: string) => {
-    const map: Record<string, "default" | "secondary" | "destructive" | "outline"> = {
-      pending: "outline", approved: "default", rejected: "destructive",
+    const map: Record<
+      string,
+      "default" | "secondary" | "destructive" | "outline"
+    > = {
+      pending: "outline",
+      approved: "default",
+      rejected: "destructive",
     };
-    return <Badge variant={map[status] || "outline"} className="capitalize">{status}</Badge>;
+    return (
+      <Badge variant={map[status] || "outline"} className="capitalize">
+        {status}
+      </Badge>
+    );
   };
 
   const getLevelBadge = (level: AccreditationLevel) => {
     const cfg = LEVEL_CONFIG[level] || LEVEL_CONFIG.provisional;
-    return <Badge variant={cfg.color}>{cfg.icon} {cfg.label}</Badge>;
+    return (
+      <Badge variant={cfg.color}>
+        {cfg.icon} {cfg.label}
+      </Badge>
+    );
   };
 
   const renderAttemptIcon = (app: any) => {
     const last = (lastAttempts as any)[app.id];
     if (!last) return <span className="text-xs text-muted-foreground">—</span>;
-    if (last.status === "success") return <CheckCircle2 className="h-4 w-4 text-green-500" aria-label="ok" />;
-    if (last.status === "partial") return <AlertTriangle className="h-4 w-4 text-amber-500" aria-label="partial" />;
+    if (last.status === "success")
+      return (
+        <CheckCircle2 className="h-4 w-4 text-green-500" aria-label="ok" />
+      );
+    if (last.status === "partial")
+      return (
+        <AlertTriangle
+          className="h-4 w-4 text-amber-500"
+          aria-label="partial"
+        />
+      );
     return <XCircle className="h-4 w-4 text-red-500" aria-label="failed" />;
   };
 
-  const allSelected = filtered.length > 0 && filtered.every((a) => selectedIds.has(a.id));
+  const allSelected =
+    filtered.length > 0 && filtered.every((a) => selectedIds.has(a.id));
   const someSelected = selectedIds.size > 0;
 
   return (
@@ -249,17 +367,25 @@ const AccreditationManager = () => {
                 Accreditation Workspace
               </CardTitle>
               <CardDescription>
-                Review applications, manage documents, and audit provisioning. Click a KPI to filter.
+                Review applications, manage documents, and audit provisioning.
+                Click a KPI to filter.
               </CardDescription>
             </div>
             <div className="flex items-center gap-2">
-              <ExportCsvButton filename={`accreditation-${filter}`} rows={csvRows} />
+              <ExportCsvButton
+                filename={`accreditation-${filter}`}
+                rows={csvRows}
+              />
               <Button
                 size="sm"
                 variant="ghost"
                 onClick={() => {
-                  queryClient.invalidateQueries({ queryKey: ["accreditation-applications"] });
-                  queryClient.invalidateQueries({ queryKey: ["last-attempts-per-app"] });
+                  queryClient.invalidateQueries({
+                    queryKey: ["accreditation-applications"],
+                  });
+                  queryClient.invalidateQueries({
+                    queryKey: ["last-attempts-per-app"],
+                  });
                 }}
                 className="gap-1.5"
               >
@@ -270,7 +396,11 @@ const AccreditationManager = () => {
           </div>
         </CardHeader>
         <CardContent className="space-y-4">
-          <AccreditationKpiRow counts={counts} active={filter} onChange={setFilter} />
+          <AccreditationKpiRow
+            counts={counts}
+            active={filter}
+            onChange={setFilter}
+          />
 
           <div className="flex flex-col sm:flex-row gap-2 sm:items-center">
             <div className="relative flex-1">
@@ -285,14 +415,31 @@ const AccreditationManager = () => {
             {someSelected && (
               <div className="flex items-center gap-2">
                 <Badge variant="secondary">{selectedIds.size} selected</Badge>
-                <Button size="sm" onClick={bulkApprove} disabled={approveApplication.isPending}>
+                <Button
+                  size="sm"
+                  onClick={bulkApprove}
+                  disabled={approveApplication.isPending}
+                >
                   Bulk approve pending
                 </Button>
-                <Button size="sm" variant="outline" onClick={bulkRetry} disabled={retry.isPending}>
-                  <RefreshCw className={`h-3 w-3 mr-1 ${retry.isPending ? "animate-spin" : ""}`} />
+                <Button
+                  size="sm"
+                  variant="outline"
+                  onClick={bulkRetry}
+                  disabled={retry.isPending}
+                >
+                  <RefreshCw
+                    className={`h-3 w-3 mr-1 ${retry.isPending ? "animate-spin" : ""}`}
+                  />
                   Bulk retry failed
                 </Button>
-                <Button size="sm" variant="ghost" onClick={() => setSelectedIds(new Set())}>Clear</Button>
+                <Button
+                  size="sm"
+                  variant="ghost"
+                  onClick={() => setSelectedIds(new Set())}
+                >
+                  Clear
+                </Button>
               </div>
             )}
           </div>
@@ -304,8 +451,16 @@ const AccreditationManager = () => {
           ) : filtered.length === 0 ? (
             <EmptyState
               icon={FileCheck}
-              title={filter === "pending" ? "No pending applications" : "No applications"}
-              description={filter === "pending" ? "Everything is handled — view the approved psychologists tab." : "Adjust the filter or search to find applications."}
+              title={
+                filter === "pending"
+                  ? "No pending applications"
+                  : "No applications"
+              }
+              description={
+                filter === "pending"
+                  ? "Everything is handled — view the approved psychologists tab."
+                  : "Adjust the filter or search to find applications."
+              }
             />
           ) : (
             <div className="rounded-md border overflow-x-auto">
@@ -313,20 +468,29 @@ const AccreditationManager = () => {
                 <TableHeader>
                   <TableRow>
                     <TableHead className="w-8">
-                      <Checkbox checked={allSelected} onCheckedChange={(v) => toggleAll(!!v)} aria-label="Select all" />
+                      <Checkbox
+                        checked={allSelected}
+                        onCheckedChange={(v) => toggleAll(!!v)}
+                        aria-label="Select all"
+                      />
                     </TableHead>
                     <TableHead>Name</TableHead>
-                    <TableHead className="hidden md:table-cell">Email</TableHead>
+                    <TableHead className="hidden md:table-cell">
+                      Email
+                    </TableHead>
                     <TableHead>Status</TableHead>
                     <TableHead>Level</TableHead>
                     <TableHead className="text-center">Last attempt</TableHead>
-                    <TableHead className="hidden lg:table-cell">Submitted</TableHead>
+                    <TableHead className="hidden lg:table-cell">
+                      Submitted
+                    </TableHead>
                     <TableHead className="text-right">Actions</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
                   {filtered.map((app) => {
-                    const level = (app.accreditation_level || "provisional") as AccreditationLevel;
+                    const level = (app.accreditation_level ||
+                      "provisional") as AccreditationLevel;
                     return (
                       <TableRow key={app.id} className="align-middle">
                         <TableCell>
@@ -336,58 +500,106 @@ const AccreditationManager = () => {
                             aria-label={`Select ${app.full_name}`}
                           />
                         </TableCell>
-                        <TableCell className="font-medium">{app.full_name}</TableCell>
-                        <TableCell className="text-sm hidden md:table-cell">{app.email}</TableCell>
+                        <TableCell className="font-medium">
+                          {app.full_name}
+                        </TableCell>
+                        <TableCell className="text-sm hidden md:table-cell">
+                          {app.email}
+                        </TableCell>
                         <TableCell>{getStatusBadge(app.status)}</TableCell>
                         <TableCell>
                           {app.status === "approved" ? (
                             <Select
                               value={level}
-                              onValueChange={(v) => inlineLevelChange.mutate({ id: app.id, level: v as AccreditationLevel })}
+                              onValueChange={(v) =>
+                                inlineLevelChange.mutate({
+                                  id: app.id,
+                                  level: v as AccreditationLevel,
+                                })
+                              }
                             >
                               <SelectTrigger className="h-7 w-[140px] text-xs">
                                 <SelectValue />
                               </SelectTrigger>
                               <SelectContent>
-                                <SelectItem value="provisional">🔵 Provisional</SelectItem>
-                                <SelectItem value="verified">🟡 Verified</SelectItem>
-                                <SelectItem value="accredited">🟢 Accredited</SelectItem>
+                                <SelectItem value="provisional">
+                                  🔵 Provisional
+                                </SelectItem>
+                                <SelectItem value="verified">
+                                  🟡 Verified
+                                </SelectItem>
+                                <SelectItem value="accredited">
+                                  🟢 Accredited
+                                </SelectItem>
                               </SelectContent>
                             </Select>
                           ) : (
                             getLevelBadge(level)
                           )}
                         </TableCell>
-                        <TableCell className="text-center">{renderAttemptIcon(app)}</TableCell>
+                        <TableCell className="text-center">
+                          {renderAttemptIcon(app)}
+                        </TableCell>
                         <TableCell className="text-sm hidden lg:table-cell">
-                          {app.submitted_at ? format(new Date(app.submitted_at), "MMM d, yyyy") : "—"}
+                          {app.submitted_at
+                            ? format(new Date(app.submitted_at), "MMM d, yyyy")
+                            : "—"}
                         </TableCell>
                         <TableCell>
                           <div className="flex flex-wrap gap-1 justify-end">
-                            <Button size="sm" variant="ghost" onClick={() => setDrawerApp(app)} title="Open details">
+                            <Button
+                              size="sm"
+                              variant="ghost"
+                              onClick={() => setDrawerApp(app)}
+                              title="Open details"
+                            >
                               <Eye className="h-3.5 w-3.5" />
                             </Button>
                             {app.status === "pending" && (
                               <>
-                                <Button size="sm" variant="default" onClick={() => { setSelectedApp(app); setShowApproval(true); }}>
+                                <Button
+                                  size="sm"
+                                  variant="default"
+                                  onClick={() => {
+                                    setSelectedApp(app);
+                                    setShowApproval(true);
+                                  }}
+                                >
                                   Approve
                                 </Button>
-                                <Button size="sm" variant="destructive" onClick={() => { setSelectedApp(app); setShowRejection(true); }}>
+                                <Button
+                                  size="sm"
+                                  variant="destructive"
+                                  onClick={() => {
+                                    setSelectedApp(app);
+                                    setShowRejection(true);
+                                  }}
+                                >
                                   Reject
                                 </Button>
                               </>
                             )}
-                            {(lastAttempts as any)[app.id]?.status && (lastAttempts as any)[app.id].status !== "success" && user && (
-                              <Button
-                                size="sm"
-                                variant="outline"
-                                onClick={() => retry.mutate({ applicationId: app.id, adminUserId: user.id })}
-                                disabled={retry.isPending}
-                                title="Retry provisioning"
-                              >
-                                <RefreshCw className={`h-3.5 w-3.5 ${retry.isPending ? "animate-spin" : ""}`} />
-                              </Button>
-                            )}
+                            {(lastAttempts as any)[app.id]?.status &&
+                              (lastAttempts as any)[app.id].status !==
+                                "success" &&
+                              user && (
+                                <Button
+                                  size="sm"
+                                  variant="outline"
+                                  onClick={() =>
+                                    retry.mutate({
+                                      applicationId: app.id,
+                                      adminUserId: user.id,
+                                    })
+                                  }
+                                  disabled={retry.isPending}
+                                  title="Retry provisioning"
+                                >
+                                  <RefreshCw
+                                    className={`h-3.5 w-3.5 ${retry.isPending ? "animate-spin" : ""}`}
+                                  />
+                                </Button>
+                              )}
                           </div>
                         </TableCell>
                       </TableRow>
@@ -400,17 +612,26 @@ const AccreditationManager = () => {
         </CardContent>
       </Card>
 
-      <AccreditationDrawer application={drawerApp} onClose={() => setDrawerApp(null)} />
+      <AccreditationDrawer
+        application={drawerApp}
+        onClose={() => setDrawerApp(null)}
+      />
 
       <ApprovalModal
         open={showApproval}
-        onClose={() => { setShowApproval(false); setSelectedApp(null); }}
+        onClose={() => {
+          setShowApproval(false);
+          setSelectedApp(null);
+        }}
         applicationId={selectedApp?.id}
         applicantName={selectedApp?.full_name}
         applicantEmail={selectedApp?.email}
         onConfirm={async () => {
           if (!selectedApp || !user) return;
-          await approveApplication.mutateAsync({ applicationId: selectedApp.id, adminUserId: user.id });
+          await approveApplication.mutateAsync({
+            applicationId: selectedApp.id,
+            adminUserId: user.id,
+          });
           setShowApproval(false);
           setSelectedApp(null);
         }}
@@ -418,12 +639,19 @@ const AccreditationManager = () => {
 
       <RejectionModal
         open={showRejection}
-        onClose={() => { setShowRejection(false); setSelectedApp(null); }}
+        onClose={() => {
+          setShowRejection(false);
+          setSelectedApp(null);
+        }}
         applicantName={selectedApp?.full_name}
         applicantEmail={selectedApp?.email}
         onConfirm={async (reason) => {
           if (!selectedApp || !user) return;
-          await rejectApplication.mutateAsync({ applicationId: selectedApp.id, adminUserId: user.id, reason });
+          await rejectApplication.mutateAsync({
+            applicationId: selectedApp.id,
+            adminUserId: user.id,
+            reason,
+          });
           setShowRejection(false);
           setSelectedApp(null);
         }}

@@ -1,5 +1,11 @@
 import { useEffect, useMemo, useState } from "react";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
@@ -17,7 +23,10 @@ import {
   AlertCircle,
   MapPin,
 } from "lucide-react";
-import { usePsychologistSlots, usePsychologistBookings } from "@/hooks/useBooking";
+import {
+  usePsychologistSlots,
+  usePsychologistBookings,
+} from "@/hooks/useBooking";
 import { supabase } from "@/integrations/supabase/client";
 import { useQueryClient } from "@tanstack/react-query";
 import { useAuth } from "@/contexts/AuthContext";
@@ -27,18 +36,26 @@ import { cn } from "@/lib/utils";
 const DAYS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
 const STATUS_STYLES: Record<string, string> = {
-  pending:   "bg-amber-500/15 text-amber-600 border-amber-500/30",
+  pending: "bg-amber-500/15 text-amber-600 border-amber-500/30",
   confirmed: "bg-blue-500/15 text-blue-600 border-blue-500/30",
   completed: "bg-green-500/15 text-green-600 border-green-500/30",
   cancelled: "bg-red-500/15 text-red-500 border-red-500/30",
-  no_show:   "bg-gray-500/15 text-gray-500 border-gray-500/30",
-  proposed:  "bg-purple-500/15 text-purple-600 border-purple-500/30",
+  no_show: "bg-gray-500/15 text-gray-500 border-gray-500/30",
+  proposed: "bg-purple-500/15 text-purple-600 border-purple-500/30",
 };
 
 type Range = { start: string; end: string };
 type WeekMap = Record<number, Range[]>;
 
-const emptyWeek = (): WeekMap => ({ 0: [], 1: [], 2: [], 3: [], 4: [], 5: [], 6: [] });
+const emptyWeek = (): WeekMap => ({
+  0: [],
+  1: [],
+  2: [],
+  3: [],
+  4: [],
+  5: [],
+  6: [],
+});
 
 const toHHMM = (t: string) => t.slice(0, 5);
 
@@ -62,10 +79,11 @@ export const AvailabilityTab = () => {
   const { user } = useAuth();
   const queryClient = useQueryClient();
   const { data: slots = [], isLoading: slotsLoading } = usePsychologistSlots();
-  const { data: bookings = [], isLoading: bookingsLoading } = usePsychologistBookings();
+  const { data: bookings = [], isLoading: bookingsLoading } =
+    usePsychologistBookings();
 
   const upcomingBookings = bookings.filter(
-    (b) => new Date(b.scheduled_at) >= new Date() && b.status !== "cancelled"
+    (b) => new Date(b.scheduled_at) >= new Date() && b.status !== "cancelled",
   );
 
   // Local draft ranges, initialised from the DB
@@ -155,7 +173,11 @@ export const AvailabilityTab = () => {
       queryClient.invalidateQueries({ queryKey: ["psy-slots"] });
       toast({ title: `Saved ${DAYS[day]}` });
     } catch (e: any) {
-      toast({ title: "Save failed", description: e?.message, variant: "destructive" });
+      toast({
+        title: "Save failed",
+        description: e?.message,
+        variant: "destructive",
+      });
     } finally {
       setSaving(null);
     }
@@ -171,7 +193,10 @@ export const AvailabilityTab = () => {
         }
         const { error } = await supabase.rpc("replace_availability_for_day", {
           _day: day,
-          _ranges: draft[day].map((r) => ({ start: r.start, end: r.end })) as any,
+          _ranges: draft[day].map((r) => ({
+            start: r.start,
+            end: r.end,
+          })) as any,
         });
         if (error) throw error;
       }
@@ -179,7 +204,11 @@ export const AvailabilityTab = () => {
       queryClient.invalidateQueries({ queryKey: ["psy-slots"] });
       toast({ title: "All changes saved" });
     } catch (e: any) {
-      toast({ title: "Save failed", description: e?.message, variant: "destructive" });
+      toast({
+        title: "Save failed",
+        description: e?.message,
+        variant: "destructive",
+      });
     } finally {
       setSavingAll(false);
     }
@@ -205,7 +234,8 @@ export const AvailabilityTab = () => {
                 Weekly availability
               </CardTitle>
               <CardDescription>
-                Add multiple time ranges per day. Clients can only book inside these windows.
+                Add multiple time ranges per day. Clients can only book inside
+                these windows.
               </CardDescription>
             </div>
             <div className="flex items-center gap-2">
@@ -243,8 +273,9 @@ export const AvailabilityTab = () => {
                       Set your weekly hours first
                     </p>
                     <p className="text-xs text-muted-foreground mt-0.5">
-                      Clients can't book an empty calendar — add at least one time range below,
-                      then share your booking link from the Profile tab.
+                      Clients can't book an empty calendar — add at least one
+                      time range below, then share your booking link from the
+                      Profile tab.
                     </p>
                   </div>
                 </div>
@@ -269,8 +300,12 @@ export const AvailabilityTab = () => {
                         )}
                         {ranges.map((r, idx) => {
                           const bad =
-                            !r.start || !r.end || r.end <= r.start ||
-                            ranges.some((o, i) => i !== idx && rangesOverlap(r, o));
+                            !r.start ||
+                            !r.end ||
+                            r.end <= r.start ||
+                            ranges.some(
+                              (o, i) => i !== idx && rangesOverlap(r, o),
+                            );
                           return (
                             <div
                               key={idx}
@@ -286,11 +321,15 @@ export const AvailabilityTab = () => {
                                 type="time"
                                 value={r.start}
                                 onChange={(e) =>
-                                  updateRange(day, idx, { start: e.target.value })
+                                  updateRange(day, idx, {
+                                    start: e.target.value,
+                                  })
                                 }
                                 className="bg-transparent outline-hidden text-xs w-[70px]"
                               />
-                              <span className="text-muted-foreground text-xs">–</span>
+                              <span className="text-muted-foreground text-xs">
+                                –
+                              </span>
                               <input
                                 type="time"
                                 value={r.end}
@@ -342,7 +381,11 @@ export const AvailabilityTab = () => {
               </div>
 
               <div className="mt-5 flex flex-wrap items-center gap-2">
-                <Button size="sm" variant="outline" onClick={copyMondayToWeekdays}>
+                <Button
+                  size="sm"
+                  variant="outline"
+                  onClick={copyMondayToWeekdays}
+                >
                   <Copy className="h-3.5 w-3.5 mr-1.5" />
                   Copy Mon → Tue–Fri
                 </Button>
@@ -365,8 +408,8 @@ export const AvailabilityTab = () => {
                 </Button>
               </div>
               <p className="text-xs text-muted-foreground mt-3">
-                Times are interpreted in <strong>Africa/Casablanca</strong>. Overlapping
-                ranges are highlighted in red and cannot be saved.
+                Times are interpreted in <strong>Africa/Casablanca</strong>.
+                Overlapping ranges are highlighted in red and cannot be saved.
               </p>
             </>
           ) : (
@@ -396,7 +439,9 @@ export const AvailabilityTab = () => {
           ) : upcomingBookings.length === 0 ? (
             <div className="text-center py-10">
               <Calendar className="w-10 h-10 text-muted-foreground/30 mx-auto mb-3" />
-              <p className="text-sm text-muted-foreground">No upcoming sessions yet.</p>
+              <p className="text-sm text-muted-foreground">
+                No upcoming sessions yet.
+              </p>
               <p className="text-xs text-muted-foreground mt-1">
                 Set your availability above so patients can book with you.
               </p>
@@ -424,20 +469,28 @@ export const AvailabilityTab = () => {
                       {(booking as any).patient_name ?? "Anonymous patient"}
                     </p>
                     <p className="text-xs text-muted-foreground">
-                      {format(new Date(booking.scheduled_at), "HH:mm")} · {booking.duration_minutes}min · {booking.session_type}
+                      {format(new Date(booking.scheduled_at), "HH:mm")} ·{" "}
+                      {booking.duration_minutes}min · {booking.session_type}
                     </p>
-                    {booking.session_type === "in_person" && (booking as any).patient_address && (
-                      <p className="text-xs text-muted-foreground mt-1 line-clamp-1 flex items-center gap-1">
-                        <MapPin className="w-3 h-3 shrink-0" /> {(booking as any).patient_address}
-                      </p>
-                    )}
+                    {booking.session_type === "in_person" &&
+                      (booking as any).patient_address && (
+                        <p className="text-xs text-muted-foreground mt-1 line-clamp-1 flex items-center gap-1">
+                          <MapPin className="w-3 h-3 shrink-0" />{" "}
+                          {(booking as any).patient_address}
+                        </p>
+                      )}
                     {booking.patient_notes && (
                       <p className="text-xs text-muted-foreground mt-1 line-clamp-1 italic">
                         "{booking.patient_notes}"
                       </p>
                     )}
                   </div>
-                  <Badge className={cn("text-xs border flex-shrink-0", STATUS_STYLES[booking.status] || "")}>
+                  <Badge
+                    className={cn(
+                      "text-xs border flex-shrink-0",
+                      STATUS_STYLES[booking.status] || "",
+                    )}
+                  >
                     {booking.status}
                   </Badge>
                 </div>
@@ -511,7 +564,9 @@ function ClientPreview({ psychologistId }: { psychologistId: string }) {
             className="rounded-lg border border-border bg-background p-3"
           >
             <div className="flex items-center justify-between mb-2">
-              <p className="text-sm font-medium">{format(r.date, "EEE d MMM")}</p>
+              <p className="text-sm font-medium">
+                {format(r.date, "EEE d MMM")}
+              </p>
               <Badge
                 variant="outline"
                 className={cn(

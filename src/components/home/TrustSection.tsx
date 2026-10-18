@@ -3,16 +3,44 @@ import { useLocale } from "@/contexts/LocaleContext";
 import { motion } from "framer-motion";
 
 const trustItems = [
-  { icon: Award, labelKey: "trust.licensed" as const, fallback: "Licensed Psychologists" },
-  { icon: Video, labelKey: "trust.telehealth" as const, fallback: "Secure Telehealth" },
-  { icon: Lock, labelKey: "trust.confidential" as const, fallback: "100% Confidential" },
-  { icon: Shield, labelKey: "trust.accredited" as const, fallback: "Accredited Platform" },
+  {
+    icon: Award,
+    labelKey: "trust.licensed" as const,
+    fallback: "Licensed Psychologists",
+  },
+  {
+    icon: Video,
+    labelKey: "trust.telehealth" as const,
+    fallback: "Secure Telehealth",
+  },
+  {
+    icon: Lock,
+    labelKey: "trust.confidential" as const,
+    fallback: "100% Confidential",
+  },
+  {
+    icon: Shield,
+    labelKey: "trust.accredited" as const,
+    fallback: "Accredited Platform",
+  },
 ];
 
 const stats = [
-  { value: "50+", labelKey: "trust.statExperts" as const, fallback: "Verified Experts" },
-  { value: "2,000+", labelKey: "trust.statSessions" as const, fallback: "Sessions Completed" },
-  { value: "98%", labelKey: "trust.statSatisfaction" as const, fallback: "Client Satisfaction" },
+  {
+    value: "50+",
+    labelKey: "trust.statExperts" as const,
+    fallback: "Verified Experts",
+  },
+  {
+    value: "2,000+",
+    labelKey: "trust.statSessions" as const,
+    fallback: "Sessions Completed",
+  },
+  {
+    value: "98%",
+    labelKey: "trust.statSatisfaction" as const,
+    fallback: "Client Satisfaction",
+  },
 ];
 
 const TrustSection = () => {
@@ -50,7 +78,9 @@ const TrustSection = () => {
         >
           {stats.map((stat, i) => (
             <div key={i} className="text-center">
-              <div className="text-2xl md:text-3xl font-semibold text-primary">{stat.value}</div>
+              <div className="text-2xl md:text-3xl font-semibold text-primary">
+                {stat.value}
+              </div>
               <div className="text-xs text-muted-foreground/70 mt-1 tracking-wider uppercase">
                 {t(stat.labelKey) || stat.fallback}
               </div>
@@ -66,7 +96,8 @@ const TrustSection = () => {
           viewport={{ once: true }}
           transition={{ delay: 0.4, duration: 0.4 }}
         >
-          {t("trust.reassurance") || "You're in safe hands. Every session is private, secure, and judgment-free."}
+          {t("trust.reassurance") ||
+            "You're in safe hands. Every session is private, secure, and judgment-free."}
         </motion.p>
       </div>
     </section>

@@ -11,7 +11,10 @@ import { supabase } from "@/integrations/supabase/client";
 // the generated file.
 const db = supabase as unknown as {
   from: (t: string) => any;
-  rpc: (fn: string, args?: Record<string, unknown>) => Promise<{ data: any; error: any }>;
+  rpc: (
+    fn: string,
+    args?: Record<string, unknown>,
+  ) => Promise<{ data: any; error: any }>;
 };
 
 export type Invoice = {
@@ -50,7 +53,11 @@ export function useInvoices(status?: string) {
   return useQuery({
     queryKey: ["admin", "invoices", status ?? "all"],
     queryFn: async (): Promise<Invoice[]> => {
-      let q = db.from("invoices").select("*").order("issued_at", { ascending: false }).limit(300);
+      let q = db
+        .from("invoices")
+        .select("*")
+        .order("issued_at", { ascending: false })
+        .limit(300);
       if (status && status !== "all") q = q.eq("status", status);
       const { data, error } = await q;
       if (error) throw error;
@@ -100,7 +107,11 @@ export function useContactOptions() {
         .order("last_activity_at", { ascending: false, nullsFirst: false })
         .limit(200);
       if (error) throw error;
-      return (data ?? []) as { id: string; full_name: string | null; email: string }[];
+      return (data ?? []) as {
+        id: string;
+        full_name: string | null;
+        email: string;
+      }[];
     },
   });
 }
@@ -155,7 +166,10 @@ export function useFinanceMutations() {
 
   const voidInvoice = useMutation({
     mutationFn: async (id: string) => {
-      const { error } = await db.from("invoices").update({ status: "void" }).eq("id", id);
+      const { error } = await db
+        .from("invoices")
+        .update({ status: "void" })
+        .eq("id", id);
       if (error) throw error;
     },
     onSuccess: invalidate,

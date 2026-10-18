@@ -134,7 +134,13 @@ export const useReactToPost = () => {
   const { user } = useAuth();
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: async ({ postId, kind = "heart" }: { postId: string; kind?: string }) => {
+    mutationFn: async ({
+      postId,
+      kind = "heart",
+    }: {
+      postId: string;
+      kind?: string;
+    }) => {
       if (!user) throw new Error("not_authenticated");
       const { error } = await supabase
         .from("post_reactions")

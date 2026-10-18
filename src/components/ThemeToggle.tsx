@@ -24,15 +24,11 @@ const ThemeToggle = ({ className }: ThemeToggleProps) => {
         "relative p-2 rounded-lg transition-colors",
         "text-muted-foreground hover:text-primary",
         "focus:outline-hidden focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-background",
-        className
+        className,
       )}
       aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
     >
-      {isDark ? (
-        <Sun className="h-4 w-4" />
-      ) : (
-        <Moon className="h-4 w-4" />
-      )}
+      {isDark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
     </button>
   );
 };

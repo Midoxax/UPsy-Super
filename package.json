@@ -37,7 +37,9 @@
     "check:deploy": "node scripts/check-deploy-config.mjs"
   },
   "overrides": {
-    "rolldown": "1.2.1"
+    "rolldown": "1.2.1",
+    "dompurify": "3.4.17",
+    "source-map-js": "1.2.2"
   },
   "dependencies": {
     "@fontsource/amiri": "^5.2.8",
@@ -82,9 +84,9 @@
     "@supabase/supabase-js": "^2.58.0",
     "@tailwindcss/vite": "^4.2.1",
     "@tanstack/react-query": "^5.101.1",
-    "@tanstack/react-router": "1.170.18",
-    "@tanstack/react-start": "1.168.32",
-    "@tanstack/router-plugin": "1.168.23",
+    "@tanstack/react-router": "1.170.45",
+    "@tanstack/react-start": "1.169.3",
+    "@tanstack/router-plugin": "1.168.47",
     "@types/three": "0.160.0",
     "@vercel/speed-insights": "^2.0.0",
     "class-variance-authority": "^0.7.1",

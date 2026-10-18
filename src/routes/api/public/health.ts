@@ -33,8 +33,12 @@ export const Route = createFileRoute("/api/public/health")({
         if (url && svcKey) {
           try {
             const headers = new Headers({ apikey: svcKey });
-            if (!svcKey.startsWith("sb_")) headers.set("Authorization", `Bearer ${svcKey}`);
-            const res = await fetch(`${url}/rest/v1/`, { headers, signal: AbortSignal.timeout(4000) });
+            if (!svcKey.startsWith("sb_"))
+              headers.set("Authorization", `Bearer ${svcKey}`);
+            const res = await fetch(`${url}/rest/v1/`, {
+              headers,
+              signal: AbortSignal.timeout(4000),
+            });
             dbOk = res.ok;
             dbDetail = `HTTP ${res.status}`;
           } catch (err) {
@@ -47,14 +51,20 @@ export const Route = createFileRoute("/api/public/health")({
         const body = {
           status: allOk ? "ok" : "degraded",
           checks,
-          version: process.env["VITE_APP_VERSION"] ?? process.env["COMMIT_SHA"] ?? null,
+          version:
+            process.env["VITE_APP_VERSION"] ??
+            process.env["COMMIT_SHA"] ??
+            null,
           environment: process.env["NODE_ENV"] ?? "unknown",
           timestamp: new Date().toISOString(),
         };
 
         return new Response(JSON.stringify(body), {
           status: allOk ? 200 : 503,
-          headers: { "Content-Type": "application/json", "Cache-Control": "no-store" },
+          headers: {
+            "Content-Type": "application/json",
+            "Cache-Control": "no-store",
+          },
         });
       },
     },

@@ -81,7 +81,12 @@ export const useTicketMessages = (ticketId: string | null) => {
       .channel(`support_ticket_messages:${ticketId}`)
       .on(
         "postgres_changes",
-        { event: "INSERT", schema: "public", table: "support_ticket_messages", filter: `ticket_id=eq.${ticketId}` },
+        {
+          event: "INSERT",
+          schema: "public",
+          table: "support_ticket_messages",
+          filter: `ticket_id=eq.${ticketId}`,
+        },
         () => qc.invalidateQueries({ queryKey: ["ticket-messages", ticketId] }),
       )
       .subscribe();
@@ -97,7 +102,11 @@ export const useCreateTicket = () => {
   const { user } = useAuth();
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: async (input: { subject: string; category: string; body: string }) => {
+    mutationFn: async (input: {
+      subject: string;
+      category: string;
+      body: string;
+    }) => {
       if (!user) throw new Error("Not authenticated");
       const { data: ticket, error } = await supabase
         .from("support_tickets" as any)
@@ -132,7 +141,11 @@ export const usePostTicketMessage = () => {
   const { user } = useAuth();
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: async (input: { ticketId: string; body: string; isAdmin?: boolean }) => {
+    mutationFn: async (input: {
+      ticketId: string;
+      body: string;
+      isAdmin?: boolean;
+    }) => {
       if (!user) throw new Error("Not authenticated");
       const { error } = await supabase
         .from("support_ticket_messages" as any)
@@ -155,7 +168,15 @@ export const usePostTicketMessage = () => {
 export const useUpdateTicketStatus = () => {
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: async ({ ticketId, status, resolution }: { ticketId: string; status: string; resolution?: string }) => {
+    mutationFn: async ({
+      ticketId,
+      status,
+      resolution,
+    }: {
+      ticketId: string;
+      status: string;
+      resolution?: string;
+    }) => {
       const updates: any = { status };
       if (status === "resolved" || status === "closed") {
         updates.closed_at = new Date().toISOString();

@@ -25,9 +25,12 @@ export const useSendMeetingLink = () => {
   const qc = useQueryClient();
   return useMutation({
     mutationFn: async (input: SendMeetingLinkInput) => {
-      const { data, error } = await supabase.functions.invoke("send-meeting-link", {
-        body: input,
-      });
+      const { data, error } = await supabase.functions.invoke(
+        "send-meeting-link",
+        {
+          body: input,
+        },
+      );
       if (error) throw error;
       if (data?.error) throw new Error(data.error);
       return data as SendMeetingLinkResult;

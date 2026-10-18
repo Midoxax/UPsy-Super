@@ -4,7 +4,15 @@ import { useAuth } from "@/contexts/AuthContext";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Loader2, FileText, AlertTriangle, RefreshCw, ChevronDown, ChevronUp, Brain } from "lucide-react";
+import {
+  Loader2,
+  FileText,
+  AlertTriangle,
+  RefreshCw,
+  ChevronDown,
+  ChevronUp,
+  Brain,
+} from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 interface IntakeRow {
@@ -77,7 +85,9 @@ const ClinicalBriefsTab = () => {
 
       if (briefRows) {
         const map: Record<string, ClinicalBrief> = {};
-        briefRows.forEach((b: any) => { map[b.anamnesis_id] = b; });
+        briefRows.forEach((b: any) => {
+          map[b.anamnesis_id] = b;
+        });
         setBriefs(map);
       }
       setLoading(false);
@@ -88,16 +98,26 @@ const ClinicalBriefsTab = () => {
   const generateBrief = async (intakeId: string) => {
     setGenerating(intakeId);
     try {
-      const { data, error } = await supabase.functions.invoke("generate-clinical-brief", {
-        body: { anamnesis_id: intakeId },
-      });
+      const { data, error } = await supabase.functions.invoke(
+        "generate-clinical-brief",
+        {
+          body: { anamnesis_id: intakeId },
+        },
+      );
       if (error) throw error;
       if (data?.brief) {
         setBriefs((prev) => ({ ...prev, [intakeId]: data.brief }));
-        toast({ title: "Brief generated", description: "AI clinical brief is ready." });
+        toast({
+          title: "Brief generated",
+          description: "AI clinical brief is ready.",
+        });
       }
     } catch (e: any) {
-      toast({ title: "Error", description: e.message || "Failed to generate brief.", variant: "destructive" });
+      toast({
+        title: "Error",
+        description: e.message || "Failed to generate brief.",
+        variant: "destructive",
+      });
     } finally {
       setGenerating(null);
     }
@@ -105,10 +125,18 @@ const ClinicalBriefsTab = () => {
 
   const getClientName = (intake: IntakeRow) => {
     const id = intake.identity || {};
-    return [id.first_name, id.last_name].filter(Boolean).join(" ") || intake.client_id?.slice(0, 8);
+    return (
+      [id.first_name, id.last_name].filter(Boolean).join(" ") ||
+      intake.client_id?.slice(0, 8)
+    );
   };
 
-  if (loading) return <div className="flex justify-center py-12"><Loader2 className="h-6 w-6 animate-spin text-primary" /></div>;
+  if (loading)
+    return (
+      <div className="flex justify-center py-12">
+        <Loader2 className="h-6 w-6 animate-spin text-primary" />
+      </div>
+    );
 
   if (intakes.length === 0) {
     return (
@@ -116,7 +144,10 @@ const ClinicalBriefsTab = () => {
         <CardContent className="py-12 text-center text-muted-foreground">
           <Brain className="h-10 w-10 mx-auto mb-3 opacity-40" />
           <p className="font-medium">No completed intakes yet</p>
-          <p className="text-xs mt-1">Clinical briefs will appear here once clients complete their intake forms.</p>
+          <p className="text-xs mt-1">
+            Clinical briefs will appear here once clients complete their intake
+            forms.
+          </p>
         </CardContent>
       </Card>
     );
@@ -126,7 +157,9 @@ const ClinicalBriefsTab = () => {
     <div className="space-y-4">
       <div className="flex items-center justify-between">
         <h3 className="font-semibold text-lg">Clinical Briefs</h3>
-        <Badge variant="outline">{intakes.length} intake{intakes.length !== 1 ? "s" : ""}</Badge>
+        <Badge variant="outline">
+          {intakes.length} intake{intakes.length !== 1 ? "s" : ""}
+        </Badge>
       </div>
 
       {intakes.map((intake) => {
@@ -135,13 +168,25 @@ const ClinicalBriefsTab = () => {
         const flags = intake.clinical_flags || [];
 
         return (
-          <Card key={intake.id} className={flags.length > 0 ? "border-destructive/30" : ""}>
-            <CardHeader className="pb-2 cursor-pointer" onClick={() => setExpanded(isExpanded ? null : intake.id)}>
+          <Card
+            key={intake.id}
+            className={flags.length > 0 ? "border-destructive/30" : ""}
+          >
+            <CardHeader
+              className="pb-2 cursor-pointer"
+              onClick={() => setExpanded(isExpanded ? null : intake.id)}
+            >
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  <CardTitle className="text-sm">{getClientName(intake)}</CardTitle>
-                  {flags.length > 0 && <AlertTriangle className="h-4 w-4 text-destructive" />}
-                  <Badge variant="outline" className="text-[10px]">{intake.status}</Badge>
+                  <CardTitle className="text-sm">
+                    {getClientName(intake)}
+                  </CardTitle>
+                  {flags.length > 0 && (
+                    <AlertTriangle className="h-4 w-4 text-destructive" />
+                  )}
+                  <Badge variant="outline" className="text-[10px]">
+                    {intake.status}
+                  </Badge>
                 </div>
                 <div className="flex items-center gap-2">
                   {intake.completed_at && (
@@ -149,7 +194,11 @@ const ClinicalBriefsTab = () => {
                       {new Date(intake.completed_at).toLocaleDateString()}
                     </span>
                   )}
-                  {isExpanded ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
+                  {isExpanded ? (
+                    <ChevronUp className="h-4 w-4" />
+                  ) : (
+                    <ChevronDown className="h-4 w-4" />
+                  )}
                 </div>
               </div>
             </CardHeader>
@@ -160,23 +209,50 @@ const ClinicalBriefsTab = () => {
                 <div className="grid grid-cols-3 gap-2">
                   {intake.phq9_score != null && (
                     <div className="rounded-lg border p-2 text-center">
-                      <div className="text-[10px] text-muted-foreground">PHQ-9</div>
-                      <div className="text-lg font-bold">{intake.phq9_score}</div>
-                      <Badge variant={severityColor(intake.phq9_severity)} className="text-[9px]">{intake.phq9_severity}</Badge>
+                      <div className="text-[10px] text-muted-foreground">
+                        PHQ-9
+                      </div>
+                      <div className="text-lg font-bold">
+                        {intake.phq9_score}
+                      </div>
+                      <Badge
+                        variant={severityColor(intake.phq9_severity)}
+                        className="text-[9px]"
+                      >
+                        {intake.phq9_severity}
+                      </Badge>
                     </div>
                   )}
                   {intake.gad7_score != null && (
                     <div className="rounded-lg border p-2 text-center">
-                      <div className="text-[10px] text-muted-foreground">GAD-7</div>
-                      <div className="text-lg font-bold">{intake.gad7_score}</div>
-                      <Badge variant={severityColor(intake.gad7_severity)} className="text-[9px]">{intake.gad7_severity}</Badge>
+                      <div className="text-[10px] text-muted-foreground">
+                        GAD-7
+                      </div>
+                      <div className="text-lg font-bold">
+                        {intake.gad7_score}
+                      </div>
+                      <Badge
+                        variant={severityColor(intake.gad7_severity)}
+                        className="text-[9px]"
+                      >
+                        {intake.gad7_severity}
+                      </Badge>
                     </div>
                   )}
                   {intake.pss10_score != null && (
                     <div className="rounded-lg border p-2 text-center">
-                      <div className="text-[10px] text-muted-foreground">PSS-10</div>
-                      <div className="text-lg font-bold">{intake.pss10_score}</div>
-                      <Badge variant={severityColor(intake.pss10_severity)} className="text-[9px]">{intake.pss10_severity}</Badge>
+                      <div className="text-[10px] text-muted-foreground">
+                        PSS-10
+                      </div>
+                      <div className="text-lg font-bold">
+                        {intake.pss10_score}
+                      </div>
+                      <Badge
+                        variant={severityColor(intake.pss10_severity)}
+                        className="text-[9px]"
+                      >
+                        {intake.pss10_severity}
+                      </Badge>
                     </div>
                   )}
                 </div>
@@ -184,10 +260,18 @@ const ClinicalBriefsTab = () => {
                 {/* Clinical flags */}
                 {flags.length > 0 && (
                   <div className="rounded-lg border border-destructive/30 bg-destructive/5 p-3">
-                    <p className="text-xs font-medium text-destructive mb-1">Clinical Flags</p>
+                    <p className="text-xs font-medium text-destructive mb-1">
+                      Clinical Flags
+                    </p>
                     <div className="flex flex-wrap gap-1">
                       {flags.map((f) => (
-                        <Badge key={f} variant="destructive" className="text-[9px]">{f.replace(/_/g, " ")}</Badge>
+                        <Badge
+                          key={f}
+                          variant="destructive"
+                          className="text-[9px]"
+                        >
+                          {f.replace(/_/g, " ")}
+                        </Badge>
                       ))}
                     </div>
                   </div>
@@ -196,16 +280,24 @@ const ClinicalBriefsTab = () => {
                 {/* Presenting complaint summary */}
                 {intake.presenting_complaint?.main_reason && (
                   <div>
-                    <p className="text-xs font-medium text-muted-foreground mb-1">Presenting Complaint</p>
-                    <p className="text-sm">{intake.presenting_complaint.main_reason}</p>
+                    <p className="text-xs font-medium text-muted-foreground mb-1">
+                      Presenting Complaint
+                    </p>
+                    <p className="text-sm">
+                      {intake.presenting_complaint.main_reason}
+                    </p>
                   </div>
                 )}
 
                 {/* Therapy goals */}
                 {intake.objectives_consent?.therapy_goals && (
                   <div>
-                    <p className="text-xs font-medium text-muted-foreground mb-1">Client Goals</p>
-                    <p className="text-sm">{intake.objectives_consent.therapy_goals}</p>
+                    <p className="text-xs font-medium text-muted-foreground mb-1">
+                      Client Goals
+                    </p>
+                    <p className="text-sm">
+                      {intake.objectives_consent.therapy_goals}
+                    </p>
                   </div>
                 )}
 
@@ -214,29 +306,58 @@ const ClinicalBriefsTab = () => {
                   <div className="rounded-lg border border-primary/20 bg-primary/5 p-4 space-y-3">
                     <div className="flex items-center gap-2">
                       <Brain className="h-4 w-4 text-primary" />
-                      <span className="text-xs font-semibold">AI Clinical Brief</span>
+                      <span className="text-xs font-semibold">
+                        AI Clinical Brief
+                      </span>
                       <Badge variant="outline" className="text-[9px] ml-auto">
                         {new Date(brief.created_at).toLocaleDateString()}
                       </Badge>
                     </div>
-                    <p className="text-sm whitespace-pre-wrap">{brief.summary_text}</p>
+                    <p className="text-sm whitespace-pre-wrap">
+                      {brief.summary_text}
+                    </p>
                     {brief.key_themes?.length > 0 && (
                       <div>
-                        <p className="text-[10px] font-medium text-muted-foreground mb-1">Key Themes</p>
+                        <p className="text-[10px] font-medium text-muted-foreground mb-1">
+                          Key Themes
+                        </p>
                         <div className="flex flex-wrap gap-1">
-                          {brief.key_themes.map((t) => <Badge key={t} variant="secondary" className="text-[9px]">{t}</Badge>)}
+                          {brief.key_themes.map((t) => (
+                            <Badge
+                              key={t}
+                              variant="secondary"
+                              className="text-[9px]"
+                            >
+                              {t}
+                            </Badge>
+                          ))}
                         </div>
                       </div>
                     )}
                     {brief.suggested_approaches?.length > 0 && (
                       <div>
-                        <p className="text-[10px] font-medium text-muted-foreground mb-1">Suggested Approaches</p>
+                        <p className="text-[10px] font-medium text-muted-foreground mb-1">
+                          Suggested Approaches
+                        </p>
                         <div className="flex flex-wrap gap-1">
-                          {brief.suggested_approaches.map((a) => <Badge key={a} variant="outline" className="text-[9px]">{a}</Badge>)}
+                          {brief.suggested_approaches.map((a) => (
+                            <Badge
+                              key={a}
+                              variant="outline"
+                              className="text-[9px]"
+                            >
+                              {a}
+                            </Badge>
+                          ))}
                         </div>
                       </div>
                     )}
-                    <Button size="sm" variant="ghost" className="text-xs" onClick={() => generateBrief(intake.id)}>
+                    <Button
+                      size="sm"
+                      variant="ghost"
+                      className="text-xs"
+                      onClick={() => generateBrief(intake.id)}
+                    >
                       <RefreshCw className="h-3 w-3 mr-1" /> Regenerate
                     </Button>
                   </div>
@@ -247,9 +368,14 @@ const ClinicalBriefsTab = () => {
                     disabled={generating === intake.id}
                   >
                     {generating === intake.id ? (
-                      <><Loader2 className="h-3 w-3 mr-1 animate-spin" /> Generating…</>
+                      <>
+                        <Loader2 className="h-3 w-3 mr-1 animate-spin" />{" "}
+                        Generating…
+                      </>
                     ) : (
-                      <><Brain className="h-3 w-3 mr-1" /> Generate AI Brief</>
+                      <>
+                        <Brain className="h-3 w-3 mr-1" /> Generate AI Brief
+                      </>
                     )}
                   </Button>
                 )}

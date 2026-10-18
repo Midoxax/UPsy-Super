@@ -1,4 +1,10 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -26,8 +32,14 @@ export const LeadsTab = () => {
   const { toast } = useToast();
   const { data: leads = [], isLoading } = useLeads();
   const updateLead = useUpdateLead();
-  const [proposeFor, setProposeFor] = useState<{ email: string; name: string } | null>(null);
-  const [linkFor, setLinkFor] = useState<{ email: string; name: string } | null>(null);
+  const [proposeFor, setProposeFor] = useState<{
+    email: string;
+    name: string;
+  } | null>(null);
+  const [linkFor, setLinkFor] = useState<{
+    email: string;
+    name: string;
+  } | null>(null);
 
   const handleStatusUpdate = async (leadId: string, newStatus: string) => {
     try {
@@ -62,7 +74,9 @@ export const LeadsTab = () => {
           <Users className="h-5 w-5 text-primary" />
           Client Leads
         </CardTitle>
-        <CardDescription>Manage incoming client requests and follow-ups</CardDescription>
+        <CardDescription>
+          Manage incoming client requests and follow-ups
+        </CardDescription>
       </CardHeader>
       <CardContent>
         {leads.length === 0 ? (
@@ -70,7 +84,8 @@ export const LeadsTab = () => {
             <Users className="w-12 h-12 text-muted-foreground mx-auto mb-4 opacity-50" />
             <p className="text-muted-foreground">No leads yet</p>
             <p className="text-sm text-muted-foreground mt-2">
-              Client inquiries will appear here when they request to work with you
+              Client inquiries will appear here when they request to work with
+              you
             </p>
           </div>
         ) : (
@@ -94,18 +109,24 @@ export const LeadsTab = () => {
                       </div>
                     )}
                   </div>
-                  <Badge className={statusColors[lead.status as keyof typeof statusColors]}>
+                  <Badge
+                    className={
+                      statusColors[lead.status as keyof typeof statusColors]
+                    }
+                  >
                     {lead.status}
                   </Badge>
                 </div>
 
                 <div className="space-y-2">
                   <p className="text-sm">
-                    <span className="font-medium">Concerns:</span> {lead.concerns}
+                    <span className="font-medium">Concerns:</span>{" "}
+                    {lead.concerns}
                   </p>
                   {lead.preferences && (
                     <p className="text-sm text-muted-foreground">
-                      <span className="font-medium">Preferences:</span> {lead.preferences}
+                      <span className="font-medium">Preferences:</span>{" "}
+                      {lead.preferences}
                     </p>
                   )}
                   <p className="text-xs text-muted-foreground">
@@ -116,7 +137,9 @@ export const LeadsTab = () => {
                 <div className="flex items-center gap-2 pt-2">
                   <Select
                     value={lead.status}
-                    onValueChange={(value) => handleStatusUpdate(lead.id, value)}
+                    onValueChange={(value) =>
+                      handleStatusUpdate(lead.id, value)
+                    }
                   >
                     <SelectTrigger className="w-[180px] bg-surface">
                       <SelectValue />
@@ -132,7 +155,10 @@ export const LeadsTab = () => {
                     size="sm"
                     variant="outline"
                     onClick={() =>
-                      setProposeFor({ email: lead.client_email, name: lead.client_name })
+                      setProposeFor({
+                        email: lead.client_email,
+                        name: lead.client_name,
+                      })
                     }
                   >
                     <CalendarPlus className="h-4 w-4 mr-1" />
@@ -141,7 +167,10 @@ export const LeadsTab = () => {
                   <Button
                     size="sm"
                     onClick={() =>
-                      setLinkFor({ email: lead.client_email, name: lead.client_name })
+                      setLinkFor({
+                        email: lead.client_email,
+                        name: lead.client_name,
+                      })
                     }
                   >
                     <Video className="h-4 w-4 mr-1" />

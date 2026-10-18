@@ -66,9 +66,18 @@ const WhyUsSection = () => {
       {/* Ambient gold particles */}
       <div className="pointer-events-none absolute inset-0 -z-10">
         <div className="absolute top-[15%] left-[8%] h-2 w-2 rounded-full bg-secondary/40 motion-breathe" />
-        <div className="absolute top-[40%] right-[12%] h-3 w-3 rounded-full bg-primary/20 motion-breathe" style={{ animationDelay: "0.6s" }} />
-        <div className="absolute bottom-[25%] left-[20%] h-2 w-2 rounded-full bg-secondary/30 motion-breathe" style={{ animationDelay: "1.2s" }} />
-        <div className="absolute bottom-[10%] right-[25%] h-2.5 w-2.5 rounded-full bg-primary/25 motion-breathe" style={{ animationDelay: "0.3s" }} />
+        <div
+          className="absolute top-[40%] right-[12%] h-3 w-3 rounded-full bg-primary/20 motion-breathe"
+          style={{ animationDelay: "0.6s" }}
+        />
+        <div
+          className="absolute bottom-[25%] left-[20%] h-2 w-2 rounded-full bg-secondary/30 motion-breathe"
+          style={{ animationDelay: "1.2s" }}
+        />
+        <div
+          className="absolute bottom-[10%] right-[25%] h-2.5 w-2.5 rounded-full bg-primary/25 motion-breathe"
+          style={{ animationDelay: "0.3s" }}
+        />
       </div>
 
       <div className="container-custom">
@@ -85,7 +94,8 @@ const WhyUsSection = () => {
             {t("whyUs.eyebrow") || "Why U.Psy"}
           </div>
           <h2 className="text-h2 mb-5">
-            {t("whyUs.title") || "Six reasons we're not another therapy directory."}
+            {t("whyUs.title") ||
+              "Six reasons we're not another therapy directory."}
           </h2>
           <p className="text-body text-muted-foreground">
             {t("whyUs.subtitle") ||
@@ -106,13 +116,19 @@ const WhyUsSection = () => {
                 initial={{ opacity: 0, y: 32 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-60px" }}
-                transition={{ duration: 0.6, delay: idx * 0.08, ease: [0.25, 0.4, 0.25, 1] }}
+                transition={{
+                  duration: 0.6,
+                  delay: idx * 0.08,
+                  ease: [0.25, 0.4, 0.25, 1],
+                }}
                 className={`relative grid md:grid-cols-2 gap-6 md:gap-12 items-center ${
                   isLeft ? "" : "md:[&>*:first-child]:order-2"
                 }`}
               >
                 {/* Numeral block */}
-                <div className={`flex ${isLeft ? "md:justify-end" : "md:justify-start"}`}>
+                <div
+                  className={`flex ${isLeft ? "md:justify-end" : "md:justify-start"}`}
+                >
                   <div className="group relative">
                     <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-primary/10 via-secondary/10 to-transparent blur-2xl opacity-60 group-hover:opacity-100 transition-opacity duration-500" />
                     <div className="relative glass-card px-8 py-6 md:px-12 md:py-10 rounded-3xl flex items-center gap-5">
@@ -124,7 +140,9 @@ const WhyUsSection = () => {
                     {/* Connector dot — desktop only */}
                     <span
                       className={`hidden md:block absolute top-1/2 -translate-y-1/2 h-3 w-3 rounded-full bg-secondary ring-4 ring-secondary/20 ${
-                        isLeft ? "-right-[calc(50vw-50%)] md:right-auto md:left-[calc(100%+1.5rem)]" : "-left-[calc(50vw-50%)] md:left-auto md:right-[calc(100%+1.5rem)]"
+                        isLeft
+                          ? "-right-[calc(50vw-50%)] md:right-auto md:left-[calc(100%+1.5rem)]"
+                          : "-left-[calc(50vw-50%)] md:left-auto md:right-[calc(100%+1.5rem)]"
                       }`}
                       aria-hidden
                     />

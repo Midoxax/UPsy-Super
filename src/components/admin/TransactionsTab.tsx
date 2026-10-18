@@ -52,20 +52,34 @@ const TransactionsTab = () => {
     <div className="space-y-4">
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
         <div className="bg-surface border border-border rounded-xl p-4">
-          <p className="text-xs text-muted-foreground uppercase">Successful payments</p>
+          <p className="text-xs text-muted-foreground uppercase">
+            Successful payments
+          </p>
           <p className="text-2xl font-bold">{totals.count}</p>
         </div>
         <div className="bg-surface border border-border rounded-xl p-4">
-          <p className="text-xs text-muted-foreground uppercase">Gross volume</p>
-          <p className="text-2xl font-bold">{Math.round(totals.gross).toLocaleString()} MAD</p>
+          <p className="text-xs text-muted-foreground uppercase">
+            Gross volume
+          </p>
+          <p className="text-2xl font-bold">
+            {Math.round(totals.gross).toLocaleString()} MAD
+          </p>
         </div>
         <div className="bg-surface border border-border rounded-xl p-4">
-          <p className="text-xs text-muted-foreground uppercase">Platform commission</p>
-          <p className="text-2xl font-bold text-primary">{Math.round(totals.commission).toLocaleString()} MAD</p>
+          <p className="text-xs text-muted-foreground uppercase">
+            Platform commission
+          </p>
+          <p className="text-2xl font-bold text-primary">
+            {Math.round(totals.commission).toLocaleString()} MAD
+          </p>
         </div>
         <div className="bg-surface border border-border rounded-xl p-4">
-          <p className="text-xs text-muted-foreground uppercase">Net to psychologists</p>
-          <p className="text-2xl font-bold">{Math.round(totals.net).toLocaleString()} MAD</p>
+          <p className="text-xs text-muted-foreground uppercase">
+            Net to psychologists
+          </p>
+          <p className="text-2xl font-bold">
+            {Math.round(totals.net).toLocaleString()} MAD
+          </p>
         </div>
       </div>
 
@@ -86,33 +100,67 @@ const TransactionsTab = () => {
           <table className="w-full text-sm">
             <thead className="bg-surface border-b border-border">
               <tr>
-                <th className="text-left px-4 py-3 text-xs font-medium text-muted-foreground uppercase">When</th>
-                <th className="text-left px-4 py-3 text-xs font-medium text-muted-foreground uppercase">Type</th>
-                <th className="text-left px-4 py-3 text-xs font-medium text-muted-foreground uppercase">Amount</th>
-                <th className="text-left px-4 py-3 text-xs font-medium text-muted-foreground uppercase hidden md:table-cell">Commission</th>
-                <th className="text-left px-4 py-3 text-xs font-medium text-muted-foreground uppercase hidden md:table-cell">Net to psy</th>
-                <th className="text-left px-4 py-3 text-xs font-medium text-muted-foreground uppercase">Status</th>
-                <th className="text-left px-4 py-3 text-xs font-medium text-muted-foreground uppercase hidden lg:table-cell">Provider</th>
+                <th className="text-left px-4 py-3 text-xs font-medium text-muted-foreground uppercase">
+                  When
+                </th>
+                <th className="text-left px-4 py-3 text-xs font-medium text-muted-foreground uppercase">
+                  Type
+                </th>
+                <th className="text-left px-4 py-3 text-xs font-medium text-muted-foreground uppercase">
+                  Amount
+                </th>
+                <th className="text-left px-4 py-3 text-xs font-medium text-muted-foreground uppercase hidden md:table-cell">
+                  Commission
+                </th>
+                <th className="text-left px-4 py-3 text-xs font-medium text-muted-foreground uppercase hidden md:table-cell">
+                  Net to psy
+                </th>
+                <th className="text-left px-4 py-3 text-xs font-medium text-muted-foreground uppercase">
+                  Status
+                </th>
+                <th className="text-left px-4 py-3 text-xs font-medium text-muted-foreground uppercase hidden lg:table-cell">
+                  Provider
+                </th>
               </tr>
             </thead>
             <tbody className="divide-y divide-border bg-background">
               {transactions.map((t: any) => (
-                <tr key={t.id} className="hover:bg-surface/50 transition-colors">
+                <tr
+                  key={t.id}
+                  className="hover:bg-surface/50 transition-colors"
+                >
                   <td className="px-4 py-3 text-xs text-muted-foreground">
                     {format(new Date(t.created_at), "MMM d, HH:mm")}
                   </td>
                   <td className="px-4 py-3">
-                    <Badge variant="outline" className="text-xs">{TYPE_LABEL[t.transaction_type] ?? t.transaction_type}</Badge>
+                    <Badge variant="outline" className="text-xs">
+                      {TYPE_LABEL[t.transaction_type] ?? t.transaction_type}
+                    </Badge>
                   </td>
-                  <td className="px-4 py-3 font-semibold">{Number(t.amount_mad).toLocaleString()} {t.currency}</td>
-                  <td className="px-4 py-3 text-muted-foreground hidden md:table-cell">{Number(t.commission_mad).toLocaleString()} MAD</td>
-                  <td className="px-4 py-3 text-muted-foreground hidden md:table-cell">{Number(t.net_to_psychologist_mad).toLocaleString()} MAD</td>
+                  <td className="px-4 py-3 font-semibold">
+                    {Number(t.amount_mad).toLocaleString()} {t.currency}
+                  </td>
+                  <td className="px-4 py-3 text-muted-foreground hidden md:table-cell">
+                    {Number(t.commission_mad).toLocaleString()} MAD
+                  </td>
+                  <td className="px-4 py-3 text-muted-foreground hidden md:table-cell">
+                    {Number(t.net_to_psychologist_mad).toLocaleString()} MAD
+                  </td>
                   <td className="px-4 py-3">
-                    <Badge className={cn("text-xs border", STATUS_STYLES[t.status] ?? "")}>{t.status}</Badge>
+                    <Badge
+                      className={cn(
+                        "text-xs border",
+                        STATUS_STYLES[t.status] ?? "",
+                      )}
+                    >
+                      {t.status}
+                    </Badge>
                   </td>
                   <td className="px-4 py-3 text-xs text-muted-foreground hidden lg:table-cell">
                     {t.provider}
-                    {t.provider === "mock" && <span className="ml-2 text-amber-500">(test)</span>}
+                    {t.provider === "mock" && (
+                      <span className="ml-2 text-amber-500">(test)</span>
+                    )}
                   </td>
                 </tr>
               ))}

@@ -26,16 +26,21 @@ const constantTimeEqual = (a: string, b: string) => {
   return out === 0;
 };
 
-const first = (v: string | string[] | undefined) => (Array.isArray(v) ? v[0] : v);
+const first = (v: string | string[] | undefined) =>
+  Array.isArray(v) ? v[0] : v;
 
 export const Route = createFileRoute("/api/public/crm-email-events")({
   server: {
     handlers: {
       POST: async ({ request }) => {
         const secret = process.env["CRM_EMAIL_WEBHOOK_SECRET"];
-        if (!secret) return new Response("Webhook not configured", { status: 503 });
+        if (!secret)
+          return new Response("Webhook not configured", { status: 503 });
 
-        const provided = (request.headers.get("authorization") ?? "").replace(/^Bearer\s+/i, "");
+        const provided = (request.headers.get("authorization") ?? "").replace(
+          /^Bearer\s+/i,
+          "",
+        );
         if (!provided || !constantTimeEqual(provided, secret)) {
           return new Response("Unauthorized", { status: 401 });
         }
@@ -52,20 +57,26 @@ export const Route = createFileRoute("/api/public/crm-email-events")({
         const email =
           body.email ??
           first(body.to) ??
-          (typeof nested["email"] === "string" ? (nested["email"] as string) : undefined) ??
+          (typeof nested["email"] === "string"
+            ? (nested["email"] as string)
+            : undefined) ??
           first(nested["to"] as string | string[] | undefined);
         const messageId =
           body.message_id ??
-          (typeof nested["email_id"] === "string" ? (nested["email_id"] as string) : undefined);
+          (typeof nested["email_id"] === "string"
+            ? (nested["email_id"] as string)
+            : undefined);
 
         if (!eventType || (!email && !messageId)) {
-          return new Response("Missing event type or recipient", { status: 400 });
+          return new Response("Missing event type or recipient", {
+            status: 400,
+          });
         }
 
         const admin = createClient(
           process.env["SUPABASE_URL"]!,
           process.env["SUPABASE_SERVICE_ROLE_KEY"]!,
-          { auth: { persistSession: false } }
+          { auth: { persistSession: false } },
         );
 
         // Inbound replies are logged as a message on the contact timeline.
@@ -81,7 +92,8 @@ export const Route = createFileRoute("/api/public/crm-email-events")({
             _status: "received",
             _metadata: nested,
           } as never);
-          if (error) return new Response("Failed to log inbound email", { status: 500 });
+          if (error)
+            return new Response("Failed to log inbound email", { status: 500 });
           return new Response(JSON.stringify({ ok: true, logged: "inbound" }), {
             headers: { "Content-Type": "application/json" },
           });
@@ -93,7 +105,8 @@ export const Route = createFileRoute("/api/public/crm-email-events")({
           _provider_message_id: messageId ?? null,
           _metadata: nested,
         } as never);
-        if (error) return new Response("Failed to record event", { status: 500 });
+        if (error)
+          return new Response("Failed to record event", { status: 500 });
 
         return new Response(JSON.stringify({ ok: true }), {
           headers: { "Content-Type": "application/json" },

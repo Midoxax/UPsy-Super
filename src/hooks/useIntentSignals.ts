@@ -22,13 +22,8 @@ const VALID_INTENTS: UserIntent[] = [
  * Supports ?intent= debug override.
  */
 export function useIntentSignals(): void {
-  const {
-    isLocked,
-    sessionId,
-    updateSignals,
-    classifyAndLock,
-    forceIntent,
-  } = useIntentStore();
+  const { isLocked, sessionId, updateSignals, classifyAndLock, forceIntent } =
+    useIntentStore();
   const startTime = useRef(Date.now());
   const maxScrollDepth = useRef(0);
   const hasInitialized = useRef(false);
@@ -44,8 +39,7 @@ export function useIntentSignals(): void {
     // ── Debug override via ?intent= ──
     const params = new URLSearchParams(window.location.search);
     const debugIntent = params.get("intent")?.toUpperCase() as
-      | UserIntent
-      | undefined;
+      UserIntent | undefined;
     if (debugIntent && VALID_INTENTS.includes(debugIntent)) {
       forceIntent(debugIntent);
       track("intent_debug_override", { intent: debugIntent });
@@ -135,7 +129,7 @@ export function useIntentSignals(): void {
           scrollDepth: maxScrollDepth.current,
           dwellTimeMs: Date.now() - startTime.current,
         },
-        false // allow duplicate — always fire on unload
+        false, // allow duplicate — always fire on unload
       );
     };
     window.addEventListener("beforeunload", handleUnload);

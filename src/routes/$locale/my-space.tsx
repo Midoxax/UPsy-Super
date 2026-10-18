@@ -7,6 +7,10 @@ const MySpace = lazy(() => import("@/pages/MySpace"));
 
 export const Route = createFileRoute("/$locale/my-space")({
   component: () => (
-    <ProtectedRoute><PageTransition><MySpace /></PageTransition></ProtectedRoute>
+    <ProtectedRoute>
+      <PageTransition>
+        <MySpace />
+      </PageTransition>
+    </ProtectedRoute>
   ),
 });

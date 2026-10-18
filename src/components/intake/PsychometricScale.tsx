@@ -46,13 +46,16 @@ export const getSeverity = (
   bands: ScaleConfig["scoringBands"],
 ): { label: string; color: string } => {
   for (const b of bands) {
-    if (score >= b.min && score <= b.max) return { label: b.label, color: b.color };
+    if (score >= b.min && score <= b.max)
+      return { label: b.label, color: b.color };
   }
   return { label: "", color: "" };
 };
 
 const PsychometricScale = ({ config, values, onChange, disabled }: Props) => {
-  const answeredCount = Object.keys(values).filter((k) => values[Number(k)] != null).length;
+  const answeredCount = Object.keys(values).filter(
+    (k) => values[Number(k)] != null,
+  ).length;
   const allAnswered = answeredCount === config.items.length;
   const maxOpt = Math.max(...config.options.map((o) => o.value));
   const score = computeScaleScore(config.items, values, maxOpt);
@@ -68,13 +71,23 @@ const PsychometricScale = ({ config, values, onChange, disabled }: Props) => {
           </Badge>
         )}
       </div>
-      <p className="text-xs text-muted-foreground italic">{config.instruction}</p>
+      <p className="text-xs text-muted-foreground italic">
+        {config.instruction}
+      </p>
 
       {/* Column headers for options */}
-      <div className="hidden sm:grid gap-1" style={{ gridTemplateColumns: `1fr repeat(${config.options.length}, 80px)` }}>
+      <div
+        className="hidden sm:grid gap-1"
+        style={{
+          gridTemplateColumns: `1fr repeat(${config.options.length}, 80px)`,
+        }}
+      >
         <div />
         {config.options.map((o) => (
-          <div key={o.value} className="text-[10px] text-center text-muted-foreground leading-tight">
+          <div
+            key={o.value}
+            className="text-[10px] text-center text-muted-foreground leading-tight"
+          >
             {o.label}
           </div>
         ))}
@@ -91,12 +104,18 @@ const PsychometricScale = ({ config, values, onChange, disabled }: Props) => {
             )}
           >
             <CardContent className="p-3 space-y-2">
-              <p className={cn("text-xs leading-relaxed", isCrisis && "font-medium")}>
+              <p
+                className={cn(
+                  "text-xs leading-relaxed",
+                  isCrisis && "font-medium",
+                )}
+              >
                 {item.id}. {item.text}
               </p>
               {isCrisis && (
                 <p className="text-[10px] text-destructive/80 italic">
-                  Cette question est sensible. Si tu réponds, ton psy en sera informé·e pour t'accompagner en priorité.
+                  Cette question est sensible. Si tu réponds, ton psy en sera
+                  informé·e pour t'accompagner en priorité.
                 </p>
               )}
               <div className="flex flex-wrap gap-1.5">
@@ -131,7 +150,9 @@ const PsychometricScale = ({ config, values, onChange, disabled }: Props) => {
         <div className="rounded-lg border p-3 text-center">
           <div className="text-lg font-bold">{score}</div>
           {severity && (
-            <div className="text-xs text-muted-foreground">{severity.label}</div>
+            <div className="text-xs text-muted-foreground">
+              {severity.label}
+            </div>
           )}
         </div>
       )}

@@ -6,6 +6,8 @@ const Install = lazy(() => import("@/pages/Install"));
 
 export const Route = createFileRoute("/$locale/install")({
   component: () => (
-    <PageTransition><Install /></PageTransition>
+    <PageTransition>
+      <Install />
+    </PageTransition>
   ),
 });

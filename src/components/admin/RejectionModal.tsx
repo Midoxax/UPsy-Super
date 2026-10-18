@@ -19,7 +19,13 @@ interface RejectionModalProps {
   applicantName: string;
 }
 
-const RejectionModal = ({ open, onClose, onConfirm, applicantEmail, applicantName }: RejectionModalProps) => {
+const RejectionModal = ({
+  open,
+  onClose,
+  onConfirm,
+  applicantEmail,
+  applicantName,
+}: RejectionModalProps) => {
   const [reason, setReason] = useState("");
 
   const handleConfirm = () => {
@@ -38,7 +44,8 @@ const RejectionModal = ({ open, onClose, onConfirm, applicantEmail, applicantNam
         <DialogHeader>
           <DialogTitle>Reject Application</DialogTitle>
           <DialogDescription>
-            This will reject the application for <strong>{applicantName}</strong> ({applicantEmail}) and send them a
+            This will reject the application for{" "}
+            <strong>{applicantName}</strong> ({applicantEmail}) and send them a
             rejection email.
           </DialogDescription>
         </DialogHeader>

@@ -54,16 +54,18 @@ export const translations = {
     hero: {
       title: "Psychology, Built for",
       titleHighlight: "Performance Under Pressure",
-      subtitle: "You don't need more options. You need clarity on what is breaking — and a system to fix it. U.Psy diagnoses, matches, and trains.",
+      subtitle:
+        "You don't need more options. You need clarity on what is breaking — and a system to fix it. U.Psy diagnoses, matches, and trains.",
       findPsychologist: "Browse Specialists",
       startAssessment: "Measure Your Control",
       microTrust: "2-minute diagnostic · Clinically validated · Confidential",
-      seoLine: "U.Psy — operational psychology system for performance, crisis, and mental health under pressure.",
+      seoLine:
+        "U.Psy — operational psychology system for performance, crisis, and mental health under pressure.",
       explorePrograms: "Explore Programs",
       licensedPsychologists: "Licensed Psychologists",
       secureTelehealth: "Secure Telehealth",
       evidenceBasedCare: "Evidence-Based Methods",
-          talkToNour: "Talk to Nour · AI",
+      talkToNour: "Talk to Nour · AI",
       statPsychologists: "Verified psychologists",
       statMatch: "To find your match",
       statSatisfaction: "Patient satisfaction",
@@ -98,7 +100,8 @@ export const translations = {
     },
     onboarding: {
       welcomeTitle: "Start Your Mental Health Journey",
-      welcomeText: "Answer a few questions so we can recommend the best psychologist or program for you.",
+      welcomeText:
+        "Answer a few questions so we can recommend the best psychologist or program for you.",
       startAssessment: "Start Assessment",
       browsePsychologists: "Browse Psychologists",
       browsePsychologistsInstead: "Browse Psychologists Instead",
@@ -113,7 +116,8 @@ export const translations = {
     },
     assessments: {
       labTitle: "Psychological Assessment Lab",
-      labSubtitle: "Scientifically validated assessments to understand your mental health, performance, and wellbeing.",
+      labSubtitle:
+        "Scientifically validated assessments to understand your mental health, performance, and wellbeing.",
       questionFeeling: "How have you been feeling recently?",
       questionFeelingSubtitle: "There are no wrong answers — just be honest.",
       optionCalm: "Mostly calm",
@@ -150,14 +154,18 @@ export const translations = {
       backToAssessments: "Back to Assessments",
       calculating: "Calculating...",
       seeResults: "See Results",
-      overLastTwoWeeks: "Over the last 2 weeks, how often have you been bothered by this?",
+      overLastTwoWeeks:
+        "Over the last 2 weeks, how often have you been bothered by this?",
       generalMentalHealth: "General Mental Health",
       athletePerformance: "Athlete Performance",
       organizational: "Organizational",
       assessments: "Assessments",
-      resultMinimal: "Your results suggest minimal concerns. Continue maintaining your wellbeing practices.",
-      resultModerate: "Your results suggest moderate symptoms. Consider exploring our programs or speaking with a professional.",
-      resultSignificant: "Your results indicate significant symptoms. We recommend speaking with a psychologist for professional support.",
+      resultMinimal:
+        "Your results suggest minimal concerns. Continue maintaining your wellbeing practices.",
+      resultModerate:
+        "Your results suggest moderate symptoms. Consider exploring our programs or speaking with a professional.",
+      resultSignificant:
+        "Your results indicate significant symptoms. We recommend speaking with a psychologist for professional support.",
       assessmentSummary: "Your Assessment Summary",
       responseSuggest: "Your responses suggest you may be experiencing",
       interestedInSupport: "You're interested in support with",
@@ -168,9 +176,11 @@ export const translations = {
       findingMatches: "Finding Matches...",
       seeRecommended: "See Recommended Psychologists",
       topMatches: "Your Top Matches",
-      topMatchesDesc: "Based on your assessment, here are the best psychologists for you.",
+      topMatchesDesc:
+        "Based on your assessment, here are the best psychologists for you.",
       noMatches: "No matches found",
-      noMatchesDesc: "We couldn't find psychologists matching your exact criteria right now.",
+      noMatchesDesc:
+        "We couldn't find psychologists matching your exact criteria right now.",
       match: "Match",
       preferSpeaking: "Do you prefer speaking to someone?",
       yes: "Yes",
@@ -193,7 +203,8 @@ export const translations = {
       pageTitle: "Find the Right",
       pageTitleHighlight: "Psychologist",
       pageTitleEnd: "for You",
-      pageSubtitle: "Browse licensed psychologists based on your needs, language, therapy approach, and availability.",
+      pageSubtitle:
+        "Browse licensed psychologists based on your needs, language, therapy approach, and availability.",
       searchPlaceholder: "Search by name...",
       takeSelfAssessment: "Take Self-Assessment",
       browsePsychologists: "Browse Psychologists",
@@ -203,11 +214,13 @@ export const translations = {
       filterPsychologists: "Filter Psychologists",
       ofPsychologists: "psychologists",
       noResults: "No psychologists found",
-      noResultsDesc: "Try adjusting your filters or search to see more results.",
+      noResultsDesc:
+        "Try adjusting your filters or search to see more results.",
       getMatchedInstead: "Get Matched Instead",
       clearAllFilters: "Clear All Filters",
       notSureTitle: "Not Sure Who to Choose?",
-      notSureDesc: "Take a quick self-assessment and we'll recommend the best psychologist based on your needs, preferences, and availability.",
+      notSureDesc:
+        "Take a quick self-assessment and we'll recommend the best psychologist based on your needs, preferences, and availability.",
       viewProfile: "View Profile",
       book: "Book",
       accredited: "Accredited",
@@ -235,7 +248,8 @@ export const translations = {
       errorInvalidCredentials: "Incorrect email or password.",
       errorEmailNotConfirmed: "Please confirm your email before signing in.",
       errorEmailTaken: "An account with this email already exists.",
-      errorRateLimited: "Too many attempts. Please wait a moment and try again.",
+      errorRateLimited:
+        "Too many attempts. Please wait a moment and try again.",
       errorFullNameRequired: "Full name is required",
       errorPasswordsNoMatch: "Passwords do not match",
       passwordsMatch: "Passwords match",
@@ -249,23 +263,27 @@ export const translations = {
       enterEmailDesc: "Please enter your email address first.",
       checkEmail: "Check your email",
       checkEmailDesc: "A password reset link has been sent to your email.",
-      verifyEmailDesc: "We sent a verification link to your email. Please confirm before signing in.",
+      verifyEmailDesc:
+        "We sent a verification link to your email. Please confirm before signing in.",
       errorInvalidEmailFormat: "Enter a valid email address",
       agreeToTerms: "I agree to the {terms} and {privacy}",
       termsOfService: "Terms of Service",
       privacyPolicy: "Privacy Policy",
-      errorTermsRequired: "You must agree to the Terms of Service and Privacy Policy",
+      errorTermsRequired:
+        "You must agree to the Terms of Service and Privacy Policy",
       resendVerification: "Didn't get the email? Resend it",
       resendingVerification: "Resending...",
       resendVerificationSent: "Verification email resent",
-      resendVerificationDesc: "Check your inbox (and spam folder) for the new link.",
+      resendVerificationDesc:
+        "Check your inbox (and spam folder) for the new link.",
       signInRequired: "Sign In Required",
       signInRequiredDesc: "Please sign in to access your dashboard.",
       signIn: "Sign In",
     },
     dashboard: {
       welcomeBack: "Welcome back 👋",
-      welcomeSubtitle: "Track your wellbeing and manage your mental health journey.",
+      welcomeSubtitle:
+        "Track your wellbeing and manage your mental health journey.",
       avgMood: "Avg Mood",
       avgStress: "Avg Stress",
       entries: "Entries",
@@ -292,7 +310,7 @@ export const translations = {
       findPsychologist: "Find Psychologist",
       myCertificates: "My Certificates",
       goToDashboard: "Go to Dashboard",
-          todaysState: "Today's State",
+      todaysState: "Today's State",
       checkedInToday: "Checked in today",
       firstCheckIn: "First check-in of the day",
       lowStreak: "Building a routine",
@@ -335,7 +353,8 @@ export const translations = {
       time: "Time",
       sessionFee: "Session Fee",
       notesLabel: "Notes for your psychologist (optional)",
-      notesPlaceholder: "Any specific topics or concerns you'd like to discuss...",
+      notesPlaceholder:
+        "Any specific topics or concerns you'd like to discuss...",
       yourAddressLabel: "Your address (optional)",
       yourAddressPlaceholder: "Start typing your address…",
       signInToBook: "You need to sign in to complete your booking.",
@@ -351,7 +370,8 @@ export const translations = {
       availableTimesFor: "Available times for",
       bookSession: "Book Session",
       readyToBook: "Ready to Book?",
-      scheduleSession: "Schedule a session with {name} — choose your preferred time and format.",
+      scheduleSession:
+        "Schedule a session with {name} — choose your preferred time and format.",
       onlineSessions: "Online Sessions",
       inPersonSessions: "In-Person Sessions",
     },
@@ -401,13 +421,16 @@ export const translations = {
       submit: "Submit Request",
       submitting: "Submitting...",
       successTitle: "Request Submitted!",
-      successMessage: "We'll review your request and get back to you within 2-3 business days.",
+      successMessage:
+        "We'll review your request and get back to you within 2-3 business days.",
       errorTitle: "Submission Failed",
-      errorMessage: "There was an error submitting your request. Please try again.",
+      errorMessage:
+        "There was an error submitting your request. Please try again.",
     },
     footer: {
       strapline: "Your Trusted Partner",
-      crisis: "This is not a crisis service. In an emergency, contact your local emergency services immediately.",
+      crisis:
+        "This is not a crisis service. In an emergency, contact your local emergency services immediately.",
       legal: "Terms & Privacy",
       followUs: "Follow Us",
       email: "Email",
@@ -424,7 +447,8 @@ export const translations = {
     home: {
       hero: {
         title: "U.Psy — Your Personal & Trusted Psychologist.",
-        subtitle: "Evidence-based psychology to unlock resilience, elevate performance, and foster healing — in clinic, online, and on the field.",
+        subtitle:
+          "Evidence-based psychology to unlock resilience, elevate performance, and foster healing — in clinic, online, and on the field.",
         getStarted: "Get Started",
         getMatched: "Get Matched",
         trustStrip: "Trusted by professionals and organizations",
@@ -438,30 +462,45 @@ export const translations = {
         statMatch: "To find your match",
         statSatisfaction: "Client satisfaction",
         words: {
-          burnoutP: "Burnout", burnoutS: "Recovery",
-          anxietyP: "Anxiety", anxietyS: "Clarity",
-          stressP: "Stress", stressS: "Balance",
-          doubtP: "Self-doubt", doubtS: "Confidence",
-          overwhelmP: "Overwhelm", overwhelmS: "Focus",
-          disconnectionP: "Disconnection", disconnectionS: "Resilience",
+          burnoutP: "Burnout",
+          burnoutS: "Recovery",
+          anxietyP: "Anxiety",
+          anxietyS: "Clarity",
+          stressP: "Stress",
+          stressS: "Balance",
+          doubtP: "Self-doubt",
+          doubtS: "Confidence",
+          overwhelmP: "Overwhelm",
+          overwhelmS: "Focus",
+          disconnectionP: "Disconnection",
+          disconnectionS: "Resilience",
         },
         keywords: {
-          cbt: "CBT", emdr: "EMDR", schema: "Schema",
-          resilience: "Resilience", act: "ACT", mindfulness: "Mindfulness",
-          peakPerformance: "Peak Performance", wellbeing: "Well-being",
+          cbt: "CBT",
+          emdr: "EMDR",
+          schema: "Schema",
+          resilience: "Resilience",
+          act: "ACT",
+          mindfulness: "Mindfulness",
+          peakPerformance: "Peak Performance",
+          wellbeing: "Well-being",
         },
         preview: {
           servicesTitle: "Services",
-          servicesDesc: "Individual therapy, performance coaching, and structured clinical protocols.",
+          servicesDesc:
+            "Individual therapy, performance coaching, and structured clinical protocols.",
           resourcesTitle: "Resources",
-          resourcesDesc: "Self-paced courses, assessments, and tools designed by licensed psychologists.",
+          resourcesDesc:
+            "Self-paced courses, assessments, and tools designed by licensed psychologists.",
           communityTitle: "Community",
-          communityDesc: "Join the Skool community for peer support, live events, and expert Q&A.",
+          communityDesc:
+            "Join the Skool community for peer support, live events, and expert Q&A.",
         },
         intent: {
           exploring: {
             titlePrefix: "Psychology, Built for",
-            subtitle: "A performance psychology system that quantifies mental readiness, identifies blind spots, and builds evidence-based protocols for peak performance.",
+            subtitle:
+              "A performance psychology system that quantifies mental readiness, identifies blind spots, and builds evidence-based protocols for peak performance.",
             primary: "Start Your Assessment",
             secondary: "Talk to Nour · AI",
             stat1Label: "Verified psychologists",
@@ -470,7 +509,8 @@ export const translations = {
           },
           ready: {
             titlePrefix: "Your match for",
-            subtitle: "You know what you need. Match with a verified specialist in under 2 minutes — online or in-person across Morocco.",
+            subtitle:
+              "You know what you need. Match with a verified specialist in under 2 minutes — online or in-person across Morocco.",
             primary: "Find My Match",
             secondary: "Browse Specialists",
             stat1Label: "Verified psychologists",
@@ -479,7 +519,8 @@ export const translations = {
           },
           researching: {
             titlePrefix: "Evidence-based tools for",
-            subtitle: "Explore our clinical screening tools, peer-reviewed methodologies, and structured protocols used by sports psychologists and organizations worldwide.",
+            subtitle:
+              "Explore our clinical screening tools, peer-reviewed methodologies, and structured protocols used by sports psychologists and organizations worldwide.",
             primary: "Explore Assessments",
             secondary: "Our Methods",
             stat1Label: "Clinical screenings",
@@ -488,7 +529,8 @@ export const translations = {
           },
           skeptical: {
             titlePrefix: "Trusted protection from",
-            subtitle: "Every psychologist on U.Psy is clinically accredited, peer-reviewed, and bound by Moroccan Law 09-08 data protection. Your privacy is non-negotiable.",
+            subtitle:
+              "Every psychologist on U.Psy is clinically accredited, peer-reviewed, and bound by Moroccan Law 09-08 data protection. Your privacy is non-negotiable.",
             primary: "See How It Works",
             secondary: "Read Reviews",
             stat1Label: "Accreditation system",
@@ -499,20 +541,25 @@ export const translations = {
       },
       features: {
         individualTitle: "Individual Guidance",
-        individualDesc: "Therapy, performance, personality & serenity assessments.",
+        individualDesc:
+          "Therapy, performance, personality & serenity assessments.",
         institutionalTitle: "Institutional Solutions",
-        institutionalDesc: "Programs for federations, companies, and universities.",
+        institutionalDesc:
+          "Programs for federations, companies, and universities.",
         accreditationTitle: "U.Psy Accreditation",
         accreditationDesc: "Get certified, listed, and matched with clients.",
       },
       testimonials: {
         sectionTitle: "What Our Clients Say",
         testimonial1Role: "National Sprinter",
-        testimonial1Quote: "I finally compete calm and focused. My pre-race anxiety is under control.",
+        testimonial1Quote:
+          "I finally compete calm and focused. My pre-race anxiety is under control.",
         testimonial2Role: "Marketing Director",
-        testimonial2Quote: "Burnout down, clarity up. Practical tools I still use every day.",
+        testimonial2Quote:
+          "Burnout down, clarity up. Practical tools I still use every day.",
         testimonial3Role: "Recovery Client",
-        testimonial3Quote: "I felt seen without judgment. The structure helped me rebuild.",
+        testimonial3Quote:
+          "I felt seen without judgment. The structure helped me rebuild.",
       },
       cta: {
         title: "Ready to strengthen your mind?",
@@ -526,7 +573,8 @@ export const translations = {
     about: {
       hero: {
         title: "About Mr. Mehdi Felji",
-        subtitle: "Founder of U.Psy | Mental Health Innovation & Psychology Platform",
+        subtitle:
+          "Founder of U.Psy | Mental Health Innovation & Psychology Platform",
         talkToNour: "Talk to Nour · AI",
         statPsychologists: "Verified psychologists",
         statMatch: "To find your match",
@@ -534,8 +582,10 @@ export const translations = {
       },
       background: {
         title: "Who is Mehdi Felji?",
-        paragraph1: "Mr. Mehdi Felji is the founder of U.Psy, a modern psychology platform designed to make mental health support more accessible, personalized, and human-centered. With a strong focus on user experience and behavioral design, Mehdi Felji is building U.Psy as more than just a directory of psychologists — it is a guided mental health journey.",
-        paragraph2: "He believes that many people struggle not because help is unavailable, but because they don't know where to start, feel overwhelmed by choices, or lack trust in the process. U.Psy addresses these challenges through intelligent design, personalization, and a deep understanding of user psychology.",
+        paragraph1:
+          "Mr. Mehdi Felji is the founder of U.Psy, a modern psychology platform designed to make mental health support more accessible, personalized, and human-centered. With a strong focus on user experience and behavioral design, Mehdi Felji is building U.Psy as more than just a directory of psychologists — it is a guided mental health journey.",
+        paragraph2:
+          "He believes that many people struggle not because help is unavailable, but because they don't know where to start, feel overwhelmed by choices, or lack trust in the process. U.Psy addresses these challenges through intelligent design, personalization, and a deep understanding of user psychology.",
       },
       credentials: {
         title: "Qualifications & Credentials",
@@ -550,8 +600,10 @@ export const translations = {
       },
       philosophy: {
         title: "Vision & Approach",
-        paragraph1: "Mehdi Felji created U.Psy with a clear mission: to remove friction, confusion, and hesitation in accessing mental health support. He believes that peak performance — whether in sports, business, or daily life — emerges from a foundation of mental clarity, emotional regulation, and disciplined habits.",
-        paragraph2: "Under his direction, U.Psy is built using modern product principles:",
+        paragraph1:
+          "Mehdi Felji created U.Psy with a clear mission: to remove friction, confusion, and hesitation in accessing mental health support. He believes that peak performance — whether in sports, business, or daily life — emerges from a foundation of mental clarity, emotional regulation, and disciplined habits.",
+        paragraph2:
+          "Under his direction, U.Psy is built using modern product principles:",
         list: [
           "Intent-based personalization for each user",
           "Progressive user guidance through self-assessment",
@@ -585,21 +637,49 @@ export const translations = {
       },
       experience: {
         title: "Why U.Psy Matters",
-        paragraph1: "Mental health is one of the most important challenges of our time. U.Psy aims to make psychological support easier to access, reduce stigma around therapy, and help users take their first step with confidence.",
-        paragraph2: "By combining technology, psychology, and design, Mehdi Felji is positioning U.Psy as a leading platform in the future of digital mental health — turning a complex, emotional decision into a clear, guided, and empowering journey.",
+        paragraph1:
+          "Mental health is one of the most important challenges of our time. U.Psy aims to make psychological support easier to access, reduce stigma around therapy, and help users take their first step with confidence.",
+        paragraph2:
+          "By combining technology, psychology, and design, Mehdi Felji is positioning U.Psy as a leading platform in the future of digital mental health — turning a complex, emotional decision into a clear, guided, and empowering journey.",
       },
     },
     services: {
       intro: {
         title: "Protocols. Not Packages.",
-        subtitle: "Each intervention is structured around your diagnostic profile. Measure first. Then train.",
+        subtitle:
+          "Each intervention is structured around your diagnostic profile. Measure first. Then train.",
       },
       items: [
-        { title: "Diagnostic Assessment", description: "90-min structured intake. Baseline metrics. Identify what is breaking. Build your protocol.", price: "700 MAD" },
-        { title: "Performance Protocol", description: "6×60-min sessions. Visualization. Pre-event routines. Stress inoculation. Measured outcomes.", price: "3,600 MAD" },
-        { title: "Clinical Recovery Protocol", description: "10×60-min CBT/Schema sessions. Anxiety. Trauma. Addiction. Tracked progress.", price: "5,500 MAD" },
-        { title: "Psychometric Profiling", description: "Validated instruments + 2×60-min debrief sessions. Know your operating system.", price: "1,800 MAD" },
-        { title: "Recalibration Session", description: "30-min targeted tune-up. Returning clients only. Adjust what needs adjusting.", price: "300 MAD" },
+        {
+          title: "Diagnostic Assessment",
+          description:
+            "90-min structured intake. Baseline metrics. Identify what is breaking. Build your protocol.",
+          price: "700 MAD",
+        },
+        {
+          title: "Performance Protocol",
+          description:
+            "6×60-min sessions. Visualization. Pre-event routines. Stress inoculation. Measured outcomes.",
+          price: "3,600 MAD",
+        },
+        {
+          title: "Clinical Recovery Protocol",
+          description:
+            "10×60-min CBT/Schema sessions. Anxiety. Trauma. Addiction. Tracked progress.",
+          price: "5,500 MAD",
+        },
+        {
+          title: "Psychometric Profiling",
+          description:
+            "Validated instruments + 2×60-min debrief sessions. Know your operating system.",
+          price: "1,800 MAD",
+        },
+        {
+          title: "Recalibration Session",
+          description:
+            "30-min targeted tune-up. Returning clients only. Adjust what needs adjusting.",
+          price: "300 MAD",
+        },
       ],
       expectations: {
         title: "The Process",
@@ -613,7 +693,8 @@ export const translations = {
       },
       cta: "Run Your Diagnostic",
       transition: {
-        title: "Individual protocols solve individual problems. Systemic dysfunction requires systemic intervention.",
+        title:
+          "Individual protocols solve individual problems. Systemic dysfunction requires systemic intervention.",
         button: "View Institutional Protocols",
       },
       methodsBand: {
@@ -622,26 +703,56 @@ export const translations = {
         methodsTitle: "Methods We Use",
         metricsTitle: "How We Measure",
         methods: [
-          { name: "CBT", description: "Cognitive Behavioral Therapy — Restructure thought patterns, build coping skills, proven for anxiety & depression" },
-          { name: "Schema Therapy", description: "Deep-rooted patterns & early experiences — Long-term change for personality & relationship issues" },
-          { name: "Sport/Performance Psychology", description: "Mental skills for high-pressure moments — Focus, resilience, clutch performance under stress" },
+          {
+            name: "CBT",
+            description:
+              "Cognitive Behavioral Therapy — Restructure thought patterns, build coping skills, proven for anxiety & depression",
+          },
+          {
+            name: "Schema Therapy",
+            description:
+              "Deep-rooted patterns & early experiences — Long-term change for personality & relationship issues",
+          },
+          {
+            name: "Sport/Performance Psychology",
+            description:
+              "Mental skills for high-pressure moments — Focus, resilience, clutch performance under stress",
+          },
         ],
         metrics: [
-          { name: "GAD-7", description: "Generalized Anxiety Disorder 7-item scale — Standardized anxiety severity measurement" },
-          { name: "PHQ-9", description: "Patient Health Questionnaire — Depression severity and treatment response tracking" },
-          { name: "Routine Adherence", description: "Training & therapy protocol compliance — Consistency and engagement metrics" },
-          { name: "Return-to-Performance KPIs", description: "Sport & work readiness indicators — Competition/productivity recovery milestones" },
+          {
+            name: "GAD-7",
+            description:
+              "Generalized Anxiety Disorder 7-item scale — Standardized anxiety severity measurement",
+          },
+          {
+            name: "PHQ-9",
+            description:
+              "Patient Health Questionnaire — Depression severity and treatment response tracking",
+          },
+          {
+            name: "Routine Adherence",
+            description:
+              "Training & therapy protocol compliance — Consistency and engagement metrics",
+          },
+          {
+            name: "Return-to-Performance KPIs",
+            description:
+              "Sport & work readiness indicators — Competition/productivity recovery milestones",
+          },
         ],
       },
     },
     contact: {
       hero: {
         title: "Get in Touch",
-        subtitle: "Ready to start your journey? Reach out to book your first session or ask any questions.",
+        subtitle:
+          "Ready to start your journey? Reach out to book your first session or ask any questions.",
       },
       form: {
         title: "Send us a message",
-        description: "Fill out the form below and we'll get back to you within 24 hours.",
+        description:
+          "Fill out the form below and we'll get back to you within 24 hours.",
         nameLabel: "Full Name",
         namePlaceholder: "Mehdi Felji",
         emailLabel: "Email",
@@ -652,7 +763,7 @@ export const translations = {
         messagePlaceholder: "Tell us what you're looking for...",
         submitButton: "Send Message",
         required: "*",
-              successTitle: "Message sent",
+        successTitle: "Message sent",
         successMessage: "Thanks — we'll get back to you within 24 hours.",
       },
       info: {
@@ -673,33 +784,49 @@ export const translations = {
       },
       matching: {
         title: "Not sure where to start?",
-        description: "Try our matching service to find the perfect psychologist for your needs",
+        description:
+          "Try our matching service to find the perfect psychologist for your needs",
         button: "Get Matched with a Psychologist",
       },
       faq: {
         title: "Common Questions",
         questions: [
-          { question: "How quickly will I get a response?", answer: "We aim to respond to all inquiries within 24 hours during business days. For urgent matters, please call us directly." },
-          { question: "Do you offer online sessions?", answer: "Yes! We offer both in-person sessions in Casablanca and Rabat, as well as online sessions via secure video conferencing for clients anywhere in Morocco or internationally." },
-          { question: "What languages do you speak?", answer: "Our psychologists are fluent in English, French, and Arabic (Darija & Modern Standard). Sessions can be conducted in any of these languages." },
+          {
+            question: "How quickly will I get a response?",
+            answer:
+              "We aim to respond to all inquiries within 24 hours during business days. For urgent matters, please call us directly.",
+          },
+          {
+            question: "Do you offer online sessions?",
+            answer:
+              "Yes! We offer both in-person sessions in Casablanca and Rabat, as well as online sessions via secure video conferencing for clients anywhere in Morocco or internationally.",
+          },
+          {
+            question: "What languages do you speak?",
+            answer:
+              "Our psychologists are fluent in English, French, and Arabic (Darija & Modern Standard). Sessions can be conducted in any of these languages.",
+          },
         ],
       },
     },
     apply: {
       title: "Apply to Join Our Network",
-      description: "Become part of our professional psychology network. Fill out the form below and we'll review your application within 3-5 business days.",
+      description:
+        "Become part of our professional psychology network. Fill out the form below and we'll review your application within 3-5 business days.",
       fullName: "Full Name",
       email: "Email",
       phone: "Phone (Optional)",
       qualifications: "Qualifications (Optional)",
-      qualificationsPlaceholder: "Your degrees, certifications, and professional experience...",
+      qualificationsPlaceholder:
+        "Your degrees, certifications, and professional experience...",
       accreditationNumber: "Accreditation Number (Optional)",
       accreditationPlaceholder: "Your professional accreditation number",
       cancel: "Cancel",
       submitApplication: "Submit Application",
       submitting: "Submitting...",
       successTitle: "Application Submitted",
-      successMessage: "Thank you for applying! You'll receive an email within 3-5 business days.",
+      successMessage:
+        "Thank you for applying! You'll receive an email within 3-5 business days.",
       errorMessage: "Failed to submit application. Please try again.",
     },
     profile: {
@@ -709,11 +836,14 @@ export const translations = {
       about: "About",
       therapyApproach: "Therapy Approach",
       cbt: "Cognitive Behavioral Therapy (CBT)",
-      cbtDesc: "Restructure thought patterns and build practical coping skills for anxiety, depression, and stress.",
+      cbtDesc:
+        "Restructure thought patterns and build practical coping skills for anxiety, depression, and stress.",
       evidenceBased: "Evidence-Based Practice",
-      evidenceBasedDesc: "All interventions are grounded in peer-reviewed research and adapted to individual needs.",
+      evidenceBasedDesc:
+        "All interventions are grounded in peer-reviewed research and adapted to individual needs.",
       clientCentered: "Client-Centered Approach",
-      clientCenteredDesc: "A safe, non-judgmental space where you lead the direction of therapy at your own pace.",
+      clientCenteredDesc:
+        "A safe, non-judgmental space where you lead the direction of therapy at your own pace.",
       specialties: "Specialties",
       experienceTraining: "Experience & Training",
       yearsOfPractice: "Years of Practice",
@@ -730,7 +860,8 @@ export const translations = {
       sessionOptions: "Session Options",
       location: "Location",
       accreditedProfessional: "U.Psy-Accredited Professional",
-      accreditedDesc: "This psychologist is verified and accredited by U.Psy, ensuring evidence-based care and adherence to professional standards. All sessions are confidential and conducted with the highest level of ethical practice.",
+      accreditedDesc:
+        "This psychologist is verified and accredited by U.Psy, ensuring evidence-based care and adherence to professional standards. All sessions are confidential and conducted with the highest level of ethical practice.",
       avgRating: "avg rating",
       reviews: "reviews",
       responseRate: "response rate",
@@ -741,12 +872,16 @@ export const translations = {
       skool: { title: "Skool Community", content: "Content coming soon..." },
       resources: { title: "Resources", content: "Content coming soon..." },
       legal: { title: "Legal Information", content: "Content coming soon..." },
-      talentHub: { title: "Talent & Innovation Hub", content: "Content coming soon..." },
+      talentHub: {
+        title: "Talent & Innovation Hub",
+        content: "Content coming soon...",
+      },
     },
     skoolPage: {
       badge: "Learning Community",
       title: "The Mental Health Learning Community",
-      subtitle: "A vibrant space where psychologists, students, and mental health advocates learn, connect, and grow together.",
+      subtitle:
+        "A vibrant space where psychologists, students, and mental health advocates learn, connect, and grow together.",
       joinCommunity: "Join the Community",
       exploreForFree: "Explore for Free",
       communityMembers: "Community Members",
@@ -754,19 +889,25 @@ export const translations = {
       countriesRepresented: "Countries Represented",
       satisfactionRate: "Satisfaction Rate",
       whatYoullFind: "What You'll Find Inside",
-      whatYoullFindDesc: "Everything you need to deepen your understanding of mental health and connect with like-minded professionals.",
+      whatYoullFindDesc:
+        "Everything you need to deepen your understanding of mental health and connect with like-minded professionals.",
       discussionForums: "Discussion Forums",
-      discussionForumsDesc: "Engage in moderated peer-to-peer discussions on mental health topics, clinical techniques, and wellbeing strategies.",
+      discussionForumsDesc:
+        "Engage in moderated peer-to-peer discussions on mental health topics, clinical techniques, and wellbeing strategies.",
       liveWorkshops: "Live Workshops",
-      liveWorkshopsDesc: "Weekly live sessions led by licensed psychologists covering evidence-based approaches and case studies.",
+      liveWorkshopsDesc:
+        "Weekly live sessions led by licensed psychologists covering evidence-based approaches and case studies.",
       resourceLibrary: "Resource Library",
-      resourceLibraryDesc: "Access curated articles, research papers, toolkits, and practical guides for personal and professional growth.",
+      resourceLibraryDesc:
+        "Access curated articles, research papers, toolkits, and practical guides for personal and professional growth.",
       peerSupport: "Peer Support Groups",
-      peerSupportDesc: "Join themed support circles — anxiety management, resilience building, sport psychology, and more.",
+      peerSupportDesc:
+        "Join themed support circles — anxiety management, resilience building, sport psychology, and more.",
       upcomingEvents: "Upcoming Events",
       upcomingEventsDesc: "Reserve your spot in our next expert-led sessions.",
       readyToJoin: "Ready to Join?",
-      readyToJoinDesc: "Whether you're a practicing psychologist, a student, or someone passionate about mental health — there's a place for you here.",
+      readyToJoinDesc:
+        "Whether you're a practicing psychologist, a student, or someone passionate about mental health — there's a place for you here.",
       getStarted: "Get Started",
       workshop: "Workshop",
       webinar: "Webinar",
@@ -775,29 +916,37 @@ export const translations = {
     resourcesPage: {
       badge: "Knowledge Hub",
       title: "Mental Health Resources",
-      subtitle: "Curated, evidence-based resources to support your mental health journey — whether you're a professional or seeking personal growth.",
+      subtitle:
+        "Curated, evidence-based resources to support your mental health journey — whether you're a professional or seeking personal growth.",
       searchPlaceholder: "Search resources...",
       filter: "Filter",
       browseByFormat: "Browse by Format",
-      browseByFormatDesc: "Find the right type of content for your learning style.",
+      browseByFormatDesc:
+        "Find the right type of content for your learning style.",
       articlesGuides: "Articles & Guides",
-      articlesGuidesDesc: "Evidence-based articles on mental health, therapy techniques, and wellbeing strategies.",
+      articlesGuidesDesc:
+        "Evidence-based articles on mental health, therapy techniques, and wellbeing strategies.",
       videoLibrary: "Video Library",
-      videoLibraryDesc: "Expert talks, workshop recordings, and educational content from licensed professionals.",
+      videoLibraryDesc:
+        "Expert talks, workshop recordings, and educational content from licensed professionals.",
       podcasts: "Podcasts",
-      podcastsDesc: "Conversations with leading psychologists on topics from anxiety to peak performance.",
+      podcastsDesc:
+        "Conversations with leading psychologists on topics from anxiety to peak performance.",
       toolkitsWorksheets: "Toolkits & Worksheets",
-      toolkitsWorksheetsDesc: "Downloadable CBT worksheets, mindfulness exercises, and self-help tools.",
+      toolkitsWorksheetsDesc:
+        "Downloadable CBT worksheets, mindfulness exercises, and self-help tools.",
       featuredResources: "Featured Resources",
       featuredResourcesDesc: "Our most popular and highly rated content.",
       personalizedCTA: "Want Personalized Recommendations?",
-      personalizedCTADesc: "Create an account to get resource suggestions tailored to your interests and goals.",
+      personalizedCTADesc:
+        "Create an account to get resource suggestions tailored to your interests and goals.",
       createFreeAccount: "Create Free Account",
     },
     talentHubPage: {
       badge: "Research & Innovation",
       title: "Talent & Innovation Hub",
-      subtitle: "Where research meets practice — advancing mental health through science, technology, and cross-cultural collaboration.",
+      subtitle:
+        "Where research meets practice — advancing mental health through science, technology, and cross-cultural collaboration.",
       partnerWithUs: "Partner With Us",
       viewPublications: "View Publications",
       researchPapers: "Research Papers Published",
@@ -805,19 +954,26 @@ export const translations = {
       countriesCovered: "Countries Covered",
       peopleImpacted: "People Impacted",
       fourPillars: "Our Four Pillars",
-      fourPillarsDesc: "A multidisciplinary approach to transforming mental health in the region.",
+      fourPillarsDesc:
+        "A multidisciplinary approach to transforming mental health in the region.",
       appliedResearch: "Applied Research",
-      appliedResearchDesc: "Collaborating with universities and institutions to advance mental health science in the MENA region.",
+      appliedResearchDesc:
+        "Collaborating with universities and institutions to advance mental health science in the MENA region.",
       innovationLab: "Innovation Lab",
-      innovationLabDesc: "Developing digital tools, AI-powered assessments, and scalable mental health solutions.",
+      innovationLabDesc:
+        "Developing digital tools, AI-powered assessments, and scalable mental health solutions.",
       dataInsights: "Data & Insights",
-      dataInsightsDesc: "Producing regional mental health reports, workplace wellbeing indexes, and trend analyses.",
+      dataInsightsDesc:
+        "Producing regional mental health reports, workplace wellbeing indexes, and trend analyses.",
       globalPartnerships: "Global Partnerships",
-      globalPartnershipsDesc: "Building bridges with international organizations to share knowledge and best practices.",
+      globalPartnershipsDesc:
+        "Building bridges with international organizations to share knowledge and best practices.",
       researchProjects: "Research Projects",
-      researchProjectsDesc: "Ongoing and published studies from our research team.",
+      researchProjectsDesc:
+        "Ongoing and published studies from our research team.",
       collaborateWithUs: "Collaborate With Us",
-      collaborateDesc: "We're looking for researchers, institutions, and organizations to join us in advancing mental health science in the MENA region and beyond.",
+      collaborateDesc:
+        "We're looking for researchers, institutions, and organizations to join us in advancing mental health science in the MENA region and beyond.",
       getInTouch: "Get in Touch",
       ongoing: "Ongoing",
       published: "Published",
@@ -829,7 +985,8 @@ export const translations = {
       signIn: "Sign In",
       badge: "Performance Hub",
       title: "Athlete Performance Hub",
-      subtitle: "Monitor your mental performance metrics and train your mind for peak performance.",
+      subtitle:
+        "Monitor your mental performance metrics and train your mind for peak performance.",
       mentalReadiness: "Mental Readiness",
       focusCapacity: "Focus Capacity",
       confidence: "Confidence",
@@ -845,7 +1002,8 @@ export const translations = {
       recoveryPsychology: "Recovery Psychology",
       recoveryDesc: "Mental strategies for optimal recovery",
       trainingHistory: "Training History",
-      noTrainingSessions: "No training sessions recorded yet. Start a program above!",
+      noTrainingSessions:
+        "No training sessions recorded yet. Start a program above!",
       completed: "Completed",
       scheduled: "Scheduled",
       takeAssessment: "Take Performance Assessment",
@@ -855,27 +1013,35 @@ export const translations = {
     },
     moroccanUmbrellaPage: {
       title: "The Moroccan Umbrella of Psychology",
-      subtitle: "Uniting psychology professionals across Morocco under one collaborative network. Building bridges between practice, research, and community impact.",
+      subtitle:
+        "Uniting psychology professionals across Morocco under one collaborative network. Building bridges between practice, research, and community impact.",
       joinNetwork: "Join Our Network",
       learnMore: "Learn More",
       ourMission: "Our Mission",
-      missionDesc: "To create a unified platform that empowers Moroccan psychologists, fosters professional development, and advances mental health awareness throughout the Kingdom of Morocco.",
+      missionDesc:
+        "To create a unified platform that empowers Moroccan psychologists, fosters professional development, and advances mental health awareness throughout the Kingdom of Morocco.",
       professionalUnity: "Professional Unity",
-      professionalUnityDesc: "Connecting psychologists from all regions and specialties across Morocco",
+      professionalUnityDesc:
+        "Connecting psychologists from all regions and specialties across Morocco",
       excellenceStandards: "Excellence Standards",
-      excellenceStandardsDesc: "Promoting best practices and continuous professional development",
+      excellenceStandardsDesc:
+        "Promoting best practices and continuous professional development",
       communityImpact: "Community Impact",
-      communityImpactDesc: "Advancing mental health awareness and accessibility nationwide",
+      communityImpactDesc:
+        "Advancing mental health awareness and accessibility nationwide",
       culturalIntegration: "Cultural Integration",
-      culturalIntegrationDesc: "Bridging modern psychology with Moroccan cultural values",
+      culturalIntegrationDesc:
+        "Bridging modern psychology with Moroccan cultural values",
       growingNetwork: "Our Growing Network",
-      growingNetworkDesc: "Building a stronger psychology community across Morocco",
+      growingNetworkDesc:
+        "Building a stronger psychology community across Morocco",
       registeredPsychologists: "Registered Psychologists",
       regionsCovered: "Regions Covered",
       partnerInstitutions: "Partner Institutions",
       trainingPrograms: "Training Programs",
       joinMovement: "Join The Movement",
-      joinMovementDesc: "Be part of Morocco's largest psychology professional network. Together, we're shaping the future of mental health in our country.",
+      joinMovementDesc:
+        "Be part of Morocco's largest psychology professional network. Together, we're shaping the future of mental health in our country.",
       becomeMember: "Become a Member",
       contactUs: "Contact Us",
     },
@@ -887,12 +1053,14 @@ export const translations = {
       statExperts: "Verified Specialists",
       statSessions: "Interventions Delivered",
       statSatisfaction: "Outcome Satisfaction",
-      reassurance: "Applied in real performance environments. Used where mistakes have consequences.",
+      reassurance:
+        "Applied in real performance environments. Used where mistakes have consequences.",
       partnersLabel: "Trusted Partners & Affiliations",
     },
     featured: {
       title: "Matched to Your Breakdown, Not Your Preferences",
-      subtitle: "U.Psy doesn't ask what you want. It identifies what you need — based on diagnostic precision, not guesswork.",
+      subtitle:
+        "U.Psy doesn't ask what you want. It identifies what you need — based on diagnostic precision, not guesswork.",
       personalizedBadge: "Matched from your diagnostic results",
       online: "Online",
       session: "session",
@@ -901,53 +1069,100 @@ export const translations = {
     },
     finalCta: {
       title: "Stop Guessing. Start Diagnosing.",
-      subtitle: "You already know something isn't working. The diagnostic tells you exactly what — and what to do next.",
+      subtitle:
+        "You already know something isn't working. The diagnostic tells you exactly what — and what to do next.",
       reassurance: "2-minute diagnostic. No commitment. Clinically structured.",
       assessment: "Run Your Diagnostic",
     },
     testimonials: {
       title: "Real Experiences, Real Impact",
-      subtitle: "People use UPsy to take their first step, find clarity, and connect with the right support.",
-      t1: { name: "Amina B.", role: "Client", text: "U.Psy helped me find the right psychologist in just a few days. The process was seamless and confidential." },
-      t2: { name: "Youssef K.", role: "Psychologist", text: "The platform gave me visibility and connected me with clients who truly needed my expertise in cognitive therapy." },
-      t3: { name: "Sara M.", role: "Client", text: "I was hesitant about online therapy, but the experience was incredibly professional and comfortable." },
+      subtitle:
+        "People use UPsy to take their first step, find clarity, and connect with the right support.",
+      t1: {
+        name: "Amina B.",
+        role: "Client",
+        text: "U.Psy helped me find the right psychologist in just a few days. The process was seamless and confidential.",
+      },
+      t2: {
+        name: "Youssef K.",
+        role: "Psychologist",
+        text: "The platform gave me visibility and connected me with clients who truly needed my expertise in cognitive therapy.",
+      },
+      t3: {
+        name: "Sara M.",
+        role: "Client",
+        text: "I was hesitant about online therapy, but the experience was incredibly professional and comfortable.",
+      },
     },
     pathways: {
       title: "How Can We Help You?",
       subtitle: "Choose your path to start your journey with U.Psy.",
       therapy: "I Need Therapy",
-      therapyDesc: "Connect with a licensed psychologist for personalized support and evidence-based treatment.",
+      therapyDesc:
+        "Connect with a licensed psychologist for personalized support and evidence-based treatment.",
       performance: "I Want to Improve Performance",
-      performanceDesc: "Mental performance coaching for athletes and high-performers seeking peak cognitive output.",
+      performanceDesc:
+        "Mental performance coaching for athletes and high-performers seeking peak cognitive output.",
       learn: "I Want to Learn",
-      learnDesc: "Structured courses, assessments, and certifications in psychology and mental wellness.",
+      learnDesc:
+        "Structured courses, assessments, and certifications in psychology and mental wellness.",
       organization: "I Represent an Organization",
-      organizationDesc: "Comprehensive mental wellness solutions for your team — diagnostics, programs, and reporting.",
+      organizationDesc:
+        "Comprehensive mental wellness solutions for your team — diagnostics, programs, and reporting.",
       explore: "Explore",
     },
     pillars: {
       title: "The U.Psy System",
-      subtitle: "Four operational pillars. One integrated approach — clinical rigor, mental performance, and systemic impact.",
+      subtitle:
+        "Four operational pillars. One integrated approach — clinical rigor, mental performance, and systemic impact.",
       ariaLabel: "Our four pillars",
       learnMore: "Explore",
       cta: "View All Capabilities",
-      care: { title: "Clinical", description: "Evidence-based interventions for anxiety, trauma, and recovery." },
-      learning: { title: "Training", description: "Structured mental skills training and psychological education." },
-      performance: { title: "Performance", description: "Operational psychology for athletes and high-pressure environments." },
-      organizations: { title: "Systems", description: "Mental health programs for institutions, teams, and federations." },
+      care: {
+        title: "Clinical",
+        description:
+          "Evidence-based interventions for anxiety, trauma, and recovery.",
+      },
+      learning: {
+        title: "Training",
+        description:
+          "Structured mental skills training and psychological education.",
+      },
+      performance: {
+        title: "Performance",
+        description:
+          "Operational psychology for athletes and high-pressure environments.",
+      },
+      organizations: {
+        title: "Systems",
+        description:
+          "Mental health programs for institutions, teams, and federations.",
+      },
     },
     howItWorks: {
       title: "Measure. Identify. Train. Apply.",
       subtitle: "No guesswork. Just diagnosis.",
       ariaLabel: "How it works",
       cta: "Start Diagnostic",
-      step1: { title: "Diagnose", description: "A structured assessment identifies what's breaking and why." },
-      step2: { title: "Match", description: "Precision matching to the right specialist based on your profile." },
-      step3: { title: "Intervene", description: "Targeted intervention with measurable outcomes." },
+      step1: {
+        title: "Diagnose",
+        description:
+          "A structured assessment identifies what's breaking and why.",
+      },
+      step2: {
+        title: "Match",
+        description:
+          "Precision matching to the right specialist based on your profile.",
+      },
+      step3: {
+        title: "Intervene",
+        description: "Targeted intervention with measurable outcomes.",
+      },
     },
     selfAssessment: {
       title: "What's Breaking? Find Out in 2 Minutes.",
-      subtitle: "A structured diagnostic that identifies your weak points and maps a path to intervention.",
+      subtitle:
+        "A structured diagnostic that identifies your weak points and maps a path to intervention.",
       duration: "2-minute diagnostic",
       reassurance: "Clinical-grade. Confidential. No guesswork.",
       cta: "Run the Diagnostic",
@@ -957,75 +1172,127 @@ export const translations = {
     },
     programs: {
       title: "Structured Support, When You Need It",
-      subtitle: "Explore curated programs designed to support you through specific challenges.",
+      subtitle:
+        "Explore curated programs designed to support you through specific challenges.",
       cta: "Explore Programs",
-      clinical: { title: "Clinical Care", desc: "Evidence-based therapy for anxiety, depression, and trauma." },
-      performance: { title: "Mental Performance", desc: "Peak performance coaching for athletes and professionals." },
-      mindfulness: { title: "Mindfulness Training", desc: "Structured mindfulness programs for daily resilience." },
-      trauma: { title: "Trauma Recovery", desc: "Specialized trauma processing and recovery pathways." },
+      clinical: {
+        title: "Clinical Care",
+        desc: "Evidence-based therapy for anxiety, depression, and trauma.",
+      },
+      performance: {
+        title: "Mental Performance",
+        desc: "Peak performance coaching for athletes and professionals.",
+      },
+      mindfulness: {
+        title: "Mindfulness Training",
+        desc: "Structured mindfulness programs for daily resilience.",
+      },
+      trauma: {
+        title: "Trauma Recovery",
+        desc: "Specialized trauma processing and recovery pathways.",
+      },
     },
     learning: {
       title: "Understand Your Mental Health",
-      subtitle: "Access resources, insights, and educational content to help you better understand yourself.",
+      subtitle:
+        "Access resources, insights, and educational content to help you better understand yourself.",
       startCourse: "Start Course",
       browseAll: "Browse All Courses",
     },
     orgs: {
       title: "Mental Health for Organizations",
-      subtitle: "Tailored solutions for teams, institutions, and sports organizations.",
+      subtitle:
+        "Tailored solutions for teams, institutions, and sports organizations.",
       cta: "Request a Proposal",
-      corporate: { title: "Corporate Wellbeing", desc: "Employee mental health programs, workshops, and EAP solutions." },
-      ngo: { title: "NGO Mental Health", desc: "Scalable mental health programs for humanitarian organizations." },
-      sports: { title: "Sports Organizations", desc: "Performance psychology and athlete wellbeing for clubs and federations." },
+      corporate: {
+        title: "Corporate Wellbeing",
+        desc: "Employee mental health programs, workshops, and EAP solutions.",
+      },
+      ngo: {
+        title: "NGO Mental Health",
+        desc: "Scalable mental health programs for humanitarian organizations.",
+      },
+      sports: {
+        title: "Sports Organizations",
+        desc: "Performance psychology and athlete wellbeing for clubs and federations.",
+      },
     },
     research: {
       title: "Grounded in Psychology, Not Guesswork",
-      subtitle: "UPsy is built on real psychological principles to ensure every step you take is meaningful.",
+      subtitle:
+        "UPsy is built on real psychological principles to ensure every step you take is meaningful.",
       readMore: "Read more",
       cta: "Read Insights",
-      article1: { title: "Mental Health in Sport", summary: "How elite athletes manage psychological pressure and build resilience.", category: "Sport Psychology" },
-      article2: { title: "Burnout Prevention", summary: "Evidence-based strategies for recognizing and preventing professional burnout.", category: "Workplace" },
-      article3: { title: "Psychological Resilience", summary: "Building mental toughness through structured cognitive-behavioral techniques.", category: "Research" },
+      article1: {
+        title: "Mental Health in Sport",
+        summary:
+          "How elite athletes manage psychological pressure and build resilience.",
+        category: "Sport Psychology",
+      },
+      article2: {
+        title: "Burnout Prevention",
+        summary:
+          "Evidence-based strategies for recognizing and preventing professional burnout.",
+        category: "Workplace",
+      },
+      article3: {
+        title: "Psychological Resilience",
+        summary:
+          "Building mental toughness through structured cognitive-behavioral techniques.",
+        category: "Research",
+      },
     },
     community: {
       title: "You're Not Alone",
-      subtitle: "Mental health is a shared human experience. UPsy helps you feel supported, understood, and connected.",
-      reassurance: "A safe, moderated space for meaningful conversations about mental health.",
+      subtitle:
+        "Mental health is a shared human experience. UPsy helps you feel supported, understood, and connected.",
+      reassurance:
+        "A safe, moderated space for meaningful conversations about mental health.",
       cta: "Join Community",
     },
     psf: {
       badge: "A U.Psy Social Impact Initiative",
       heroTitle: "Psychologues Sans Frontières",
-      heroSubtitle: "Bringing free, ethical mental health support to underserved communities across Morocco and beyond. Because mental health is a right, not a privilege.",
+      heroSubtitle:
+        "Bringing free, ethical mental health support to underserved communities across Morocco and beyond. Because mental health is a right, not a privilege.",
       volunteerCta: "Volunteer as Psychologist",
       partnerCta: "Partner With Us",
       missionTitle: "Our Mission",
-      missionDesc: "Psychologues Sans Frontières operates under the U.Psy umbrella to bridge the gap between mental health need and access. We deploy volunteer psychologists to communities where professional support is scarce or nonexistent.",
+      missionDesc:
+        "Psychologues Sans Frontières operates under the U.Psy umbrella to bridge the gap between mental health need and access. We deploy volunteer psychologists to communities where professional support is scarce or nonexistent.",
       pillarAccess: "Access to Care",
-      pillarAccessDesc: "Free and subsidized sessions for individuals in underserved communities who cannot afford traditional therapy.",
+      pillarAccessDesc:
+        "Free and subsidized sessions for individuals in underserved communities who cannot afford traditional therapy.",
       pillarOutreach: "Community Outreach",
-      pillarOutreachDesc: "Workshops, awareness campaigns, and crisis response in rural and peri-urban areas across Morocco.",
+      pillarOutreachDesc:
+        "Workshops, awareness campaigns, and crisis response in rural and peri-urban areas across Morocco.",
       pillarTraining: "Capacity Building",
-      pillarTrainingDesc: "Training local volunteers, teachers, and community workers in psychological first aid and mental health literacy.",
+      pillarTrainingDesc:
+        "Training local volunteers, teachers, and community workers in psychological first aid and mental health literacy.",
       pillarEthics: "Ethical Standards",
-      pillarEthicsDesc: "All volunteers adhere to U.Psy's professional code of conduct and are supervised by accredited practitioners.",
+      pillarEthicsDesc:
+        "All volunteers adhere to U.Psy's professional code of conduct and are supervised by accredited practitioners.",
       impactTitle: "Our Impact So Far",
-      impactDesc: "Every number represents a life touched, a community strengthened.",
+      impactDesc:
+        "Every number represents a life touched, a community strengthened.",
       statSessions: "Free Sessions Delivered",
       statRegions: "Regions Covered",
       statVolunteers: "Volunteer Psychologists",
       statBeneficiaries: "Beneficiaries Reached",
       programsTitle: "Our Programs",
-      programsDesc: "Targeted interventions designed for maximum community impact.",
+      programsDesc:
+        "Targeted interventions designed for maximum community impact.",
       involvedTitle: "How to Get Involved",
       ctaTitle: "Mental Health Is a Right, Not a Privilege",
-      ctaDesc: "Join Psychologues Sans Frontières and help us reach every community in Morocco that needs mental health support.",
+      ctaDesc:
+        "Join Psychologues Sans Frontières and help us reach every community in Morocco that needs mental health support.",
       ctaVolunteer: "Become a Volunteer",
       ctaContact: "Get in Touch",
       navLabel: "Psychologues Sans Frontières",
       sectionBadge: "Social Impact Initiative",
       sectionTitle: "Psychologues Sans Frontières",
-      sectionDesc: "Bringing free mental health support to underserved communities across Morocco and beyond. Our volunteer psychologists provide pro-bono sessions, crisis intervention, and community workshops to those who need it most.",
+      sectionDesc:
+        "Bringing free mental health support to underserved communities across Morocco and beyond. Our volunteer psychologists provide pro-bono sessions, crisis intervention, and community workshops to those who need it most.",
       learnMore: "Learn More",
       volunteerAs: "Volunteer as Psychologist",
       statSessionsLabel: "Free Sessions Given",
@@ -1036,9 +1303,11 @@ export const translations = {
       badge: "Founder & System Architect",
       navLabel: "Founder",
       heroTitle: "Built from the Field. Not from Theory.",
-      heroSubtitle: "Mehdi Felji designed U.Psy as a system — not a directory. Born from operational psychology in sport, crisis, and institutional environments where models must perform or fail.",
+      heroSubtitle:
+        "Mehdi Felji designed U.Psy as a system — not a directory. Born from operational psychology in sport, crisis, and institutional environments where models must perform or fail.",
       motTitle: "Mot du Président",
-      motOpener: "Psychology doesn't lack theories. It lacks applicability under pressure.",
+      motOpener:
+        "Psychology doesn't lack theories. It lacks applicability under pressure.",
       mot1: "In the field — in elite sport, in migration contexts, in crisis situations — classical models quickly reach their limits. What works in a clinical office doesn't always work in urgency, uncertainty, or under performance pressure.",
       mot2: "This is where U.Psy comes in.",
       mot3: "U.Psy was not conceived as a platform. It's a system. A system built from the field, where psychology must be: operational, measurable, immediately deployable.",
@@ -1057,22 +1326,30 @@ export const translations = {
       expertiseTitle: "Areas of Focus",
       expertiseSubtitle: "Where psychology meets operational reality.",
       area1Title: "Clinical Psychology",
-      area1Desc: "Evidence-based interventions for anxiety, trauma, and recovery under real-world conditions.",
+      area1Desc:
+        "Evidence-based interventions for anxiety, trauma, and recovery under real-world conditions.",
       area2Title: "Sport & Performance Psychology",
-      area2Desc: "Mental control frameworks for athletes and operators in high-pressure environments.",
+      area2Desc:
+        "Mental control frameworks for athletes and operators in high-pressure environments.",
       area3Title: "Organizational Psychology",
-      area3Desc: "Systemic diagnostics for workplace mental health, burnout prevention, and team performance.",
+      area3Desc:
+        "Systemic diagnostics for workplace mental health, burnout prevention, and team performance.",
       area4Title: "Humanitarian Psychology",
-      area4Desc: "Psychologues Sans Frontières — field-deployed mental health support in crisis and migration contexts.",
+      area4Desc:
+        "Psychologues Sans Frontières — field-deployed mental health support in crisis and migration contexts.",
       area5Title: "Training & Accreditation",
-      area5Desc: "Professional development and quality assurance for psychology practitioners.",
+      area5Desc:
+        "Professional development and quality assurance for psychology practitioners.",
       ctaTitle: "Let's Build Something That Works",
-      ctaText: "Whether you're a professional, an organization, or a contributor — the system is open. Let's connect.",
+      ctaText:
+        "Whether you're a professional, an organization, or a contributor — the system is open. Let's connect.",
       ctaButton: "Get in Touch",
       sectionBadge: "Built from the Field",
       sectionTitle: "A System Built on Practice, Not Theory",
-      sectionQuote: "Psychology doesn't lack theories. It lacks applicability under pressure.",
-      sectionDesc: "Mehdi Felji designed U.Psy from operational experience — in elite sport, humanitarian contexts, and institutional systems. The platform is built to diagnose, match, and train. Not to browse.",
+      sectionQuote:
+        "Psychology doesn't lack theories. It lacks applicability under pressure.",
+      sectionDesc:
+        "Mehdi Felji designed U.Psy from operational experience — in elite sport, humanitarian contexts, and institutional systems. The platform is built to diagnose, match, and train. Not to browse.",
       proof1: "Clinical Psychology",
       proof2: "Performance Psychology",
       proof3: "Accredited Network",
@@ -1082,30 +1359,42 @@ export const translations = {
       guide: "Guide",
       mentalHealth: "Mental Health",
       indexTitle: "Mental Health Blog",
-      indexSubtitle: "Practical guides, insights, and resources to help you understand your mental health and take meaningful action.",
+      indexSubtitle:
+        "Practical guides, insights, and resources to help you understand your mental health and take meaningful action.",
       findPsych: {
         title: "How to Find the Right Psychologist for You",
-        intro: "Finding the right psychologist can feel overwhelming. This guide breaks down the process into simple, actionable steps so you can make a confident choice.",
+        intro:
+          "Finding the right psychologist can feel overwhelming. This guide breaks down the process into simple, actionable steps so you can make a confident choice.",
         step1Title: "1. Know What You Need",
-        step1Text: "Before searching, take a moment to reflect on what you're experiencing. Are you dealing with anxiety, relationship issues, work stress, or something else? Understanding your needs helps narrow your search and find someone with the right expertise.",
-        step1Tip: "💡 Tip: If you're unsure, try our free self-assessment to better understand your needs before choosing a psychologist.",
+        step1Text:
+          "Before searching, take a moment to reflect on what you're experiencing. Are you dealing with anxiety, relationship issues, work stress, or something else? Understanding your needs helps narrow your search and find someone with the right expertise.",
+        step1Tip:
+          "💡 Tip: If you're unsure, try our free self-assessment to better understand your needs before choosing a psychologist.",
         step2Title: "2. Check Credentials",
-        step2Text: "Always verify that your psychologist is licensed and accredited. Look for professional certifications, university degrees in psychology, and membership in recognized professional bodies.",
+        step2Text:
+          "Always verify that your psychologist is licensed and accredited. Look for professional certifications, university degrees in psychology, and membership in recognized professional bodies.",
         step3Title: "3. Find the Right Fit",
-        step3Text: "The therapeutic relationship is one of the strongest predictors of successful therapy. Consider communication style, cultural understanding, language preferences, and whether you feel comfortable and safe.",
+        step3Text:
+          "The therapeutic relationship is one of the strongest predictors of successful therapy. Consider communication style, cultural understanding, language preferences, and whether you feel comfortable and safe.",
         step4Title: "4. Understand the Approach",
-        step4Text: "Different psychologists use different therapeutic approaches — CBT, psychodynamic therapy, humanistic therapy, and more. Ask your psychologist to explain their approach and how it applies to your situation.",
+        step4Text:
+          "Different psychologists use different therapeutic approaches — CBT, psychodynamic therapy, humanistic therapy, and more. Ask your psychologist to explain their approach and how it applies to your situation.",
         step5Title: "5. Consider Practical Factors",
-        step5Text: "Think about availability, location (or online options), session fees, and scheduling flexibility. These practical considerations matter for maintaining consistency in your therapy journey.",
+        step5Text:
+          "Think about availability, location (or online options), session fees, and scheduling flexibility. These practical considerations matter for maintaining consistency in your therapy journey.",
         ctaTitle: "Ready to Find Your Psychologist?",
-        ctaText: "UPsy makes it easy to find verified psychologists matched to your specific needs. Start with a quick self-assessment or browse our directory.",
+        ctaText:
+          "UPsy makes it easy to find verified psychologists matched to your specific needs. Start with a quick self-assessment or browse our directory.",
       },
       therapy: {
         title: "Do I Need Therapy?",
-        intro: "If you're asking this question, you're already taking a brave step. Here's how to recognize when professional support could help — and why there's no wrong time to start.",
+        intro:
+          "If you're asking this question, you're already taking a brave step. Here's how to recognize when professional support could help — and why there's no wrong time to start.",
         signsTitle: "Signs You Might Benefit From Therapy",
-        signsIntro: "You don't need to be in crisis to benefit from therapy. Here are some common signs that professional support could help:",
-        sign1: "You feel overwhelmed by emotions that are hard to manage on your own",
+        signsIntro:
+          "You don't need to be in crisis to benefit from therapy. Here are some common signs that professional support could help:",
+        sign1:
+          "You feel overwhelmed by emotions that are hard to manage on your own",
         sign2: "Your sleep, appetite, or energy have changed significantly",
         sign3: "You're withdrawing from activities or people you used to enjoy",
         sign4: "You find it hard to concentrate or make decisions",
@@ -1113,151 +1402,196 @@ export const translations = {
         sign6: "You feel stuck and don't know how to move forward",
         mythsTitle: "Common Myths About Therapy",
         myth1: "Therapy is only for people with serious mental illness",
-        truth1: "Therapy helps anyone looking to grow, manage stress, improve relationships, or simply understand themselves better.",
+        truth1:
+          "Therapy helps anyone looking to grow, manage stress, improve relationships, or simply understand themselves better.",
         myth2: "I should be able to handle this on my own",
-        truth2: "Seeking help is a sign of strength, not weakness. Even high-performing individuals benefit from professional support.",
+        truth2:
+          "Seeking help is a sign of strength, not weakness. Even high-performing individuals benefit from professional support.",
         myth3: "Therapy takes years to work",
-        truth3: "Many people see meaningful progress within a few sessions. The timeline depends on your goals and situation.",
+        truth3:
+          "Many people see meaningful progress within a few sessions. The timeline depends on your goals and situation.",
         benefitsTitle: "What Therapy Can Do For You",
-        benefitsText: "Therapy provides a safe, confidential space to explore your thoughts and feelings with a trained professional. It can help you develop coping strategies, improve relationships, build self-awareness, and work through challenges in a structured way.",
+        benefitsText:
+          "Therapy provides a safe, confidential space to explore your thoughts and feelings with a trained professional. It can help you develop coping strategies, improve relationships, build self-awareness, and work through challenges in a structured way.",
         whenTitle: "When Is the Right Time?",
-        whenText: "There's no perfect time to start therapy. If you're thinking about it, that's often a sign that you're ready. You don't need to wait until things get worse.",
+        whenText:
+          "There's no perfect time to start therapy. If you're thinking about it, that's often a sign that you're ready. You don't need to wait until things get worse.",
         ctaTitle: "Take the First Step",
-        ctaText: "Not sure where to start? Our free self-assessment can help you understand your needs and get personalized recommendations.",
-      workplace: "Workplace",
-      anxiety: {
-        title: "Understanding Anxiety: What It Is and How to Manage It",
-        intro: "Anxiety is one of the most common mental health experiences. Learn what it really means, how it affects you, and practical steps to manage it.",
-        whatTitle: "What Is Anxiety?",
-        whatText: "Anxiety is your body's natural response to stress. It's a feeling of fear or apprehension about what's to come. While occasional anxiety is normal, persistent anxiety that interferes with daily life may indicate an anxiety disorder.",
-        symptomsTitle: "Common Symptoms",
-        symptom1: "Excessive worry or fear",
-        symptom2: "Restlessness or feeling on edge",
-        symptom3: "Difficulty concentrating",
-        symptom4: "Sleep disturbances",
-        symptom5: "Physical tension or headaches",
-        symptom6: "Avoiding situations that trigger anxiety",
-        manageTitle: "How to Manage Anxiety",
-        manageText: "Managing anxiety is possible with the right strategies. Regular exercise, mindfulness practices, adequate sleep, and limiting caffeine can all help. Most importantly, talking to a professional can provide personalized strategies and support.",
-        helpTitle: "When to Seek Help",
-        helpText: "If anxiety is interfering with your work, relationships, or daily activities, it's time to reach out. A psychologist can help you understand the root causes and develop effective coping strategies tailored to your situation.",
-        ctaTitle: "You Don't Have to Face Anxiety Alone",
-        ctaText: "Take our free self-assessment to better understand your anxiety and get matched with a psychologist who can help.",
+        ctaText:
+          "Not sure where to start? Our free self-assessment can help you understand your needs and get personalized recommendations.",
+        workplace: "Workplace",
+        anxiety: {
+          title: "Understanding Anxiety: What It Is and How to Manage It",
+          intro:
+            "Anxiety is one of the most common mental health experiences. Learn what it really means, how it affects you, and practical steps to manage it.",
+          whatTitle: "What Is Anxiety?",
+          whatText:
+            "Anxiety is your body's natural response to stress. It's a feeling of fear or apprehension about what's to come. While occasional anxiety is normal, persistent anxiety that interferes with daily life may indicate an anxiety disorder.",
+          symptomsTitle: "Common Symptoms",
+          symptom1: "Excessive worry or fear",
+          symptom2: "Restlessness or feeling on edge",
+          symptom3: "Difficulty concentrating",
+          symptom4: "Sleep disturbances",
+          symptom5: "Physical tension or headaches",
+          symptom6: "Avoiding situations that trigger anxiety",
+          manageTitle: "How to Manage Anxiety",
+          manageText:
+            "Managing anxiety is possible with the right strategies. Regular exercise, mindfulness practices, adequate sleep, and limiting caffeine can all help. Most importantly, talking to a professional can provide personalized strategies and support.",
+          helpTitle: "When to Seek Help",
+          helpText:
+            "If anxiety is interfering with your work, relationships, or daily activities, it's time to reach out. A psychologist can help you understand the root causes and develop effective coping strategies tailored to your situation.",
+          ctaTitle: "You Don't Have to Face Anxiety Alone",
+          ctaText:
+            "Take our free self-assessment to better understand your anxiety and get matched with a psychologist who can help.",
+        },
+        online: {
+          title: "The Benefits of Online Therapy",
+          intro:
+            "Online therapy has transformed mental health care. Discover why more people are choosing virtual sessions and how they can work for you.",
+          whyTitle: "Why Online Therapy?",
+          whyText:
+            "The shift to online therapy has made mental health support more accessible than ever. Whether you live in a remote area, have a busy schedule, or simply prefer the comfort of home, online therapy removes many traditional barriers to getting help.",
+          benefit1Title: "Access From Anywhere",
+          benefit1Text:
+            "Connect with qualified psychologists regardless of your location. All you need is an internet connection.",
+          benefit2Title: "Flexible Scheduling",
+          benefit2Text:
+            "Book sessions that fit your schedule — early morning, lunch break, or evening. No commute time needed.",
+          benefit3Title: "Privacy & Comfort",
+          benefit3Text:
+            "Attend sessions from the comfort of your own space. Many people find it easier to open up in familiar surroundings.",
+          benefit4Title: "Same Quality of Care",
+          benefit4Text:
+            "Research shows that online therapy is just as effective as in-person sessions for most conditions.",
+          worksTitle: "Does Online Therapy Really Work?",
+          worksText:
+            "Multiple studies have shown that online therapy can be just as effective as face-to-face therapy for conditions like anxiety, depression, and stress. The key is finding a qualified therapist and committing to the process.",
+          ctaTitle: "Ready to Try Online Therapy?",
+          ctaText:
+            "Browse UPsy's network of qualified psychologists offering online sessions. Find your match today.",
+        },
+        work: {
+          title: "Mental Health at Work: Why It Matters and What You Can Do",
+          intro:
+            "Work is one of the biggest factors affecting our mental health. Learn how to recognize burnout, set boundaries, and create a healthier work environment.",
+          burnoutTitle: "Recognizing Burnout",
+          burnoutText:
+            "Burnout isn't just feeling tired. It's a state of chronic physical and emotional exhaustion that comes from prolonged workplace stress. Signs include feeling detached from your work, reduced performance, and persistent fatigue that doesn't improve with rest.",
+          statsTitle: "The Numbers Speak",
+          stat1: "of workers report stress affecting their mental health",
+          stat2: "people will experience a mental health issue each year",
+          stat3: "of long-term absences are caused by stress and anxiety",
+          tipsTitle: "What You Can Do",
+          tip1: "Set clear boundaries between work and personal time",
+          tip2: "Take regular breaks throughout the day",
+          tip3: "Talk to a manager or HR about workload concerns",
+          tip4: "Consider speaking with a psychologist who specializes in workplace issues",
+          tip5: "Practice stress management techniques like mindfulness or exercise",
+          orgTitle: "For Organizations",
+          orgText:
+            "Investing in employee mental health isn't just the right thing to do — it's smart business. Organizations that prioritize psychological wellbeing see improved productivity, reduced absenteeism, and higher retention rates.",
+          ctaTitle: "Need Support With Workplace Stress?",
+          ctaText:
+            "Whether you're an individual or an organization, UPsy can help. Take a self-assessment or explore our consulting services.",
+          orgCta: "Explore Organization Services",
+        },
+        backToBlog: "Back to Blog",
+        wellness: "Wellness",
+        depression: {
+          title: "Understanding Depression: More Than Just Sadness",
+          intro:
+            "Depression is one of the most common mental health conditions worldwide. Understanding what it really is — and what it isn't — is the first step toward recovery.",
+          whatTitle: "What Is Depression?",
+          whatText:
+            "Depression is more than feeling sad or going through a rough patch. It's a serious mental health condition that affects how you think, feel, and handle daily activities. It can last for weeks, months, or even years if left untreated.",
+          signsTitle: "Common Signs of Depression",
+          sign1: "Persistent feelings of sadness, emptiness, or hopelessness",
+          sign2: "Loss of interest in activities you once enjoyed",
+          sign3: "Changes in appetite or weight",
+          sign4: "Difficulty sleeping or sleeping too much",
+          sign5: "Fatigue and lack of energy",
+          sign6: "Difficulty concentrating or making decisions",
+          sign7: "Feelings of worthlessness or excessive guilt",
+          typesTitle: "Types of Depression",
+          typesText:
+            "Depression isn't one-size-fits-all. Major depressive disorder, persistent depressive disorder (dysthymia), seasonal affective disorder, and postpartum depression are all different forms. A qualified psychologist can help determine what you're experiencing.",
+          treatmentTitle: "How Is Depression Treated?",
+          treatmentText:
+            "Depression is highly treatable. The most common approaches include psychotherapy (especially CBT), medication, lifestyle changes, and social support. Many people see significant improvement with professional help.",
+          ctaTitle: "You Don't Have to Face Depression Alone",
+          ctaText:
+            "If you recognize these signs in yourself or someone you care about, reaching out is the first step.",
+        },
+        support: {
+          title: "How to Support a Loved One with Mental Health Challenges",
+          intro:
+            "When someone you care about is struggling, knowing what to say — and what not to say — can make all the difference.",
+          listenTitle: "1. Listen Without Judging",
+          listenText:
+            "The most powerful thing you can do is simply be present. Don't try to fix the problem or minimize their feelings.",
+          educateTitle: "2. Educate Yourself",
+          educateText:
+            "Learning about mental health conditions helps you understand what your loved one is experiencing.",
+          encourageTitle: "3. Encourage Professional Help",
+          encourageText:
+            "Gently suggest speaking with a professional. Offer to help them find a psychologist.",
+          boundariesTitle: "4. Set Healthy Boundaries",
+          boundariesText:
+            "Supporting someone doesn't mean sacrificing your own wellbeing. It's okay to set limits and seek your own support.",
+          avoidTitle: "5. What to Avoid",
+          avoid1: 'Don\'t say "just cheer up" or "it\'s all in your head"',
+          avoid2: "Don't compare their situation to others",
+          avoid3: "Don't take it personally if they withdraw",
+          avoid4: "Don't try to be their therapist",
+          ctaTitle: "Need Guidance?",
+          ctaText:
+            "If you're supporting someone through a difficult time, UPsy can help you find the right resources and professional guidance.",
+        },
+        mindfulness: {
+          title: "Mindfulness for Beginners: A Practical Guide",
+          intro:
+            "Mindfulness isn't about emptying your mind. It's about paying attention to the present moment — without judgment.",
+          whatTitle: "What Is Mindfulness?",
+          whatText:
+            "Mindfulness is the practice of bringing your full attention to the present moment. It's a skill backed by decades of research showing benefits for stress reduction, emotional regulation, focus, and overall mental health.",
+          benefitsTitle: "Benefits of Regular Practice",
+          benefit1: "Reduced stress and anxiety",
+          benefit2: "Improved focus and concentration",
+          benefit3: "Better emotional regulation",
+          benefit4: "Enhanced self-awareness",
+          benefit5: "Better sleep quality",
+          startTitle: "How to Start (3 Simple Exercises)",
+          exercise1Title: "1. The 5-Minute Breathing Exercise",
+          exercise1Text:
+            "Sit comfortably, close your eyes, and focus on your breath. Inhale for 4 counts, hold for 4, exhale for 4. Start with 5 minutes daily.",
+          exercise2Title: "2. The Body Scan",
+          exercise2Text:
+            "Lie down and slowly move your attention from your toes to the top of your head. Notice any tension without trying to change anything.",
+          exercise3Title: "3. Mindful Observation",
+          exercise3Text:
+            "Pick one routine activity and do it with full attention. Notice every detail: textures, temperatures, sounds.",
+          tipsTitle: "Tips for Building a Habit",
+          tipsText:
+            "Start small — even 2 minutes counts. Practice at the same time each day. Be patient with yourself.",
+          ctaTitle: "Want Guided Mindfulness Support?",
+          ctaText:
+            "Our mindfulness programs and psychologists can help you build a sustainable practice tailored to your needs.",
+        },
       },
-      online: {
-        title: "The Benefits of Online Therapy",
-        intro: "Online therapy has transformed mental health care. Discover why more people are choosing virtual sessions and how they can work for you.",
-        whyTitle: "Why Online Therapy?",
-        whyText: "The shift to online therapy has made mental health support more accessible than ever. Whether you live in a remote area, have a busy schedule, or simply prefer the comfort of home, online therapy removes many traditional barriers to getting help.",
-        benefit1Title: "Access From Anywhere",
-        benefit1Text: "Connect with qualified psychologists regardless of your location. All you need is an internet connection.",
-        benefit2Title: "Flexible Scheduling",
-        benefit2Text: "Book sessions that fit your schedule — early morning, lunch break, or evening. No commute time needed.",
-        benefit3Title: "Privacy & Comfort",
-        benefit3Text: "Attend sessions from the comfort of your own space. Many people find it easier to open up in familiar surroundings.",
-        benefit4Title: "Same Quality of Care",
-        benefit4Text: "Research shows that online therapy is just as effective as in-person sessions for most conditions.",
-        worksTitle: "Does Online Therapy Really Work?",
-        worksText: "Multiple studies have shown that online therapy can be just as effective as face-to-face therapy for conditions like anxiety, depression, and stress. The key is finding a qualified therapist and committing to the process.",
-        ctaTitle: "Ready to Try Online Therapy?",
-        ctaText: "Browse UPsy's network of qualified psychologists offering online sessions. Find your match today.",
-      },
-      work: {
-        title: "Mental Health at Work: Why It Matters and What You Can Do",
-        intro: "Work is one of the biggest factors affecting our mental health. Learn how to recognize burnout, set boundaries, and create a healthier work environment.",
-        burnoutTitle: "Recognizing Burnout",
-        burnoutText: "Burnout isn't just feeling tired. It's a state of chronic physical and emotional exhaustion that comes from prolonged workplace stress. Signs include feeling detached from your work, reduced performance, and persistent fatigue that doesn't improve with rest.",
-        statsTitle: "The Numbers Speak",
-        stat1: "of workers report stress affecting their mental health",
-        stat2: "people will experience a mental health issue each year",
-        stat3: "of long-term absences are caused by stress and anxiety",
-        tipsTitle: "What You Can Do",
-        tip1: "Set clear boundaries between work and personal time",
-        tip2: "Take regular breaks throughout the day",
-        tip3: "Talk to a manager or HR about workload concerns",
-        tip4: "Consider speaking with a psychologist who specializes in workplace issues",
-        tip5: "Practice stress management techniques like mindfulness or exercise",
-        orgTitle: "For Organizations",
-        orgText: "Investing in employee mental health isn't just the right thing to do — it's smart business. Organizations that prioritize psychological wellbeing see improved productivity, reduced absenteeism, and higher retention rates.",
-        ctaTitle: "Need Support With Workplace Stress?",
-        ctaText: "Whether you're an individual or an organization, UPsy can help. Take a self-assessment or explore our consulting services.",
-        orgCta: "Explore Organization Services",
-      },
-      backToBlog: "Back to Blog",
-      wellness: "Wellness",
-      depression: {
-        title: "Understanding Depression: More Than Just Sadness",
-        intro: "Depression is one of the most common mental health conditions worldwide. Understanding what it really is — and what it isn't — is the first step toward recovery.",
-        whatTitle: "What Is Depression?",
-        whatText: "Depression is more than feeling sad or going through a rough patch. It's a serious mental health condition that affects how you think, feel, and handle daily activities. It can last for weeks, months, or even years if left untreated.",
-        signsTitle: "Common Signs of Depression",
-        sign1: "Persistent feelings of sadness, emptiness, or hopelessness",
-        sign2: "Loss of interest in activities you once enjoyed",
-        sign3: "Changes in appetite or weight",
-        sign4: "Difficulty sleeping or sleeping too much",
-        sign5: "Fatigue and lack of energy",
-        sign6: "Difficulty concentrating or making decisions",
-        sign7: "Feelings of worthlessness or excessive guilt",
-        typesTitle: "Types of Depression",
-        typesText: "Depression isn't one-size-fits-all. Major depressive disorder, persistent depressive disorder (dysthymia), seasonal affective disorder, and postpartum depression are all different forms. A qualified psychologist can help determine what you're experiencing.",
-        treatmentTitle: "How Is Depression Treated?",
-        treatmentText: "Depression is highly treatable. The most common approaches include psychotherapy (especially CBT), medication, lifestyle changes, and social support. Many people see significant improvement with professional help.",
-        ctaTitle: "You Don't Have to Face Depression Alone",
-        ctaText: "If you recognize these signs in yourself or someone you care about, reaching out is the first step.",
-      },
-      support: {
-        title: "How to Support a Loved One with Mental Health Challenges",
-        intro: "When someone you care about is struggling, knowing what to say — and what not to say — can make all the difference.",
-        listenTitle: "1. Listen Without Judging",
-        listenText: "The most powerful thing you can do is simply be present. Don't try to fix the problem or minimize their feelings.",
-        educateTitle: "2. Educate Yourself",
-        educateText: "Learning about mental health conditions helps you understand what your loved one is experiencing.",
-        encourageTitle: "3. Encourage Professional Help",
-        encourageText: "Gently suggest speaking with a professional. Offer to help them find a psychologist.",
-        boundariesTitle: "4. Set Healthy Boundaries",
-        boundariesText: "Supporting someone doesn't mean sacrificing your own wellbeing. It's okay to set limits and seek your own support.",
-        avoidTitle: "5. What to Avoid",
-        avoid1: "Don't say \"just cheer up\" or \"it's all in your head\"",
-        avoid2: "Don't compare their situation to others",
-        avoid3: "Don't take it personally if they withdraw",
-        avoid4: "Don't try to be their therapist",
-        ctaTitle: "Need Guidance?",
-        ctaText: "If you're supporting someone through a difficult time, UPsy can help you find the right resources and professional guidance.",
-      },
-      mindfulness: {
-        title: "Mindfulness for Beginners: A Practical Guide",
-        intro: "Mindfulness isn't about emptying your mind. It's about paying attention to the present moment — without judgment.",
-        whatTitle: "What Is Mindfulness?",
-        whatText: "Mindfulness is the practice of bringing your full attention to the present moment. It's a skill backed by decades of research showing benefits for stress reduction, emotional regulation, focus, and overall mental health.",
-        benefitsTitle: "Benefits of Regular Practice",
-        benefit1: "Reduced stress and anxiety",
-        benefit2: "Improved focus and concentration",
-        benefit3: "Better emotional regulation",
-        benefit4: "Enhanced self-awareness",
-        benefit5: "Better sleep quality",
-        startTitle: "How to Start (3 Simple Exercises)",
-        exercise1Title: "1. The 5-Minute Breathing Exercise",
-        exercise1Text: "Sit comfortably, close your eyes, and focus on your breath. Inhale for 4 counts, hold for 4, exhale for 4. Start with 5 minutes daily.",
-        exercise2Title: "2. The Body Scan",
-        exercise2Text: "Lie down and slowly move your attention from your toes to the top of your head. Notice any tension without trying to change anything.",
-        exercise3Title: "3. Mindful Observation",
-        exercise3Text: "Pick one routine activity and do it with full attention. Notice every detail: textures, temperatures, sounds.",
-        tipsTitle: "Tips for Building a Habit",
-        tipsText: "Start small — even 2 minutes counts. Practice at the same time each day. Be patient with yourself.",
-        ctaTitle: "Want Guided Mindfulness Support?",
-        ctaText: "Our mindfulness programs and psychologists can help you build a sustainable practice tailored to your needs.",
-      },
-    },
-        backToBlog: "Retour au Blog",
+      backToBlog: "Retour au Blog",
       wellness: "Bien-être",
       workplace: "Milieu professionnel",
       anxiety: {
-        ctaText: "Faites notre auto-évaluation gratuite pour mieux comprendre votre anxiété et être mis en relation avec un psychologue.",
+        ctaText:
+          "Faites notre auto-évaluation gratuite pour mieux comprendre votre anxiété et être mis en relation avec un psychologue.",
         ctaTitle: "Vous N'Avez Pas à Affronter l'Anxiété Seul",
-        helpText: "Si l'anxiété interfère avec votre travail, vos relations ou vos activités quotidiennes, il est temps de consulter. Un psychologue peut vous aider à comprendre les causes profondes.",
+        helpText:
+          "Si l'anxiété interfère avec votre travail, vos relations ou vos activités quotidiennes, il est temps de consulter. Un psychologue peut vous aider à comprendre les causes profondes.",
         helpTitle: "Quand Chercher de l'Aide",
-        intro: "L'anxiété est l'une des expériences de santé mentale les plus courantes. Découvrez ce qu'elle signifie vraiment et des étapes pratiques pour la gérer.",
-        manageText: "Gérer l'anxiété est possible avec les bonnes stratégies. L'exercice régulier, la pleine conscience, un sommeil adéquat et la limitation de la caféine peuvent aider. Surtout, parler à un professionnel peut fournir des stratégies personnalisées.",
+        intro:
+          "L'anxiété est l'une des expériences de santé mentale les plus courantes. Découvrez ce qu'elle signifie vraiment et des étapes pratiques pour la gérer.",
+        manageText:
+          "Gérer l'anxiété est possible avec les bonnes stratégies. L'exercice régulier, la pleine conscience, un sommeil adéquat et la limitation de la caféine peuvent aider. Surtout, parler à un professionnel peut fournir des stratégies personnalisées.",
         manageTitle: "Comment Gérer l'Anxiété",
         symptom1: "Inquiétude ou peur excessive",
         symptom2: "Agitation ou sensation d'être sur les nerfs",
@@ -1267,13 +1601,16 @@ export const translations = {
         symptom6: "Évitement des situations déclencheuses",
         symptomsTitle: "Symptômes Courants",
         title: "Comprendre l'Anxiété : Ce Que C'est et Comment la Gérer",
-        whatText: "L'anxiété est la réponse naturelle de votre corps au stress. C'est un sentiment de peur ou d'appréhension face à l'avenir. Bien que l'anxiété occasionnelle soit normale, une anxiété persistante qui interfère avec la vie quotidienne peut indiquer un trouble anxieux.",
+        whatText:
+          "L'anxiété est la réponse naturelle de votre corps au stress. C'est un sentiment de peur ou d'appréhension face à l'avenir. Bien que l'anxiété occasionnelle soit normale, une anxiété persistante qui interfère avec la vie quotidienne peut indiquer un trouble anxieux.",
         whatTitle: "Qu'est-ce que l'Anxiété ?",
       },
       depression: {
-        ctaText: "Si vous reconnaissez ces signes, tendre la main est la première étape.",
+        ctaText:
+          "Si vous reconnaissez ces signes, tendre la main est la première étape.",
         ctaTitle: "Vous N'avez Pas à Affronter la Dépression Seul",
-        intro: "La dépression est l'une des conditions de santé mentale les plus courantes au monde. Comprendre ce qu'elle est vraiment est la première étape vers la guérison.",
+        intro:
+          "La dépression est l'une des conditions de santé mentale les plus courantes au monde. Comprendre ce qu'elle est vraiment est la première étape vers la guérison.",
         sign1: "Sentiments persistants de tristesse, de vide ou de désespoir",
         sign2: "Perte d'intérêt pour les activités que vous aimiez",
         sign3: "Changements d'appétit ou de poids",
@@ -1283,11 +1620,14 @@ export const translations = {
         sign7: "Sentiments d'inutilité ou de culpabilité excessive",
         signsTitle: "Signes Courants de la Dépression",
         title: "Comprendre la Dépression : Plus Qu'une Simple Tristesse",
-        treatmentText: "La dépression est très traitable. Les approches les plus courantes incluent la psychothérapie (notamment la TCC), les médicaments, les changements de mode de vie et le soutien social.",
+        treatmentText:
+          "La dépression est très traitable. Les approches les plus courantes incluent la psychothérapie (notamment la TCC), les médicaments, les changements de mode de vie et le soutien social.",
         treatmentTitle: "Comment Traite-t-on la Dépression ?",
-        typesText: "La dépression n'est pas universelle. Trouble dépressif majeur, dysthymie, trouble affectif saisonnier et dépression post-partum sont des formes différentes.",
+        typesText:
+          "La dépression n'est pas universelle. Trouble dépressif majeur, dysthymie, trouble affectif saisonnier et dépression post-partum sont des formes différentes.",
         typesTitle: "Types de Dépression",
-        whatText: "La dépression est plus que se sentir triste. C'est une condition sérieuse qui affecte votre façon de penser, ressentir et gérer les activités quotidiennes.",
+        whatText:
+          "La dépression est plus que se sentir triste. C'est une condition sérieuse qui affecte votre façon de penser, ressentir et gérer les activités quotidiennes.",
         whatTitle: "Qu'est-ce que la Dépression ?",
       },
       mindfulness: {
@@ -1297,30 +1637,41 @@ export const translations = {
         benefit4: "Conscience de soi accrue",
         benefit5: "Meilleure qualité de sommeil",
         benefitsTitle: "Bienfaits d'une Pratique Régulière",
-        ctaText: "Nos programmes et psychologues peuvent vous aider à construire une pratique durable adaptée à vos besoins.",
+        ctaText:
+          "Nos programmes et psychologues peuvent vous aider à construire une pratique durable adaptée à vos besoins.",
         ctaTitle: "Envie d'un Accompagnement en Pleine Conscience ?",
-        exercise1Text: "Asseyez-vous confortablement, fermez les yeux et concentrez-vous sur votre respiration. Inspirez sur 4 temps, retenez 4 temps, expirez 4 temps.",
+        exercise1Text:
+          "Asseyez-vous confortablement, fermez les yeux et concentrez-vous sur votre respiration. Inspirez sur 4 temps, retenez 4 temps, expirez 4 temps.",
         exercise1Title: "1. L'Exercice de Respiration de 5 Minutes",
-        exercise2Text: "Allongez-vous et déplacez lentement votre attention de vos orteils au sommet de votre tête.",
+        exercise2Text:
+          "Allongez-vous et déplacez lentement votre attention de vos orteils au sommet de votre tête.",
         exercise2Title: "2. Le Scan Corporel",
-        exercise3Text: "Choisissez une activité routinière et faites-la avec une attention totale. Remarquez chaque détail.",
+        exercise3Text:
+          "Choisissez une activité routinière et faites-la avec une attention totale. Remarquez chaque détail.",
         exercise3Title: "3. L'Observation Consciente",
-        intro: "La pleine conscience ne consiste pas à vider votre esprit. C'est porter attention au moment présent — sans jugement.",
+        intro:
+          "La pleine conscience ne consiste pas à vider votre esprit. C'est porter attention au moment présent — sans jugement.",
         startTitle: "Comment Commencer (3 Exercices Simples)",
-        tipsText: "Commencez petit — même 2 minutes comptent. Pratiquez à la même heure chaque jour. Soyez patient avec vous-même.",
+        tipsText:
+          "Commencez petit — même 2 minutes comptent. Pratiquez à la même heure chaque jour. Soyez patient avec vous-même.",
         tipsTitle: "Conseils pour Créer une Habitude",
         title: "Pleine Conscience pour Débutants : Guide Pratique",
-        whatText: "La pleine conscience est la pratique de porter toute votre attention au moment présent. C'est une compétence soutenue par des décennies de recherche.",
+        whatText:
+          "La pleine conscience est la pratique de porter toute votre attention au moment présent. C'est une compétence soutenue par des décennies de recherche.",
         whatTitle: "Qu'est-ce que la Pleine Conscience ?",
       },
       online: {
-        ctaText: "Parcourez le réseau UPsy de psychologues qualifiés proposant des séances en ligne.",
+        ctaText:
+          "Parcourez le réseau UPsy de psychologues qualifiés proposant des séances en ligne.",
         ctaTitle: "Prêt à Essayer la Thérapie en Ligne ?",
-        intro: "La thérapie en ligne a transformé les soins de santé mentale. Découvrez pourquoi de plus en plus de personnes choisissent les séances virtuelles.",
+        intro:
+          "La thérapie en ligne a transformé les soins de santé mentale. Découvrez pourquoi de plus en plus de personnes choisissent les séances virtuelles.",
         title: "Les Avantages de la Thérapie en Ligne",
-        whyText: "La thérapie en ligne a rendu le soutien en santé mentale plus accessible que jamais. Que vous viviez dans une zone éloignée ou que vous ayez un emploi du temps chargé, la thérapie en ligne supprime de nombreuses barrières.",
+        whyText:
+          "La thérapie en ligne a rendu le soutien en santé mentale plus accessible que jamais. Que vous viviez dans une zone éloignée ou que vous ayez un emploi du temps chargé, la thérapie en ligne supprime de nombreuses barrières.",
         whyTitle: "Pourquoi la Thérapie en Ligne ?",
-        worksText: "Plusieurs études ont montré que la thérapie en ligne peut être aussi efficace que la thérapie en face à face pour l'anxiété, la dépression et le stress.",
+        worksText:
+          "Plusieurs études ont montré que la thérapie en ligne peut être aussi efficace que la thérapie en face à face pour l'anxiété, la dépression et le stress.",
         worksTitle: "La Thérapie en Ligne Fonctionne-t-elle Vraiment ?",
       },
       support: {
@@ -1329,31 +1680,44 @@ export const translations = {
         avoid3: "Ne le prenez pas personnellement s'ils se retirent",
         avoid4: "N'essayez pas d'être leur thérapeute",
         avoidTitle: "5. Ce Qu'il Faut Éviter",
-        boundariesText: "Soutenir quelqu'un ne signifie pas sacrifier votre propre bien-être.",
+        boundariesText:
+          "Soutenir quelqu'un ne signifie pas sacrifier votre propre bien-être.",
         boundariesTitle: "4. Établir des Limites Saines",
-        ctaText: "Si vous soutenez quelqu'un dans un moment difficile, UPsy peut vous aider à trouver les bonnes ressources.",
+        ctaText:
+          "Si vous soutenez quelqu'un dans un moment difficile, UPsy peut vous aider à trouver les bonnes ressources.",
         ctaTitle: "Besoin de Conseils ?",
-        educateText: "Apprendre sur les conditions de santé mentale vous aide à comprendre ce que vit votre proche.",
+        educateText:
+          "Apprendre sur les conditions de santé mentale vous aide à comprendre ce que vit votre proche.",
         educateTitle: "2. S'Informer",
-        encourageText: "Suggérez doucement de parler à un professionnel. Proposez de les aider à trouver un psychologue.",
+        encourageText:
+          "Suggérez doucement de parler à un professionnel. Proposez de les aider à trouver un psychologue.",
         encourageTitle: "3. Encourager l'Aide Professionnelle",
-        intro: "Quand quelqu'un que vous aimez souffre, savoir quoi dire — et quoi ne pas dire — peut faire toute la différence.",
-        listenText: "La chose la plus puissante que vous puissiez faire est simplement être présent.",
+        intro:
+          "Quand quelqu'un que vous aimez souffre, savoir quoi dire — et quoi ne pas dire — peut faire toute la différence.",
+        listenText:
+          "La chose la plus puissante que vous puissiez faire est simplement être présent.",
         listenTitle: "1. Écouter Sans Juger",
         title: "Comment Soutenir un Proche en Difficulté Psychologique",
       },
       work: {
-        burnoutText: "Le burnout n'est pas simplement de la fatigue. C'est un état d'épuisement physique et émotionnel chronique causé par un stress professionnel prolongé.",
+        burnoutText:
+          "Le burnout n'est pas simplement de la fatigue. C'est un état d'épuisement physique et émotionnel chronique causé par un stress professionnel prolongé.",
         burnoutTitle: "Reconnaître l'Épuisement Professionnel",
-        ctaText: "Que vous soyez un individu ou une organisation, UPsy peut aider. Faites une auto-évaluation ou explorez nos services de conseil.",
+        ctaText:
+          "Que vous soyez un individu ou une organisation, UPsy peut aider. Faites une auto-évaluation ou explorez nos services de conseil.",
         ctaTitle: "Besoin de Soutien Face au Stress Professionnel ?",
-        intro: "Le travail est l'un des plus grands facteurs affectant notre santé mentale. Apprenez à reconnaître l'épuisement professionnel et à créer des limites saines.",
+        intro:
+          "Le travail est l'un des plus grands facteurs affectant notre santé mentale. Apprenez à reconnaître l'épuisement professionnel et à créer des limites saines.",
         orgCta: "Explorer les Services aux Organisations",
-        orgText: "Investir dans la santé mentale des employés est non seulement juste, mais aussi intelligent. Les organisations qui priorisent le bien-être psychologique voient une productivité améliorée.",
+        orgText:
+          "Investir dans la santé mentale des employés est non seulement juste, mais aussi intelligent. Les organisations qui priorisent le bien-être psychologique voient une productivité améliorée.",
         orgTitle: "Pour les Organisations",
-        stat1: "des travailleurs signalent que le stress affecte leur santé mentale",
-        stat2: "des personnes connaîtront un problème de santé mentale chaque année",
-        stat3: "des absences longue durée sont causées par le stress et l'anxiété",
+        stat1:
+          "des travailleurs signalent que le stress affecte leur santé mentale",
+        stat2:
+          "des personnes connaîtront un problème de santé mentale chaque année",
+        stat3:
+          "des absences longue durée sont causées par le stress et l'anxiété",
         statsTitle: "Les Chiffres Parlent",
         tip1: "Fixez des limites claires entre travail et vie personnelle",
         tip2: "Prenez des pauses régulières tout au long de la journée",
@@ -1363,10 +1727,11 @@ export const translations = {
         tipsTitle: "Ce Que Vous Pouvez Faire",
         title: "La Santé Mentale au Travail : Pourquoi C'est Important",
       },
-  },
-      mps: {
+    },
+    mps: {
       title: "Mental Performance Score",
-      tooltip: "Composite score across mood, consistency, engagement, recovery, and growth.",
+      tooltip:
+        "Composite score across mood, consistency, engagement, recovery, and growth.",
       basedOn: "Based on",
       checkIns: "check-ins",
       mood: "Mood",
@@ -1377,7 +1742,8 @@ export const translations = {
     },
     crisis: {
       title: "We're here for you",
-      message: "If you're in immediate distress, please reach out to a specialist now.",
+      message:
+        "If you're in immediate distress, please reach out to a specialist now.",
       findSpecialist: "Find a specialist",
       close: "Not now",
       disclaimer: "If you're in immediate danger, call emergency services.",
@@ -1396,60 +1762,114 @@ export const translations = {
       inProgress: "In progress",
       notStarted: "Not started",
       myIntake: "My intake (anamnesis)",
-      cardHelp: "Pre-fill your clinical intake before your first session. Your therapist can review it together with you.",
+      cardHelp:
+        "Pre-fill your clinical intake before your first session. Your therapist can review it together with you.",
       continue: "Continue",
       start: "Start intake",
       downloadPdf: "Download PDF",
       markReviewed: "Mark as reviewed",
       reviewNotesPlaceholder: "Optional review notes for the client",
       reviewedAt: "Reviewed on {date}",
-      consentLabel: "In compliance with Law 09-08, I agree that this personal data is used for my clinical follow-up.",
+      consentLabel:
+        "In compliance with Law 09-08, I agree that this personal data is used for my clinical follow-up.",
       consentRequired: "Consent required",
-      consentRequiredDesc: "Please confirm Law 09-08 consent before completing.",
+      consentRequiredDesc:
+        "Please confirm Law 09-08 consent before completing.",
       missingFields: "Missing required fields",
-      missingFieldsDesc: "Please fill all required (*) fields and complete the safety screening.",
+      missingFieldsDesc:
+        "Please fill all required (*) fields and complete the safety screening.",
       requiredHint: "* required to complete",
       crisisBannerTitle: "Why this matters",
-      crisisBannerDesc: "If you flag any safety concern below, we'll surface immediate support resources (SOS Amitié Maroc) — your therapist will also be alerted at the next session.",
+      crisisBannerDesc:
+        "If you flag any safety concern below, we'll surface immediate support resources (SOS Amitié Maroc) — your therapist will also be alerted at the next session.",
       yes: "Yes",
       no: "No",
       steps: {
         identity: { label: "Identity", description: "Basic info and context" },
-        presenting_complaint: { label: "Reason for visit", description: "Main complaint and triggers" },
-        history_personal: { label: "Personal history", description: "Childhood, education, life events" },
-        history_family: { label: "Family history", description: "Family structure and mental health" },
-        medical: { label: "Medical", description: "Treatments, medications, prior therapy" },
-        lifestyle: { label: "Lifestyle", description: "Sleep, appetite, substances, support" },
-        risk_screening: { label: "Safety screening", description: "Confidential safety questions" },
+        presenting_complaint: {
+          label: "Reason for visit",
+          description: "Main complaint and triggers",
+        },
+        history_personal: {
+          label: "Personal history",
+          description: "Childhood, education, life events",
+        },
+        history_family: {
+          label: "Family history",
+          description: "Family structure and mental health",
+        },
+        medical: {
+          label: "Medical",
+          description: "Treatments, medications, prior therapy",
+        },
+        lifestyle: {
+          label: "Lifestyle",
+          description: "Sleep, appetite, substances, support",
+        },
+        risk_screening: {
+          label: "Safety screening",
+          description: "Confidential safety questions",
+        },
         goals: { label: "Goals", description: "What you want from therapy" },
       },
       fields: {
-        age: "Age", gender: "Gender", marital_status: "Marital status", profession: "Profession", children: "Children",
-        main_reason: "Main reason for seeking help", onset: "When did it start?", triggers: "Triggers", severity: "Severity (1–10)",
-        childhood: "Childhood", education: "Education", key_events: "Key life events", traumas: "Past traumas",
-        structure: "Family structure", mental_health: "Family mental health history", relationships: "Relationships quality",
-        conditions: "Current medical conditions", medications: "Medications", allergies: "Allergies", prior_therapy: "Prior psychotherapy / psychiatry",
-        sleep: "Sleep", sleepPh: "hours / quality", appetite: "Appetite", substances: "Substances (alcohol, tobacco, other)", exercise: "Exercise", social_support: "Social support",
-        suicidal_ideation: "Current suicidal thoughts", self_harm: "Recent self-harm", violence_risk: "Risk of harming others", risk_notes: "Additional safety notes",
-        therapy_goals: "What do you want from therapy?", timeline: "Expected timeline", success_indicators: "Success indicators",
+        age: "Age",
+        gender: "Gender",
+        marital_status: "Marital status",
+        profession: "Profession",
+        children: "Children",
+        main_reason: "Main reason for seeking help",
+        onset: "When did it start?",
+        triggers: "Triggers",
+        severity: "Severity (1–10)",
+        childhood: "Childhood",
+        education: "Education",
+        key_events: "Key life events",
+        traumas: "Past traumas",
+        structure: "Family structure",
+        mental_health: "Family mental health history",
+        relationships: "Relationships quality",
+        conditions: "Current medical conditions",
+        medications: "Medications",
+        allergies: "Allergies",
+        prior_therapy: "Prior psychotherapy / psychiatry",
+        sleep: "Sleep",
+        sleepPh: "hours / quality",
+        appetite: "Appetite",
+        substances: "Substances (alcohol, tobacco, other)",
+        exercise: "Exercise",
+        social_support: "Social support",
+        suicidal_ideation: "Current suicidal thoughts",
+        self_harm: "Recent self-harm",
+        violence_risk: "Risk of harming others",
+        risk_notes: "Additional safety notes",
+        therapy_goals: "What do you want from therapy?",
+        timeline: "Expected timeline",
+        success_indicators: "Success indicators",
       },
     },
     whyUs: {
       ariaLabel: "Why U.Psy",
       eyebrow: "Why U.Psy",
       title: "Six reasons we're not another therapy directory.",
-      subtitle: "Most platforms list therapists. We operate a complete performance psychology system — clinical, measurable, and built for Morocco.",
+      subtitle:
+        "Most platforms list therapists. We operate a complete performance psychology system — clinical, measurable, and built for Morocco.",
       cta: "Read the full why",
-      heroTitle: "We don't list therapists. We run a performance psychology system.",
-      heroSubtitle: "Most platforms in Morocco are search results. U.Psy is a clinical-grade operating system for measuring, training, and applying psychological skills under pressure.",
+      heroTitle:
+        "We don't list therapists. We run a performance psychology system.",
+      heroSubtitle:
+        "Most platforms in Morocco are search results. U.Psy is a clinical-grade operating system for measuring, training, and applying psychological skills under pressure.",
       heroCtaPrimary: "Find your match",
       heroCtaSecondary: "Talk to the founder",
       pillarsTitle: "Six pillars, one system.",
-      pillarsSubtitle: "Each pillar is a deliberate design choice — and a measurable commitment.",
-      founderQuote: "Morocco doesn't need another marketplace. It needs a system that takes psychology seriously — clinically, operationally, and culturally.",
+      pillarsSubtitle:
+        "Each pillar is a deliberate design choice — and a measurable commitment.",
+      founderQuote:
+        "Morocco doesn't need another marketplace. It needs a system that takes psychology seriously — clinically, operationally, and culturally.",
       founderCta: "Read the founder's story",
       finalTitle: "Ready to work with a real system?",
-      finalSubtitle: "Two minutes of diagnostics. One match. A real psychologist, a real protocol, real outcomes.",
+      finalSubtitle:
+        "Two minutes of diagnostics. One match. A real psychologist, a real protocol, real outcomes.",
       methodCta: "Read the methodology",
       compare: {
         feature: "Feature",
@@ -1464,42 +1884,84 @@ export const translations = {
         },
       },
       items: {
-        system: { title: "Performance Psychology System", desc: "Not a therapy directory. A complete operational platform that measures, identifies, trains, and applies psychological skills under pressure." },
-        accreditation: { title: "5-Tier Clinical Accreditation", desc: "Every specialist is verified through a multi-stage clinical accreditation. No self-declared credentials, no marketplace inflation." },
-        morocco: { title: "Built for Morocco", desc: "Trilingual (EN / FR / AR-RTL), Law 09-08 compliant, MAD pricing, local payment rails, and authentic Moroccan clinical culture." },
-        rigor: { title: "Clinical Rigor", desc: "Validated instruments (GAD-7, PHQ-9), evidence-based protocols (CBT, Schema, EMDR), and structured session notes — not generic advice." },
-        ecosystem: { title: "Integrated Ecosystem", desc: "Marketplace, MOOC, B2B programs, AI tools (Nour), and crisis protocol — one platform, not a stitched-together patchwork." },
-        privacy: { title: "Privacy by Design", desc: "Strict row-level security, encrypted clinical notes, breached-password checks, mandatory email verification, and zero data resale." },
+        system: {
+          title: "Performance Psychology System",
+          desc: "Not a therapy directory. A complete operational platform that measures, identifies, trains, and applies psychological skills under pressure.",
+        },
+        accreditation: {
+          title: "5-Tier Clinical Accreditation",
+          desc: "Every specialist is verified through a multi-stage clinical accreditation. No self-declared credentials, no marketplace inflation.",
+        },
+        morocco: {
+          title: "Built for Morocco",
+          desc: "Trilingual (EN / FR / AR-RTL), Law 09-08 compliant, MAD pricing, local payment rails, and authentic Moroccan clinical culture.",
+        },
+        rigor: {
+          title: "Clinical Rigor",
+          desc: "Validated instruments (GAD-7, PHQ-9), evidence-based protocols (CBT, Schema, EMDR), and structured session notes — not generic advice.",
+        },
+        ecosystem: {
+          title: "Integrated Ecosystem",
+          desc: "Marketplace, MOOC, B2B programs, AI tools (Nour), and crisis protocol — one platform, not a stitched-together patchwork.",
+        },
+        privacy: {
+          title: "Privacy by Design",
+          desc: "Strict row-level security, encrypted clinical notes, breached-password checks, mandatory email verification, and zero data resale.",
+        },
       },
       pillars: {
         system: {
           desc: "We don't list therapists. We operate a system that measures, identifies what's breaking, trains the right skills, and applies them in real life.",
-          proof: { a: "Validated diagnostics", b: "Structured protocols", c: "Outcome tracking" },
+          proof: {
+            a: "Validated diagnostics",
+            b: "Structured protocols",
+            c: "Outcome tracking",
+          },
           cta: "Try the assessment lab",
         },
         accreditation: {
           desc: "Every U.Psy specialist passes a multi-stage clinical accreditation reviewed by our team — credentials, training history, supervision, and ethics.",
-          proof: { a: "Identity & license verified", b: "Training history reviewed", c: "Continuous supervision" },
+          proof: {
+            a: "Identity & license verified",
+            b: "Training history reviewed",
+            c: "Continuous supervision",
+          },
           cta: "Browse accredited specialists",
         },
         morocco: {
           desc: "Trilingual EN / FR / Arabic with full RTL support, Law 09-08 privacy compliance, MAD pricing, and clinical content adapted to Moroccan culture.",
-          proof: { a: "EN · FR · AR (RTL)", b: "Law 09-08 compliant", c: "Local payment rails" },
+          proof: {
+            a: "EN · FR · AR (RTL)",
+            b: "Law 09-08 compliant",
+            c: "Local payment rails",
+          },
           cta: "Our Moroccan umbrella",
         },
         rigor: {
           desc: "Validated psychometric instruments, evidence-based therapeutic protocols, and structured session notes — every interaction grounded in clinical science.",
-          proof: { a: "GAD-7 · PHQ-9", b: "CBT · Schema · EMDR", c: "Structured session notes" },
+          proof: {
+            a: "GAD-7 · PHQ-9",
+            b: "CBT · Schema · EMDR",
+            c: "Structured session notes",
+          },
           cta: "Read the methodology",
         },
         ecosystem: {
           desc: "One login, one platform: marketplace for individual care, MOOC for learning, B2B programs for organizations, AI tools for self-guided work.",
-          proof: { a: "Marketplace + MOOC", b: "B2B programs", c: "Nour AI assistant" },
+          proof: {
+            a: "Marketplace + MOOC",
+            b: "B2B programs",
+            c: "Nour AI assistant",
+          },
           cta: "Explore services",
         },
         privacy: {
           desc: "Strict row-level security, encrypted clinical notes, breached-password checks, mandatory email verification, zero data resale.",
-          proof: { a: "RLS on every table", b: "Encrypted notes", c: "No data resale" },
+          proof: {
+            a: "RLS on every table",
+            b: "Encrypted notes",
+            c: "No data resale",
+          },
           cta: "Read privacy policy",
         },
       },
@@ -1560,11 +2022,14 @@ export const translations = {
     hero: {
       title: "La Psychologie, Conçue pour",
       titleHighlight: "la Performance Sous Pression",
-      subtitle: "Vous n'avez pas besoin de plus d'options. Vous avez besoin de clarté sur ce qui dysfonctionne — et d'un système pour y remédier. U.Psy diagnostique, oriente et entraîne.",
+      subtitle:
+        "Vous n'avez pas besoin de plus d'options. Vous avez besoin de clarté sur ce qui dysfonctionne — et d'un système pour y remédier. U.Psy diagnostique, oriente et entraîne.",
       findPsychologist: "Parcourir les Spécialistes",
       startAssessment: "Évaluez Votre Contrôle",
-      microTrust: "Diagnostic de 2 minutes · Cliniquement validé · Confidentiel",
-      seoLine: "U.Psy — système de psychologie opérationnelle pour la performance, la crise et la santé mentale sous pression.",
+      microTrust:
+        "Diagnostic de 2 minutes · Cliniquement validé · Confidentiel",
+      seoLine:
+        "U.Psy — système de psychologie opérationnelle pour la performance, la crise et la santé mentale sous pression.",
       explorePrograms: "Explorer les programmes",
       licensedPsychologists: "Psychologues agréés",
       secureTelehealth: "Infrastructure sécurisée",
@@ -1604,12 +2069,14 @@ export const translations = {
     },
     onboarding: {
       welcomeTitle: "Commencez votre parcours vers le bien-être mental",
-      welcomeText: "Répondez à quelques questions afin que nous puissions vous recommander le psychologue ou le programme le plus adapté.",
+      welcomeText:
+        "Répondez à quelques questions afin que nous puissions vous recommander le psychologue ou le programme le plus adapté.",
       startAssessment: "Commencer l'évaluation",
       browsePsychologists: "Parcourir les psychologues",
       browsePsychologistsInstead: "Parcourir les psychologues",
       progress: "Étape {step} sur {total}",
-      confidential: "Vos réponses restent confidentielles et ne sont jamais partagées.",
+      confidential:
+        "Vos réponses restent confidentielles et ne sont jamais partagées.",
       takesTwoMinutes: "Prend 2 minutes",
       dataProtected: "Données protégées",
       confidentialLabel: "100% Confidentiel",
@@ -1619,15 +2086,18 @@ export const translations = {
     },
     assessments: {
       labTitle: "Laboratoire d'Évaluation Psychologique",
-      labSubtitle: "Évaluations scientifiquement validées pour comprendre votre santé mentale, vos performances et votre bien-être.",
+      labSubtitle:
+        "Évaluations scientifiquement validées pour comprendre votre santé mentale, vos performances et votre bien-être.",
       questionFeeling: "Comment vous sentez-vous récemment ?",
-      questionFeelingSubtitle: "Il n'y a pas de mauvaises réponses — soyez simplement honnête.",
+      questionFeelingSubtitle:
+        "Il n'y a pas de mauvaises réponses — soyez simplement honnête.",
       optionCalm: "Plutôt calme",
       optionCalmDesc: "Je me sens bien, en quête de développement",
       optionStressed: "Parfois stressé",
       optionStressedDesc: "Je ressens parfois du stress ou de l'inquiétude",
       optionOverwhelmed: "Souvent dépassé",
-      optionOverwhelmedDesc: "Je me sens souvent anxieux ou incapable de faire face",
+      optionOverwhelmedDesc:
+        "Je me sens souvent anxieux ou incapable de faire face",
       optionStruggling: "En grande difficulté",
       optionStrugglingDesc: "J'ai du mal et j'ai besoin de soutien maintenant",
       questionHelp: "Dans quel domaine souhaitez-vous être aidé ?",
@@ -1656,27 +2126,34 @@ export const translations = {
       backToAssessments: "Retour aux évaluations",
       calculating: "Calcul en cours...",
       seeResults: "Voir les résultats",
-      overLastTwoWeeks: "Au cours des 2 dernières semaines, à quelle fréquence avez-vous été dérangé par cela ?",
+      overLastTwoWeeks:
+        "Au cours des 2 dernières semaines, à quelle fréquence avez-vous été dérangé par cela ?",
       generalMentalHealth: "Santé mentale générale",
       athletePerformance: "Performance sportive",
       organizational: "Organisationnel",
       assessments: "Évaluations",
-      resultMinimal: "Vos résultats suggèrent des préoccupations minimales. Continuez à maintenir vos pratiques de bien-être.",
-      resultModerate: "Vos résultats suggèrent des symptômes modérés. Envisagez d'explorer nos programmes ou de consulter un professionnel.",
-      resultSignificant: "Vos résultats indiquent des symptômes significatifs. Nous vous recommandons de consulter un psychologue pour un soutien professionnel.",
+      resultMinimal:
+        "Vos résultats suggèrent des préoccupations minimales. Continuez à maintenir vos pratiques de bien-être.",
+      resultModerate:
+        "Vos résultats suggèrent des symptômes modérés. Envisagez d'explorer nos programmes ou de consulter un professionnel.",
+      resultSignificant:
+        "Vos résultats indiquent des symptômes significatifs. Nous vous recommandons de consulter un psychologue pour un soutien professionnel.",
       assessmentSummary: "Résumé de votre évaluation",
       responseSuggest: "Vos réponses suggèrent que vous pourriez éprouver",
       interestedInSupport: "Vous êtes intéressé par un soutien avec",
       weRecommend: "Nous recommandons :",
       recommendPsychologist: "Parler avec un psychologue adapté à vos besoins",
       recommendCourses: "Explorer les cours et exercices de santé mentale",
-      recommendSelfHelp: "Essayer les outils d'auto-aide guidée entre les séances",
+      recommendSelfHelp:
+        "Essayer les outils d'auto-aide guidée entre les séances",
       findingMatches: "Recherche de correspondances...",
       seeRecommended: "Voir les psychologues recommandés",
       topMatches: "Vos meilleures correspondances",
-      topMatchesDesc: "Selon votre évaluation, voici les meilleurs psychologues pour vous.",
+      topMatchesDesc:
+        "Selon votre évaluation, voici les meilleurs psychologues pour vous.",
       noMatches: "Aucune correspondance trouvée",
-      noMatchesDesc: "Nous n'avons pas trouvé de psychologues correspondant exactement à vos critères pour le moment.",
+      noMatchesDesc:
+        "Nous n'avons pas trouvé de psychologues correspondant exactement à vos critères pour le moment.",
       match: "Correspondance",
       preferSpeaking: "Préférez-vous parler à quelqu'un ?",
       yes: "Oui",
@@ -1699,7 +2176,8 @@ export const translations = {
       pageTitle: "Trouvez le bon",
       pageTitleHighlight: "Psychologue",
       pageTitleEnd: "pour vous",
-      pageSubtitle: "Parcourez des psychologues agréés selon vos besoins, votre langue, votre approche thérapeutique et vos disponibilités.",
+      pageSubtitle:
+        "Parcourez des psychologues agréés selon vos besoins, votre langue, votre approche thérapeutique et vos disponibilités.",
       searchPlaceholder: "Rechercher par nom...",
       takeSelfAssessment: "Faire une auto-évaluation",
       browsePsychologists: "Parcourir les psychologues",
@@ -1709,11 +2187,13 @@ export const translations = {
       filterPsychologists: "Filtrer les psychologues",
       ofPsychologists: "psychologues",
       noResults: "Aucun psychologue trouvé",
-      noResultsDesc: "Essayez d'ajuster vos filtres ou votre recherche pour voir plus de résultats.",
+      noResultsDesc:
+        "Essayez d'ajuster vos filtres ou votre recherche pour voir plus de résultats.",
       getMatchedInstead: "Obtenir une correspondance",
       clearAllFilters: "Effacer tous les filtres",
       notSureTitle: "Vous ne savez pas qui choisir ?",
-      notSureDesc: "Faites une auto-évaluation rapide et nous vous recommanderons le meilleur psychologue selon vos besoins, préférences et disponibilités.",
+      notSureDesc:
+        "Faites une auto-évaluation rapide et nous vous recommanderons le meilleur psychologue selon vos besoins, préférences et disponibilités.",
       viewProfile: "Voir le profil",
       book: "Réserver",
       accredited: "Accrédité",
@@ -1739,9 +2219,11 @@ export const translations = {
       loginFailed: "Échec de la connexion",
       passwordRequired: "Le mot de passe est requis",
       errorInvalidCredentials: "E-mail ou mot de passe incorrect.",
-      errorEmailNotConfirmed: "Veuillez confirmer votre e-mail avant de vous connecter.",
+      errorEmailNotConfirmed:
+        "Veuillez confirmer votre e-mail avant de vous connecter.",
       errorEmailTaken: "Un compte avec cet e-mail existe déjà.",
-      errorRateLimited: "Trop de tentatives. Veuillez patienter puis réessayer.",
+      errorRateLimited:
+        "Trop de tentatives. Veuillez patienter puis réessayer.",
       errorFullNameRequired: "Le nom complet est requis",
       errorPasswordsNoMatch: "Les mots de passe ne correspondent pas",
       passwordsMatch: "Les mots de passe correspondent",
@@ -1754,24 +2236,30 @@ export const translations = {
       enterEmail: "Entrez votre e-mail",
       enterEmailDesc: "Veuillez d'abord entrer votre adresse e-mail.",
       checkEmail: "Vérifiez votre e-mail",
-      checkEmailDesc: "Un lien de réinitialisation a été envoyé à votre e-mail.",
-      verifyEmailDesc: "Nous avons envoyé un lien de vérification à votre e-mail. Veuillez confirmer avant de vous connecter.",
+      checkEmailDesc:
+        "Un lien de réinitialisation a été envoyé à votre e-mail.",
+      verifyEmailDesc:
+        "Nous avons envoyé un lien de vérification à votre e-mail. Veuillez confirmer avant de vous connecter.",
       errorInvalidEmailFormat: "Entrez une adresse e-mail valide",
       agreeToTerms: "J'accepte les {terms} et la {privacy}",
       termsOfService: "conditions d'utilisation",
       privacyPolicy: "politique de confidentialité",
-      errorTermsRequired: "Vous devez accepter les conditions d'utilisation et la politique de confidentialité",
+      errorTermsRequired:
+        "Vous devez accepter les conditions d'utilisation et la politique de confidentialité",
       resendVerification: "Vous n'avez pas reçu l'e-mail ? Renvoyez-le",
       resendingVerification: "Envoi en cours...",
       resendVerificationSent: "E-mail de vérification renvoyé",
-      resendVerificationDesc: "Vérifiez votre boîte de réception (et vos spams) pour le nouveau lien.",
+      resendVerificationDesc:
+        "Vérifiez votre boîte de réception (et vos spams) pour le nouveau lien.",
       signInRequired: "Connexion requise",
-      signInRequiredDesc: "Veuillez vous connecter pour accéder à votre tableau de bord.",
+      signInRequiredDesc:
+        "Veuillez vous connecter pour accéder à votre tableau de bord.",
       signIn: "Se connecter",
     },
     dashboard: {
       welcomeBack: "Bienvenue 👋",
-      welcomeSubtitle: "Suivez votre bien-être et gérez votre parcours de santé mentale.",
+      welcomeSubtitle:
+        "Suivez votre bien-être et gérez votre parcours de santé mentale.",
       avgMood: "Humeur moy.",
       avgStress: "Stress moy.",
       entries: "Entrées",
@@ -1798,7 +2286,7 @@ export const translations = {
       findPsychologist: "Trouver un psychologue",
       myCertificates: "Mes certificats",
       goToDashboard: "Aller au tableau de bord",
-          todaysState: "État du jour",
+      todaysState: "État du jour",
       checkedInToday: "Check-in fait aujourd'hui",
       firstCheckIn: "Premier check-in de la journée",
       lowStreak: "Tu installes une routine",
@@ -1831,7 +2319,8 @@ export const translations = {
       continue: "Continuer",
       back: "Retour",
       selectDateDesc: "Sélectionnez une date pour votre séance",
-      noAvailableDates: "Aucune date disponible dans les 3 prochaines semaines.",
+      noAvailableDates:
+        "Aucune date disponible dans les 3 prochaines semaines.",
       contactAlternative: "Veuillez nous contacter pour d'autres options.",
       noTimeSlots: "Aucun créneau disponible pour cette date.",
       bookingSummary: "Résumé de la réservation",
@@ -1844,7 +2333,8 @@ export const translations = {
       notesPlaceholder: "Sujets ou préoccupations que vous aimeriez aborder...",
       yourAddressLabel: "Votre adresse (optionnel)",
       yourAddressPlaceholder: "Commencez à taper votre adresse…",
-      signInToBook: "Vous devez vous connecter pour finaliser votre réservation.",
+      signInToBook:
+        "Vous devez vous connecter pour finaliser votre réservation.",
       confirming: "Confirmation...",
       confirmBookingBtn: "Confirmer la réservation",
       sessionBooked: "Séance réservée !",
@@ -1857,7 +2347,8 @@ export const translations = {
       availableTimesFor: "Créneaux disponibles pour",
       bookSession: "Réserver une séance",
       readyToBook: "Prêt à réserver ?",
-      scheduleSession: "Planifiez une séance avec {name} — choisissez le créneau et le format.",
+      scheduleSession:
+        "Planifiez une séance avec {name} — choisissez le créneau et le format.",
       onlineSessions: "Séances en ligne",
       inPersonSessions: "Séances en personne",
     },
@@ -1907,13 +2398,16 @@ export const translations = {
       submit: "Soumettre la Demande",
       submitting: "Envoi en cours...",
       successTitle: "Demande Envoyée !",
-      successMessage: "Nous examinerons votre demande et vous répondrons sous 2-3 jours ouvrables.",
+      successMessage:
+        "Nous examinerons votre demande et vous répondrons sous 2-3 jours ouvrables.",
       errorTitle: "Échec de l'Envoi",
-      errorMessage: "Une erreur s'est produite lors de l'envoi de votre demande. Veuillez réessayer.",
+      errorMessage:
+        "Une erreur s'est produite lors de l'envoi de votre demande. Veuillez réessayer.",
     },
     footer: {
       strapline: "Votre partenaire de confiance",
-      crisis: "Service non adapté aux urgences. En cas d'urgence, contactez les services locaux.",
+      crisis:
+        "Service non adapté aux urgences. En cas d'urgence, contactez les services locaux.",
       legal: "Conditions & Confidentialité",
       followUs: "Suivez-nous",
       email: "E-mail",
@@ -1930,7 +2424,8 @@ export const translations = {
     home: {
       hero: {
         title: "U.Psy — Votre Psychologue Personnel et de Confiance.",
-        subtitle: "Psychologie fondée sur les preuves pour renforcer la résilience, améliorer les performances et favoriser la guérison — en clinique, en ligne et sur le terrain.",
+        subtitle:
+          "Psychologie fondée sur les preuves pour renforcer la résilience, améliorer les performances et favoriser la guérison — en clinique, en ligne et sur le terrain.",
         getStarted: "Commencer",
         getMatched: "Trouver un match",
         trustStrip: "Approuvé par des professionnels et des organisations",
@@ -1944,30 +2439,45 @@ export const translations = {
         statMatch: "Pour trouver votre match",
         statSatisfaction: "Satisfaction client",
         words: {
-          burnoutP: "Épuisement", burnoutS: "Récupération",
-          anxietyP: "Anxiété", anxietyS: "Clarté",
-          stressP: "Stress", stressS: "Équilibre",
-          doubtP: "Doute de soi", doubtS: "Confiance",
-          overwhelmP: "Débordement", overwhelmS: "Focus",
-          disconnectionP: "Déconnexion", disconnectionS: "Résilience",
+          burnoutP: "Épuisement",
+          burnoutS: "Récupération",
+          anxietyP: "Anxiété",
+          anxietyS: "Clarté",
+          stressP: "Stress",
+          stressS: "Équilibre",
+          doubtP: "Doute de soi",
+          doubtS: "Confiance",
+          overwhelmP: "Débordement",
+          overwhelmS: "Focus",
+          disconnectionP: "Déconnexion",
+          disconnectionS: "Résilience",
         },
         keywords: {
-          cbt: "TCC", emdr: "EMDR", schema: "Schéma",
-          resilience: "Résilience", act: "ACT", mindfulness: "Pleine conscience",
-          peakPerformance: "Haute performance", wellbeing: "Bien-être",
+          cbt: "TCC",
+          emdr: "EMDR",
+          schema: "Schéma",
+          resilience: "Résilience",
+          act: "ACT",
+          mindfulness: "Pleine conscience",
+          peakPerformance: "Haute performance",
+          wellbeing: "Bien-être",
         },
         preview: {
           servicesTitle: "Services",
-          servicesDesc: "Thérapie individuelle, coaching de performance et protocoles cliniques structurés.",
+          servicesDesc:
+            "Thérapie individuelle, coaching de performance et protocoles cliniques structurés.",
           resourcesTitle: "Ressources",
-          resourcesDesc: "Cours en autonomie, évaluations et outils conçus par des psychologues agréés.",
+          resourcesDesc:
+            "Cours en autonomie, évaluations et outils conçus par des psychologues agréés.",
           communityTitle: "Communauté",
-          communityDesc: "Rejoignez la communauté Skool pour le soutien entre pairs, les événements en direct et les Q&R d'experts.",
+          communityDesc:
+            "Rejoignez la communauté Skool pour le soutien entre pairs, les événements en direct et les Q&R d'experts.",
         },
         intent: {
           exploring: {
             titlePrefix: "La psychologie, conçue pour",
-            subtitle: "Un système de psychologie de la performance qui mesure la disponibilité mentale, identifie les angles morts et bâtit des protocoles fondés sur les preuves.",
+            subtitle:
+              "Un système de psychologie de la performance qui mesure la disponibilité mentale, identifie les angles morts et bâtit des protocoles fondés sur les preuves.",
             primary: "Commencer l'évaluation",
             secondary: "Parler à Nour · IA",
             stat1Label: "Psychologues vérifiés",
@@ -1976,7 +2486,8 @@ export const translations = {
           },
           ready: {
             titlePrefix: "Votre match pour",
-            subtitle: "Vous savez ce qu'il vous faut. Soyez mis en relation avec un spécialiste vérifié en moins de 2 minutes — en ligne ou en présentiel partout au Maroc.",
+            subtitle:
+              "Vous savez ce qu'il vous faut. Soyez mis en relation avec un spécialiste vérifié en moins de 2 minutes — en ligne ou en présentiel partout au Maroc.",
             primary: "Trouver mon match",
             secondary: "Parcourir les spécialistes",
             stat1Label: "Psychologues vérifiés",
@@ -1985,7 +2496,8 @@ export const translations = {
           },
           researching: {
             titlePrefix: "Outils fondés sur les preuves pour",
-            subtitle: "Explorez nos outils de dépistage clinique, méthodologies évaluées par les pairs et protocoles utilisés par les psychologues du sport et les organisations.",
+            subtitle:
+              "Explorez nos outils de dépistage clinique, méthodologies évaluées par les pairs et protocoles utilisés par les psychologues du sport et les organisations.",
             primary: "Explorer les évaluations",
             secondary: "Nos méthodes",
             stat1Label: "Dépistages cliniques",
@@ -1994,7 +2506,8 @@ export const translations = {
           },
           skeptical: {
             titlePrefix: "Protection de confiance contre",
-            subtitle: "Chaque psychologue de U.Psy est cliniquement accrédité, évalué par les pairs et soumis à la loi marocaine 09-08 sur la protection des données. Votre vie privée est non négociable.",
+            subtitle:
+              "Chaque psychologue de U.Psy est cliniquement accrédité, évalué par les pairs et soumis à la loi marocaine 09-08 sur la protection des données. Votre vie privée est non négociable.",
             primary: "Voir comment ça marche",
             secondary: "Lire les avis",
             stat1Label: "Système d'accréditation",
@@ -2005,20 +2518,26 @@ export const translations = {
       },
       features: {
         individualTitle: "Accompagnement Individuel",
-        individualDesc: "Thérapie, performance, évaluations de personnalité et de sérénité.",
+        individualDesc:
+          "Thérapie, performance, évaluations de personnalité et de sérénité.",
         institutionalTitle: "Solutions Institutionnelles",
-        institutionalDesc: "Programmes pour fédérations, entreprises et universités.",
+        institutionalDesc:
+          "Programmes pour fédérations, entreprises et universités.",
         accreditationTitle: "Accréditation U.Psy",
-        accreditationDesc: "Obtenez votre certification, référencement et clients.",
+        accreditationDesc:
+          "Obtenez votre certification, référencement et clients.",
       },
       testimonials: {
         sectionTitle: "Ce que disent nos clients",
         testimonial1Role: "Sprinteur National",
-        testimonial1Quote: "Je concours enfin sereinement et concentré. Mon anxiété pré-compétition est maîtrisée.",
+        testimonial1Quote:
+          "Je concours enfin sereinement et concentré. Mon anxiété pré-compétition est maîtrisée.",
         testimonial2Role: "Directeur Marketing",
-        testimonial2Quote: "Burnout réduit, clarté accrue. Des outils pratiques que j'utilise encore quotidiennement.",
+        testimonial2Quote:
+          "Burnout réduit, clarté accrue. Des outils pratiques que j'utilise encore quotidiennement.",
         testimonial3Role: "Client en Rétablissement",
-        testimonial3Quote: "Je me suis senti écouté sans jugement. La structure m'a aidé à me reconstruire.",
+        testimonial3Quote:
+          "Je me suis senti écouté sans jugement. La structure m'a aidé à me reconstruire.",
       },
       cta: {
         title: "Prêt à renforcer votre esprit ?",
@@ -2032,7 +2551,8 @@ export const translations = {
     about: {
       hero: {
         title: "À propos de M. Mehdi Felji",
-        subtitle: "Fondateur de U.Psy | Innovation en Santé Mentale & Plateforme de Psychologie",
+        subtitle:
+          "Fondateur de U.Psy | Innovation en Santé Mentale & Plateforme de Psychologie",
         talkToNour: "Parler à Nour · IA",
         statPsychologists: "Psychologues vérifiés",
         statMatch: "Pour trouver votre match",
@@ -2040,8 +2560,10 @@ export const translations = {
       },
       background: {
         title: "Qui est Mehdi Felji ?",
-        paragraph1: "M. Mehdi Felji est le fondateur de U.Psy, une plateforme de psychologie moderne conçue pour rendre le soutien en santé mentale plus accessible, personnalisé et centré sur l'humain. Avec un fort accent sur l'expérience utilisateur et le design comportemental, Mehdi Felji construit U.Psy comme bien plus qu'un annuaire de psychologues — c'est un parcours guidé de santé mentale.",
-        paragraph2: "Il croit que beaucoup de personnes souffrent non pas parce que l'aide est indisponible, mais parce qu'elles ne savent pas par où commencer, se sentent submergées par les choix ou manquent de confiance dans le processus. U.Psy répond à ces défis grâce à un design intelligent, la personnalisation et une compréhension profonde de la psychologie de l'utilisateur.",
+        paragraph1:
+          "M. Mehdi Felji est le fondateur de U.Psy, une plateforme de psychologie moderne conçue pour rendre le soutien en santé mentale plus accessible, personnalisé et centré sur l'humain. Avec un fort accent sur l'expérience utilisateur et le design comportemental, Mehdi Felji construit U.Psy comme bien plus qu'un annuaire de psychologues — c'est un parcours guidé de santé mentale.",
+        paragraph2:
+          "Il croit que beaucoup de personnes souffrent non pas parce que l'aide est indisponible, mais parce qu'elles ne savent pas par où commencer, se sentent submergées par les choix ou manquent de confiance dans le processus. U.Psy répond à ces défis grâce à un design intelligent, la personnalisation et une compréhension profonde de la psychologie de l'utilisateur.",
       },
       credentials: {
         title: "Qualifications et Accréditations",
@@ -2056,8 +2578,10 @@ export const translations = {
       },
       philosophy: {
         title: "Vision et Approche",
-        paragraph1: "Mehdi Felji a créé U.Psy avec une mission claire : supprimer les frictions, la confusion et l'hésitation dans l'accès au soutien en santé mentale. Il croit que la performance optimale — que ce soit dans le sport, les affaires ou la vie quotidienne — émerge d'une base de clarté mentale, de régulation émotionnelle et d'habitudes disciplinées.",
-        paragraph2: "Sous sa direction, U.Psy est construit selon des principes produit modernes :",
+        paragraph1:
+          "Mehdi Felji a créé U.Psy avec une mission claire : supprimer les frictions, la confusion et l'hésitation dans l'accès au soutien en santé mentale. Il croit que la performance optimale — que ce soit dans le sport, les affaires ou la vie quotidienne — émerge d'une base de clarté mentale, de régulation émotionnelle et d'habitudes disciplinées.",
+        paragraph2:
+          "Sous sa direction, U.Psy est construit selon des principes produit modernes :",
         list: [
           "Personnalisation basée sur l'intention de chaque utilisateur",
           "Guidage progressif via l'auto-évaluation",
@@ -2070,38 +2594,85 @@ export const translations = {
         title: "Domaines d'Intervention",
         individual: {
           title: "Accompagnement Individuel",
-          list: ["Gestion de l'Anxiété et du Stress", "Amélioration de la Performance", "Entraînement aux Compétences Mentales", "Développement de la Confiance", "Transitions de Carrière"],
+          list: [
+            "Gestion de l'Anxiété et du Stress",
+            "Amélioration de la Performance",
+            "Entraînement aux Compétences Mentales",
+            "Développement de la Confiance",
+            "Transitions de Carrière",
+          ],
         },
         organizational: {
           title: "Conseil aux Organisations",
-          list: ["Développement du Leadership", "Performance d'Équipe", "Santé Mentale au Travail", "Coaching de Cadres", "Formation Organisationnelle"],
+          list: [
+            "Développement du Leadership",
+            "Performance d'Équipe",
+            "Santé Mentale au Travail",
+            "Coaching de Cadres",
+            "Formation Organisationnelle",
+          ],
         },
       },
       experience: {
         title: "Pourquoi U.Psy Compte",
-        paragraph1: "La santé mentale est l'un des défis les plus importants de notre époque. U.Psy vise à rendre le soutien psychologique plus facile d'accès, réduire la stigmatisation autour de la thérapie et aider les utilisateurs à faire leur premier pas avec confiance.",
-        paragraph2: "En combinant technologie, psychologie et design, Mehdi Felji positionne U.Psy comme une plateforme de premier plan pour l'avenir de la santé mentale numérique — transformant une décision complexe et émotionnelle en un parcours clair, guidé et responsabilisant.",
+        paragraph1:
+          "La santé mentale est l'un des défis les plus importants de notre époque. U.Psy vise à rendre le soutien psychologique plus facile d'accès, réduire la stigmatisation autour de la thérapie et aider les utilisateurs à faire leur premier pas avec confiance.",
+        paragraph2:
+          "En combinant technologie, psychologie et design, Mehdi Felji positionne U.Psy comme une plateforme de premier plan pour l'avenir de la santé mentale numérique — transformant une décision complexe et émotionnelle en un parcours clair, guidé et responsabilisant.",
       },
     },
     services: {
       intro: {
         title: "Des Protocoles. Pas des Forfaits.",
-        subtitle: "Chaque intervention est structurée autour de votre profil diagnostique. Mesurer d'abord. Puis entraîner.",
+        subtitle:
+          "Chaque intervention est structurée autour de votre profil diagnostique. Mesurer d'abord. Puis entraîner.",
       },
       items: [
-        { title: "Évaluation Diagnostique", description: "Intake structuré de 90 min. Métriques de base. Identifier ce qui dysfonctionne. Construire votre protocole.", price: "700 MAD" },
-        { title: "Protocole de Performance", description: "6×60 min. Visualisation. Routines pré-compétition. Inoculation au stress. Résultats mesurés.", price: "3 600 MAD" },
-        { title: "Protocole de Récupération Clinique", description: "10×60 min TCC/Schémas. Anxiété. Trauma. Addiction. Progression suivie.", price: "5 500 MAD" },
-        { title: "Profilage Psychométrique", description: "Instruments validés + 2×60 min de débriefing. Connaître votre système d'exploitation.", price: "1 800 MAD" },
-        { title: "Séance de Recalibration", description: "30 min de réglage ciblé. Clients existants uniquement. Ajuster ce qui doit l'être.", price: "300 MAD" },
+        {
+          title: "Évaluation Diagnostique",
+          description:
+            "Intake structuré de 90 min. Métriques de base. Identifier ce qui dysfonctionne. Construire votre protocole.",
+          price: "700 MAD",
+        },
+        {
+          title: "Protocole de Performance",
+          description:
+            "6×60 min. Visualisation. Routines pré-compétition. Inoculation au stress. Résultats mesurés.",
+          price: "3 600 MAD",
+        },
+        {
+          title: "Protocole de Récupération Clinique",
+          description:
+            "10×60 min TCC/Schémas. Anxiété. Trauma. Addiction. Progression suivie.",
+          price: "5 500 MAD",
+        },
+        {
+          title: "Profilage Psychométrique",
+          description:
+            "Instruments validés + 2×60 min de débriefing. Connaître votre système d'exploitation.",
+          price: "1 800 MAD",
+        },
+        {
+          title: "Séance de Recalibration",
+          description:
+            "30 min de réglage ciblé. Clients existants uniquement. Ajuster ce qui doit l'être.",
+          price: "300 MAD",
+        },
       ],
       expectations: {
         title: "Le Processus",
-        list: ["Protocoles structurés avec KPIs mesurables", "Méthodes fondées sur les preuves. Zéro improvisation.", "Séances en anglais, français ou arabe", "Confidentialité totale. Éthique de grade clinique.", "En ligne ou en cabinet. À vous de choisir."],
+        list: [
+          "Protocoles structurés avec KPIs mesurables",
+          "Méthodes fondées sur les preuves. Zéro improvisation.",
+          "Séances en anglais, français ou arabe",
+          "Confidentialité totale. Éthique de grade clinique.",
+          "En ligne ou en cabinet. À vous de choisir.",
+        ],
       },
       cta: "Lancer Votre Diagnostic",
       transition: {
-        title: "Les protocoles individuels règlent les problèmes individuels. Le dysfonctionnement systémique exige une intervention systémique.",
+        title:
+          "Les protocoles individuels règlent les problèmes individuels. Le dysfonctionnement systémique exige une intervention systémique.",
         button: "Voir les Protocoles Institutionnels",
       },
       methodsBand: {
@@ -2110,26 +2681,56 @@ export const translations = {
         methodsTitle: "Nos Méthodes",
         metricsTitle: "Comment Nous Mesurons",
         methods: [
-          { name: "TCC", description: "Thérapie Cognitivo-Comportementale — Restructurer les schémas de pensée, développer des stratégies d'adaptation, prouvée pour l'anxiété et la dépression" },
-          { name: "Thérapie des Schémas", description: "Schémas profonds & expériences précoces — Changement durable pour les troubles de la personnalité et les problèmes relationnels" },
-          { name: "Psychologie du Sport/Performance", description: "Compétences mentales pour les moments de haute pression — Concentration, résilience, performance sous stress" },
+          {
+            name: "TCC",
+            description:
+              "Thérapie Cognitivo-Comportementale — Restructurer les schémas de pensée, développer des stratégies d'adaptation, prouvée pour l'anxiété et la dépression",
+          },
+          {
+            name: "Thérapie des Schémas",
+            description:
+              "Schémas profonds & expériences précoces — Changement durable pour les troubles de la personnalité et les problèmes relationnels",
+          },
+          {
+            name: "Psychologie du Sport/Performance",
+            description:
+              "Compétences mentales pour les moments de haute pression — Concentration, résilience, performance sous stress",
+          },
         ],
         metrics: [
-          { name: "GAD-7", description: "Échelle d'anxiété généralisée à 7 items — Mesure standardisée de la sévérité de l'anxiété" },
-          { name: "PHQ-9", description: "Questionnaire de Santé du Patient — Suivi de la sévérité de la dépression et de la réponse au traitement" },
-          { name: "Adhérence au Programme", description: "Conformité aux protocoles de thérapie et d'entraînement — Métriques de consistance et d'engagement" },
-          { name: "KPIs de Retour à la Performance", description: "Indicateurs de préparation sportive et professionnelle — Jalons de récupération compétitive/productive" },
+          {
+            name: "GAD-7",
+            description:
+              "Échelle d'anxiété généralisée à 7 items — Mesure standardisée de la sévérité de l'anxiété",
+          },
+          {
+            name: "PHQ-9",
+            description:
+              "Questionnaire de Santé du Patient — Suivi de la sévérité de la dépression et de la réponse au traitement",
+          },
+          {
+            name: "Adhérence au Programme",
+            description:
+              "Conformité aux protocoles de thérapie et d'entraînement — Métriques de consistance et d'engagement",
+          },
+          {
+            name: "KPIs de Retour à la Performance",
+            description:
+              "Indicateurs de préparation sportive et professionnelle — Jalons de récupération compétitive/productive",
+          },
         ],
       },
     },
     contact: {
       hero: {
         title: "Entrer en Contact",
-        subtitle: "Prêt à commencer votre parcours ? Contactez-nous pour réserver votre première séance ou poser vos questions.",
+        subtitle:
+          "Prêt à commencer votre parcours ? Contactez-nous pour réserver votre première séance ou poser vos questions.",
       },
       form: {
         title: "Envoyez-nous un message",
-        description: "Remplissez le formulaire ci-dessous et nous vous répondrons dans les 24 heures.",
+        description:
+          "Remplissez le formulaire ci-dessous et nous vous répondrons dans les 24 heures.",
         nameLabel: "Nom Complet",
         namePlaceholder: "Mehdi Felji",
         emailLabel: "E-mail",
@@ -2140,7 +2741,7 @@ export const translations = {
         messagePlaceholder: "Dites-nous ce que vous recherchez...",
         submitButton: "Envoyer le Message",
         required: "*",
-              successTitle: "Message envoyé",
+        successTitle: "Message envoyé",
         successMessage: "Merci — nous reviendrons vers vous sous 24 h.",
       },
       info: {
@@ -2161,33 +2762,49 @@ export const translations = {
       },
       matching: {
         title: "Vous ne savez pas par où commencer ?",
-        description: "Essayez notre service de correspondance pour trouver le psychologue parfait pour vos besoins",
+        description:
+          "Essayez notre service de correspondance pour trouver le psychologue parfait pour vos besoins",
         button: "Obtenir une Correspondance avec un Psychologue",
       },
       faq: {
         title: "Questions Fréquentes",
         questions: [
-          { question: "Quelle est la rapidité de votre réponse ?", answer: "Nous visons à répondre à toutes les demandes dans les 24 heures pendant les jours ouvrables. Pour les questions urgentes, veuillez nous appeler directement." },
-          { question: "Proposez-vous des séances en ligne ?", answer: "Oui ! Nous proposons à la fois des séances en personne à Casablanca et Rabat, ainsi que des séances en ligne via vidéoconférence sécurisée pour les clients au Maroc ou à l'international." },
-          { question: "Quelles langues parlez-vous ?", answer: "Nos psychologues parlent couramment l'anglais, le français et l'arabe (darija et standard moderne). Les séances peuvent être menées dans l'une de ces langues." },
+          {
+            question: "Quelle est la rapidité de votre réponse ?",
+            answer:
+              "Nous visons à répondre à toutes les demandes dans les 24 heures pendant les jours ouvrables. Pour les questions urgentes, veuillez nous appeler directement.",
+          },
+          {
+            question: "Proposez-vous des séances en ligne ?",
+            answer:
+              "Oui ! Nous proposons à la fois des séances en personne à Casablanca et Rabat, ainsi que des séances en ligne via vidéoconférence sécurisée pour les clients au Maroc ou à l'international.",
+          },
+          {
+            question: "Quelles langues parlez-vous ?",
+            answer:
+              "Nos psychologues parlent couramment l'anglais, le français et l'arabe (darija et standard moderne). Les séances peuvent être menées dans l'une de ces langues.",
+          },
         ],
       },
     },
     apply: {
       title: "Rejoindre notre réseau",
-      description: "Devenez membre de notre réseau de psychologues professionnels. Remplissez le formulaire ci-dessous et nous examinerons votre candidature sous 3 à 5 jours ouvrables.",
+      description:
+        "Devenez membre de notre réseau de psychologues professionnels. Remplissez le formulaire ci-dessous et nous examinerons votre candidature sous 3 à 5 jours ouvrables.",
       fullName: "Nom complet",
       email: "E-mail",
       phone: "Téléphone (optionnel)",
       qualifications: "Qualifications (optionnel)",
-      qualificationsPlaceholder: "Vos diplômes, certifications et expérience professionnelle...",
+      qualificationsPlaceholder:
+        "Vos diplômes, certifications et expérience professionnelle...",
       accreditationNumber: "Numéro d'accréditation (optionnel)",
       accreditationPlaceholder: "Votre numéro d'accréditation professionnelle",
       cancel: "Annuler",
       submitApplication: "Soumettre la candidature",
       submitting: "Envoi en cours...",
       successTitle: "Candidature soumise",
-      successMessage: "Merci pour votre candidature ! Vous recevrez un e-mail dans les 3 à 5 jours ouvrables.",
+      successMessage:
+        "Merci pour votre candidature ! Vous recevrez un e-mail dans les 3 à 5 jours ouvrables.",
       errorMessage: "Échec de l'envoi de la candidature. Veuillez réessayer.",
     },
     profile: {
@@ -2197,11 +2814,14 @@ export const translations = {
       about: "À propos",
       therapyApproach: "Approche thérapeutique",
       cbt: "Thérapie Cognitivo-Comportementale (TCC)",
-      cbtDesc: "Restructurer les schémas de pensée et développer des compétences d'adaptation pratiques pour l'anxiété, la dépression et le stress.",
+      cbtDesc:
+        "Restructurer les schémas de pensée et développer des compétences d'adaptation pratiques pour l'anxiété, la dépression et le stress.",
       evidenceBased: "Pratique fondée sur les preuves",
-      evidenceBasedDesc: "Toutes les interventions sont fondées sur la recherche évaluée par des pairs et adaptées aux besoins individuels.",
+      evidenceBasedDesc:
+        "Toutes les interventions sont fondées sur la recherche évaluée par des pairs et adaptées aux besoins individuels.",
       clientCentered: "Approche centrée sur le client",
-      clientCenteredDesc: "Un espace sûr et sans jugement où vous dirigez la thérapie à votre propre rythme.",
+      clientCenteredDesc:
+        "Un espace sûr et sans jugement où vous dirigez la thérapie à votre propre rythme.",
       specialties: "Spécialités",
       experienceTraining: "Expérience et formation",
       yearsOfPractice: "Années de pratique",
@@ -2218,7 +2838,8 @@ export const translations = {
       sessionOptions: "Options de séance",
       location: "Localisation",
       accreditedProfessional: "Professionnel accrédité U.Psy",
-      accreditedDesc: "Ce psychologue est vérifié et accrédité par U.Psy, garantissant des soins fondés sur les preuves et le respect des normes professionnelles. Toutes les séances sont confidentielles et menées avec le plus haut niveau de pratique éthique.",
+      accreditedDesc:
+        "Ce psychologue est vérifié et accrédité par U.Psy, garantissant des soins fondés sur les preuves et le respect des normes professionnelles. Toutes les séances sont confidentielles et menées avec le plus haut niveau de pratique éthique.",
       avgRating: "note moyenne",
       reviews: "avis",
       responseRate: "taux de réponse",
@@ -2229,12 +2850,16 @@ export const translations = {
       skool: { title: "Communauté Skool", content: "Contenu à venir..." },
       resources: { title: "Ressources", content: "Contenu à venir..." },
       legal: { title: "Informations Légales", content: "Contenu à venir..." },
-      talentHub: { title: "Pôle Talents & Innovation", content: "Contenu à venir..." },
+      talentHub: {
+        title: "Pôle Talents & Innovation",
+        content: "Contenu à venir...",
+      },
     },
     skoolPage: {
       badge: "Communauté d'apprentissage",
       title: "La communauté d'apprentissage en santé mentale",
-      subtitle: "Un espace dynamique où psychologues, étudiants et défenseurs de la santé mentale apprennent, se connectent et grandissent ensemble.",
+      subtitle:
+        "Un espace dynamique où psychologues, étudiants et défenseurs de la santé mentale apprennent, se connectent et grandissent ensemble.",
       joinCommunity: "Rejoindre la communauté",
       exploreForFree: "Explorer gratuitement",
       communityMembers: "Membres de la communauté",
@@ -2242,19 +2867,26 @@ export const translations = {
       countriesRepresented: "Pays représentés",
       satisfactionRate: "Taux de satisfaction",
       whatYoullFind: "Ce que vous trouverez",
-      whatYoullFindDesc: "Tout ce dont vous avez besoin pour approfondir votre compréhension de la santé mentale et vous connecter avec des professionnels partageant les mêmes idées.",
+      whatYoullFindDesc:
+        "Tout ce dont vous avez besoin pour approfondir votre compréhension de la santé mentale et vous connecter avec des professionnels partageant les mêmes idées.",
       discussionForums: "Forums de discussion",
-      discussionForumsDesc: "Participez à des discussions modérées entre pairs sur des sujets de santé mentale, des techniques cliniques et des stratégies de bien-être.",
+      discussionForumsDesc:
+        "Participez à des discussions modérées entre pairs sur des sujets de santé mentale, des techniques cliniques et des stratégies de bien-être.",
       liveWorkshops: "Ateliers en direct",
-      liveWorkshopsDesc: "Sessions hebdomadaires en direct animées par des psychologues agréés couvrant des approches fondées sur les preuves et des études de cas.",
+      liveWorkshopsDesc:
+        "Sessions hebdomadaires en direct animées par des psychologues agréés couvrant des approches fondées sur les preuves et des études de cas.",
       resourceLibrary: "Bibliothèque de ressources",
-      resourceLibraryDesc: "Accédez à des articles, des documents de recherche, des boîtes à outils et des guides pratiques pour la croissance personnelle et professionnelle.",
+      resourceLibraryDesc:
+        "Accédez à des articles, des documents de recherche, des boîtes à outils et des guides pratiques pour la croissance personnelle et professionnelle.",
       peerSupport: "Groupes de soutien par les pairs",
-      peerSupportDesc: "Rejoignez des cercles de soutien thématiques — gestion de l'anxiété, renforcement de la résilience, psychologie du sport, et plus encore.",
+      peerSupportDesc:
+        "Rejoignez des cercles de soutien thématiques — gestion de l'anxiété, renforcement de la résilience, psychologie du sport, et plus encore.",
       upcomingEvents: "Événements à venir",
-      upcomingEventsDesc: "Réservez votre place pour nos prochaines sessions d'experts.",
+      upcomingEventsDesc:
+        "Réservez votre place pour nos prochaines sessions d'experts.",
       readyToJoin: "Prêt à rejoindre ?",
-      readyToJoinDesc: "Que vous soyez un psychologue en exercice, un étudiant ou une personne passionnée par la santé mentale — il y a une place pour vous ici.",
+      readyToJoinDesc:
+        "Que vous soyez un psychologue en exercice, un étudiant ou une personne passionnée par la santé mentale — il y a une place pour vous ici.",
       getStarted: "Commencer",
       workshop: "Atelier",
       webinar: "Webinaire",
@@ -2263,29 +2895,38 @@ export const translations = {
     resourcesPage: {
       badge: "Centre de connaissances",
       title: "Ressources en santé mentale",
-      subtitle: "Des ressources organisées et fondées sur les preuves pour soutenir votre parcours en santé mentale — que vous soyez professionnel ou en quête de croissance personnelle.",
+      subtitle:
+        "Des ressources organisées et fondées sur les preuves pour soutenir votre parcours en santé mentale — que vous soyez professionnel ou en quête de croissance personnelle.",
       searchPlaceholder: "Rechercher des ressources...",
       filter: "Filtrer",
       browseByFormat: "Parcourir par format",
-      browseByFormatDesc: "Trouvez le bon type de contenu pour votre style d'apprentissage.",
+      browseByFormatDesc:
+        "Trouvez le bon type de contenu pour votre style d'apprentissage.",
       articlesGuides: "Articles & Guides",
-      articlesGuidesDesc: "Articles fondés sur les preuves sur la santé mentale, les techniques thérapeutiques et les stratégies de bien-être.",
+      articlesGuidesDesc:
+        "Articles fondés sur les preuves sur la santé mentale, les techniques thérapeutiques et les stratégies de bien-être.",
       videoLibrary: "Vidéothèque",
-      videoLibraryDesc: "Conférences d'experts, enregistrements d'ateliers et contenu éducatif de professionnels agréés.",
+      videoLibraryDesc:
+        "Conférences d'experts, enregistrements d'ateliers et contenu éducatif de professionnels agréés.",
       podcasts: "Podcasts",
-      podcastsDesc: "Conversations avec des psychologues de premier plan sur des sujets allant de l'anxiété à la performance maximale.",
+      podcastsDesc:
+        "Conversations avec des psychologues de premier plan sur des sujets allant de l'anxiété à la performance maximale.",
       toolkitsWorksheets: "Outils & Fiches pratiques",
-      toolkitsWorksheetsDesc: "Fiches TCC téléchargeables, exercices de pleine conscience et outils d'auto-assistance.",
+      toolkitsWorksheetsDesc:
+        "Fiches TCC téléchargeables, exercices de pleine conscience et outils d'auto-assistance.",
       featuredResources: "Ressources en vedette",
-      featuredResourcesDesc: "Notre contenu le plus populaire et le mieux noté.",
+      featuredResourcesDesc:
+        "Notre contenu le plus populaire et le mieux noté.",
       personalizedCTA: "Vous voulez des recommandations personnalisées ?",
-      personalizedCTADesc: "Créez un compte pour obtenir des suggestions de ressources adaptées à vos intérêts et objectifs.",
+      personalizedCTADesc:
+        "Créez un compte pour obtenir des suggestions de ressources adaptées à vos intérêts et objectifs.",
       createFreeAccount: "Créer un compte gratuit",
     },
     talentHubPage: {
       badge: "Recherche & Innovation",
       title: "Pôle Talents & Innovation",
-      subtitle: "Là où la recherche rencontre la pratique — faire avancer la santé mentale par la science, la technologie et la collaboration interculturelle.",
+      subtitle:
+        "Là où la recherche rencontre la pratique — faire avancer la santé mentale par la science, la technologie et la collaboration interculturelle.",
       partnerWithUs: "Devenez partenaire",
       viewPublications: "Voir les publications",
       researchPapers: "Articles de recherche publiés",
@@ -2293,19 +2934,26 @@ export const translations = {
       countriesCovered: "Pays couverts",
       peopleImpacted: "Personnes impactées",
       fourPillars: "Nos quatre piliers",
-      fourPillarsDesc: "Une approche multidisciplinaire pour transformer la santé mentale dans la région.",
+      fourPillarsDesc:
+        "Une approche multidisciplinaire pour transformer la santé mentale dans la région.",
       appliedResearch: "Recherche appliquée",
-      appliedResearchDesc: "Collaboration avec des universités et institutions pour faire avancer la science de la santé mentale dans la région MENA.",
+      appliedResearchDesc:
+        "Collaboration avec des universités et institutions pour faire avancer la science de la santé mentale dans la région MENA.",
       innovationLab: "Laboratoire d'innovation",
-      innovationLabDesc: "Développement d'outils numériques, d'évaluations alimentées par l'IA et de solutions de santé mentale évolutives.",
+      innovationLabDesc:
+        "Développement d'outils numériques, d'évaluations alimentées par l'IA et de solutions de santé mentale évolutives.",
       dataInsights: "Données & Analyses",
-      dataInsightsDesc: "Production de rapports régionaux sur la santé mentale, d'indices de bien-être au travail et d'analyses de tendances.",
+      dataInsightsDesc:
+        "Production de rapports régionaux sur la santé mentale, d'indices de bien-être au travail et d'analyses de tendances.",
       globalPartnerships: "Partenariats mondiaux",
-      globalPartnershipsDesc: "Créer des ponts avec les organisations internationales pour partager les connaissances et les bonnes pratiques.",
+      globalPartnershipsDesc:
+        "Créer des ponts avec les organisations internationales pour partager les connaissances et les bonnes pratiques.",
       researchProjects: "Projets de recherche",
-      researchProjectsDesc: "Études en cours et publiées de notre équipe de recherche.",
+      researchProjectsDesc:
+        "Études en cours et publiées de notre équipe de recherche.",
       collaborateWithUs: "Collaborez avec nous",
-      collaborateDesc: "Nous recherchons des chercheurs, des institutions et des organisations pour nous rejoindre dans l'avancement de la science de la santé mentale dans la région MENA et au-delà.",
+      collaborateDesc:
+        "Nous recherchons des chercheurs, des institutions et des organisations pour nous rejoindre dans l'avancement de la science de la santé mentale dans la région MENA et au-delà.",
       getInTouch: "Contactez-nous",
       ongoing: "En cours",
       published: "Publié",
@@ -2313,11 +2961,13 @@ export const translations = {
     },
     athleteHubPage: {
       signInRequired: "Connexion requise",
-      signInDesc: "Connectez-vous pour accéder à votre Hub Performance Athlète.",
+      signInDesc:
+        "Connectez-vous pour accéder à votre Hub Performance Athlète.",
       signIn: "Se connecter",
       badge: "Hub Performance",
       title: "Hub Performance Athlète",
-      subtitle: "Surveillez vos métriques de performance mentale et entraînez votre esprit pour la performance maximale.",
+      subtitle:
+        "Surveillez vos métriques de performance mentale et entraînez votre esprit pour la performance maximale.",
       mentalReadiness: "Préparation mentale",
       focusCapacity: "Capacité de concentration",
       confidence: "Confiance",
@@ -2325,7 +2975,8 @@ export const translations = {
       overallScore: "Score de performance mentale global",
       mentalTraining: "Programmes d'entraînement mental",
       mindfulnessTraining: "Entraînement à la pleine conscience",
-      mindfulnessDesc: "Développez la clarté mentale et la conscience du moment présent",
+      mindfulnessDesc:
+        "Développez la clarté mentale et la conscience du moment présent",
       visualizationProtocol: "Protocole de visualisation",
       visualizationDesc: "Répétition mentale pour la performance maximale",
       preCompetitionRoutine: "Routine pré-compétition",
@@ -2333,37 +2984,48 @@ export const translations = {
       recoveryPsychology: "Psychologie de la récupération",
       recoveryDesc: "Stratégies mentales pour une récupération optimale",
       trainingHistory: "Historique d'entraînement",
-      noTrainingSessions: "Aucune session d'entraînement enregistrée. Commencez un programme ci-dessus !",
+      noTrainingSessions:
+        "Aucune session d'entraînement enregistrée. Commencez un programme ci-dessus !",
       completed: "Terminé",
       scheduled: "Planifié",
       takeAssessment: "Passer l'évaluation de performance",
-      takeAssessmentDesc: "Mesurez la concentration, l'anxiété, la confiance et la résilience",
+      takeAssessmentDesc:
+        "Mesurez la concentration, l'anxiété, la confiance et la résilience",
       findSportPsych: "Trouver un psychologue du sport",
-      findSportPsychDesc: "Travaillez avec des spécialistes de la performance sportive",
+      findSportPsychDesc:
+        "Travaillez avec des spécialistes de la performance sportive",
     },
     moroccanUmbrellaPage: {
       title: "L'Umbrella Marocaine de Psychologie",
-      subtitle: "Unir les professionnels de la psychologie à travers le Maroc sous un réseau collaboratif. Construire des ponts entre la pratique, la recherche et l'impact communautaire.",
+      subtitle:
+        "Unir les professionnels de la psychologie à travers le Maroc sous un réseau collaboratif. Construire des ponts entre la pratique, la recherche et l'impact communautaire.",
       joinNetwork: "Rejoindre notre réseau",
       learnMore: "En savoir plus",
       ourMission: "Notre mission",
-      missionDesc: "Créer une plateforme unifiée qui autonomise les psychologues marocains, favorise le développement professionnel et fait avancer la sensibilisation à la santé mentale dans tout le Royaume du Maroc.",
+      missionDesc:
+        "Créer une plateforme unifiée qui autonomise les psychologues marocains, favorise le développement professionnel et fait avancer la sensibilisation à la santé mentale dans tout le Royaume du Maroc.",
       professionalUnity: "Unité professionnelle",
-      professionalUnityDesc: "Connecter les psychologues de toutes les régions et spécialités du Maroc",
+      professionalUnityDesc:
+        "Connecter les psychologues de toutes les régions et spécialités du Maroc",
       excellenceStandards: "Standards d'excellence",
-      excellenceStandardsDesc: "Promouvoir les bonnes pratiques et le développement professionnel continu",
+      excellenceStandardsDesc:
+        "Promouvoir les bonnes pratiques et le développement professionnel continu",
       communityImpact: "Impact communautaire",
-      communityImpactDesc: "Faire avancer la sensibilisation et l'accessibilité à la santé mentale à l'échelle nationale",
+      communityImpactDesc:
+        "Faire avancer la sensibilisation et l'accessibilité à la santé mentale à l'échelle nationale",
       culturalIntegration: "Intégration culturelle",
-      culturalIntegrationDesc: "Relier la psychologie moderne aux valeurs culturelles marocaines",
+      culturalIntegrationDesc:
+        "Relier la psychologie moderne aux valeurs culturelles marocaines",
       growingNetwork: "Notre réseau en croissance",
-      growingNetworkDesc: "Construire une communauté de psychologie plus forte à travers le Maroc",
+      growingNetworkDesc:
+        "Construire une communauté de psychologie plus forte à travers le Maroc",
       registeredPsychologists: "Psychologues inscrits",
       regionsCovered: "Régions couvertes",
       partnerInstitutions: "Institutions partenaires",
       trainingPrograms: "Programmes de formation",
       joinMovement: "Rejoignez le mouvement",
-      joinMovementDesc: "Faites partie du plus grand réseau professionnel de psychologie au Maroc. Ensemble, nous façonnons l'avenir de la santé mentale dans notre pays.",
+      joinMovementDesc:
+        "Faites partie du plus grand réseau professionnel de psychologie au Maroc. Ensemble, nous façonnons l'avenir de la santé mentale dans notre pays.",
       becomeMember: "Devenir membre",
       contactUs: "Contactez-nous",
     },
@@ -2375,12 +3037,14 @@ export const translations = {
       statExperts: "Spécialistes Vérifiés",
       statSessions: "Interventions Réalisées",
       statSatisfaction: "Satisfaction des Résultats",
-      reassurance: "Appliqué dans des environnements de performance réels. Utilisé là où les erreurs ont des conséquences.",
+      reassurance:
+        "Appliqué dans des environnements de performance réels. Utilisé là où les erreurs ont des conséquences.",
       partnersLabel: "Partenaires & Affiliations de Confiance",
     },
     featured: {
       title: "Orienté Selon Votre Diagnostic, Pas Vos Préférences",
-      subtitle: "U.Psy ne demande pas ce que vous voulez. Il identifie ce dont vous avez besoin — par précision diagnostique.",
+      subtitle:
+        "U.Psy ne demande pas ce que vous voulez. Il identifie ce dont vous avez besoin — par précision diagnostique.",
       personalizedBadge: "Orienté selon vos résultats diagnostiques",
       online: "En ligne",
       session: "séance",
@@ -2389,53 +3053,102 @@ export const translations = {
     },
     finalCta: {
       title: "Arrêtez de Deviner. Commencez à Diagnostiquer.",
-      subtitle: "Vous savez déjà que quelque chose ne fonctionne pas. Le diagnostic vous dit exactement quoi — et quoi faire ensuite.",
-      reassurance: "Diagnostic de 2 minutes. Sans engagement. Structuré cliniquement.",
+      subtitle:
+        "Vous savez déjà que quelque chose ne fonctionne pas. Le diagnostic vous dit exactement quoi — et quoi faire ensuite.",
+      reassurance:
+        "Diagnostic de 2 minutes. Sans engagement. Structuré cliniquement.",
       assessment: "Lancer Votre Diagnostic",
     },
     testimonials: {
       title: "Expériences Réelles, Impact Réel",
-      subtitle: "Des personnes utilisent UPsy pour faire leur premier pas, trouver de la clarté et se connecter au bon soutien.",
-      t1: { name: "Amina B.", role: "Cliente", text: "U.Psy m'a aidée à trouver le bon psychologue en quelques jours. Le processus était fluide et confidentiel." },
-      t2: { name: "Youssef K.", role: "Psychologue", text: "La plateforme m'a donné de la visibilité et m'a connecté avec des clients qui avaient vraiment besoin de mon expertise en thérapie cognitive." },
-      t3: { name: "Sara M.", role: "Cliente", text: "J'hésitais à propos de la thérapie en ligne, mais l'expérience était incroyablement professionnelle et confortable." },
+      subtitle:
+        "Des personnes utilisent UPsy pour faire leur premier pas, trouver de la clarté et se connecter au bon soutien.",
+      t1: {
+        name: "Amina B.",
+        role: "Cliente",
+        text: "U.Psy m'a aidée à trouver le bon psychologue en quelques jours. Le processus était fluide et confidentiel.",
+      },
+      t2: {
+        name: "Youssef K.",
+        role: "Psychologue",
+        text: "La plateforme m'a donné de la visibilité et m'a connecté avec des clients qui avaient vraiment besoin de mon expertise en thérapie cognitive.",
+      },
+      t3: {
+        name: "Sara M.",
+        role: "Cliente",
+        text: "J'hésitais à propos de la thérapie en ligne, mais l'expérience était incroyablement professionnelle et confortable.",
+      },
     },
     pathways: {
       title: "Comment pouvons-nous vous aider ?",
-      subtitle: "Choisissez votre parcours pour commencer votre chemin avec U.Psy.",
+      subtitle:
+        "Choisissez votre parcours pour commencer votre chemin avec U.Psy.",
       therapy: "J'ai besoin de thérapie",
-      therapyDesc: "Connectez-vous avec un psychologue agréé pour un accompagnement personnalisé et un traitement fondé sur les preuves.",
+      therapyDesc:
+        "Connectez-vous avec un psychologue agréé pour un accompagnement personnalisé et un traitement fondé sur les preuves.",
       performance: "Je veux améliorer ma performance",
-      performanceDesc: "Coaching en performance mentale pour athlètes et hauts performeurs visant un rendement cognitif optimal.",
+      performanceDesc:
+        "Coaching en performance mentale pour athlètes et hauts performeurs visant un rendement cognitif optimal.",
       learn: "Je veux apprendre",
-      learnDesc: "Cours structurés, évaluations et certifications en psychologie et bien-être mental.",
+      learnDesc:
+        "Cours structurés, évaluations et certifications en psychologie et bien-être mental.",
       organization: "Je représente une organisation",
-      organizationDesc: "Solutions complètes de bien-être mental pour votre équipe — diagnostics, programmes et rapports.",
+      organizationDesc:
+        "Solutions complètes de bien-être mental pour votre équipe — diagnostics, programmes et rapports.",
       explore: "Explorer",
     },
     pillars: {
       title: "Le Système U.Psy",
-      subtitle: "Quatre piliers opérationnels. Une approche intégrée — rigueur clinique, performance mentale et impact systémique.",
+      subtitle:
+        "Quatre piliers opérationnels. Une approche intégrée — rigueur clinique, performance mentale et impact systémique.",
       ariaLabel: "Nos quatre piliers",
       learnMore: "Explorer",
       cta: "Voir Toutes les Capacités",
-      care: { title: "Clinique", description: "Interventions fondées sur les preuves pour l'anxiété, les traumatismes et la récupération." },
-      learning: { title: "Formation", description: "Entraînement structuré des compétences mentales et éducation psychologique." },
-      performance: { title: "Performance", description: "Psychologie opérationnelle pour athlètes et environnements haute pression." },
-      organizations: { title: "Systèmes", description: "Programmes de santé mentale pour institutions, équipes et fédérations." },
+      care: {
+        title: "Clinique",
+        description:
+          "Interventions fondées sur les preuves pour l'anxiété, les traumatismes et la récupération.",
+      },
+      learning: {
+        title: "Formation",
+        description:
+          "Entraînement structuré des compétences mentales et éducation psychologique.",
+      },
+      performance: {
+        title: "Performance",
+        description:
+          "Psychologie opérationnelle pour athlètes et environnements haute pression.",
+      },
+      organizations: {
+        title: "Systèmes",
+        description:
+          "Programmes de santé mentale pour institutions, équipes et fédérations.",
+      },
     },
     howItWorks: {
       title: "Mesurer. Identifier. Entraîner. Appliquer.",
       subtitle: "Pas de devinettes. Juste un diagnostic.",
       ariaLabel: "Comment ça marche",
       cta: "Lancer le Diagnostic",
-      step1: { title: "Diagnostiquer", description: "Une évaluation structurée identifie ce qui dysfonctionne et pourquoi." },
-      step2: { title: "Orienter", description: "Orientation précise vers le spécialiste adapté à votre profil." },
-      step3: { title: "Intervenir", description: "Intervention ciblée avec des résultats mesurables." },
+      step1: {
+        title: "Diagnostiquer",
+        description:
+          "Une évaluation structurée identifie ce qui dysfonctionne et pourquoi.",
+      },
+      step2: {
+        title: "Orienter",
+        description:
+          "Orientation précise vers le spécialiste adapté à votre profil.",
+      },
+      step3: {
+        title: "Intervenir",
+        description: "Intervention ciblée avec des résultats mesurables.",
+      },
     },
     selfAssessment: {
       title: "Qu'est-ce qui dysfonctionne ? Découvrez-le en 2 minutes.",
-      subtitle: "Un diagnostic structuré qui identifie vos points faibles et trace un chemin vers l'intervention.",
+      subtitle:
+        "Un diagnostic structuré qui identifie vos points faibles et trace un chemin vers l'intervention.",
       duration: "Diagnostic de 2 minutes",
       reassurance: "Niveau clinique. Confidentiel. Sans approximation.",
       cta: "Lancer le Diagnostic",
@@ -2445,75 +3158,127 @@ export const translations = {
     },
     programs: {
       title: "Soutien Structuré, Quand Vous en Avez Besoin",
-      subtitle: "Explorez des programmes conçus pour vous accompagner à travers des défis spécifiques.",
+      subtitle:
+        "Explorez des programmes conçus pour vous accompagner à travers des défis spécifiques.",
       cta: "Explorer les Programmes",
-      clinical: { title: "Soins Cliniques", desc: "Thérapie fondée sur les preuves pour l'anxiété, la dépression et les traumatismes." },
-      performance: { title: "Performance Mentale", desc: "Coaching de performance pour athlètes et professionnels." },
-      mindfulness: { title: "Pleine Conscience", desc: "Programmes structurés de pleine conscience pour la résilience quotidienne." },
-      trauma: { title: "Récupération Traumatique", desc: "Parcours spécialisés de traitement et de récupération des traumatismes." },
+      clinical: {
+        title: "Soins Cliniques",
+        desc: "Thérapie fondée sur les preuves pour l'anxiété, la dépression et les traumatismes.",
+      },
+      performance: {
+        title: "Performance Mentale",
+        desc: "Coaching de performance pour athlètes et professionnels.",
+      },
+      mindfulness: {
+        title: "Pleine Conscience",
+        desc: "Programmes structurés de pleine conscience pour la résilience quotidienne.",
+      },
+      trauma: {
+        title: "Récupération Traumatique",
+        desc: "Parcours spécialisés de traitement et de récupération des traumatismes.",
+      },
     },
     learning: {
       title: "Comprenez Votre Santé Mentale",
-      subtitle: "Accédez à des ressources et du contenu éducatif pour mieux vous comprendre.",
+      subtitle:
+        "Accédez à des ressources et du contenu éducatif pour mieux vous comprendre.",
       startCourse: "Commencer le Cours",
       browseAll: "Parcourir Tous les Cours",
     },
     orgs: {
       title: "Santé Mentale pour les Organisations",
-      subtitle: "Solutions sur mesure pour les équipes, institutions et organisations sportives.",
+      subtitle:
+        "Solutions sur mesure pour les équipes, institutions et organisations sportives.",
       cta: "Demander un Devis",
-      corporate: { title: "Bien-être en Entreprise", desc: "Programmes de santé mentale pour employés, ateliers et solutions PAE." },
-      ngo: { title: "Santé Mentale ONG", desc: "Programmes de santé mentale évolutifs pour les organisations humanitaires." },
-      sports: { title: "Organisations Sportives", desc: "Psychologie de la performance et bien-être des athlètes pour clubs et fédérations." },
+      corporate: {
+        title: "Bien-être en Entreprise",
+        desc: "Programmes de santé mentale pour employés, ateliers et solutions PAE.",
+      },
+      ngo: {
+        title: "Santé Mentale ONG",
+        desc: "Programmes de santé mentale évolutifs pour les organisations humanitaires.",
+      },
+      sports: {
+        title: "Organisations Sportives",
+        desc: "Psychologie de la performance et bien-être des athlètes pour clubs et fédérations.",
+      },
     },
     research: {
       title: "Fondé sur la Psychologie, Pas sur des Suppositions",
-      subtitle: "UPsy est construit sur de vrais principes psychologiques pour que chaque étape soit significative.",
+      subtitle:
+        "UPsy est construit sur de vrais principes psychologiques pour que chaque étape soit significative.",
       readMore: "Lire la suite",
       cta: "Lire les Perspectives",
-      article1: { title: "Santé Mentale dans le Sport", summary: "Comment les athlètes d'élite gèrent la pression psychologique et construisent la résilience.", category: "Psychologie du Sport" },
-      article2: { title: "Prévention du Burnout", summary: "Stratégies fondées sur les preuves pour reconnaître et prévenir l'épuisement professionnel.", category: "Travail" },
-      article3: { title: "Résilience Psychologique", summary: "Construire la force mentale grâce à des techniques cognitivo-comportementales structurées.", category: "Recherche" },
+      article1: {
+        title: "Santé Mentale dans le Sport",
+        summary:
+          "Comment les athlètes d'élite gèrent la pression psychologique et construisent la résilience.",
+        category: "Psychologie du Sport",
+      },
+      article2: {
+        title: "Prévention du Burnout",
+        summary:
+          "Stratégies fondées sur les preuves pour reconnaître et prévenir l'épuisement professionnel.",
+        category: "Travail",
+      },
+      article3: {
+        title: "Résilience Psychologique",
+        summary:
+          "Construire la force mentale grâce à des techniques cognitivo-comportementales structurées.",
+        category: "Recherche",
+      },
     },
     community: {
       title: "Vous N'êtes Pas Seul",
-      subtitle: "La santé mentale est une expérience humaine partagée. UPsy vous aide à vous sentir soutenu, compris et connecté.",
-      reassurance: "Un espace sûr et modéré pour des conversations significatives sur la santé mentale.",
+      subtitle:
+        "La santé mentale est une expérience humaine partagée. UPsy vous aide à vous sentir soutenu, compris et connecté.",
+      reassurance:
+        "Un espace sûr et modéré pour des conversations significatives sur la santé mentale.",
       cta: "Rejoindre la Communauté",
     },
     psf: {
       badge: "Initiative d'impact social U.Psy",
       heroTitle: "Psychologues Sans Frontières",
-      heroSubtitle: "Apporter un soutien psychologique gratuit et éthique aux communautés défavorisées à travers le Maroc et au-delà. Parce que la santé mentale est un droit, pas un privilège.",
+      heroSubtitle:
+        "Apporter un soutien psychologique gratuit et éthique aux communautés défavorisées à travers le Maroc et au-delà. Parce que la santé mentale est un droit, pas un privilège.",
       volunteerCta: "Devenir bénévole",
       partnerCta: "Devenir partenaire",
       missionTitle: "Notre mission",
-      missionDesc: "Psychologues Sans Frontières opère sous l'égide de U.Psy pour combler le fossé entre les besoins en santé mentale et l'accès aux soins. Nous déployons des psychologues bénévoles dans les communautés où le soutien professionnel est rare ou inexistant.",
+      missionDesc:
+        "Psychologues Sans Frontières opère sous l'égide de U.Psy pour combler le fossé entre les besoins en santé mentale et l'accès aux soins. Nous déployons des psychologues bénévoles dans les communautés où le soutien professionnel est rare ou inexistant.",
       pillarAccess: "Accès aux soins",
-      pillarAccessDesc: "Séances gratuites et subventionnées pour les personnes issues de communautés défavorisées.",
+      pillarAccessDesc:
+        "Séances gratuites et subventionnées pour les personnes issues de communautés défavorisées.",
       pillarOutreach: "Sensibilisation communautaire",
-      pillarOutreachDesc: "Ateliers, campagnes de sensibilisation et intervention de crise dans les zones rurales et périurbaines du Maroc.",
+      pillarOutreachDesc:
+        "Ateliers, campagnes de sensibilisation et intervention de crise dans les zones rurales et périurbaines du Maroc.",
       pillarTraining: "Renforcement des capacités",
-      pillarTrainingDesc: "Formation de bénévoles locaux, enseignants et travailleurs sociaux aux premiers secours psychologiques.",
+      pillarTrainingDesc:
+        "Formation de bénévoles locaux, enseignants et travailleurs sociaux aux premiers secours psychologiques.",
       pillarEthics: "Standards éthiques",
-      pillarEthicsDesc: "Tous les bénévoles respectent le code de déontologie de U.Psy et sont supervisés par des praticiens accrédités.",
+      pillarEthicsDesc:
+        "Tous les bénévoles respectent le code de déontologie de U.Psy et sont supervisés par des praticiens accrédités.",
       impactTitle: "Notre impact jusqu'à présent",
-      impactDesc: "Chaque chiffre représente une vie touchée, une communauté renforcée.",
+      impactDesc:
+        "Chaque chiffre représente une vie touchée, une communauté renforcée.",
       statSessions: "Séances gratuites réalisées",
       statRegions: "Régions couvertes",
       statVolunteers: "Psychologues bénévoles",
       statBeneficiaries: "Bénéficiaires atteints",
       programsTitle: "Nos programmes",
-      programsDesc: "Interventions ciblées pour un impact communautaire maximal.",
+      programsDesc:
+        "Interventions ciblées pour un impact communautaire maximal.",
       involvedTitle: "Comment s'impliquer",
       ctaTitle: "La santé mentale est un droit, pas un privilège",
-      ctaDesc: "Rejoignez Psychologues Sans Frontières et aidez-nous à atteindre chaque communauté au Maroc qui a besoin de soutien en santé mentale.",
+      ctaDesc:
+        "Rejoignez Psychologues Sans Frontières et aidez-nous à atteindre chaque communauté au Maroc qui a besoin de soutien en santé mentale.",
       ctaVolunteer: "Devenir bénévole",
       ctaContact: "Nous contacter",
       navLabel: "Psychologues Sans Frontières",
       sectionBadge: "Initiative d'impact social",
       sectionTitle: "Psychologues Sans Frontières",
-      sectionDesc: "Apporter un soutien psychologique gratuit aux communautés défavorisées à travers le Maroc. Nos psychologues bénévoles offrent des séances pro-bono, des interventions de crise et des ateliers communautaires.",
+      sectionDesc:
+        "Apporter un soutien psychologique gratuit aux communautés défavorisées à travers le Maroc. Nos psychologues bénévoles offrent des séances pro-bono, des interventions de crise et des ateliers communautaires.",
       learnMore: "En savoir plus",
       volunteerAs: "Devenir psychologue bénévole",
       statSessionsLabel: "Séances gratuites",
@@ -2524,9 +3289,11 @@ export const translations = {
       badge: "Fondateur & Architecte du Système",
       navLabel: "Fondateur",
       heroTitle: "Construit sur le Terrain. Pas en Théorie.",
-      heroSubtitle: "Mehdi Felji a conçu U.Psy comme un système — pas un annuaire. Né de la psychologie opérationnelle dans le sport, la crise et les environnements institutionnels où les modèles doivent fonctionner ou échouer.",
+      heroSubtitle:
+        "Mehdi Felji a conçu U.Psy comme un système — pas un annuaire. Né de la psychologie opérationnelle dans le sport, la crise et les environnements institutionnels où les modèles doivent fonctionner ou échouer.",
       motTitle: "Mot du Président",
-      motOpener: "La psychologie ne manque pas de théories. Elle manque d'applicabilité sous pression.",
+      motOpener:
+        "La psychologie ne manque pas de théories. Elle manque d'applicabilité sous pression.",
       mot1: "Sur le terrain — dans le sport de haut niveau, dans les contextes migratoires, dans les situations de crise — les modèles classiques atteignent rapidement leurs limites. Ce qui fonctionne en cabinet ne fonctionne pas toujours dans l'urgence, dans l'incertitude, ou face à la performance.",
       mot2: "C'est dans cet écart que s'inscrit U.Psy.",
       mot3: "U.Psy n'a pas été conçu comme une plateforme. C'est un système. Un système construit à partir du terrain, où la psychologie doit être : opérationnelle, mesurable, mobilisable immédiatement.",
@@ -2543,24 +3310,33 @@ export const translations = {
       pillar3: "Impact Systémique",
       pillar3Sub: "Évolutif",
       expertiseTitle: "Domaines d'Expertise",
-      expertiseSubtitle: "Là où la psychologie rencontre la réalité opérationnelle.",
+      expertiseSubtitle:
+        "Là où la psychologie rencontre la réalité opérationnelle.",
       area1Title: "Psychologie Clinique",
-      area1Desc: "Interventions basées sur les preuves pour l'anxiété, le trauma et la récupération en conditions réelles.",
+      area1Desc:
+        "Interventions basées sur les preuves pour l'anxiété, le trauma et la récupération en conditions réelles.",
       area2Title: "Psychologie du Sport & de la Performance",
-      area2Desc: "Cadres de contrôle mental pour athlètes et opérateurs en environnements haute pression.",
+      area2Desc:
+        "Cadres de contrôle mental pour athlètes et opérateurs en environnements haute pression.",
       area3Title: "Psychologie Organisationnelle",
-      area3Desc: "Diagnostics systémiques pour la santé mentale au travail, prévention du burnout et performance d'équipe.",
+      area3Desc:
+        "Diagnostics systémiques pour la santé mentale au travail, prévention du burnout et performance d'équipe.",
       area4Title: "Psychologie Humanitaire",
-      area4Desc: "Psychologues Sans Frontières — soutien psychologique déployé sur le terrain en contextes de crise et migration.",
+      area4Desc:
+        "Psychologues Sans Frontières — soutien psychologique déployé sur le terrain en contextes de crise et migration.",
       area5Title: "Formation & Accréditation",
-      area5Desc: "Développement professionnel et assurance qualité pour les praticiens en psychologie.",
+      area5Desc:
+        "Développement professionnel et assurance qualité pour les praticiens en psychologie.",
       ctaTitle: "Construisons Quelque Chose Qui Fonctionne",
-      ctaText: "Que vous soyez professionnel, organisation, ou contributeur — le système est ouvert. Connectons-nous.",
+      ctaText:
+        "Que vous soyez professionnel, organisation, ou contributeur — le système est ouvert. Connectons-nous.",
       ctaButton: "Nous Contacter",
       sectionBadge: "Construit sur le Terrain",
       sectionTitle: "Un Système Fondé sur la Pratique, Pas la Théorie",
-      sectionQuote: "La psychologie ne manque pas de théories. Elle manque d'applicabilité sous pression.",
-      sectionDesc: "Mehdi Felji a conçu U.Psy à partir de l'expérience opérationnelle — dans le sport d'élite, les contextes humanitaires et les systèmes institutionnels. La plateforme est conçue pour diagnostiquer, matcher et entraîner. Pas pour naviguer.",
+      sectionQuote:
+        "La psychologie ne manque pas de théories. Elle manque d'applicabilité sous pression.",
+      sectionDesc:
+        "Mehdi Felji a conçu U.Psy à partir de l'expérience opérationnelle — dans le sport d'élite, les contextes humanitaires et les systèmes institutionnels. La plateforme est conçue pour diagnostiquer, matcher et entraîner. Pas pour naviguer.",
       proof1: "Psychologie Clinique",
       proof2: "Psychologie de la Performance",
       proof3: "Réseau Accrédité",
@@ -2570,55 +3346,75 @@ export const translations = {
       guide: "Guide",
       mentalHealth: "Santé mentale",
       indexTitle: "Blog Santé Mentale",
-      indexSubtitle: "Guides pratiques, perspectives et ressources pour mieux comprendre votre santé mentale et agir.",
+      indexSubtitle:
+        "Guides pratiques, perspectives et ressources pour mieux comprendre votre santé mentale et agir.",
       findPsych: {
         title: "Comment Trouver le Bon Psychologue pour Vous",
-        intro: "Trouver le bon psychologue peut sembler complexe. Ce guide décompose le processus en étapes simples et concrètes.",
+        intro:
+          "Trouver le bon psychologue peut sembler complexe. Ce guide décompose le processus en étapes simples et concrètes.",
         step1Title: "1. Identifiez Vos Besoins",
-        step1Text: "Avant de chercher, prenez un moment pour réfléchir à ce que vous vivez. Anxiété, problèmes relationnels, stress au travail ? Comprendre vos besoins aide à cibler votre recherche.",
-        step1Tip: "💡 Astuce : Si vous n'êtes pas sûr, essayez notre auto-évaluation gratuite avant de choisir un psychologue.",
+        step1Text:
+          "Avant de chercher, prenez un moment pour réfléchir à ce que vous vivez. Anxiété, problèmes relationnels, stress au travail ? Comprendre vos besoins aide à cibler votre recherche.",
+        step1Tip:
+          "💡 Astuce : Si vous n'êtes pas sûr, essayez notre auto-évaluation gratuite avant de choisir un psychologue.",
         step2Title: "2. Vérifiez les Accréditations",
-        step2Text: "Vérifiez toujours que votre psychologue est agréé et accrédité. Recherchez les certifications professionnelles et l'adhésion à des organismes reconnus.",
+        step2Text:
+          "Vérifiez toujours que votre psychologue est agréé et accrédité. Recherchez les certifications professionnelles et l'adhésion à des organismes reconnus.",
         step3Title: "3. Trouvez la Bonne Compatibilité",
-        step3Text: "La relation thérapeutique est l'un des meilleurs prédicteurs de réussite. Considérez le style de communication, la compréhension culturelle et les préférences linguistiques.",
+        step3Text:
+          "La relation thérapeutique est l'un des meilleurs prédicteurs de réussite. Considérez le style de communication, la compréhension culturelle et les préférences linguistiques.",
         step4Title: "4. Comprenez l'Approche",
-        step4Text: "Différents psychologues utilisent différentes approches — TCC, psychodynamique, humaniste, etc. Demandez à votre psychologue d'expliquer son approche.",
+        step4Text:
+          "Différents psychologues utilisent différentes approches — TCC, psychodynamique, humaniste, etc. Demandez à votre psychologue d'expliquer son approche.",
         step5Title: "5. Considérez les Aspects Pratiques",
-        step5Text: "Pensez à la disponibilité, la localisation (ou les options en ligne), les tarifs et la flexibilité des horaires.",
+        step5Text:
+          "Pensez à la disponibilité, la localisation (ou les options en ligne), les tarifs et la flexibilité des horaires.",
         ctaTitle: "Prêt à Trouver Votre Psychologue ?",
-        ctaText: "UPsy facilite la recherche de psychologues vérifiés adaptés à vos besoins. Commencez par une auto-évaluation rapide.",
+        ctaText:
+          "UPsy facilite la recherche de psychologues vérifiés adaptés à vos besoins. Commencez par une auto-évaluation rapide.",
       },
       therapy: {
         title: "Ai-je Besoin d'une Thérapie ?",
-        intro: "Si vous vous posez cette question, vous faites déjà un pas courageux. Voici comment reconnaître quand un soutien professionnel peut aider.",
+        intro:
+          "Si vous vous posez cette question, vous faites déjà un pas courageux. Voici comment reconnaître quand un soutien professionnel peut aider.",
         signsTitle: "Signes Que la Thérapie Pourrait Vous Aider",
-        signsIntro: "Vous n'avez pas besoin d'être en crise pour bénéficier de la thérapie :",
-        sign1: "Vous vous sentez submergé par des émotions difficiles à gérer seul",
+        signsIntro:
+          "Vous n'avez pas besoin d'être en crise pour bénéficier de la thérapie :",
+        sign1:
+          "Vous vous sentez submergé par des émotions difficiles à gérer seul",
         sign2: "Votre sommeil, appétit ou énergie ont changé significativement",
         sign3: "Vous vous éloignez des activités ou personnes que vous aimiez",
         sign4: "Vous avez du mal à vous concentrer ou à prendre des décisions",
-        sign5: "Vous utilisez des substances ou des habitudes malsaines pour faire face",
+        sign5:
+          "Vous utilisez des substances ou des habitudes malsaines pour faire face",
         sign6: "Vous vous sentez bloqué et ne savez pas comment avancer",
         mythsTitle: "Mythes Courants sur la Thérapie",
         myth1: "La thérapie est réservée aux personnes gravement malades",
-        truth1: "La thérapie aide toute personne cherchant à grandir, gérer le stress ou améliorer ses relations.",
+        truth1:
+          "La thérapie aide toute personne cherchant à grandir, gérer le stress ou améliorer ses relations.",
         myth2: "Je devrais pouvoir m'en sortir seul",
         truth2: "Demander de l'aide est un signe de force, pas de faiblesse.",
         myth3: "La thérapie prend des années",
-        truth3: "Beaucoup de personnes constatent des progrès significatifs en quelques séances.",
+        truth3:
+          "Beaucoup de personnes constatent des progrès significatifs en quelques séances.",
         benefitsTitle: "Ce Que la Thérapie Peut Faire pour Vous",
-        benefitsText: "La thérapie offre un espace sûr et confidentiel pour explorer vos pensées et sentiments avec un professionnel formé.",
+        benefitsText:
+          "La thérapie offre un espace sûr et confidentiel pour explorer vos pensées et sentiments avec un professionnel formé.",
         whenTitle: "Quand Est le Bon Moment ?",
-        whenText: "Il n'y a pas de moment parfait. Si vous y pensez, c'est souvent un signe que vous êtes prêt.",
+        whenText:
+          "Il n'y a pas de moment parfait. Si vous y pensez, c'est souvent un signe que vous êtes prêt.",
         ctaTitle: "Faites le Premier Pas",
-        ctaText: "Pas sûr par où commencer ? Notre auto-évaluation gratuite peut vous aider à comprendre vos besoins.",
+        ctaText:
+          "Pas sûr par où commencer ? Notre auto-évaluation gratuite peut vous aider à comprendre vos besoins.",
       },
       workplace: "Milieu professionnel",
       anxiety: {
         title: "Comprendre l'Anxiété : Ce Que C'est et Comment la Gérer",
-        intro: "L'anxiété est l'une des expériences de santé mentale les plus courantes. Découvrez ce qu'elle signifie vraiment et des étapes pratiques pour la gérer.",
+        intro:
+          "L'anxiété est l'une des expériences de santé mentale les plus courantes. Découvrez ce qu'elle signifie vraiment et des étapes pratiques pour la gérer.",
         whatTitle: "Qu'est-ce que l'Anxiété ?",
-        whatText: "L'anxiété est la réponse naturelle de votre corps au stress. C'est un sentiment de peur ou d'appréhension face à l'avenir. Bien que l'anxiété occasionnelle soit normale, une anxiété persistante qui interfère avec la vie quotidienne peut indiquer un trouble anxieux.",
+        whatText:
+          "L'anxiété est la réponse naturelle de votre corps au stress. C'est un sentiment de peur ou d'appréhension face à l'avenir. Bien que l'anxiété occasionnelle soit normale, une anxiété persistante qui interfère avec la vie quotidienne peut indiquer un trouble anxieux.",
         symptomsTitle: "Symptômes Courants",
         symptom1: "Inquiétude ou peur excessive",
         symptom2: "Agitation ou sensation d'être sur les nerfs",
@@ -2627,39 +3423,55 @@ export const translations = {
         symptom5: "Tension physique ou maux de tête",
         symptom6: "Évitement des situations déclencheuses",
         manageTitle: "Comment Gérer l'Anxiété",
-        manageText: "Gérer l'anxiété est possible avec les bonnes stratégies. L'exercice régulier, la pleine conscience, un sommeil adéquat et la limitation de la caféine peuvent aider. Surtout, parler à un professionnel peut fournir des stratégies personnalisées.",
+        manageText:
+          "Gérer l'anxiété est possible avec les bonnes stratégies. L'exercice régulier, la pleine conscience, un sommeil adéquat et la limitation de la caféine peuvent aider. Surtout, parler à un professionnel peut fournir des stratégies personnalisées.",
         helpTitle: "Quand Chercher de l'Aide",
-        helpText: "Si l'anxiété interfère avec votre travail, vos relations ou vos activités quotidiennes, il est temps de consulter. Un psychologue peut vous aider à comprendre les causes profondes.",
+        helpText:
+          "Si l'anxiété interfère avec votre travail, vos relations ou vos activités quotidiennes, il est temps de consulter. Un psychologue peut vous aider à comprendre les causes profondes.",
         ctaTitle: "Vous N'Avez Pas à Affronter l'Anxiété Seul",
-        ctaText: "Faites notre auto-évaluation gratuite pour mieux comprendre votre anxiété et être mis en relation avec un psychologue.",
+        ctaText:
+          "Faites notre auto-évaluation gratuite pour mieux comprendre votre anxiété et être mis en relation avec un psychologue.",
       },
       online: {
         title: "Les Avantages de la Thérapie en Ligne",
-        intro: "La thérapie en ligne a transformé les soins de santé mentale. Découvrez pourquoi de plus en plus de personnes choisissent les séances virtuelles.",
+        intro:
+          "La thérapie en ligne a transformé les soins de santé mentale. Découvrez pourquoi de plus en plus de personnes choisissent les séances virtuelles.",
         whyTitle: "Pourquoi la Thérapie en Ligne ?",
-        whyText: "La thérapie en ligne a rendu le soutien en santé mentale plus accessible que jamais. Que vous viviez dans une zone éloignée ou que vous ayez un emploi du temps chargé, la thérapie en ligne supprime de nombreuses barrières.",
+        whyText:
+          "La thérapie en ligne a rendu le soutien en santé mentale plus accessible que jamais. Que vous viviez dans une zone éloignée ou que vous ayez un emploi du temps chargé, la thérapie en ligne supprime de nombreuses barrières.",
         benefit1Title: "Accès de N'importe Où",
-        benefit1Text: "Connectez-vous avec des psychologues qualifiés quel que soit votre emplacement.",
+        benefit1Text:
+          "Connectez-vous avec des psychologues qualifiés quel que soit votre emplacement.",
         benefit2Title: "Horaires Flexibles",
-        benefit2Text: "Réservez des séances qui correspondent à votre emploi du temps — matin, pause déjeuner ou soirée.",
+        benefit2Text:
+          "Réservez des séances qui correspondent à votre emploi du temps — matin, pause déjeuner ou soirée.",
         benefit3Title: "Confidentialité & Confort",
-        benefit3Text: "Participez aux séances depuis le confort de votre espace. Beaucoup trouvent plus facile de s'ouvrir dans un environnement familier.",
+        benefit3Text:
+          "Participez aux séances depuis le confort de votre espace. Beaucoup trouvent plus facile de s'ouvrir dans un environnement familier.",
         benefit4Title: "Même Qualité de Soins",
-        benefit4Text: "La recherche montre que la thérapie en ligne est aussi efficace que les séances en personne pour la plupart des conditions.",
+        benefit4Text:
+          "La recherche montre que la thérapie en ligne est aussi efficace que les séances en personne pour la plupart des conditions.",
         worksTitle: "La Thérapie en Ligne Fonctionne-t-elle Vraiment ?",
-        worksText: "Plusieurs études ont montré que la thérapie en ligne peut être aussi efficace que la thérapie en face à face pour l'anxiété, la dépression et le stress.",
+        worksText:
+          "Plusieurs études ont montré que la thérapie en ligne peut être aussi efficace que la thérapie en face à face pour l'anxiété, la dépression et le stress.",
         ctaTitle: "Prêt à Essayer la Thérapie en Ligne ?",
-        ctaText: "Parcourez le réseau UPsy de psychologues qualifiés proposant des séances en ligne.",
+        ctaText:
+          "Parcourez le réseau UPsy de psychologues qualifiés proposant des séances en ligne.",
       },
       work: {
         title: "La Santé Mentale au Travail : Pourquoi C'est Important",
-        intro: "Le travail est l'un des plus grands facteurs affectant notre santé mentale. Apprenez à reconnaître l'épuisement professionnel et à créer des limites saines.",
+        intro:
+          "Le travail est l'un des plus grands facteurs affectant notre santé mentale. Apprenez à reconnaître l'épuisement professionnel et à créer des limites saines.",
         burnoutTitle: "Reconnaître l'Épuisement Professionnel",
-        burnoutText: "Le burnout n'est pas simplement de la fatigue. C'est un état d'épuisement physique et émotionnel chronique causé par un stress professionnel prolongé.",
+        burnoutText:
+          "Le burnout n'est pas simplement de la fatigue. C'est un état d'épuisement physique et émotionnel chronique causé par un stress professionnel prolongé.",
         statsTitle: "Les Chiffres Parlent",
-        stat1: "des travailleurs signalent que le stress affecte leur santé mentale",
-        stat2: "des personnes connaîtront un problème de santé mentale chaque année",
-        stat3: "des absences longue durée sont causées par le stress et l'anxiété",
+        stat1:
+          "des travailleurs signalent que le stress affecte leur santé mentale",
+        stat2:
+          "des personnes connaîtront un problème de santé mentale chaque année",
+        stat3:
+          "des absences longue durée sont causées par le stress et l'anxiété",
         tipsTitle: "Ce Que Vous Pouvez Faire",
         tip1: "Fixez des limites claires entre travail et vie personnelle",
         tip2: "Prenez des pauses régulières tout au long de la journée",
@@ -2667,18 +3479,22 @@ export const translations = {
         tip4: "Envisagez de consulter un psychologue spécialisé en problèmes professionnels",
         tip5: "Pratiquez des techniques de gestion du stress comme la pleine conscience",
         orgTitle: "Pour les Organisations",
-        orgText: "Investir dans la santé mentale des employés est non seulement juste, mais aussi intelligent. Les organisations qui priorisent le bien-être psychologique voient une productivité améliorée.",
+        orgText:
+          "Investir dans la santé mentale des employés est non seulement juste, mais aussi intelligent. Les organisations qui priorisent le bien-être psychologique voient une productivité améliorée.",
         ctaTitle: "Besoin de Soutien Face au Stress Professionnel ?",
-        ctaText: "Que vous soyez un individu ou une organisation, UPsy peut aider. Faites une auto-évaluation ou explorez nos services de conseil.",
+        ctaText:
+          "Que vous soyez un individu ou une organisation, UPsy peut aider. Faites une auto-évaluation ou explorez nos services de conseil.",
         orgCta: "Explorer les Services aux Organisations",
       },
       backToBlog: "Retour au Blog",
       wellness: "Bien-être",
       depression: {
         title: "Comprendre la Dépression : Plus Qu'une Simple Tristesse",
-        intro: "La dépression est l'une des conditions de santé mentale les plus courantes au monde. Comprendre ce qu'elle est vraiment est la première étape vers la guérison.",
+        intro:
+          "La dépression est l'une des conditions de santé mentale les plus courantes au monde. Comprendre ce qu'elle est vraiment est la première étape vers la guérison.",
         whatTitle: "Qu'est-ce que la Dépression ?",
-        whatText: "La dépression est plus que se sentir triste. C'est une condition sérieuse qui affecte votre façon de penser, ressentir et gérer les activités quotidiennes.",
+        whatText:
+          "La dépression est plus que se sentir triste. C'est une condition sérieuse qui affecte votre façon de penser, ressentir et gérer les activités quotidiennes.",
         signsTitle: "Signes Courants de la Dépression",
         sign1: "Sentiments persistants de tristesse, de vide ou de désespoir",
         sign2: "Perte d'intérêt pour les activités que vous aimiez",
@@ -2688,36 +3504,47 @@ export const translations = {
         sign6: "Difficulté à se concentrer ou à prendre des décisions",
         sign7: "Sentiments d'inutilité ou de culpabilité excessive",
         typesTitle: "Types de Dépression",
-        typesText: "La dépression n'est pas universelle. Trouble dépressif majeur, dysthymie, trouble affectif saisonnier et dépression post-partum sont des formes différentes.",
+        typesText:
+          "La dépression n'est pas universelle. Trouble dépressif majeur, dysthymie, trouble affectif saisonnier et dépression post-partum sont des formes différentes.",
         treatmentTitle: "Comment Traite-t-on la Dépression ?",
-        treatmentText: "La dépression est très traitable. Les approches les plus courantes incluent la psychothérapie (notamment la TCC), les médicaments, les changements de mode de vie et le soutien social.",
+        treatmentText:
+          "La dépression est très traitable. Les approches les plus courantes incluent la psychothérapie (notamment la TCC), les médicaments, les changements de mode de vie et le soutien social.",
         ctaTitle: "Vous N'avez Pas à Affronter la Dépression Seul",
-        ctaText: "Si vous reconnaissez ces signes, tendre la main est la première étape.",
+        ctaText:
+          "Si vous reconnaissez ces signes, tendre la main est la première étape.",
       },
       support: {
         title: "Comment Soutenir un Proche en Difficulté Psychologique",
-        intro: "Quand quelqu'un que vous aimez souffre, savoir quoi dire — et quoi ne pas dire — peut faire toute la différence.",
+        intro:
+          "Quand quelqu'un que vous aimez souffre, savoir quoi dire — et quoi ne pas dire — peut faire toute la différence.",
         listenTitle: "1. Écouter Sans Juger",
-        listenText: "La chose la plus puissante que vous puissiez faire est simplement être présent.",
+        listenText:
+          "La chose la plus puissante que vous puissiez faire est simplement être présent.",
         educateTitle: "2. S'Informer",
-        educateText: "Apprendre sur les conditions de santé mentale vous aide à comprendre ce que vit votre proche.",
+        educateText:
+          "Apprendre sur les conditions de santé mentale vous aide à comprendre ce que vit votre proche.",
         encourageTitle: "3. Encourager l'Aide Professionnelle",
-        encourageText: "Suggérez doucement de parler à un professionnel. Proposez de les aider à trouver un psychologue.",
+        encourageText:
+          "Suggérez doucement de parler à un professionnel. Proposez de les aider à trouver un psychologue.",
         boundariesTitle: "4. Établir des Limites Saines",
-        boundariesText: "Soutenir quelqu'un ne signifie pas sacrifier votre propre bien-être.",
+        boundariesText:
+          "Soutenir quelqu'un ne signifie pas sacrifier votre propre bien-être.",
         avoidTitle: "5. Ce Qu'il Faut Éviter",
         avoid1: "Ne dites pas « remonte-toi » ou « c'est dans ta tête »",
         avoid2: "Ne comparez pas leur situation à celle des autres",
         avoid3: "Ne le prenez pas personnellement s'ils se retirent",
         avoid4: "N'essayez pas d'être leur thérapeute",
         ctaTitle: "Besoin de Conseils ?",
-        ctaText: "Si vous soutenez quelqu'un dans un moment difficile, UPsy peut vous aider à trouver les bonnes ressources.",
+        ctaText:
+          "Si vous soutenez quelqu'un dans un moment difficile, UPsy peut vous aider à trouver les bonnes ressources.",
       },
       mindfulness: {
         title: "Pleine Conscience pour Débutants : Guide Pratique",
-        intro: "La pleine conscience ne consiste pas à vider votre esprit. C'est porter attention au moment présent — sans jugement.",
+        intro:
+          "La pleine conscience ne consiste pas à vider votre esprit. C'est porter attention au moment présent — sans jugement.",
         whatTitle: "Qu'est-ce que la Pleine Conscience ?",
-        whatText: "La pleine conscience est la pratique de porter toute votre attention au moment présent. C'est une compétence soutenue par des décennies de recherche.",
+        whatText:
+          "La pleine conscience est la pratique de porter toute votre attention au moment présent. C'est une compétence soutenue par des décennies de recherche.",
         benefitsTitle: "Bienfaits d'une Pratique Régulière",
         benefit1: "Réduction du stress et de l'anxiété",
         benefit2: "Amélioration de la concentration",
@@ -2726,20 +3553,26 @@ export const translations = {
         benefit5: "Meilleure qualité de sommeil",
         startTitle: "Comment Commencer (3 Exercices Simples)",
         exercise1Title: "1. L'Exercice de Respiration de 5 Minutes",
-        exercise1Text: "Asseyez-vous confortablement, fermez les yeux et concentrez-vous sur votre respiration. Inspirez sur 4 temps, retenez 4 temps, expirez 4 temps.",
+        exercise1Text:
+          "Asseyez-vous confortablement, fermez les yeux et concentrez-vous sur votre respiration. Inspirez sur 4 temps, retenez 4 temps, expirez 4 temps.",
         exercise2Title: "2. Le Scan Corporel",
-        exercise2Text: "Allongez-vous et déplacez lentement votre attention de vos orteils au sommet de votre tête.",
+        exercise2Text:
+          "Allongez-vous et déplacez lentement votre attention de vos orteils au sommet de votre tête.",
         exercise3Title: "3. L'Observation Consciente",
-        exercise3Text: "Choisissez une activité routinière et faites-la avec une attention totale. Remarquez chaque détail.",
+        exercise3Text:
+          "Choisissez une activité routinière et faites-la avec une attention totale. Remarquez chaque détail.",
         tipsTitle: "Conseils pour Créer une Habitude",
-        tipsText: "Commencez petit — même 2 minutes comptent. Pratiquez à la même heure chaque jour. Soyez patient avec vous-même.",
+        tipsText:
+          "Commencez petit — même 2 minutes comptent. Pratiquez à la même heure chaque jour. Soyez patient avec vous-même.",
         ctaTitle: "Envie d'un Accompagnement en Pleine Conscience ?",
-        ctaText: "Nos programmes et psychologues peuvent vous aider à construire une pratique durable adaptée à vos besoins.",
+        ctaText:
+          "Nos programmes et psychologues peuvent vous aider à construire une pratique durable adaptée à vos besoins.",
       },
     },
-      mps: {
+    mps: {
       title: "Score de Performance Mentale",
-      tooltip: "Score composite : humeur, régularité, engagement, récupération et progression.",
+      tooltip:
+        "Score composite : humeur, régularité, engagement, récupération et progression.",
       basedOn: "Basé sur",
       checkIns: "check-ins",
       mood: "Humeur",
@@ -2750,7 +3583,8 @@ export const translations = {
     },
     crisis: {
       title: "Nous sommes là pour toi",
-      message: "Si tu traverses un moment difficile, parle à un spécialiste maintenant.",
+      message:
+        "Si tu traverses un moment difficile, parle à un spécialiste maintenant.",
       findSpecialist: "Trouver un spécialiste",
       close: "Plus tard",
       disclaimer: "En cas de danger immédiat, appelle les secours.",
@@ -2769,60 +3603,117 @@ export const translations = {
       inProgress: "En cours",
       notStarted: "Non commencée",
       myIntake: "Mon anamnèse",
-      cardHelp: "Pré-remplis ton anamnèse avant la première séance. Ton thérapeute pourra la revoir avec toi.",
+      cardHelp:
+        "Pré-remplis ton anamnèse avant la première séance. Ton thérapeute pourra la revoir avec toi.",
       continue: "Continuer",
       start: "Commencer",
       downloadPdf: "Télécharger le PDF",
       markReviewed: "Marquer comme revue",
       reviewNotesPlaceholder: "Notes de revue (optionnel) pour le client",
       reviewedAt: "Revue le {date}",
-      consentLabel: "Conformément à la loi 09-08, j'accepte que ces données personnelles soient utilisées pour mon suivi clinique.",
+      consentLabel:
+        "Conformément à la loi 09-08, j'accepte que ces données personnelles soient utilisées pour mon suivi clinique.",
       consentRequired: "Consentement requis",
-      consentRequiredDesc: "Merci de confirmer le consentement loi 09-08 avant de terminer.",
+      consentRequiredDesc:
+        "Merci de confirmer le consentement loi 09-08 avant de terminer.",
       missingFields: "Champs requis manquants",
-      missingFieldsDesc: "Merci de remplir tous les champs (*) et de compléter le dépistage de sécurité.",
+      missingFieldsDesc:
+        "Merci de remplir tous les champs (*) et de compléter le dépistage de sécurité.",
       requiredHint: "* requis pour terminer",
       crisisBannerTitle: "Pourquoi c'est important",
-      crisisBannerDesc: "Si tu coches une alerte de sécurité ci-dessous, nous afficherons immédiatement les ressources d'urgence (SOS Amitié Maroc) — ton thérapeute sera aussi prévenu à la prochaine séance.",
+      crisisBannerDesc:
+        "Si tu coches une alerte de sécurité ci-dessous, nous afficherons immédiatement les ressources d'urgence (SOS Amitié Maroc) — ton thérapeute sera aussi prévenu à la prochaine séance.",
       yes: "Oui",
       no: "Non",
       steps: {
         identity: { label: "Identité", description: "Informations de base" },
-        presenting_complaint: { label: "Motif de consultation", description: "Plainte principale et déclencheurs" },
-        history_personal: { label: "Histoire personnelle", description: "Enfance, scolarité, événements de vie" },
-        history_family: { label: "Histoire familiale", description: "Structure familiale et santé mentale" },
-        medical: { label: "Médical", description: "Traitements, médicaments, suivis antérieurs" },
-        lifestyle: { label: "Mode de vie", description: "Sommeil, appétit, substances, entourage" },
-        risk_screening: { label: "Dépistage de sécurité", description: "Questions confidentielles de sécurité" },
-        goals: { label: "Objectifs", description: "Ce que tu attends de la thérapie" },
+        presenting_complaint: {
+          label: "Motif de consultation",
+          description: "Plainte principale et déclencheurs",
+        },
+        history_personal: {
+          label: "Histoire personnelle",
+          description: "Enfance, scolarité, événements de vie",
+        },
+        history_family: {
+          label: "Histoire familiale",
+          description: "Structure familiale et santé mentale",
+        },
+        medical: {
+          label: "Médical",
+          description: "Traitements, médicaments, suivis antérieurs",
+        },
+        lifestyle: {
+          label: "Mode de vie",
+          description: "Sommeil, appétit, substances, entourage",
+        },
+        risk_screening: {
+          label: "Dépistage de sécurité",
+          description: "Questions confidentielles de sécurité",
+        },
+        goals: {
+          label: "Objectifs",
+          description: "Ce que tu attends de la thérapie",
+        },
       },
       fields: {
-        age: "Âge", gender: "Genre", marital_status: "Statut marital", profession: "Profession", children: "Enfants",
-        main_reason: "Raison principale de la consultation", onset: "Depuis quand ?", triggers: "Déclencheurs", severity: "Intensité (1–10)",
-        childhood: "Enfance", education: "Études", key_events: "Événements de vie marquants", traumas: "Traumas passés",
-        structure: "Structure familiale", mental_health: "Antécédents familiaux santé mentale", relationships: "Qualité des relations",
-        conditions: "Pathologies actuelles", medications: "Médicaments", allergies: "Allergies", prior_therapy: "Psychothérapie / psychiatrie antérieure",
-        sleep: "Sommeil", sleepPh: "heures / qualité", appetite: "Appétit", substances: "Substances (alcool, tabac, autres)", exercise: "Activité physique", social_support: "Soutien social",
-        suicidal_ideation: "Pensées suicidaires actuelles", self_harm: "Automutilation récente", violence_risk: "Risque de violence envers autrui", risk_notes: "Notes additionnelles de sécurité",
-        therapy_goals: "Qu'attends-tu de la thérapie ?", timeline: "Délai attendu", success_indicators: "Indicateurs de réussite",
+        age: "Âge",
+        gender: "Genre",
+        marital_status: "Statut marital",
+        profession: "Profession",
+        children: "Enfants",
+        main_reason: "Raison principale de la consultation",
+        onset: "Depuis quand ?",
+        triggers: "Déclencheurs",
+        severity: "Intensité (1–10)",
+        childhood: "Enfance",
+        education: "Études",
+        key_events: "Événements de vie marquants",
+        traumas: "Traumas passés",
+        structure: "Structure familiale",
+        mental_health: "Antécédents familiaux santé mentale",
+        relationships: "Qualité des relations",
+        conditions: "Pathologies actuelles",
+        medications: "Médicaments",
+        allergies: "Allergies",
+        prior_therapy: "Psychothérapie / psychiatrie antérieure",
+        sleep: "Sommeil",
+        sleepPh: "heures / qualité",
+        appetite: "Appétit",
+        substances: "Substances (alcool, tabac, autres)",
+        exercise: "Activité physique",
+        social_support: "Soutien social",
+        suicidal_ideation: "Pensées suicidaires actuelles",
+        self_harm: "Automutilation récente",
+        violence_risk: "Risque de violence envers autrui",
+        risk_notes: "Notes additionnelles de sécurité",
+        therapy_goals: "Qu'attends-tu de la thérapie ?",
+        timeline: "Délai attendu",
+        success_indicators: "Indicateurs de réussite",
       },
     },
     whyUs: {
       ariaLabel: "Pourquoi U.Psy",
       eyebrow: "Pourquoi U.Psy",
       title: "Six raisons qui font de nous bien plus qu'un annuaire de psys.",
-      subtitle: "La plupart des plateformes listent des thérapeutes. Nous opérons un véritable système de psychologie de la performance — clinique, mesurable, et conçu pour le Maroc.",
+      subtitle:
+        "La plupart des plateformes listent des thérapeutes. Nous opérons un véritable système de psychologie de la performance — clinique, mesurable, et conçu pour le Maroc.",
       cta: "Lire l'argumentaire complet",
-      heroTitle: "Nous ne listons pas des thérapeutes. Nous opérons un système de psychologie de la performance.",
-      heroSubtitle: "La plupart des plateformes au Maroc se résument à des résultats de recherche. U.Psy est un système clinique opérationnel pour mesurer, entraîner et appliquer les compétences psychologiques sous pression.",
+      heroTitle:
+        "Nous ne listons pas des thérapeutes. Nous opérons un système de psychologie de la performance.",
+      heroSubtitle:
+        "La plupart des plateformes au Maroc se résument à des résultats de recherche. U.Psy est un système clinique opérationnel pour mesurer, entraîner et appliquer les compétences psychologiques sous pression.",
       heroCtaPrimary: "Trouver mon match",
       heroCtaSecondary: "Parler au fondateur",
       pillarsTitle: "Six piliers, un seul système.",
-      pillarsSubtitle: "Chaque pilier est un choix de conception délibéré — et un engagement mesurable.",
-      founderQuote: "Le Maroc n'a pas besoin d'une nouvelle marketplace. Il a besoin d'un système qui prend la psychologie au sérieux — cliniquement, opérationnellement et culturellement.",
+      pillarsSubtitle:
+        "Chaque pilier est un choix de conception délibéré — et un engagement mesurable.",
+      founderQuote:
+        "Le Maroc n'a pas besoin d'une nouvelle marketplace. Il a besoin d'un système qui prend la psychologie au sérieux — cliniquement, opérationnellement et culturellement.",
       founderCta: "Lire l'histoire du fondateur",
       finalTitle: "Prêt à travailler avec un vrai système ?",
-      finalSubtitle: "Deux minutes de diagnostic. Un match. Un vrai psychologue, un vrai protocole, de vrais résultats.",
+      finalSubtitle:
+        "Deux minutes de diagnostic. Un match. Un vrai psychologue, un vrai protocole, de vrais résultats.",
       methodCta: "Lire la méthodologie",
       compare: {
         feature: "Critère",
@@ -2837,42 +3728,84 @@ export const translations = {
         },
       },
       items: {
-        system: { title: "Système de psychologie de la performance", desc: "Pas un annuaire. Une plateforme opérationnelle complète qui mesure, identifie, entraîne et applique les compétences psychologiques sous pression." },
-        accreditation: { title: "Accréditation clinique en 5 niveaux", desc: "Chaque spécialiste est vérifié via une accréditation clinique en plusieurs étapes. Aucun titre auto-déclaré, aucune inflation de marketplace." },
-        morocco: { title: "Conçu pour le Maroc", desc: "Trilingue (FR / EN / AR-RTL), conforme à la Loi 09-08, tarifs en MAD, paiements locaux, et culture clinique authentiquement marocaine." },
-        rigor: { title: "Rigueur clinique", desc: "Instruments validés (GAD-7, PHQ-9), protocoles fondés sur la preuve (TCC, Schémas, EMDR), et notes de séance structurées — pas de conseils génériques." },
-        ecosystem: { title: "Écosystème intégré", desc: "Marketplace, MOOC, programmes B2B, outils IA (Nour) et protocole de crise — une seule plateforme, pas un patchwork." },
-        privacy: { title: "Vie privée dès la conception", desc: "Sécurité au niveau des lignes (RLS), notes cliniques chiffrées, vérification des mots de passe compromis, vérification d'e-mail obligatoire, zéro revente de données." },
+        system: {
+          title: "Système de psychologie de la performance",
+          desc: "Pas un annuaire. Une plateforme opérationnelle complète qui mesure, identifie, entraîne et applique les compétences psychologiques sous pression.",
+        },
+        accreditation: {
+          title: "Accréditation clinique en 5 niveaux",
+          desc: "Chaque spécialiste est vérifié via une accréditation clinique en plusieurs étapes. Aucun titre auto-déclaré, aucune inflation de marketplace.",
+        },
+        morocco: {
+          title: "Conçu pour le Maroc",
+          desc: "Trilingue (FR / EN / AR-RTL), conforme à la Loi 09-08, tarifs en MAD, paiements locaux, et culture clinique authentiquement marocaine.",
+        },
+        rigor: {
+          title: "Rigueur clinique",
+          desc: "Instruments validés (GAD-7, PHQ-9), protocoles fondés sur la preuve (TCC, Schémas, EMDR), et notes de séance structurées — pas de conseils génériques.",
+        },
+        ecosystem: {
+          title: "Écosystème intégré",
+          desc: "Marketplace, MOOC, programmes B2B, outils IA (Nour) et protocole de crise — une seule plateforme, pas un patchwork.",
+        },
+        privacy: {
+          title: "Vie privée dès la conception",
+          desc: "Sécurité au niveau des lignes (RLS), notes cliniques chiffrées, vérification des mots de passe compromis, vérification d'e-mail obligatoire, zéro revente de données.",
+        },
       },
       pillars: {
         system: {
           desc: "Nous ne listons pas des thérapeutes. Nous opérons un système qui mesure, identifie ce qui dysfonctionne, entraîne les bonnes compétences et les applique dans la vie réelle.",
-          proof: { a: "Diagnostics validés", b: "Protocoles structurés", c: "Suivi des résultats" },
+          proof: {
+            a: "Diagnostics validés",
+            b: "Protocoles structurés",
+            c: "Suivi des résultats",
+          },
           cta: "Essayer le laboratoire d'évaluation",
         },
         accreditation: {
           desc: "Chaque spécialiste U.Psy passe une accréditation clinique en plusieurs étapes revue par notre équipe — diplômes, parcours de formation, supervision et éthique.",
-          proof: { a: "Identité et licence vérifiées", b: "Parcours de formation revu", c: "Supervision continue" },
+          proof: {
+            a: "Identité et licence vérifiées",
+            b: "Parcours de formation revu",
+            c: "Supervision continue",
+          },
           cta: "Voir les spécialistes accrédités",
         },
         morocco: {
           desc: "Trilingue FR / EN / Arabe avec support RTL complet, conformité Loi 09-08, tarification en MAD et contenu clinique adapté à la culture marocaine.",
-          proof: { a: "FR · EN · AR (RTL)", b: "Conforme Loi 09-08", c: "Paiements locaux" },
+          proof: {
+            a: "FR · EN · AR (RTL)",
+            b: "Conforme Loi 09-08",
+            c: "Paiements locaux",
+          },
           cta: "Notre ombrelle marocaine",
         },
         rigor: {
           desc: "Instruments psychométriques validés, protocoles thérapeutiques fondés sur la preuve et notes de séance structurées — chaque interaction ancrée dans la science clinique.",
-          proof: { a: "GAD-7 · PHQ-9", b: "TCC · Schémas · EMDR", c: "Notes de séance structurées" },
+          proof: {
+            a: "GAD-7 · PHQ-9",
+            b: "TCC · Schémas · EMDR",
+            c: "Notes de séance structurées",
+          },
           cta: "Lire la méthodologie",
         },
         ecosystem: {
           desc: "Un seul compte, une seule plateforme : marketplace pour les soins individuels, MOOC pour l'apprentissage, programmes B2B pour les organisations, outils IA pour le travail autonome.",
-          proof: { a: "Marketplace + MOOC", b: "Programmes B2B", c: "Assistant IA Nour" },
+          proof: {
+            a: "Marketplace + MOOC",
+            b: "Programmes B2B",
+            c: "Assistant IA Nour",
+          },
           cta: "Explorer les services",
         },
         privacy: {
           desc: "Sécurité au niveau des lignes, notes cliniques chiffrées, vérification des mots de passe compromis, vérification d'e-mail obligatoire, zéro revente de données.",
-          proof: { a: "RLS sur chaque table", b: "Notes chiffrées", c: "Aucune revente de données" },
+          proof: {
+            a: "RLS sur chaque table",
+            b: "Notes chiffrées",
+            c: "Aucune revente de données",
+          },
           cta: "Lire la politique de confidentialité",
         },
       },
@@ -2905,7 +3838,8 @@ export const translations = {
       findPsychologistValue: "تصفح أكثر من 50 متخصصًا معتمدًا",
       getMatchedValue: "الذكاء الاصطناعي يجد لك التطابق المثالي في 3 دقائق",
       servicesValue: "باقات فردية + رياضية + سريرية",
-      forOrganizationsValue: "ورش عمل جماعية، برامج مساعدة الموظفين، أداء الرياضيين",
+      forOrganizationsValue:
+        "ورش عمل جماعية، برامج مساعدة الموظفين، أداء الرياضيين",
       accreditationValue: "انضم إلى شبكتنا من الممارسين المتميزين",
       innovationHubValue: "أدوات تقنية وتعاونات بحثية",
       skoolValue: "مجتمع مجاني للعملاء والأخصائيين النفسيين",
@@ -2933,11 +3867,13 @@ export const translations = {
     hero: {
       title: "علم النفس، مصمم من أجل",
       titleHighlight: "الأداء تحت الضغط",
-      subtitle: "لا تحتاج المزيد من الخيارات. تحتاج وضوحاً حول ما ينهار — ونظاماً لإصلاحه. U.Psy يُشخّص، ويُوجّه، ويُدرّب.",
+      subtitle:
+        "لا تحتاج المزيد من الخيارات. تحتاج وضوحاً حول ما ينهار — ونظاماً لإصلاحه. U.Psy يُشخّص، ويُوجّه، ويُدرّب.",
       findPsychologist: "تصفح المتخصصين",
       startAssessment: "قِس مستوى سيطرتك",
       microTrust: "تشخيص في دقيقتين · معتمد سريرياً · سري",
-      seoLine: "U.Psy — نظام علم نفس عملياتي للأداء والأزمات والصحة النفسية تحت الضغط.",
+      seoLine:
+        "U.Psy — نظام علم نفس عملياتي للأداء والأزمات والصحة النفسية تحت الضغط.",
       explorePrograms: "استكشف البرامج",
       licensedPsychologists: "أخصائيون مرخصون",
       secureTelehealth: "بنية تحتية آمنة",
@@ -2977,7 +3913,8 @@ export const translations = {
     },
     onboarding: {
       welcomeTitle: "ابدأ رحلتك نحو الصحة النفسية",
-      welcomeText: "أجب عن بعض الأسئلة لنقترح عليك الطبيب النفسي أو البرنامج الأنسب لك.",
+      welcomeText:
+        "أجب عن بعض الأسئلة لنقترح عليك الطبيب النفسي أو البرنامج الأنسب لك.",
       startAssessment: "ابدأ التقييم",
       browsePsychologists: "تصفح الأطباء النفسيين",
       browsePsychologistsInstead: "تصفح الأطباء النفسيين بدلاً من ذلك",
@@ -2992,7 +3929,8 @@ export const translations = {
     },
     assessments: {
       labTitle: "مختبر التقييم النفسي",
-      labSubtitle: "تقييمات مصادق عليها علميًا لفهم صحتك النفسية وأدائك ورفاهيتك.",
+      labSubtitle:
+        "تقييمات مصادق عليها علميًا لفهم صحتك النفسية وأدائك ورفاهيتك.",
       questionFeeling: "كيف كان شعورك مؤخرًا؟",
       questionFeelingSubtitle: "لا توجد إجابات خاطئة — كن صادقًا فقط.",
       optionCalm: "هادئ غالبًا",
@@ -3034,9 +3972,12 @@ export const translations = {
       athletePerformance: "أداء الرياضيين",
       organizational: "تنظيمي",
       assessments: "التقييمات",
-      resultMinimal: "تشير نتائجك إلى مخاوف بسيطة. استمر في الحفاظ على ممارسات الرفاهية الخاصة بك.",
-      resultModerate: "تشير نتائجك إلى أعراض متوسطة. فكر في استكشاف برامجنا أو التحدث مع متخصص.",
-      resultSignificant: "تشير نتائجك إلى أعراض كبيرة. نوصي بالتحدث مع أخصائي نفسي للحصول على دعم مهني.",
+      resultMinimal:
+        "تشير نتائجك إلى مخاوف بسيطة. استمر في الحفاظ على ممارسات الرفاهية الخاصة بك.",
+      resultModerate:
+        "تشير نتائجك إلى أعراض متوسطة. فكر في استكشاف برامجنا أو التحدث مع متخصص.",
+      resultSignificant:
+        "تشير نتائجك إلى أعراض كبيرة. نوصي بالتحدث مع أخصائي نفسي للحصول على دعم مهني.",
       assessmentSummary: "ملخص تقييمك",
       responseSuggest: "تشير إجاباتك إلى أنك قد تعاني من",
       interestedInSupport: "أنت مهتم بالحصول على دعم في",
@@ -3049,7 +3990,8 @@ export const translations = {
       topMatches: "أفضل تطابقاتك",
       topMatchesDesc: "بناءً على تقييمك، إليك أفضل الأخصائيين النفسيين لك.",
       noMatches: "لم يتم العثور على تطابقات",
-      noMatchesDesc: "لم نتمكن من العثور على أخصائيين نفسيين يطابقون معاييرك الدقيقة حاليًا.",
+      noMatchesDesc:
+        "لم نتمكن من العثور على أخصائيين نفسيين يطابقون معاييرك الدقيقة حاليًا.",
       match: "تطابق",
       preferSpeaking: "هل تفضل التحدث إلى شخص ما؟",
       yes: "نعم",
@@ -3072,7 +4014,8 @@ export const translations = {
       pageTitle: "ابحث عن",
       pageTitleHighlight: "الأخصائي النفسي",
       pageTitleEnd: "المناسب لك",
-      pageSubtitle: "تصفح أخصائيين نفسيين مرخصين حسب احتياجاتك ولغتك ونهجك العلاجي وتوافرك.",
+      pageSubtitle:
+        "تصفح أخصائيين نفسيين مرخصين حسب احتياجاتك ولغتك ونهجك العلاجي وتوافرك.",
       searchPlaceholder: "البحث بالاسم...",
       takeSelfAssessment: "إجراء تقييم ذاتي",
       browsePsychologists: "تصفح الأخصائيين",
@@ -3086,7 +4029,8 @@ export const translations = {
       getMatchedInstead: "احصل على تطابق بدلاً من ذلك",
       clearAllFilters: "مسح جميع الفلاتر",
       notSureTitle: "لست متأكدًا من اختيارك؟",
-      notSureDesc: "قم بإجراء تقييم ذاتي سريع وسنوصي بأفضل أخصائي نفسي بناءً على احتياجاتك وتفضيلاتك وتوافرك.",
+      notSureDesc:
+        "قم بإجراء تقييم ذاتي سريع وسنوصي بأفضل أخصائي نفسي بناءً على احتياجاتك وتفضيلاتك وتوافرك.",
       viewProfile: "عرض الملف الشخصي",
       book: "حجز",
       accredited: "معتمد",
@@ -3114,7 +4058,8 @@ export const translations = {
       errorInvalidCredentials: "البريد الإلكتروني أو كلمة المرور غير صحيحة.",
       errorEmailNotConfirmed: "يرجى تأكيد بريدك الإلكتروني قبل تسجيل الدخول.",
       errorEmailTaken: "يوجد حساب بهذا البريد الإلكتروني بالفعل.",
-      errorRateLimited: "محاولات كثيرة جدًا. يرجى الانتظار قليلاً ثم إعادة المحاولة.",
+      errorRateLimited:
+        "محاولات كثيرة جدًا. يرجى الانتظار قليلاً ثم إعادة المحاولة.",
       errorFullNameRequired: "الاسم الكامل مطلوب",
       errorPasswordsNoMatch: "كلمتا المرور غير متطابقتين",
       passwordsMatch: "كلمتا المرور متطابقتان",
@@ -3128,7 +4073,8 @@ export const translations = {
       enterEmailDesc: "يرجى إدخال بريدك الإلكتروني أولاً.",
       checkEmail: "تحقق من بريدك الإلكتروني",
       checkEmailDesc: "تم إرسال رابط إعادة تعيين كلمة المرور.",
-      verifyEmailDesc: "لقد أرسلنا رابط تحقق إلى بريدك الإلكتروني. يرجى التأكيد قبل تسجيل الدخول.",
+      verifyEmailDesc:
+        "لقد أرسلنا رابط تحقق إلى بريدك الإلكتروني. يرجى التأكيد قبل تسجيل الدخول.",
       errorInvalidEmailFormat: "أدخل عنوان بريد إلكتروني صالحًا",
       agreeToTerms: "أوافق على {terms} و{privacy}",
       termsOfService: "شروط الخدمة",
@@ -3137,7 +4083,8 @@ export const translations = {
       resendVerification: "لم تستلم البريد الإلكتروني؟ أعد إرساله",
       resendingVerification: "جارٍ إعادة الإرسال...",
       resendVerificationSent: "تم إعادة إرسال بريد التحقق",
-      resendVerificationDesc: "تحقق من بريدك الوارد (ومجلد الرسائل غير المرغوب فيها) للحصول على الرابط الجديد.",
+      resendVerificationDesc:
+        "تحقق من بريدك الوارد (ومجلد الرسائل غير المرغوب فيها) للحصول على الرابط الجديد.",
       signInRequired: "تسجيل الدخول مطلوب",
       signInRequiredDesc: "يرجى تسجيل الدخول للوصول إلى لوحة التحكم.",
       signIn: "تسجيل الدخول",
@@ -3171,7 +4118,7 @@ export const translations = {
       findPsychologist: "ابحث عن أخصائي",
       myCertificates: "شهاداتي",
       goToDashboard: "الذهاب إلى لوحة التحكم",
-          todaysState: "حالة اليوم",
+      todaysState: "حالة اليوم",
       checkedInToday: "تم تسجيل الدخول اليوم",
       firstCheckIn: "أول تسجيل اليوم",
       lowStreak: "تبني روتيناً",
@@ -3286,7 +4233,8 @@ export const translations = {
     },
     footer: {
       strapline: "شريكك الموثوق",
-      crisis: "هذه ليست خدمة طوارئ. في حالة الطوارئ، اتصل بخدمات الطوارئ المحلية فورًا.",
+      crisis:
+        "هذه ليست خدمة طوارئ. في حالة الطوارئ، اتصل بخدمات الطوارئ المحلية فورًا.",
       legal: "الشروط والخصوصية",
       followUs: "تابعنا",
       email: "البريد الإلكتروني",
@@ -3303,7 +4251,8 @@ export const translations = {
     home: {
       hero: {
         title: "U.Psy — أخصائيك النفسي الشخصي والموثوق",
-        subtitle: "علم نفس قائم على الأدلة لإطلاق القدرة على الصمود، ورفع الأداء، وتعزيز الشفاء — في العيادة، عبر الإنترنت، وفي الميدان.",
+        subtitle:
+          "علم نفس قائم على الأدلة لإطلاق القدرة على الصمود، ورفع الأداء، وتعزيز الشفاء — في العيادة، عبر الإنترنت، وفي الميدان.",
         getStarted: "ابدأ الآن",
         getMatched: "احصل على تطابق",
         trustStrip: "موثوق به من قبل المحترفين والمؤسسات",
@@ -3317,30 +4266,45 @@ export const translations = {
         statMatch: "للعثور على المطابقة",
         statSatisfaction: "رضا العملاء",
         words: {
-          burnoutP: "الإرهاق", burnoutS: "التعافي",
-          anxietyP: "القلق", anxietyS: "الوضوح",
-          stressP: "الضغط", stressS: "التوازن",
-          doubtP: "الشك بالذات", doubtS: "الثقة",
-          overwhelmP: "الإنهاك", overwhelmS: "التركيز",
-          disconnectionP: "الانفصال", disconnectionS: "الصمود",
+          burnoutP: "الإرهاق",
+          burnoutS: "التعافي",
+          anxietyP: "القلق",
+          anxietyS: "الوضوح",
+          stressP: "الضغط",
+          stressS: "التوازن",
+          doubtP: "الشك بالذات",
+          doubtS: "الثقة",
+          overwhelmP: "الإنهاك",
+          overwhelmS: "التركيز",
+          disconnectionP: "الانفصال",
+          disconnectionS: "الصمود",
         },
         keywords: {
-          cbt: "العلاج المعرفي السلوكي", emdr: "EMDR", schema: "العلاج بالمخططات",
-          resilience: "الصمود", act: "ACT", mindfulness: "اليقظة الذهنية",
-          peakPerformance: "الأداء العالي", wellbeing: "الصحة النفسية",
+          cbt: "العلاج المعرفي السلوكي",
+          emdr: "EMDR",
+          schema: "العلاج بالمخططات",
+          resilience: "الصمود",
+          act: "ACT",
+          mindfulness: "اليقظة الذهنية",
+          peakPerformance: "الأداء العالي",
+          wellbeing: "الصحة النفسية",
         },
         preview: {
           servicesTitle: "الخدمات",
-          servicesDesc: "علاج فردي، تدريب على الأداء، وبروتوكولات سريرية منظمة.",
+          servicesDesc:
+            "علاج فردي، تدريب على الأداء، وبروتوكولات سريرية منظمة.",
           resourcesTitle: "الموارد",
-          resourcesDesc: "دورات ذاتية، تقييمات، وأدوات صممها أخصائيون نفسيون مرخصون.",
+          resourcesDesc:
+            "دورات ذاتية، تقييمات، وأدوات صممها أخصائيون نفسيون مرخصون.",
           communityTitle: "المجتمع",
-          communityDesc: "انضم إلى مجتمع Skool للدعم بين الأقران والفعاليات المباشرة وجلسات الأسئلة مع الخبراء.",
+          communityDesc:
+            "انضم إلى مجتمع Skool للدعم بين الأقران والفعاليات المباشرة وجلسات الأسئلة مع الخبراء.",
         },
         intent: {
           exploring: {
             titlePrefix: "علم النفس، مصمم من أجل",
-            subtitle: "نظام علم نفس الأداء الذي يقيس الجاهزية الذهنية، ويحدد النقاط العمياء، ويبني بروتوكولات قائمة على الأدلة لتحقيق أعلى أداء.",
+            subtitle:
+              "نظام علم نفس الأداء الذي يقيس الجاهزية الذهنية، ويحدد النقاط العمياء، ويبني بروتوكولات قائمة على الأدلة لتحقيق أعلى أداء.",
             primary: "ابدأ تقييمك",
             secondary: "تحدث مع نور · ذكاء اصطناعي",
             stat1Label: "أخصائيون موثقون",
@@ -3349,7 +4313,8 @@ export const translations = {
           },
           ready: {
             titlePrefix: "مطابقتك من أجل",
-            subtitle: "أنت تعرف ما تحتاجه. اعثر على متخصص موثق في أقل من دقيقتين — عبر الإنترنت أو حضوريًا في جميع أنحاء المغرب.",
+            subtitle:
+              "أنت تعرف ما تحتاجه. اعثر على متخصص موثق في أقل من دقيقتين — عبر الإنترنت أو حضوريًا في جميع أنحاء المغرب.",
             primary: "اعثر على مطابقتي",
             secondary: "تصفح المتخصصين",
             stat1Label: "أخصائيون موثقون",
@@ -3358,7 +4323,8 @@ export const translations = {
           },
           researching: {
             titlePrefix: "أدوات قائمة على الأدلة من أجل",
-            subtitle: "اكتشف أدوات الفحص السريري، والمنهجيات المراجعة من قبل الأقران، والبروتوكولات المستخدمة من قبل علماء النفس الرياضيين والمؤسسات حول العالم.",
+            subtitle:
+              "اكتشف أدوات الفحص السريري، والمنهجيات المراجعة من قبل الأقران، والبروتوكولات المستخدمة من قبل علماء النفس الرياضيين والمؤسسات حول العالم.",
             primary: "استكشف التقييمات",
             secondary: "منهجيتنا",
             stat1Label: "فحوصات سريرية",
@@ -3367,7 +4333,8 @@ export const translations = {
           },
           skeptical: {
             titlePrefix: "حماية موثوقة من",
-            subtitle: "كل أخصائي نفسي على U.Psy معتمد سريريًا، ومراجَع من قبل الأقران، وملتزم بالقانون المغربي 09-08 لحماية البيانات. خصوصيتك غير قابلة للتفاوض.",
+            subtitle:
+              "كل أخصائي نفسي على U.Psy معتمد سريريًا، ومراجَع من قبل الأقران، وملتزم بالقانون المغربي 09-08 لحماية البيانات. خصوصيتك غير قابلة للتفاوض.",
             primary: "كيف يعمل النظام",
             secondary: "اقرأ المراجعات",
             stat1Label: "نظام الاعتماد",
@@ -3387,11 +4354,14 @@ export const translations = {
       testimonials: {
         sectionTitle: "ماذا يقول عملاؤنا",
         testimonial1Role: "عداء وطني",
-        testimonial1Quote: "أخيرًا أتنافس بهدوء وتركيز. قلقي قبل السباق تحت السيطرة.",
+        testimonial1Quote:
+          "أخيرًا أتنافس بهدوء وتركيز. قلقي قبل السباق تحت السيطرة.",
         testimonial2Role: "مدير تسويق",
-        testimonial2Quote: "الإرهاق انخفض، الوضوح ارتفع. أدوات عملية ما زلت أستخدمها يوميًا.",
+        testimonial2Quote:
+          "الإرهاق انخفض، الوضوح ارتفع. أدوات عملية ما زلت أستخدمها يوميًا.",
         testimonial3Role: "عميل في التعافي",
-        testimonial3Quote: "شعرت بأنني مرئي دون حكم. البنية ساعدتني في إعادة البناء.",
+        testimonial3Quote:
+          "شعرت بأنني مرئي دون حكم. البنية ساعدتني في إعادة البناء.",
       },
       cta: {
         title: "مستعد لتقوية عقلك؟",
@@ -3413,8 +4383,10 @@ export const translations = {
       },
       background: {
         title: "من هو مهدي فلجي؟",
-        paragraph1: "السيد مهدي فلجي هو مؤسس U.Psy، منصة علم نفس حديثة مصممة لجعل الدعم في الصحة النفسية أكثر سهولة وتخصيصاً وتركيزاً على الإنسان. مع التركيز القوي على تجربة المستخدم والتصميم السلوكي، يبني مهدي فلجي U.Psy كأكثر من مجرد دليل لأخصائيي علم النفس — إنها رحلة صحة نفسية موجهة.",
-        paragraph2: "يؤمن بأن الكثير من الناس يعانون ليس لأن المساعدة غير متاحة، بل لأنهم لا يعرفون من أين يبدأون، أو يشعرون بالإرهاق من الخيارات، أو يفتقرون للثقة في العملية. تعالج U.Psy هذه التحديات من خلال التصميم الذكي والتخصيص والفهم العميق لعلم نفس المستخدم.",
+        paragraph1:
+          "السيد مهدي فلجي هو مؤسس U.Psy، منصة علم نفس حديثة مصممة لجعل الدعم في الصحة النفسية أكثر سهولة وتخصيصاً وتركيزاً على الإنسان. مع التركيز القوي على تجربة المستخدم والتصميم السلوكي، يبني مهدي فلجي U.Psy كأكثر من مجرد دليل لأخصائيي علم النفس — إنها رحلة صحة نفسية موجهة.",
+        paragraph2:
+          "يؤمن بأن الكثير من الناس يعانون ليس لأن المساعدة غير متاحة، بل لأنهم لا يعرفون من أين يبدأون، أو يشعرون بالإرهاق من الخيارات، أو يفتقرون للثقة في العملية. تعالج U.Psy هذه التحديات من خلال التصميم الذكي والتخصيص والفهم العميق لعلم نفس المستخدم.",
       },
       credentials: {
         title: "المؤهلات والشهادات",
@@ -3429,7 +4401,8 @@ export const translations = {
       },
       philosophy: {
         title: "الرؤية والنهج",
-        paragraph1: "أنشأ مهدي فلجي U.Psy برسالة واضحة: إزالة العوائق والارتباك والتردد في الوصول إلى الدعم النفسي. يؤمن بأن الأداء الأمثل — سواء في الرياضة أو الأعمال أو الحياة اليومية — ينشأ من أساس من الوضوح العقلي والتنظيم العاطفي والعادات المنضبطة.",
+        paragraph1:
+          "أنشأ مهدي فلجي U.Psy برسالة واضحة: إزالة العوائق والارتباك والتردد في الوصول إلى الدعم النفسي. يؤمن بأن الأداء الأمثل — سواء في الرياضة أو الأعمال أو الحياة اليومية — ينشأ من أساس من الوضوح العقلي والتنظيم العاطفي والعادات المنضبطة.",
         paragraph2: "تحت إدارته، تُبنى U.Psy وفق مبادئ منتج حديثة:",
         list: [
           "تخصيص مبني على نية كل مستخدم",
@@ -3443,17 +4416,31 @@ export const translations = {
         title: "مجالات التركيز",
         individual: {
           title: "الدعم الفردي",
-          list: ["إدارة القلق والتوتر", "تحسين الأداء", "التدريب على المهارات العقلية", "بناء الثقة", "التحولات المهنية"],
+          list: [
+            "إدارة القلق والتوتر",
+            "تحسين الأداء",
+            "التدريب على المهارات العقلية",
+            "بناء الثقة",
+            "التحولات المهنية",
+          ],
         },
         organizational: {
           title: "الاستشارات المؤسسية",
-          list: ["تطوير القيادة", "أداء الفريق", "الصحة النفسية في مكان العمل", "تدريب التنفيذيين", "التدريب التنظيمي"],
+          list: [
+            "تطوير القيادة",
+            "أداء الفريق",
+            "الصحة النفسية في مكان العمل",
+            "تدريب التنفيذيين",
+            "التدريب التنظيمي",
+          ],
         },
       },
       experience: {
         title: "لماذا U.Psy مهمة",
-        paragraph1: "الصحة النفسية هي أحد أهم تحديات عصرنا. تهدف U.Psy إلى جعل الدعم النفسي أسهل في الوصول، وتقليل وصمة العلاج النفسي، ومساعدة المستخدمين على اتخاذ خطوتهم الأولى بثقة.",
-        paragraph2: "من خلال الجمع بين التكنولوجيا وعلم النفس والتصميم، يضع مهدي فلجي U.Psy كمنصة رائدة في مستقبل الصحة النفسية الرقمية — محولاً قراراً معقداً وعاطفياً إلى رحلة واضحة وموجهة وممكّنة.",
+        paragraph1:
+          "الصحة النفسية هي أحد أهم تحديات عصرنا. تهدف U.Psy إلى جعل الدعم النفسي أسهل في الوصول، وتقليل وصمة العلاج النفسي، ومساعدة المستخدمين على اتخاذ خطوتهم الأولى بثقة.",
+        paragraph2:
+          "من خلال الجمع بين التكنولوجيا وعلم النفس والتصميم، يضع مهدي فلجي U.Psy كمنصة رائدة في مستقبل الصحة النفسية الرقمية — محولاً قراراً معقداً وعاطفياً إلى رحلة واضحة وموجهة وممكّنة.",
       },
     },
     services: {
@@ -3462,19 +4449,51 @@ export const translations = {
         subtitle: "كل تدخل مبني على ملفك التشخيصي. القياس أولاً. ثم التدريب.",
       },
       items: [
-        { title: "التقييم التشخيصي", description: "90 دقيقة استقبال منظم. مقاييس أساسية. تحديد الخلل. بناء بروتوكولك.", price: "700 درهم" },
-        { title: "بروتوكول الأداء", description: "6×60 دقيقة. تصور ذهني. روتين ما قبل المنافسة. تلقيح ضد الضغط. نتائج مقاسة.", price: "3,600 درهم" },
-        { title: "بروتوكول التعافي السريري", description: "10×60 دقيقة علاج معرفي سلوكي/مخططات. قلق. صدمة. إدمان. تقدم متتبع.", price: "5,500 درهم" },
-        { title: "التنميط القياسي النفسي", description: "أدوات معتمدة + جلستا استخلاص × 60 دقيقة. اعرف نظام تشغيلك.", price: "1,800 درهم" },
-        { title: "جلسة إعادة المعايرة", description: "30 دقيقة ضبط مستهدف. للعملاء الحاليين فقط. تعديل ما يحتاج تعديلاً.", price: "300 درهم" },
+        {
+          title: "التقييم التشخيصي",
+          description:
+            "90 دقيقة استقبال منظم. مقاييس أساسية. تحديد الخلل. بناء بروتوكولك.",
+          price: "700 درهم",
+        },
+        {
+          title: "بروتوكول الأداء",
+          description:
+            "6×60 دقيقة. تصور ذهني. روتين ما قبل المنافسة. تلقيح ضد الضغط. نتائج مقاسة.",
+          price: "3,600 درهم",
+        },
+        {
+          title: "بروتوكول التعافي السريري",
+          description:
+            "10×60 دقيقة علاج معرفي سلوكي/مخططات. قلق. صدمة. إدمان. تقدم متتبع.",
+          price: "5,500 درهم",
+        },
+        {
+          title: "التنميط القياسي النفسي",
+          description:
+            "أدوات معتمدة + جلستا استخلاص × 60 دقيقة. اعرف نظام تشغيلك.",
+          price: "1,800 درهم",
+        },
+        {
+          title: "جلسة إعادة المعايرة",
+          description:
+            "30 دقيقة ضبط مستهدف. للعملاء الحاليين فقط. تعديل ما يحتاج تعديلاً.",
+          price: "300 درهم",
+        },
       ],
       expectations: {
         title: "العملية",
-        list: ["بروتوكولات منظمة بمؤشرات أداء قابلة للقياس", "مناهج قائمة على الأدلة. لا تخمين.", "جلسات بالإنجليزية أو الفرنسية أو العربية", "سرية تامة. أخلاقيات بمعايير سريرية.", "عبر الإنترنت أو في العيادة. أنت تقرر."],
+        list: [
+          "بروتوكولات منظمة بمؤشرات أداء قابلة للقياس",
+          "مناهج قائمة على الأدلة. لا تخمين.",
+          "جلسات بالإنجليزية أو الفرنسية أو العربية",
+          "سرية تامة. أخلاقيات بمعايير سريرية.",
+          "عبر الإنترنت أو في العيادة. أنت تقرر.",
+        ],
       },
       cta: "ابدأ تشخيصك",
       transition: {
-        title: "البروتوكولات الفردية تحل المشاكل الفردية. الخلل المنظومي يتطلب تدخلاً منظومياً.",
+        title:
+          "البروتوكولات الفردية تحل المشاكل الفردية. الخلل المنظومي يتطلب تدخلاً منظومياً.",
         button: "عرض البروتوكولات المؤسسية",
       },
       methodsBand: {
@@ -3483,22 +4502,51 @@ export const translations = {
         methodsTitle: "الأساليب المستخدمة",
         metricsTitle: "كيف نقيس",
         methods: [
-          { name: "العلاج المعرفي السلوكي", description: "العلاج المعرفي السلوكي — إعادة هيكلة أنماط التفكير، بناء مهارات التكيف، مثبت للقلق والاكتئاب" },
-          { name: "علاج المخططات", description: "أنماط عميقة وتجارب مبكرة — تغيير طويل الأمد لاضطرابات الشخصية ومشاكل العلاقات" },
-          { name: "علم نفس الرياضة/الأداء", description: "مهارات ذهنية للحظات الضغط العالي — التركيز، المرونة، الأداء تحت الضغط" },
+          {
+            name: "العلاج المعرفي السلوكي",
+            description:
+              "العلاج المعرفي السلوكي — إعادة هيكلة أنماط التفكير، بناء مهارات التكيف، مثبت للقلق والاكتئاب",
+          },
+          {
+            name: "علاج المخططات",
+            description:
+              "أنماط عميقة وتجارب مبكرة — تغيير طويل الأمد لاضطرابات الشخصية ومشاكل العلاقات",
+          },
+          {
+            name: "علم نفس الرياضة/الأداء",
+            description:
+              "مهارات ذهنية للحظات الضغط العالي — التركيز، المرونة، الأداء تحت الضغط",
+          },
         ],
         metrics: [
-          { name: "GAD-7", description: "مقياس اضطراب القلق العام المكون من 7 عناصر — قياس موحد لشدة القلق" },
-          { name: "PHQ-9", description: "استبيان صحة المريض — تتبع شدة الاكتئاب والاستجابة للعلاج" },
-          { name: "الالتزام بالبرنامج", description: "الامتثال لبروتوكولات العلاج والتدريب — مقاييس الاتساق والمشاركة" },
-          { name: "مؤشرات العودة للأداء", description: "مؤشرات الجاهزية الرياضية والمهنية — معالم التعافي التنافسي/الإنتاجي" },
+          {
+            name: "GAD-7",
+            description:
+              "مقياس اضطراب القلق العام المكون من 7 عناصر — قياس موحد لشدة القلق",
+          },
+          {
+            name: "PHQ-9",
+            description:
+              "استبيان صحة المريض — تتبع شدة الاكتئاب والاستجابة للعلاج",
+          },
+          {
+            name: "الالتزام بالبرنامج",
+            description:
+              "الامتثال لبروتوكولات العلاج والتدريب — مقاييس الاتساق والمشاركة",
+          },
+          {
+            name: "مؤشرات العودة للأداء",
+            description:
+              "مؤشرات الجاهزية الرياضية والمهنية — معالم التعافي التنافسي/الإنتاجي",
+          },
         ],
       },
     },
     contact: {
       hero: {
         title: "تواصل معنا",
-        subtitle: "مستعد لبدء رحلتك؟ تواصل معنا لحجز جلستك الأولى أو طرح أي أسئلة.",
+        subtitle:
+          "مستعد لبدء رحلتك؟ تواصل معنا لحجز جلستك الأولى أو طرح أي أسئلة.",
       },
       form: {
         title: "أرسل لنا رسالة",
@@ -3513,7 +4561,7 @@ export const translations = {
         messagePlaceholder: "أخبرنا بما تبحث عنه...",
         submitButton: "إرسال الرسالة",
         required: "*",
-              successTitle: "تم إرسال الرسالة",
+        successTitle: "تم إرسال الرسالة",
         successMessage: "شكراً — سنرد عليك خلال 24 ساعة.",
       },
       info: {
@@ -3534,21 +4582,35 @@ export const translations = {
       },
       matching: {
         title: "لست متأكدًا من أين تبدأ؟",
-        description: "جرب خدمة التطابق الخاصة بنا للعثور على الأخصائي النفسي المثالي لاحتياجاتك",
+        description:
+          "جرب خدمة التطابق الخاصة بنا للعثور على الأخصائي النفسي المثالي لاحتياجاتك",
         button: "احصل على تطابق مع أخصائي نفسي",
       },
       faq: {
         title: "الأسئلة الشائعة",
         questions: [
-          { question: "ما مدى سرعة الحصول على رد؟", answer: "نهدف للرد على جميع الاستفسارات خلال 24 ساعة خلال أيام العمل. للأمور العاجلة، يرجى الاتصال بنا مباشرة." },
-          { question: "هل تقدمون جلسات عبر الإنترنت؟", answer: "نعم! نقدم جلسات شخصية في الدار البيضاء والرباط، بالإضافة إلى جلسات عبر الإنترنت عبر مؤتمرات الفيديو الآمنة للعملاء في أي مكان في المغرب أو دوليًا." },
-          { question: "ما اللغات التي تتحدثونها؟", answer: "أخصائيونا النفسيون يتحدثون بطلاقة الإنجليزية والفرنسية والعربية (الدارجة والفصحى). يمكن إجراء الجلسات بأي من هذه اللغات." },
+          {
+            question: "ما مدى سرعة الحصول على رد؟",
+            answer:
+              "نهدف للرد على جميع الاستفسارات خلال 24 ساعة خلال أيام العمل. للأمور العاجلة، يرجى الاتصال بنا مباشرة.",
+          },
+          {
+            question: "هل تقدمون جلسات عبر الإنترنت؟",
+            answer:
+              "نعم! نقدم جلسات شخصية في الدار البيضاء والرباط، بالإضافة إلى جلسات عبر الإنترنت عبر مؤتمرات الفيديو الآمنة للعملاء في أي مكان في المغرب أو دوليًا.",
+          },
+          {
+            question: "ما اللغات التي تتحدثونها؟",
+            answer:
+              "أخصائيونا النفسيون يتحدثون بطلاقة الإنجليزية والفرنسية والعربية (الدارجة والفصحى). يمكن إجراء الجلسات بأي من هذه اللغات.",
+          },
         ],
       },
     },
     apply: {
       title: "تقدم للانضمام إلى شبكتنا",
-      description: "كن جزءًا من شبكتنا المهنية للأخصائيين النفسيين. املأ النموذج أدناه وسنراجع طلبك خلال 3-5 أيام عمل.",
+      description:
+        "كن جزءًا من شبكتنا المهنية للأخصائيين النفسيين. املأ النموذج أدناه وسنراجع طلبك خلال 3-5 أيام عمل.",
       fullName: "الاسم الكامل",
       email: "البريد الإلكتروني",
       phone: "الهاتف (اختياري)",
@@ -3560,7 +4622,8 @@ export const translations = {
       submitApplication: "تقديم الطلب",
       submitting: "جاري الإرسال...",
       successTitle: "تم تقديم الطلب",
-      successMessage: "شكرًا لتقديمك! ستتلقى بريدًا إلكترونيًا خلال 3-5 أيام عمل.",
+      successMessage:
+        "شكرًا لتقديمك! ستتلقى بريدًا إلكترونيًا خلال 3-5 أيام عمل.",
       errorMessage: "فشل في تقديم الطلب. يرجى المحاولة مرة أخرى.",
     },
     profile: {
@@ -3570,11 +4633,14 @@ export const translations = {
       about: "حول",
       therapyApproach: "النهج العلاجي",
       cbt: "العلاج السلوكي المعرفي (CBT)",
-      cbtDesc: "إعادة هيكلة أنماط التفكير وبناء مهارات التأقلم العملية للقلق والاكتئاب والتوتر.",
+      cbtDesc:
+        "إعادة هيكلة أنماط التفكير وبناء مهارات التأقلم العملية للقلق والاكتئاب والتوتر.",
       evidenceBased: "ممارسة قائمة على الأدلة",
-      evidenceBasedDesc: "جميع التدخلات مبنية على بحث علمي محكّم ومكيفة للاحتياجات الفردية.",
+      evidenceBasedDesc:
+        "جميع التدخلات مبنية على بحث علمي محكّم ومكيفة للاحتياجات الفردية.",
       clientCentered: "نهج يركز على العميل",
-      clientCenteredDesc: "مساحة آمنة وخالية من الأحكام حيث تقود أنت اتجاه العلاج بالسرعة التي تناسبك.",
+      clientCenteredDesc:
+        "مساحة آمنة وخالية من الأحكام حيث تقود أنت اتجاه العلاج بالسرعة التي تناسبك.",
       specialties: "التخصصات",
       experienceTraining: "الخبرة والتدريب",
       yearsOfPractice: "سنوات الممارسة",
@@ -3591,7 +4657,8 @@ export const translations = {
       sessionOptions: "خيارات الجلسة",
       location: "الموقع",
       accreditedProfessional: "متخصص معتمد من U.Psy",
-      accreditedDesc: "هذا الأخصائي النفسي موثق ومعتمد من U.Psy، مما يضمن رعاية قائمة على الأدلة والالتزام بالمعايير المهنية. جميع الجلسات سرية وتُجرى بأعلى مستوى من الممارسة الأخلاقية.",
+      accreditedDesc:
+        "هذا الأخصائي النفسي موثق ومعتمد من U.Psy، مما يضمن رعاية قائمة على الأدلة والالتزام بالمعايير المهنية. جميع الجلسات سرية وتُجرى بأعلى مستوى من الممارسة الأخلاقية.",
       avgRating: "متوسط التقييم",
       reviews: "تقييمات",
       responseRate: "معدل الاستجابة",
@@ -3602,12 +4669,16 @@ export const translations = {
       skool: { title: "مجتمع سكول", content: "المحتوى قريبًا..." },
       resources: { title: "الموارد", content: "المحتوى قريبًا..." },
       legal: { title: "المعلومات القانونية", content: "المحتوى قريبًا..." },
-      talentHub: { title: "مركز المواهب والابتكار", content: "المحتوى قريبًا..." },
+      talentHub: {
+        title: "مركز المواهب والابتكار",
+        content: "المحتوى قريبًا...",
+      },
     },
     skoolPage: {
       badge: "مجتمع تعليمي",
       title: "مجتمع التعلم في الصحة النفسية",
-      subtitle: "مساحة نابضة بالحياة حيث يتعلم الأخصائيون النفسيون والطلاب ودعاة الصحة النفسية ويتواصلون وينمون معًا.",
+      subtitle:
+        "مساحة نابضة بالحياة حيث يتعلم الأخصائيون النفسيون والطلاب ودعاة الصحة النفسية ويتواصلون وينمون معًا.",
       joinCommunity: "انضم إلى المجتمع",
       exploreForFree: "استكشف مجانًا",
       communityMembers: "أعضاء المجتمع",
@@ -3615,19 +4686,25 @@ export const translations = {
       countriesRepresented: "دول ممثلة",
       satisfactionRate: "معدل الرضا",
       whatYoullFind: "ما ستجده بالداخل",
-      whatYoullFindDesc: "كل ما تحتاجه لتعميق فهمك للصحة النفسية والتواصل مع محترفين يشاركونك نفس الاهتمامات.",
+      whatYoullFindDesc:
+        "كل ما تحتاجه لتعميق فهمك للصحة النفسية والتواصل مع محترفين يشاركونك نفس الاهتمامات.",
       discussionForums: "منتديات النقاش",
-      discussionForumsDesc: "شارك في نقاشات معتدلة بين الأقران حول مواضيع الصحة النفسية والتقنيات السريرية واستراتيجيات الرفاهية.",
+      discussionForumsDesc:
+        "شارك في نقاشات معتدلة بين الأقران حول مواضيع الصحة النفسية والتقنيات السريرية واستراتيجيات الرفاهية.",
       liveWorkshops: "ورش عمل مباشرة",
-      liveWorkshopsDesc: "جلسات أسبوعية مباشرة يقودها أخصائيون نفسيون مرخصون تغطي مناهج مبنية على الأدلة ودراسات حالة.",
+      liveWorkshopsDesc:
+        "جلسات أسبوعية مباشرة يقودها أخصائيون نفسيون مرخصون تغطي مناهج مبنية على الأدلة ودراسات حالة.",
       resourceLibrary: "مكتبة الموارد",
-      resourceLibraryDesc: "اطلع على مقالات ووثائق بحثية وأدوات وأدلة عملية للنمو الشخصي والمهني.",
+      resourceLibraryDesc:
+        "اطلع على مقالات ووثائق بحثية وأدوات وأدلة عملية للنمو الشخصي والمهني.",
       peerSupport: "مجموعات دعم الأقران",
-      peerSupportDesc: "انضم إلى دوائر دعم موضوعية — إدارة القلق، بناء المرونة، علم النفس الرياضي، والمزيد.",
+      peerSupportDesc:
+        "انضم إلى دوائر دعم موضوعية — إدارة القلق، بناء المرونة، علم النفس الرياضي، والمزيد.",
       upcomingEvents: "الأحداث القادمة",
       upcomingEventsDesc: "احجز مكانك في جلساتنا القادمة بقيادة خبراء.",
       readyToJoin: "مستعد للانضمام؟",
-      readyToJoinDesc: "سواء كنت أخصائيًا نفسيًا ممارسًا أو طالبًا أو شخصًا شغوفًا بالصحة النفسية — هناك مكان لك هنا.",
+      readyToJoinDesc:
+        "سواء كنت أخصائيًا نفسيًا ممارسًا أو طالبًا أو شخصًا شغوفًا بالصحة النفسية — هناك مكان لك هنا.",
       getStarted: "ابدأ",
       workshop: "ورشة عمل",
       webinar: "ندوة عبر الإنترنت",
@@ -3636,29 +4713,36 @@ export const translations = {
     resourcesPage: {
       badge: "مركز المعرفة",
       title: "موارد الصحة النفسية",
-      subtitle: "موارد منظمة ومبنية على الأدلة لدعم رحلتك في الصحة النفسية — سواء كنت محترفًا أو تبحث عن نمو شخصي.",
+      subtitle:
+        "موارد منظمة ومبنية على الأدلة لدعم رحلتك في الصحة النفسية — سواء كنت محترفًا أو تبحث عن نمو شخصي.",
       searchPlaceholder: "البحث في الموارد...",
       filter: "تصفية",
       browseByFormat: "تصفح حسب التنسيق",
       browseByFormatDesc: "اعثر على النوع المناسب من المحتوى لأسلوب تعلمك.",
       articlesGuides: "مقالات وأدلة",
-      articlesGuidesDesc: "مقالات مبنية على الأدلة حول الصحة النفسية وتقنيات العلاج واستراتيجيات الرفاهية.",
+      articlesGuidesDesc:
+        "مقالات مبنية على الأدلة حول الصحة النفسية وتقنيات العلاج واستراتيجيات الرفاهية.",
       videoLibrary: "مكتبة الفيديو",
-      videoLibraryDesc: "محادثات الخبراء وتسجيلات ورش العمل والمحتوى التعليمي من المحترفين المرخصين.",
+      videoLibraryDesc:
+        "محادثات الخبراء وتسجيلات ورش العمل والمحتوى التعليمي من المحترفين المرخصين.",
       podcasts: "بودكاست",
-      podcastsDesc: "محادثات مع كبار الأخصائيين النفسيين حول مواضيع من القلق إلى الأداء الأقصى.",
+      podcastsDesc:
+        "محادثات مع كبار الأخصائيين النفسيين حول مواضيع من القلق إلى الأداء الأقصى.",
       toolkitsWorksheets: "أدوات وأوراق عمل",
-      toolkitsWorksheetsDesc: "أوراق عمل CBT قابلة للتحميل وتمارين اليقظة الذهنية وأدوات المساعدة الذاتية.",
+      toolkitsWorksheetsDesc:
+        "أوراق عمل CBT قابلة للتحميل وتمارين اليقظة الذهنية وأدوات المساعدة الذاتية.",
       featuredResources: "الموارد المميزة",
       featuredResourcesDesc: "المحتوى الأكثر شعبية والأعلى تقييمًا لدينا.",
       personalizedCTA: "تريد توصيات مخصصة؟",
-      personalizedCTADesc: "أنشئ حسابًا للحصول على اقتراحات موارد مصممة لاهتماماتك وأهدافك.",
+      personalizedCTADesc:
+        "أنشئ حسابًا للحصول على اقتراحات موارد مصممة لاهتماماتك وأهدافك.",
       createFreeAccount: "إنشاء حساب مجاني",
     },
     talentHubPage: {
       badge: "البحث والابتكار",
       title: "مركز المواهب والابتكار",
-      subtitle: "حيث يلتقي البحث بالممارسة — تطوير الصحة النفسية من خلال العلم والتكنولوجيا والتعاون بين الثقافات.",
+      subtitle:
+        "حيث يلتقي البحث بالممارسة — تطوير الصحة النفسية من خلال العلم والتكنولوجيا والتعاون بين الثقافات.",
       partnerWithUs: "كن شريكًا",
       viewPublications: "عرض المنشورات",
       researchPapers: "أوراق بحثية منشورة",
@@ -3668,17 +4752,22 @@ export const translations = {
       fourPillars: "ركائزنا الأربع",
       fourPillarsDesc: "نهج متعدد التخصصات لتحويل الصحة النفسية في المنطقة.",
       appliedResearch: "البحث التطبيقي",
-      appliedResearchDesc: "التعاون مع الجامعات والمؤسسات لتطوير علم الصحة النفسية في منطقة الشرق الأوسط وشمال أفريقيا.",
+      appliedResearchDesc:
+        "التعاون مع الجامعات والمؤسسات لتطوير علم الصحة النفسية في منطقة الشرق الأوسط وشمال أفريقيا.",
       innovationLab: "مختبر الابتكار",
-      innovationLabDesc: "تطوير أدوات رقمية وتقييمات مدعومة بالذكاء الاصطناعي وحلول صحة نفسية قابلة للتوسع.",
+      innovationLabDesc:
+        "تطوير أدوات رقمية وتقييمات مدعومة بالذكاء الاصطناعي وحلول صحة نفسية قابلة للتوسع.",
       dataInsights: "البيانات والرؤى",
-      dataInsightsDesc: "إنتاج تقارير إقليمية عن الصحة النفسية ومؤشرات الرفاهية في مكان العمل وتحليلات الاتجاهات.",
+      dataInsightsDesc:
+        "إنتاج تقارير إقليمية عن الصحة النفسية ومؤشرات الرفاهية في مكان العمل وتحليلات الاتجاهات.",
       globalPartnerships: "الشراكات العالمية",
-      globalPartnershipsDesc: "بناء جسور مع المنظمات الدولية لتبادل المعرفة وأفضل الممارسات.",
+      globalPartnershipsDesc:
+        "بناء جسور مع المنظمات الدولية لتبادل المعرفة وأفضل الممارسات.",
       researchProjects: "مشاريع البحث",
       researchProjectsDesc: "دراسات جارية ومنشورة من فريق البحث لدينا.",
       collaborateWithUs: "تعاون معنا",
-      collaborateDesc: "نبحث عن باحثين ومؤسسات ومنظمات للانضمام إلينا في تطوير علم الصحة النفسية في منطقة الشرق الأوسط وشمال أفريقيا وما بعدها.",
+      collaborateDesc:
+        "نبحث عن باحثين ومؤسسات ومنظمات للانضمام إلينا في تطوير علم الصحة النفسية في منطقة الشرق الأوسط وشمال أفريقيا وما بعدها.",
       getInTouch: "تواصل معنا",
       ongoing: "جاري",
       published: "منشور",
@@ -3706,7 +4795,8 @@ export const translations = {
       recoveryPsychology: "علم نفس التعافي",
       recoveryDesc: "استراتيجيات ذهنية للتعافي الأمثل",
       trainingHistory: "تاريخ التدريب",
-      noTrainingSessions: "لم يتم تسجيل أي جلسات تدريب بعد. ابدأ برنامجًا أعلاه!",
+      noTrainingSessions:
+        "لم يتم تسجيل أي جلسات تدريب بعد. ابدأ برنامجًا أعلاه!",
       completed: "مكتمل",
       scheduled: "مجدول",
       takeAssessment: "خذ تقييم الأداء",
@@ -3716,17 +4806,21 @@ export const translations = {
     },
     moroccanUmbrellaPage: {
       title: "المظلة المغربية لعلم النفس",
-      subtitle: "توحيد المتخصصين في علم النفس عبر المغرب تحت شبكة تعاونية واحدة. بناء جسور بين الممارسة والبحث والتأثير المجتمعي.",
+      subtitle:
+        "توحيد المتخصصين في علم النفس عبر المغرب تحت شبكة تعاونية واحدة. بناء جسور بين الممارسة والبحث والتأثير المجتمعي.",
       joinNetwork: "انضم إلى شبكتنا",
       learnMore: "اعرف المزيد",
       ourMission: "مهمتنا",
-      missionDesc: "إنشاء منصة موحدة تمكّن الأخصائيين النفسيين المغاربة وتعزز التطوير المهني وتنهض بالتوعية بالصحة النفسية في جميع أنحاء المملكة المغربية.",
+      missionDesc:
+        "إنشاء منصة موحدة تمكّن الأخصائيين النفسيين المغاربة وتعزز التطوير المهني وتنهض بالتوعية بالصحة النفسية في جميع أنحاء المملكة المغربية.",
       professionalUnity: "الوحدة المهنية",
-      professionalUnityDesc: "ربط الأخصائيين النفسيين من جميع المناطق والتخصصات عبر المغرب",
+      professionalUnityDesc:
+        "ربط الأخصائيين النفسيين من جميع المناطق والتخصصات عبر المغرب",
       excellenceStandards: "معايير التميز",
       excellenceStandardsDesc: "تعزيز أفضل الممارسات والتطوير المهني المستمر",
       communityImpact: "التأثير المجتمعي",
-      communityImpactDesc: "تعزيز التوعية بالصحة النفسية وإمكانية الوصول إليها على المستوى الوطني",
+      communityImpactDesc:
+        "تعزيز التوعية بالصحة النفسية وإمكانية الوصول إليها على المستوى الوطني",
       culturalIntegration: "التكامل الثقافي",
       culturalIntegrationDesc: "ربط علم النفس الحديث بالقيم الثقافية المغربية",
       growingNetwork: "شبكتنا المتنامية",
@@ -3736,7 +4830,8 @@ export const translations = {
       partnerInstitutions: "مؤسسات شريكة",
       trainingPrograms: "برامج تدريبية",
       joinMovement: "انضم إلى الحركة",
-      joinMovementDesc: "كن جزءًا من أكبر شبكة مهنية لعلم النفس في المغرب. معًا، نشكل مستقبل الصحة النفسية في بلدنا.",
+      joinMovementDesc:
+        "كن جزءًا من أكبر شبكة مهنية لعلم النفس في المغرب. معًا، نشكل مستقبل الصحة النفسية في بلدنا.",
       becomeMember: "كن عضوًا",
       contactUs: "اتصل بنا",
     },
@@ -3762,40 +4857,70 @@ export const translations = {
     },
     finalCta: {
       title: "توقف عن التخمين. ابدأ التشخيص.",
-      subtitle: "أنت تعرف بالفعل أن شيئاً لا يعمل. التشخيص يخبرك بالضبط ما هو — وماذا تفعل بعده.",
+      subtitle:
+        "أنت تعرف بالفعل أن شيئاً لا يعمل. التشخيص يخبرك بالضبط ما هو — وماذا تفعل بعده.",
       reassurance: "تشخيص في دقيقتين. بدون التزام. منظّم سريرياً.",
       assessment: "ابدأ التشخيص",
     },
     testimonials: {
       title: "تجارب حقيقية، تأثير حقيقي",
-      subtitle: "يستخدم الناس UPsy لاتخاذ خطوتهم الأولى وإيجاد الوضوح والتواصل مع الدعم المناسب.",
-      t1: { name: "أمينة ب.", role: "عميلة", text: "ساعدني U.Psy في العثور على الأخصائي النفسي المناسب في أيام قليلة. كانت العملية سلسة وسرية." },
-      t2: { name: "يوسف ك.", role: "أخصائي نفسي", text: "منحتني المنصة رؤية واضحة وربطتني بعملاء يحتاجون حقاً إلى خبرتي في العلاج المعرفي." },
-      t3: { name: "سارة م.", role: "عميلة", text: "كنت مترددة بشأن العلاج عبر الإنترنت، لكن التجربة كانت احترافية ومريحة بشكل لا يصدق." },
+      subtitle:
+        "يستخدم الناس UPsy لاتخاذ خطوتهم الأولى وإيجاد الوضوح والتواصل مع الدعم المناسب.",
+      t1: {
+        name: "أمينة ب.",
+        role: "عميلة",
+        text: "ساعدني U.Psy في العثور على الأخصائي النفسي المناسب في أيام قليلة. كانت العملية سلسة وسرية.",
+      },
+      t2: {
+        name: "يوسف ك.",
+        role: "أخصائي نفسي",
+        text: "منحتني المنصة رؤية واضحة وربطتني بعملاء يحتاجون حقاً إلى خبرتي في العلاج المعرفي.",
+      },
+      t3: {
+        name: "سارة م.",
+        role: "عميلة",
+        text: "كنت مترددة بشأن العلاج عبر الإنترنت، لكن التجربة كانت احترافية ومريحة بشكل لا يصدق.",
+      },
     },
     pathways: {
       title: "كيف يمكننا مساعدتك؟",
       subtitle: "اختر مسارك لبدء رحلتك مع U.Psy.",
       therapy: "أحتاج إلى علاج نفسي",
-      therapyDesc: "تواصل مع أخصائي نفسي مرخّص للحصول على دعم شخصي وعلاج مبني على الأدلة.",
+      therapyDesc:
+        "تواصل مع أخصائي نفسي مرخّص للحصول على دعم شخصي وعلاج مبني على الأدلة.",
       performance: "أريد تحسين أدائي",
-      performanceDesc: "تدريب على الأداء الذهني للرياضيين والمتميزين الساعين لأقصى إنتاجية معرفية.",
+      performanceDesc:
+        "تدريب على الأداء الذهني للرياضيين والمتميزين الساعين لأقصى إنتاجية معرفية.",
       learn: "أريد أن أتعلم",
       learnDesc: "دورات منظمة وتقييمات وشهادات في علم النفس والصحة النفسية.",
       organization: "أمثل مؤسسة",
-      organizationDesc: "حلول شاملة للصحة النفسية لفريقك — تشخيصات وبرامج وتقارير.",
+      organizationDesc:
+        "حلول شاملة للصحة النفسية لفريقك — تشخيصات وبرامج وتقارير.",
       explore: "استكشف",
     },
     pillars: {
       title: "نظام U.Psy",
-      subtitle: "أربعة ركائز عملياتية. نهج متكامل — صرامة سريرية، أداء ذهني، وتأثير منهجي.",
+      subtitle:
+        "أربعة ركائز عملياتية. نهج متكامل — صرامة سريرية، أداء ذهني، وتأثير منهجي.",
       ariaLabel: "ركائزنا الأربع",
       learnMore: "استكشف",
       cta: "عرض جميع القدرات",
-      care: { title: "سريري", description: "تدخلات مبنية على الأدلة للقلق والصدمات والتعافي." },
-      learning: { title: "تدريب", description: "تدريب منظم للمهارات الذهنية والتعليم النفسي." },
-      performance: { title: "الأداء", description: "علم نفس عملياتي للرياضيين وبيئات الضغط العالي." },
-      organizations: { title: "الأنظمة", description: "برامج صحة نفسية للمؤسسات والفرق والاتحادات." },
+      care: {
+        title: "سريري",
+        description: "تدخلات مبنية على الأدلة للقلق والصدمات والتعافي.",
+      },
+      learning: {
+        title: "تدريب",
+        description: "تدريب منظم للمهارات الذهنية والتعليم النفسي.",
+      },
+      performance: {
+        title: "الأداء",
+        description: "علم نفس عملياتي للرياضيين وبيئات الضغط العالي.",
+      },
+      organizations: {
+        title: "الأنظمة",
+        description: "برامج صحة نفسية للمؤسسات والفرق والاتحادات.",
+      },
     },
     howItWorks: {
       title: "قِس. حدّد. درّب. طبّق.",
@@ -3803,8 +4928,14 @@ export const translations = {
       ariaLabel: "كيف يعمل",
       cta: "ابدأ التشخيص",
       step1: { title: "شخّص", description: "تقييم منظم يحدد ما ينهار ولماذا." },
-      step2: { title: "وجّه", description: "توجيه دقيق نحو المتخصص المناسب بناءً على ملفك." },
-      step3: { title: "تدخّل", description: "تدخل مستهدف بنتائج قابلة للقياس." },
+      step2: {
+        title: "وجّه",
+        description: "توجيه دقيق نحو المتخصص المناسب بناءً على ملفك.",
+      },
+      step3: {
+        title: "تدخّل",
+        description: "تدخل مستهدف بنتائج قابلة للقياس.",
+      },
     },
     selfAssessment: {
       title: "ما الذي ينهار؟ اكتشف في دقيقتين.",
@@ -3820,10 +4951,22 @@ export const translations = {
       title: "دعم منظم عندما تحتاجه",
       subtitle: "استكشف برامج مصممة لمساعدتك في تحديات محددة.",
       cta: "استكشف البرامج",
-      clinical: { title: "الرعاية السريرية", desc: "علاج مبني على الأدلة للقلق والاكتئاب والصدمات." },
-      performance: { title: "الأداء الذهني", desc: "تدريب الأداء العالي للرياضيين والمحترفين." },
-      mindfulness: { title: "تدريب اليقظة", desc: "برامج يقظة ذهنية منظمة للمرونة اليومية." },
-      trauma: { title: "التعافي من الصدمات", desc: "مسارات متخصصة لمعالجة الصدمات والتعافي." },
+      clinical: {
+        title: "الرعاية السريرية",
+        desc: "علاج مبني على الأدلة للقلق والاكتئاب والصدمات.",
+      },
+      performance: {
+        title: "الأداء الذهني",
+        desc: "تدريب الأداء العالي للرياضيين والمحترفين.",
+      },
+      mindfulness: {
+        title: "تدريب اليقظة",
+        desc: "برامج يقظة ذهنية منظمة للمرونة اليومية.",
+      },
+      trauma: {
+        title: "التعافي من الصدمات",
+        desc: "مسارات متخصصة لمعالجة الصدمات والتعافي.",
+      },
     },
     learning: {
       title: "افهم صحتك النفسية",
@@ -3835,41 +4978,70 @@ export const translations = {
       title: "الصحة النفسية للمؤسسات",
       subtitle: "حلول مخصصة للفرق والمؤسسات والمنظمات الرياضية.",
       cta: "طلب عرض",
-      corporate: { title: "رفاهية الشركات", desc: "برامج الصحة النفسية للموظفين وورش العمل وحلول PAE." },
-      ngo: { title: "الصحة النفسية للمنظمات", desc: "برامج صحة نفسية قابلة للتوسع للمنظمات الإنسانية." },
-      sports: { title: "المنظمات الرياضية", desc: "علم النفس الرياضي ورفاهية الرياضيين للأندية والاتحادات." },
+      corporate: {
+        title: "رفاهية الشركات",
+        desc: "برامج الصحة النفسية للموظفين وورش العمل وحلول PAE.",
+      },
+      ngo: {
+        title: "الصحة النفسية للمنظمات",
+        desc: "برامج صحة نفسية قابلة للتوسع للمنظمات الإنسانية.",
+      },
+      sports: {
+        title: "المنظمات الرياضية",
+        desc: "علم النفس الرياضي ورفاهية الرياضيين للأندية والاتحادات.",
+      },
     },
     research: {
       title: "مبني على علم النفس، ليس على التخمين",
-      subtitle: "UPsy مبني على مبادئ نفسية حقيقية لضمان أن كل خطوة تأخذها ذات معنى.",
+      subtitle:
+        "UPsy مبني على مبادئ نفسية حقيقية لضمان أن كل خطوة تأخذها ذات معنى.",
       readMore: "اقرأ المزيد",
       cta: "اقرأ الرؤى",
-      article1: { title: "الصحة النفسية في الرياضة", summary: "كيف يدير الرياضيون النخبة الضغط النفسي ويبنون المرونة.", category: "علم النفس الرياضي" },
-      article2: { title: "الوقاية من الإرهاق", summary: "استراتيجيات مبنية على الأدلة للتعرف على الإرهاق المهني والوقاية منه.", category: "العمل" },
-      article3: { title: "المرونة النفسية", summary: "بناء القوة الذهنية من خلال تقنيات سلوكية معرفية منظمة.", category: "بحث" },
+      article1: {
+        title: "الصحة النفسية في الرياضة",
+        summary: "كيف يدير الرياضيون النخبة الضغط النفسي ويبنون المرونة.",
+        category: "علم النفس الرياضي",
+      },
+      article2: {
+        title: "الوقاية من الإرهاق",
+        summary:
+          "استراتيجيات مبنية على الأدلة للتعرف على الإرهاق المهني والوقاية منه.",
+        category: "العمل",
+      },
+      article3: {
+        title: "المرونة النفسية",
+        summary: "بناء القوة الذهنية من خلال تقنيات سلوكية معرفية منظمة.",
+        category: "بحث",
+      },
     },
     community: {
       title: "لست وحدك",
-      subtitle: "الصحة النفسية تجربة إنسانية مشتركة. UPsy يساعدك على الشعور بالدعم والفهم والتواصل.",
+      subtitle:
+        "الصحة النفسية تجربة إنسانية مشتركة. UPsy يساعدك على الشعور بالدعم والفهم والتواصل.",
       reassurance: "مساحة آمنة ومعتدلة لمحادثات هادفة حول الصحة النفسية.",
       cta: "انضم إلى المجتمع",
     },
     psf: {
       badge: "مبادرة التأثير الاجتماعي من U.Psy",
       heroTitle: "علماء النفس بلا حدود",
-      heroSubtitle: "تقديم الدعم النفسي المجاني والأخلاقي للمجتمعات المحرومة في جميع أنحاء المغرب وخارجه. لأن الصحة النفسية حق وليست امتيازاً.",
+      heroSubtitle:
+        "تقديم الدعم النفسي المجاني والأخلاقي للمجتمعات المحرومة في جميع أنحاء المغرب وخارجه. لأن الصحة النفسية حق وليست امتيازاً.",
       volunteerCta: "تطوع كأخصائي نفسي",
       partnerCta: "كن شريكاً",
       missionTitle: "مهمتنا",
-      missionDesc: "يعمل علماء النفس بلا حدود تحت مظلة U.Psy لسد الفجوة بين الحاجة إلى الصحة النفسية والوصول إلى الرعاية. ننشر أخصائيين نفسيين متطوعين في المجتمعات التي يندر فيها الدعم المهني.",
+      missionDesc:
+        "يعمل علماء النفس بلا حدود تحت مظلة U.Psy لسد الفجوة بين الحاجة إلى الصحة النفسية والوصول إلى الرعاية. ننشر أخصائيين نفسيين متطوعين في المجتمعات التي يندر فيها الدعم المهني.",
       pillarAccess: "الوصول إلى الرعاية",
       pillarAccessDesc: "جلسات مجانية ومدعومة للأفراد في المجتمعات المحرومة.",
       pillarOutreach: "التوعية المجتمعية",
-      pillarOutreachDesc: "ورش عمل وحملات توعية واستجابة للأزمات في المناطق القروية وشبه الحضرية.",
+      pillarOutreachDesc:
+        "ورش عمل وحملات توعية واستجابة للأزمات في المناطق القروية وشبه الحضرية.",
       pillarTraining: "بناء القدرات",
-      pillarTrainingDesc: "تدريب المتطوعين المحليين والمعلمين والعاملين الاجتماعيين على الإسعافات النفسية الأولية.",
+      pillarTrainingDesc:
+        "تدريب المتطوعين المحليين والمعلمين والعاملين الاجتماعيين على الإسعافات النفسية الأولية.",
       pillarEthics: "المعايير الأخلاقية",
-      pillarEthicsDesc: "يلتزم جميع المتطوعين بميثاق أخلاقيات U.Psy ويخضعون لإشراف ممارسين معتمدين.",
+      pillarEthicsDesc:
+        "يلتزم جميع المتطوعين بميثاق أخلاقيات U.Psy ويخضعون لإشراف ممارسين معتمدين.",
       impactTitle: "تأثيرنا حتى الآن",
       impactDesc: "كل رقم يمثل حياة تأثرت ومجتمعاً تعزز.",
       statSessions: "جلسات مجانية مقدمة",
@@ -3880,13 +5052,15 @@ export const translations = {
       programsDesc: "تدخلات مستهدفة لتحقيق أقصى تأثير مجتمعي.",
       involvedTitle: "كيف تشارك",
       ctaTitle: "الصحة النفسية حق وليست امتيازاً",
-      ctaDesc: "انضم إلى علماء النفس بلا حدود وساعدنا في الوصول إلى كل مجتمع في المغرب يحتاج إلى دعم نفسي.",
+      ctaDesc:
+        "انضم إلى علماء النفس بلا حدود وساعدنا في الوصول إلى كل مجتمع في المغرب يحتاج إلى دعم نفسي.",
       ctaVolunteer: "كن متطوعاً",
       ctaContact: "تواصل معنا",
       navLabel: "علماء النفس بلا حدود",
       sectionBadge: "مبادرة التأثير الاجتماعي",
       sectionTitle: "علماء النفس بلا حدود",
-      sectionDesc: "تقديم الدعم النفسي المجاني للمجتمعات المحرومة في جميع أنحاء المغرب. يقدم أخصائيونا المتطوعون جلسات مجانية وتدخلات أزمات وورش عمل مجتمعية.",
+      sectionDesc:
+        "تقديم الدعم النفسي المجاني للمجتمعات المحرومة في جميع أنحاء المغرب. يقدم أخصائيونا المتطوعون جلسات مجانية وتدخلات أزمات وورش عمل مجتمعية.",
       learnMore: "اعرف المزيد",
       volunteerAs: "تطوع كأخصائي نفسي",
       statSessionsLabel: "جلسات مجانية",
@@ -3897,9 +5071,11 @@ export const translations = {
       badge: "المؤسس ومهندس النظام",
       navLabel: "المؤسس",
       heroTitle: "مبني من الميدان. ليس من النظرية.",
-      heroSubtitle: "صمّم مهدي فلجي U.Psy كنظام — وليس دليلاً. وُلد من علم النفس العملياتي في الرياضة والأزمات والبيئات المؤسسية حيث يجب أن تنجح النماذج أو تفشل.",
+      heroSubtitle:
+        "صمّم مهدي فلجي U.Psy كنظام — وليس دليلاً. وُلد من علم النفس العملياتي في الرياضة والأزمات والبيئات المؤسسية حيث يجب أن تنجح النماذج أو تفشل.",
       motTitle: "كلمة الرئيس",
-      motOpener: "علم النفس لا يفتقر إلى النظريات. بل يفتقر إلى التطبيق تحت الضغط.",
+      motOpener:
+        "علم النفس لا يفتقر إلى النظريات. بل يفتقر إلى التطبيق تحت الضغط.",
       mot1: "في الميدان — في الرياضة عالية المستوى، في سياقات الهجرة، في حالات الأزمات — تصل النماذج التقليدية بسرعة إلى حدودها. ما يعمل في العيادة لا يعمل دائماً في الطوارئ أو الغموض أو تحت ضغط الأداء.",
       mot2: "هنا يأتي دور U.Psy.",
       mot3: "U.Psy لم يُصمم كمنصة. إنه نظام. نظام مبني من الميدان، حيث يجب أن يكون علم النفس: عملياً، قابلاً للقياس، قابلاً للتعبئة فوراً.",
@@ -3918,13 +5094,16 @@ export const translations = {
       expertiseTitle: "مجالات التركيز",
       expertiseSubtitle: "حيث يلتقي علم النفس بالواقع العملياتي.",
       area1Title: "علم النفس السريري",
-      area1Desc: "تدخلات مبنية على الأدلة للقلق والصدمة والتعافي في ظروف واقعية.",
+      area1Desc:
+        "تدخلات مبنية على الأدلة للقلق والصدمة والتعافي في ظروف واقعية.",
       area2Title: "علم نفس الرياضة والأداء",
       area2Desc: "أطر التحكم الذهني للرياضيين والعاملين في بيئات الضغط العالي.",
       area3Title: "علم النفس المؤسسي",
-      area3Desc: "تشخيصات منهجية للصحة النفسية في العمل، الوقاية من الاحتراق، وأداء الفريق.",
+      area3Desc:
+        "تشخيصات منهجية للصحة النفسية في العمل، الوقاية من الاحتراق، وأداء الفريق.",
       area4Title: "علم النفس الإنساني",
-      area4Desc: "علماء النفس بلا حدود — دعم نفسي ميداني في سياقات الأزمات والهجرة.",
+      area4Desc:
+        "علماء النفس بلا حدود — دعم نفسي ميداني في سياقات الأزمات والهجرة.",
       area5Title: "التدريب والاعتماد",
       area5Desc: "تطوير مهني وضمان جودة لممارسي علم النفس.",
       ctaTitle: "لنبنِ شيئاً يعمل",
@@ -3932,8 +5111,10 @@ export const translations = {
       ctaButton: "تواصل معنا",
       sectionBadge: "مبني من الميدان",
       sectionTitle: "نظام مبني على الممارسة، ليس النظرية",
-      sectionQuote: "علم النفس لا يفتقر إلى النظريات. بل يفتقر إلى التطبيق تحت الضغط.",
-      sectionDesc: "صمّم مهدي فلجي U.Psy من الخبرة العملياتية — في الرياضة النخبوية والسياقات الإنسانية والأنظمة المؤسسية. المنصة مصممة للتشخيص والمطابقة والتدريب. ليس للتصفح.",
+      sectionQuote:
+        "علم النفس لا يفتقر إلى النظريات. بل يفتقر إلى التطبيق تحت الضغط.",
+      sectionDesc:
+        "صمّم مهدي فلجي U.Psy من الخبرة العملياتية — في الرياضة النخبوية والسياقات الإنسانية والأنظمة المؤسسية. المنصة مصممة للتشخيص والمطابقة والتدريب. ليس للتصفح.",
       proof1: "علم النفس السريري",
       proof2: "علم نفس الأداء",
       proof3: "شبكة معتمدة",
@@ -3943,29 +5124,39 @@ export const translations = {
       guide: "دليل",
       mentalHealth: "الصحة النفسية",
       indexTitle: "مدونة الصحة النفسية",
-      indexSubtitle: "أدلة عملية ورؤى وموارد لمساعدتك على فهم صحتك النفسية واتخاذ إجراءات ذات معنى.",
+      indexSubtitle:
+        "أدلة عملية ورؤى وموارد لمساعدتك على فهم صحتك النفسية واتخاذ إجراءات ذات معنى.",
       backToBlog: "العودة إلى المدونة",
       wellness: "الرفاهية",
       findPsych: {
         title: "كيف تجد الأخصائي النفسي المناسب لك",
-        intro: "قد يبدو العثور على الأخصائي المناسب أمراً مرهقاً. هذا الدليل يقسم العملية إلى خطوات بسيطة وعملية.",
+        intro:
+          "قد يبدو العثور على الأخصائي المناسب أمراً مرهقاً. هذا الدليل يقسم العملية إلى خطوات بسيطة وعملية.",
         step1Title: "١. اعرف ما تحتاجه",
-        step1Text: "قبل البحث، خذ لحظة للتفكير فيما تمر به. هل تتعامل مع القلق أو مشاكل العلاقات أو ضغط العمل؟ فهم احتياجاتك يساعد في تضييق بحثك.",
-        step1Tip: "💡 نصيحة: إذا لم تكن متأكداً، جرب تقييمنا الذاتي المجاني قبل اختيار أخصائي نفسي.",
+        step1Text:
+          "قبل البحث، خذ لحظة للتفكير فيما تمر به. هل تتعامل مع القلق أو مشاكل العلاقات أو ضغط العمل؟ فهم احتياجاتك يساعد في تضييق بحثك.",
+        step1Tip:
+          "💡 نصيحة: إذا لم تكن متأكداً، جرب تقييمنا الذاتي المجاني قبل اختيار أخصائي نفسي.",
         step2Title: "٢. تحقق من الاعتمادات",
-        step2Text: "تأكد دائماً من أن أخصائيك النفسي مرخص ومعتمد. ابحث عن الشهادات المهنية والعضوية في هيئات معترف بها.",
+        step2Text:
+          "تأكد دائماً من أن أخصائيك النفسي مرخص ومعتمد. ابحث عن الشهادات المهنية والعضوية في هيئات معترف بها.",
         step3Title: "٣. اعثر على التوافق المناسب",
-        step3Text: "العلاقة العلاجية هي أحد أقوى المؤشرات على نجاح العلاج. ضع في اعتبارك أسلوب التواصل والفهم الثقافي وتفضيلات اللغة.",
+        step3Text:
+          "العلاقة العلاجية هي أحد أقوى المؤشرات على نجاح العلاج. ضع في اعتبارك أسلوب التواصل والفهم الثقافي وتفضيلات اللغة.",
         step4Title: "٤. افهم المنهج",
-        step4Text: "يستخدم الأخصائيون مناهج علاجية مختلفة — العلاج المعرفي السلوكي، العلاج النفسي الديناميكي، والعلاج الإنساني. اسأل عن منهجهم.",
+        step4Text:
+          "يستخدم الأخصائيون مناهج علاجية مختلفة — العلاج المعرفي السلوكي، العلاج النفسي الديناميكي، والعلاج الإنساني. اسأل عن منهجهم.",
         step5Title: "٥. ضع في اعتبارك العوامل العملية",
-        step5Text: "فكر في التوفر والموقع وخيارات الجلسات عبر الإنترنت والرسوم ومرونة المواعيد.",
+        step5Text:
+          "فكر في التوفر والموقع وخيارات الجلسات عبر الإنترنت والرسوم ومرونة المواعيد.",
         ctaTitle: "مستعد للعثور على أخصائيك النفسي؟",
-        ctaText: "UPsy يسهل العثور على أخصائيين نفسيين معتمدين يتناسبون مع احتياجاتك. ابدأ بتقييم ذاتي سريع.",
+        ctaText:
+          "UPsy يسهل العثور على أخصائيين نفسيين معتمدين يتناسبون مع احتياجاتك. ابدأ بتقييم ذاتي سريع.",
       },
       therapy: {
         title: "هل أحتاج إلى علاج نفسي؟",
-        intro: "إذا كنت تطرح هذا السؤال، فأنت تتخذ خطوة شجاعة بالفعل. إليك كيفية معرفة متى يمكن أن يساعدك الدعم المهني.",
+        intro:
+          "إذا كنت تطرح هذا السؤال، فأنت تتخذ خطوة شجاعة بالفعل. إليك كيفية معرفة متى يمكن أن يساعدك الدعم المهني.",
         signsTitle: "علامات قد تستفيد من العلاج",
         signsIntro: "لا تحتاج أن تكون في أزمة للاستفادة من العلاج:",
         sign1: "تشعر بالإرهاق من مشاعر يصعب التحكم بها بمفردك",
@@ -3976,24 +5167,30 @@ export const translations = {
         sign6: "تشعر بالجمود ولا تعرف كيف تمضي قدماً",
         mythsTitle: "خرافات شائعة عن العلاج النفسي",
         myth1: "العلاج فقط للأشخاص الذين يعانون من أمراض نفسية خطيرة",
-        truth1: "العلاج يساعد أي شخص يتطلع للنمو وإدارة التوتر وتحسين العلاقات.",
+        truth1:
+          "العلاج يساعد أي شخص يتطلع للنمو وإدارة التوتر وتحسين العلاقات.",
         myth2: "يجب أن أتمكن من التعامل مع هذا بمفردي",
         truth2: "طلب المساعدة علامة قوة وليس ضعفاً.",
         myth3: "العلاج يستغرق سنوات",
         truth3: "كثير من الناس يلاحظون تقدماً ملموساً في بضع جلسات.",
         benefitsTitle: "ما يمكن أن يقدمه لك العلاج",
-        benefitsText: "يوفر العلاج مساحة آمنة وسرية لاستكشاف أفكارك ومشاعرك مع متخصص مدرب.",
+        benefitsText:
+          "يوفر العلاج مساحة آمنة وسرية لاستكشاف أفكارك ومشاعرك مع متخصص مدرب.",
         whenTitle: "متى هو الوقت المناسب؟",
-        whenText: "لا يوجد وقت مثالي لبدء العلاج. إذا كنت تفكر فيه، فهذا غالباً علامة على أنك مستعد.",
+        whenText:
+          "لا يوجد وقت مثالي لبدء العلاج. إذا كنت تفكر فيه، فهذا غالباً علامة على أنك مستعد.",
         ctaTitle: "اتخذ الخطوة الأولى",
-        ctaText: "لست متأكداً من أين تبدأ؟ تقييمنا الذاتي المجاني يمكن أن يساعدك على فهم احتياجاتك.",
+        ctaText:
+          "لست متأكداً من أين تبدأ؟ تقييمنا الذاتي المجاني يمكن أن يساعدك على فهم احتياجاتك.",
       },
       workplace: "بيئة العمل",
       anxiety: {
         title: "فهم القلق: ما هو وكيف تديره",
-        intro: "القلق من أكثر تجارب الصحة النفسية شيوعاً. تعرف على ما يعنيه حقاً وخطوات عملية لإدارته.",
+        intro:
+          "القلق من أكثر تجارب الصحة النفسية شيوعاً. تعرف على ما يعنيه حقاً وخطوات عملية لإدارته.",
         whatTitle: "ما هو القلق؟",
-        whatText: "القلق هو استجابة جسمك الطبيعية للتوتر. إنه شعور بالخوف أو التوجس تجاه المستقبل. بينما القلق العرضي طبيعي، فإن القلق المستمر الذي يتداخل مع الحياة اليومية قد يشير إلى اضطراب القلق.",
+        whatText:
+          "القلق هو استجابة جسمك الطبيعية للتوتر. إنه شعور بالخوف أو التوجس تجاه المستقبل. بينما القلق العرضي طبيعي، فإن القلق المستمر الذي يتداخل مع الحياة اليومية قد يشير إلى اضطراب القلق.",
         symptomsTitle: "الأعراض الشائعة",
         symptom1: "قلق أو خوف مفرط",
         symptom2: "أرق أو شعور بالتوتر",
@@ -4002,35 +5199,46 @@ export const translations = {
         symptom5: "توتر جسدي أو صداع",
         symptom6: "تجنب المواقف المثيرة للقلق",
         manageTitle: "كيف تدير القلق",
-        manageText: "إدارة القلق ممكنة بالاستراتيجيات الصحيحة. التمارين المنتظمة، اليقظة الذهنية، النوم الكافي، والحد من الكافيين يمكن أن تساعد. الأهم، التحدث مع متخصص يمكن أن يوفر استراتيجيات مخصصة.",
+        manageText:
+          "إدارة القلق ممكنة بالاستراتيجيات الصحيحة. التمارين المنتظمة، اليقظة الذهنية، النوم الكافي، والحد من الكافيين يمكن أن تساعد. الأهم، التحدث مع متخصص يمكن أن يوفر استراتيجيات مخصصة.",
         helpTitle: "متى تطلب المساعدة",
-        helpText: "إذا كان القلق يتداخل مع عملك أو علاقاتك أو أنشطتك اليومية، فقد حان الوقت للتواصل. يمكن لأخصائي نفسي مساعدتك على فهم الأسباب الجذرية.",
+        helpText:
+          "إذا كان القلق يتداخل مع عملك أو علاقاتك أو أنشطتك اليومية، فقد حان الوقت للتواصل. يمكن لأخصائي نفسي مساعدتك على فهم الأسباب الجذرية.",
         ctaTitle: "لا يجب أن تواجه القلق وحدك",
-        ctaText: "قم بتقييمنا الذاتي المجاني لفهم قلقك بشكل أفضل والتواصل مع أخصائي نفسي يمكنه المساعدة.",
+        ctaText:
+          "قم بتقييمنا الذاتي المجاني لفهم قلقك بشكل أفضل والتواصل مع أخصائي نفسي يمكنه المساعدة.",
       },
       online: {
         title: "فوائد العلاج النفسي عبر الإنترنت",
-        intro: "العلاج عبر الإنترنت غيّر رعاية الصحة النفسية. اكتشف لماذا يختار المزيد من الناس الجلسات الافتراضية.",
+        intro:
+          "العلاج عبر الإنترنت غيّر رعاية الصحة النفسية. اكتشف لماذا يختار المزيد من الناس الجلسات الافتراضية.",
         whyTitle: "لماذا العلاج عبر الإنترنت؟",
-        whyText: "جعل التحول إلى العلاج عبر الإنترنت الدعم النفسي أكثر سهولة من أي وقت مضى. سواء كنت تعيش في منطقة نائية أو لديك جدول مزدحم، العلاج عبر الإنترنت يزيل العديد من الحواجز.",
+        whyText:
+          "جعل التحول إلى العلاج عبر الإنترنت الدعم النفسي أكثر سهولة من أي وقت مضى. سواء كنت تعيش في منطقة نائية أو لديك جدول مزدحم، العلاج عبر الإنترنت يزيل العديد من الحواجز.",
         benefit1Title: "الوصول من أي مكان",
         benefit1Text: "تواصل مع أخصائيين نفسيين مؤهلين بغض النظر عن موقعك.",
         benefit2Title: "مواعيد مرنة",
         benefit2Text: "احجز جلسات تناسب جدولك — صباحاً أو وقت الغداء أو مساءً.",
         benefit3Title: "الخصوصية والراحة",
-        benefit3Text: "احضر الجلسات من راحة مكانك. كثيرون يجدون أنه أسهل للانفتاح في بيئة مألوفة.",
+        benefit3Text:
+          "احضر الجلسات من راحة مكانك. كثيرون يجدون أنه أسهل للانفتاح في بيئة مألوفة.",
         benefit4Title: "نفس جودة الرعاية",
-        benefit4Text: "تظهر الأبحاث أن العلاج عبر الإنترنت فعال بنفس القدر مثل الجلسات الشخصية لمعظم الحالات.",
+        benefit4Text:
+          "تظهر الأبحاث أن العلاج عبر الإنترنت فعال بنفس القدر مثل الجلسات الشخصية لمعظم الحالات.",
         worksTitle: "هل العلاج عبر الإنترنت فعال حقاً؟",
-        worksText: "أظهرت دراسات متعددة أن العلاج عبر الإنترنت يمكن أن يكون فعالاً مثل العلاج وجهاً لوجه للقلق والاكتئاب والتوتر.",
+        worksText:
+          "أظهرت دراسات متعددة أن العلاج عبر الإنترنت يمكن أن يكون فعالاً مثل العلاج وجهاً لوجه للقلق والاكتئاب والتوتر.",
         ctaTitle: "مستعد لتجربة العلاج عبر الإنترنت؟",
-        ctaText: "تصفح شبكة UPsy من الأخصائيين النفسيين المؤهلين الذين يقدمون جلسات عبر الإنترنت.",
+        ctaText:
+          "تصفح شبكة UPsy من الأخصائيين النفسيين المؤهلين الذين يقدمون جلسات عبر الإنترنت.",
       },
       depression: {
         title: "فهم الاكتئاب: أكثر من مجرد حزن",
-        intro: "الاكتئاب من أكثر حالات الصحة النفسية شيوعاً في العالم. فهم ماهيته الحقيقية — وما ليس عليه — هو الخطوة الأولى نحو التعافي.",
+        intro:
+          "الاكتئاب من أكثر حالات الصحة النفسية شيوعاً في العالم. فهم ماهيته الحقيقية — وما ليس عليه — هو الخطوة الأولى نحو التعافي.",
         whatTitle: "ما هو الاكتئاب؟",
-        whatText: "الاكتئاب أكثر من مجرد الشعور بالحزن. إنه حالة صحية نفسية خطيرة تؤثر على طريقة تفكيرك وشعورك وتعاملك مع الأنشطة اليومية. يمكن أن يستمر لأسابيع أو أشهر أو حتى سنوات إذا لم يُعالج.",
+        whatText:
+          "الاكتئاب أكثر من مجرد الشعور بالحزن. إنه حالة صحية نفسية خطيرة تؤثر على طريقة تفكيرك وشعورك وتعاملك مع الأنشطة اليومية. يمكن أن يستمر لأسابيع أو أشهر أو حتى سنوات إذا لم يُعالج.",
         signsTitle: "علامات الاكتئاب الشائعة",
         sign1: "مشاعر مستمرة من الحزن أو الفراغ أو اليأس",
         sign2: "فقدان الاهتمام بالأنشطة التي كنت تستمتع بها",
@@ -4040,36 +5248,47 @@ export const translations = {
         sign6: "صعوبة في التركيز أو اتخاذ القرارات",
         sign7: "مشاعر انعدام القيمة أو الذنب المفرط",
         typesTitle: "أنواع الاكتئاب",
-        typesText: "الاكتئاب ليس نوعاً واحداً. الاضطراب الاكتئابي الكبير، واضطراب الاكتئاب المستمر (عسر المزاج)، والاضطراب العاطفي الموسمي، واكتئاب ما بعد الولادة كلها أشكال مختلفة. يمكن لأخصائي نفسي مؤهل مساعدتك في تحديد ما تمر به.",
+        typesText:
+          "الاكتئاب ليس نوعاً واحداً. الاضطراب الاكتئابي الكبير، واضطراب الاكتئاب المستمر (عسر المزاج)، والاضطراب العاطفي الموسمي، واكتئاب ما بعد الولادة كلها أشكال مختلفة. يمكن لأخصائي نفسي مؤهل مساعدتك في تحديد ما تمر به.",
         treatmentTitle: "كيف يُعالج الاكتئاب؟",
-        treatmentText: "الاكتئاب قابل للعلاج بشكل كبير. تشمل الأساليب الأكثر شيوعاً العلاج النفسي (خاصة العلاج المعرفي السلوكي)، والأدوية، وتغييرات نمط الحياة، والدعم الاجتماعي.",
+        treatmentText:
+          "الاكتئاب قابل للعلاج بشكل كبير. تشمل الأساليب الأكثر شيوعاً العلاج النفسي (خاصة العلاج المعرفي السلوكي)، والأدوية، وتغييرات نمط الحياة، والدعم الاجتماعي.",
         ctaTitle: "لست مضطراً لمواجهة الاكتئاب وحدك",
-        ctaText: "إذا تعرفت على هذه العلامات في نفسك أو في شخص تهتم به، فإن طلب المساعدة هو الخطوة الأولى.",
+        ctaText:
+          "إذا تعرفت على هذه العلامات في نفسك أو في شخص تهتم به، فإن طلب المساعدة هو الخطوة الأولى.",
       },
       support: {
         title: "كيف تدعم شخصاً عزيزاً يعاني من تحديات نفسية",
-        intro: "عندما يعاني شخص تهتم به، معرفة ما تقوله — وما لا تقوله — يمكن أن يحدث فرقاً كبيراً.",
+        intro:
+          "عندما يعاني شخص تهتم به، معرفة ما تقوله — وما لا تقوله — يمكن أن يحدث فرقاً كبيراً.",
         listenTitle: "١. استمع دون أن تحكم",
-        listenText: "أقوى شيء يمكنك فعله هو ببساطة أن تكون حاضراً. لا تحاول حل المشكلة أو التقليل من مشاعرهم.",
+        listenText:
+          "أقوى شيء يمكنك فعله هو ببساطة أن تكون حاضراً. لا تحاول حل المشكلة أو التقليل من مشاعرهم.",
         educateTitle: "٢. ثقّف نفسك",
-        educateText: "تعلم عن حالات الصحة النفسية يساعدك على فهم ما يمر به شخصك العزيز.",
+        educateText:
+          "تعلم عن حالات الصحة النفسية يساعدك على فهم ما يمر به شخصك العزيز.",
         encourageTitle: "٣. شجّع على طلب المساعدة المهنية",
-        encourageText: "اقترح بلطف التحدث مع متخصص. اعرض مساعدتهم في إيجاد أخصائي نفسي.",
+        encourageText:
+          "اقترح بلطف التحدث مع متخصص. اعرض مساعدتهم في إيجاد أخصائي نفسي.",
         boundariesTitle: "٤. ضع حدوداً صحية",
-        boundariesText: "دعم شخص ما لا يعني التضحية برفاهيتك. من المقبول وضع حدود والبحث عن دعمك الخاص.",
+        boundariesText:
+          "دعم شخص ما لا يعني التضحية برفاهيتك. من المقبول وضع حدود والبحث عن دعمك الخاص.",
         avoidTitle: "٥. ما يجب تجنبه",
-        avoid1: "لا تقل \"تشجّع\" أو \"الأمر في رأسك فقط\"",
+        avoid1: 'لا تقل "تشجّع" أو "الأمر في رأسك فقط"',
         avoid2: "لا تقارن وضعهم بالآخرين",
         avoid3: "لا تأخذ الأمر شخصياً إذا انسحبوا",
         avoid4: "لا تحاول أن تكون معالجهم النفسي",
         ctaTitle: "تحتاج إرشاداً؟",
-        ctaText: "إذا كنت تدعم شخصاً في وقت صعب، يمكن لـ UPsy مساعدتك في إيجاد الموارد والإرشاد المهني المناسب.",
+        ctaText:
+          "إذا كنت تدعم شخصاً في وقت صعب، يمكن لـ UPsy مساعدتك في إيجاد الموارد والإرشاد المهني المناسب.",
       },
       mindfulness: {
         title: "اليقظة الذهنية للمبتدئين: دليل عملي",
-        intro: "اليقظة الذهنية ليست عن تفريغ عقلك. إنها عن الانتباه للحظة الحالية — دون حكم.",
+        intro:
+          "اليقظة الذهنية ليست عن تفريغ عقلك. إنها عن الانتباه للحظة الحالية — دون حكم.",
         whatTitle: "ما هي اليقظة الذهنية؟",
-        whatText: "اليقظة الذهنية هي ممارسة توجيه انتباهك الكامل للحظة الحالية. إنها مهارة مدعومة بعقود من الأبحاث التي تظهر فوائد في تقليل التوتر والتنظيم العاطفي والتركيز والصحة النفسية العامة.",
+        whatText:
+          "اليقظة الذهنية هي ممارسة توجيه انتباهك الكامل للحظة الحالية. إنها مهارة مدعومة بعقود من الأبحاث التي تظهر فوائد في تقليل التوتر والتنظيم العاطفي والتركيز والصحة النفسية العامة.",
         benefitsTitle: "فوائد الممارسة المنتظمة",
         benefit1: "تقليل التوتر والقلق",
         benefit2: "تحسين التركيز والانتباه",
@@ -4078,21 +5297,28 @@ export const translations = {
         benefit5: "جودة نوم أفضل",
         startTitle: "كيف تبدأ (٣ تمارين بسيطة)",
         exercise1Title: "١. تمرين التنفس لمدة ٥ دقائق",
-        exercise1Text: "اجلس بشكل مريح، أغلق عينيك، وركز على تنفسك. استنشق لـ ٤ عدات، أمسك لـ ٤، وازفر لـ ٤. ابدأ بـ ٥ دقائق يومياً.",
+        exercise1Text:
+          "اجلس بشكل مريح، أغلق عينيك، وركز على تنفسك. استنشق لـ ٤ عدات، أمسك لـ ٤، وازفر لـ ٤. ابدأ بـ ٥ دقائق يومياً.",
         exercise2Title: "٢. مسح الجسم",
-        exercise2Text: "استلقِ وانقل انتباهك ببطء من أصابع قدميك إلى أعلى رأسك. لاحظ أي توتر دون محاولة تغيير شيء.",
+        exercise2Text:
+          "استلقِ وانقل انتباهك ببطء من أصابع قدميك إلى أعلى رأسك. لاحظ أي توتر دون محاولة تغيير شيء.",
         exercise3Title: "٣. الملاحظة الواعية",
-        exercise3Text: "اختر نشاطاً روتينياً وقم به بانتباه كامل. لاحظ كل التفاصيل: الملمس، الحرارة، الأصوات.",
+        exercise3Text:
+          "اختر نشاطاً روتينياً وقم به بانتباه كامل. لاحظ كل التفاصيل: الملمس، الحرارة، الأصوات.",
         tipsTitle: "نصائح لبناء عادة",
-        tipsText: "ابدأ صغيراً — حتى دقيقتان تُحسبان. تدرّب في نفس الوقت كل يوم. كن صبوراً مع نفسك.",
+        tipsText:
+          "ابدأ صغيراً — حتى دقيقتان تُحسبان. تدرّب في نفس الوقت كل يوم. كن صبوراً مع نفسك.",
         ctaTitle: "تريد دعماً موجّهاً في اليقظة الذهنية؟",
-        ctaText: "برامجنا وأخصائيونا النفسيون يمكنهم مساعدتك في بناء ممارسة مستدامة مصممة لاحتياجاتك.",
+        ctaText:
+          "برامجنا وأخصائيونا النفسيون يمكنهم مساعدتك في بناء ممارسة مستدامة مصممة لاحتياجاتك.",
       },
       work: {
         title: "الصحة النفسية في العمل: لماذا هي مهمة وماذا يمكنك فعله",
-        intro: "العمل من أكبر العوامل المؤثرة على صحتنا النفسية. تعلم كيف تتعرف على الإرهاق المهني وتضع حدوداً صحية.",
+        intro:
+          "العمل من أكبر العوامل المؤثرة على صحتنا النفسية. تعلم كيف تتعرف على الإرهاق المهني وتضع حدوداً صحية.",
         burnoutTitle: "التعرف على الإرهاق المهني",
-        burnoutText: "الإرهاق المهني ليس مجرد شعور بالتعب. إنه حالة من الإرهاق الجسدي والعاطفي المزمن الناتج عن ضغط العمل المطول.",
+        burnoutText:
+          "الإرهاق المهني ليس مجرد شعور بالتعب. إنه حالة من الإرهاق الجسدي والعاطفي المزمن الناتج عن ضغط العمل المطول.",
         statsTitle: "الأرقام تتحدث",
         stat1: "من العاملين يبلغون عن تأثير التوتر على صحتهم النفسية",
         stat2: "من الأشخاص سيعانون من مشكلة صحة نفسية كل عام",
@@ -4104,13 +5330,15 @@ export const translations = {
         tip4: "فكر في استشارة أخصائي نفسي متخصص في قضايا العمل",
         tip5: "مارس تقنيات إدارة التوتر مثل اليقظة الذهنية أو التمارين",
         orgTitle: "للمؤسسات",
-        orgText: "الاستثمار في الصحة النفسية للموظفين ليس فقط الشيء الصحيح — إنه عمل ذكي. المؤسسات التي تعطي الأولوية للرفاهية النفسية ترى إنتاجية محسنة.",
+        orgText:
+          "الاستثمار في الصحة النفسية للموظفين ليس فقط الشيء الصحيح — إنه عمل ذكي. المؤسسات التي تعطي الأولوية للرفاهية النفسية ترى إنتاجية محسنة.",
         ctaTitle: "تحتاج دعماً لمواجهة ضغط العمل؟",
-        ctaText: "سواء كنت فرداً أو مؤسسة، UPsy يمكنه المساعدة. قم بتقييم ذاتي أو استكشف خدماتنا الاستشارية.",
+        ctaText:
+          "سواء كنت فرداً أو مؤسسة، UPsy يمكنه المساعدة. قم بتقييم ذاتي أو استكشف خدماتنا الاستشارية.",
         orgCta: "استكشف خدمات المؤسسات",
       },
     },
-      mps: {
+    mps: {
       title: "نتيجة الأداء النفسي",
       tooltip: "نتيجة مركبة: المزاج، الاستمرارية، الانخراط، التعافي، والنمو.",
       basedOn: "بناءً على",
@@ -4142,60 +5370,111 @@ export const translations = {
       inProgress: "قيد التقدم",
       notStarted: "لم يبدأ",
       myIntake: "استمارتي السريرية",
-      cardHelp: "املأ استمارتك السريرية قبل الجلسة الأولى. يمكن لمعالجك مراجعتها معك.",
+      cardHelp:
+        "املأ استمارتك السريرية قبل الجلسة الأولى. يمكن لمعالجك مراجعتها معك.",
       continue: "متابعة",
       start: "ابدأ",
       downloadPdf: "تنزيل PDF",
       markReviewed: "وضع علامة كمراجَع",
       reviewNotesPlaceholder: "ملاحظات المراجعة (اختيارية) للعميل",
       reviewedAt: "تمت المراجعة في {date}",
-      consentLabel: "وفقاً للقانون 09-08، أوافق على استخدام هذه البيانات الشخصية لمتابعتي السريرية.",
+      consentLabel:
+        "وفقاً للقانون 09-08، أوافق على استخدام هذه البيانات الشخصية لمتابعتي السريرية.",
       consentRequired: "الموافقة مطلوبة",
       consentRequiredDesc: "يرجى تأكيد الموافقة على القانون 09-08 قبل الإنهاء.",
       missingFields: "حقول مطلوبة ناقصة",
-      missingFieldsDesc: "يرجى إكمال جميع الحقول المطلوبة (*) واستكمال فحص السلامة.",
+      missingFieldsDesc:
+        "يرجى إكمال جميع الحقول المطلوبة (*) واستكمال فحص السلامة.",
       requiredHint: "* مطلوب للإنهاء",
       crisisBannerTitle: "لماذا هذا مهم",
-      crisisBannerDesc: "إذا حدّدت أي مؤشر سلامة أدناه، سنعرض موارد دعم فورية (SOS Amitié Maroc) وسيتم إعلام معالجك في الجلسة القادمة.",
+      crisisBannerDesc:
+        "إذا حدّدت أي مؤشر سلامة أدناه، سنعرض موارد دعم فورية (SOS Amitié Maroc) وسيتم إعلام معالجك في الجلسة القادمة.",
       yes: "نعم",
       no: "لا",
       steps: {
         identity: { label: "الهوية", description: "معلومات أساسية" },
-        presenting_complaint: { label: "سبب الاستشارة", description: "الشكوى الرئيسية والمحفزات" },
-        history_personal: { label: "التاريخ الشخصي", description: "الطفولة، التعليم، أحداث الحياة" },
-        history_family: { label: "التاريخ العائلي", description: "بنية العائلة والصحة النفسية" },
-        medical: { label: "طبي", description: "العلاجات، الأدوية، العلاج السابق" },
-        lifestyle: { label: "نمط الحياة", description: "النوم، الشهية، المواد، الدعم" },
-        risk_screening: { label: "فحص السلامة", description: "أسئلة سلامة سرية" },
+        presenting_complaint: {
+          label: "سبب الاستشارة",
+          description: "الشكوى الرئيسية والمحفزات",
+        },
+        history_personal: {
+          label: "التاريخ الشخصي",
+          description: "الطفولة، التعليم، أحداث الحياة",
+        },
+        history_family: {
+          label: "التاريخ العائلي",
+          description: "بنية العائلة والصحة النفسية",
+        },
+        medical: {
+          label: "طبي",
+          description: "العلاجات، الأدوية، العلاج السابق",
+        },
+        lifestyle: {
+          label: "نمط الحياة",
+          description: "النوم، الشهية، المواد، الدعم",
+        },
+        risk_screening: {
+          label: "فحص السلامة",
+          description: "أسئلة سلامة سرية",
+        },
         goals: { label: "الأهداف", description: "ما تريده من العلاج" },
       },
       fields: {
-        age: "العمر", gender: "الجنس", marital_status: "الحالة الاجتماعية", profession: "المهنة", children: "الأطفال",
-        main_reason: "السبب الرئيسي لطلب المساعدة", onset: "متى بدأت؟", triggers: "المحفزات", severity: "الشدة (1–10)",
-        childhood: "الطفولة", education: "التعليم", key_events: "أحداث حياتية مهمة", traumas: "صدمات سابقة",
-        structure: "بنية الأسرة", mental_health: "تاريخ الصحة النفسية في العائلة", relationships: "جودة العلاقات",
-        conditions: "الحالات الطبية الحالية", medications: "الأدوية", allergies: "الحساسية", prior_therapy: "علاج نفسي سابق",
-        sleep: "النوم", sleepPh: "ساعات / جودة", appetite: "الشهية", substances: "المواد (كحول، تبغ، أخرى)", exercise: "الرياضة", social_support: "الدعم الاجتماعي",
-        suicidal_ideation: "أفكار انتحارية حالية", self_harm: "إيذاء النفس مؤخراً", violence_risk: "خطر إيذاء الآخرين", risk_notes: "ملاحظات إضافية حول السلامة",
-        therapy_goals: "ماذا تريد من العلاج؟", timeline: "الإطار الزمني المتوقع", success_indicators: "مؤشرات النجاح",
+        age: "العمر",
+        gender: "الجنس",
+        marital_status: "الحالة الاجتماعية",
+        profession: "المهنة",
+        children: "الأطفال",
+        main_reason: "السبب الرئيسي لطلب المساعدة",
+        onset: "متى بدأت؟",
+        triggers: "المحفزات",
+        severity: "الشدة (1–10)",
+        childhood: "الطفولة",
+        education: "التعليم",
+        key_events: "أحداث حياتية مهمة",
+        traumas: "صدمات سابقة",
+        structure: "بنية الأسرة",
+        mental_health: "تاريخ الصحة النفسية في العائلة",
+        relationships: "جودة العلاقات",
+        conditions: "الحالات الطبية الحالية",
+        medications: "الأدوية",
+        allergies: "الحساسية",
+        prior_therapy: "علاج نفسي سابق",
+        sleep: "النوم",
+        sleepPh: "ساعات / جودة",
+        appetite: "الشهية",
+        substances: "المواد (كحول، تبغ، أخرى)",
+        exercise: "الرياضة",
+        social_support: "الدعم الاجتماعي",
+        suicidal_ideation: "أفكار انتحارية حالية",
+        self_harm: "إيذاء النفس مؤخراً",
+        violence_risk: "خطر إيذاء الآخرين",
+        risk_notes: "ملاحظات إضافية حول السلامة",
+        therapy_goals: "ماذا تريد من العلاج؟",
+        timeline: "الإطار الزمني المتوقع",
+        success_indicators: "مؤشرات النجاح",
       },
     },
     whyUs: {
       ariaLabel: "لماذا U.Psy",
       eyebrow: "لماذا U.Psy",
       title: "ستة أسباب تجعلنا أكثر من مجرد دليل للأخصائيين النفسيين.",
-      subtitle: "معظم المنصات تكتفي بإدراج المعالجين. نحن نُشغّل نظامًا متكاملًا لعلم نفس الأداء — سريريًا، قابلًا للقياس، ومُصمَّمًا للمغرب.",
+      subtitle:
+        "معظم المنصات تكتفي بإدراج المعالجين. نحن نُشغّل نظامًا متكاملًا لعلم نفس الأداء — سريريًا، قابلًا للقياس، ومُصمَّمًا للمغرب.",
       cta: "اقرأ كل الأسباب",
       heroTitle: "نحن لا ندرج معالجين. نحن نُدير نظامًا لعلم نفس الأداء.",
-      heroSubtitle: "معظم المنصات في المغرب مجرد نتائج بحث. U.Psy نظام تشغيل سريري لقياس وتدريب وتطبيق المهارات النفسية تحت الضغط.",
+      heroSubtitle:
+        "معظم المنصات في المغرب مجرد نتائج بحث. U.Psy نظام تشغيل سريري لقياس وتدريب وتطبيق المهارات النفسية تحت الضغط.",
       heroCtaPrimary: "اعثر على مطابقتك",
       heroCtaSecondary: "تحدّث مع المؤسس",
       pillarsTitle: "ستة أعمدة، نظام واحد.",
       pillarsSubtitle: "كل عمود هو خيار تصميم مدروس — والتزام قابل للقياس.",
-      founderQuote: "المغرب لا يحتاج إلى سوق إلكتروني آخر. يحتاج إلى نظام يأخذ علم النفس على محمل الجد — سريريًا، عملياتيًا، وثقافيًا.",
+      founderQuote:
+        "المغرب لا يحتاج إلى سوق إلكتروني آخر. يحتاج إلى نظام يأخذ علم النفس على محمل الجد — سريريًا، عملياتيًا، وثقافيًا.",
       founderCta: "اقرأ قصة المؤسس",
       finalTitle: "هل أنت جاهز للعمل مع نظام حقيقي؟",
-      finalSubtitle: "دقيقتان من التشخيص. مطابقة واحدة. أخصائي نفسي حقيقي، بروتوكول حقيقي، نتائج حقيقية.",
+      finalSubtitle:
+        "دقيقتان من التشخيص. مطابقة واحدة. أخصائي نفسي حقيقي، بروتوكول حقيقي، نتائج حقيقية.",
       methodCta: "اقرأ المنهجية",
       compare: {
         feature: "المعيار",
@@ -4210,32 +5489,66 @@ export const translations = {
         },
       },
       items: {
-        system: { title: "نظام علم نفس الأداء", desc: "ليس دليلًا للمعالجين. منصة تشغيلية متكاملة تقيس وتُحدِّد وتُدرِّب وتُطبِّق المهارات النفسية تحت الضغط." },
-        accreditation: { title: "اعتماد سريري بخمسة مستويات", desc: "كل أخصائي يمر باعتماد سريري متعدد المراحل. لا شهادات ذاتية، ولا تضخيم سوقي." },
-        morocco: { title: "مُصمَّم للمغرب", desc: "ثلاثي اللغات (EN / FR / AR-RTL)، متوافق مع القانون 09-08، تسعير بالدرهم، وسائل دفع محلية، وثقافة سريرية مغربية أصيلة." },
-        rigor: { title: "صرامة سريرية", desc: "أدوات مُعتمَدة (GAD-7، PHQ-9)، بروتوكولات قائمة على الدليل (CBT، Schema، EMDR)، وملاحظات جلسات منظَّمة — لا نصائح عامة." },
-        ecosystem: { title: "منظومة متكاملة", desc: "سوق إلكتروني، MOOC، برامج B2B، أدوات ذكاء اصطناعي (نور)، وبروتوكول أزمات — منصة واحدة، وليست مجموعة قطع متفرقة." },
-        privacy: { title: "الخصوصية بالتصميم", desc: "أمان صارم على مستوى الصفوف، ملاحظات سريرية مُشفَّرة، فحص كلمات السر المسرَّبة، تحقق إلزامي من البريد، وصفر إعادة بيع للبيانات." },
+        system: {
+          title: "نظام علم نفس الأداء",
+          desc: "ليس دليلًا للمعالجين. منصة تشغيلية متكاملة تقيس وتُحدِّد وتُدرِّب وتُطبِّق المهارات النفسية تحت الضغط.",
+        },
+        accreditation: {
+          title: "اعتماد سريري بخمسة مستويات",
+          desc: "كل أخصائي يمر باعتماد سريري متعدد المراحل. لا شهادات ذاتية، ولا تضخيم سوقي.",
+        },
+        morocco: {
+          title: "مُصمَّم للمغرب",
+          desc: "ثلاثي اللغات (EN / FR / AR-RTL)، متوافق مع القانون 09-08، تسعير بالدرهم، وسائل دفع محلية، وثقافة سريرية مغربية أصيلة.",
+        },
+        rigor: {
+          title: "صرامة سريرية",
+          desc: "أدوات مُعتمَدة (GAD-7، PHQ-9)، بروتوكولات قائمة على الدليل (CBT، Schema، EMDR)، وملاحظات جلسات منظَّمة — لا نصائح عامة.",
+        },
+        ecosystem: {
+          title: "منظومة متكاملة",
+          desc: "سوق إلكتروني، MOOC، برامج B2B، أدوات ذكاء اصطناعي (نور)، وبروتوكول أزمات — منصة واحدة، وليست مجموعة قطع متفرقة.",
+        },
+        privacy: {
+          title: "الخصوصية بالتصميم",
+          desc: "أمان صارم على مستوى الصفوف، ملاحظات سريرية مُشفَّرة، فحص كلمات السر المسرَّبة، تحقق إلزامي من البريد، وصفر إعادة بيع للبيانات.",
+        },
       },
       pillars: {
         system: {
           desc: "نحن لا ندرج معالجين. نُشغّل نظامًا يقيس ويُحدِّد مواطن الخلل ويُدرِّب المهارات الصحيحة ويُطبِّقها في الحياة الواقعية.",
-          proof: { a: "تشخيصات مُعتمَدة", b: "بروتوكولات منظَّمة", c: "تتبّع النتائج" },
+          proof: {
+            a: "تشخيصات مُعتمَدة",
+            b: "بروتوكولات منظَّمة",
+            c: "تتبّع النتائج",
+          },
           cta: "جرّب مختبر التقييم",
         },
         accreditation: {
           desc: "كل أخصائي في U.Psy يجتاز اعتمادًا سريريًا متعدد المراحل يراجعه فريقنا — الشهادات، تاريخ التكوين، الإشراف، والأخلاقيات.",
-          proof: { a: "هوية ورخصة مُتحقَّق منهما", b: "تاريخ تكوين مُراجَع", c: "إشراف مستمر" },
+          proof: {
+            a: "هوية ورخصة مُتحقَّق منهما",
+            b: "تاريخ تكوين مُراجَع",
+            c: "إشراف مستمر",
+          },
           cta: "تصفّح الأخصائيين المعتمدين",
         },
         morocco: {
           desc: "ثلاثي اللغات EN / FR / العربية مع دعم RTL كامل، الامتثال للقانون 09-08، تسعير بالدرهم، ومحتوى سريري مُكيَّف مع الثقافة المغربية.",
-          proof: { a: "EN · FR · AR (RTL)", b: "متوافق مع 09-08", c: "وسائل دفع محلية" },
+          proof: {
+            a: "EN · FR · AR (RTL)",
+            b: "متوافق مع 09-08",
+            c: "وسائل دفع محلية",
+          },
           cta: "مظلتنا المغربية",
         },
         rigor: {
           desc: "أدوات قياس نفسي مُعتمَدة، بروتوكولات علاجية قائمة على الدليل، وملاحظات جلسات منظَّمة — كل تفاعل مرتكز على العلم السريري.",
-          proof: { a: "GAD-7 · PHQ-9", b: "CBT · Schema · EMDR", c: "ملاحظات جلسات منظَّمة" },
+          proof: {
+            a: "GAD-7 · PHQ-9",
+            b: "CBT · Schema · EMDR",
+            c: "ملاحظات جلسات منظَّمة",
+          },
           cta: "اقرأ المنهجية",
         },
         ecosystem: {
@@ -4245,7 +5558,11 @@ export const translations = {
         },
         privacy: {
           desc: "أمان صارم على مستوى الصفوف، ملاحظات سريرية مُشفَّرة، فحص كلمات السر المسرَّبة، تحقق إلزامي من البريد، وصفر إعادة بيع للبيانات.",
-          proof: { a: "RLS على كل جدول", b: "ملاحظات مُشفَّرة", c: "لا إعادة بيع للبيانات" },
+          proof: {
+            a: "RLS على كل جدول",
+            b: "ملاحظات مُشفَّرة",
+            c: "لا إعادة بيع للبيانات",
+          },
           cta: "اقرأ سياسة الخصوصية",
         },
       },
@@ -4253,49 +5570,78 @@ export const translations = {
   },
   ber: {
     nav: {
-      home: "ⴰⵙⵏⵓⴱⴳ", services: "ⵜⵉⵏⴰⴼⵓⵜⵉⵏ", forOrganizations: "ⵉ ⵜⵎⵙⵙⵓⵔⵉⵏ",
-      findPsychologist: "ⴰⴼ ⴰⵎⵙⵏⴼⵍⵙⴰⵏ", getMatched: "ⴰⵎⵙⴰⵙⴰ",
-      accreditation: "ⴰⵙⵖⵣⵏ", innovationHub: "ⴰⵙⴰⵢⵔⴰⵔ ⵏ ⵓⵙⵏⴼⵍ",
-      skool: "Skool", resources: "ⵜⵉⵖⴱⵓⵍⴰ", about: "ⵅⴼ",
-      contact: "ⴰⵎⵢⴰⵡⴰⴹ", talentInnovationHub: "ⴰⵙⴰⵢⵔⴰⵔ ⵏ ⵜⵣⵎⵔⵜ ⴷ ⵓⵙⵏⴼⵍ",
-      explore: "ⵙⵙⵏ U.Psy", mySpace: "ⴰⴷⴳ ⵉⵏⵓ",
-      consultingForOrganizations: "ⴰⵎⵛⴰⵡⴰⵔ ⵉ ⵜⵎⵙⵙⵓⵔⵉⵏ", legal: "ⴰⵣⵔⴼ",
-      login: "ⴽⵛⵎ", individualServices: "ⵜⵉⵏⴰⴼⵓⵜⵉⵏ ⵜⵉⵎⵥⵍⴰⵢⵉⵏ",
-      community: "ⵜⴰⵎⵙⵎⵓⵏⵜ ⴷ ⵜⵖⴱⵓⵍⴰ", ourStory: "ⵜⴰⵎⴽⵓⵏⵜ ⵏⵏⵖ",
-      applyAccreditation: "ⵙⵙⵓⵜⵔ ⴰⵙⵖⵣⵏ", skoolCommunity: "ⵜⴰⵎⵙⵎⵓⵏⵜ Skool",
+      home: "ⴰⵙⵏⵓⴱⴳ",
+      services: "ⵜⵉⵏⴰⴼⵓⵜⵉⵏ",
+      forOrganizations: "ⵉ ⵜⵎⵙⵙⵓⵔⵉⵏ",
+      findPsychologist: "ⴰⴼ ⴰⵎⵙⵏⴼⵍⵙⴰⵏ",
+      getMatched: "ⴰⵎⵙⴰⵙⴰ",
+      accreditation: "ⴰⵙⵖⵣⵏ",
+      innovationHub: "ⴰⵙⴰⵢⵔⴰⵔ ⵏ ⵓⵙⵏⴼⵍ",
+      skool: "Skool",
+      resources: "ⵜⵉⵖⴱⵓⵍⴰ",
+      about: "ⵅⴼ",
+      contact: "ⴰⵎⵢⴰⵡⴰⴹ",
+      talentInnovationHub: "ⴰⵙⴰⵢⵔⴰⵔ ⵏ ⵜⵣⵎⵔⵜ ⴷ ⵓⵙⵏⴼⵍ",
+      explore: "ⵙⵙⵏ U.Psy",
+      mySpace: "ⴰⴷⴳ ⵉⵏⵓ",
+      consultingForOrganizations: "ⴰⵎⵛⴰⵡⴰⵔ ⵉ ⵜⵎⵙⵙⵓⵔⵉⵏ",
+      legal: "ⴰⵣⵔⴼ",
+      login: "ⴽⵛⵎ",
+      individualServices: "ⵜⵉⵏⴰⴼⵓⵜⵉⵏ ⵜⵉⵎⵥⵍⴰⵢⵉⵏ",
+      community: "ⵜⴰⵎⵙⵎⵓⵏⵜ ⴷ ⵜⵖⴱⵓⵍⴰ",
+      ourStory: "ⵜⴰⵎⴽⵓⵏⵜ ⵏⵏⵖ",
+      applyAccreditation: "ⵙⵙⵓⵜⵔ ⴰⵙⵖⵣⵏ",
+      skoolCommunity: "ⵜⴰⵎⵙⵎⵓⵏⵜ Skool",
       findPsychologistValue: "ⵙⵙⵏ 50+ ⵉⵎⵙⵏⴼⵍⵙⴰⵏⵏ ⵉⵜⵜⵡⴰⵙⵖⵣⵏⵏ",
       getMatchedValue: "AI ⴰⴷ ⴰⴽ ⵉⴷ ⵢⴰⴼ ⴰⵎⵙⴰⵙⴰ ⴳ 3 ⵜⵓⵙⴷⵉⴷⵉⵏ",
       servicesValue: "ⵜⵉⵏⴰⴼⵓⵜⵉⵏ ⵜⵉⵎⵥⵍⴰⵢⵉⵏ + ⵜⴰⴷⴷⴰⵍⵜ + ⴽⵍⵉⵏⵉⴽ",
       forOrganizationsValue: "ⵉⵙⵎⵓⵜⵜⴰⴳ ⵏ ⵜⵔⴰⴱⴱⵓⵜ, EAP, ⵜⵉⵣⵎⵔⵜ",
-      accreditationValue: "ⴽⵛⵎ ⵖⵔ ⵜⵔⴰⴱⴱⵓⵜ ⵏⵏⵖ", innovationHubValue: "ⵉⵎⴰⵙⵙⵏ ⵏ ⵜⵉⴽⵏⵓⵍⵓⵊⵉⵜ ⴷ ⵓⵔⵣⵣⵓ",
-      skoolValue: "ⵜⴰⵎⵙⵎⵓⵏⵜ ⵜⵉⵍⴻⵍⵍⵉⵜ", resourcesValue: "ⵉⵎⴳⵔⴰⴷⵏ, ⵜⵉⴳⵎⵉⴹⵉⵏ, ⵉⵙⵎⵉⵏⴰⵔⵏ",
-      aboutValue: "ⵙⵙⵏ Mehdi ⴷ ⵜⵎⵀⵍⵜ ⵏ U.Psy", contactValue: "ⵎⵢⴰⵡⴰⴹ ⴷⵉⴷⵏⵖ",
-      programs: "ⵉⵖⴰⵡⴰⵙⵏ", learning: "ⴰⵙⵍⵎⴷ", organizations: "ⵜⵉⵎⵙⵙⵓⵔⵉⵏ",
-      research: "ⴰⵔⵣⵣⵓ", blog: "ⴰⴱⵍⵓⴳ", signUp: "ⵙⵊⵍ",
+      accreditationValue: "ⴽⵛⵎ ⵖⵔ ⵜⵔⴰⴱⴱⵓⵜ ⵏⵏⵖ",
+      innovationHubValue: "ⵉⵎⴰⵙⵙⵏ ⵏ ⵜⵉⴽⵏⵓⵍⵓⵊⵉⵜ ⴷ ⵓⵔⵣⵣⵓ",
+      skoolValue: "ⵜⴰⵎⵙⵎⵓⵏⵜ ⵜⵉⵍⴻⵍⵍⵉⵜ",
+      resourcesValue: "ⵉⵎⴳⵔⴰⴷⵏ, ⵜⵉⴳⵎⵉⴹⵉⵏ, ⵉⵙⵎⵉⵏⴰⵔⵏ",
+      aboutValue: "ⵙⵙⵏ Mehdi ⴷ ⵜⵎⵀⵍⵜ ⵏ U.Psy",
+      contactValue: "ⵎⵢⴰⵡⴰⴹ ⴷⵉⴷⵏⵖ",
+      programs: "ⵉⵖⴰⵡⴰⵙⵏ",
+      learning: "ⴰⵙⵍⵎⴷ",
+      organizations: "ⵜⵉⵎⵙⵙⵓⵔⵉⵏ",
+      research: "ⴰⵔⵣⵣⵓ",
+      blog: "ⴰⴱⵍⵓⴳ",
+      signUp: "ⵙⵊⵍ",
     },
     header: {
-      platform: "ⴰⵙⵓⵔⵉⴼ", resources: "ⵜⵉⵖⴱⵓⵍⴰ", legal: "ⴰⵣⵔⴼ",
-      privacyTerms: "ⵜⵉⵏⵏⵓⵜⵍⴰ ⴷ ⵜⵡⵉⵍⴰⵡⵉⵏ", ethics: "ⵜⴰⵥⵍⴰⵢⵜ",
+      platform: "ⴰⵙⵓⵔⵉⴼ",
+      resources: "ⵜⵉⵖⴱⵓⵍⴰ",
+      legal: "ⴰⵣⵔⴼ",
+      privacyTerms: "ⵜⵉⵏⵏⵓⵜⵍⴰ ⴷ ⵜⵡⵉⵍⴰⵡⵉⵏ",
+      ethics: "ⵜⴰⵥⵍⴰⵢⵜ",
       telehealthSecurity: "ⵜⴰⵖⵍⵍⵉⵙⵜ ⵏ ⵜⴷⴰⵡⵙⴰ ⵙ ⵡⴰⵍⵍⴰⵍ",
-      selfAssessment: "ⴰⵙⵜⴰⵍ ⵏ ⵉⵎⴰⵏ", copyright: "ⵎⴰⵕⵕⴰ ⵉⵣⵔⴼⴰⵏ ⵜⵜⵡⴰⵃⵕⵥⵏ.",
+      selfAssessment: "ⴰⵙⵜⴰⵍ ⵏ ⵉⵎⴰⵏ",
+      copyright: "ⵎⴰⵕⵕⴰ ⵉⵣⵔⴼⴰⵏ ⵜⵜⵡⴰⵃⵕⵥⵏ.",
     },
     footer: {
       strapline: "ⴰⵙⵓⵔⵉⴼ ⵏ ⵜⴷⴰⵡⵙⴰ ⵜⴰⵏⴼⵙⴰⵏⵜ ⴰⵜⵔⴰⵔ: ⴰⵙⵊⵊⵉ, ⴰⵙⵍⵎⴷ, ⴷ ⵜⵉⵣⵎⵔⵜ.",
-      email: "ⵉⵎⴰⵢⵍ", whatsapp: "WhatsApp",
-      crisis: "ⵉⵖ ⵜⵍⵍⵉⴷ ⴳ ⵡⴰⴷⴷⴰⴷ ⵏ ⵜⵡⵜⵎⵜ, ⵙⵉⵡⵍ ⵉ ⵜⵏⴰⴼⵓⵜⵉⵏ ⵏ ⵜⵡⵜⵎⵜ. U.Psy ⵓⵔ ⵉⴳⵉ ⵜⴰⵏⴰⴼⵓⵜ ⵏ ⵜⵡⵜⵎⵜ.",
+      email: "ⵉⵎⴰⵢⵍ",
+      whatsapp: "WhatsApp",
+      crisis:
+        "ⵉⵖ ⵜⵍⵍⵉⴷ ⴳ ⵡⴰⴷⴷⴰⴷ ⵏ ⵜⵡⵜⵎⵜ, ⵙⵉⵡⵍ ⵉ ⵜⵏⴰⴼⵓⵜⵉⵏ ⵏ ⵜⵡⵜⵎⵜ. U.Psy ⵓⵔ ⵉⴳⵉ ⵜⴰⵏⴰⴼⵓⵜ ⵏ ⵜⵡⵜⵎⵜ.",
     },
     hero: {
       tagline: "ⵜⴰⵏⴰⴼⵓⵜ ⵜⴰⵏⴼⵙⴰⵏⵜ ⵜⴰⵜⵔⴰⵔⵜ",
       title: "ⵜⴰⵏⴼⵙⴰⵏⵜ, ⵜⴻⵜⵜⵡⴰⴱⵏⴰ ⵉ",
-      subtitle: "ⴰⵏⴳⵔⴰⵡ ⵏ ⵜⵏⴼⵙⴰⵏⵜ ⵏ ⵜⵉⵣⵎⵔⵜ: ⴰⵙⵖⵍ, ⴰⵙⵎⵓⵜⵜⴳ, ⴷ ⵉⵖⴰⵡⴰⵙⵏ ⵙ ⵜⴰⵏⵏⴰⵢⵉⵏ.",
+      subtitle:
+        "ⴰⵏⴳⵔⴰⵡ ⵏ ⵜⵏⴼⵙⴰⵏⵜ ⵏ ⵜⵉⵣⵎⵔⵜ: ⴰⵙⵖⵍ, ⴰⵙⵎⵓⵜⵜⴳ, ⴷ ⵉⵖⴰⵡⴰⵙⵏ ⵙ ⵜⴰⵏⵏⴰⵢⵉⵏ.",
       bookCall: "ⵙⵉⵡⵍ ⴰⵏⵖ",
     },
     howItWorks: {
       ariaLabel: "ⵎⴰⵎⴽ ⵉⵜⵜⵅⴷⴷⴰⵎ",
       title: "ⵎⴰⵎⴽ ⵉⵜⵜⵅⴷⴷⴰⵎ",
-      step1: "ⵙⵎⴷ ⴰⵙⵜⴰⵍ ⵅⴼ ⵉⵎⴰⵏ ⵏⵏⴽ", step1Desc: "ⴰⵙⵜⴰⵍ ⴰⵎⵥⵍⴰⵢ ⴳ 3 ⵜⵓⵙⴷⵉⴷⵉⵏ.",
-      step2: "ⴰⴼ ⴰⵎⵙⵏⴼⵍⵙⴰⵏ ⵏⵏⴽ", step2Desc: "AI ⴰⴷ ⴰⴽ ⵢⴰⵡⵙ ⴰⴷ ⵜⴰⴼⵜ ⴰⵎⵙⵏⴼⵍⵙⴰⵏ ⴰⵎⵙⴰⵙⴰ.",
-      step3: "ⴱⴷⵓ ⴰⵜⵉⴳ ⵏⵏⴽ", step3Desc: "ⵙⵡⵉⵏⴳⵎ ⵜⵉⵎⵍⵉⵍⵉⵜⵉⵏ ⵙⴳ ⵓⵙⵓⵔⵉⴼ ⵏⵏⵖ.",
+      step1: "ⵙⵎⴷ ⴰⵙⵜⴰⵍ ⵅⴼ ⵉⵎⴰⵏ ⵏⵏⴽ",
+      step1Desc: "ⴰⵙⵜⴰⵍ ⴰⵎⵥⵍⴰⵢ ⴳ 3 ⵜⵓⵙⴷⵉⴷⵉⵏ.",
+      step2: "ⴰⴼ ⴰⵎⵙⵏⴼⵍⵙⴰⵏ ⵏⵏⴽ",
+      step2Desc: "AI ⴰⴷ ⴰⴽ ⵢⴰⵡⵙ ⴰⴷ ⵜⴰⴼⵜ ⴰⵎⵙⵏⴼⵍⵙⴰⵏ ⴰⵎⵙⴰⵙⴰ.",
+      step3: "ⴱⴷⵓ ⴰⵜⵉⴳ ⵏⵏⴽ",
+      step3Desc: "ⵙⵡⵉⵏⴳⵎ ⵜⵉⵎⵍⵉⵍⵉⵜⵉⵏ ⵙⴳ ⵓⵙⵓⵔⵉⴼ ⵏⵏⵖ.",
     },
     notification: {
       languageUpdated: "ⵜⵓⵜⵍⴰⵢⵜ ⵜⴻⵜⵜⵡⴰⴱⴷⴷⵍ",
@@ -4303,14 +5649,25 @@ export const translations = {
     founder: { navLabel: "ⴰⵎⵙⴽⴰⵔ" },
     psf: { navLabel: "ⵉⵎⵙⵏⴼⵍⵙⴰⵏⵏ ⴱⵍⴰ ⵜⵉⵍⵉⵙⴰ" },
     trust: {
-      accredited: "ⵉⵜⵜⵡⴰⵙⵖⵣⵏ", verified: "ⵉⵜⵜⵡⴰⵙⵖⵣⵏ",
-      secure: "ⴰⵖⵍⵍⵉⵙ", encrypted: "ⵉⵜⵜⵡⴰⵙⵏⵜⵍ",
+      accredited: "ⵉⵜⵜⵡⴰⵙⵖⵣⵏ",
+      verified: "ⵉⵜⵜⵡⴰⵙⵖⵣⵏ",
+      secure: "ⴰⵖⵍⵍⵉⵙ",
+      encrypted: "ⵉⵜⵜⵡⴰⵙⵏⵜⵍ",
       title: "ⵎⴰⵖ ⵜⴰⵎⵏⵜ ⴳ U.Psy",
     },
-    bookCall: { title: "ⵙⵉⵡⵍ ⴰⵏⵖ", description: "ⵙⵡⵉⵏⴳⵎ ⵜⴰⵎⵍⵉⵍⵉⵜ ⴷ ⵢⴰⵏ ⵙⴳ ⵜⵔⴰⴱⴱⵓⵜ ⵏⵏⵖ." },
+    bookCall: {
+      title: "ⵙⵉⵡⵍ ⴰⵏⵖ",
+      description: "ⵙⵡⵉⵏⴳⵎ ⵜⴰⵎⵍⵉⵍⵉⵜ ⴷ ⵢⴰⵏ ⵙⴳ ⵜⵔⴰⴱⴱⵓⵜ ⵏⵏⵖ.",
+    },
     about: { title: "ⵅⴼ U.Psy", description: "ⵜⴰⵎⴽⵓⵏⵜ ⵏⵏⵖ ⴷ ⵜⵎⵀⵍⵜ ⵏⵏⵖ." },
-    services: { title: "ⵜⵉⵏⴰⴼⵓⵜⵉⵏ", description: "ⵉⵖⴰⵡⴰⵙⵏ ⵉⵎⵥⵍⴰⵢⵏ ⵏ ⵜⴷⴰⵡⵙⴰ ⵜⴰⵏⴼⵙⴰⵏⵜ." },
-    resources: { title: "ⵜⵉⵖⴱⵓⵍⴰ", description: "ⵜⵉⵖⵓⵔⵉⵡⵉⵏ, ⵜⵉⴳⵎⵉⴹⵉⵏ, ⴷ ⵉⵎⴰⵙⵙⵏ." },
+    services: {
+      title: "ⵜⵉⵏⴰⴼⵓⵜⵉⵏ",
+      description: "ⵉⵖⴰⵡⴰⵙⵏ ⵉⵎⵥⵍⴰⵢⵏ ⵏ ⵜⴷⴰⵡⵙⴰ ⵜⴰⵏⴼⵙⴰⵏⵜ.",
+    },
+    resources: {
+      title: "ⵜⵉⵖⴱⵓⵍⴰ",
+      description: "ⵜⵉⵖⵓⵔⵉⵡⵉⵏ, ⵜⵉⴳⵎⵉⴹⵉⵏ, ⴷ ⵉⵎⴰⵙⵙⵏ.",
+    },
     contact: { title: "ⴰⵎⵢⴰⵡⴰⴹ", description: "ⵎⵢⴰⵡⴰⴹ ⴷⵉⴷⵏⵖ." },
     legal: { title: "ⴰⵣⵔⴼ", description: "ⵜⵉⵏⵏⵓⵜⵍⴰ ⴷ ⵜⵡⵉⵍⴰⵡⵉⵏ." },
   },

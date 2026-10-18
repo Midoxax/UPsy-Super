@@ -1,6 +1,10 @@
 import { supabase } from "@/integrations/supabase/client";
 
-type CertificateType = "course_completion" | "assessment_completion" | "psychologist_accreditation" | "mooc_training";
+type CertificateType =
+  | "course_completion"
+  | "assessment_completion"
+  | "psychologist_accreditation"
+  | "mooc_training";
 
 interface IssueCertificateParams {
   certificate_type: CertificateType;
@@ -10,9 +14,12 @@ interface IssueCertificateParams {
 }
 
 export async function issueCertificate(params: IssueCertificateParams) {
-  const { data, error } = await supabase.functions.invoke("generate-certificate", {
-    body: params,
-  });
+  const { data, error } = await supabase.functions.invoke(
+    "generate-certificate",
+    {
+      body: params,
+    },
+  );
 
   if (error) {
     console.error("Certificate generation failed:", error);
@@ -25,7 +32,7 @@ export async function issueCertificate(params: IssueCertificateParams) {
 export async function checkAndIssueCourseCompletionCert(
   courseId: string,
   courseTitle: string,
-  progressPercent: number
+  progressPercent: number,
 ) {
   if (progressPercent < 100) return null;
 
@@ -45,7 +52,7 @@ export async function checkAndIssueCourseCompletionCert(
 export async function checkAndIssueAssessmentCert(
   assessmentId: string,
   assessmentTitle: string,
-  totalScore: number | null
+  totalScore: number | null,
 ) {
   try {
     return await issueCertificate({
@@ -62,7 +69,7 @@ export async function checkAndIssueAssessmentCert(
 
 export async function issuePsychologistAccreditationCert(
   psychologistName: string,
-  profileId: string
+  profileId: string,
 ) {
   try {
     return await issueCertificate({

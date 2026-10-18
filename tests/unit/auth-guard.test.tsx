@@ -21,8 +21,15 @@ import { render, screen } from "@testing-library/react";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 
 const authState = vi.hoisted(() => ({ user: null as unknown, loading: false }));
-const roleState = vi.hoisted(() => ({ roles: [] as string[], isAdmin: false, loading: false }));
-const locationState = vi.hoisted(() => ({ pathname: "/dashboard/specialist", search: "" }));
+const roleState = vi.hoisted(() => ({
+  roles: [] as string[],
+  isAdmin: false,
+  loading: false,
+}));
+const locationState = vi.hoisted(() => ({
+  pathname: "/dashboard/specialist",
+  search: "",
+}));
 
 vi.mock("@/contexts/AuthContext", () => ({ useAuth: () => authState }));
 vi.mock("@/hooks/useUserRole", () => ({ useUserRole: () => roleState }));
@@ -40,14 +47,15 @@ function renderGuard(role?: string | string[], at = "/dashboard/specialist") {
   return render(
     <ProtectedRoute role={role as never}>
       <div>PROTECTED CONTENT</div>
-    </ProtectedRoute>
+    </ProtectedRoute>,
   );
 }
 
 const shows = (t: string) => screen.queryByText(t) !== null;
 /** The path the guard redirected to, or null when it did not redirect. */
 const navigatedTo = (): string | null =>
-  screen.queryByText(/^NAVIGATE:/)?.textContent?.replace("NAVIGATE:", "") ?? null;
+  screen.queryByText(/^NAVIGATE:/)?.textContent?.replace("NAVIGATE:", "") ??
+  null;
 
 beforeEach(() => {
   authState.user = null;
@@ -134,7 +142,9 @@ describe("authenticated access", () => {
 describe("post-login redirect", () => {
   it("preserves the attempted path so login can return the user to it", () => {
     renderGuard(undefined, "/dashboard/specialist");
-    expect(navigatedTo()).toBe(`/auth?redirect=${encodeURIComponent("/dashboard/specialist")}`);
+    expect(navigatedTo()).toBe(
+      `/auth?redirect=${encodeURIComponent("/dashboard/specialist")}`,
+    );
   });
 
   it("does not build a redirect loop back to /auth", () => {

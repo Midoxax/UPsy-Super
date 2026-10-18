@@ -1,4 +1,10 @@
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+} from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Phone, Heart, AlertTriangle } from "lucide-react";
 import { Link } from "@/lib/router-compat";
@@ -16,7 +22,11 @@ const RESOURCES = [
   { name: "SAMU", phone: "141", available: "24/7 emergency" },
 ];
 
-export default function CrisisModal({ open, onOpenChange, riskLevel = "moderate" }: Props) {
+export default function CrisisModal({
+  open,
+  onOpenChange,
+  riskLevel = "moderate",
+}: Props) {
   const { t } = useLocale();
 
   return (
@@ -64,7 +74,10 @@ export default function CrisisModal({ open, onOpenChange, riskLevel = "moderate"
 
         <div className="flex flex-col gap-2 pt-2">
           <Button variant="primary" asChild>
-            <Link to="/get-matched?intent=crisis" onClick={() => onOpenChange(false)}>
+            <Link
+              to="/get-matched?intent=crisis"
+              onClick={() => onOpenChange(false)}
+            >
               {t("crisis.findSpecialist") || "Find a specialist now"}
             </Link>
           </Button>

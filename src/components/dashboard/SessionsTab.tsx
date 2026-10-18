@@ -40,7 +40,10 @@ export const SessionsTab = () => {
   const { user } = useAuth();
   const [sessions, setSessions] = useState<Session[]>([]);
   const [loading, setLoading] = useState(true);
-  const [anamnesisFor, setAnamnesisFor] = useStateReact<{ clientId: string; name?: string } | null>(null);
+  const [anamnesisFor, setAnamnesisFor] = useStateReact<{
+    clientId: string;
+    name?: string;
+  } | null>(null);
   const [proposeOpen, setProposeOpen] = useState(false);
   const [linkOpen, setLinkOpen] = useState(false);
 
@@ -50,7 +53,9 @@ export const SessionsTab = () => {
       setLoading(true);
       const { data } = await supabase
         .from("sessions")
-        .select("id, date_time, session_type, status, duration_minutes, video_room_id, notes, client_id")
+        .select(
+          "id, date_time, session_type, status, duration_minutes, video_room_id, notes, client_id",
+        )
         .eq("psychologist_id", user.id)
         .order("date_time", { ascending: false })
         .limit(50);
@@ -83,15 +88,15 @@ export const SessionsTab = () => {
   const updateStatus = async (sessionId: string, status: string) => {
     await supabase.from("sessions").update({ status }).eq("id", sessionId);
     setSessions((prev) =>
-      prev.map((s) => (s.id === sessionId ? { ...s, status } : s))
+      prev.map((s) => (s.id === sessionId ? { ...s, status } : s)),
     );
   };
 
   const upcoming = sessions.filter(
-    (s) => !isPast(new Date(s.date_time)) && s.status === "confirmed"
+    (s) => !isPast(new Date(s.date_time)) && s.status === "confirmed",
   );
   const past = sessions.filter(
-    (s) => isPast(new Date(s.date_time)) || s.status === "completed"
+    (s) => isPast(new Date(s.date_time)) || s.status === "completed",
   );
   const cancelled = sessions.filter((s) => s.status === "cancelled");
 
@@ -112,14 +117,15 @@ export const SessionsTab = () => {
               <User className="w-3.5 h-3.5 inline mr-1 text-muted-foreground" />
               {s.client_profile?.full_name || "Client"}
             </p>
-            <Badge
-              variant="outline"
-              className="text-[10px]"
-            >
+            <Badge variant="outline" className="text-[10px]">
               {isOnline ? (
-                <><Globe className="mr-1 h-2.5 w-2.5" /> Online</>
+                <>
+                  <Globe className="mr-1 h-2.5 w-2.5" /> Online
+                </>
               ) : (
-                <><MapPin className="mr-1 h-2.5 w-2.5" /> In-Person</>
+                <>
+                  <MapPin className="mr-1 h-2.5 w-2.5" /> In-Person
+                </>
               )}
             </Badge>
             <Badge
@@ -127,8 +133,8 @@ export const SessionsTab = () => {
                 s.status === "confirmed"
                   ? "default"
                   : s.status === "completed"
-                  ? "secondary"
-                  : "destructive"
+                    ? "secondary"
+                    : "destructive"
               }
               className="text-[10px]"
             >
@@ -164,7 +170,12 @@ export const SessionsTab = () => {
           <Button
             variant="outline"
             size="sm"
-            onClick={() => setAnamnesisFor({ clientId: s.client_id, name: s.client_profile?.full_name || undefined })}
+            onClick={() =>
+              setAnamnesisFor({
+                clientId: s.client_id,
+                name: s.client_profile?.full_name || undefined,
+              })
+            }
             title="Open clinical anamnesis"
           >
             <ClipboardList className="h-3.5 w-3.5 mr-1" /> Anamnesis
@@ -203,84 +214,96 @@ export const SessionsTab = () => {
 
   return (
     <>
-    <Card>
-      <CardHeader>
-        <div className="flex items-center justify-between gap-3 flex-wrap">
-          <CardTitle className="flex items-center gap-2">
-            <Calendar className="h-5 w-5 text-primary" />
-            Sessions
-          </CardTitle>
-          <div className="flex items-center gap-2">
-            <Button size="sm" variant="outline" onClick={() => setProposeOpen(true)}>
-              <CalendarPlus className="h-4 w-4 mr-1" />
-              Propose session
-            </Button>
-            <Button size="sm" onClick={() => setLinkOpen(true)}>
-              <Video className="h-4 w-4 mr-1" />
-              Send meeting link
-            </Button>
+      <Card>
+        <CardHeader>
+          <div className="flex items-center justify-between gap-3 flex-wrap">
+            <CardTitle className="flex items-center gap-2">
+              <Calendar className="h-5 w-5 text-primary" />
+              Sessions
+            </CardTitle>
+            <div className="flex items-center gap-2">
+              <Button
+                size="sm"
+                variant="outline"
+                onClick={() => setProposeOpen(true)}
+              >
+                <CalendarPlus className="h-4 w-4 mr-1" />
+                Propose session
+              </Button>
+              <Button size="sm" onClick={() => setLinkOpen(true)}>
+                <Video className="h-4 w-4 mr-1" />
+                Send meeting link
+              </Button>
+            </div>
           </div>
-        </div>
-      </CardHeader>
-      <CardContent>
-        <Tabs defaultValue="upcoming" className="space-y-4">
-          <TabsList>
-            <TabsTrigger value="upcoming">
-              Upcoming ({upcoming.length})
-            </TabsTrigger>
-            <TabsTrigger value="past">
-              Past ({past.length})
-            </TabsTrigger>
-            <TabsTrigger value="cancelled">
-              Cancelled ({cancelled.length})
-            </TabsTrigger>
-          </TabsList>
+        </CardHeader>
+        <CardContent>
+          <Tabs defaultValue="upcoming" className="space-y-4">
+            <TabsList>
+              <TabsTrigger value="upcoming">
+                Upcoming ({upcoming.length})
+              </TabsTrigger>
+              <TabsTrigger value="past">Past ({past.length})</TabsTrigger>
+              <TabsTrigger value="cancelled">
+                Cancelled ({cancelled.length})
+              </TabsTrigger>
+            </TabsList>
 
-          <TabsContent value="upcoming" className="space-y-3">
-            {upcoming.length === 0 ? (
-              <div className="text-center py-12">
-                <Calendar className="w-10 h-10 text-muted-foreground/40 mx-auto mb-3" />
-                <p className="text-sm text-muted-foreground">No upcoming sessions.</p>
-              </div>
-            ) : (
-              upcoming.map((s) => renderSession(s, true))
-            )}
-          </TabsContent>
+            <TabsContent value="upcoming" className="space-y-3">
+              {upcoming.length === 0 ? (
+                <div className="text-center py-12">
+                  <Calendar className="w-10 h-10 text-muted-foreground/40 mx-auto mb-3" />
+                  <p className="text-sm text-muted-foreground">
+                    No upcoming sessions.
+                  </p>
+                </div>
+              ) : (
+                upcoming.map((s) => renderSession(s, true))
+              )}
+            </TabsContent>
 
-          <TabsContent value="past" className="space-y-3">
-            {past.length === 0 ? (
-              <div className="text-center py-12">
-                <p className="text-sm text-muted-foreground">No past sessions yet.</p>
-              </div>
-            ) : (
-              past.map((s) => renderSession(s))
-            )}
-          </TabsContent>
+            <TabsContent value="past" className="space-y-3">
+              {past.length === 0 ? (
+                <div className="text-center py-12">
+                  <p className="text-sm text-muted-foreground">
+                    No past sessions yet.
+                  </p>
+                </div>
+              ) : (
+                past.map((s) => renderSession(s))
+              )}
+            </TabsContent>
 
-          <TabsContent value="cancelled" className="space-y-3">
-            {cancelled.length === 0 ? (
-              <div className="text-center py-12">
-                <p className="text-sm text-muted-foreground">No cancelled sessions.</p>
-              </div>
-            ) : (
-              cancelled.map((s) => renderSession(s))
-            )}
-          </TabsContent>
-        </Tabs>
-      </CardContent>
-    </Card>
-    {anamnesisFor && user && (
-      <AnamnesisDrawer
-        open={!!anamnesisFor}
-        onOpenChange={(v) => !v && setAnamnesisFor(null)}
-        clientId={anamnesisFor.clientId}
-        clientName={anamnesisFor.name}
-        psychologistId={user.id}
-        isTherapistView
+            <TabsContent value="cancelled" className="space-y-3">
+              {cancelled.length === 0 ? (
+                <div className="text-center py-12">
+                  <p className="text-sm text-muted-foreground">
+                    No cancelled sessions.
+                  </p>
+                </div>
+              ) : (
+                cancelled.map((s) => renderSession(s))
+              )}
+            </TabsContent>
+          </Tabs>
+        </CardContent>
+      </Card>
+      {anamnesisFor && user && (
+        <AnamnesisDrawer
+          open={!!anamnesisFor}
+          onOpenChange={(v) => !v && setAnamnesisFor(null)}
+          clientId={anamnesisFor.clientId}
+          clientName={anamnesisFor.name}
+          psychologistId={user.id}
+          isTherapistView
+        />
+      )}
+      <ProposeSessionModal open={proposeOpen} onOpenChange={setProposeOpen} />
+      <ProposeSessionModal
+        open={linkOpen}
+        onOpenChange={setLinkOpen}
+        defaultMode="link"
       />
-    )}
-    <ProposeSessionModal open={proposeOpen} onOpenChange={setProposeOpen} />
-    <ProposeSessionModal open={linkOpen} onOpenChange={setLinkOpen} defaultMode="link" />
     </>
   );
 };

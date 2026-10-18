@@ -18,20 +18,24 @@ const BreathingLoader = ({
   };
 
   return (
-    <div className={`flex flex-col items-center justify-center gap-4 ${className}`}>
+    <div
+      className={`flex flex-col items-center justify-center gap-4 ${className}`}
+    >
       <div className="relative">
         {/* Outer glow ring */}
         <div
           className={`${sizes[size]} rounded-full motion-breathe`}
           style={{
-            background: "radial-gradient(circle, rgba(255,179,0,0.25), transparent 70%)",
+            background:
+              "radial-gradient(circle, rgba(255,179,0,0.25), transparent 70%)",
           }}
         />
         {/* Core sphere */}
         <div
           className={`${sizes[size]} rounded-full motion-breathe absolute inset-0`}
           style={{
-            background: "radial-gradient(circle at 40% 35%, hsl(42 100% 50%), hsl(39 100% 48%))",
+            background:
+              "radial-gradient(circle at 40% 35%, hsl(42 100% 50%), hsl(39 100% 48%))",
             animationDelay: "0.1s",
           }}
         />

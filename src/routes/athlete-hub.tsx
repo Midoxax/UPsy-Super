@@ -7,6 +7,10 @@ const AthleteHub = lazy(() => import("@/pages/AthleteHub"));
 
 export const Route = createFileRoute("/athlete-hub")({
   component: () => (
-    <ProtectedRoute><PageTransition><AthleteHub /></PageTransition></ProtectedRoute>
+    <ProtectedRoute>
+      <PageTransition>
+        <AthleteHub />
+      </PageTransition>
+    </ProtectedRoute>
   ),
 });

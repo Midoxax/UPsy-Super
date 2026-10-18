@@ -2,7 +2,14 @@ import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
-import { Video, Calendar, Clock, MapPin, Globe, CalendarClock } from "lucide-react";
+import {
+  Video,
+  Calendar,
+  Clock,
+  MapPin,
+  Globe,
+  CalendarClock,
+} from "lucide-react";
 import { Link } from "@/lib/router-compat";
 import { format } from "date-fns";
 
@@ -24,7 +31,9 @@ const UpcomingSessionsCard = () => {
     const load = async () => {
       const { data } = await supabase
         .from("bookings_with_details")
-        .select("id, scheduled_at, session_type, status, video_room_id, psychologist_name")
+        .select(
+          "id, scheduled_at, session_type, status, video_room_id, psychologist_name",
+        )
         .eq("patient_id", user.id)
         .in("status", ["confirmed", "pending", "proposed"])
         .gte("scheduled_at", new Date().toISOString())
@@ -46,13 +55,17 @@ const UpcomingSessionsCard = () => {
       <div className="space-y-3">
         {sessions.map((s) => {
           const dt = new Date(s.scheduled_at);
-          const isOnline = s.session_type === "video" || s.session_type === "online";
+          const isOnline =
+            s.session_type === "video" || s.session_type === "online";
           const isProposed = s.status === "proposed";
           return (
             <div
               key={s.id}
               className="flex items-center justify-between p-3 rounded-xl"
-              style={{ background: "var(--glass-bg)", border: "var(--glass-border)" }}
+              style={{
+                background: "var(--glass-bg)",
+                border: "var(--glass-border)",
+              }}
             >
               <div className="space-y-0.5">
                 <p className="text-sm font-medium text-foreground">
@@ -64,7 +77,11 @@ const UpcomingSessionsCard = () => {
                     {format(dt, "MMM d, h:mm a")}
                   </span>
                   <span className="flex items-center gap-1">
-                    {isOnline ? <Globe className="w-3 h-3" /> : <MapPin className="w-3 h-3" />}
+                    {isOnline ? (
+                      <Globe className="w-3 h-3" />
+                    ) : (
+                      <MapPin className="w-3 h-3" />
+                    )}
                     {isOnline ? "Online" : "In-Person"}
                   </span>
                   {isProposed && (

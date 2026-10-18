@@ -74,10 +74,11 @@ let configProject = null;
 if (!has(CONFIG)) {
   failures.push(
     `${CONFIG} is missing. The CLI and the GitHub integration both resolve the ` +
-      `project from it; without it neither knows where to apply migrations.`
+      `project from it; without it neither knows where to apply migrations.`,
   );
 } else {
-  configProject = read(CONFIG).match(/^\s*project_id\s*=\s*"([^"]+)"/m)?.[1] ?? null;
+  configProject =
+    read(CONFIG).match(/^\s*project_id\s*=\s*"([^"]+)"/m)?.[1] ?? null;
   if (!configProject) failures.push(`${CONFIG} declares no project_id.`);
 }
 
@@ -87,14 +88,21 @@ if (!has(".env")) {
   notes.push(".env is absent — skipping the project-id comparison.");
 } else {
   const env = read(".env");
-  const val = (k) => env.match(new RegExp(`^${k}\\s*=\\s*"?([^"\\n]+)"?`, "m"))?.[1]?.trim() ?? null;
+  const val = (k) =>
+    env.match(new RegExp(`^${k}\\s*=\\s*"?([^"\\n]+)"?`, "m"))?.[1]?.trim() ??
+    null;
   envProject = val("VITE_SUPABASE_PROJECT_ID");
   const url = val("VITE_SUPABASE_URL");
   envHost = url?.match(/^https:\/\/([a-z0-9]+)\.supabase\.co/)?.[1] ?? null;
-  if (url && !envHost) failures.push(`VITE_SUPABASE_URL is not a Supabase project URL: ${url}`);
+  if (url && !envHost)
+    failures.push(`VITE_SUPABASE_URL is not a Supabase project URL: ${url}`);
 }
 
-const declared = { [CONFIG]: configProject, "VITE_SUPABASE_PROJECT_ID": envProject, "VITE_SUPABASE_URL host": envHost };
+const declared = {
+  [CONFIG]: configProject,
+  VITE_SUPABASE_PROJECT_ID: envProject,
+  "VITE_SUPABASE_URL host": envHost,
+};
 const present = Object.entries(declared).filter(([, v]) => v);
 const distinct = new Set(present.map(([, v]) => v));
 
@@ -106,7 +114,7 @@ if (distinct.size > 1) {
       present.map(([where, v]) => `      ${v}  (${where})`).join("\n") +
       `\n\n    Migrations apply to one project while the app reads another, so a ` +
       `\n    schema change appears to land and the running site never sees it.` +
-      `\n    Decide which project is authoritative and make all three agree.`
+      `\n    Decide which project is authoritative and make all three agree.`,
   );
 }
 
@@ -121,10 +129,12 @@ let migrationFiles = [];
 if (!has(MIGRATIONS)) {
   failures.push(
     `${MIGRATIONS}/ does not exist. Every Supabase tool resolves migrations from ` +
-      `that path relative to the repository root; moving it strands them.`
+      `that path relative to the repository root; moving it strands them.`,
   );
 } else {
-  migrationFiles = readdirSync(resolve(ROOT, MIGRATIONS)).filter((f) => f.endsWith(".sql")).sort();
+  migrationFiles = readdirSync(resolve(ROOT, MIGRATIONS))
+    .filter((f) => f.endsWith(".sql"))
+    .sort();
   console.log(`    ${migrationFiles.length} migrations in ${MIGRATIONS}/`);
 
   if (migrationFiles.length === 0) {
@@ -137,7 +147,7 @@ if (!has(MIGRATIONS)) {
     failures.push(
       `Migration filenames must be <14-digit timestamp>_<name>.sql — order of ` +
         `application depends on it:\n` +
-        malformed.map((f) => `      ${f}`).join("\n")
+        malformed.map((f) => `      ${f}`).join("\n"),
     );
   }
 }
@@ -168,7 +178,9 @@ function tablesFromMigrations() {
   const created = new Map();
   for (const f of migrationFiles) {
     const sql = stripSqlComments(read(join(MIGRATIONS, f)));
-    for (const m of sql.matchAll(/CREATE\s+TABLE\s+(?:IF\s+NOT\s+EXISTS\s+)?(?:public\.)?"?(\w+)"?/gi)) {
+    for (const m of sql.matchAll(
+      /CREATE\s+TABLE\s+(?:IF\s+NOT\s+EXISTS\s+)?(?:public\.)?"?(\w+)"?/gi,
+    )) {
       if (!created.has(m[1])) created.set(m[1], f);
     }
   }
@@ -191,13 +203,17 @@ if (!has(TYPES)) {
   if (!live) {
     notes.push(
       `Could not locate the Tables block in ${TYPES}. If Supabase changed its ` +
-        `generated layout, update tablesFromTypes() here.`
+        `generated layout, update tablesFromTypes() here.`,
     );
   } else {
     const created = tablesFromMigrations();
 
-    const pendingDoc = has(PENDING) ? JSON.parse(read(PENDING)) : { pending: [] };
-    const pending = new Map((pendingDoc.pending ?? []).map((p) => [p.table, p]));
+    const pendingDoc = has(PENDING)
+      ? JSON.parse(read(PENDING))
+      : { pending: [] };
+    const pending = new Map(
+      (pendingDoc.pending ?? []).map((p) => [p.table, p]),
+    );
 
     console.log(`    ${created.size} tables created by migrations`);
     console.log(`    ${live.size} tables in generated types`);
@@ -213,7 +229,7 @@ if (!has(TYPES)) {
           unexpected.map((t) => `      ${t}  <- ${created.get(t)}`).join("\n") +
           `\n\n    Either the migration has not reached the database, or ${TYPES}` +
           `\n    is stale. Run \`npm run check:database\` to find out which, then` +
-          `\n    regenerate the types or record the gap in ${PENDING}.`
+          `\n    regenerate the types or record the gap in ${PENDING}.`,
       );
     }
 
@@ -226,7 +242,7 @@ if (!has(TYPES)) {
           `creates them:\n` +
           undeclared.map((t) => `      ${t}`).join("\n") +
           `\n\n    These were created outside version control and would not survive` +
-          `\n    rebuilding this project from source. Write a migration for them.`
+          `\n    rebuilding this project from source. Write a migration for them.`,
       );
     }
 
@@ -238,7 +254,7 @@ if (!has(TYPES)) {
         `${landed.length} table(s) recorded as pending now appear in the generated types:\n` +
           landed.map((t) => `      ${t}`).join("\n") +
           `\n\n    The migration has landed. Remove the entry from ${PENDING}` +
-          `\n    so the gate covers it again.`
+          `\n    so the gate covers it again.`,
       );
     }
 
@@ -248,12 +264,14 @@ if (!has(TYPES)) {
       failures.push(
         `${orphaned.length} pending entr(ies) name a table no migration creates:\n` +
           orphaned.map((t) => `      ${t}`).join("\n") +
-          `\n\n    Stale after a rename or a revert. Remove them from ${PENDING}.`
+          `\n\n    Stale after a rename or a revert. Remove them from ${PENDING}.`,
       );
     }
 
     for (const t of unconfirmed.filter((t) => pending.has(t))) {
-      notes.push(`${t} pending — ${pending.get(t).reason ?? "no reason recorded"}`);
+      notes.push(
+        `${t} pending — ${pending.get(t).reason ?? "no reason recorded"}`,
+      );
     }
   }
 }
@@ -271,4 +289,6 @@ if (failures.length) {
   console.error("See the database section of DEPLOYMENT.md.\n");
   process.exit(1);
 }
-console.log("Supabase sync OK — one project named consistently, migrations discoverable, schema and types agree.");
+console.log(
+  "Supabase sync OK — one project named consistently, migrations discoverable, schema and types agree.",
+);

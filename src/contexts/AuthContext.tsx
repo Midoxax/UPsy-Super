@@ -10,7 +10,12 @@ interface AuthContextType {
   session: Session | null;
   loading: boolean;
   signIn: (email: string, password: string) => Promise<{ error: any }>;
-  signUp: (email: string, password: string, fullName: string, redirectAfter?: string) => Promise<{ error: any }>;
+  signUp: (
+    email: string,
+    password: string,
+    fullName: string,
+    redirectAfter?: string,
+  ) => Promise<{ error: any }>;
   signOut: () => Promise<void>;
 }
 
@@ -29,16 +34,16 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   useEffect(() => {
     // Set up auth state listener FIRST
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      (event, session) => {
-        setSession(session);
-        setUser(session?.user ?? null);
-        setLoading(false);
-        const uid = session?.user?.id ?? null;
-        setSentryUser(uid);
-        if (uid) identifyAnonymous(uid);
-      }
-    );
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((event, session) => {
+      setSession(session);
+      setUser(session?.user ?? null);
+      setLoading(false);
+      const uid = session?.user?.id ?? null;
+      setSentryUser(uid);
+      if (uid) identifyAnonymous(uid);
+    });
 
     // THEN check for existing session
     supabase.auth.getSession().then(({ data: { session } }) => {
@@ -87,7 +92,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     };
   }, []);
 
-
   // Idle-timeout watcher. Resets on user activity; signs out after the limit.
   useEffect(() => {
     if (!user) {
@@ -105,7 +109,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         .eq("user_id", user.id);
       if (cancelled) return;
       const roles = error ? [] : (data ?? []).map((r) => r.role as string);
-      const privileged = roles.includes("admin") || roles.includes("psychologist");
+      const privileged =
+        roles.includes("admin") || roles.includes("psychologist");
       idleLimitRef.current = privileged ? PRIVILEGED_IDLE_MS : DEFAULT_IDLE_MS;
       resetTimer();
     };
@@ -125,7 +130,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       "touchstart",
       "scroll",
     ];
-    events.forEach((e) => window.addEventListener(e, resetTimer, { passive: true }));
+    events.forEach((e) =>
+      window.addEventListener(e, resetTimer, { passive: true }),
+    );
 
     computeLimit();
 
@@ -145,14 +152,20 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     return { error };
   };
 
-  const signUp = async (email: string, password: string, fullName: string, redirectAfter?: string) => {
+  const signUp = async (
+    email: string,
+    password: string,
+    fullName: string,
+    redirectAfter?: string,
+  ) => {
     // After email verification, land on /auth so we can finalize and forward
     // the user to the page they originally tried to access (?redirect=).
-    const safe = redirectAfter && !redirectAfter.startsWith("/auth") ? redirectAfter : "";
+    const safe =
+      redirectAfter && !redirectAfter.startsWith("/auth") ? redirectAfter : "";
     const redirectUrl = safe
       ? `${window.location.origin}/auth?verified=1&redirect=${encodeURIComponent(safe)}`
       : `${window.location.origin}/my-space`;
-    
+
     const { data, error } = await supabase.auth.signUp({
       email,
       password,
@@ -185,9 +198,10 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
-
   return (
-    <AuthContext.Provider value={{ user, session, loading, signIn, signUp, signOut }}>
+    <AuthContext.Provider
+      value={{ user, session, loading, signIn, signUp, signOut }}
+    >
       {children}
     </AuthContext.Provider>
   );

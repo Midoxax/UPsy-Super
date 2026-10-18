@@ -11,7 +11,11 @@ interface NourEmergenceProps {
  * Nour Emergence — particles converge into a luminous core, then orbit slowly.
  * Canvas2D only. The signature "AI awakens" motion for Nour AI surfaces.
  */
-const NourEmergence = ({ size = 320, className = "", particleCount = 64 }: NourEmergenceProps) => {
+const NourEmergence = ({
+  size = 320,
+  className = "",
+  particleCount = 64,
+}: NourEmergenceProps) => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const reduced = useReducedMotionSafe();
 
@@ -29,7 +33,13 @@ const NourEmergence = ({ size = 320, className = "", particleCount = 64 }: NourE
     const cy = size / 2;
     const start = performance.now();
 
-    type P = { angle: number; radius: number; targetR: number; speed: number; hueShift: number };
+    type P = {
+      angle: number;
+      radius: number;
+      targetR: number;
+      speed: number;
+      hueShift: number;
+    };
     const particles: P[] = Array.from({ length: particleCount }, () => ({
       angle: Math.random() * Math.PI * 2,
       radius: size * 0.55 + Math.random() * 40,

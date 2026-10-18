@@ -1,4 +1,11 @@
-import { createContext, useContext, useEffect, useState, useCallback, ReactNode } from "react";
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+  useCallback,
+  ReactNode,
+} from "react";
 
 /**
  * Theme system.
@@ -43,7 +50,8 @@ function readStoredPreference(): ThemePreference {
   if (typeof window === "undefined") return "system";
   try {
     const saved = localStorage.getItem(THEME_STORAGE_KEY);
-    if (saved === "light" || saved === "dark" || saved === "system") return saved;
+    if (saved === "light" || saved === "dark" || saved === "system")
+      return saved;
   } catch {
     // Private mode / storage disabled — fall through to the OS preference.
   }
@@ -67,13 +75,15 @@ function applyTheme(resolved: ResolvedTheme) {
   root.style.colorScheme = resolved;
   // Keeps the mobile browser chrome in step with the page.
   const meta = document.querySelector('meta[name="theme-color"]');
-  if (meta) meta.setAttribute("content", resolved === "dark" ? "#1A1A1A" : "#6B1F2A");
+  if (meta)
+    meta.setAttribute("content", resolved === "dark" ? "#1A1A1A" : "#6B1F2A");
 }
 
 export const ThemeProvider = ({ children }: { children: ReactNode }) => {
-  const [theme, setThemeState] = useState<ThemePreference>(readStoredPreference);
+  const [theme, setThemeState] =
+    useState<ThemePreference>(readStoredPreference);
   const [resolvedTheme, setResolvedTheme] = useState<ResolvedTheme>(() =>
-    resolve(readStoredPreference())
+    resolve(readStoredPreference()),
   );
 
   const setTheme = useCallback((next: ThemePreference) => {
@@ -100,7 +110,12 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
 
   // While following the system, react to the OS flipping mid-session.
   useEffect(() => {
-    if (theme !== "system" || typeof window === "undefined" || !window.matchMedia) return;
+    if (
+      theme !== "system" ||
+      typeof window === "undefined" ||
+      !window.matchMedia
+    )
+      return;
     const mq = window.matchMedia(DARK_QUERY);
     const onChange = () => {
       const next = systemTheme();
@@ -112,7 +127,9 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
   }, [theme]);
 
   return (
-    <ThemeContext.Provider value={{ theme, resolvedTheme, setTheme, toggleTheme }}>
+    <ThemeContext.Provider
+      value={{ theme, resolvedTheme, setTheme, toggleTheme }}
+    >
       {children}
     </ThemeContext.Provider>
   );

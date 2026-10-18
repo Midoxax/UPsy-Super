@@ -2,8 +2,20 @@ import { Link } from "@/lib/router-compat";
 import SEOHead from "@/components/SEOHead";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { Timer, Wind, Brain, Trophy, ShieldCheck, RefreshCw } from "lucide-react";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
+import {
+  Timer,
+  Wind,
+  Brain,
+  Trophy,
+  ShieldCheck,
+  RefreshCw,
+} from "lucide-react";
 
 const FAQ = [
   {
@@ -52,12 +64,36 @@ export default function MentalToughnessAthletes() {
   };
 
   const pillars = [
-    { icon: Wind, title: "Nerve Regulation", desc: "Nasal breathing, exhale extension, and pre-performance rituals that shift the nervous system out of threat before you compete." },
-    { icon: Brain, title: "Attention Anchors", desc: "One or two process cues you own — so the mind cannot spiral to outcome, judgement, or the scoreboard mid-play." },
-    { icon: RefreshCw, title: "Reset Windows", desc: "A defined 5–10 second protocol between plays that interrupts rumination physically before it entrenches." },
-    { icon: Trophy, title: "Confidence Architecture", desc: "Evidence-based self-belief built from measured wins and reviewed film — not affirmations, not vibes." },
-    { icon: Timer, title: "Recovery Load", desc: "Sleep, downtime, and nervous-system recovery treated as training. The multiplier under every other skill." },
-    { icon: ShieldCheck, title: "Return-from-Injury", desc: "Graded exposure, imagery rehearsal, and confidence rebuilds so hesitation and re-injury fear do not linger in the body." },
+    {
+      icon: Wind,
+      title: "Nerve Regulation",
+      desc: "Nasal breathing, exhale extension, and pre-performance rituals that shift the nervous system out of threat before you compete.",
+    },
+    {
+      icon: Brain,
+      title: "Attention Anchors",
+      desc: "One or two process cues you own — so the mind cannot spiral to outcome, judgement, or the scoreboard mid-play.",
+    },
+    {
+      icon: RefreshCw,
+      title: "Reset Windows",
+      desc: "A defined 5–10 second protocol between plays that interrupts rumination physically before it entrenches.",
+    },
+    {
+      icon: Trophy,
+      title: "Confidence Architecture",
+      desc: "Evidence-based self-belief built from measured wins and reviewed film — not affirmations, not vibes.",
+    },
+    {
+      icon: Timer,
+      title: "Recovery Load",
+      desc: "Sleep, downtime, and nervous-system recovery treated as training. The multiplier under every other skill.",
+    },
+    {
+      icon: ShieldCheck,
+      title: "Return-from-Injury",
+      desc: "Graded exposure, imagery rehearsal, and confidence rebuilds so hesitation and re-injury fear do not linger in the body.",
+    },
   ];
 
   return (
@@ -78,19 +114,26 @@ export default function MentalToughnessAthletes() {
             </p>
             <h1 className="font-display text-5xl md:text-7xl leading-[1.05] tracking-tight mb-6">
               You train the body every day.{" "}
-              <em className="italic font-normal text-primary">Train the mind that runs it.</em>
+              <em className="italic font-normal text-primary">
+                Train the mind that runs it.
+              </em>
             </h1>
             <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mb-10 leading-relaxed">
-              Competition nerves, overthinking, freezing when it matters — these are not personality
-              flaws. They are trainable patterns. U.Psy pairs athletes with sport psychologists and
-              measured protocols that hold up on match day.
+              Competition nerves, overthinking, freezing when it matters — these
+              are not personality flaws. They are trainable patterns. U.Psy
+              pairs athletes with sport psychologists and measured protocols
+              that hold up on match day.
             </p>
             <div className="flex flex-wrap gap-3">
               <Button asChild size="lg">
-                <Link to="/free-score">Get your free Mental Performance Score</Link>
+                <Link to="/free-score">
+                  Get your free Mental Performance Score
+                </Link>
               </Button>
               <Button asChild size="lg" variant="outline">
-                <Link to="/psychologists?specialty=sport">Book a sport psychologist</Link>
+                <Link to="/psychologists?specialty=sport">
+                  Book a sport psychologist
+                </Link>
               </Button>
             </div>
             <p className="mt-6 text-sm text-muted-foreground font-mono tabular-nums">
@@ -102,7 +145,9 @@ export default function MentalToughnessAthletes() {
         {/* Signals */}
         <section className="container mx-auto px-4 py-20 max-w-5xl">
           <div className="max-w-2xl mb-12">
-            <p className="font-mono text-xs uppercase tracking-[0.2em] text-primary mb-4">Signals we hear</p>
+            <p className="font-mono text-xs uppercase tracking-[0.2em] text-primary mb-4">
+              Signals we hear
+            </p>
             <h2 className="font-display text-3xl md:text-5xl leading-tight mb-4">
               Any of this sound familiar?
             </h2>
@@ -116,7 +161,10 @@ export default function MentalToughnessAthletes() {
               "Since the injury, my body hesitates even though I'm cleared to play.",
               "I've plateaued. Technically I'm ready, mentally something is capping me.",
             ].map((line) => (
-              <div key={line} className="flex gap-3 p-4 rounded-xl border border-border/50">
+              <div
+                key={line}
+                className="flex gap-3 p-4 rounded-xl border border-border/50"
+              >
                 <div className="w-1.5 h-1.5 rounded-full bg-primary mt-2 shrink-0" />
                 <p className="text-muted-foreground italic">"{line}"</p>
               </div>
@@ -132,19 +180,30 @@ export default function MentalToughnessAthletes() {
                 Six systems we train
               </h2>
               <p className="text-muted-foreground text-lg">
-                Assessment shows which two or three matter for you right now. No generic mindset
-                talks — every protocol is measured, sport-specific, and reviewed every four weeks.
+                Assessment shows which two or three matter for you right now. No
+                generic mindset talks — every protocol is measured,
+                sport-specific, and reviewed every four weeks.
               </p>
             </div>
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
               {pillars.map((p) => (
-                <Card key={p.title} className="border-border/60 hover:border-primary/40 transition-colors">
+                <Card
+                  key={p.title}
+                  className="border-border/60 hover:border-primary/40 transition-colors"
+                >
                   <CardHeader>
-                    <p.icon className="w-6 h-6 text-primary mb-3" strokeWidth={1.5} />
-                    <CardTitle className="font-display text-2xl">{p.title}</CardTitle>
+                    <p.icon
+                      className="w-6 h-6 text-primary mb-3"
+                      strokeWidth={1.5}
+                    />
+                    <CardTitle className="font-display text-2xl">
+                      {p.title}
+                    </CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <p className="text-muted-foreground leading-relaxed">{p.desc}</p>
+                    <p className="text-muted-foreground leading-relaxed">
+                      {p.desc}
+                    </p>
                   </CardContent>
                 </Card>
               ))}
@@ -154,21 +213,43 @@ export default function MentalToughnessAthletes() {
 
         {/* Method */}
         <section className="container mx-auto px-4 py-20 max-w-5xl">
-          <p className="font-mono text-xs uppercase tracking-[0.2em] text-primary mb-4">The method</p>
+          <p className="font-mono text-xs uppercase tracking-[0.2em] text-primary mb-4">
+            The method
+          </p>
           <h2 className="font-display text-3xl md:text-5xl leading-tight mb-12">
             Measure. Regulate. Refocus. Repeat.
           </h2>
           <div className="grid gap-10 md:grid-cols-4">
             {[
-              { n: "01", t: "Measure", d: "Baseline nerves, focus, confidence, and recovery in under 15 minutes." },
-              { n: "02", t: "Regulate", d: "Breath and physiology protocols that shift the nervous system on demand." },
-              { n: "03", t: "Refocus", d: "Attention anchors, reset windows, and sport-specific cue words trained daily." },
-              { n: "04", t: "Repeat", d: "8–12 week arcs with weekly 1:1 sessions and monthly re-measurement." },
+              {
+                n: "01",
+                t: "Measure",
+                d: "Baseline nerves, focus, confidence, and recovery in under 15 minutes.",
+              },
+              {
+                n: "02",
+                t: "Regulate",
+                d: "Breath and physiology protocols that shift the nervous system on demand.",
+              },
+              {
+                n: "03",
+                t: "Refocus",
+                d: "Attention anchors, reset windows, and sport-specific cue words trained daily.",
+              },
+              {
+                n: "04",
+                t: "Repeat",
+                d: "8–12 week arcs with weekly 1:1 sessions and monthly re-measurement.",
+              },
             ].map((s) => (
               <div key={s.n}>
-                <div className="font-mono tabular-nums text-sm text-primary mb-3">{s.n}</div>
+                <div className="font-mono tabular-nums text-sm text-primary mb-3">
+                  {s.n}
+                </div>
                 <h3 className="font-display text-2xl mb-2">{s.t}</h3>
-                <p className="text-muted-foreground leading-relaxed text-sm">{s.d}</p>
+                <p className="text-muted-foreground leading-relaxed text-sm">
+                  {s.d}
+                </p>
               </div>
             ))}
           </div>
@@ -198,18 +279,21 @@ export default function MentalToughnessAthletes() {
         {/* CTA */}
         <section className="container mx-auto px-4 py-24 max-w-3xl text-center">
           <h2 className="font-display text-4xl md:text-6xl leading-tight mb-6">
-            See your baseline in <em className="italic font-normal text-primary">2 minutes.</em>
+            See your baseline in{" "}
+            <em className="italic font-normal text-primary">2 minutes.</em>
           </h2>
           <p className="text-muted-foreground text-lg mb-8">
-            Free, private, no card. Get a Mental Performance Score and a next-step protocol built
-            for your sport.
+            Free, private, no card. Get a Mental Performance Score and a
+            next-step protocol built for your sport.
           </p>
           <div className="flex flex-wrap gap-3 justify-center">
             <Button asChild size="lg">
               <Link to="/free-score">Start free assessment</Link>
             </Button>
             <Button asChild size="lg" variant="outline">
-              <Link to="/psychologists?specialty=sport">Meet the sport psychologists</Link>
+              <Link to="/psychologists?specialty=sport">
+                Meet the sport psychologists
+              </Link>
             </Button>
           </div>
         </section>

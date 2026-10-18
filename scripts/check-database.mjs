@@ -48,18 +48,31 @@ const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 function fromEnvFile(key) {
   const p = resolve(ROOT, ".env");
   if (!existsSync(p)) return null;
-  return readFileSync(p, "utf8").match(new RegExp(`^${key}\\s*=\\s*"?([^"\\n]+)"?`, "m"))?.[1]?.trim() ?? null;
+  return (
+    readFileSync(p, "utf8")
+      .match(new RegExp(`^${key}\\s*=\\s*"?([^"\\n]+)"?`, "m"))?.[1]
+      ?.trim() ?? null
+  );
 }
 
-const URL_BASE = (process.env.SUPABASE_URL || process.env.VITE_SUPABASE_URL || fromEnvFile("VITE_SUPABASE_URL") || "").replace(/\/$/, "");
-const KEY = process.env.SUPABASE_KEY || process.env.VITE_SUPABASE_PUBLISHABLE_KEY || fromEnvFile("VITE_SUPABASE_PUBLISHABLE_KEY") || "";
+const URL_BASE = (
+  process.env.SUPABASE_URL ||
+  process.env.VITE_SUPABASE_URL ||
+  fromEnvFile("VITE_SUPABASE_URL") ||
+  ""
+).replace(/\/$/, "");
+const KEY =
+  process.env.SUPABASE_KEY ||
+  process.env.VITE_SUPABASE_PUBLISHABLE_KEY ||
+  fromEnvFile("VITE_SUPABASE_PUBLISHABLE_KEY") ||
+  "";
 
 if (!URL_BASE || !KEY) {
   console.error(
     "No Supabase URL or key.\n" +
       "  Set SUPABASE_URL and SUPABASE_KEY, or keep VITE_SUPABASE_URL and\n" +
       "  VITE_SUPABASE_PUBLISHABLE_KEY in .env. The publishable (anon) key is\n" +
-      "  sufficient and is public by design."
+      "  sufficient and is public by design.",
   );
   process.exit(1);
 }
@@ -70,7 +83,9 @@ const CONTROL = process.env.CONTROL_TABLE || "profiles";
 /** Tables to verify: whatever check-supabase-sync.mjs recorded as unproven. */
 const PENDING = resolve(ROOT, "supabase/pending-migrations.json");
 const targets = existsSync(PENDING)
-  ? (JSON.parse(readFileSync(PENDING, "utf8")).pending ?? []).map((p) => p.table)
+  ? (JSON.parse(readFileSync(PENDING, "utf8")).pending ?? []).map(
+      (p) => p.table,
+    )
   : [];
 
 // The project ref is what `supabase link` wants, so resolve it properly rather
@@ -78,7 +93,11 @@ const targets = existsSync(PENDING)
 const configPath = resolve(ROOT, "supabase/config.toml");
 const project =
   URL_BASE.match(/^https:\/\/([a-z0-9]{20})\.supabase\.co/)?.[1] ??
-  (existsSync(configPath) ? readFileSync(configPath, "utf8").match(/^\s*project_id\s*=\s*"([^"]+)"/m)?.[1] : null) ??
+  (existsSync(configPath)
+    ? readFileSync(configPath, "utf8").match(
+        /^\s*project_id\s*=\s*"([^"]+)"/m,
+      )?.[1]
+    : null) ??
   "<project-ref>";
 console.log(`Querying project ${project}\n`);
 
@@ -89,9 +108,16 @@ console.log(`Querying project ${project}\n`);
 async function probe(table) {
   let res;
   try {
-    res = await fetch(`${URL_BASE}/rest/v1/${encodeURIComponent(table)}?select=*&limit=0`, {
-      headers: { apikey: KEY, authorization: `Bearer ${KEY}`, accept: "application/json" },
-    });
+    res = await fetch(
+      `${URL_BASE}/rest/v1/${encodeURIComponent(table)}?select=*&limit=0`,
+      {
+        headers: {
+          apikey: KEY,
+          authorization: `Bearer ${KEY}`,
+          accept: "application/json",
+        },
+      },
+    );
   } catch (e) {
     return { state: "unreachable", detail: e.message };
   }
@@ -111,15 +137,24 @@ async function probe(table) {
   // problem is the misdiagnosis this check is built to avoid, so treat it as a
   // network condition and report it as one.
   if (!json) {
-    return { state: "unreachable", detail: `${res.status} from an intermediary: ${body.slice(0, 120) || "(empty body)"}` };
+    return {
+      state: "unreachable",
+      detail: `${res.status} from an intermediary: ${body.slice(0, 120) || "(empty body)"}`,
+    };
   }
 
   const code = json.code ?? "";
   // PGRST205: relation absent from the schema cache. PGRST106: schema not exposed.
-  if (res.status === 404 && (code === "PGRST205" || /Could not find the table/i.test(body))) {
+  if (
+    res.status === 404 &&
+    (code === "PGRST205" || /Could not find the table/i.test(body))
+  ) {
     return { state: "absent", detail: `404 ${code}` };
   }
-  return { state: "unknown", detail: `${res.status} ${code || (json.message ?? "").slice(0, 120)}` };
+  return {
+    state: "unknown",
+    detail: `${res.status} ${code || (json.message ?? "").slice(0, 120)}`,
+  };
 }
 
 // --- control ----------------------------------------------------------------
@@ -133,7 +168,7 @@ if (control.state === "unreachable") {
       `  Nothing answered for the database, so nothing about the schema is proven\n` +
       `  either way. Re-run from a machine or CI runner with outbound access to\n` +
       `  *.supabase.co. Exiting 0: an unrun check must not read as a passing one,\n` +
-      `  but it must not fail a build for a condition the build cannot fix.`
+      `  but it must not fail a build for a condition the build cannot fix.`,
   );
   process.exit(0);
 }
@@ -143,7 +178,7 @@ if (control.state !== "present") {
       `  ${CONTROL} exists in every version of this schema, so this is a connection\n` +
       `  problem, not a schema problem: a wrong or rotated key, a paused project, or\n` +
       `  a URL pointing at the wrong project. Nothing below would be trustworthy.\n\n` +
-      `  Verified: ${URL_BASE}`
+      `  Verified: ${URL_BASE}`,
   );
   process.exit(1);
 }
@@ -168,13 +203,16 @@ console.log();
 if (unknown.length) {
   console.error("INCONCLUSIVE\n");
   for (const u of unknown) console.error(`  - ${u}`);
-  console.error("\n  The control table resolved, so the connection is fine. Investigate these directly.\n");
+  console.error(
+    "\n  The control table resolved, so the connection is fine. Investigate these directly.\n",
+  );
   process.exit(1);
 }
 
 if (absent.length) {
   console.error("MIGRATIONS NOT APPLIED\n");
-  for (const t of absent) console.error(`  - ${t} does not exist in project ${project}`);
+  for (const t of absent)
+    console.error(`  - ${t} does not exist in project ${project}`);
   console.error(
     `\n  The migration that creates ${absent.length === 1 ? "it" : "them"} is committed but has not reached the\n` +
       `  database. Apply it:\n\n` +
@@ -182,10 +220,12 @@ if (absent.length) {
       `      supabase db push\n\n` +
       `  Then regenerate types and clear the entries from\n` +
       `  supabase/pending-migrations.json in the same commit:\n\n` +
-      `      supabase gen types typescript --project-id ${project} > src/integrations/supabase/types.ts\n`
+      `      supabase gen types typescript --project-id ${project} > src/integrations/supabase/types.ts\n`,
   );
   process.exit(1);
 }
 
 console.log(`All ${targets.length} pending table(s) exist in ${project}.`);
-console.log("Regenerate types and clear supabase/pending-migrations.json — the migrations landed.");
+console.log(
+  "Regenerate types and clear supabase/pending-migrations.json — the migrations landed.",
+);

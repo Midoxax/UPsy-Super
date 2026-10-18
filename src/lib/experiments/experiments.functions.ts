@@ -27,7 +27,9 @@ async function promotedWinner(): Promise<string | null> {
   const key = process.env["SUPABASE_PUBLISHABLE_KEY"];
   if (!url || !key) return null;
   const supabase = createClient(url, key, { auth: { persistSession: false } });
-  const { data, error } = (await supabase.rpc("home_hero_winner").maybeSingle()) as {
+  const { data, error } = (await supabase
+    .rpc("home_hero_winner")
+    .maybeSingle()) as {
     data: HomeHeroWinnerResult | null;
     error: { message: string } | null;
   };
@@ -60,7 +62,8 @@ async function promotedWinner(): Promise<string | null> {
  */
 export const resolveExperiments = createServerFn({ method: "GET" }).handler(
   async (): Promise<ExperimentAssignments> => {
-    const { getCookie, setCookie } = await import("@tanstack/react-start/server");
+    const { getCookie, setCookie } =
+      await import("@tanstack/react-start/server");
 
     const assignments: ExperimentAssignments = {};
 
@@ -69,7 +72,10 @@ export const resolveExperiments = createServerFn({ method: "GET" }).handler(
     const winner = await promotedWinner();
     if (winner) {
       for (const experiment of EXPERIMENTS) {
-        assignments[experiment.id] = experiment.id === HOME_HERO_EXPERIMENT.id ? winner : experiment.variants[0]!;
+        assignments[experiment.id] =
+          experiment.id === HOME_HERO_EXPERIMENT.id
+            ? winner
+            : experiment.variants[0]!;
       }
       return assignments;
     }

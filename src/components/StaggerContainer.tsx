@@ -6,7 +6,10 @@ interface StaggerContainerProps {
   staggerDelay?: number;
 }
 
-const StaggerContainer = ({ children, staggerDelay = 0.1 }: StaggerContainerProps) => {
+const StaggerContainer = ({
+  children,
+  staggerDelay = 0.1,
+}: StaggerContainerProps) => {
   return (
     <motion.div
       initial="hidden"
@@ -30,10 +33,10 @@ export const StaggerItem = ({ children }: { children: ReactNode }) => {
     <motion.div
       variants={{
         hidden: { opacity: 0, y: 30 },
-        visible: { 
-          opacity: 1, 
+        visible: {
+          opacity: 1,
           y: 0,
-          transition: { duration: 0.5, ease: [0.25, 0.4, 0.25, 1] }
+          transition: { duration: 0.5, ease: [0.25, 0.4, 0.25, 1] },
         },
       }}
     >

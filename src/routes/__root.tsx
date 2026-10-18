@@ -371,7 +371,8 @@ function RootComponent() {
       window.location.reload();
     };
     window.addEventListener("vite:preloadError", handlePreloadError);
-    return () => window.removeEventListener("vite:preloadError", handlePreloadError);
+    return () =>
+      window.removeEventListener("vite:preloadError", handlePreloadError);
   }, []);
 
   // Belt-and-suspenders for the same class of failure as above, but without

@@ -1,7 +1,8 @@
 import { useEffect, useRef } from "react";
 import { Input } from "@/components/ui/input";
 
-const MAPS_API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY as string | undefined;
+const MAPS_API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY as
+  string | undefined;
 
 export interface AddressSelection {
   address: string;
@@ -23,7 +24,8 @@ function loadPlacesLibrary(): Promise<void> {
     script.src = `https://maps.googleapis.com/maps/api/js?key=${MAPS_API_KEY}&libraries=places`;
     script.async = true;
     script.onload = () => resolve();
-    script.onerror = () => reject(new Error("Failed to load Google Maps JS API"));
+    script.onerror = () =>
+      reject(new Error("Failed to load Google Maps JS API"));
     document.head.appendChild(script);
   });
   return placesLoader;

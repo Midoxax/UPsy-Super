@@ -73,10 +73,16 @@ export const useMyMemberships = () => {
 };
 
 /** Highest active tier the current user owns, or `discover` if none. */
-export const useCurrentTier = (): { tier: MembershipTier; loading: boolean } => {
+export const useCurrentTier = (): {
+  tier: MembershipTier;
+  loading: boolean;
+} => {
   const { data, isLoading } = useMyMemberships();
-  if (!data || data.length === 0) return { tier: "discover", loading: isLoading };
-  const sorted = [...data].sort((a, b) => TIER_RANK[b.tier] - TIER_RANK[a.tier]);
+  if (!data || data.length === 0)
+    return { tier: "discover", loading: isLoading };
+  const sorted = [...data].sort(
+    (a, b) => TIER_RANK[b.tier] - TIER_RANK[a.tier],
+  );
   return { tier: sorted[0].tier, loading: isLoading };
 };
 

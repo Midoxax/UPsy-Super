@@ -30,7 +30,11 @@ export interface Topic {
   icon: string | null;
 }
 
-export const useResources = (filters?: { topic?: string | null; format?: string | null; search?: string | null }) =>
+export const useResources = (filters?: {
+  topic?: string | null;
+  format?: string | null;
+  search?: string | null;
+}) =>
   useQuery({
     queryKey: ["resources", filters],
     queryFn: async () => {
@@ -67,14 +71,23 @@ export const useTrackResource = () => {
   const { user } = useAuth();
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: async (params: { resource_id: string; action: "view" | "download" | "complete" }) => {
+    mutationFn: async (params: {
+      resource_id: string;
+      action: "view" | "download" | "complete";
+    }) => {
       if (!user) return;
-      await supabase
-        .from("resource_completions")
-        .insert({ user_id: user.id, resource_id: params.resource_id, action: params.action });
+      await supabase.from("resource_completions").insert({
+        user_id: user.id,
+        resource_id: params.resource_id,
+        action: params.action,
+      });
       // Award XP for engaging with content (only on first interaction per type)
       if (params.action === "view" || params.action === "complete") {
-        await supabase.rpc("award_xp", { p_action: `resource_${params.action}`, p_xp: params.action === "complete" ? 15 : 5, p_metadata: { resource_id: params.resource_id } as any });
+        await supabase.rpc("award_xp", {
+          p_action: `resource_${params.action}`,
+          p_xp: params.action === "complete" ? 15 : 5,
+          p_metadata: { resource_id: params.resource_id } as any,
+        });
       }
     },
     onSuccess: () => {

@@ -45,11 +45,15 @@ export default function TodaysStateCard({ onLogged }: Props) {
     if (!data) return;
 
     const today = new Date().toDateString();
-    setTodayLogged(data.some((e) => new Date(e.recorded_at ?? 0).toDateString() === today));
+    setTodayLogged(
+      data.some((e) => new Date(e.recorded_at ?? 0).toDateString() === today),
+    );
 
     // Streak: consecutive days from today backwards
     let s = 0;
-    const days = new Set(data.map((e) => new Date(e.recorded_at ?? 0).toDateString()));
+    const days = new Set(
+      data.map((e) => new Date(e.recorded_at ?? 0).toDateString()),
+    );
     for (let i = 0; i < 30; i++) {
       const d = new Date();
       d.setDate(d.getDate() - i);
@@ -87,11 +91,26 @@ export default function TodaysStateCard({ onLogged }: Props) {
   };
 
   const adaptiveMessage = () => {
-    if (todayLogged) return t("dashboard.checkedInToday") || "You've checked in today. Nice work.";
-    if (recentAvg === null) return t("dashboard.firstCheckIn") || "How are you feeling right now?";
-    if (recentAvg <= 2) return t("dashboard.lowStreak") || "Tough days lately. Be gentle with yourself.";
-    if (recentAvg >= 4) return t("dashboard.goodStreak") || "You've had a good stretch. Keep the rhythm.";
-    return t("dashboard.steadyState") || "Steady week. One check-in keeps the momentum.";
+    if (todayLogged)
+      return (
+        t("dashboard.checkedInToday") || "You've checked in today. Nice work."
+      );
+    if (recentAvg === null)
+      return t("dashboard.firstCheckIn") || "How are you feeling right now?";
+    if (recentAvg <= 2)
+      return (
+        t("dashboard.lowStreak") ||
+        "Tough days lately. Be gentle with yourself."
+      );
+    if (recentAvg >= 4)
+      return (
+        t("dashboard.goodStreak") ||
+        "You've had a good stretch. Keep the rhythm."
+      );
+    return (
+      t("dashboard.steadyState") ||
+      "Steady week. One check-in keeps the momentum."
+    );
   };
 
   return (
@@ -100,7 +119,11 @@ export default function TodaysStateCard({ onLogged }: Props) {
       animate={{ opacity: 1, y: 0 }}
       className="glass-card p-6 space-y-5"
     >
-      <CrisisModal open={crisisOpen} onOpenChange={setCrisisOpen} riskLevel="high" />
+      <CrisisModal
+        open={crisisOpen}
+        onOpenChange={setCrisisOpen}
+        riskLevel="high"
+      />
 
       <div className="flex items-start justify-between gap-4">
         <div>
@@ -108,7 +131,9 @@ export default function TodaysStateCard({ onLogged }: Props) {
             <Sparkles className="w-5 h-5 text-primary" />
             {t("dashboard.todaysState") || "Today's State"}
           </h2>
-          <p className="text-sm text-muted-foreground mt-1">{adaptiveMessage()}</p>
+          <p className="text-sm text-muted-foreground mt-1">
+            {adaptiveMessage()}
+          </p>
         </div>
         {streak > 0 && (
           <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-primary/10 text-primary text-sm font-medium">

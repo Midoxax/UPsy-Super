@@ -1,7 +1,18 @@
 import { Check, Sparkles, Building2, Users, TrendingUp } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 import { Link } from "@/lib/router-compat";
 import { useLocale } from "@/contexts/LocaleContext";
 import SEOHead from "@/components/SEOHead";
@@ -93,7 +104,9 @@ const Pricing = () => {
         {/* Hero */}
         <section className="py-20 px-4">
           <div className="max-w-4xl mx-auto text-center">
-            <h1 className="text-h1 mb-4">{t("pricing.heroTitle") || "Simple, Transparent Pricing"}</h1>
+            <h1 className="text-h1 mb-4">
+              {t("pricing.heroTitle") || "Simple, Transparent Pricing"}
+            </h1>
             <p className="text-body text-muted-foreground max-w-2xl mx-auto">
               {t("pricing.heroSubtitle") ||
                 "No hidden fees. No subscriptions. Pay only for the sessions you need."}
@@ -105,7 +118,9 @@ const Pricing = () => {
         <section className="py-12 px-4">
           <div className="max-w-6xl mx-auto">
             <div className="text-center mb-12">
-              <h2 className="text-h2 mb-3">{t("pricing.individualTitle") || "For Individuals"}</h2>
+              <h2 className="text-h2 mb-3">
+                {t("pricing.individualTitle") || "For Individuals"}
+              </h2>
               <p className="text-muted-foreground">
                 {t("pricing.individualSubtitle") ||
                   "Book sessions with accredited psychologists at transparent pricing"}
@@ -119,12 +134,18 @@ const Pricing = () => {
                     <Sparkles className="h-5 w-5 text-primary" />
                     Single Session
                   </CardTitle>
-                  <CardDescription>Perfect to try or for occasional support</CardDescription>
+                  <CardDescription>
+                    Perfect to try or for occasional support
+                  </CardDescription>
                 </CardHeader>
                 <CardContent>
                   <div className="mb-6">
-                    <div className="text-3xl font-bold text-foreground">250–800 MAD</div>
-                    <div className="text-sm text-muted-foreground">per session</div>
+                    <div className="text-3xl font-bold text-foreground">
+                      250–800 MAD
+                    </div>
+                    <div className="text-sm text-muted-foreground">
+                      per session
+                    </div>
                     <div className="text-xs text-muted-foreground mt-1">
                       Price set by each psychologist
                     </div>
@@ -149,12 +170,18 @@ const Pricing = () => {
                     9% OFF
                   </div>
                   <CardTitle>5-Session Pack</CardTitle>
-                  <CardDescription>For short-term support or specific goals</CardDescription>
+                  <CardDescription>
+                    For short-term support or specific goals
+                  </CardDescription>
                 </CardHeader>
                 <CardContent>
                   <div className="mb-6">
-                    <div className="text-3xl font-bold text-foreground">2,045 MAD</div>
-                    <div className="text-sm text-muted-foreground">≈ 409 MAD/session</div>
+                    <div className="text-3xl font-bold text-foreground">
+                      2,045 MAD
+                    </div>
+                    <div className="text-sm text-muted-foreground">
+                      ≈ 409 MAD/session
+                    </div>
                     <div className="text-xs text-muted-foreground mt-1 line-through">
                       Regular: 2,250 MAD
                     </div>
@@ -179,12 +206,18 @@ const Pricing = () => {
                     15% OFF — POPULAR
                   </div>
                   <CardTitle>10-Session Pack</CardTitle>
-                  <CardDescription>For sustained progress and lasting change</CardDescription>
+                  <CardDescription>
+                    For sustained progress and lasting change
+                  </CardDescription>
                 </CardHeader>
                 <CardContent>
                   <div className="mb-6">
-                    <div className="text-3xl font-bold text-foreground">3,825 MAD</div>
-                    <div className="text-sm text-muted-foreground">≈ 383 MAD/session</div>
+                    <div className="text-3xl font-bold text-foreground">
+                      3,825 MAD
+                    </div>
+                    <div className="text-sm text-muted-foreground">
+                      ≈ 383 MAD/session
+                    </div>
                     <div className="text-xs text-muted-foreground mt-1 line-through">
                       Regular: 4,500 MAD
                     </div>
@@ -211,13 +244,19 @@ const Pricing = () => {
                     20% OFF — BEST VALUE
                   </div>
                   <CardTitle>20-Session Pack</CardTitle>
-                  <CardDescription>For deep therapeutic work or long-term support</CardDescription>
+                  <CardDescription>
+                    For deep therapeutic work or long-term support
+                  </CardDescription>
                 </CardHeader>
                 <CardContent>
                   <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                     <div>
-                      <div className="text-3xl font-bold text-foreground">7,200 MAD</div>
-                      <div className="text-sm text-muted-foreground">≈ 360 MAD/session</div>
+                      <div className="text-3xl font-bold text-foreground">
+                        7,200 MAD
+                      </div>
+                      <div className="text-sm text-muted-foreground">
+                        ≈ 360 MAD/session
+                      </div>
                       <div className="text-xs text-muted-foreground mt-1 line-through">
                         Regular: 9,000 MAD
                       </div>
@@ -238,8 +277,8 @@ const Pricing = () => {
             <Building2 className="h-12 w-12 mx-auto mb-4 text-primary" />
             <h2 className="text-h2 mb-3">For Organizations</h2>
             <p className="text-muted-foreground">
-              Employee mental health programs that improve retention, reduce absenteeism, and boost
-              productivity.
+              Employee mental health programs that improve retention, reduce
+              absenteeism, and boost productivity.
             </p>
           </div>
 
@@ -250,14 +289,20 @@ const Pricing = () => {
                   <Users className="h-5 w-5 text-primary" />
                   EAP (Employee Assistance Program)
                 </CardTitle>
-                <CardDescription>Comprehensive mental health benefit for your team</CardDescription>
+                <CardDescription>
+                  Comprehensive mental health benefit for your team
+                </CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="grid md:grid-cols-2 gap-8">
                   <div>
                     <div className="mb-6">
-                      <div className="text-3xl font-bold text-foreground mb-1">80–150 MAD</div>
-                      <div className="text-sm text-muted-foreground">per employee / per month</div>
+                      <div className="text-3xl font-bold text-foreground mb-1">
+                        80–150 MAD
+                      </div>
+                      <div className="text-sm text-muted-foreground">
+                        per employee / per month
+                      </div>
                       <div className="text-xs text-muted-foreground mt-2">
                         Volume pricing available. Billed annually.
                       </div>
@@ -276,24 +321,32 @@ const Pricing = () => {
                       <div className="flex items-start gap-3">
                         <TrendingUp className="h-5 w-5 text-primary mt-1" />
                         <div>
-                          <div className="font-semibold text-sm">Proven ROI</div>
+                          <div className="font-semibold text-sm">
+                            Proven ROI
+                          </div>
                           <div className="text-xs text-muted-foreground">
-                            Studies show $3–6 return for every $1 invested in EAP.
+                            Studies show $3–6 return for every $1 invested in
+                            EAP.
                           </div>
                         </div>
                       </div>
                       <div className="flex items-start gap-3">
                         <Users className="h-5 w-5 text-primary mt-1" />
                         <div>
-                          <div className="font-semibold text-sm">Flexible Access</div>
+                          <div className="font-semibold text-sm">
+                            Flexible Access
+                          </div>
                           <div className="text-xs text-muted-foreground">
-                            Employees book directly. You only see anonymized metrics.
+                            Employees book directly. You only see anonymized
+                            metrics.
                           </div>
                         </div>
                       </div>
                     </div>
                     <Button size="lg" asChild className="w-full">
-                      <Link to="/services/consulting-for-organizations">Request a Demo</Link>
+                      <Link to="/services/consulting-for-organizations">
+                        Request a Demo
+                      </Link>
                     </Button>
                   </div>
                 </div>
@@ -305,11 +358,15 @@ const Pricing = () => {
         {/* FAQ */}
         <section className="py-20 px-4">
           <div className="max-w-3xl mx-auto">
-            <h2 className="text-h2 text-center mb-12">Frequently Asked Questions</h2>
+            <h2 className="text-h2 text-center mb-12">
+              Frequently Asked Questions
+            </h2>
             <Accordion type="single" collapsible className="w-full">
               {faqs.map((faq, i) => (
                 <AccordionItem key={i} value={`item-${i}`}>
-                  <AccordionTrigger className="text-left">{faq.question}</AccordionTrigger>
+                  <AccordionTrigger className="text-left">
+                    {faq.question}
+                  </AccordionTrigger>
                   <AccordionContent className="text-muted-foreground">
                     {faq.answer}
                   </AccordionContent>
@@ -324,7 +381,8 @@ const Pricing = () => {
           <div className="max-w-3xl mx-auto text-center">
             <h2 className="text-h2 mb-4">Ready to Get Started?</h2>
             <p className="text-muted-foreground mb-8">
-              Find your psychologist and book your first session in under 2 minutes.
+              Find your psychologist and book your first session in under 2
+              minutes.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button size="lg" asChild>

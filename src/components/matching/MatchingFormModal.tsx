@@ -13,11 +13,25 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
 import { Checkbox } from "@/components/ui/checkbox";
 import { PsychologistProfile } from "@/types/psychologist";
@@ -28,7 +42,9 @@ const formSchema = z.object({
   email: z.string().email("Invalid email address"),
   phone: z.string().optional(),
   specialty_needed: z.string().min(1, "Please select a specialty"),
-  languages_preferred: z.array(z.string()).min(1, "Please select at least one language"),
+  languages_preferred: z
+    .array(z.string())
+    .min(1, "Please select at least one language"),
   budget_max: z.string().optional(),
   location_city: z.string().optional(),
   prefers_online: z.boolean(),
@@ -52,7 +68,12 @@ interface MatchingFormModalProps {
   languages: Language[];
 }
 
-const MatchingFormModal = ({ open, onClose, specialties, languages }: MatchingFormModalProps) => {
+const MatchingFormModal = ({
+  open,
+  onClose,
+  specialties,
+  languages,
+}: MatchingFormModalProps) => {
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
   const [matches, setMatches] = useState<PsychologistProfile[]>([]);
@@ -79,30 +100,37 @@ const MatchingFormModal = ({ open, onClose, specialties, languages }: MatchingFo
 
     try {
       // Insert matching request
-      const { error: insertError } = await supabase.from("client_matching_requests").insert({
-        name: values.name,
-        email: values.email,
-        phone: values.phone || null,
-        specialty_needed: values.specialty_needed,
-        languages_preferred: values.languages_preferred,
-        budget_max: values.budget_max ? parseFloat(values.budget_max) : null,
-        location_city: values.location_city || null,
-        prefers_online: values.prefers_online,
-        notes: values.notes || null,
-      });
+      const { error: insertError } = await supabase
+        .from("client_matching_requests")
+        .insert({
+          name: values.name,
+          email: values.email,
+          phone: values.phone || null,
+          specialty_needed: values.specialty_needed,
+          languages_preferred: values.languages_preferred,
+          budget_max: values.budget_max ? parseFloat(values.budget_max) : null,
+          location_city: values.location_city || null,
+          prefers_online: values.prefers_online,
+          notes: values.notes || null,
+        });
 
       if (insertError) throw insertError;
 
       // Find matches
-      const { data, error: matchError } = await supabase.functions.invoke("find-matches", {
-        body: {
-          specialtyNeeded: values.specialty_needed,
-          languagesPreferred: values.languages_preferred,
-          budgetMax: values.budget_max ? parseFloat(values.budget_max) : undefined,
-          locationCity: values.location_city || undefined,
-          prefersOnline: values.prefers_online,
+      const { data, error: matchError } = await supabase.functions.invoke(
+        "find-matches",
+        {
+          body: {
+            specialtyNeeded: values.specialty_needed,
+            languagesPreferred: values.languages_preferred,
+            budgetMax: values.budget_max
+              ? parseFloat(values.budget_max)
+              : undefined,
+            locationCity: values.location_city || undefined,
+            prefersOnline: values.prefers_online,
+          },
         },
-      });
+      );
 
       if (matchError) throw matchError;
 
@@ -116,7 +144,8 @@ const MatchingFormModal = ({ open, onClose, specialties, languages }: MatchingFo
       console.error("Error submitting request:", error);
       toast({
         title: "Error",
-        description: error.message || "Failed to submit request. Please try again.",
+        description:
+          error.message || "Failed to submit request. Please try again.",
         variant: "destructive",
       });
     } finally {
@@ -134,10 +163,15 @@ const MatchingFormModal = ({ open, onClose, specialties, languages }: MatchingFo
   if (showResults) {
     return (
       <Dialog open={open} onOpenChange={handleClose}>
-        <DialogContent ref={scrollRef} className="max-w-4xl max-h-[90vh] overflow-y-auto">
+        <DialogContent
+          ref={scrollRef}
+          className="max-w-4xl max-h-[90vh] overflow-y-auto"
+        >
           <DialogHeader>
             <DialogTitle>Your Top Matches</DialogTitle>
-            <DialogDescription>Based on your preferences, here are your best matches</DialogDescription>
+            <DialogDescription>
+              Based on your preferences, here are your best matches
+            </DialogDescription>
           </DialogHeader>
           <MatchResults matches={matches} onClose={handleClose} />
         </DialogContent>
@@ -147,10 +181,16 @@ const MatchingFormModal = ({ open, onClose, specialties, languages }: MatchingFo
 
   return (
     <Dialog open={open} onOpenChange={handleClose}>
-      <DialogContent ref={scrollRef} className="max-w-2xl max-h-[90vh] overflow-y-auto">
+      <DialogContent
+        ref={scrollRef}
+        className="max-w-2xl max-h-[90vh] overflow-y-auto"
+      >
         <DialogHeader>
           <DialogTitle>Find Your Perfect Match</DialogTitle>
-          <DialogDescription>Tell us what you're looking for and we'll match you with the best psychologists</DialogDescription>
+          <DialogDescription>
+            Tell us what you're looking for and we'll match you with the best
+            psychologists
+          </DialogDescription>
         </DialogHeader>
 
         <Form {...form}>
@@ -181,7 +221,11 @@ const MatchingFormModal = ({ open, onClose, specialties, languages }: MatchingFo
                       Email <span className="text-destructive">*</span>
                     </FormLabel>
                     <FormControl>
-                      <Input type="email" placeholder="your@email.com" {...field} />
+                      <Input
+                        type="email"
+                        placeholder="your@email.com"
+                        {...field}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -196,7 +240,11 @@ const MatchingFormModal = ({ open, onClose, specialties, languages }: MatchingFo
                 <FormItem>
                   <FormLabel>Phone (Optional)</FormLabel>
                   <FormControl>
-                    <Input type="tel" placeholder="+212 6XX XXX XXX" {...field} />
+                    <Input
+                      type="tel"
+                      placeholder="+212 6XX XXX XXX"
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -209,9 +257,13 @@ const MatchingFormModal = ({ open, onClose, specialties, languages }: MatchingFo
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>
-                    What type of support do you need? <span className="text-destructive">*</span>
+                    What type of support do you need?{" "}
+                    <span className="text-destructive">*</span>
                   </FormLabel>
-                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
                     <FormControl>
                       <SelectTrigger>
                         <SelectValue placeholder="Select a specialty" />
@@ -236,7 +288,8 @@ const MatchingFormModal = ({ open, onClose, specialties, languages }: MatchingFo
               render={() => (
                 <FormItem>
                   <FormLabel>
-                    Preferred Languages <span className="text-destructive">*</span>
+                    Preferred Languages{" "}
+                    <span className="text-destructive">*</span>
                   </FormLabel>
                   <div className="grid grid-cols-2 gap-3">
                     {languages.map((language) => (
@@ -252,12 +305,16 @@ const MatchingFormModal = ({ open, onClose, specialties, languages }: MatchingFo
                                 onCheckedChange={(checked) => {
                                   const updatedValue = checked
                                     ? [...(field.value || []), language.id]
-                                    : field.value?.filter((val) => val !== language.id) || [];
+                                    : field.value?.filter(
+                                        (val) => val !== language.id,
+                                      ) || [];
                                   field.onChange(updatedValue);
                                 }}
                               />
                             </FormControl>
-                            <FormLabel className="font-normal cursor-pointer">{language.name}</FormLabel>
+                            <FormLabel className="font-normal cursor-pointer">
+                              {language.name}
+                            </FormLabel>
                           </FormItem>
                         )}
                       />
@@ -278,7 +335,9 @@ const MatchingFormModal = ({ open, onClose, specialties, languages }: MatchingFo
                     <FormControl>
                       <Input type="number" placeholder="500" {...field} />
                     </FormControl>
-                    <FormDescription>Leave empty for no budget limit</FormDescription>
+                    <FormDescription>
+                      Leave empty for no budget limit
+                    </FormDescription>
                     <FormMessage />
                   </FormItem>
                 )}
@@ -307,10 +366,15 @@ const MatchingFormModal = ({ open, onClose, specialties, languages }: MatchingFo
                 <FormItem className="flex items-center justify-between rounded-lg border p-4">
                   <div className="space-y-0.5">
                     <FormLabel>Online Sessions</FormLabel>
-                    <FormDescription>I prefer online video sessions</FormDescription>
+                    <FormDescription>
+                      I prefer online video sessions
+                    </FormDescription>
                   </div>
                   <FormControl>
-                    <Switch checked={field.value} onCheckedChange={field.onChange} />
+                    <Switch
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                    />
                   </FormControl>
                 </FormItem>
               )}
@@ -323,7 +387,11 @@ const MatchingFormModal = ({ open, onClose, specialties, languages }: MatchingFo
                 <FormItem>
                   <FormLabel>Additional Notes</FormLabel>
                   <FormControl>
-                    <Textarea placeholder="Any specific requirements or questions..." rows={4} {...field} />
+                    <Textarea
+                      placeholder="Any specific requirements or questions..."
+                      rows={4}
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

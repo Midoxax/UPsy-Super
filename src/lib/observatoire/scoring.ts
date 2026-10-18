@@ -11,7 +11,10 @@ export type Band = "A" | "B" | "C";
 /** Platform reference floor for a 50-minute session, in MAD. */
 export const SESSION_PRICE_FLOOR_MAD = 300;
 
-export type Answers = Record<string, string | number | boolean | null | undefined>;
+export type Answers = Record<
+  string,
+  string | number | boolean | null | undefined
+>;
 
 const num = (v: unknown): number | null =>
   typeof v === "number" && Number.isFinite(v) ? v : null;
@@ -50,7 +53,9 @@ export const computeIntentScore = (a: Answers): IntentScore => {
   const timeline = TIMELINE_POINTS[String(a.timeline ?? "")] ?? 0;
 
   const intentionRaw = num(a.intention);
-  const intention = intentionRaw ? Math.round(((intentionRaw - 1) / 4) * 25) : 0;
+  const intention = intentionRaw
+    ? Math.round(((intentionRaw - 1) / 4) * 25)
+    : 0;
 
   const npsRaw = num(a.nps);
   const nps = npsRaw !== null ? Math.round((npsRaw / 10) * 20) : 0;
@@ -59,7 +64,8 @@ export const computeIntentScore = (a: Answers): IntentScore => {
   const acceptable = num(a.vw_expensive);
   let wtp = 0;
   if (coherent === true) {
-    wtp = acceptable !== null && acceptable >= SESSION_PRICE_FLOOR_MAD ? 20 : 10;
+    wtp =
+      acceptable !== null && acceptable >= SESSION_PRICE_FLOOR_MAD ? 20 : 10;
   }
 
   const total = Math.max(0, Math.min(100, timeline + intention + nps + wtp));
@@ -88,7 +94,7 @@ export const buildLeadBreakdown = (
   track: Track,
   a: Answers,
   score: IntentScore,
-  extra: { referral_code?: string | null; utm?: Record<string, string> } = {}
+  extra: { referral_code?: string | null; utm?: Record<string, string> } = {},
 ): Record<string, unknown> => {
   const base: Record<string, unknown> = {
     track,
@@ -108,7 +114,9 @@ export const buildLeadBreakdown = (
       too_expensive: num(a.vw_too_expensive),
       coherent: vanWestendorpCoherent(a),
     };
-    base.top_barriers = rankBarriers(a).slice(0, 3).map((b) => b.key);
+    base.top_barriers = rankBarriers(a)
+      .slice(0, 3)
+      .map((b) => b.key);
     base.org_interest = a.org_interest === true;
   } else {
     // Deliberately NO psychologist demographics (years of practice, practice

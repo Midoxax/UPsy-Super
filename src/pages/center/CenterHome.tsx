@@ -39,19 +39,18 @@ const CenterHome = () => {
             <Sparkles className="h-3 w-3 mr-1.5" />
             Training Center
           </Badge>
-          <h1 className="text-h1 font-bold mb-4">
-            Learn, connect, become.
-          </h1>
+          <h1 className="text-h1 font-bold mb-4">Learn, connect, become.</h1>
           <p className="text-lg text-muted-foreground mb-6">
-            Topic communities, cohort-based learning, and expert AMAs — engineered
-            for depth, not noise. No vanity metrics. No infinite scroll. Just
-            people growing together.
+            Topic communities, cohort-based learning, and expert AMAs —
+            engineered for depth, not noise. No vanity metrics. No infinite
+            scroll. Just people growing together.
           </p>
           <Link
             to="/center/schools"
             className="inline-flex items-center gap-1.5 text-sm font-medium text-primary hover:underline"
           >
-            Explore the 11 schools & academies <ArrowRight className="h-3.5 w-3.5" />
+            Explore the 11 schools & academies{" "}
+            <ArrowRight className="h-3.5 w-3.5" />
           </Link>
         </div>
       </section>
@@ -78,7 +77,10 @@ const CenterHome = () => {
           ) : (
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
               {spaces?.map((space) => {
-                const locked = !hasTier(owned, space.tier_required as MembershipTier);
+                const locked = !hasTier(
+                  owned,
+                  space.tier_required as MembershipTier,
+                );
                 return (
                   <Card
                     key={space.id}
@@ -98,7 +100,9 @@ const CenterHome = () => {
                         )}
                       </div>
                     </div>
-                    <h3 className="text-lg font-semibold mb-1.5">{space.name}</h3>
+                    <h3 className="text-lg font-semibold mb-1.5">
+                      {space.name}
+                    </h3>
                     <p className="text-sm text-muted-foreground flex-1 line-clamp-3">
                       {space.description}
                     </p>
@@ -119,7 +123,11 @@ const CenterHome = () => {
                         size="sm"
                         className="group-hover:translate-x-0.5 transition-transform"
                       >
-                        <Link to={locked ? "/membership" : `/center/c/${space.slug}`}>
+                        <Link
+                          to={
+                            locked ? "/membership" : `/center/c/${space.slug}`
+                          }
+                        >
                           {locked ? "Unlock" : "Enter"}
                           <ArrowRight className="ml-1 h-3.5 w-3.5" />
                         </Link>

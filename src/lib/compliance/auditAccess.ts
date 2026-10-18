@@ -24,10 +24,16 @@ export async function logSensitiveAccess(params: {
       _subject_id: params.subjectId ?? undefined,
       _context: (params.context ?? {}) as never,
       _user_agent:
-        typeof navigator !== "undefined" ? navigator.userAgent.slice(0, 300) : undefined,
+        typeof navigator !== "undefined"
+          ? navigator.userAgent.slice(0, 300)
+          : undefined,
     });
     if (error) throw error;
   } catch (err) {
-    console.warn("[audit] sensitive access not logged", params.resourceType, err);
+    console.warn(
+      "[audit] sensitive access not logged",
+      params.resourceType,
+      err,
+    );
   }
 }

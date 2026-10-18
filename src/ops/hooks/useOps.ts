@@ -31,8 +31,14 @@ export type OpsPhase = {
 };
 
 export type OpsTaskState =
-  | "pending" | "active" | "blocked" | "delayed"
-  | "escalated" | "validated" | "completed" | "archived";
+  | "pending"
+  | "active"
+  | "blocked"
+  | "delayed"
+  | "escalated"
+  | "validated"
+  | "completed"
+  | "archived";
 
 export type OpsTask = {
   id: string;
@@ -60,7 +66,10 @@ export function useOpsWorkspaces(slug?: string) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (!user) { setLoading(false); return; }
+    if (!user) {
+      setLoading(false);
+      return;
+    }
     let active = true;
     (async () => {
       const { data } = await supabase
@@ -70,15 +79,21 @@ export function useOpsWorkspaces(slug?: string) {
       if (active && data) setWorkspaces(data as unknown as OpsWorkspace[]);
       setLoading(false);
     })();
-    return () => { active = false; };
+    return () => {
+      active = false;
+    };
   }, [user]);
 
-  const current = workspaces.find(w => w.slug === slug) ?? workspaces[0];
+  const current = workspaces.find((w) => w.slug === slug) ?? workspaces[0];
   return { workspaces, current, loading };
 }
 
 /** Create a new workspace (caller becomes director automatically via trigger). */
-export async function createWorkspace(name: string, slug: string, userId: string) {
+export async function createWorkspace(
+  name: string,
+  slug: string,
+  userId: string,
+) {
   const { data, error } = await supabase
     .from("ops_workspaces" as any)
     .insert({ name, slug, created_by: userId })
@@ -94,7 +109,10 @@ export function useOpsEvents(workspaceId?: string) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (!workspaceId) { setLoading(false); return; }
+    if (!workspaceId) {
+      setLoading(false);
+      return;
+    }
     let active = true;
     (async () => {
       const { data } = await supabase
@@ -108,15 +126,29 @@ export function useOpsEvents(workspaceId?: string) {
 
     const channel = supabase
       .channel(`ops-events-${workspaceId}`)
-      .on("postgres_changes", { event: "*", schema: "public", table: "ops_events", filter: `workspace_id=eq.${workspaceId}` }, async () => {
-        const { data } = await supabase
-          .from("ops_events" as any).select("*")
-          .eq("workspace_id", workspaceId).order("created_at", { ascending: false });
-        if (data) setEvents(data as unknown as OpsEvent[]);
-      })
+      .on(
+        "postgres_changes",
+        {
+          event: "*",
+          schema: "public",
+          table: "ops_events",
+          filter: `workspace_id=eq.${workspaceId}`,
+        },
+        async () => {
+          const { data } = await supabase
+            .from("ops_events" as any)
+            .select("*")
+            .eq("workspace_id", workspaceId)
+            .order("created_at", { ascending: false });
+          if (data) setEvents(data as unknown as OpsEvent[]);
+        },
+      )
       .subscribe();
 
-    return () => { active = false; supabase.removeChannel(channel); };
+    return () => {
+      active = false;
+      supabase.removeChannel(channel);
+    };
   }, [workspaceId]);
 
   return { events, loading };
@@ -130,14 +162,29 @@ export function useOpsEvent(eventId?: string) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (!eventId) { setLoading(false); return; }
+    if (!eventId) {
+      setLoading(false);
+      return;
+    }
     let active = true;
 
     const refresh = async () => {
       const [{ data: e }, { data: p }, { data: t }] = await Promise.all([
-        supabase.from("ops_events" as any).select("*").eq("id", eventId).single(),
-        supabase.from("ops_protocol_phases" as any).select("*").eq("event_id", eventId).order("order_index"),
-        supabase.from("ops_tasks" as any).select("*").eq("event_id", eventId).order("created_at"),
+        supabase
+          .from("ops_events" as any)
+          .select("*")
+          .eq("id", eventId)
+          .single(),
+        supabase
+          .from("ops_protocol_phases" as any)
+          .select("*")
+          .eq("event_id", eventId)
+          .order("order_index"),
+        supabase
+          .from("ops_tasks" as any)
+          .select("*")
+          .eq("event_id", eventId)
+          .order("created_at"),
       ]);
       if (!active) return;
       if (e) setEvent(e as unknown as OpsEvent);
@@ -149,11 +196,32 @@ export function useOpsEvent(eventId?: string) {
 
     const channel = supabase
       .channel(`ops-event-${eventId}`)
-      .on("postgres_changes", { event: "*", schema: "public", table: "ops_tasks", filter: `event_id=eq.${eventId}` }, refresh)
-      .on("postgres_changes", { event: "*", schema: "public", table: "ops_protocol_phases", filter: `event_id=eq.${eventId}` }, refresh)
+      .on(
+        "postgres_changes",
+        {
+          event: "*",
+          schema: "public",
+          table: "ops_tasks",
+          filter: `event_id=eq.${eventId}`,
+        },
+        refresh,
+      )
+      .on(
+        "postgres_changes",
+        {
+          event: "*",
+          schema: "public",
+          table: "ops_protocol_phases",
+          filter: `event_id=eq.${eventId}`,
+        },
+        refresh,
+      )
       .subscribe();
 
-    return () => { active = false; supabase.removeChannel(channel); };
+    return () => {
+      active = false;
+      supabase.removeChannel(channel);
+    };
   }, [eventId]);
 
   return { event, phases, tasks, loading };
@@ -161,35 +229,63 @@ export function useOpsEvent(eventId?: string) {
 
 /** All tasks across a workspace, realtime. */
 export function useOpsWorkspaceTasks(workspaceId?: string) {
-  const [tasks, setTasks] = useState<(OpsTask & { event_title?: string })[]>([]);
+  const [tasks, setTasks] = useState<(OpsTask & { event_title?: string })[]>(
+    [],
+  );
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (!workspaceId) { setLoading(false); return; }
+    if (!workspaceId) {
+      setLoading(false);
+      return;
+    }
     let active = true;
 
     const refresh = async () => {
       const { data: events } = await supabase
-        .from("ops_events" as any).select("id, title").eq("workspace_id", workspaceId);
+        .from("ops_events" as any)
+        .select("id, title")
+        .eq("workspace_id", workspaceId);
       const ids = (events ?? []).map((e: any) => e.id);
-      if (ids.length === 0) { if (active) { setTasks([]); setLoading(false); } return; }
+      if (ids.length === 0) {
+        if (active) {
+          setTasks([]);
+          setLoading(false);
+        }
+        return;
+      }
       const { data } = await supabase
-        .from("ops_tasks" as any).select("*")
+        .from("ops_tasks" as any)
+        .select("*")
         .in("event_id", ids)
         .order("deadline", { ascending: true, nullsFirst: false });
       if (!active) return;
-      const titles = new Map((events ?? []).map((e: any) => [e.id, e.title as string]));
-      setTasks(((data ?? []) as unknown as OpsTask[]).map(t => ({ ...t, event_title: titles.get(t.event_id) })));
+      const titles = new Map(
+        (events ?? []).map((e: any) => [e.id, e.title as string]),
+      );
+      setTasks(
+        ((data ?? []) as unknown as OpsTask[]).map((t) => ({
+          ...t,
+          event_title: titles.get(t.event_id),
+        })),
+      );
       setLoading(false);
     };
     refresh();
 
     const channel = supabase
       .channel(`ops-ws-tasks-${workspaceId}`)
-      .on("postgres_changes", { event: "*", schema: "public", table: "ops_tasks" }, refresh)
+      .on(
+        "postgres_changes",
+        { event: "*", schema: "public", table: "ops_tasks" },
+        refresh,
+      )
       .subscribe();
 
-    return () => { active = false; supabase.removeChannel(channel); };
+    return () => {
+      active = false;
+      supabase.removeChannel(channel);
+    };
   }, [workspaceId]);
 
   return { tasks, loading };

@@ -6,6 +6,8 @@ const SpecialistPricing = lazy(() => import("@/pages/SpecialistPricing"));
 
 export const Route = createFileRoute("/$locale/pricing-specialists")({
   component: () => (
-    <PageTransition><SpecialistPricing /></PageTransition>
+    <PageTransition>
+      <SpecialistPricing />
+    </PageTransition>
   ),
 });

@@ -7,6 +7,10 @@ const ApplyWizard = lazy(() => import("@/pages/apply/ApplyWizard"));
 
 export const Route = createFileRoute("/$locale/apply/wizard")({
   component: () => (
-    <ProtectedRoute><PageTransition><ApplyWizard /></PageTransition></ProtectedRoute>
+    <ProtectedRoute>
+      <PageTransition>
+        <ApplyWizard />
+      </PageTransition>
+    </ProtectedRoute>
   ),
 });
