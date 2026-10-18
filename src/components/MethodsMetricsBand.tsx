@@ -9,13 +9,13 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { useLocale } from "@/contexts/LocaleContext";
-import { translations } from "@/lib/i18n/translations";
+import { englishMessages } from "@/lib/i18n/messages";
 
 export const MethodsMetricsBand = () => {
-  const { locale, t } = useLocale();
+  const { locale, t, messages } = useLocale();
   const band =
-    (translations[locale] as any).services?.methodsBand ??
-    (translations.en as any).services.methodsBand;
+    (messages as any).services?.methodsBand ??
+    (englishMessages() as any).services.methodsBand;
 
   return (
     <section className="py-12 md:py-16 bg-accent/5 border-y border-accent/10">

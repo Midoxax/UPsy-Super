@@ -10,7 +10,7 @@ import {
 import { useNavigate } from "@/lib/router-compat";
 import { MethodsMetricsBand } from "@/components/MethodsMetricsBand";
 import { useLocale } from "@/contexts/LocaleContext";
-import { translations } from "@/lib/i18n/translations";
+import { englishMessages } from "@/lib/i18n/messages";
 import SEOHead from "@/components/SEOHead";
 
 const seoByLocale = {
@@ -33,14 +33,14 @@ const seoByLocale = {
 
 const Services = () => {
   const navigate = useNavigate();
-  const { t, locale } = useLocale();
+  const { t, locale, messages } = useLocale();
 
   const serviceItems =
-    (translations[locale] as any).services?.items ??
-    (translations.en as any).services.items;
+    (messages as any).services?.items ??
+    (englishMessages() as any).services.items;
   const expectationsList =
-    (translations[locale] as any).services?.expectations?.list ??
-    (translations.en as any).services.expectations.list;
+    (messages as any).services?.expectations?.list ??
+    (englishMessages() as any).services.expectations.list;
   const seo =
     (
       seoByLocale as unknown as Record<
