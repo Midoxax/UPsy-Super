@@ -63,6 +63,15 @@ jobs:
       - name: Committed secret check
         run: node scripts/check-env-safety.mjs
 
+      # A workflow GitHub cannot parse never runs; it only records a failed
+      # run on each push, which reads as noise. That is how rollback.yml (the
+      # production rollback button) and security-scan.yml sat broken unnoticed:
+      # both used `secrets` in a step `if:`, where it is not allowed.
+      - name: Workflow lint
+        run: |
+          bash <(curl -fsSL https://raw.githubusercontent.com/rhysd/actionlint/v1.7.7/scripts/download-actionlint.bash) 1.7.7
+          ./actionlint -color -shellcheck=
+
       # Hosting is now owned by this repository (Cloudflare Workers, deployed by
       # .github/workflows/deploy.yml). This asserts the pieces a cutover depends
       # on — the documented env contract, no leftover SPA catch-all rewrite, the
