@@ -5,7 +5,7 @@ import { ArrowRight, Award, Brain, Target, Quote } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import ScrollReveal from "@/components/ScrollReveal";
 import { motion } from "framer-motion";
-import mehdiPhoto from "@/assets/mehdi-felji.png";
+import mehdiPhoto from "@/assets/mehdi-felji.webp";
 
 const FounderSection = () => {
   const { t, locale } = useLocale();

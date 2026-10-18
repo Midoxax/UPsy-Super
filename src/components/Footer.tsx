@@ -3,7 +3,7 @@ import { Youtube, Linkedin, Instagram, Heart } from "lucide-react";
 import { useLocale } from "@/contexts/LocaleContext";
 import { addLocalePrefix } from "@/lib/i18n/utils";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
-import logoUrl from "@/assets/upsy-logo-hero.png";
+import logoUrl from "@/assets/upsy-logo-mark.webp";
 
 const Footer = () => {
   const { locale, t } = useLocale();

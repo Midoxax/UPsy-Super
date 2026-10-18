@@ -6,7 +6,7 @@ import ScrollReveal from "@/components/ScrollReveal";
 import SEOHead from "@/components/SEOHead";
 import { ArrowRight, Award, Globe, Brain, Users, Target, Quote } from "lucide-react";
 import { motion } from "framer-motion";
-import mehdiPhoto from "@/assets/mehdi-felji.png";
+import mehdiPhoto from "@/assets/mehdi-felji.webp";
 
 const Founder = () => {
   const { t, locale } = useLocale();
