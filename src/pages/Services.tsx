@@ -112,7 +112,7 @@ const Services = () => {
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold text-accent">
+                  <div className="text-2xl font-bold text-accent dark:text-primary">
                     {service.price}
                   </div>
                 </CardContent>

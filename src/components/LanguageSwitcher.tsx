@@ -68,8 +68,9 @@ const LanguageSwitcher = ({
             )}
             aria-pressed={locale === code}
             // Named in the target language so a screen reader in any locale
-            // announces something the user can act on.
-            aria-label={name}
+            // announces something the user can act on. The visible code leads
+            // the name so voice-control users can say what they see ("EN").
+            aria-label={`${short} — ${name}`}
             lang={code}
           >
             {short}
