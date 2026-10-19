@@ -18,7 +18,7 @@
  *   BASE=http://127.0.0.1:4173 node tests/audit/run.mjs
  *
  * Exits non-zero on critical findings by default; set AUDIT_FAIL_ON=serious
- * to ratchet the gate up once the serious backlog is cleared.
+ * or AUDIT_FAIL_ON=moderate to ratchet the gate up once a backlog is cleared.
  */
 import { chromium } from "playwright";
 import { AxeBuilder } from "@axe-core/playwright";
@@ -169,7 +169,18 @@ async function auditPage(ctx, route, bp, theme) {
         const r = el.getBoundingClientRect();
         if (r.width === 0 || r.height === 0) return; // hidden
         if (isVisuallyHidden(el) || isInlineInText(el)) return;
-        if (r.width < MIN || r.height < MIN) {
+        // A control may keep a small visual size and widen its hit area with
+        // an absolutely positioned ::after (see ui/checkbox.tsx). That
+        // overlay receives the taps, so it is what gets measured.
+        let w = r.width;
+        let h = r.height;
+        const hit = getComputedStyle(el, "::after");
+        if (hit.content !== "none" && hit.position === "absolute") {
+          const out = (v) => Math.max(0, -(parseFloat(v) || 0));
+          w += out(hit.left) + out(hit.right);
+          h += out(hit.top) + out(hit.bottom);
+        }
+        if (w < MIN || h < MIN) {
           small.push({
             tag: el.tagName.toLowerCase(),
             label: (el.getAttribute("aria-label") || el.textContent || "")
@@ -305,13 +316,15 @@ await browser.close();
  * contrast token whose fix is a brand decision — so failing on those would
  * block every unrelated PR from day one.
  *
- * Serious findings are still printed on every run. Once the backlog is clear,
- * set AUDIT_FAIL_ON=serious to ratchet the gate up; that is the point of
- * making it a variable rather than a constant.
+ * Findings below the gate are still printed on every run. Once a backlog is
+ * clear, raise AUDIT_FAIL_ON (serious, then moderate) to ratchet the gate up;
+ * that is the point of making it a variable rather than a constant.
  */
-const FAIL_ON =
-  process.env.AUDIT_FAIL_ON === "serious" ? "serious" : "critical";
-const FAILING = FAIL_ON === "serious" ? ["critical", "serious"] : ["critical"];
+const LEVELS = ["critical", "serious", "moderate"];
+const FAIL_ON = LEVELS.includes(process.env.AUDIT_FAIL_ON)
+  ? process.env.AUDIT_FAIL_ON
+  : "critical";
+const FAILING = LEVELS.slice(0, LEVELS.indexOf(FAIL_ON) + 1);
 const bySeverity = { critical: [], serious: [], moderate: [] };
 for (const f of findings) bySeverity[f.severity].push(f);
 

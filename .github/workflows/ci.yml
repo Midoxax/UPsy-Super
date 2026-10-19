@@ -275,15 +275,14 @@ jobs:
           BASE: http://127.0.0.1:4173
         run: node scripts/check-bundle-size.mjs
 
-      # Gates on critical findings — crashes, blank pages, critical WCAG
-      # violations. Serious and moderate findings are printed on every run but
-      # do not block: the codebase carries ~14 serious ones, mostly a
-      # light-mode contrast token whose fix is a brand decision, and a gate
-      # that is red the day it lands gets switched off.
-      # Set AUDIT_FAIL_ON=serious to ratchet up once that backlog is clear.
+      # Gates on critical and serious findings: crashes, blank pages, WCAG
+      # violations. Moderate findings (overflow, undersized tap targets) are
+      # printed but not gated; the backlog of 480 is cleared, and the gate goes
+      # to `moderate` once repeated runs show that level is free of flakes.
       - name: Accessibility and responsive audit
         env:
           BASE: http://127.0.0.1:4173
+          AUDIT_FAIL_ON: serious
         run: node tests/audit/run.mjs
 
       # Without this, a preview server that dies mid-audit is indistinguishable

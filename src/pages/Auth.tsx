@@ -378,7 +378,7 @@ const Auth = () => {
                   </Button>
                   <button
                     type="button"
-                    className="w-full text-sm text-muted-foreground hover:text-primary transition-colors mt-2"
+                    className="w-full text-sm text-muted-foreground hover:text-primary transition-colors mt-1 py-1"
                     onClick={async () => {
                       if (!loginData.email) {
                         toast({
