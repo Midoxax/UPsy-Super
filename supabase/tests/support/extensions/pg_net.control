@@ -1,0 +1,3 @@
+comment = 'local stub of pg_net for migration tests'
+default_version = '1.0'
+relocatable = false

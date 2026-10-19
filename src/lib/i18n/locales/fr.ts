@@ -1833,6 +1833,14 @@ const fr = {
       },
     },
   },
+  consent: {
+    title: "Votre vie privée",
+    body: "Nous souhaitons utiliser des outils de mesure d'audience (PostHog et Google Tag Manager) pour comprendre l'utilisation d'UPSY et l'améliorer. Ils ne fonctionnent que si vous l'acceptez.",
+    accept: "Accepter la mesure d'audience",
+    decline: "Refuser",
+    learnMore: "Politique de cookies",
+    settings: "Paramètres des cookies",
+  },
 };
 
 export default fr;

@@ -58,6 +58,12 @@ export async function initPostHog(): Promise<void> {
   }
 }
 
+/** Stops capture after consent is withdrawn (memory persistence: nothing to clear). */
+export function optOutPostHog(): void {
+  if (!initialized || !posthogInstance) return;
+  posthogInstance.opt_out_capturing();
+}
+
 export function captureEvent(
   name: string,
   properties: Record<string, unknown> = {},

@@ -386,13 +386,16 @@ html.lenis body {
     padding: 0 var(--gutter);
   }
 
+  /* Vertical only: the shorthand also zeroed the side padding of
+     .container-custom on elements using both, so text touched the screen
+     edge on phones. */
   .section-spacing {
-    padding: var(--section-spacing) 0;
+    padding-block: var(--section-spacing);
   }
 
   @media (max-width: 768px) {
     .section-spacing {
-      padding: var(--section-spacing-mobile) 0;
+      padding-block: var(--section-spacing-mobile);
     }
   }
 

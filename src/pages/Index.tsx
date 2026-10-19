@@ -185,7 +185,7 @@ const Index = () => {
                 name: "Is it confidential?",
                 acceptedAnswer: {
                   "@type": "Answer",
-                  text: "Fully confidential. We follow Moroccan Law 09-08. Nothing is shared with your employer, insurance, or family without your written consent. Sessions are encrypted end-to-end.",
+                  text: "Fully confidential. We follow Moroccan Law 09-08. Nothing is shared with your employer, insurance, or family without your written consent. Sessions are encrypted in transit.",
                 },
               },
               {

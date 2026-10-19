@@ -18,7 +18,7 @@ const config: CampaignConfig = {
     "Sessions in French, English, Arabic, Darija",
     "Video or in-person — you pick the format",
     "Free rebook guarantee if the fit is off",
-    "Encrypted end-to-end — Law 09-08 compliant",
+    "Encrypted in transit — Law 09-08 compliant",
   ],
   proof: [
     { number: "<48h", label: "Average time to first session" },

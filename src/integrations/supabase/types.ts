@@ -6932,6 +6932,10 @@ export type Database = {
         };
         Returns: Json;
       };
+      admin_break_glass_read: {
+        Args: { _reason: string; _subject_id: string; _table: string };
+        Returns: Json;
+      };
       admin_cancel_booking: {
         Args: { _booking_id: string; _reason?: string };
         Returns: Json;
@@ -6986,6 +6990,10 @@ export type Database = {
           _user_id: string;
         };
         Returns: Json;
+      };
+      admin_session_counts: {
+        Args: never;
+        Returns: { status: string; total: number }[];
       };
       admin_set_user_suspended: {
         Args: { _reason?: string; _suspended: boolean; _user_id: string };

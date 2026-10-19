@@ -47,7 +47,8 @@ import { reportLovableError } from "@/lib/lovable-error-reporting";
 import { SpeedInsights } from "@vercel/speed-insights/react";
 
 // ported from main.tsx
-import { initPostHog } from "@/lib/analytics/posthog";
+import { applyConsent } from "@/lib/consent";
+import { ConsentBanner } from "@/components/ConsentBanner";
 import { initSentry } from "@/lib/analytics/sentry";
 import { assertRequiredEnv } from "@/lib/env-check";
 
@@ -57,11 +58,20 @@ const NotFound = lazy(() => import("@/pages/NotFound"));
 // it's a plain constant rather than a build-time substitution.
 const GTM_ID = "GTM-MQKRPFT9";
 
-const GTM_SNIPPET = `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-})(window,document,'script','dataLayer','${GTM_ID}');`;
+// Consent-gated GTM. dataLayer and gtag exist from the start (Consent Mode
+// defaults: everything denied), but gtm.js is only fetched once the visitor
+// accepts analytics: now, if they already did (key below must match
+// CONSENT_KEY in src/lib/consent.ts), or later via window.__upsyLoadGTM.
+const CONSENT_BOOTSTRAP = `(function(w,d){
+w.dataLayer=w.dataLayer||[];w.gtag=function(){w.dataLayer.push(arguments);};
+w.gtag('consent','default',{analytics_storage:'denied',ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied'});
+w.__upsyLoadGTM=function(){if(w.__upsyGTM)return;w.__upsyGTM=1;
+w.gtag('consent','update',{analytics_storage:'granted'});
+w.dataLayer.push({'gtm.start':new Date().getTime(),event:'gtm.js'});
+var j=d.createElement('script');j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id=${GTM_ID}';
+d.head.appendChild(j);};
+try{if(localStorage.getItem('upsy-consent-v1')==='granted')w.__upsyLoadGTM();}catch(e){}
+})(window,document);`;
 
 // Theme, applied before first paint — must stay in sync with src/contexts/ThemeContext.tsx.
 const THEME_BOOTSTRAP = `(function () {
@@ -229,7 +239,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         { rel: "alternate", hrefLang: "ar", href: "https://www.upsy.ma/ar/" },
       ],
       scripts: [
-        { children: GTM_SNIPPET },
+        { children: CONSENT_BOOTSTRAP },
         { children: THEME_BOOTSTRAP },
         { type: "application/ld+json", children: JSONLD_WEBSITE },
         { type: "application/ld+json", children: JSONLD_ORG },
@@ -263,15 +273,6 @@ function RootShell({ children }: { children: React.ReactNode }) {
         <HeadContent />
       </head>
       <body>
-        <noscript>
-          <iframe
-            src={`https://www.googletagmanager.com/ns.html?id=${GTM_ID}`}
-            height="0"
-            width="0"
-            style={{ display: "none", visibility: "hidden" }}
-            title="Google Tag Manager"
-          />
-        </noscript>
         {children}
         <Scripts />
       </body>
@@ -338,6 +339,7 @@ const AppShell = () => {
         </Suspense>
       </main>
       <Footer />
+      <ConsentBanner />
     </div>
   );
 };
@@ -353,7 +355,8 @@ function RootComponent() {
       return;
     }
     initSentry();
-    initPostHog();
+    // PostHog and GTM start only after the visitor accepts analytics.
+    applyConsent();
   }, []);
 
   // Every deploy replaces the content-hashed JS chunk files; a browser tab

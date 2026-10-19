@@ -1,4 +1,5 @@
 import { Link } from "@/lib/router-compat";
+import { openConsentSettings } from "@/lib/consent";
 import { Youtube, Linkedin, Instagram, Heart } from "lucide-react";
 import { useLocale } from "@/contexts/LocaleContext";
 import { addLocalePrefix } from "@/lib/i18n/utils";
@@ -40,9 +41,9 @@ const Footer = () => {
     {
       title: t("header.legal"),
       links: [
-        { name: t("header.privacyTerms"), href: "/legal" },
-        { name: t("header.ethics"), href: "/legal" },
-        { name: t("header.telehealthSecurity"), href: "/legal" },
+        { name: t("header.privacyTerms"), href: "/legal#documents" },
+        { name: t("header.ethics"), href: "/legal#ethics" },
+        { name: t("header.telehealthSecurity"), href: "/legal#telehealth" },
       ],
     },
   ];
@@ -92,10 +93,10 @@ const Footer = () => {
                   {t("footer.email")}:
                 </span>{" "}
                 <a
-                  href="mailto:mypersonalpsychologist212@gmail.com"
+                  href="mailto:contact@upsy.ma"
                   className="hover:text-primary transition-colors"
                 >
-                  mypersonalpsychologist212@gmail.com
+                  contact@upsy.ma
                 </a>
               </p>
               <p className="text-muted-foreground">
@@ -201,7 +202,14 @@ const Footer = () => {
               {new Date().getFullYear()}
             </span>{" "}
             U.Psy by Mehdi Felji.{" "}
-            {t("header.copyright") || "All rights reserved."}
+            {t("header.copyright") || "All rights reserved."}{" "}
+            <button
+              type="button"
+              onClick={openConsentSettings}
+              className="inline-block py-1 underline hover:text-primary"
+            >
+              {t("consent.settings") || "Cookie settings"}
+            </button>
           </p>
           <p className="text-muted-foreground text-xs flex items-center gap-1 font-sans">
             Made with{" "}
