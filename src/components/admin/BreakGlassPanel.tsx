@@ -28,6 +28,11 @@ const TABLES: { value: string; label: string }[] = [
   { value: "athlete_profiles", label: "Athlete profile" },
   { value: "athlete_training_sessions", label: "Training sessions" },
 ];
+// Not a table: lists the client's uploaded files through
+// admin_break_glass_files(), which also opens their folder for 15 minutes.
+const FILES = "user_documents";
+
+type StoredFile = { path: string; size: number | null; created_at: string };
 
 const MIN_REASON = 15;
 
@@ -40,6 +45,7 @@ export default function BreakGlassPanel({ userId }: { userId: string }) {
   const [table, setTable] = useState("");
   const [reason, setReason] = useState("");
   const [rows, setRows] = useState<unknown[] | null>(null);
+  const [files, setFiles] = useState<StoredFile[] | null>(null);
   const [loading, setLoading] = useState(false);
 
   const ready = table !== "" && reason.trim().length >= MIN_REASON;
@@ -47,6 +53,20 @@ export default function BreakGlassPanel({ userId }: { userId: string }) {
   const open = async () => {
     setLoading(true);
     setRows(null);
+    setFiles(null);
+    if (table === FILES) {
+      const { data, error } = await supabase.rpc("admin_break_glass_files", {
+        _subject_id: userId,
+        _reason: reason.trim(),
+      });
+      setLoading(false);
+      if (error) {
+        toast.error(error.message);
+        return;
+      }
+      setFiles(Array.isArray(data) ? (data as StoredFile[]) : []);
+      return;
+    }
     const { data, error } = await supabase.rpc("admin_break_glass_read", {
       _table: table,
       _subject_id: userId,
@@ -58,6 +78,17 @@ export default function BreakGlassPanel({ userId }: { userId: string }) {
       return;
     }
     setRows(Array.isArray(data) ? data : []);
+  };
+
+  const download = async (path: string) => {
+    const { data, error } = await supabase.storage
+      .from("user-documents")
+      .createSignedUrl(path, 60);
+    if (error || !data) {
+      toast.error(error?.message ?? "Download failed");
+      return;
+    }
+    window.open(data.signedUrl, "_blank", "noopener,noreferrer");
   };
 
   return (
@@ -84,6 +115,7 @@ export default function BreakGlassPanel({ userId }: { userId: string }) {
                 {t.label}
               </SelectItem>
             ))}
+            <SelectItem value={FILES}>Uploaded files</SelectItem>
           </SelectContent>
         </Select>
       </div>
@@ -104,6 +136,34 @@ export default function BreakGlassPanel({ userId }: { userId: string }) {
       <Button variant="destructive" disabled={!ready || loading} onClick={open}>
         {loading ? "Opening…" : "Open records (logged)"}
       </Button>
+
+      {files && (
+        <div className="space-y-2">
+          <p className="text-sm text-muted-foreground">
+            {files.length} file{files.length === 1 ? "" : "s"}. Downloads stay
+            available for 15 minutes.
+          </p>
+          <ul className="divide-y rounded-md border text-sm">
+            {files.map((f) => (
+              <li
+                key={f.path}
+                className="flex items-center justify-between gap-3 p-2"
+              >
+                <span className="min-w-0 break-all">
+                  {f.path.split("/").slice(1).join("/")}
+                </span>
+                <Button
+                  size="sm"
+                  variant="outline"
+                  onClick={() => download(f.path)}
+                >
+                  Download
+                </Button>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
 
       {rows && (
         <div className="space-y-2">
