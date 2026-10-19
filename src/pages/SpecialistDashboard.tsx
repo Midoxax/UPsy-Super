@@ -16,6 +16,7 @@ import {
   BookOpen,
   Sparkles,
   LifeBuoy,
+  ShieldCheck,
   Rocket,
   Brain,
 } from "lucide-react";
@@ -31,6 +32,7 @@ import CertificatesTab from "@/components/dashboard/CertificatesTab";
 import SessionNotesTab from "@/components/dashboard/SessionNotesTab";
 import AnalyticsTab from "@/components/dashboard/AnalyticsTab";
 import DocumentsTab from "@/components/dashboard/DocumentsTab";
+import DataPrivacyTab from "@/components/dashboard/DataPrivacyTab";
 import EarningsTab from "@/components/dashboard/EarningsTab";
 import JournalTab from "@/components/dashboard/JournalTab";
 import { BoostsTab } from "@/components/dashboard/BoostsTab";
@@ -142,6 +144,10 @@ const SpecialistDashboard = () => {
                   <LifeBuoy className="h-4 w-4" />
                   <span className="hidden sm:inline">Support</span>
                 </TabsTrigger>
+                <TabsTrigger value="privacy" className="gap-1.5">
+                  <ShieldCheck className="h-4 w-4" />
+                  <span className="hidden sm:inline">Privacy</span>
+                </TabsTrigger>
               </TabsList>
 
               <TabsContent value="profile">
@@ -200,6 +206,9 @@ const SpecialistDashboard = () => {
               </TabsContent>
               <TabsContent value="support">
                 <SupportTab />
+              </TabsContent>
+              <TabsContent value="privacy">
+                <DataPrivacyTab />
               </TabsContent>
             </Tabs>
           </div>
