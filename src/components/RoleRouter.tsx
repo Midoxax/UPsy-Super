@@ -56,7 +56,6 @@ const RoleRouter = () => {
 
   useEffect(() => {
     if (!authLoading && !roleLoading && import.meta.env.DEV) {
-      // eslint-disable-next-line no-console
       console.debug("[RoleRouter] user:", user?.id, "role:", primaryRole);
     }
   }, [authLoading, roleLoading, user?.id, primaryRole]);

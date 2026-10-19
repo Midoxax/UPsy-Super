@@ -74,11 +74,15 @@ const Index = () => {
     let target: string | null = null;
     try {
       target = sessionStorage.getItem("upsy:post-oauth-redirect");
-    } catch {}
+    } catch {
+      // Storage blocked: no stored redirect to follow.
+    }
     if (target) {
       try {
         sessionStorage.removeItem("upsy:post-oauth-redirect");
-      } catch {}
+      } catch {
+        // Nothing to clean up if storage is blocked.
+      }
       navigate(target, { replace: true });
     }
   }, [user, authLoading, navigate]);

@@ -347,7 +347,8 @@ export default function PsychologistEditDrawer({
                         type="button"
                         onClick={() => {
                           const next = new Set(specSet);
-                          active ? next.delete(s.id) : next.add(s.id);
+                          if (active) next.delete(s.id);
+                          else next.add(s.id);
                           setSpecSet(next);
                         }}
                         className={`text-xs px-2 py-1 rounded-full border ${active ? "bg-primary text-primary-foreground border-primary" : "border-border text-muted-foreground"}`}
@@ -370,7 +371,8 @@ export default function PsychologistEditDrawer({
                         type="button"
                         onClick={() => {
                           const next = new Set(langSet);
-                          active ? next.delete(l.id) : next.add(l.id);
+                          if (active) next.delete(l.id);
+                          else next.add(l.id);
                           setLangSet(next);
                         }}
                         className={`text-xs px-2 py-1 rounded-full border ${active ? "bg-primary text-primary-foreground border-primary" : "border-border text-muted-foreground"}`}

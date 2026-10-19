@@ -63,7 +63,7 @@ function emit(
 export function createLogger(req: Request, fn: string): Logger {
   const requestId =
     req.headers.get("x-request-id") ?? req.headers.get("cf-ray") ?? genId();
-  let userId: string | null = null;
+  const userId: string | null = null;
 
   const make = (uid: string | null): Logger => ({
     requestId,

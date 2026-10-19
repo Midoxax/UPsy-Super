@@ -44,7 +44,9 @@ const Install = () => {
         document.execCommand("copy");
         setCopied(true);
         setTimeout(() => setCopied(false), 2000);
-      } catch {}
+      } catch {
+        // Copy is best-effort; the address stays visible to copy by hand.
+      }
       document.body.removeChild(ta);
     }
   };
