@@ -54,7 +54,8 @@ const AdminStats = () => {
           .from("client_matching_requests")
           .select("id", { count: "exact", head: true }),
         supabase.from("subscriptions").select("id, plan_type, status"),
-        supabase.from("sessions").select("id, status", { count: "exact" }),
+        // Counts only: admins have no routine access to session rows.
+        supabase.rpc("admin_session_counts"),
         supabase.from("leads").select("id, status"),
         supabase.from("profiles").select("id", { count: "exact", head: true }),
       ]);
@@ -74,7 +75,10 @@ const AdminStats = () => {
         activeSubscriptions: subData.filter(
           (s) => s.status === "active" && s.plan_type !== "free",
         ).length,
-        totalSessions: sessions.count || 0,
+        totalSessions: (sessions.data ?? []).reduce(
+          (sum, row) => sum + Number(row.total),
+          0,
+        ),
         totalUsers: profiles.count || 0,
         applicationsByStatus: {
           pending: appData.filter((a) => a.status === "pending").length,

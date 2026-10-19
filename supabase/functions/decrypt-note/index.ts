@@ -1,4 +1,6 @@
-// Decrypts a session note. Only the owning psychologist (or admin) may call this.
+// Decrypts a session note for its own psychologist. An admin may also, as
+// break-glass access: only with a written reason, and every such read is
+// recorded in audit_log (the same rule as admin_break_glass_read()).
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
 const corsHeaders = {
@@ -25,7 +27,7 @@ Deno.serve(async (req) => {
     } = await userClient.auth.getUser();
     if (!user) return json({ error: "Unauthorized" }, 401);
 
-    const { note_id } = await req.json();
+    const { note_id, reason } = await req.json();
     if (!note_id || typeof note_id !== "string")
       return json({ error: "Missing note_id" }, 400);
 
@@ -42,13 +44,32 @@ Deno.serve(async (req) => {
 
     if (!note) return json({ error: "Not found" }, 404);
 
-    // Authorization: owner or admin
-    const { data: isAdmin } = await admin.rpc("has_role", {
-      _user_id: user.id,
-      _role: "admin",
-    });
-    if (note.psychologist_id !== user.id && !isAdmin)
-      return json({ error: "Forbidden" }, 403);
+    // Authorization: the note's own psychologist, or an admin giving a reason.
+    if (note.psychologist_id !== user.id) {
+      const { data: isAdmin } = await admin.rpc("has_role", {
+        _user_id: user.id,
+        _role: "admin",
+      });
+      if (!isAdmin) return json({ error: "Forbidden" }, 403);
+      const why = typeof reason === "string" ? reason.trim() : "";
+      if (why.length < 15)
+        return json(
+          { error: "A reason of at least 15 characters is required" },
+          400,
+        );
+      const { error: auditErr } = await admin.from("audit_log").insert({
+        user_id: user.id,
+        action: "break_glass.read",
+        resource_type: "session_notes",
+        resource_id: note_id,
+        actor_role: "admin",
+        data_class: "C1",
+        record_ref: `session_notes:${note_id}`,
+        metadata: { reason: why, via: "decrypt-note" },
+      });
+      // No audit row, no access.
+      if (auditErr) throw auditErr;
+    }
 
     if (!note.encrypted_content) return json({ content: note.content });
 

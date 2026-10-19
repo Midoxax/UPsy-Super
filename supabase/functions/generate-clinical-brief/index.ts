@@ -35,11 +35,6 @@ serve(async (req) => {
       });
     }
     const callerId = userData.user.id;
-    const { data: roles } = await userClient
-      .from("user_roles")
-      .select("role")
-      .eq("user_id", callerId);
-    const isAdmin = (roles ?? []).some((r: any) => r.role === "admin");
 
     const { intake_form_id } = await req.json();
     if (!intake_form_id) {
@@ -63,8 +58,9 @@ serve(async (req) => {
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
-    // Authorize: only the linked psychologist or admin may generate the brief
-    if (!isAdmin && intake.psychologist_id !== callerId) {
+    // Authorize: only the client's own psychologist. Admins read clinical
+    // records through audited break-glass access, never through this path.
+    if (intake.psychologist_id !== callerId) {
       return new Response(JSON.stringify({ error: "Forbidden" }), {
         status: 403,
         headers: { ...corsHeaders, "Content-Type": "application/json" },

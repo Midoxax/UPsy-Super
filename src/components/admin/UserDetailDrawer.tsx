@@ -47,6 +47,7 @@ import {
 import { format } from "date-fns";
 import { toast } from "sonner";
 import type { Database } from "@/integrations/supabase/types";
+import BreakGlassPanel from "@/components/admin/BreakGlassPanel";
 
 type AppRole = Database["public"]["Enums"]["app_role"];
 const ROLES: AppRole[] = [
@@ -181,6 +182,7 @@ export default function UserDetailDrawer({ userId, onClose }: Props) {
               <TabsTrigger value="activity">Activity</TabsTrigger>
               <TabsTrigger value="moderation">Moderation</TabsTrigger>
               <TabsTrigger value="status">Status</TabsTrigger>
+              <TabsTrigger value="clinical">Clinical</TabsTrigger>
             </TabsList>
 
             <TabsContent value="profile" className="space-y-4 mt-4">
@@ -409,6 +411,10 @@ export default function UserDetailDrawer({ userId, onClose }: Props) {
                   )}
                 </Button>
               </div>
+            </TabsContent>
+
+            <TabsContent value="clinical" className="mt-4">
+              {userId && <BreakGlassPanel userId={userId} />}
             </TabsContent>
 
             <TabsContent value="status" className="space-y-3 mt-4">
