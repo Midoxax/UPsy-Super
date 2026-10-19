@@ -6932,6 +6932,10 @@ export type Database = {
         };
         Returns: Json;
       };
+      admin_break_glass_files: {
+        Args: { _reason: string; _subject_id: string };
+        Returns: Json;
+      };
       admin_break_glass_read: {
         Args: { _reason: string; _subject_id: string; _table: string };
         Returns: Json;

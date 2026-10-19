@@ -154,12 +154,12 @@ const en: LegalDoc = {
               <strong>UPSY administrators:</strong> a small number of people,
               bound by confidentiality, who run the service. They cannot browse
               clinical records (session notes, questionnaires, intake forms,
-              treatment plans, mood and journal entries). In an exceptional case
-              (a safety concern, a request you make or a legal obligation) an
-              administrator can open a specific record only after writing down
-              the reason; every such access is permanently logged. Crisis alerts
-              remain visible to administrators so that someone can always
-              respond.
+              treatment plans, mood and journal entries) or the files you
+              upload. In an exceptional case (a safety concern, a request you
+              make or a legal obligation) an administrator can open a specific
+              record only after writing down the reason; every such access is
+              permanently logged. Crisis alerts remain visible to administrators
+              so that someone can always respond.
             </li>
             <li>
               <strong>Service providers</strong> that process data on our behalf
@@ -512,12 +512,13 @@ const fr: LegalDoc = {
               de personnes, tenues à la confidentialité, qui font fonctionner le
               service. Elles ne peuvent pas consulter les dossiers cliniques
               (notes de séance, questionnaires, formulaires d'accueil, plans de
-              traitement, humeur et journal). Dans un cas exceptionnel (risque
-              pour la sécurité, demande de votre part ou obligation légale), un
-              administrateur ne peut ouvrir un dossier précis qu'après en avoir
-              écrit le motif ; chaque accès est journalisé de façon permanente.
-              Les alertes de crise restent visibles des administrateurs afin que
-              quelqu'un puisse toujours y répondre.
+              traitement, humeur et journal) ni les fichiers que vous déposez.
+              Dans un cas exceptionnel (risque pour la sécurité, demande de
+              votre part ou obligation légale), un administrateur ne peut ouvrir
+              un dossier précis qu'après en avoir écrit le motif ; chaque accès
+              est journalisé de façon permanente. Les alertes de crise restent
+              visibles des administrateurs afin que quelqu'un puisse toujours y
+              répondre.
             </li>
             <li>
               <strong>Nos prestataires,</strong> qui traitent les données pour

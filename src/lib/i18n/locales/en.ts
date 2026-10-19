@@ -769,7 +769,7 @@ const en = {
       email: "Email",
       emailValue: "contact@upsy.ma",
       phone: "Phone",
-      phoneValue: "+212 6XX XX XX XX",
+      phoneValue: "+212 668-594699",
       location: "Location",
       locationValue: "Casablanca & Rabat, Morocco",
       locationExtra: "+ Online Sessions Available",

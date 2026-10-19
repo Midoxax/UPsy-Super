@@ -756,7 +756,7 @@ const ar = {
       email: "البريد الإلكتروني",
       emailValue: "contact@upsy.ma",
       phone: "الهاتف",
-      phoneValue: "+212 6XX XX XX XX",
+      phoneValue: "+212 668-594699",
       location: "الموقع",
       locationValue: "الدار البيضاء والرباط، المغرب",
       locationExtra: "+ جلسات عبر الإنترنت متاحة",

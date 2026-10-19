@@ -1,6 +1,8 @@
 import { Link } from "@/lib/router-compat";
 import { openConsentSettings } from "@/lib/consent";
-import { Youtube, Linkedin, Instagram, Heart } from "lucide-react";
+import { Heart } from "lucide-react";
+import SocialLinks from "@/components/SocialLinks";
+import { COMPANY } from "@/content/legal/company";
 import { useLocale } from "@/contexts/LocaleContext";
 import { addLocalePrefix } from "@/lib/i18n/utils";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
@@ -48,24 +50,6 @@ const Footer = () => {
     },
   ];
 
-  const socials = [
-    {
-      icon: Youtube,
-      href: "https://www.youtube.com/@UPsy-psychology",
-      label: "U.Psy on YouTube",
-    },
-    {
-      icon: Linkedin,
-      href: "https://www.linkedin.com/company/upsy-psychology",
-      label: "U.Psy on LinkedIn",
-    },
-    {
-      icon: Instagram,
-      href: "https://www.instagram.com/upsy.psychology",
-      label: "U.Psy on Instagram",
-    },
-  ];
-
   return (
     <footer className="glass-effect border-t border-border/50">
       <div className="container-custom py-14">
@@ -106,47 +90,18 @@ const Footer = () => {
                 {/* text-foreground, not text-primary: --primary is gold in light
                     mode, which lands at 1.74:1 on the ivory background. */}
                 <a
-                  href="https://wa.me/212668594699"
+                  href={COMPANY.whatsappHref}
                   className="text-foreground hover:text-primary hover:underline font-mono tabular-nums"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  +212 668-594699
+                  {COMPANY.phone}
                 </a>
               </p>
             </div>
 
             {/* Social */}
-            <div className="flex gap-3">
-              {socials.map((s) => (
-                <a
-                  key={s.label}
-                  href={s.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-9 h-9 rounded-lg flex items-center justify-center bg-muted/50 text-muted-foreground hover:text-primary hover:bg-primary/10 transition-colors"
-                  aria-label={s.label}
-                >
-                  <s.icon size={18} />
-                </a>
-              ))}
-              <a
-                href="https://www.tiktok.com/@upsy.psychology"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-9 h-9 rounded-lg flex items-center justify-center bg-muted/50 text-muted-foreground hover:text-primary hover:bg-primary/10 transition-colors"
-                aria-label="U.Psy on TikTok"
-              >
-                <svg
-                  width="18"
-                  height="18"
-                  viewBox="0 0 24 24"
-                  fill="currentColor"
-                >
-                  <path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-5.2 1.74 2.89 2.89 0 012.31-4.64 2.93 2.93 0 01.88.13V9.4a6.84 6.84 0 00-.88-.05A6.33 6.33 0 005 20.1a6.34 6.34 0 0010.86-4.43v-7a8.16 8.16 0 004.77 1.52v-3.4a4.85 4.85 0 01-1-.1z" />
-                </svg>
-              </a>
-            </div>
+            <SocialLinks />
           </div>
 
           {/* Link Columns */}

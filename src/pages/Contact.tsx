@@ -21,6 +21,8 @@ import { useToast } from "@/hooks/use-toast";
 import DataPrivacyNotice from "@/components/DataPrivacyNotice";
 import { z } from "zod";
 import SEOHead from "@/components/SEOHead";
+import SocialLinks from "@/components/SocialLinks";
+import { COMPANY } from "@/content/legal/company";
 
 const contactSchema = z.object({
   name: z.string().trim().min(1, "Name is required").max(100),
@@ -253,10 +255,10 @@ const Contact = () => {
                           {t("contact.info.phone")}
                         </p>
                         <a
-                          href="tel:+212668594699"
+                          href={COMPANY.phoneHref}
                           className="text-muted-foreground hover:text-secondary transition-colors link-underline"
                         >
-                          +212 668-594699
+                          {COMPANY.phone}
                         </a>
                       </div>
                     </div>
@@ -278,6 +280,8 @@ const Contact = () => {
                         </p>
                       </div>
                     </div>
+
+                    <SocialLinks className="pt-2" />
                   </CardContent>
                 </Card>
               </ScrollReveal>

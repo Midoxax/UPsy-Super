@@ -91,6 +91,20 @@ async function auditPage(ctx, route, bp, theme, { axeInclude } = {}) {
   try {
     await page.goto(BASE + route, { waitUntil: "load", timeout: 60000 });
     await page.waitForTimeout(700);
+    // Entrance animations (the hero fades its buttons in for ~1s) would
+    // otherwise be measured half-transparent, failing contrast at random.
+    // Wait for running animations to finish, but never on infinite loops.
+    await page.evaluate(() =>
+      Promise.race([
+        Promise.all(
+          document
+            .getAnimations()
+            .filter((a) => a.effect?.getTiming().iterations !== Infinity)
+            .map((a) => a.finished.catch(() => {})),
+        ),
+        new Promise((r) => setTimeout(r, 3000)),
+      ]),
+    );
   } catch (e) {
     record(
       "critical",
