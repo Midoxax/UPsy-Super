@@ -11,7 +11,6 @@ export function assertRequiredEnv(): string | null {
   if (missing.length === 0) return null;
 
   const msg = `Missing required environment variables: ${missing.join(", ")}`;
-  // eslint-disable-next-line no-console
   console.error("[env-check]", msg);
   return msg;
 }

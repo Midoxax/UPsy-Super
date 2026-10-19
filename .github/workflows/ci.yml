@@ -146,12 +146,12 @@ jobs:
       - name: Unit tests
         run: bun run test
 
-      # Not blocking yet: the repo carries ~450 pre-existing lint problems,
-      # so failing on them would make CI red on arrival and train people to
-      # ignore it. Ratchet this to a hard failure once the backlog is cleared.
+      # Blocking. The pre-existing backlog (424 `no-explicit-any` and one
+      # `prefer-const`) is recorded in eslint-suppressions.json, so anything
+      # new fails while old code is cleaned up as it is touched. After removing
+      # suppressed problems, `bun run lint:prune` shrinks the baseline.
       - name: Lint
         run: bun run lint
-        continue-on-error: true
 
       # Blocks on high/critical advisories only. Moderate and low are reported
       # by the same command without failing, because transitive dev-only

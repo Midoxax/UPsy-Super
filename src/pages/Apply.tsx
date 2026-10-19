@@ -22,7 +22,9 @@ const Apply = () => {
       const loc = (locale || "fr").slice(0, 2);
       try {
         sessionStorage.setItem("apply.preferred_locale", loc);
-      } catch {}
+      } catch {
+        // Storage can be blocked (private mode); the wizard falls back to its default.
+      }
       navigate("/apply/wizard", { replace: true });
     }
   }, [loading, user, navigate, locale]);
