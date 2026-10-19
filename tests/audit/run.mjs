@@ -102,113 +102,124 @@ async function auditPage(ctx, route, bp, theme) {
     return;
   }
 
-  const dom = await page.evaluate((MIN) => {
-    const vw = document.documentElement.clientWidth;
-    const overflow = document.documentElement.scrollWidth - vw;
+  const inspect = () =>
+    page.evaluate((MIN) => {
+      const vw = document.documentElement.clientWidth;
+      const overflow = document.documentElement.scrollWidth - vw;
 
-    // Deepest overflowing nodes are the cause; ancestors merely inherit it.
-    const overflowing = [];
-    if (overflow > 1) {
-      document.querySelectorAll("*").forEach((el) => {
-        const r = el.getBoundingClientRect();
-        if (r.width > 0 && r.right > vw + 1) {
-          overflowing.push({
-            tag: el.tagName.toLowerCase(),
-            cls: (typeof el.className === "string" ? el.className : "").slice(
-              0,
-              70,
-            ),
-            over: Math.round(r.right - vw),
-            depth: (() => {
-              let d = 0,
-                n = el;
-              while (n.parentElement) {
-                d++;
-                n = n.parentElement;
-              }
-              return d;
-            })(),
-          });
-        }
-      });
-      overflowing.sort((a, b) => b.depth - a.depth);
-    }
+      // Deepest overflowing nodes are the cause; ancestors merely inherit it.
+      const overflowing = [];
+      if (overflow > 1) {
+        document.querySelectorAll("*").forEach((el) => {
+          const r = el.getBoundingClientRect();
+          if (r.width > 0 && r.right > vw + 1) {
+            overflowing.push({
+              tag: el.tagName.toLowerCase(),
+              cls: (typeof el.className === "string" ? el.className : "").slice(
+                0,
+                70,
+              ),
+              over: Math.round(r.right - vw),
+              depth: (() => {
+                let d = 0,
+                  n = el;
+                while (n.parentElement) {
+                  d++;
+                  n = n.parentElement;
+                }
+                return d;
+              })(),
+            });
+          }
+        });
+        overflowing.sort((a, b) => b.depth - a.depth);
+      }
 
-    // Interactive elements smaller than the minimum tap size.
-    //
-    // WCAG 2.2 SC 2.5.8 exempts two things this check would otherwise flag:
-    // targets hidden until focus (skip links are *meant* to be 1x1 until
-    // focused), and links flowing inline inside a sentence, whose size is
-    // determined by the text itself. Both are correct code, so excluding them
-    // here keeps the report to things actually worth fixing.
-    const small = [];
-    const isVisuallyHidden = (el) => {
-      const cs = getComputedStyle(el);
-      return (
-        cs.visibility === "hidden" ||
-        cs.clip === "rect(0px, 0px, 0px, 0px)" ||
-        cs.clipPath === "inset(50%)" ||
-        el.closest(".sr-only") !== null ||
-        el.classList.contains("sr-only")
-      );
-    };
-    const isInlineInText = (el) => {
-      if (el.tagName !== "A") return false;
-      const parent = el.parentElement;
-      if (!parent) return false;
-      // Sitting among sibling text rather than laid out as its own control.
-      return (
-        getComputedStyle(el).display.startsWith("inline") &&
-        (parent.textContent || "").trim().length >
-          (el.textContent || "").trim().length
-      );
-    };
-    document
-      .querySelectorAll('a,button,[role="button"],input,select,textarea')
-      .forEach((el) => {
-        const r = el.getBoundingClientRect();
-        if (r.width === 0 || r.height === 0) return; // hidden
-        if (isVisuallyHidden(el) || isInlineInText(el)) return;
-        // A control may keep a small visual size and widen its hit area with
-        // an absolutely positioned ::after (see ui/checkbox.tsx). That
-        // overlay receives the taps, so it is what gets measured.
-        let w = r.width;
-        let h = r.height;
-        const hit = getComputedStyle(el, "::after");
-        if (hit.content !== "none" && hit.position === "absolute") {
-          const out = (v) => Math.max(0, -(parseFloat(v) || 0));
-          w += out(hit.left) + out(hit.right);
-          h += out(hit.top) + out(hit.bottom);
-        }
-        if (w < MIN || h < MIN) {
-          small.push({
-            tag: el.tagName.toLowerCase(),
-            label: (el.getAttribute("aria-label") || el.textContent || "")
-              .trim()
-              .slice(0, 28),
-            size: `${Math.round(r.width)}x${Math.round(r.height)}`,
-          });
-        }
-      });
+      // Interactive elements smaller than the minimum tap size.
+      //
+      // WCAG 2.2 SC 2.5.8 exempts two things this check would otherwise flag:
+      // targets hidden until focus (skip links are *meant* to be 1x1 until
+      // focused), and links flowing inline inside a sentence, whose size is
+      // determined by the text itself. Both are correct code, so excluding them
+      // here keeps the report to things actually worth fixing.
+      const small = [];
+      const isVisuallyHidden = (el) => {
+        const cs = getComputedStyle(el);
+        return (
+          cs.visibility === "hidden" ||
+          cs.clip === "rect(0px, 0px, 0px, 0px)" ||
+          cs.clipPath === "inset(50%)" ||
+          el.closest(".sr-only") !== null ||
+          el.classList.contains("sr-only")
+        );
+      };
+      const isInlineInText = (el) => {
+        if (el.tagName !== "A") return false;
+        const parent = el.parentElement;
+        if (!parent) return false;
+        // Sitting among sibling text rather than laid out as its own control.
+        return (
+          getComputedStyle(el).display.startsWith("inline") &&
+          (parent.textContent || "").trim().length >
+            (el.textContent || "").trim().length
+        );
+      };
+      document
+        .querySelectorAll('a,button,[role="button"],input,select,textarea')
+        .forEach((el) => {
+          const r = el.getBoundingClientRect();
+          if (r.width === 0 || r.height === 0) return; // hidden
+          if (isVisuallyHidden(el) || isInlineInText(el)) return;
+          // A control may keep a small visual size and widen its hit area with
+          // an absolutely positioned ::after (see ui/checkbox.tsx). That
+          // overlay receives the taps, so it is what gets measured.
+          let w = r.width;
+          let h = r.height;
+          const hit = getComputedStyle(el, "::after");
+          if (hit.content !== "none" && hit.position === "absolute") {
+            const out = (v) => Math.max(0, -(parseFloat(v) || 0));
+            w += out(hit.left) + out(hit.right);
+            h += out(hit.top) + out(hit.bottom);
+          }
+          if (w < MIN || h < MIN) {
+            small.push({
+              tag: el.tagName.toLowerCase(),
+              label: (el.getAttribute("aria-label") || el.textContent || "")
+                .trim()
+                .slice(0, 28),
+              size: `${Math.round(r.width)}x${Math.round(r.height)}`,
+            });
+          }
+        });
 
-    // Raw translation identifiers rendered as copy, e.g. "pricing.heroTitle".
-    const leaks = (
-      document.body.innerText.match(
-        /\b[a-z][a-zA-Z0-9]*\.[a-z][a-zA-Z0-9]{2,}\b/g,
-      ) || []
-    ).filter((s) => !/\.(com|ma|org|net|io|fr|png|jpg|svg|webp)$/.test(s));
+      // Raw translation identifiers rendered as copy, e.g. "pricing.heroTitle".
+      const leaks = (
+        document.body.innerText.match(
+          /\b[a-z][a-zA-Z0-9]*\.[a-z][a-zA-Z0-9]{2,}\b/g,
+        ) || []
+      ).filter((s) => !/\.(com|ma|org|net|io|fr|png|jpg|svg|webp)$/.test(s));
 
-    return {
-      overflow,
-      overflowing: overflowing.slice(0, 3),
-      small: small.slice(0, 5),
-      leaks: [...new Set(leaks)].slice(0, 4),
-      textLen: document.body.innerText.trim().length,
-      crashed: document.body.innerText.includes("Something went wrong"),
-      dir: document.documentElement.dir || "ltr",
-      isDark: document.documentElement.classList.contains("dark"),
-    };
-  }, MIN_TARGET);
+      return {
+        overflow,
+        overflowing: overflowing.slice(0, 3),
+        small: small.slice(0, 5),
+        leaks: [...new Set(leaks)].slice(0, 4),
+        textLen: document.body.innerText.trim().length,
+        crashed: document.body.innerText.includes("Something went wrong"),
+        dir: document.documentElement.dir || "ltr",
+        isDark: document.documentElement.classList.contains("dark"),
+      };
+    }, MIN_TARGET);
+
+  // A route that redirects (a guarded page sending a signed-out visitor to
+  // /auth) can be caught mid-transition, a couple of pixels wide for a frame.
+  // Nobody can scroll to that, and it made the gate fail at random. Overflow
+  // only counts if it is still there a second later.
+  let dom = await inspect();
+  if (dom.overflow > 1) {
+    await page.waitForTimeout(1000);
+    dom = await inspect();
+  }
 
   const where = `${route || "/"} ${bp.name}/${theme}`;
 
@@ -261,7 +272,7 @@ async function auditPage(ctx, route, bp, theme) {
               : "moderate",
           "a11y",
           where,
-          `${v.id}: ${v.help} (${v.nodes.length} node${v.nodes.length === 1 ? "" : "s"})`,
+          `${v.id}: ${v.help} (${v.nodes.length} node${v.nodes.length === 1 ? "" : "s"}: ${String(v.nodes[0]?.target ?? "").slice(0, 80)})`,
         );
       }
     } catch (e) {
