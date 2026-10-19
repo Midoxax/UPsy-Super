@@ -1,7 +1,8 @@
 import type { LegalDoc } from "@/components/legal/LegalDocument";
+import { COMPANY } from "./company";
 
-const CONTACT = "contact@upsy.ma";
-const PRIVACY = "privacy@upsy.ma";
+const CONTACT = COMPANY.email;
+const PRIVACY = COMPANY.email;
 const mail = (a: string) => <a href={`mailto:${a}`}>{a}</a>;
 
 const en: LegalDoc = {
@@ -20,10 +21,16 @@ const en: LegalDoc = {
         <>
           <p>
             <a href="https://www.upsy.ma">www.upsy.ma</a> is published by Mehdi
-            Felji, auto-entrepreneur registered in Morocco, who is also the
-            director of publication.
+            Felji, registered in the Moroccan national register of
+            auto-entrepreneurs, who is also the director of publication.
           </p>
-          <p>Contact: {mail(CONTACT)}.</p>
+          <ul>
+            <li>Auto-entrepreneur ID: {COMPANY.autoEntrepreneurId}</li>
+            <li>Tax ID (IF): {COMPANY.taxId}</li>
+            <li>Professional tax no. (TP): {COMPANY.professionalTaxNo}</li>
+            <li>Address: {COMPANY.address.join(", ")}</li>
+            <li>Email: {mail(CONTACT)}</li>
+          </ul>
         </>
       ),
     },
@@ -143,10 +150,20 @@ const fr: LegalDoc = {
         <>
           <p>
             Le site <a href="https://www.upsy.ma">www.upsy.ma</a> est édité par
-            Mehdi Felji, auto-entrepreneur immatriculé au Maroc, également
-            directeur de la publication.
+            Mehdi Felji, inscrit au registre national de l'auto-entrepreneur,
+            également directeur de la publication.
           </p>
-          <p>Contact : {mail(CONTACT)}.</p>
+          <ul>
+            <li>
+              Identifiant auto-entrepreneur : {COMPANY.autoEntrepreneurId}
+            </li>
+            <li>Identifiant fiscal (IF) : {COMPANY.taxId}</li>
+            <li>
+              N° de taxe professionnelle (TP) : {COMPANY.professionalTaxNo}
+            </li>
+            <li>Adresse : {COMPANY.address.join(", ")}</li>
+            <li>E-mail : {mail(CONTACT)}</li>
+          </ul>
         </>
       ),
     },

@@ -92,10 +92,10 @@ const Footer = () => {
                   {t("footer.email")}:
                 </span>{" "}
                 <a
-                  href="mailto:mypersonalpsychologist212@gmail.com"
+                  href="mailto:contact@upsy.ma"
                   className="hover:text-primary transition-colors"
                 >
-                  mypersonalpsychologist212@gmail.com
+                  contact@upsy.ma
                 </a>
               </p>
               <p className="text-muted-foreground">

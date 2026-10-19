@@ -236,10 +236,10 @@ const Contact = () => {
                           {t("contact.info.email")}
                         </p>
                         <a
-                          href="mailto:mypersonalpsychologist212@gmail.com"
+                          href="mailto:contact@upsy.ma"
                           className="break-all text-muted-foreground hover:text-primary transition-colors link-underline"
                         >
-                          mypersonalpsychologist212@gmail.com
+                          contact@upsy.ma
                         </a>
                       </div>
                     </div>

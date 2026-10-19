@@ -1,6 +1,7 @@
 import type { LegalDoc } from "@/components/legal/LegalDocument";
+import { COMPANY } from "./company";
 
-const PRIVACY = "privacy@upsy.ma";
+const PRIVACY = COMPANY.email;
 const mail = (a: string) => <a href={`mailto:${a}`}>{a}</a>;
 
 const en: LegalDoc = {
