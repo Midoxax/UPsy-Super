@@ -1,4 +1,5 @@
 import { lazy, Suspense, useEffect } from "react";
+import { COMPANY, SOCIAL_LINKS } from "@/content/legal/company";
 import type { QueryClient } from "@tanstack/react-query";
 import { QueryClientProvider } from "@tanstack/react-query";
 import {
@@ -121,11 +122,12 @@ const JSONLD_ORG = JSON.stringify({
     jobTitle: "Founder",
     url: "https://www.upsy.ma/founder",
   },
-  sameAs: ["https://www.upsy.ma"],
+  sameAs: Object.values(SOCIAL_LINKS),
   areaServed: "Worldwide",
   contactPoint: {
     "@type": "ContactPoint",
-    email: "contact@upsy.ma",
+    email: COMPANY.email,
+    telephone: COMPANY.phoneHref.replace("tel:", ""),
     contactType: "customer support",
     availableLanguage: ["English", "French", "Arabic", "Spanish", "Portuguese"],
   },

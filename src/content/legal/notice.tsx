@@ -30,6 +30,10 @@ const en: LegalDoc = {
             <li>Professional tax no. (TP): {COMPANY.professionalTaxNo}</li>
             <li>Address: {COMPANY.address.join(", ")}</li>
             <li>Email: {mail(CONTACT)}</li>
+            <li>
+              Phone and WhatsApp:{" "}
+              <a href={COMPANY.phoneHref}>{COMPANY.phone}</a>
+            </li>
           </ul>
         </>
       ),
@@ -81,11 +85,11 @@ const en: LegalDoc = {
             someone else's.
           </p>
           <p>
-            UPSY administrators cannot browse clinical records. In an
-            exceptional case (a safety concern, a request you make or a legal
-            obligation) an administrator can open a specific record only after
-            writing down the reason, and every such access is permanently
-            logged. Administrators are bound by confidentiality.
+            UPSY administrators cannot browse clinical records or the files you
+            upload. In an exceptional case (a safety concern, a request you make
+            or a legal obligation) an administrator can open a specific record
+            only after writing down the reason, and every such access is
+            permanently logged. Administrators are bound by confidentiality.
           </p>
           <p>
             If you have a concern about a specialist's conduct, write to{" "}
@@ -164,6 +168,10 @@ const fr: LegalDoc = {
             </li>
             <li>Adresse : {COMPANY.address.join(", ")}</li>
             <li>E-mail : {mail(CONTACT)}</li>
+            <li>
+              Téléphone et WhatsApp :{" "}
+              <a href={COMPANY.phoneHref}>{COMPANY.phone}</a>
+            </li>
           </ul>
         </>
       ),
@@ -219,11 +227,11 @@ const fr: LegalDoc = {
           </p>
           <p>
             Les administrateurs d'UPSY ne peuvent pas consulter les dossiers
-            cliniques. Dans un cas exceptionnel (risque pour la sécurité,
-            demande de votre part ou obligation légale), un administrateur ne
-            peut ouvrir un dossier précis qu'après en avoir écrit le motif, et
-            chaque accès est journalisé de façon permanente. Les administrateurs
-            sont tenus à la confidentialité.
+            cliniques ni les fichiers que vous déposez. Dans un cas exceptionnel
+            (risque pour la sécurité, demande de votre part ou obligation
+            légale), un administrateur ne peut ouvrir un dossier précis qu'après
+            en avoir écrit le motif, et chaque accès est journalisé de façon
+            permanente. Les administrateurs sont tenus à la confidentialité.
           </p>
           <p>
             Si le comportement d'un spécialiste vous préoccupe, écrivez à{" "}
