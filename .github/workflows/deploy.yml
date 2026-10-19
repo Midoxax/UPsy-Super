@@ -67,7 +67,19 @@ jobs:
         env:
           SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
           SUPABASE_DB_PASSWORD: ${{ secrets.SUPABASE_DB_PASSWORD }}
+          AUTO_MIGRATE: ${{ vars.SUPABASE_AUTO_MIGRATE }}
         run: |
+          # Production's migration history does not match supabase/migrations
+          # (the live schema was built another way), so `db push` would replay
+          # ~100 old migrations against it and a failure would block every
+          # deploy. Auto-apply stays off until the history is reconciled
+          # (`supabase migration repair`, see supabase/manual/README.md) and
+          # the repository variable SUPABASE_AUTO_MIGRATE is set to "true".
+          if [ "$AUTO_MIGRATE" != "true" ]; then
+            echo "::notice::Migration auto-apply is off (repository variable SUPABASE_AUTO_MIGRATE is not \"true\"). See supabase/manual/README.md."
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
           missing=""
           for name in SUPABASE_ACCESS_TOKEN SUPABASE_DB_PASSWORD; do
             eval "value=\${$name}"
