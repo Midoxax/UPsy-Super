@@ -1,0 +1,3 @@
+comment = 'local stub of pgmq for migration tests'
+default_version = '1.0'
+relocatable = false

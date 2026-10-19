@@ -182,6 +182,30 @@ jobs:
         run: bun audit || true
 
 
+  database:
+    name: Migrations and database tests
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v5
+
+      # The runner image ships PostgreSQL 16, stopped. Production runs on
+      # Supabase; scripts/db-test.sh adds the part of Supabase the
+      # migrations need (roles, auth/storage schemas, extension stand-ins),
+      # applies every migration in order to an empty database, then runs the
+      # behaviour tests in supabase/tests. A migration that fails to apply,
+      # or breaks what a test pins down, fails here instead of in the
+      # production deploy (which applies migrations before shipping).
+      - name: Start PostgreSQL
+        run: |
+          sudo systemctl start postgresql.service
+          sudo -u postgres createuser --superuser "$USER"
+
+      - name: Apply migrations and run database tests
+        env:
+          SUDO: sudo
+          PGDATABASE: postgres
+        run: bash scripts/db-test.sh
+
   audit:
     name: Build and browser audit
     runs-on: ubuntu-latest
