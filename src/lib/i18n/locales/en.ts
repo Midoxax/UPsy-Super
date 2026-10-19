@@ -1962,6 +1962,14 @@ const en = {
       },
     },
   },
+  consent: {
+    title: "Your privacy",
+    body: "We'd like to use analytics (PostHog and Google Tag Manager) to understand how UPSY is used and improve it. They only run if you agree.",
+    accept: "Accept analytics",
+    decline: "Decline",
+    learnMore: "Cookie policy",
+    settings: "Cookie settings",
+  },
 };
 
 export default en;

@@ -83,7 +83,7 @@ const findings = [];
 const record = (severity, area, route, detail) =>
   findings.push({ severity, area, route, detail });
 
-async function auditPage(ctx, route, bp, theme) {
+async function auditPage(ctx, route, bp, theme, { axeInclude } = {}) {
   const page = await ctx.newPage();
   const errors = [];
   page.on("pageerror", (e) => errors.push(String(e.message).slice(0, 160)));
@@ -260,9 +260,14 @@ async function auditPage(ctx, route, bp, theme) {
   // for the rules we care about, and it is by far the slowest step.
   if (bp.name === "phone") {
     try {
-      const res = await new AxeBuilder({ page })
-        .withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa"])
-        .analyze();
+      let axe = new AxeBuilder({ page }).withTags([
+        "wcag2a",
+        "wcag2aa",
+        "wcag21a",
+        "wcag21aa",
+      ]);
+      if (axeInclude) axe = axe.include(axeInclude);
+      const res = await axe.analyze();
       for (const v of res.violations) {
         record(
           v.impact === "critical"
@@ -293,6 +298,13 @@ const browser = await chromium.launch(CHROME ? { executablePath: CHROME } : {});
 const themeInit = (t) =>
   `try{localStorage.setItem('u-psy-theme-v2','${t}')}catch(e){}`;
 
+// The analytics consent banner is fixed to the bottom of every page until a
+// choice is made. Left up, it would cover what sits under it (axe then
+// misjudges that content's background), so page loads record a choice
+// first; the banner itself is audited on its own loads below. Key must
+// match CONSENT_KEY in src/lib/consent.ts.
+const consentInit = `try{localStorage.setItem('upsy-consent-v1','denied')}catch(e){}`;
+
 const routes = FULL
   ? [...ROUTES, ...CRITICAL_ROUTES].flatMap((r) =>
       LOCALES.map((l) => l + (r === "/" ? "/" : r)),
@@ -308,10 +320,31 @@ for (const theme of THEMES) {
       colorScheme: theme,
     });
     await ctx.addInitScript(themeInit(theme));
+    await ctx.addInitScript(consentInit);
     for (const route of routes) {
       await auditPage(ctx, route, bp, theme);
       checked++;
     }
+    await ctx.close();
+  }
+
+  // The consent banner, as a first-time visitor sees it.
+  for (const bp of breakpoints) {
+    const ctx = await browser.newContext({
+      viewport: { width: bp.width, height: bp.height },
+      colorScheme: theme,
+    });
+    await ctx.addInitScript(themeInit(theme));
+    // axe looks at the banner only: everything under it is audited above,
+    // and judged against the banner's background here it would misreport.
+    await auditPage(
+      ctx,
+      "/",
+      { ...bp, name: `${bp.name}+consent-banner` },
+      theme,
+      { axeInclude: 'section[aria-labelledby="consent-title"]' },
+    );
+    checked++;
     await ctx.close();
   }
 }
