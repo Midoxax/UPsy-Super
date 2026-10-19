@@ -151,10 +151,15 @@ const en: LegalDoc = {
               sessions, notes or journal.
             </li>
             <li>
-              <strong>UPSY administrators:</strong> a small number of people who
-              can access records when needed to run the service, handle a
-              request you make, deal with a safety concern or meet a legal
-              obligation. They are bound by confidentiality.
+              <strong>UPSY administrators:</strong> a small number of people,
+              bound by confidentiality, who run the service. They cannot browse
+              clinical records (session notes, questionnaires, intake forms,
+              treatment plans, mood and journal entries). In an exceptional case
+              (a safety concern, a request you make or a legal obligation) an
+              administrator can open a specific record only after writing down
+              the reason; every such access is permanently logged. Crisis alerts
+              remain visible to administrators so that someone can always
+              respond.
             </li>
             <li>
               <strong>Service providers</strong> that process data on our behalf
@@ -209,16 +214,24 @@ const en: LegalDoc = {
         <ul>
           <li>
             <strong>Account data:</strong> while your account is active. When
-            you ask us to delete your account, it is deleted or anonymised,
-            except what we are legally required to keep.
+            you ask us to delete your account, it is deleted or anonymised
+            within 30 days, except what we are legally required to keep.
           </li>
           <li>
-            <strong>Clinical records:</strong> for the period required by the
-            rules that govern health records, then deleted or anonymised.
+            <strong>Clinical records</strong> (session notes, questionnaires,
+            intake forms, treatment plans, mood, journal and AI conversations):
+            10 years after your last activity on UPSY, the common international
+            standard for health records. They are then deleted automatically. If
+            you delete your account earlier, they stay locked, visible only to
+            the specialist who wrote them, until that period ends.
           </li>
           <li>
-            <strong>Invoices and payment records:</strong> for the period
-            required by tax and accounting law.
+            <strong>Invoices and payment records:</strong> 10 years, as Moroccan
+            accounting law requires.
+          </li>
+          <li>
+            <strong>Security audit log</strong> (who accessed what, never the
+            content): 6 years.
           </li>
           <li>
             <strong>Logs and error reports:</strong> for a limited period, only
@@ -239,8 +252,17 @@ const en: LegalDoc = {
             this does not affect processing already carried out.
           </p>
           <p>
-            Write to {mail(PRIVACY)} from the email address on your account. We
-            reply within one month.
+            The quickest way is the <strong>Privacy</strong> tab of your
+            dashboard: download a copy of your data at any time, and send a
+            request to correct, restrict, object or delete. You can also write
+            to {mail(PRIVACY)} from the email address on your account. We reply
+            within one month.
+          </p>
+          <p>
+            Each deletion request is checked by a person, to confirm it comes
+            from you, and carried out within 30 days. Clinical records and
+            invoices are kept for the periods in section 7, because the law
+            requires it.
           </p>
           <p>
             You can also complain to the CNDP, the Moroccan data protection
@@ -487,10 +509,15 @@ const fr: LegalDoc = {
             </li>
             <li>
               <strong>Les administrateurs d'UPSY :</strong> un nombre restreint
-              de personnes pouvant accéder aux dossiers lorsque c'est nécessaire
-              au fonctionnement du service, au traitement d'une demande de votre
-              part, à la gestion d'un risque pour la sécurité ou au respect
-              d'une obligation légale. Ils sont tenus à la confidentialité.
+              de personnes, tenues à la confidentialité, qui font fonctionner le
+              service. Elles ne peuvent pas consulter les dossiers cliniques
+              (notes de séance, questionnaires, formulaires d'accueil, plans de
+              traitement, humeur et journal). Dans un cas exceptionnel (risque
+              pour la sécurité, demande de votre part ou obligation légale), un
+              administrateur ne peut ouvrir un dossier précis qu'après en avoir
+              écrit le motif ; chaque accès est journalisé de façon permanente.
+              Les alertes de crise restent visibles des administrateurs afin que
+              quelqu'un puisse toujours y répondre.
             </li>
             <li>
               <strong>Nos prestataires,</strong> qui traitent les données pour
@@ -554,17 +581,26 @@ const fr: LegalDoc = {
           <li>
             <strong>Données de compte :</strong> tant que votre compte est
             actif. Lorsque vous demandez la suppression de votre compte, ces
-            données sont supprimées ou anonymisées, sauf ce que la loi nous
-            oblige à conserver.
+            données sont supprimées ou anonymisées sous 30 jours, sauf ce que la
+            loi nous oblige à conserver.
           </li>
           <li>
-            <strong>Dossiers cliniques :</strong> pendant la durée imposée par
-            les règles applicables aux dossiers de santé, puis supprimés ou
-            anonymisés.
+            <strong>Dossiers cliniques</strong> (notes de séance,
+            questionnaires, formulaires d'accueil, plans de traitement, humeur,
+            journal et conversations avec l'IA) : 10 ans après votre dernière
+            activité sur UPSY, la norme internationale courante pour les
+            dossiers de santé. Ils sont ensuite supprimés automatiquement. Si
+            vous supprimez votre compte avant, ils restent verrouillés, visibles
+            uniquement du spécialiste qui les a rédigés, jusqu'à la fin de cette
+            durée.
           </li>
           <li>
-            <strong>Factures et justificatifs de paiement :</strong> pendant la
-            durée imposée par la législation fiscale et comptable.
+            <strong>Factures et justificatifs de paiement :</strong> 10 ans,
+            comme l'exige le droit comptable marocain.
+          </li>
+          <li>
+            <strong>Journal d'audit de sécurité</strong> (qui a accédé à quoi,
+            jamais le contenu) : 6 ans.
           </li>
           <li>
             <strong>Journaux et rapports d'erreur :</strong> pour une durée
@@ -588,8 +624,18 @@ const fr: LegalDoc = {
             effectués.
           </p>
           <p>
-            Écrivez à {mail(PRIVACY)} depuis l'adresse e-mail de votre compte.
-            Nous répondons dans un délai d'un mois.
+            Le plus simple est l'onglet <strong>Privacy</strong>
+            (confidentialité) de votre tableau de bord : téléchargez une copie
+            de vos données à tout moment et envoyez une demande de
+            rectification, de limitation, d'opposition ou de suppression. Vous
+            pouvez aussi écrire à {mail(PRIVACY)} depuis l'adresse e-mail de
+            votre compte. Nous répondons dans un délai d'un mois.
+          </p>
+          <p>
+            Chaque demande de suppression est vérifiée par une personne, pour
+            s'assurer qu'elle émane bien de vous, et traitée sous 30 jours. Les
+            dossiers cliniques et les factures sont conservés pendant les durées
+            indiquées à la section 7, car la loi l'exige.
           </p>
           <p>
             Vous pouvez également saisir la CNDP, l'autorité marocaine de

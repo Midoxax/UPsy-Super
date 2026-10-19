@@ -81,10 +81,11 @@ const en: LegalDoc = {
             someone else's.
           </p>
           <p>
-            A small number of UPSY administrators can technically access
-            clinical records. They do so only when needed to run the service, to
-            handle a request you make, to deal with a safety concern or to meet
-            a legal obligation, and they are bound by confidentiality.
+            UPSY administrators cannot browse clinical records. In an
+            exceptional case (a safety concern, a request you make or a legal
+            obligation) an administrator can open a specific record only after
+            writing down the reason, and every such access is permanently
+            logged. Administrators are bound by confidentiality.
           </p>
           <p>
             If you have a concern about a specialist's conduct, write to{" "}
@@ -217,11 +218,12 @@ const fr: LegalDoc = {
             ou celle d'autrui.
           </p>
           <p>
-            Un nombre restreint d'administrateurs d'UPSY peut techniquement
-            accéder aux dossiers cliniques. Ils ne le font que lorsque c'est
-            nécessaire au fonctionnement du service, au traitement d'une demande
-            de votre part, à la gestion d'un risque pour la sécurité ou au
-            respect d'une obligation légale, et sont tenus à la confidentialité.
+            Les administrateurs d'UPSY ne peuvent pas consulter les dossiers
+            cliniques. Dans un cas exceptionnel (risque pour la sécurité,
+            demande de votre part ou obligation légale), un administrateur ne
+            peut ouvrir un dossier précis qu'après en avoir écrit le motif, et
+            chaque accès est journalisé de façon permanente. Les administrateurs
+            sont tenus à la confidentialité.
           </p>
           <p>
             Si le comportement d'un spécialiste vous préoccupe, écrivez à{" "}
