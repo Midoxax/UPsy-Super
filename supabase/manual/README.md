@@ -11,12 +11,12 @@ variable `SUPABASE_AUTO_MIGRATE` is set to `true` (see below).
 These went through the Supabase connector and appear in production's migration
 history:
 
-| Name | Effect |
-| --- | --- |
-| `fix_log_sensitive_change` | Clinical records (session notes, questionnaires, intake forms, plans, homework, discharge summaries, mood) can be saved again. Every save had failed since the audit trigger was added. |
-| `break_glass_clinical_access_functions` | `admin_break_glass_read()` and `admin_session_counts()` |
-| `break_glass_files_and_activity` | `admin_break_glass_files()` and the 15-minute folder access; the admin activity view no longer returns questionnaire scores. |
-| `storage_buckets_baseline` | Creates the four storage buckets (production had none) and their access rules. |
+| Name                                    | Effect                                                                                                                                                                                  |
+| --------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `fix_log_sensitive_change`              | Clinical records (session notes, questionnaires, intake forms, plans, homework, discharge summaries, mood) can be saved again. Every save had failed since the audit trigger was added. |
+| `break_glass_clinical_access_functions` | `admin_break_glass_read()` and `admin_session_counts()`                                                                                                                                 |
+| `break_glass_files_and_activity`        | `admin_break_glass_files()` and the 15-minute folder access; the admin activity view no longer returns questionnaire scores.                                                            |
+| `storage_buckets_baseline`              | Creates the four storage buckets (production had none) and their access rules.                                                                                                          |
 
 ## Still to run by hand
 
