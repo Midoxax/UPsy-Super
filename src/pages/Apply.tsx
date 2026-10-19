@@ -66,7 +66,7 @@ const Apply = () => {
             <button
               type="button"
               onClick={() => navigate("/pricing-specialists")}
-              className="text-accent dark:text-primary hover:underline font-medium"
+              className="inline-block py-1.5 text-accent dark:text-primary hover:underline font-medium"
             >
               Voir les plans et tarifs des spécialistes →
             </button>

@@ -219,7 +219,7 @@ const Resources = () => {
                 className={cn(
                   "px-3 py-1.5 rounded-full text-xs font-medium border transition-colors",
                   !topic
-                    ? "border-secondary bg-secondary/10 text-secondary"
+                    ? "border-secondary bg-secondary/10 text-secondary dark:text-rose-300"
                     : "border-border text-muted-foreground hover:text-foreground",
                 )}
               >
@@ -232,7 +232,7 @@ const Resources = () => {
                   className={cn(
                     "px-3 py-1.5 rounded-full text-xs font-medium border transition-colors inline-flex items-center gap-1",
                     topic === tp.slug
-                      ? "border-secondary bg-secondary/10 text-secondary"
+                      ? "border-secondary bg-secondary/10 text-secondary dark:text-rose-300"
                       : "border-border text-muted-foreground hover:text-foreground",
                   )}
                 >

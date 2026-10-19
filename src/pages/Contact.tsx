@@ -231,13 +231,13 @@ const Contact = () => {
                       <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
                         <Mail className="w-5 h-5 text-primary" />
                       </div>
-                      <div>
+                      <div className="min-w-0">
                         <p className="font-semibold">
                           {t("contact.info.email")}
                         </p>
                         <a
                           href="mailto:mypersonalpsychologist212@gmail.com"
-                          className="text-muted-foreground hover:text-primary transition-colors link-underline"
+                          className="break-all text-muted-foreground hover:text-primary transition-colors link-underline"
                         >
                           mypersonalpsychologist212@gmail.com
                         </a>

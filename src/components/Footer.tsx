@@ -154,12 +154,12 @@ const Footer = () => {
               <h3 className="text-foreground font-display text-base tracking-wide mb-4">
                 {col.title}
               </h3>
-              <div className="space-y-2.5">
+              <div className="space-y-0.5">
                 {col.links.map((link) => (
                   <Link
                     key={link.name}
                     to={addLocalePrefix(link.href, locale)}
-                    className="text-muted-foreground hover:text-primary text-sm block transition-colors font-sans"
+                    className="text-muted-foreground hover:text-primary text-sm block py-1 transition-colors font-sans"
                   >
                     {link.name}
                   </Link>
