@@ -24,6 +24,11 @@ jobs:
   scan:
     name: Static + dependency scan
     runs-on: ubuntu-latest
+    # `secrets` is not available in a step's `if:`; GitHub rejects the whole
+    # file at parse time when it appears there, so this workflow failed on
+    # every push without ever running. Expose the check through job env.
+    env:
+      HAS_CI_WEBHOOK: ${{ secrets.CI_WEBHOOK_SECRET != '' }}
     steps:
       - uses: actions/checkout@v5
       - uses: actions/setup-node@v5
@@ -52,7 +57,9 @@ jobs:
       - name: Dependency audit (high+)
         id: audit
         continue-on-error: true
-        run: bun audit --severity high || true
+        # --audit-level is bun's flag; the old `--severity high || true` could
+        # never fail, so this step always reported success.
+        run: bun audit --audit-level=high --prod
 
       - name: Summarise
         id: summary
@@ -64,7 +71,7 @@ jobs:
           } >> "$GITHUB_OUTPUT"
 
       - name: Post findings to Operations log
-        if: ${{ secrets.CI_WEBHOOK_SECRET != '' && (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch') }}
+        if: ${{ env.HAS_CI_WEBHOOK == 'true' && (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch') }}
         env:
           CI_WEBHOOK_SECRET: ${{ secrets.CI_WEBHOOK_SECRET }}
           SITE_URL: ${{ secrets.VITE_SITE_URL }}

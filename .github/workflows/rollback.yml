@@ -26,6 +26,11 @@ jobs:
     name: Rollback production Worker
     runs-on: ubuntu-latest
     environment: production
+    # `secrets` is not available in a step's `if:`; GitHub rejects the whole
+    # file at parse time when it appears there, so this workflow failed on
+    # every push without ever running. Expose the check through job env.
+    env:
+      HAS_CI_WEBHOOK: ${{ secrets.CI_WEBHOOK_SECRET != '' }}
     steps:
       - uses: actions/checkout@v5
       - uses: actions/setup-node@v5
@@ -49,15 +54,22 @@ jobs:
         run: bun run build
 
       - name: Record rollback start
-        if: ${{ secrets.CI_WEBHOOK_SECRET != '' }}
+        if: env.HAS_CI_WEBHOOK == 'true'
         env:
           CI_WEBHOOK_SECRET: ${{ secrets.CI_WEBHOOK_SECRET }}
           SITE_URL: ${{ secrets.VITE_SITE_URL }}
+          # Free text typed into the dispatch form: passed as data, never
+          # spliced into the script, and JSON-encoded by jq.
+          REASON: ${{ github.event.inputs.reason }}
         run: |
+          jq -n --arg reason "$REASON" --arg sha "$GITHUB_SHA" --arg actor "$GITHUB_ACTOR" \
+            '{event: "rollback_started", level: "warn", source: "deploy",
+              message: ("Production rollback triggered: " + $reason),
+              release: $sha, metadata: {actor: $actor, reason: $reason}}' |
           curl -fsS -X POST "$SITE_URL/api/public/ci-events" \
             -H "Authorization: Bearer $CI_WEBHOOK_SECRET" \
             -H "Content-Type: application/json" \
-            -d "{\"event\":\"rollback_started\",\"level\":\"warn\",\"source\":\"deploy\",\"message\":\"Production rollback triggered: ${{ github.event.inputs.reason }}\",\"release\":\"${{ github.sha }}\",\"metadata\":{\"actor\":\"${{ github.actor }}\",\"reason\":\"${{ github.event.inputs.reason }}\"}}" || true
+            --data-binary @- || true
 
       - name: Rollback to previous deployment
         env:
@@ -71,7 +83,7 @@ jobs:
         run: node scripts/check-production.mjs
 
       - name: Record rollback complete
-        if: always()
+        if: always() && env.HAS_CI_WEBHOOK == 'true'
         env:
           CI_WEBHOOK_SECRET: ${{ secrets.CI_WEBHOOK_SECRET }}
           SITE_URL: ${{ secrets.VITE_SITE_URL }}
