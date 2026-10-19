@@ -65,7 +65,7 @@ const Pricing = () => {
     {
       question: "Are sessions really confidential?",
       answer:
-        "Yes. All sessions are encrypted end-to-end. Psychologists are bound by professional secrecy (Code Pénal Marocain art. 446). We never share your data without your explicit consent (Law 09-08).",
+        "Yes. Sessions and your data are encrypted in transit and at rest. Psychologists are bound by professional secrecy (Code Pénal Marocain art. 446). We never share your data without your explicit consent (Law 09-08).",
     },
     {
       question: "How long is each session?",

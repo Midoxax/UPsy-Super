@@ -184,7 +184,7 @@ const en: HomeCopy = {
       },
       {
         q: "Is it confidential? What about my employer or insurance?",
-        a: "Fully confidential. We follow Moroccan Law 09-08 on personal data. Nothing is shared with your employer, insurance, or family without your written consent. Sessions are encrypted end-to-end.",
+        a: "Fully confidential. We follow Moroccan Law 09-08 on personal data. Nothing is shared with your employer, insurance, or family without your written consent. Sessions are encrypted in transit.",
       },
       {
         q: "In what language are sessions held?",
@@ -351,7 +351,7 @@ const fr: HomeCopy = {
       },
       {
         q: "Est-ce confidentiel ? Et vis-à-vis de mon employeur ou de mon assurance ?",
-        a: "Totalement confidentiel. Nous respectons la loi marocaine 09-08 sur les données personnelles. Rien n'est partagé avec votre employeur, votre assurance ou votre famille sans votre accord écrit. Les séances sont chiffrées de bout en bout.",
+        a: "Totalement confidentiel. Nous respectons la loi marocaine 09-08 sur les données personnelles. Rien n'est partagé avec votre employeur, votre assurance ou votre famille sans votre accord écrit. Les séances sont chiffrées pendant leur transmission.",
       },
       {
         q: "Dans quelle langue se déroulent les séances ?",
@@ -517,7 +517,7 @@ const ar: HomeCopy = {
       },
       {
         q: "هل هي سريّة؟ ماذا عن ربّ العمل أو التأمين؟",
-        a: "سريّة تماماً. نلتزم بالقانون المغربي ٠٩-٠٨ لحماية المعطيات الشخصية. لا شيء يُشارك مع ربّ العمل أو التأمين أو الأسرة دون موافقتك المكتوبة. الجلسات مشفّرة من طرف إلى طرف.",
+        a: "سريّة تماماً. نلتزم بالقانون المغربي ٠٩-٠٨ لحماية المعطيات الشخصية. لا شيء يُشارك مع ربّ العمل أو التأمين أو الأسرة دون موافقتك المكتوبة. الجلسات مشفّرة أثناء النقل.",
       },
       {
         q: "بأي لغة تُعقد الجلسات؟",

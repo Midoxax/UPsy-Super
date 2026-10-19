@@ -40,9 +40,9 @@ const Footer = () => {
     {
       title: t("header.legal"),
       links: [
-        { name: t("header.privacyTerms"), href: "/legal" },
-        { name: t("header.ethics"), href: "/legal" },
-        { name: t("header.telehealthSecurity"), href: "/legal" },
+        { name: t("header.privacyTerms"), href: "/legal#documents" },
+        { name: t("header.ethics"), href: "/legal#ethics" },
+        { name: t("header.telehealthSecurity"), href: "/legal#telehealth" },
       ],
     },
   ];
