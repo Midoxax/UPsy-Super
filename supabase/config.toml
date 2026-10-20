@@ -25,3 +25,6 @@ verify_jwt = false
 
 [functions.calendar-feed]
 verify_jwt = false
+
+[functions.anamnesis-reminder-cron]
+verify_jwt = false
