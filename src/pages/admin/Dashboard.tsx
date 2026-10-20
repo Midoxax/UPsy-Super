@@ -983,7 +983,7 @@ const AdminDashboard = () => {
           onValueChange={setActiveTab}
           className="space-y-6"
         >
-          <TabsList className="flex flex-wrap h-auto gap-1 bg-surface border border-border p-1 rounded-xl">
+          <TabsList className="flex h-auto w-full justify-start gap-1 overflow-x-auto sm:flex-wrap bg-surface border border-border p-1 rounded-xl">
             <SupportAwareTabs />
           </TabsList>
 
@@ -1106,7 +1106,7 @@ const SupportAwareTabs = () => {
           className="gap-1.5 text-xs relative"
         >
           <Icon className="h-3.5 w-3.5" />
-          <span className="hidden sm:inline">{label}</span>
+          <span>{label}</span>
           {badge && badge > 0 ? (
             <span className="ml-1 inline-flex items-center justify-center rounded-full bg-destructive text-destructive-foreground text-[10px] font-bold h-4 min-w-4 px-1">
               {badge}

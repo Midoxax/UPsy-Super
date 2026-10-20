@@ -17,6 +17,7 @@ const fr = {
     consultingForOrganizations: "Conseil aux organisations",
     legal: "Mentions légales",
     login: "Connexion",
+    logout: "Se déconnecter",
     individualServices: "Services individuels",
     community: "Communauté & Ressources",
     ourStory: "Notre histoire",

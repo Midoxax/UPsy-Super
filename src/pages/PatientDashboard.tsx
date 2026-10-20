@@ -247,46 +247,46 @@ const PatientDashboard = () => {
               });
             }}
           >
-            <TabsList className="flex flex-wrap h-auto gap-1">
+            <TabsList className="flex h-auto w-full justify-start gap-1 overflow-x-auto sm:flex-wrap">
               <TabsTrigger value="overview" className="gap-1.5">
                 <BarChart3 className="h-4 w-4" />
-                <span className="hidden sm:inline">Overview</span>
+                <span>Overview</span>
               </TabsTrigger>
               <TabsTrigger value="journal" className="gap-1.5">
                 <PenSquare className="h-4 w-4" />
-                <span className="hidden sm:inline">Journal</span>
+                <span>Journal</span>
               </TabsTrigger>
               <TabsTrigger value="assessments" className="gap-1.5">
                 <Brain className="h-4 w-4" />
-                <span className="hidden sm:inline">Assessments</span>
+                <span>Assessments</span>
               </TabsTrigger>
               <TabsTrigger value="documents" className="gap-1.5">
                 <FileText className="h-4 w-4" />
-                <span className="hidden sm:inline">Documents</span>
+                <span>Documents</span>
               </TabsTrigger>
               <TabsTrigger value="billing" className="gap-1.5">
                 <CreditCard className="h-4 w-4" />
-                <span className="hidden sm:inline">Billing</span>
+                <span>Billing</span>
               </TabsTrigger>
               <TabsTrigger value="certificates" className="gap-1.5">
                 <Award className="h-4 w-4" />
-                <span className="hidden sm:inline">Certificates</span>
+                <span>Certificates</span>
               </TabsTrigger>
               <TabsTrigger value="homework" className="gap-1.5">
                 <ListChecks className="h-4 w-4" />
-                <span className="hidden sm:inline">Homework</span>
+                <span>Homework</span>
               </TabsTrigger>
               <TabsTrigger value="progress" className="gap-1.5">
                 <TrendingUp className="h-4 w-4" />
-                <span className="hidden sm:inline">Progress</span>
+                <span>Progress</span>
               </TabsTrigger>
               <TabsTrigger value="discharge" className="gap-1.5">
                 <LogOut className="h-4 w-4" />
-                <span className="hidden sm:inline">Records</span>
+                <span>Records</span>
               </TabsTrigger>
               <TabsTrigger value="privacy" className="gap-1.5">
                 <ShieldCheck className="h-4 w-4" />
-                <span className="hidden sm:inline">Privacy</span>
+                <span>Privacy</span>
               </TabsTrigger>
             </TabsList>
 

@@ -17,6 +17,7 @@ const en = {
     consultingForOrganizations: "Consulting for Organizations",
     legal: "Legal",
     login: "Login",
+    logout: "Sign out",
     individualServices: "Individual Services",
     community: "Community & Resources",
     ourStory: "Our Story",

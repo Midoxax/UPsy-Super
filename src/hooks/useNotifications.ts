@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useId } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
@@ -46,11 +46,14 @@ export const useNotifications = (limit = 20) => {
     enabled: !!user,
   });
 
-  // Realtime subscribe
+  // Realtime subscribe. One channel per hook instance: supabase.channel()
+  // returns the existing channel for a reused name, and adding callbacks to
+  // an already-subscribed channel throws (header bell + /notifications page).
+  const instance = useId();
   useEffect(() => {
     if (!user) return;
     const channel = supabase
-      .channel(`notifications:${user.id}`)
+      .channel(`notifications:${user.id}:${instance}`)
       .on(
         "postgres_changes",
         {
@@ -67,7 +70,7 @@ export const useNotifications = (limit = 20) => {
     return () => {
       supabase.removeChannel(channel);
     };
-  }, [user, qc]);
+  }, [user, qc, instance]);
 
   return query;
 };

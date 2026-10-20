@@ -39,7 +39,9 @@ const LABELS: Record<
   athlete: { label: "Athlete Hub", icon: Trophy, path: "/athlete-hub" },
 };
 
-const ViewAsSwitcher = ({ compact = false }: { compact?: boolean }) => {
+// Desktop header: icon, label from xl up. Mobile menu (onChoose given):
+// full-width labelled button that also closes the menu.
+const ViewAsSwitcher = ({ onChoose }: { onChoose?: () => void }) => {
   const { isAdmin, roles, loading } = useUserRole();
   const { activeView, setActiveView } = useActiveView();
   const navigate = useNavigate();
@@ -50,6 +52,7 @@ const ViewAsSwitcher = ({ compact = false }: { compact?: boolean }) => {
 
   const choose = (v: Exclude<ActiveView, "auto">) => {
     setActiveView(v);
+    onChoose?.();
     navigate(LABELS[v].path);
   };
 
@@ -59,21 +62,22 @@ const ViewAsSwitcher = ({ compact = false }: { compact?: boolean }) => {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button
-          variant="ghost"
+          variant={onChoose ? "outline" : "ghost"}
           size="sm"
-          className="gap-1.5"
-          aria-label="Switch view"
+          className={onChoose ? "w-full gap-2" : "gap-1.5"}
+          aria-label="Switch dashboard"
+          title="Switch dashboard"
         >
           <Current className="h-4 w-4" />
-          {!compact && (
-            <span className="hidden md:inline text-xs">
-              {activeView === "auto" ? "View as" : LABELS[activeView].label}
-            </span>
-          )}
+          <span className={onChoose ? "" : "hidden xl:inline text-xs"}>
+            {activeView === "auto"
+              ? "Switch dashboard"
+              : LABELS[activeView].label}
+          </span>
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-56 z-[60]">
-        <DropdownMenuLabel>View as</DropdownMenuLabel>
+        <DropdownMenuLabel>Switch dashboard</DropdownMenuLabel>
         <DropdownMenuSeparator />
         {(Object.keys(LABELS) as Array<Exclude<ActiveView, "auto">>).map(
           (key) => {

@@ -55,54 +55,54 @@ const PsychologistDashboard = () => {
           className="space-y-6"
           onValueChange={handleTabChange}
         >
-          <TabsList className="flex flex-wrap h-auto gap-1">
+          <TabsList className="flex h-auto w-full justify-start gap-1 overflow-x-auto sm:flex-wrap">
             <TabsTrigger value="profile" className="gap-1.5">
               <User className="h-4 w-4" />
-              <span className="hidden sm:inline">Profile</span>
+              <span>Profile</span>
             </TabsTrigger>
             <TabsTrigger value="sessions" className="gap-1.5">
               <Video className="h-4 w-4" />
-              <span className="hidden sm:inline">Sessions</span>
+              <span>Sessions</span>
             </TabsTrigger>
             <TabsTrigger value="clients" className="gap-1.5">
               <Users className="h-4 w-4" />
-              <span className="hidden sm:inline">Clients</span>
+              <span>Clients</span>
             </TabsTrigger>
             <TabsTrigger value="notes" className="gap-1.5">
               <FileText className="h-4 w-4" />
-              <span className="hidden sm:inline">Notes</span>
+              <span>Notes</span>
             </TabsTrigger>
             <TabsTrigger value="availability" className="gap-1.5">
               <Calendar className="h-4 w-4" />
-              <span className="hidden sm:inline">Availability</span>
+              <span>Availability</span>
             </TabsTrigger>
             <TabsTrigger value="pricing" className="gap-1.5">
               <DollarSign className="h-4 w-4" />
-              <span className="hidden sm:inline">Pricing</span>
+              <span>Pricing</span>
             </TabsTrigger>
             <TabsTrigger value="analytics" className="gap-1.5">
               <BarChart3 className="h-4 w-4" />
-              <span className="hidden sm:inline">Analytics</span>
+              <span>Analytics</span>
             </TabsTrigger>
             <TabsTrigger value="documents" className="gap-1.5">
               <FileText className="h-4 w-4" />
-              <span className="hidden sm:inline">Docs</span>
+              <span>Docs</span>
             </TabsTrigger>
             <TabsTrigger value="certificates" className="gap-1.5">
               <Award className="h-4 w-4" />
-              <span className="hidden sm:inline">Certificates</span>
+              <span>Certificates</span>
             </TabsTrigger>
             <TabsTrigger value="billing" className="gap-1.5">
               <CreditCard className="h-4 w-4" />
-              <span className="hidden sm:inline">Plan</span>
+              <span>Plan</span>
             </TabsTrigger>
             <TabsTrigger value="support" className="gap-1.5">
               <LifeBuoy className="h-4 w-4" />
-              <span className="hidden sm:inline">Support</span>
+              <span>Support</span>
             </TabsTrigger>
             <TabsTrigger value="privacy" className="gap-1.5">
               <ShieldCheck className="h-4 w-4" />
-              <span className="hidden sm:inline">Privacy</span>
+              <span>Privacy</span>
             </TabsTrigger>
           </TabsList>
 

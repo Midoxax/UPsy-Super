@@ -17,6 +17,7 @@ const ar = {
     consultingForOrganizations: "الاستشارات للمؤسسات",
     legal: "الشروط القانونية",
     login: "تسجيل الدخول",
+    logout: "تسجيل الخروج",
     individualServices: "الخدمات الفردية",
     community: "المجتمع والموارد",
     ourStory: "قصتنا",
