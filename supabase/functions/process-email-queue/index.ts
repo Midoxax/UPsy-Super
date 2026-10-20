@@ -168,19 +168,27 @@ Deno.serve(async (req) => {
     });
   }
 
-  // Defense in depth: verify_jwt=true already requires a valid JWT at the
-  // gateway layer. This adds an explicit role check so only service-role
-  // callers can trigger queue processing.
+  // Only service-role callers may drain the queue: a service_role JWT, or
+  // the email_queue_service_role_key secret the cron job sends from Vault.
+  // That secret can be a non-JWT key (sb_secret_…), which the gateway's JWT
+  // check rejected on every run, so verify_jwt is off and this check is
+  // the gate.
   const token = authHeader.slice("Bearer ".length).trim();
+  const supabase = createClient(supabaseUrl, supabaseServiceKey);
   const claims = parseJwtClaims(token);
-  if (claims?.role !== "service_role") {
+  const { data: vaultOk } =
+    claims?.role === "service_role"
+      ? { data: true }
+      : await supabase.rpc("cron_secret_ok", {
+          p_name: "email_queue_service_role_key",
+          p_token: token,
+        });
+  if (!vaultOk) {
     return new Response(JSON.stringify({ error: "Forbidden" }), {
       status: 403,
       headers: { "Content-Type": "application/json" },
     });
   }
-
-  const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
   // 1. Check rate-limit cooldown and read queue config
   const { data: state } = await supabase
