@@ -45,7 +45,6 @@ import { BreadcrumbWrapper } from "@/components/BreadcrumbWrapper";
 import SEOHead from "@/components/SEOHead";
 import { AuroraBackground, SmoothScrollProvider } from "@/lib/motion";
 import { reportLovableError } from "@/lib/lovable-error-reporting";
-import { SpeedInsights } from "@vercel/speed-insights/react";
 
 // ported from main.tsx
 import { applyConsent } from "@/lib/consent";
@@ -427,7 +426,6 @@ function RootComponent() {
           </TooltipProvider>
         </ThemeProvider>
       </AuthProvider>
-      <SpeedInsights />
     </QueryClientProvider>
   );
 }

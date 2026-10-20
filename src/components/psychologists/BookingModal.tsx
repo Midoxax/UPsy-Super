@@ -27,11 +27,16 @@ import {
   Loader2,
 } from "lucide-react";
 import { format, addDays, startOfDay, isSameDay } from "date-fns";
-import { Link } from "@/lib/router-compat";
+import { Link, useNavigate } from "@/lib/router-compat";
 import { useAvailableSlots, useCreateBooking } from "@/hooks/useBooking";
 import DataPrivacyNotice from "@/components/DataPrivacyNotice";
 import { AddressAutocomplete } from "@/components/AddressAutocomplete";
-import { SignInPrompt } from "@/components/auth/SocialAuthButtons";
+import { addLocalePrefix } from "@/lib/i18n/utils";
+import {
+  clearPendingBooking,
+  loadPendingBooking,
+  savePendingBooking,
+} from "@/lib/booking/pendingBooking";
 import {
   FUNNELS,
   trackFunnelStep,
@@ -66,6 +71,19 @@ const DAY_NAMES = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
 type BookingStep = "type" | "date" | "time" | "confirm" | "success";
 
+// Choices an anonymous visitor made before being sent to sign up; restored
+// when they come back to this profile signed in (?book=1 reopens the modal).
+const PENDING_KEY = "upsy.pendingBookingModal";
+
+type PendingModalBooking = {
+  psychologistId: string;
+  sessionType: "online" | "in_person";
+  date: string;
+  slot: { start: string; end: string; at: string; duration: number };
+  notes: string;
+  address: string;
+};
+
 const BookingModal = ({
   open,
   onClose,
@@ -80,7 +98,8 @@ const BookingModal = ({
 }: BookingModalProps) => {
   const { toast } = useToast();
   const { user } = useAuth();
-  const { t } = useLocale();
+  const { t, locale } = useLocale();
+  const navigate = useNavigate();
   const [step, setStep] = useState<BookingStep>("type");
   const scrollRef = useScrollResetOnOpen<HTMLDivElement>(open, [step]);
   const [sessionType, setSessionType] = useState<"online" | "in_person">(
@@ -131,6 +150,21 @@ const BookingModal = ({
       resetFunnel(FUNNELS.booking);
     }
   }, [open]);
+
+  // Resume a choice saved before sign-up: pre-fill and land on the summary so
+  // the visitor only has to press "Send request".
+  useEffect(() => {
+    if (!open || !user) return;
+    const pending = loadPendingBooking<PendingModalBooking>(PENDING_KEY);
+    if (!pending || pending.psychologistId !== psychologistId) return;
+    clearPendingBooking(PENDING_KEY);
+    setSessionType(pending.sessionType);
+    setSelectedDate(new Date(pending.date));
+    setSelectedSlot(pending.slot);
+    setNotes(pending.notes || "");
+    setAddress(pending.address || "");
+    setStep("confirm");
+  }, [open, user, psychologistId]);
 
   // The step union is exactly the declared funnel, so one effect covers every
   // path through the modal — including the back buttons, which a per-click
@@ -185,11 +219,22 @@ const BookingModal = ({
         session_type: sessionType,
         price_bucket: priceBucket(hourlyRate),
       });
-      toast({
-        title: t("booking.signInRequired"),
-        description: t("booking.signInRequiredDesc"),
-        variant: "destructive",
-      });
+      // Keep the choice (localStorage, 24h) and come back to it after sign-up
+      // instead of leaving the visitor at a disabled button.
+      if (selectedDate && selectedSlot) {
+        savePendingBooking<PendingModalBooking>(PENDING_KEY, {
+          psychologistId,
+          sessionType,
+          date: selectedDate.toISOString(),
+          slot: selectedSlot,
+          notes,
+          address,
+        });
+      }
+      const returnPath = `${window.location.pathname}?book=1`;
+      navigate(
+        `${addLocalePrefix("/auth", locale)}?mode=signup&redirect=${encodeURIComponent(returnPath)}`,
+      );
       return;
     }
     if (!selectedDate || !selectedSlot) return;
@@ -541,7 +586,11 @@ const BookingModal = ({
         />
       </div>
 
-      {!user && <SignInPrompt message={t("booking.signInToBook")} />}
+      {!user && (
+        <p className="glass-card p-3 text-sm text-muted-foreground text-center">
+          {t("booking.signupToFinishNotice")}
+        </p>
+      )}
 
       <DataPrivacyNotice />
 
@@ -549,18 +598,16 @@ const BookingModal = ({
         <Button variant="ghost" onClick={() => setStep("time")}>
           <ArrowLeft className="mr-2 h-4 w-4" /> {t("booking.back")}
         </Button>
-        <Button
-          variant="primary"
-          onClick={handleBook}
-          disabled={loading || !user}
-        >
+        <Button variant="primary" onClick={handleBook} disabled={loading}>
           {loading ? (
             <>
               <Loader2 className="mr-2 h-4 w-4 animate-spin" />{" "}
               {t("booking.confirming")}
             </>
+          ) : user ? (
+            t("booking.sendRequest")
           ) : (
-            t("booking.confirmBookingBtn")
+            t("booking.createAccountToContinue")
           )}
         </Button>
       </div>

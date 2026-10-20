@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 import { Link } from "@/lib/router-compat";
 import { useLocale } from "@/contexts/LocaleContext";
+import { addLocalePrefix } from "@/lib/i18n/utils";
 
 interface PsychologistCardProps {
   psychologist: PsychologistProfile;
@@ -40,7 +41,7 @@ const dayLabel = (
 };
 
 export const PsychologistCard = ({ psychologist }: PsychologistCardProps) => {
-  const { t } = useLocale();
+  const { t, locale } = useLocale();
   const rating = psychologist.rating_avg ?? null;
   const reviews = psychologist.rating_count ?? 0;
   const next = psychologist.next_available ?? null;
@@ -207,14 +208,21 @@ export const PsychologistCard = ({ psychologist }: PsychologistCardProps) => {
 
         <div className="mt-auto flex gap-2">
           <Button asChild variant="secondary" size="sm" className="flex-1">
-            <Link to={`/psychologists/${psychologist.slug}`}>
+            <Link
+              to={addLocalePrefix(
+                `/psychologists/${psychologist.slug}`,
+                locale,
+              )}
+            >
               {t("psychologists.viewProfile")}
             </Link>
           </Button>
           <Button asChild variant="primary" size="sm" className="flex-1">
-            <Link to={`/psychologists/${psychologist.slug}?book=1`}>
+            <Link
+              to={`${addLocalePrefix(`/psychologists/${psychologist.slug}`, locale)}?book=1`}
+            >
               <Calendar className="mr-1.5 h-3.5 w-3.5" />
-              Book a slot
+              {t("profile.bookSlot")}
             </Link>
           </Button>
         </div>

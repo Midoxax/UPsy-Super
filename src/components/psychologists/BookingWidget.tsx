@@ -22,6 +22,12 @@ import { useLocale } from "@/contexts/LocaleContext";
 import { useAuth } from "@/contexts/AuthContext";
 import { useAvailableSlots, useCreateBooking } from "@/hooks/useBooking";
 import { cn } from "@/lib/utils";
+import { addLocalePrefix } from "@/lib/i18n/utils";
+import {
+  clearPendingBooking,
+  loadPendingBooking,
+  savePendingBooking,
+} from "@/lib/booking/pendingBooking";
 
 interface BookingWidgetProps {
   psychologistId: string;
@@ -29,12 +35,14 @@ interface BookingWidgetProps {
   hourlyRate?: number;
   offersOnline?: boolean;
   offersInPerson?: boolean;
+  /** Weekdays (0 = Sunday) with availability, when the parent has loaded them. */
+  availableWeekdays?: number[];
 }
 
 const SESSION_TYPES = [
-  { value: "video", label: "Video call", icon: Video },
-  { value: "in_person", label: "In person", icon: MapPin },
-  { value: "phone", label: "Phone call", icon: Phone },
+  { value: "video", labelKey: "booking.videoCall", icon: Video },
+  { value: "in_person", labelKey: "booking.inPersonShort", icon: MapPin },
+  { value: "phone", labelKey: "booking.phoneCall", icon: Phone },
 ] as const;
 
 type SessionType = "video" | "in_person" | "phone";
@@ -57,8 +65,9 @@ export const BookingWidget = ({
   hourlyRate,
   offersOnline = true,
   offersInPerson = false,
+  availableWeekdays,
 }: BookingWidgetProps) => {
-  const { locale } = useLocale();
+  const { locale, t } = useLocale();
   const { user } = useAuth();
   const { toast } = useToast();
   const navigate = useNavigate();
@@ -85,18 +94,23 @@ export const BookingWidget = ({
   const createBooking = useCreateBooking();
 
   const availableSlots = slots.filter((s) => s.is_available);
+  const selectedDuration =
+    slots.find((s) => s.slot_start === selectedSlot)?.duration_minutes ?? 50;
+  // Unknown (not loaded / none) leaves every day clickable.
+  const workingDays = availableWeekdays?.length
+    ? new Set(availableWeekdays)
+    : null;
 
   // Resume a pending booking after sign-in/sign-up
   const resumedRef = useRef(false);
   useEffect(() => {
     if (!user || resumedRef.current) return;
     try {
-      const raw = sessionStorage.getItem(PENDING_KEY);
-      if (!raw) return;
-      const pending: PendingBooking = JSON.parse(raw);
+      const pending = loadPendingBooking<PendingBooking>(PENDING_KEY);
+      if (!pending) return;
       if (pending.psychologistId !== psychologistId) return;
       resumedRef.current = true;
-      sessionStorage.removeItem(PENDING_KEY);
+      clearPendingBooking(PENDING_KEY);
       setSelectedDate(new Date(pending.scheduled_at));
       setSelectedSlot(pending.scheduled_at);
       setSessionType(pending.session_type);
@@ -114,14 +128,16 @@ export const BookingWidget = ({
           });
           setStep("success");
           toast({
-            title: "Request sent",
-            description: "We sent the time you picked before you signed in.",
+            title: t("booking.requestSentResumed"),
+            description: t("booking.requestSentResumedDesc"),
           });
         } catch (err) {
           toast({
-            title: "Couldn't finalize your slot",
+            title: t("booking.resumeFailed"),
             description:
-              err instanceof Error ? err.message : "Please pick a time again.",
+              err instanceof Error
+                ? err.message
+                : t("booking.resumeFailedDesc"),
             variant: "destructive",
           });
           setStep("confirm");
@@ -135,6 +151,7 @@ export const BookingWidget = ({
 
   const handleDateSelect = (date: Date) => {
     if (isPast(date) && !isSameDay(date, new Date())) return;
+    if (workingDays && !workingDays.has(date.getDay())) return;
     setSelectedDate(date);
     setSelectedSlot(null);
     setStep("slot");
@@ -147,8 +164,7 @@ export const BookingWidget = ({
 
   const handleConfirm = async () => {
     if (!selectedSlot) return;
-    const duration =
-      slots.find((s) => s.slot_start === selectedSlot)?.duration_minutes ?? 50;
+    const duration = selectedDuration;
 
     // Slot-before-signup: stash intent, send to auth, resume on return.
     if (!user) {
@@ -161,17 +177,16 @@ export const BookingWidget = ({
         amount_mad: hourlyRate ?? undefined,
         return_path: `${window.location.pathname}#booking`,
       };
-      try {
-        sessionStorage.setItem(PENDING_KEY, JSON.stringify(pending));
-      } catch {
-        /* ignore quota */
-      }
+      // localStorage (24h TTL), not sessionStorage: the confirmation email
+      // link opens a new tab, which would not see a sessionStorage entry.
+      savePendingBooking(PENDING_KEY, pending);
       toast({
-        title: "Almost there",
-        description:
-          "Create your account to send this request. We'll keep your choice.",
+        title: t("booking.createAccountToSend"),
+        description: t("booking.createAccountToSendDesc"),
       });
-      navigate(`/auth?redirect=${encodeURIComponent(pending.return_path)}`);
+      navigate(
+        `${addLocalePrefix("/auth", locale)}?mode=signup&redirect=${encodeURIComponent(pending.return_path)}`,
+      );
       return;
     }
 
@@ -187,8 +202,8 @@ export const BookingWidget = ({
       setStep("success");
     } catch (err) {
       toast({
-        title: "Booking failed",
-        description: err instanceof Error ? err.message : "Please try again",
+        title: t("booking.bookingFailed"),
+        description: err instanceof Error ? err.message : t("booking.tryAgain"),
         variant: "destructive",
       });
     }
@@ -201,17 +216,26 @@ export const BookingWidget = ({
           <CheckCircle className="w-8 h-8 text-green-500" />
         </div>
         <div>
-          <h3 className="text-lg font-semibold">Session requested</h3>
+          <h3 className="text-lg font-semibold">
+            {t("booking.sessionRequested")}
+          </h3>
           <p className="text-sm text-muted-foreground mt-1">
-            {psychologistName} will confirm your session on{" "}
-            {selectedDate &&
-              format(selectedDate, "EEEE d MMMM", { locale: dateLocale })}{" "}
-            at {selectedSlot && format(new Date(selectedSlot), "HH:mm")}.
+            {t("booking.sessionRequestedDesc")
+              .replace("{name}", psychologistName)
+              .replace(
+                "{date}",
+                selectedDate
+                  ? format(selectedDate, "EEEE d MMMM", { locale: dateLocale })
+                  : "",
+              )
+              .replace(
+                "{time}",
+                selectedSlot ? format(new Date(selectedSlot), "HH:mm") : "",
+              )}
           </p>
         </div>
         <p className="text-xs text-muted-foreground">
-          You'll be notified in your dashboard once the psychologist confirms.
-          You pay at the session.
+          {t("booking.confirmationEmailNote")}
         </p>
         <Button
           variant="outline"
@@ -223,7 +247,7 @@ export const BookingWidget = ({
             setNotes("");
           }}
         >
-          Book another session
+          {t("booking.bookAnother")}
         </Button>
       </div>
     );
@@ -260,6 +284,7 @@ export const BookingWidget = ({
       <div className="grid grid-cols-7 gap-1">
         {weekDays.map((day) => {
           const past = isPast(day) && !isSameDay(day, new Date());
+          const unavailable = !!workingDays && !workingDays.has(day.getDay());
           const isSelected = selectedDate
             ? isSameDay(day, selectedDate)
             : false;
@@ -267,7 +292,7 @@ export const BookingWidget = ({
             <button
               key={day.toISOString()}
               onClick={() => handleDateSelect(day)}
-              disabled={past}
+              disabled={past || unavailable}
               className={cn(
                 "flex flex-col items-center gap-1 rounded-xl p-2 text-center transition-all",
                 "hover:bg-primary/10 disabled:opacity-30 disabled:cursor-not-allowed",
@@ -301,7 +326,7 @@ export const BookingWidget = ({
             </div>
           ) : availableSlots.length === 0 ? (
             <p className="text-sm text-muted-foreground py-4 text-center">
-              No available slots on this day. Try another date.
+              {t("booking.noSlotsThisDay")}
             </p>
           ) : (
             <div className="grid grid-cols-3 gap-2">
@@ -334,12 +359,12 @@ export const BookingWidget = ({
         <div className="space-y-4 border border-border rounded-xl p-4 bg-background">
           <div className="space-y-2">
             <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
-              Session type
+              {t("booking.sessionTypeLabel")}
             </p>
             <div className="flex gap-2 flex-wrap">
               {SESSION_TYPES.filter(
                 (t) => t.value !== "in_person" || offersInPerson,
-              ).map(({ value, label, icon: Icon }) => (
+              ).map(({ value, labelKey, icon: Icon }) => (
                 <button
                   key={value}
                   onClick={() => setSessionType(value as SessionType)}
@@ -351,7 +376,7 @@ export const BookingWidget = ({
                   )}
                 >
                   <Icon className="h-3 w-3" />
-                  {label}
+                  {t(labelKey)}
                 </button>
               ))}
             </div>
@@ -359,46 +384,50 @@ export const BookingWidget = ({
 
           <div className="text-sm space-y-1.5 text-muted-foreground font-sans">
             <p>
-              <span className="text-foreground font-medium">With:</span>{" "}
+              <span className="text-foreground font-medium">
+                {t("booking.withLabel")}
+              </span>{" "}
               <span className="font-display">{psychologistName}</span>
             </p>
             <p>
-              <span className="text-foreground font-medium">When:</span>{" "}
+              <span className="text-foreground font-medium">
+                {t("booking.whenLabel")}
+              </span>{" "}
               <span className="font-mono tabular-nums text-foreground/90">
-                {format(new Date(selectedSlot), "EEEE d MMMM 'at' HH:mm", {
+                {format(new Date(selectedSlot), "EEEE d MMMM · HH:mm", {
                   locale: dateLocale,
                 })}
               </span>
             </p>
             <p>
-              <span className="text-foreground font-medium">Duration:</span>{" "}
-              <span className="font-mono tabular-nums">50</span> minutes
+              <span className="text-foreground font-medium">
+                {t("booking.durationLabel")}
+              </span>{" "}
+              <span className="font-mono tabular-nums">{selectedDuration}</span>{" "}
+              {t("booking.minutes")}
             </p>
             {hourlyRate && (
               <p>
-                <span className="text-foreground font-medium">Fee:</span>{" "}
-                <span className="font-mono tabular-nums text-foreground">
-                  {Math.round(
-                    ((hourlyRate *
-                      (slots.find((s) => s.slot_start === selectedSlot)
-                        ?.duration_minutes ?? 50)) /
-                      60) *
-                      100,
-                  ) / 100}
+                <span className="text-foreground font-medium">
+                  {t("booking.feeLabel")}
                 </span>{" "}
-                MAD · paid to your specialist at the session
+                <span className="font-mono tabular-nums text-foreground">
+                  {Math.round(((hourlyRate * selectedDuration) / 60) * 100) /
+                    100}
+                </span>{" "}
+                {t("booking.feePaidAtSession")}
               </p>
             )}
           </div>
 
           <div className="space-y-1.5">
             <label className="text-xs font-medium text-muted-foreground">
-              Notes for the psychologist (optional)
+              {t("booking.notesLabel")}
             </label>
             <Textarea
               value={notes}
               onChange={(e) => setNotes(e.target.value)}
-              placeholder="Brief description of what you'd like to work on..."
+              placeholder={t("booking.notesPlaceholder")}
               rows={3}
               className="bg-surface text-sm resize-none"
             />
@@ -407,10 +436,7 @@ export const BookingWidget = ({
           {!user && (
             <div className="flex items-start gap-2 text-xs text-emerald-800 dark:text-emerald-200 bg-emerald-500/10 border border-emerald-500/20 rounded-lg px-3 py-2">
               <ShieldCheck className="h-3.5 w-3.5 mt-0.5 shrink-0 text-emerald-500" />
-              <span>
-                Pick your time now — we'll hold it while you create your
-                account. Free rebook if it's not the right fit.
-              </span>
+              <span>{t("booking.notReservedNotice")}</span>
             </div>
           )}
 
@@ -421,7 +447,7 @@ export const BookingWidget = ({
               onClick={() => setStep("slot")}
               className="flex-1"
             >
-              Back
+              {t("booking.back")}
             </Button>
             <Button
               variant="primary"
@@ -433,11 +459,11 @@ export const BookingWidget = ({
               {createBooking.isPending ? (
                 <Loader2 className="h-4 w-4 animate-spin" />
               ) : user ? (
-                "Confirm booking"
+                t("booking.sendRequest")
               ) : (
                 <span className="flex items-center gap-1.5">
                   <Lock className="h-3.5 w-3.5" />
-                  Continue to book
+                  {t("booking.continueToBook")}
                 </span>
               )}
             </Button>

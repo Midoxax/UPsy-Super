@@ -40,6 +40,21 @@ interface Session {
   client_profile: { full_name: string | null } | null;
 }
 
+// The call can be joined from shortly before the start until a grace period
+// after the scheduled end — a session doesn't stop being joinable (or drop out
+// of "Upcoming") the minute it starts.
+const JOIN_OPENS_BEFORE_MS = 10 * 60 * 1000;
+const JOIN_GRACE_AFTER_END_MS = 15 * 60 * 1000;
+
+const sessionWindow = (s: Pick<Session, "date_time" | "duration_minutes">) => {
+  const start = new Date(s.date_time).getTime();
+  const end = start + (s.duration_minutes || 50) * 60 * 1000;
+  return {
+    opensAt: start - JOIN_OPENS_BEFORE_MS,
+    closesAt: end + JOIN_GRACE_AFTER_END_MS,
+  };
+};
+
 /** The specialist's bookings: requests to answer, upcoming, past. Each
  *  confirmed booking is also a session (same id) for notes and plans. */
 export const SessionsTab = () => {
@@ -53,6 +68,13 @@ export const SessionsTab = () => {
   } | null>(null);
   const [proposeOpen, setProposeOpen] = useState(false);
   const [linkOpen, setLinkOpen] = useState(false);
+  // Re-render periodically so Join appears/disappears and sessions move from
+  // Upcoming to Past without a page reload.
+  const [now, setNow] = useState(() => Date.now());
+  useEffect(() => {
+    const id = window.setInterval(() => setNow(Date.now()), 30_000);
+    return () => window.clearInterval(id);
+  }, []);
 
   useEffect(() => {
     if (!user) return;
@@ -123,12 +145,15 @@ export const SessionsTab = () => {
   const requests = sessions.filter(
     (s) => s.status === "pending" && !isPast(new Date(s.date_time)),
   );
+  const isOver = (s: Session) => now >= sessionWindow(s).closesAt;
   const upcoming = sessions
-    .filter((s) => !isPast(new Date(s.date_time)) && s.status === "confirmed")
+    .filter((s) => !isOver(s) && s.status === "confirmed")
     .reverse();
   const past = sessions.filter(
     (s) =>
-      (isPast(new Date(s.date_time)) && s.status !== "cancelled") ||
+      (isPast(new Date(s.date_time)) &&
+        s.status !== "cancelled" &&
+        (s.status !== "confirmed" || isOver(s))) ||
       s.status === "completed",
   );
   const cancelled = sessions.filter((s) => s.status === "cancelled");
@@ -136,7 +161,9 @@ export const SessionsTab = () => {
   const renderSession = (s: Session, showActions = false) => {
     const dt = new Date(s.date_time);
     const isOnline = s.session_type !== "in_person";
-    const isUpcoming = !isPast(dt) && s.status === "confirmed";
+    const { opensAt, closesAt } = sessionWindow(s);
+    const isUpcoming = now < closesAt && s.status === "confirmed";
+    const canJoin = isUpcoming && now >= opensAt;
 
     return (
       <div
@@ -206,13 +233,25 @@ export const SessionsTab = () => {
               }}
             />
           )}
-          {isUpcoming && isOnline && s.video_room_id && (
-            <Button variant="primary" size="sm" asChild>
-              <Link to={`/session/${s.id}`}>
+          {isUpcoming &&
+            isOnline &&
+            s.video_room_id &&
+            (canJoin ? (
+              <Button variant="primary" size="sm" asChild>
+                <Link to={`/session/${s.id}`}>
+                  <Video className="h-4 w-4 mr-1" /> Join Call
+                </Link>
+              </Button>
+            ) : (
+              <Button
+                variant="primary"
+                size="sm"
+                disabled
+                title="Available 10 minutes before the start"
+              >
                 <Video className="h-4 w-4 mr-1" /> Join Call
-              </Link>
-            </Button>
-          )}
+              </Button>
+            ))}
           <Button
             variant="outline"
             size="sm"

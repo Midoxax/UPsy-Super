@@ -215,6 +215,7 @@ const PsychologistProfile = () => {
           hourlyRate={psychologist.hourly_rate_mad ?? undefined}
           offersOnline={psychologist.offers_online ?? true}
           offersInPerson={psychologist.offers_in_person ?? false}
+          availableWeekdays={availabilitySlots.map((s) => s.day_of_week)}
         />
       </div>
 
@@ -509,7 +510,7 @@ const PsychologistProfile = () => {
                   <div className="flex items-center justify-between mb-5">
                     <h2 className="text-xl font-bold text-foreground flex items-center gap-2">
                       <Clock className="w-5 h-5 text-primary" />
-                      Weekly Availability
+                      {t("profile.weeklyAvailability")}
                     </h2>
                     <Button
                       variant="primary"
@@ -517,7 +518,7 @@ const PsychologistProfile = () => {
                       onClick={scrollToBooking}
                     >
                       <Calendar className="mr-2 h-3.5 w-3.5" />
-                      Book a Slot
+                      {t("profile.bookSlot")}
                     </Button>
                   </div>
                   <div className="grid grid-cols-7 gap-2">
@@ -553,7 +554,7 @@ const PsychologistProfile = () => {
                     })}
                   </div>
                   <p className="text-xs text-muted-foreground text-center mt-3">
-                    Times shown in your local timezone
+                    {t("profile.timesLocal")}
                   </p>
                 </div>
               </ScrollReveal>
