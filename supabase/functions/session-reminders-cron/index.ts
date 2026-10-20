@@ -205,7 +205,9 @@ Deno.serve(async (req) => {
     )
     .gte("scheduled_at", new Date(now.getTime() - 5 * 60 * 1000).toISOString())
     .lte("scheduled_at", horizon.toISOString())
-    .in("status", ["confirmed", "pending", "proposed"]);
+    // Only confirmed sessions: a pending request or an unanswered proposal
+    // is not on anyone's calendar yet.
+    .eq("status", "confirmed");
 
   if (error) {
     console.error("[reminder] bookings query failed", error);
