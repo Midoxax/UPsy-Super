@@ -4,6 +4,7 @@ import { createClient } from "npm:@supabase/supabase-js@2";
 import { corsHeaders } from "npm:@supabase/supabase-js@2/cors";
 import { TEMPLATES } from "../_shared/transactional-email-templates/registry.ts";
 import { sender } from "../_shared/sender.ts";
+import { SITE_URL } from "../_shared/site.ts";
 
 // Configuration baked in at scaffold time — do NOT change these manually.
 // To update, re-run the email domain setup flow.
@@ -119,6 +120,13 @@ Deno.serve(async (req) => {
   // Create Supabase client with service role (bypasses RLS)
   const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
+  // Never trust caller-supplied links (bookingUrl, matchUrl, resultsUrl, …):
+  // drop them for every template; the ones a template needs are rebuilt
+  // server-side from SITE_URL below.
+  for (const key of Object.keys(templateData)) {
+    if (/url$/i.test(key)) delete templateData[key];
+  }
+
   // Per-template proof-of-completion / anti-abuse checks.
   // Public callers (anon JWT) can invoke this function; without these checks
   // an attacker could use the trusted sender domain to spam or phish.
@@ -160,7 +168,7 @@ Deno.serve(async (req) => {
     // Ignore caller-supplied URLs. Rebuild link targets server-side, restricted
     // to the app's own domain, so this endpoint cannot be used to inject
     // arbitrary phishing links into a branded email.
-    const APP_ORIGIN = `https://${FROM_DOMAIN}`;
+    const APP_ORIGIN = SITE_URL;
     const allowedLangs = ["en", "fr", "ar"];
     const lang = allowedLangs.includes(templateData?.lang)
       ? templateData.lang

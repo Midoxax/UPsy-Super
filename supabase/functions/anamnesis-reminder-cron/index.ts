@@ -2,6 +2,7 @@ import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 import { Resend } from "npm:resend@2.0.0";
 import { sender } from "../_shared/sender.ts";
+import { SITE_URL } from "../_shared/site.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -13,21 +14,28 @@ serve(async (req) => {
   if (req.method === "OPTIONS")
     return new Response(null, { headers: corsHeaders });
 
-  const cronSecret = Deno.env.get("CRON_SECRET");
-  if (cronSecret) {
-    const provided = req.headers.get("Authorization") ?? "";
-    if (provided !== `Bearer ${cronSecret}`) {
-      return new Response(JSON.stringify({ error: "Unauthorized" }), {
-        status: 401,
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
-      });
-    }
-  }
-
   const supabase = createClient(
     Deno.env.get("SUPABASE_URL") ?? "",
     Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? "",
   );
+
+  // Only a scheduled job may run this: it must send the anamnesis_cron_secret
+  // kept in Vault, or the CRON_SECRET env var. With neither, nobody can.
+  const provided = (req.headers.get("Authorization") ?? "").replace(
+    /^Bearer\s+/i,
+    "",
+  );
+  const envSecret = Deno.env.get("CRON_SECRET");
+  const { data: vaultOk } = await supabase.rpc("cron_secret_ok", {
+    p_name: "anamnesis_cron_secret",
+    p_token: provided,
+  });
+  if (!vaultOk && !(envSecret && provided === envSecret)) {
+    return new Response(JSON.stringify({ error: "Unauthorized" }), {
+      status: 401,
+      headers: { ...corsHeaders, "Content-Type": "application/json" },
+    });
+  }
   const resend = new Resend(Deno.env.get("RESEND_API_KEY"));
 
   const now = new Date();
@@ -108,7 +116,7 @@ serve(async (req) => {
         from: sender(),
         to: [email],
         subject: "Complétez votre intake avant votre séance",
-        html: `<p>Bonjour,</p><p>Votre prochaine séance approche. Merci de compléter votre formulaire d'intake (anamnèse) avant le rendez-vous.</p><p><a href="https://upsy.ma/dashboard">Reprendre mon intake</a></p>`,
+        html: `<p>Bonjour,</p><p>Votre prochaine séance approche. Merci de compléter votre formulaire d'intake (anamnèse) avant le rendez-vous.</p><p><a href="${SITE_URL}/dashboard">Reprendre mon intake</a></p>`,
       });
       if (rem?.id) {
         await supabase

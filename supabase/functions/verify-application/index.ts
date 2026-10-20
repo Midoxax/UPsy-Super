@@ -1,6 +1,10 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 import { z } from "https://deno.land/x/zod@v3.22.4/mod.ts";
+import { sender } from "../_shared/sender.ts";
+import { SITE_URL } from "../_shared/site.ts";
+import { escapeHtml } from "../_shared/html.ts";
+import { adminRecipients } from "../_shared/admin-recipients.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -232,6 +236,19 @@ serve(async (req) => {
       })
       .eq("id", app.id);
 
+    // Email the applicant and the admins once: on the applicant's first
+    // submission that passes the auto-check (re-checks do not re-notify).
+    let firstSubmission = false;
+    if (autoStatus !== "failed" && app.user_id === userData.user.id) {
+      const { count } = await adminClient
+        .from("accreditation_decisions")
+        .select("id", { count: "exact", head: true })
+        .eq("application_id", app.id)
+        .eq("decision", "auto_check")
+        .neq("reason", "Auto-check: failed");
+      firstSubmission = (count ?? 0) === 0;
+    }
+
     await adminClient.from("accreditation_decisions").insert({
       application_id: app.id,
       decided_by: userData.user.id,
@@ -240,6 +257,15 @@ serve(async (req) => {
       reason: `Auto-check: ${autoStatus}`,
       metadata: { flags, blockCount, warnCount },
     });
+
+    if (firstSubmission) {
+      // Best-effort: a mail failure must not fail the submission.
+      try {
+        await notifySubmission(app, suggestedLevel);
+      } catch (e) {
+        console.warn("[verify-application] notification failed", e);
+      }
+    }
 
     return new Response(
       JSON.stringify({
@@ -260,3 +286,83 @@ serve(async (req) => {
     });
   }
 });
+
+async function sendMail(
+  key: string,
+  to: string[],
+  subject: string,
+  html: string,
+): Promise<boolean> {
+  const resp = await fetch("https://api.resend.com/emails", {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${key}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ from: sender(), to, subject, html }),
+  });
+  if (!resp.ok)
+    console.warn("[verify-application] send failed", await resp.text());
+  return resp.ok;
+}
+
+function shell(body: string): string {
+  return `<!doctype html>
+<html><body style="margin:0;padding:32px;background:#F7F3F0;font-family:Inter,Arial,sans-serif;color:#2a1a1d">
+  <div style="max-width:560px;margin:0 auto;background:#fff;border-radius:20px;padding:32px;border:1px solid #e9dfd8;font-size:15px;line-height:1.6">
+    <div style="color:#6B1F2A;font-weight:700;font-size:14px;letter-spacing:2px;margin-bottom:8px">U.Psy</div>
+    ${body}
+  </div>
+</body></html>`;
+}
+
+async function notifySubmission(
+  app: {
+    id: string;
+    full_name: string | null;
+    email: string | null;
+    city: string | null;
+  },
+  suggestedLevel: string,
+) {
+  const key = Deno.env.get("RESEND_API_KEY");
+  if (!key) {
+    console.warn("[verify-application] RESEND_API_KEY not set; no email");
+    return;
+  }
+  const name = escapeHtml(app.full_name ?? "");
+
+  if (app.email) {
+    await sendMail(
+      key,
+      [app.email],
+      "U.Psy — Dossier reçu / Application received",
+      shell(`
+    <h1 style="font-size:20px;margin:0 0 12px">Bonjour ${name},</h1>
+    <p>Nous avons bien reçu votre dossier de candidature. Notre équipe va l'examiner et vous recevrez un email dès qu'une décision sera prise.</p>
+    <hr style="border:none;border-top:1px solid #f0e6df;margin:24px 0" />
+    <h1 style="font-size:20px;margin:0 0 12px">Hello ${name},</h1>
+    <p>We have received your application. Our team will review it and email you as soon as a decision is made.</p>
+    <p style="margin-top:24px;color:#a09590;font-size:13px">L'équipe U.Psy / The U.Psy team</p>`),
+    );
+  }
+
+  const admins = await adminRecipients();
+  if (admins.length > 0) {
+    const reviewUrl = `${SITE_URL}/admin/applications`;
+    await sendMail(
+      key,
+      admins,
+      `New psychologist application: ${(app.full_name ?? "").slice(0, 80)}`,
+      shell(`
+    <h1 style="font-size:20px;margin:0 0 12px">New application submitted</h1>
+    <p><strong>Name:</strong> ${name}<br/>
+    <strong>Email:</strong> ${escapeHtml(app.email ?? "")}<br/>
+    <strong>City:</strong> ${escapeHtml(app.city ?? "")}<br/>
+    <strong>Suggested level:</strong> ${escapeHtml(suggestedLevel)}</p>
+    <a href="${escapeHtml(reviewUrl)}" style="display:inline-block;margin-top:12px;padding:12px 24px;background:#6B1F2A;color:#fff;text-decoration:none;border-radius:12px;font-weight:600">Review applications</a>`),
+    );
+  } else {
+    console.warn("[verify-application] no admin recipient for the alert");
+  }
+}

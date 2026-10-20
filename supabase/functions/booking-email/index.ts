@@ -8,6 +8,7 @@
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.45.0";
 import { sender } from "../_shared/sender.ts";
 import { icsCalendar } from "../_shared/ics.ts";
+import { SITE_URL } from "../_shared/site.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -15,7 +16,7 @@ const corsHeaders = {
     "authorization, x-client-info, apikey, content-type",
 };
 
-const ORIGIN = Deno.env.get("PUBLIC_SITE_URL") ?? "https://www.upsy.ma";
+const ORIGIN = SITE_URL;
 
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS")
@@ -55,11 +56,15 @@ Deno.serve(async (req) => {
     if (!["pending", "confirmed", "cancelled"].includes(b.status))
       return json({ ok: true, sent: 0 });
 
-    // Once per booking and status.
-    const { error: dupErr } = await sb
+    // Once per booking and status. The row is written only after a send
+    // succeeds, so a failed send can be retried by calling again.
+    const { data: already } = await sb
       .from("booking_emails")
-      .insert({ booking_id: b.id, status: b.status });
-    if (dupErr) return json({ ok: true, sent: 0, duplicate: true });
+      .select("booking_id")
+      .eq("booking_id", b.id)
+      .eq("status", b.status)
+      .maybeSingle();
+    if (already) return json({ ok: true, sent: 0, duplicate: true });
 
     const [{ data: psy }, { data: client }, psyAuth, clientAuth] =
       await Promise.all([
@@ -130,14 +135,14 @@ Deno.serve(async (req) => {
           subject: `Session confirmed with ${psyName}`,
           body: `Your session with ${psyName} on ${when} (Morocco time) is confirmed.\n\n${where}\n\nYou pay your specialist at the session. The calendar invite is attached.`,
           cta: online ? joinUrl : `${ORIGIN}/dashboard/client`,
-          ics: invite(`Session with ${psyName} — UPSY`),
+          ics: invite(`Session with ${psyName} — U.Psy`),
         },
         {
           to: psyEmail,
           subject: "Session confirmed",
           body: `Your session with ${clientName} on ${when} (Morocco time) is confirmed. The calendar invite is attached.`,
           cta: `${ORIGIN}/dashboard/specialist`,
-          ics: invite("UPSY session"),
+          ics: invite("U.Psy session"),
         },
       );
     } else {
@@ -182,6 +187,13 @@ Deno.serve(async (req) => {
       if (resp.ok) sent++;
       else console.warn("[booking-email] send failed", await resp.text());
     }
+    if (sent > 0) {
+      // A concurrent call may have recorded it first; that conflict is fine.
+      const { error: logErr } = await sb
+        .from("booking_emails")
+        .insert({ booking_id: b.id, status: b.status });
+      if (logErr) console.warn("[booking-email] dedupe row", logErr.message);
+    }
     return json({ ok: true, sent });
   } catch (e) {
     console.error("booking-email", e);
@@ -200,12 +212,12 @@ function html(title: string, body: string, cta: string) {
   return `<!doctype html>
 <html><body style="margin:0;padding:32px;background:#F7F3F0;font-family:Inter,Arial,sans-serif;color:#2a1a1d">
   <div style="max-width:560px;margin:0 auto;background:#fff;border-radius:20px;padding:32px;border:1px solid #e9dfd8">
-    <div style="color:#6B1F2A;font-weight:700;font-size:14px;letter-spacing:2px;margin-bottom:8px">UPSY</div>
+    <div style="color:#6B1F2A;font-weight:700;font-size:14px;letter-spacing:2px;margin-bottom:8px">U.Psy</div>
     <h1 style="font-size:22px;margin:0 0 12px">${esc(title)}</h1>
     <p style="font-size:15px;line-height:1.6;color:#5a4a4d;white-space:pre-wrap">${esc(body)}</p>
-    <a href="${esc(cta)}" style="display:inline-block;margin-top:20px;padding:12px 24px;background:#6B1F2A;color:#fff;text-decoration:none;border-radius:12px;font-weight:600">Open UPSY</a>
+    <a href="${esc(cta)}" style="display:inline-block;margin-top:20px;padding:12px 24px;background:#6B1F2A;color:#fff;text-decoration:none;border-radius:12px;font-weight:600">Open U.Psy</a>
     <hr style="border:none;border-top:1px solid #f0e6df;margin:32px 0 16px" />
-    <p style="font-size:12px;color:#a09590;margin:0">UPSY · +212 668-594699 · upsy.ma</p>
+    <p style="font-size:12px;color:#a09590;margin:0">U.Psy · +212 668-594699 · upsy.ma</p>
   </div>
 </body></html>`;
 }

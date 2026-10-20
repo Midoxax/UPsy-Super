@@ -4,6 +4,7 @@ import { Resend } from "npm:resend@2.0.0";
 import { z } from "https://deno.land/x/zod@v3.22.4/mod.ts";
 import { buildApprovalEmail } from "../_shared/email-templates/accreditation/approval.ts";
 import { sender } from "../_shared/sender.ts";
+import { SITE_URL } from "../_shared/site.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -242,21 +243,29 @@ serve(async (req) => {
             msg.includes("already") || (error as any)?.code === "email_exists";
           if (!exists) throw new Error(error?.message || "auth create failed");
 
-          // Self-approval fallback: admin email == applicant email
-          const { data: adminUserData } = await supabase.auth.admin.getUserById(
-            adminUserId!,
-          );
-          if (
-            adminUserData.user?.email?.toLowerCase() ===
-            application.email.toLowerCase()
-          ) {
-            userId = adminUserId;
-            isNewUser = false;
-            return;
+          // The applicant already has an account (e.g. signed up as a client,
+          // or the approving admin is the applicant): link it.
+          const pattern = String(application.email).replace(/[\\%_]/g, "\\$&");
+          const { data: existing, error: lookupErr } = await supabase
+            .schema("auth")
+            .from("users")
+            .select("id")
+            .ilike("email", pattern)
+            .limit(1);
+          if (lookupErr) throw lookupErr;
+          const existingId = existing?.[0]?.id as string | undefined;
+          if (!existingId) {
+            throw new Error(
+              "Email already exists but the account could not be found",
+            );
           }
-          throw new Error(
-            "Email already exists but no linked user_id; cannot resolve safely",
-          );
+          userId = existingId;
+          isNewUser = false;
+          const { error: linkErr } = await supabase
+            .from("psychologist_applications")
+            .update({ user_id: existingId })
+            .eq("id", applicationId);
+          if (linkErr) throw linkErr;
         },
         steps,
       );
@@ -420,19 +429,35 @@ serve(async (req) => {
         "email_send",
         async () => {
           const resend = new Resend(Deno.env.get("RESEND_API_KEY"));
-          const supaUrl = Deno.env.get("SUPABASE_URL") || "";
-          const loginUrl =
-            supaUrl.replace(
-              /^https:\/\/([^.]+)\.supabase\.co.*/i,
-              "https://$1.lovable.app/auth",
-            ) || "https://upsy.ma/auth";
+          const loginUrl = `${SITE_URL}/auth`;
+          // New accounts get a one-time link to choose a password rather than
+          // a plaintext password in email. If the link cannot be generated,
+          // fall back to the temporary password (the email says to change it).
+          let setupUrl: string | undefined;
+          if (isNewUser) {
+            const { data: link, error: linkErr } =
+              await supabase.auth.admin.generateLink({
+                type: "recovery",
+                email: application.email,
+                options: { redirectTo: `${SITE_URL}/reset-password` },
+              });
+            setupUrl = link?.properties?.action_link || undefined;
+            if (linkErr || !setupUrl) {
+              logEvent({
+                phase: "setup_link_failed",
+                applicationId,
+                error: linkErr?.message,
+              });
+            }
+          }
           const { subject, html } = buildApprovalEmail({
             locale: application.preferred_locale,
             fullName: application.full_name,
             email: application.email,
             loginUrl,
             isNewUser,
-            tempPassword: isNewUser ? tempPassword : undefined,
+            setupUrl,
+            tempPassword: isNewUser && !setupUrl ? tempPassword : undefined,
           });
           const { error } = await resend.emails.send({
             from: sender(),

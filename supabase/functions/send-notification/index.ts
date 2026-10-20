@@ -1,5 +1,7 @@
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.45.0";
 import { sender } from "../_shared/sender.ts";
+import { escapeHtml } from "../_shared/html.ts";
+import { SITE_URL } from "../_shared/site.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -10,7 +12,6 @@ const corsHeaders = {
 const SUPABASE_URL = Deno.env.get("SUPABASE_URL")!;
 const SERVICE_ROLE = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
 const RESEND_API_KEY = Deno.env.get("RESEND_API_KEY");
-const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
 
 const TYPE_TO_PREF: Record<string, keyof Prefs> = {
   payment_succeeded: "email_payments",
@@ -39,16 +40,24 @@ const DEFAULT_PREFS: Prefs = {
   inapp_all: true,
 };
 
+/** Absolute link for the CTA: relative paths resolve against SITE_URL. */
+function absoluteUrl(actionUrl?: string): string | undefined {
+  if (!actionUrl || typeof actionUrl !== "string") return undefined;
+  if (actionUrl.startsWith("/")) return `${SITE_URL}${actionUrl}`;
+  return /^https?:\/\//i.test(actionUrl) ? actionUrl : undefined;
+}
+
 function brandedEmail(title: string, body: string, actionUrl?: string) {
-  const cta = actionUrl
-    ? `<a href="${actionUrl}" style="display:inline-block;margin-top:20px;padding:12px 24px;background:#6B1F2A;color:#fff;text-decoration:none;border-radius:12px;font-family:Inter,sans-serif;font-weight:600">Open in U.Psy</a>`
+  const href = absoluteUrl(actionUrl);
+  const cta = href
+    ? `<a href="${escapeHtml(href)}" style="display:inline-block;margin-top:20px;padding:12px 24px;background:#6B1F2A;color:#fff;text-decoration:none;border-radius:12px;font-family:Inter,sans-serif;font-weight:600">Open in U.Psy</a>`
     : "";
   return `<!doctype html>
 <html><body style="margin:0;padding:32px;background:#F7F3F0;font-family:Inter,Arial,sans-serif;color:#2a1a1d">
   <div style="max-width:560px;margin:0 auto;background:#fff;border-radius:20px;padding:32px;border:1px solid #e9dfd8">
     <div style="font-family:'Outfit',sans-serif;color:#6B1F2A;font-weight:700;font-size:14px;letter-spacing:2px;margin-bottom:8px">U.PSY</div>
-    <h1 style="font-family:'Outfit',sans-serif;font-size:22px;margin:0 0 12px;color:#2a1a1d">${title}</h1>
-    <p style="font-size:15px;line-height:1.6;color:#5a4a4d;white-space:pre-wrap">${body}</p>
+    <h1 style="font-family:'Outfit',sans-serif;font-size:22px;margin:0 0 12px;color:#2a1a1d">${escapeHtml(title)}</h1>
+    <p style="font-size:15px;line-height:1.6;color:#5a4a4d;white-space:pre-wrap">${escapeHtml(body)}</p>
     ${cta}
     <hr style="border:none;border-top:1px solid #f0e6df;margin:32px 0 16px" />
     <p style="font-size:12px;color:#a09590;margin:0">U.Psy — Performance Psychology System</p>
@@ -57,24 +66,20 @@ function brandedEmail(title: string, body: string, actionUrl?: string) {
 }
 
 async function sendEmail(to: string, subject: string, html: string) {
-  if (!RESEND_API_KEY || !LOVABLE_API_KEY) return { skipped: true };
-  const res = await fetch(
-    "https://connector-gateway.lovable.dev/resend/emails",
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${LOVABLE_API_KEY}`,
-        "X-Connection-Api-Key": RESEND_API_KEY,
-      },
-      body: JSON.stringify({
-        from: sender(),
-        to: [to],
-        subject,
-        html,
-      }),
+  if (!RESEND_API_KEY) return { skipped: true };
+  const res = await fetch("https://api.resend.com/emails", {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${RESEND_API_KEY}`,
+      "Content-Type": "application/json",
     },
-  );
+    body: JSON.stringify({
+      from: sender(),
+      to: [to],
+      subject,
+      html,
+    }),
+  });
   if (!res.ok) {
     const text = await res.text();
     return { error: text };

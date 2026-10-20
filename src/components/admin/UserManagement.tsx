@@ -334,18 +334,11 @@ const InviteAdminModal = ({
     if (!email) return;
     setSending(true);
     try {
-      // Use edge function to send invite
-      const { error } = await supabase.functions.invoke(
-        "send-proposal-notification",
-        {
-          body: {
-            type: "admin-invite",
-            email,
-            subject: "You're invited to become a U.Psy Admin",
-            message: `You've been invited to join U.Psy as an administrator. Please sign up at ${window.location.origin}/auth and an admin will assign your role.`,
-          },
-        },
-      );
+      // Supabase invite email; the role is assigned from this panel after
+      // they sign up.
+      const { error } = await supabase.functions.invoke("admin-invite-user", {
+        body: { email },
+      });
       if (error) throw error;
       toast({
         title: "Invitation sent",

@@ -6,6 +6,7 @@
 
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.45.0";
 import { sender } from "../_shared/sender.ts";
+import { SITE_URL } from "../_shared/site.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -227,7 +228,7 @@ Deno.serve(async (req) => {
   let scanned = 0,
     dispatched = 0,
     skipped = 0;
-  const origin = "https://upsy.ma";
+  const origin = SITE_URL;
 
   for (const b of (bookings ?? []) as BookingRow[]) {
     scanned++;

@@ -9,6 +9,7 @@ import { RecoveryEmail } from "../_shared/email-templates/recovery.tsx";
 import { EmailChangeEmail } from "../_shared/email-templates/email-change.tsx";
 import { ReauthenticationEmail } from "../_shared/email-templates/reauthentication.tsx";
 import { sender } from "../_shared/sender.ts";
+import { SITE_URL } from "../_shared/site.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -161,14 +162,6 @@ async function handleWebhook(req: Request): Promise<Response> {
   // the Webhook constructor expects only the raw base64 secret.
   const rawSecret = Deno.env.get("SEND_EMAIL_HOOK_SECRET");
   const hookSecret = rawSecret?.replace("v1,whsec_", "");
-  console.log("DEBUG hook secret diagnostics", {
-    rawLength: rawSecret?.length,
-    rawPrefix: rawSecret?.slice(0, 12),
-    rawSuffix: rawSecret?.slice(-6),
-    strippedLength: hookSecret?.length,
-    strippedPrefix: hookSecret?.slice(0, 6),
-  });
-
   if (!hookSecret) {
     console.error("SEND_EMAIL_HOOK_SECRET not configured");
     return new Response(
@@ -214,12 +207,13 @@ async function handleWebhook(req: Request): Promise<Response> {
 
   const confirmationUrl =
     `${email_data.site_url}/auth/v1/verify?token=${email_data.token_hash}` +
-    `&type=${email_data.email_action_type}&redirect_to=${email_data.redirect_to}`;
+    `&type=${encodeURIComponent(email_data.email_action_type)}` +
+    `&redirect_to=${encodeURIComponent(email_data.redirect_to ?? "")}`;
 
   // Build template props from the hook payload
   const templateProps = {
     siteName: SITE_NAME,
-    siteUrl: `https://${ROOT_DOMAIN}`,
+    siteUrl: SITE_URL,
     recipient: user.email,
     confirmationUrl,
     token: email_data.token,

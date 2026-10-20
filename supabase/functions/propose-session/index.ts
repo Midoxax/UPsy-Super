@@ -5,6 +5,7 @@
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.45.0";
 import { createLogger } from "../_shared/logger.ts";
 import { sender } from "../_shared/sender.ts";
+import { SITE_URL } from "../_shared/site.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -234,11 +235,12 @@ Deno.serve(async (req) => {
         .replace(/'/g, "&#39;");
 
     // Build response URLs from a server-side trusted origin (never trust client headers in emails)
-    const origin = Deno.env.get("SITE_URL") ?? "https://upsy.ma";
+    const origin = SITE_URL;
     const acceptUrl = `${origin}/booking/respond/${proposalToken}?action=accept`;
     const declineUrl = `${origin}/booking/respond/${proposalToken}?action=decline`;
 
     const dateStr = new Date(body.scheduled_at).toLocaleString("fr-FR", {
+      timeZone: "Africa/Casablanca",
       weekday: "long",
       day: "numeric",
       month: "long",

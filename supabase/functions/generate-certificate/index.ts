@@ -90,6 +90,7 @@ function generateCertificateHTML(
 ): string {
   const typeLabel = TYPE_LABELS[certificateType] || escapeHtml(certificateType);
   const formattedDate = new Date(issuedAt).toLocaleDateString("en-US", {
+    timeZone: "Africa/Casablanca",
     year: "numeric",
     month: "long",
     day: "numeric",

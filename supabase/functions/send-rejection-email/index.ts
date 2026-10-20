@@ -42,14 +42,9 @@ function validateRequest(body: unknown): RejectionRequest {
     if (typeof reason !== "string") {
       throw new Error("Reason must be a string");
     }
-    // Trim and limit length
-    sanitizedReason = reason.trim().slice(0, 500);
-    // Remove potentially dangerous characters for HTML context
-    sanitizedReason = sanitizedReason
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;")
-      .replace(/"/g, "&quot;")
-      .replace(/'/g, "&#39;");
+    // Trim and limit length. Kept raw: stored as-is in notes and escaped
+    // only when rendered into the email HTML.
+    sanitizedReason = reason.trim().slice(0, 500) || undefined;
   }
 
   return {
@@ -174,7 +169,7 @@ serve(async (req) => {
       throw new Error("Failed to update application");
     }
 
-    // 4. Send rejection email (reason is already HTML-escaped)
+    // 4. Send rejection email (the template escapes name and reason)
     const { subject, html } = buildRejectionEmail({
       locale: (application as any).preferred_locale,
       fullName: application.full_name,

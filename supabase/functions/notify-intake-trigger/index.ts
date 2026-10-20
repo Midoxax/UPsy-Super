@@ -2,6 +2,8 @@ import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 import { Resend } from "npm:resend@2.0.0";
 import { sender } from "../_shared/sender.ts";
+import { SITE_URL } from "../_shared/site.ts";
+import { escapeHtml } from "../_shared/html.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -91,6 +93,7 @@ serve(async (req) => {
         sessionDate = new Date(booking.scheduled_at).toLocaleDateString(
           "fr-FR",
           {
+            timeZone: "Africa/Casablanca",
             weekday: "long",
             day: "numeric",
             month: "long",
@@ -111,11 +114,11 @@ serve(async (req) => {
           <div style="font-family:sans-serif;max-width:600px;margin:0 auto;padding:20px;">
             <div style="background:#6B1F2A;height:4px;border-radius:2px;margin-bottom:24px;"></div>
             <h2 style="color:#6B1F2A;">Prépare ta séance</h2>
-            <p>Bonjour ${firstName},</p>
-            <p>Ta séance${sessionDate ? ` du <strong>${sessionDate}</strong>` : ""} est confirmée. Pour aider ${psyName} à bien te recevoir, nous t'invitons à remplir une courte anamnèse — environ 12 minutes.</p>
+            <p>Bonjour ${escapeHtml(firstName)},</p>
+            <p>Ta séance${sessionDate ? ` du <strong>${sessionDate}</strong>` : ""} est confirmée. Pour aider ${escapeHtml(psyName)} à bien te recevoir, nous t'invitons à remplir une courte anamnèse — environ 12 minutes.</p>
             <p>Tu peux la faire en plusieurs fois et passer ce qui te met mal à l'aise.</p>
             <div style="text-align:center;margin:24px 0;">
-              <a href="https://upsy.ma/intake${booking_id ? `/${booking_id}` : ""}" style="background:#6B1F2A;color:white;padding:12px 24px;border-radius:8px;text-decoration:none;font-weight:bold;">Commencer mon anamnèse</a>
+              <a href="${SITE_URL}/intake${booking_id ? `/${encodeURIComponent(String(booking_id))}` : ""}" style="background:#6B1F2A;color:white;padding:12px 24px;border-radius:8px;text-decoration:none;font-weight:bold;">Commencer mon anamnèse</a>
             </div>
             <p style="font-size:12px;color:#888;">Ce formulaire est strictement confidentiel et chiffré.</p>
           </div>
