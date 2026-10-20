@@ -11,6 +11,8 @@ CREATE TABLE IF NOT EXISTS public.calendar_feeds (
   created_at timestamptz NOT NULL DEFAULT now()
 );
 ALTER TABLE public.calendar_feeds ENABLE ROW LEVEL SECURITY;
+GRANT SELECT, INSERT, DELETE ON public.calendar_feeds TO authenticated;
+GRANT ALL ON public.calendar_feeds TO service_role;
 CREATE POLICY "calendar_feeds own select" ON public.calendar_feeds
   FOR SELECT TO authenticated USING (user_id = auth.uid());
 CREATE POLICY "calendar_feeds own insert" ON public.calendar_feeds
@@ -28,3 +30,4 @@ CREATE TABLE IF NOT EXISTS public.booking_emails (
   PRIMARY KEY (booking_id, status)
 );
 ALTER TABLE public.booking_emails ENABLE ROW LEVEL SECURITY;
+GRANT ALL ON public.booking_emails TO service_role;

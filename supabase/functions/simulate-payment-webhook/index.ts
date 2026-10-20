@@ -102,7 +102,9 @@ serve(async (req) => {
     // --- HARD BLOCK unless explicitly in sandbox: this is a dev-only
     // simulator. It used to default to sandbox, so with PAYMENT_ENV unset in
     // production any client could mark their own booking as paid. ---
-    const paymentEnv = (Deno.env.get("PAYMENT_ENV") ?? "production").toLowerCase();
+    const paymentEnv = (
+      Deno.env.get("PAYMENT_ENV") ?? "production"
+    ).toLowerCase();
     if (paymentEnv !== "sandbox") {
       return new Response(
         JSON.stringify({ error: "Simulator disabled in production" }),

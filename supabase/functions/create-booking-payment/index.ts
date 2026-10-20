@@ -28,8 +28,13 @@ serve(async (req) => {
   // bookings_slot_guard). Re-enable when a real payment provider is wired in.
   if (Deno.env.get("ONLINE_PAYMENTS_ENABLED") !== "true") {
     return new Response(
-      JSON.stringify({ error: "Online payment is not available. Pay at the session." }),
-      { status: 410, headers: { ...corsHeaders, "Content-Type": "application/json" } },
+      JSON.stringify({
+        error: "Online payment is not available. Pay at the session.",
+      }),
+      {
+        status: 410,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      },
     );
   }
 
