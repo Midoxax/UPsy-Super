@@ -56,6 +56,8 @@ END $$;
 
 -- 3. Hand the orphaned published profile to the founder's account
 -- (midoxax@gmail.com). No-op anywhere those rows do not exist.
+-- The booking guards key off auth.uid(); acting as that (admin) account for
+-- this transaction only lets the cascade through without loosening them.
 DO $$
 DECLARE
   _old uuid := '6b5abd90-ec31-4013-b6d2-f28848b1e7fe';
@@ -65,7 +67,10 @@ BEGIN
      AND NOT EXISTS (SELECT 1 FROM auth.users WHERE id = _old)
      AND EXISTS (SELECT 1 FROM auth.users WHERE id = _new)
      AND NOT EXISTS (SELECT 1 FROM public.psychologist_profiles WHERE id = _new)
+     AND public.has_role(_new, 'admin'::app_role)
   THEN
+    PERFORM set_config('request.jwt.claim.sub', _new::text, true);
+    PERFORM set_config('request.jwt.claims', json_build_object('sub', _new)::text, true);
     UPDATE public.psychologist_profiles SET id = _new WHERE id = _old;
     UPDATE public.notifications SET user_id = _new WHERE user_id = _old;
     INSERT INTO public.user_roles (user_id, role) VALUES (_new, 'psychologist')
