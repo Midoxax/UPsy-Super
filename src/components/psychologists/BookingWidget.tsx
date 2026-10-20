@@ -45,6 +45,7 @@ type PendingBooking = {
   psychologistId: string;
   scheduled_at: string;
   session_type: SessionType;
+  duration_minutes?: number;
   notes: string;
   amount_mad?: number;
   return_path: string;
@@ -107,14 +108,14 @@ export const BookingWidget = ({
             psychologist_id: psychologistId,
             scheduled_at: pending.scheduled_at,
             session_type: pending.session_type,
-            duration_minutes: 50,
+            duration_minutes: pending.duration_minutes ?? 50,
             patient_notes: pending.notes || undefined,
             amount_mad: pending.amount_mad,
           });
           setStep("success");
           toast({
-            title: "Slot reserved",
-            description: "We saved the time you picked before you signed in.",
+            title: "Request sent",
+            description: "We sent the time you picked before you signed in.",
           });
         } catch (err) {
           toast({
@@ -146,6 +147,8 @@ export const BookingWidget = ({
 
   const handleConfirm = async () => {
     if (!selectedSlot) return;
+    const duration =
+      slots.find((s) => s.slot_start === selectedSlot)?.duration_minutes ?? 50;
 
     // Slot-before-signup: stash intent, send to auth, resume on return.
     if (!user) {
@@ -153,6 +156,7 @@ export const BookingWidget = ({
         psychologistId,
         scheduled_at: selectedSlot,
         session_type: sessionType,
+        duration_minutes: duration,
         notes,
         amount_mad: hourlyRate ?? undefined,
         return_path: `${window.location.pathname}#booking`,
@@ -163,9 +167,9 @@ export const BookingWidget = ({
         /* ignore quota */
       }
       toast({
-        title: "Slot held for you",
+        title: "Almost there",
         description:
-          "Create your account to confirm. Your time won't be given away.",
+          "Create your account to send this request. We'll keep your choice.",
       });
       navigate(`/auth?redirect=${encodeURIComponent(pending.return_path)}`);
       return;
@@ -176,7 +180,7 @@ export const BookingWidget = ({
         psychologist_id: psychologistId,
         scheduled_at: selectedSlot,
         session_type: sessionType,
-        duration_minutes: 50,
+        duration_minutes: duration,
         patient_notes: notes || undefined,
         amount_mad: hourlyRate ?? undefined,
       });
@@ -206,7 +210,8 @@ export const BookingWidget = ({
           </p>
         </div>
         <p className="text-xs text-muted-foreground">
-          You'll receive a confirmation email once the psychologist accepts.
+          You'll be notified in your dashboard once the psychologist confirms.
+          You pay at the session.
         </p>
         <Button
           variant="outline"
@@ -373,9 +378,15 @@ export const BookingWidget = ({
               <p>
                 <span className="text-foreground font-medium">Fee:</span>{" "}
                 <span className="font-mono tabular-nums text-foreground">
-                  {Math.round(((hourlyRate * 50) / 60) * 100) / 100}
+                  {Math.round(
+                    ((hourlyRate *
+                      (slots.find((s) => s.slot_start === selectedSlot)
+                        ?.duration_minutes ?? 50)) /
+                      60) *
+                      100,
+                  ) / 100}
                 </span>{" "}
-                MAD
+                MAD · paid to your specialist at the session
               </p>
             )}
           </div>

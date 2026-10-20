@@ -127,8 +127,11 @@ export const ProfileTab = () => {
     } catch (error) {
       toast({
         title: "Update Failed",
+        // PostgREST errors are plain objects; the publish check's message
+        // ("Before publishing, add: …") must reach the specialist.
         description:
-          error instanceof Error ? error.message : "Failed to update profile",
+          (error as { message?: string } | null)?.message ??
+          "Failed to update profile",
         variant: "destructive",
       });
     }

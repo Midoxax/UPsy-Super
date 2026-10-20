@@ -7277,6 +7277,10 @@ export type Database = {
       generate_referral_code: { Args: never; Returns: string };
       generate_slug: { Args: { id: string; name: string }; Returns: string };
       get_ai_tier: { Args: { _user_id: string }; Returns: string };
+      get_open_slots: {
+        Args: { p_date: string; p_psychologist_id: string };
+        Returns: { duration_minutes: number; slot_start: string }[];
+      };
       get_available_slots: {
         Args: { p_date: string; p_psychologist_id: string };
         Returns: {

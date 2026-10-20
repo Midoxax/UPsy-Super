@@ -35,6 +35,22 @@ export default function SessionsTimeline() {
     void load();
   }, [user]);
 
+  const cancelUpcoming = async () => {
+    if (!upcoming || !window.confirm(t("dashboard.cancelSessionConfirm")))
+      return;
+    const { error } = await supabase
+      .from("bookings")
+      .update({
+        status: "cancelled",
+        decline_reason: "Cancelled by the client",
+      })
+      .eq("id", upcoming.id);
+    if (!error) {
+      setUpcoming(null);
+      void load();
+    }
+  };
+
   const load = async () => {
     setLoading(true);
     const now = new Date().toISOString();
@@ -126,7 +142,20 @@ export default function SessionsTimeline() {
             ) : (
               <Button variant="ghost" size="sm" disabled>
                 <Video className="w-3.5 h-3.5 mr-1" />
-                {t("dashboard.joinAvailable") || "Join opens 10 min before"}
+                {upcoming.status === "pending"
+                  ? t("dashboard.awaitingConfirmation")
+                  : t("dashboard.joinAvailable") || "Join opens 10 min before"}
+              </Button>
+            )}
+            {(upcoming.status === "pending" ||
+              upcoming.status === "confirmed") && (
+              <Button
+                variant="ghost"
+                size="sm"
+                className="text-destructive hover:text-destructive"
+                onClick={cancelUpcoming}
+              >
+                {t("dashboard.cancelSession")}
               </Button>
             )}
           </div>

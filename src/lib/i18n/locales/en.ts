@@ -327,6 +327,10 @@ const en = {
     moodSaved: "Mood saved",
     forYou: "For you",
     nextSession: "Next session",
+    awaitingConfirmation: "Waiting for confirmation",
+    cancelSession: "Cancel",
+    cancelSessionConfirm:
+      "Cancel this session? Your specialist will be notified.",
     noUpcoming: "No upcoming sessions",
     joinAvailable: "Join available 5 min before",
     join: "Join",
@@ -372,6 +376,10 @@ const en = {
     sessionConfirmedWith: "Your session with {name} is confirmed.",
     close: "Close",
     signInRequired: "Sign in required",
+    requestSent: "Request sent",
+    requestSentDesc:
+      "Your specialist will confirm the time. You'll be notified in your dashboard.",
+    payAtSession: "No payment now: you pay your specialist at the session.",
     signInRequiredDesc: "Please sign in to book a session.",
     bookingFailed: "Booking failed",
     depositConfirmed: "Deposit confirmed",

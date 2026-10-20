@@ -28,6 +28,7 @@ import {
 } from "lucide-react";
 import { format, addDays, startOfDay, isSameDay } from "date-fns";
 import { Link } from "@/lib/router-compat";
+import { useAvailableSlots, useCreateBooking } from "@/hooks/useBooking";
 import DataPrivacyNotice from "@/components/DataPrivacyNotice";
 import { AddressAutocomplete } from "@/components/AddressAutocomplete";
 import { SignInPrompt } from "@/components/auth/SocialAuthButtons";
@@ -89,6 +90,8 @@ const BookingModal = ({
   const [selectedSlot, setSelectedSlot] = useState<{
     start: string;
     end: string;
+    at: string;
+    duration: number;
   } | null>(null);
   const [notes, setNotes] = useState("");
   const [address, setAddress] = useState("");
@@ -152,14 +155,26 @@ const BookingModal = ({
     return dates;
   }, [slots]);
 
-  const timeSlots = useMemo(() => {
-    if (!selectedDate) return [];
-    const dow = selectedDate.getDay();
-    return slots
-      .filter((s) => s.day_of_week === dow)
-      .map((s) => ({ start: s.start_time, end: s.end_time }))
-      .sort((a, b) => a.start.localeCompare(b.start));
-  }, [selectedDate, slots]);
+  // Real, still-free slots for the chosen day (get_open_slots).
+  const { data: openSlots = [] } = useAvailableSlots(
+    psychologistId,
+    selectedDate,
+  );
+  const createBooking = useCreateBooking();
+  const timeSlots = useMemo(
+    () =>
+      openSlots.map((s) => {
+        const startAt = new Date(s.slot_start);
+        const endAt = new Date(startAt.getTime() + s.duration_minutes * 60_000);
+        return {
+          start: format(startAt, "HH:mm"),
+          end: format(endAt, "HH:mm"),
+          at: s.slot_start,
+          duration: s.duration_minutes,
+        };
+      }),
+    [openSlots],
+  );
 
   const handleBook = async () => {
     if (!user) {
@@ -181,56 +196,27 @@ const BookingModal = ({
 
     setLoading(true);
     try {
-      const [hours, minutes] = selectedSlot.start.split(":").map(Number);
-      const dateTime = new Date(selectedDate);
-      dateTime.setHours(hours, minutes, 0, 0);
-
-      // Step 1: create booking + pending deposit transaction (mock provider)
-      const createRes = await supabase.functions.invoke(
-        "create-booking-payment",
-        {
-          body: {
-            psychologistId,
-            scheduledAt: dateTime.toISOString(),
-            durationMinutes: 50,
-            sessionType,
-            patientNotes: notes || undefined,
-            patientAddress:
-              sessionType === "in_person" && address ? address : undefined,
-            patientLat:
-              sessionType === "in_person"
-                ? (addressCoords.lat ?? undefined)
-                : undefined,
-            patientLng:
-              sessionType === "in_person"
-                ? (addressCoords.lng ?? undefined)
-                : undefined,
-          },
-        },
-      );
-      if (createRes.error) throw new Error(createRes.error.message);
-      const { transactionId, breakdown } = createRes.data as {
-        transactionId: string;
-        breakdown: any;
-      };
-
-      // Step 2: simulate the payment webhook (mock — would be real PSP callback in prod)
-      const webhookRes = await supabase.functions.invoke(
-        "simulate-payment-webhook",
-        {
-          body: { transactionId, outcome: "succeeded" },
-        },
-      );
-      if (webhookRes.error) throw new Error(webhookRes.error.message);
-
-      // This string reaches real people booking real therapy. "(mock)" is an
-      // engineering note about the payment provider, and reading it at the
-      // moment of paying a deposit undermines trust in the one flow that can
-      // least afford it. The provider being simulated is a backend fact; the
-      // confirmation a client sees should state what happened to them.
+      // Pay at the session: this records a request the specialist confirms.
+      await createBooking.mutateAsync({
+        psychologist_id: psychologistId,
+        scheduled_at: selectedSlot.at,
+        duration_minutes: selectedSlot.duration,
+        session_type: sessionType === "online" ? "video" : "in_person",
+        patient_notes: notes || undefined,
+        patient_address:
+          sessionType === "in_person" && address ? address : undefined,
+        patient_lat:
+          sessionType === "in_person"
+            ? (addressCoords.lat ?? undefined)
+            : undefined,
+        patient_lng:
+          sessionType === "in_person"
+            ? (addressCoords.lng ?? undefined)
+            : undefined,
+      });
       toast({
-        title: t("booking.depositConfirmed"),
-        description: `${breakdown.deposit_amount_mad} MAD · ${breakdown.balance_amount_mad} MAD due after the session`,
+        title: t("booking.requestSent"),
+        description: t("booking.requestSentDesc"),
       });
       trackFunnelCompleted(FUNNELS.booking, {
         session_type: sessionType,
@@ -505,29 +491,9 @@ const BookingModal = ({
               </span>
             </div>
           )}
-          {hourlyRate &&
-            typeof depositPercentage === "number" &&
-            depositPercentage > 0 &&
-            depositPercentage < 100 && (
-              <>
-                <div className="flex justify-between text-sm">
-                  <span className="text-muted-foreground">
-                    Deposit due now ({depositPercentage}%)
-                  </span>
-                  <span className="text-foreground font-semibold">
-                    {Math.round((hourlyRate * depositPercentage) / 100)} MAD
-                  </span>
-                </div>
-                <div className="flex justify-between text-xs">
-                  <span className="text-muted-foreground">
-                    Balance after session
-                  </span>
-                  <span className="text-muted-foreground">
-                    {Math.round(hourlyRate * (1 - depositPercentage / 100))} MAD
-                  </span>
-                </div>
-              </>
-            )}
+          <p className="text-xs text-muted-foreground">
+            {t("booking.payAtSession")}
+          </p>
         </div>
       </div>
 

@@ -334,6 +334,10 @@ const fr = {
     moodSaved: "Humeur enregistrée",
     forYou: "Pour toi",
     nextSession: "Prochaine séance",
+    awaitingConfirmation: "En attente de confirmation",
+    cancelSession: "Annuler",
+    cancelSessionConfirm:
+      "Annuler cette séance ? Votre spécialiste sera prévenu.",
     noUpcoming: "Aucune séance à venir",
     joinAvailable: "Rejoindre 5 min avant",
     join: "Rejoindre",
@@ -378,6 +382,11 @@ const fr = {
     sessionConfirmedWith: "Votre séance avec {name} est confirmée.",
     close: "Fermer",
     signInRequired: "Connexion requise",
+    requestSent: "Demande envoyée",
+    requestSentDesc:
+      "Votre spécialiste va confirmer l'horaire. Vous serez notifié dans votre espace.",
+    payAtSession:
+      "Aucun paiement maintenant : vous réglez votre spécialiste lors de la séance.",
     signInRequiredDesc: "Veuillez vous connecter pour réserver une séance.",
     bookingFailed: "Échec de la réservation",
     depositConfirmed: "Acompte confirmé",

@@ -23,6 +23,16 @@ serve(async (req) => {
   if (req.method === "OPTIONS")
     return new Response(null, { headers: corsHeaders });
 
+  // Online deposits are off: sessions are paid to the specialist at the
+  // session. Bookings are requested directly (bookings insert, validated by
+  // bookings_slot_guard). Re-enable when a real payment provider is wired in.
+  if (Deno.env.get("ONLINE_PAYMENTS_ENABLED") !== "true") {
+    return new Response(
+      JSON.stringify({ error: "Online payment is not available. Pay at the session." }),
+      { status: 410, headers: { ...corsHeaders, "Content-Type": "application/json" } },
+    );
+  }
+
   try {
     const authHeader = req.headers.get("Authorization");
     if (!authHeader) {

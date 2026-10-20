@@ -18,6 +18,7 @@ import {
   FileText,
 } from "lucide-react";
 import { Link } from "@/lib/router-compat";
+import { useToast } from "@/hooks/use-toast";
 import { format, isPast } from "date-fns";
 import { useState as useStateReact } from "react";
 import AnamnesisDrawer from "@/components/anamnesis/AnamnesisDrawer";
@@ -36,8 +37,11 @@ interface Session {
   client_profile: { full_name: string | null } | null;
 }
 
+/** The specialist's bookings: requests to answer, upcoming, past. Each
+ *  confirmed booking is also a session (same id) for notes and plans. */
 export const SessionsTab = () => {
   const { user } = useAuth();
+  const { toast } = useToast();
   const [sessions, setSessions] = useState<Session[]>([]);
   const [loading, setLoading] = useState(true);
   const [anamnesisFor, setAnamnesisFor] = useStateReact<{
@@ -51,58 +55,82 @@ export const SessionsTab = () => {
     if (!user) return;
     const load = async () => {
       setLoading(true);
-      const { data } = await supabase
-        .from("sessions")
+      const { data, error } = await supabase
+        .from("bookings_with_details")
         .select(
-          "id, date_time, session_type, status, duration_minutes, video_room_id, notes, client_id",
+          "id, scheduled_at, session_type, status, duration_minutes, video_room_id, patient_notes, patient_id, patient_name",
         )
         .eq("psychologist_id", user.id)
-        .order("date_time", { ascending: false })
-        .limit(50);
-
-      if (!data) {
-        setLoading(false);
-        return;
+        .order("scheduled_at", { ascending: false })
+        .limit(200);
+      if (error) {
+        toast({
+          title: "Could not load sessions",
+          description: error.message,
+          variant: "destructive",
+        });
       }
-
-      // Fetch client profiles
-      const clientIds = [...new Set(data.map((s) => s.client_id))];
-      const { data: profiles } = await supabase
-        .from("profiles")
-        .select("id, full_name")
-        .in("id", clientIds);
-
-      const profileMap = new Map(profiles?.map((p) => [p.id, p]) || []);
-
-      const enriched: Session[] = data.map((s) => ({
-        ...s,
-        client_profile: profileMap.get(s.client_id) || null,
-      }));
-
-      setSessions(enriched);
+      setSessions(
+        (data ?? [])
+          .filter((b) => b.id && b.scheduled_at && b.patient_id)
+          .map((b) => ({
+            id: b.id!,
+            date_time: b.scheduled_at!,
+            session_type: b.session_type ?? "video",
+            status: b.status ?? "pending",
+            duration_minutes: b.duration_minutes ?? 50,
+            video_room_id: b.video_room_id,
+            notes: b.patient_notes,
+            client_id: b.patient_id!,
+            client_profile: { full_name: b.patient_name },
+          })),
+      );
       setLoading(false);
     };
     load();
-  }, [user]);
+  }, [user, toast]);
 
-  const updateStatus = async (sessionId: string, status: string) => {
-    await supabase.from("sessions").update({ status }).eq("id", sessionId);
+  const updateStatus = async (
+    sessionId: string,
+    status: string,
+    reason?: string,
+  ) => {
+    const { error } = await supabase
+      .from("bookings")
+      .update({
+        status,
+        ...(reason ? { decline_reason: reason } : {}),
+      })
+      .eq("id", sessionId);
+    if (error) {
+      toast({
+        title: "Update failed",
+        description: error.message,
+        variant: "destructive",
+      });
+      return;
+    }
     setSessions((prev) =>
       prev.map((s) => (s.id === sessionId ? { ...s, status } : s)),
     );
   };
 
-  const upcoming = sessions.filter(
-    (s) => !isPast(new Date(s.date_time)) && s.status === "confirmed",
+  const requests = sessions.filter(
+    (s) => s.status === "pending" && !isPast(new Date(s.date_time)),
   );
+  const upcoming = sessions
+    .filter((s) => !isPast(new Date(s.date_time)) && s.status === "confirmed")
+    .reverse();
   const past = sessions.filter(
-    (s) => isPast(new Date(s.date_time)) || s.status === "completed",
+    (s) =>
+      (isPast(new Date(s.date_time)) && s.status !== "cancelled") ||
+      s.status === "completed",
   );
   const cancelled = sessions.filter((s) => s.status === "cancelled");
 
   const renderSession = (s: Session, showActions = false) => {
     const dt = new Date(s.date_time);
-    const isOnline = s.session_type === "online";
+    const isOnline = s.session_type !== "in_person";
     const isUpcoming = !isPast(dt) && s.status === "confirmed";
 
     return (
@@ -134,7 +162,9 @@ export const SessionsTab = () => {
                   ? "default"
                   : s.status === "completed"
                     ? "secondary"
-                    : "destructive"
+                    : s.status === "pending"
+                      ? "outline"
+                      : "destructive"
               }
               className="text-[10px]"
             >
@@ -180,6 +210,27 @@ export const SessionsTab = () => {
           >
             <ClipboardList className="h-3.5 w-3.5 mr-1" /> Anamnesis
           </Button>
+          {showActions && s.status === "pending" && (
+            <>
+              <Button
+                variant="primary"
+                size="sm"
+                onClick={() => updateStatus(s.id, "confirmed")}
+              >
+                <CheckCircle2 className="h-3.5 w-3.5 mr-1" /> Confirm
+              </Button>
+              <Button
+                variant="ghost"
+                size="sm"
+                className="text-destructive hover:text-destructive"
+                onClick={() =>
+                  updateStatus(s.id, "cancelled", "Declined by the specialist")
+                }
+              >
+                <XCircle className="h-3.5 w-3.5 mr-1" /> Decline
+              </Button>
+            </>
+          )}
           {showActions && s.status === "confirmed" && (
             <>
               <Button
@@ -238,8 +289,14 @@ export const SessionsTab = () => {
           </div>
         </CardHeader>
         <CardContent>
-          <Tabs defaultValue="upcoming" className="space-y-4">
+          <Tabs
+            defaultValue={requests.length > 0 ? "requests" : "upcoming"}
+            className="space-y-4"
+          >
             <TabsList>
+              <TabsTrigger value="requests">
+                Requests ({requests.length})
+              </TabsTrigger>
               <TabsTrigger value="upcoming">
                 Upcoming ({upcoming.length})
               </TabsTrigger>
@@ -248,6 +305,18 @@ export const SessionsTab = () => {
                 Cancelled ({cancelled.length})
               </TabsTrigger>
             </TabsList>
+
+            <TabsContent value="requests" className="space-y-3">
+              {requests.length === 0 ? (
+                <div className="text-center py-12">
+                  <p className="text-sm text-muted-foreground">
+                    No requests waiting for you.
+                  </p>
+                </div>
+              ) : (
+                requests.map((s) => renderSession(s, true))
+              )}
+            </TabsContent>
 
             <TabsContent value="upcoming" className="space-y-3">
               {upcoming.length === 0 ? (
