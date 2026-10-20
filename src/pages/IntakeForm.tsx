@@ -322,7 +322,7 @@ const IntakeForm = () => {
           toast({
             title: "Alerte non transmise",
             description:
-              "Si tu es en danger, appelle le SAMU (141) ou Stop Silence (0801 000 180).",
+              "Si tu es en danger, appelle le SAMU (141) ou la police (19).",
             variant: "destructive",
           });
           return;
@@ -1302,8 +1302,8 @@ const IntakeForm = () => {
               </li>
               <li>
                 J'ai compris qu'UPSY n'est pas un service d'urgence et qu'en cas
-                de crise, je peux contacter le SAMU (141), Stop Silence (0801
-                000 180), ou me rendre aux urgences.
+                de crise, je peux contacter le SAMU (141), la police (19), ou me
+                rendre aux urgences.
               </li>
             </ul>
           </div>

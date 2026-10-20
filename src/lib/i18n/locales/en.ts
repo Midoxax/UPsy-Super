@@ -1870,7 +1870,7 @@ const en = {
     requiredHint: "* required to complete",
     crisisBannerTitle: "Why this matters",
     crisisBannerDesc:
-      "If you flag any safety concern below, we'll surface immediate support resources (SOS Amitié Maroc) — your therapist will also be alerted at the next session.",
+      "If you flag any safety concern below, we'll surface immediate support resources (SAMU 141, Police 19) — your therapist will also be alerted at the next session.",
     yes: "Yes",
     no: "No",
     steps: {

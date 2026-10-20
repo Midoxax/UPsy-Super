@@ -1742,7 +1742,7 @@ const fr = {
     requiredHint: "* requis pour terminer",
     crisisBannerTitle: "Pourquoi c'est important",
     crisisBannerDesc:
-      "Si tu coches une alerte de sécurité ci-dessous, nous afficherons immédiatement les ressources d'urgence (SOS Amitié Maroc) — ton thérapeute sera aussi prévenu à la prochaine séance.",
+      "Si tu coches une alerte de sécurité ci-dessous, nous afficherons immédiatement les ressources d'urgence (SAMU 141, police 19) — ton thérapeute sera aussi prévenu à la prochaine séance.",
     yes: "Oui",
     no: "Non",
     steps: {
