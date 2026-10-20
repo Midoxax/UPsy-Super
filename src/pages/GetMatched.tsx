@@ -3,6 +3,11 @@ import { useState, useEffect } from "react";
 import { Link } from "@/lib/router-compat";
 import { supabase } from "@/integrations/supabase/client";
 import { PsychologistProfile } from "@/types/psychologist";
+import {
+  PRICE_MAX,
+  PRICE_MIN,
+  searchPsychologists,
+} from "@/services/psychologistsService";
 import { useLocale } from "@/contexts/LocaleContext";
 import { addLocalePrefix } from "@/lib/i18n/utils";
 import { Button } from "@/components/ui/button";
@@ -259,32 +264,47 @@ const GetMatched = () => {
       const languageId = languages.find(
         (l) => l.name.toLowerCase() === answers.language.toLowerCase(),
       )?.id;
-      // Omit specialtyNeeded entirely when nothing matched, rather than
-      // sending an arbitrary specialty — the backend already falls back to
-      // an unfiltered search when it's absent.
-      const body: Record<string, unknown> = {
-        prefersOnline: answers.sessionType === "online",
-      };
-      if (needToSpecialty[0]) body.specialtyNeeded = needToSpecialty[0];
-      if (languageId) body.languagesPreferred = [languageId];
-      const { data, error } = await supabase.functions.invoke("find-matches", {
-        body,
+      // Rank with the directory's algorithm, then order by how many of the
+      // client's stated criteria each profile meets. The percentage shown is
+      // that share, nothing else.
+      const online = answers.sessionType === "online";
+      const { profiles } = await searchPsychologists({
+        filters: {
+          specialties: [],
+          languages: [],
+          therapyApproaches: [],
+          city: "",
+          online,
+          inPerson: !online,
+          gender: "",
+          availability: "",
+          minPrice: PRICE_MIN,
+          maxPrice: PRICE_MAX,
+        },
+        pageSize: 24,
       });
-      if (error) throw error;
-      let matchCount = 0;
-      if (data?.success && data.matches) {
-        const scored = data.matches.map(
-          (m: PsychologistProfile, i: number) => ({
+      const wanted = new Set(needToSpecialty);
+      const criteria = (wanted.size > 0 ? 1 : 0) + (languageId ? 1 : 0) + 1;
+      const scored = profiles
+        .map((m, rank) => {
+          const met =
+            1 + // session type: hard filter above
+            (wanted.size > 0 && m.specialties.some((sp) => wanted.has(sp.id))
+              ? 1
+              : 0) +
+            (languageId && m.languages.some((l) => l.id === languageId)
+              ? 1
+              : 0);
+          return {
             ...m,
-            matchScore: Math.max(
-              78,
-              98 - i * 4 - Math.floor(Math.random() * 3),
-            ),
-          }),
-        );
-        setMatches(scored);
-        matchCount = scored.length;
-      }
+            matchScore: Math.round((100 * met) / criteria),
+            rank,
+          };
+        })
+        .sort((a, b) => b.matchScore - a.matchScore || a.rank - b.rank)
+        .slice(0, 3);
+      setMatches(scored);
+      const matchCount = scored.length;
       // Zero matches is a different business problem from a failed request —
       // it means supply, not software — so the two are reported separately.
       if (matchCount === 0) {

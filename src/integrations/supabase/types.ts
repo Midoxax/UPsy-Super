@@ -7559,6 +7559,45 @@ export type Database = {
           year: number;
         }[];
       };
+      rank_psychologists: {
+        Args: {
+          p_availability?: string;
+          p_city?: string;
+          p_gender?: string;
+          p_in_person?: boolean;
+          p_languages?: string[];
+          p_max_price?: number;
+          p_min_price?: number;
+          p_online?: boolean;
+          p_page?: number;
+          p_page_size?: number;
+          p_query?: string;
+          p_sort?: string;
+          p_specialties?: string[];
+          p_therapy_approaches?: string[];
+        };
+        Returns: {
+          accreditation_level: string | null;
+          bio: string | null;
+          calendly_url: string | null;
+          city: string | null;
+          created_at: string;
+          full_name: string;
+          gender: string | null;
+          hourly_rate_mad: number | null;
+          id: string;
+          is_accredited: boolean;
+          next_available: string | null;
+          offers_in_person: boolean;
+          offers_online: boolean;
+          photo_url: string | null;
+          rating_avg: number | null;
+          rating_count: number;
+          score: number;
+          slug: string;
+          total_count: number;
+        }[];
+      };
       search_psychologists:
         | {
             Args: {

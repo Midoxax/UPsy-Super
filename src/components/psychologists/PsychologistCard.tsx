@@ -20,35 +20,30 @@ interface PsychologistCardProps {
   psychologist: PsychologistProfile;
 }
 
-// Deterministic hash -> stable value per psychologist id
-const hashId = (id: string) => {
-  let h = 0;
-  for (let i = 0; i < id.length; i++) h = (h * 31 + id.charCodeAt(i)) | 0;
-  return Math.abs(h);
+// "Today", "Tomorrow" or a short weekday + date, from a YYYY-MM-DD day.
+const dayLabel = (
+  iso: string,
+  t: (k: "psychologists.today" | "psychologists.tomorrow") => string,
+) => {
+  const today = new Date();
+  const d = new Date(`${iso}T12:00:00`);
+  const diff = Math.round(
+    (d.getTime() - new Date(today.toDateString()).getTime()) / 86_400_000,
+  );
+  if (diff <= 0) return t("psychologists.today");
+  if (diff === 1) return t("psychologists.tomorrow");
+  return d.toLocaleDateString(undefined, {
+    weekday: "short",
+    day: "numeric",
+    month: "short",
+  });
 };
-
-const nextAvailableSlot = (id: string) => {
-  const h = hashId(id);
-  const buckets = [
-    "Today, 6:30 PM",
-    "Today, 8:00 PM",
-    "Tomorrow, 9:00 AM",
-    "Tomorrow, 12:00 PM",
-    "Tomorrow, 5:00 PM",
-    "Thu, 10:00 AM",
-    "Thu, 3:00 PM",
-    "Fri, 11:00 AM",
-  ];
-  return buckets[h % buckets.length];
-};
-
-const reviewCount = (id: string) => 40 + (hashId(id) % 181); // 40-220
 
 export const PsychologistCard = ({ psychologist }: PsychologistCardProps) => {
   const { t } = useLocale();
-  const rating = 4.9;
-  const reviews = reviewCount(psychologist.id);
-  const slot = nextAvailableSlot(psychologist.id);
+  const rating = psychologist.rating_avg ?? null;
+  const reviews = psychologist.rating_count ?? 0;
+  const next = psychologist.next_available ?? null;
 
   return (
     <div className="glass-card p-0 h-full flex flex-col group overflow-hidden">
@@ -116,18 +111,24 @@ export const PsychologistCard = ({ psychologist }: PsychologistCardProps) => {
           <h3 className="font-display text-xl font-medium tracking-tight text-u-white leading-tight">
             {psychologist.full_name}
           </h3>
-          <div
-            className="flex items-center gap-1 shrink-0 ml-2"
-            title={`${rating} from ${reviews} reviews`}
-          >
-            <Star className="w-3.5 h-3.5 fill-u-gold text-u-gold" />
-            <span className="text-sm font-semibold text-u-gold tabular-nums">
-              {rating.toFixed(1)}
+          {rating !== null && reviews > 0 ? (
+            <div
+              className="flex items-center gap-1 shrink-0 ml-2"
+              title={`${rating.toFixed(1)} · ${reviews} ${t("psychologists.reviewsCount")}`}
+            >
+              <Star className="w-3.5 h-3.5 fill-u-gold text-u-gold" />
+              <span className="text-sm font-semibold text-u-gold tabular-nums">
+                {rating.toFixed(1)}
+              </span>
+              <span className="text-[11px] text-u-gray-400 tabular-nums">
+                ({reviews})
+              </span>
+            </div>
+          ) : (
+            <span className="shrink-0 ml-2 text-[11px] text-u-gray-300">
+              {t("psychologists.noReviewsYet")}
             </span>
-            <span className="text-[11px] text-u-gray-400 tabular-nums">
-              ({reviews})
-            </span>
-          </div>
+          )}
         </div>
 
         {psychologist.specialties.length > 0 && (
@@ -168,22 +169,24 @@ export const PsychologistCard = ({ psychologist }: PsychologistCardProps) => {
           </div>
         )}
 
-        {/* Next available slot — the hook */}
-        <div
-          className="flex items-center gap-2 mb-3 px-2.5 py-1.5 rounded-md"
-          style={{
-            background: "rgba(16,185,129,0.08)",
-            border: "1px solid rgba(16,185,129,0.25)",
-          }}
-        >
-          <Clock className="w-3.5 h-3.5 text-emerald-400" />
-          <span className="text-[11px] text-emerald-200/90 font-medium">
-            Next available
-          </span>
-          <span className="text-xs text-u-white font-semibold ml-auto tabular-nums">
-            {slot}
-          </span>
-        </div>
+        {/* Next day with an open slot, from the specialist's real hours */}
+        {next && (
+          <div
+            className="flex items-center gap-2 mb-3 px-2.5 py-1.5 rounded-md"
+            style={{
+              background: "rgba(16,185,129,0.08)",
+              border: "1px solid rgba(16,185,129,0.25)",
+            }}
+          >
+            <Clock className="w-3.5 h-3.5 text-emerald-400" />
+            <span className="text-[11px] text-emerald-200/90 font-medium">
+              {t("psychologists.nextAvailable")}
+            </span>
+            <span className="text-xs text-u-white font-semibold ml-auto tabular-nums">
+              {dayLabel(next, t)}
+            </span>
+          </div>
+        )}
 
         {psychologist.hourly_rate_mad && (
           <p className="font-mono font-bold text-lg mb-2 tabular-nums">

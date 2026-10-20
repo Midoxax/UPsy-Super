@@ -36,6 +36,11 @@ export interface PsychologistProfile {
   therapy_approaches?: TherapyApproach[];
   created_at?: string;
   updated_at?: string;
+  /** From rank_psychologists: real review average and count, and the next
+   *  day with an open slot (Casablanca date). */
+  rating_avg?: number | null;
+  rating_count?: number;
+  next_available?: string | null;
 }
 
 export interface FilterState {
