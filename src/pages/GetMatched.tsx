@@ -267,7 +267,10 @@ const GetMatched = () => {
       // Rank with the directory's algorithm, then order by how many of the
       // client's stated criteria each profile meets. The percentage shown is
       // that share, nothing else.
+      // Filter on the mode only when the client picked one; "either" (or no
+      // answer) keeps both online and in-person specialists.
       const online = answers.sessionType === "online";
+      const inPerson = answers.sessionType === "in-person";
       const { profiles } = await searchPsychologists({
         filters: {
           specialties: [],
@@ -275,7 +278,7 @@ const GetMatched = () => {
           therapyApproaches: [],
           city: "",
           online,
-          inPerson: !online,
+          inPerson,
           gender: "",
           availability: "",
           minPrice: PRICE_MIN,
@@ -284,11 +287,13 @@ const GetMatched = () => {
         pageSize: 24,
       });
       const wanted = new Set(needToSpecialty);
-      const criteria = (wanted.size > 0 ? 1 : 0) + (languageId ? 1 : 0) + 1;
+      const modeChosen = online || inPerson;
+      const criteria =
+        (wanted.size > 0 ? 1 : 0) + (languageId ? 1 : 0) + (modeChosen ? 1 : 0);
       const scored = profiles
         .map((m, rank) => {
           const met =
-            1 + // session type: hard filter above
+            (modeChosen ? 1 : 0) + // session type: hard filter above
             (wanted.size > 0 && m.specialties.some((sp) => wanted.has(sp.id))
               ? 1
               : 0) +
@@ -297,7 +302,7 @@ const GetMatched = () => {
               : 0);
           return {
             ...m,
-            matchScore: Math.round((100 * met) / criteria),
+            matchScore: criteria ? Math.round((100 * met) / criteria) : 100,
             rank,
           };
         })
@@ -305,21 +310,24 @@ const GetMatched = () => {
         .slice(0, 3);
       setMatches(scored);
       const matchCount = scored.length;
+      const sessionTypeEvent = inPerson
+        ? "in_person"
+        : online
+          ? "online"
+          : "either";
       // Zero matches is a different business problem from a failed request —
       // it means supply, not software — so the two are reported separately.
       if (matchCount === 0) {
         trackFunnelFailed(FUNNELS.match, "no_results", {
           locale,
-          session_type:
-            answers.sessionType === "in_person" ? "in_person" : "online",
+          session_type: sessionTypeEvent,
         });
       } else {
         trackFunnelCompleted(FUNNELS.match, {
           locale,
           result_count: matchCount,
           selection_count: answers.needs.length,
-          session_type:
-            answers.sessionType === "in_person" ? "in_person" : "online",
+          session_type: sessionTypeEvent,
         });
       }
       setStep(5);

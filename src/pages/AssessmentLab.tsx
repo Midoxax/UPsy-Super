@@ -23,6 +23,7 @@ import {
   AlertTriangle,
 } from "lucide-react";
 import SEOHead from "@/components/SEOHead";
+import CrisisModal from "@/components/intake/CrisisModal";
 
 interface Assessment {
   id: string;
@@ -49,6 +50,41 @@ const CATEGORY_COLORS: Record<string, string> = {
   personality: "text-u-lavender",
 };
 
+type Level = "low" | "moderate" | "high";
+
+// Validated cut-offs for the instruments we seed (Kroenke 2001; Spitzer 2006).
+// The assessments table has no slug/code column, so match on the title.
+const INSTRUMENT_BANDS: {
+  match: RegExp;
+  bands: { max: number; labelKey: string; level: Level }[];
+}[] = [
+  {
+    match: /PHQ-?9/i,
+    bands: [
+      { max: 4, labelKey: "assessments.severityMinimal", level: "low" },
+      { max: 9, labelKey: "assessments.severityMild", level: "moderate" },
+      { max: 14, labelKey: "assessments.severityModerate", level: "high" },
+      {
+        max: 19,
+        labelKey: "assessments.severityModeratelySevere",
+        level: "high",
+      },
+      { max: 27, labelKey: "assessments.severitySevere", level: "high" },
+    ],
+  },
+  {
+    match: /GAD-?7/i,
+    bands: [
+      { max: 4, labelKey: "assessments.severityMinimal", level: "low" },
+      { max: 9, labelKey: "assessments.severityMild", level: "moderate" },
+      { max: 14, labelKey: "assessments.severityModerate", level: "high" },
+      { max: 21, labelKey: "assessments.severitySevere", level: "high" },
+    ],
+  },
+];
+
+const isPhq9 = (a: { title: string } | null) => !!a && /PHQ-?9/i.test(a.title);
+
 const AssessmentLab = () => {
   const { user } = useAuth();
   const { toast } = useToast();
@@ -64,16 +100,25 @@ const AssessmentLab = () => {
   const [showResults, setShowResults] = useState(false);
   const [result, setResult] = useState<any>(null);
   const [loading, setLoading] = useState(false);
+  const [crisisOpen, setCrisisOpen] = useState(false);
 
   useEffect(() => {
-    supabase
-      .from("assessments")
-      .select("*")
-      .eq("is_published", true)
-      .order("category")
-      .then(({ data }) => {
-        if (data) setAssessments(data as Assessment[]);
-      });
+    void (async () => {
+      const [{ data }, { data: qRows }] = await Promise.all([
+        supabase
+          .from("assessments")
+          .select("*")
+          .eq("is_published", true)
+          .order("category"),
+        supabase.from("assessment_questions").select("assessment_id"),
+      ]);
+      if (!data) return;
+      // Hide published assessments that have no questions yet.
+      const withQuestions = new Set((qRows || []).map((q) => q.assessment_id));
+      setAssessments(
+        (data as Assessment[]).filter((a) => withQuestions.has(a.id)),
+      );
+    })();
   }, []);
 
   // Auto-start assessment from URL param (e.g. after auth redirect)
@@ -121,7 +166,7 @@ const AssessmentLab = () => {
       {};
     let totalScore = 0;
     questions.forEach((q) => {
-      const val = answers[q.id] || 0;
+      const val = answers[q.id] ?? 0;
       totalScore += val;
       if (q.dimension) {
         if (!dimensionScores[q.dimension])
@@ -144,9 +189,35 @@ const AssessmentLab = () => {
 
     const maxPossible = questions.length * 3;
     const percent = Math.round((totalScore / maxPossible) * 100);
-    let interpretation = t("assessments.resultMinimal");
-    if (percent > 70) interpretation = t("assessments.resultSignificant");
-    else if (percent > 40) interpretation = t("assessments.resultModerate");
+    let level: Level =
+      percent > 70 ? "high" : percent > 40 ? "moderate" : "low";
+    let bandLabel: string | null = null;
+    const instrument = INSTRUMENT_BANDS.find((i) =>
+      i.match.test(selectedAssessment.title),
+    );
+    if (instrument) {
+      const band =
+        instrument.bands.find((b) => totalScore <= b.max) ??
+        instrument.bands[instrument.bands.length - 1];
+      level = band.level;
+      bandLabel = t(band.labelKey);
+    }
+    const levelText =
+      level === "high"
+        ? t("assessments.resultSignificant")
+        : level === "moderate"
+          ? t("assessments.resultModerate")
+          : t("assessments.resultMinimal");
+    const interpretation = bandLabel
+      ? `${bandLabel} — ${levelText}`
+      : levelText;
+
+    // PHQ-9 item 9 (thoughts of death / self-harm): any answer > 0 shows
+    // crisis resources, whatever the total score.
+    const item9 = isPhq9(selectedAssessment)
+      ? questions.find((q) => q.order_index === 9)
+      : undefined;
+    const selfHarmRisk = !!item9 && (answers[item9.id] ?? 0) > 0;
 
     const resultData = {
       user_id: user.id,
@@ -167,8 +238,9 @@ const AssessmentLab = () => {
         variant: "destructive",
       });
     } else {
-      setResult({ ...resultData, percent });
+      setResult({ ...resultData, percent, level, selfHarmRisk });
       setShowResults(true);
+      if (selfHarmRisk) setCrisisOpen(true);
     }
     setLoading(false);
   };
@@ -306,10 +378,10 @@ const AssessmentLab = () => {
 
   // Results view
   if (showResults && result) {
-    const severity =
-      result.percent > 70 ? "high" : result.percent > 40 ? "moderate" : "low";
+    const severity: Level = result.level;
     return (
       <div className="min-h-screen">
+        <CrisisModal open={crisisOpen} onClose={() => setCrisisOpen(false)} />
         <section className="hero-neural-bg relative py-16">
           <div className="container-custom relative z-10">
             <div className="max-w-xl mx-auto text-center space-y-6">
@@ -351,6 +423,26 @@ const AssessmentLab = () => {
                 <p className="text-sm text-muted-foreground leading-relaxed">
                   {result.interpretation}
                 </p>
+                {result.selfHarmRisk && (
+                  <div className="rounded-lg border border-destructive/40 bg-destructive/5 p-3 text-sm space-y-1">
+                    <p className="font-medium text-destructive flex items-center gap-2">
+                      <AlertTriangle className="h-4 w-4" /> {t("crisis.title")}
+                    </p>
+                    <p className="text-muted-foreground">
+                      {t("crisis.message")}
+                    </p>
+                    <p className="font-medium">
+                      Stop Silence —{" "}
+                      <a href="tel:0801000180" className="underline">
+                        0801 000 180
+                      </a>{" "}
+                      · SAMU —{" "}
+                      <a href="tel:141" className="underline">
+                        141
+                      </a>
+                    </p>
+                  </div>
+                )}
 
                 {Object.entries(result.scores as Record<string, any>).map(
                   ([dim, data]: [string, any]) => (

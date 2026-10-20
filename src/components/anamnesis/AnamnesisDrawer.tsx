@@ -168,13 +168,29 @@ const AnamnesisDrawer = ({
       });
       return;
     }
-    await complete();
+    const { error } = await complete();
+    if (error) {
+      toast({
+        title: t("common.error"),
+        description: error.message,
+        variant: "destructive",
+      });
+      return;
+    }
     toast({ title: t("anamnesis.completed") });
     onOpenChange(false);
   };
 
   const handleMarkReviewed = async () => {
-    await markReviewed(reviewNotes);
+    const { error } = await markReviewed(reviewNotes);
+    if (error) {
+      toast({
+        title: t("common.error"),
+        description: error.message,
+        variant: "destructive",
+      });
+      return;
+    }
     toast({ title: t("anamnesis.reviewed") });
   };
 

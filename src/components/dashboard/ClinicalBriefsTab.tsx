@@ -1,4 +1,5 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
+import ReactMarkdown from "react-markdown";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -36,12 +37,18 @@ interface IntakeRow {
 
 interface ClinicalBrief {
   id: string;
-  anamnesis_id: string;
-  summary_text: string;
-  risk_level: string;
-  suggested_approaches: string[];
-  key_themes: string[];
-  created_at: string;
+  intake_form_id: string;
+  psychologist_id: string;
+  brief_markdown: string;
+  motif_synthesis: string | null;
+  key_history_points: string[] | null;
+  scales_summary: Record<string, any> | null;
+  red_flags: string[] | null;
+  treatment_suggestions: string[] | null;
+  ai_model: string | null;
+  generated_at: string | null;
+  read_by_psy_at: string | null;
+  notes_by_psy: string | null;
 }
 
 const severityColor = (s: string | null) => {
@@ -61,39 +68,40 @@ const ClinicalBriefsTab = () => {
   const [generating, setGenerating] = useState<string | null>(null);
   const [expanded, setExpanded] = useState<string | null>(null);
 
-  useEffect(() => {
+  const load = useCallback(async () => {
     if (!user) return;
-    const load = async () => {
-      setLoading(true);
-      // Fetch completed intakes for this psychologist's clients
-      const { data: rows } = await supabase
-        .from("client_anamneses")
-        .select("*")
-        .eq("psychologist_id", user.id)
-        .in("status", ["completed", "reviewed"])
-        .order("completed_at", { ascending: false })
-        .limit(50);
+    setLoading(true);
+    // Fetch completed intakes for this psychologist's clients
+    const { data: rows } = await supabase
+      .from("client_anamneses")
+      .select("*")
+      .eq("psychologist_id", user.id)
+      .in("status", ["completed", "reviewed"])
+      .order("completed_at", { ascending: false })
+      .limit(50);
 
-      if (rows) setIntakes(rows as any);
+    if (rows) setIntakes(rows as any);
 
-      // Fetch existing briefs
-      const { data: briefRows } = await supabase
-        .from("intake_clinical_briefs")
-        .select("*")
-        .eq("psychologist_id", user.id)
-        .order("created_at", { ascending: false });
+    // Fetch existing briefs
+    const { data: briefRows } = await supabase
+      .from("intake_clinical_briefs")
+      .select("*")
+      .eq("psychologist_id", user.id)
+      .order("generated_at", { ascending: false });
 
-      if (briefRows) {
-        const map: Record<string, ClinicalBrief> = {};
-        briefRows.forEach((b: any) => {
-          map[b.anamnesis_id] = b;
-        });
-        setBriefs(map);
-      }
-      setLoading(false);
-    };
-    load();
+    if (briefRows) {
+      const map: Record<string, ClinicalBrief> = {};
+      (briefRows as unknown as ClinicalBrief[]).forEach((b) => {
+        map[b.intake_form_id] = b;
+      });
+      setBriefs(map);
+    }
+    setLoading(false);
   }, [user]);
+
+  useEffect(() => {
+    load();
+  }, [load]);
 
   const generateBrief = async (intakeId: string) => {
     setGenerating(intakeId);
@@ -101,17 +109,17 @@ const ClinicalBriefsTab = () => {
       const { data, error } = await supabase.functions.invoke(
         "generate-clinical-brief",
         {
-          body: { anamnesis_id: intakeId },
+          body: { intake_form_id: intakeId },
         },
       );
       if (error) throw error;
-      if (data?.brief) {
-        setBriefs((prev) => ({ ...prev, [intakeId]: data.brief }));
-        toast({
-          title: "Brief generated",
-          description: "AI clinical brief is ready.",
-        });
-      }
+      if (data?.error) throw new Error(data.error);
+      // The function stores the brief server-side; reload to show it.
+      await load();
+      toast({
+        title: "Brief generated",
+        description: "AI clinical brief is ready.",
+      });
     } catch (e: any) {
       toast({
         title: "Error",
@@ -310,19 +318,46 @@ const ClinicalBriefsTab = () => {
                         AI Clinical Brief
                       </span>
                       <Badge variant="outline" className="text-[9px] ml-auto">
-                        {new Date(brief.created_at).toLocaleDateString()}
+                        {brief.generated_at
+                          ? new Date(brief.generated_at).toLocaleDateString()
+                          : ""}
                       </Badge>
                     </div>
-                    <p className="text-sm whitespace-pre-wrap">
-                      {brief.summary_text}
-                    </p>
-                    {brief.key_themes?.length > 0 && (
+                    {brief.motif_synthesis && (
+                      <p className="text-xs text-muted-foreground italic">
+                        {brief.motif_synthesis}
+                      </p>
+                    )}
+                    <div className="prose prose-sm dark:prose-invert max-w-none text-sm">
+                      <ReactMarkdown>
+                        {brief.brief_markdown || ""}
+                      </ReactMarkdown>
+                    </div>
+                    {(brief.red_flags?.length ?? 0) > 0 && (
                       <div>
-                        <p className="text-[10px] font-medium text-muted-foreground mb-1">
-                          Key Themes
+                        <p className="text-[10px] font-medium text-destructive mb-1">
+                          Red Flags
                         </p>
                         <div className="flex flex-wrap gap-1">
-                          {brief.key_themes.map((t) => (
+                          {brief.red_flags!.map((r) => (
+                            <Badge
+                              key={r}
+                              variant="destructive"
+                              className="text-[9px]"
+                            >
+                              {r.replace(/_/g, " ")}
+                            </Badge>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                    {(brief.key_history_points?.length ?? 0) > 0 && (
+                      <div>
+                        <p className="text-[10px] font-medium text-muted-foreground mb-1">
+                          Key History Points
+                        </p>
+                        <div className="flex flex-wrap gap-1">
+                          {brief.key_history_points!.map((t) => (
                             <Badge
                               key={t}
                               variant="secondary"
@@ -334,13 +369,13 @@ const ClinicalBriefsTab = () => {
                         </div>
                       </div>
                     )}
-                    {brief.suggested_approaches?.length > 0 && (
+                    {(brief.treatment_suggestions?.length ?? 0) > 0 && (
                       <div>
                         <p className="text-[10px] font-medium text-muted-foreground mb-1">
-                          Suggested Approaches
+                          Treatment Suggestions
                         </p>
                         <div className="flex flex-wrap gap-1">
-                          {brief.suggested_approaches.map((a) => (
+                          {brief.treatment_suggestions!.map((a) => (
                             <Badge
                               key={a}
                               variant="outline"
@@ -357,8 +392,14 @@ const ClinicalBriefsTab = () => {
                       variant="ghost"
                       className="text-xs"
                       onClick={() => generateBrief(intake.id)}
+                      disabled={generating === intake.id}
                     >
-                      <RefreshCw className="h-3 w-3 mr-1" /> Regenerate
+                      {generating === intake.id ? (
+                        <Loader2 className="h-3 w-3 mr-1 animate-spin" />
+                      ) : (
+                        <RefreshCw className="h-3 w-3 mr-1" />
+                      )}{" "}
+                      Regenerate
                     </Button>
                   </div>
                 ) : (

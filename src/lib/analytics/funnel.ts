@@ -71,7 +71,7 @@ export interface FunnelProps {
   /** How many options a multi-select step has selected. Not which ones. */
   selection_count?: number;
   /** Session modality — a product fact, not a clinical one. */
-  session_type?: "online" | "in_person";
+  session_type?: "online" | "in_person" | "either";
   /** Number of results returned, to separate "no matches" from "did not look". */
   result_count?: number;
   /** Whether the visitor was signed in, the most common booking blocker. */

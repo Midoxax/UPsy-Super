@@ -7440,6 +7440,10 @@ export type Database = {
         Returns: undefined;
       };
       mark_all_notifications_read: { Args: never; Returns: number };
+      mark_anamnesis_reviewed: {
+        Args: { p_id: string; p_notes?: string | null };
+        Returns: undefined;
+      };
       move_to_dlq: {
         Args: {
           dlq_name: string;

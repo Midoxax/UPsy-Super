@@ -41,6 +41,16 @@ export const computeScaleScore = (
   return total;
 };
 
+/** Score only a fully answered scale; partial answers return null. */
+export const computeCompleteScaleScore = (
+  items: ScaleItem[],
+  values: Record<number, number>,
+  maxOption: number,
+): number | null => {
+  if (items.some((item) => values[item.id] == null)) return null;
+  return computeScaleScore(items, values, maxOption);
+};
+
 export const getSeverity = (
   score: number,
   bands: ScaleConfig["scoringBands"],

@@ -31,6 +31,38 @@ import DataPrivacyNotice from "@/components/DataPrivacyNotice";
 
 type App = any;
 
+const APPLICANT_EDITABLE_FIELDS = [
+  "full_name",
+  "email",
+  "phone",
+  "gender",
+  "date_of_birth",
+  "city",
+  "country",
+  "years_experience",
+  "accreditation_number",
+  "bio_short",
+  "bio_long",
+  "desired_hourly_rate_mad",
+  "offers_online",
+  "offers_in_person",
+  "languages",
+  "specialties_requested",
+  "therapy_approaches_requested",
+  "populations_served",
+  "photo_url",
+  "intro_video_url",
+  "doc_cin_url",
+  "doc_cv_url",
+  "doc_diploma_url",
+  "doc_insurance_url",
+  "doc_license_morocco_url",
+  "doc_order_registration_url",
+  "doc_auto_entrepreneur_url",
+  "doc_rib_url",
+  "doc_specialty_certs_urls",
+] as const;
+
 const SPECIALTY_OPTIONS = [
   "Anxiété",
   "Dépression",
@@ -104,6 +136,7 @@ const ApplyWizard = () => {
         .select("*")
         .eq("user_id", user!.id)
         .order("created_at", { ascending: false })
+        .limit(1)
         .maybeSingle();
       return data;
     },
@@ -130,9 +163,17 @@ const ApplyWizard = () => {
   const upsertMut = useMutation({
     mutationFn: async (patch: Partial<App>) => {
       if (!user) throw new Error("No user");
+      // Only send columns the applicant may edit. Spreading the loaded row
+      // would echo back id, reviewer fields, auto-check results, etc.
+      const merged: Record<string, unknown> = { ...draft, ...patch };
+      const editable = Object.fromEntries(
+        APPLICANT_EDITABLE_FIELDS.filter((k) => k in merged).map((k) => [
+          k,
+          merged[k],
+        ]),
+      );
       const payload = {
-        ...draft,
-        ...patch,
+        ...editable,
         user_id: user.id,
         email: draft.email ?? user.email ?? "",
         full_name:
