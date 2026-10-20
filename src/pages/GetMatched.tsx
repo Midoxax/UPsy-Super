@@ -287,13 +287,13 @@ const GetMatched = () => {
         pageSize: 24,
       });
       const wanted = new Set(needToSpecialty);
-      const modeChosen = online || inPerson;
-      const criteria =
-        (wanted.size > 0 ? 1 : 0) + (languageId ? 1 : 0) + (modeChosen ? 1 : 0);
+      // Session type always counts as met: a chosen mode is a hard filter
+      // above, and "either" is satisfied by everyone.
+      const criteria = (wanted.size > 0 ? 1 : 0) + (languageId ? 1 : 0) + 1;
       const scored = profiles
         .map((m, rank) => {
           const met =
-            (modeChosen ? 1 : 0) + // session type: hard filter above
+            1 + // session type
             (wanted.size > 0 && m.specialties.some((sp) => wanted.has(sp.id))
               ? 1
               : 0) +
@@ -302,7 +302,7 @@ const GetMatched = () => {
               : 0);
           return {
             ...m,
-            matchScore: criteria ? Math.round((100 * met) / criteria) : 100,
+            matchScore: Math.round((100 * met) / criteria),
             rank,
           };
         })
