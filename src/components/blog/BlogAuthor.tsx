@@ -1,7 +1,10 @@
 import { Link } from "@/lib/router-compat";
 import { GraduationCap } from "lucide-react";
+import { useLocale } from "@/contexts/LocaleContext";
+import { addLocalePrefix } from "@/lib/i18n/utils";
 
 const BlogAuthor = () => {
+  const { locale } = useLocale();
   return (
     <aside className="glass-card p-6 md:p-7 flex flex-col sm:flex-row gap-5 items-start">
       <div className="w-16 h-16 rounded-2xl bg-primary/10 border-2 border-primary/20 flex items-center justify-center flex-shrink-0">
@@ -20,7 +23,7 @@ const BlogAuthor = () => {
           system for individuals, teams and organizations.
         </p>
         <Link
-          to="/founder"
+          to={addLocalePrefix("/founder", locale)}
           className="text-sm text-primary font-medium hover:underline"
         >
           About the founder →

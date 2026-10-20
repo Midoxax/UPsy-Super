@@ -11,27 +11,19 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AboutRouteImport } from './routes/about'
-import { Route as AdminRouteImport } from './routes/admin'
 import { Route as AiAssistantRouteImport } from './routes/ai-assistant'
-import { Route as ApplyRouteImport } from './routes/apply'
 import { Route as AssessmentLabRouteImport } from './routes/assessment-lab'
 import { Route as AssessmentsRouteImport } from './routes/assessments'
 import { Route as AthleteHubRouteImport } from './routes/athlete-hub'
-import { Route as AuthRouteImport } from './routes/auth'
-import { Route as BlogRouteImport } from './routes/blog'
 import { Route as BookACallRouteImport } from './routes/book-a-call'
 import { Route as BrandRouteImport } from './routes/brand'
-import { Route as CenterRouteImport } from './routes/center'
 import { Route as ContactRouteImport } from './routes/contact'
-import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as ForAthletesRouteImport } from './routes/for-athletes'
 import { Route as ForOrganizationsRouteImport } from './routes/for-organizations'
 import { Route as FounderRouteImport } from './routes/founder'
 import { Route as FreeScoreRouteImport } from './routes/free-score'
 import { Route as GetMatchedRouteImport } from './routes/get-matched'
 import { Route as InstallRouteImport } from './routes/install'
-import { Route as IntakeRouteImport } from './routes/intake'
-import { Route as LearnRouteImport } from './routes/learn'
 import { Route as LegalRouteImport } from './routes/legal'
 import { Route as MembershipRouteImport } from './routes/membership'
 import { Route as MentalPerformanceRouteImport } from './routes/mental-performance'
@@ -45,10 +37,8 @@ import { Route as PricingRouteImport } from './routes/pricing'
 import { Route as PricingSpecialistsRouteImport } from './routes/pricing-specialists'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as PsfRouteImport } from './routes/psf'
-import { Route as PsychologistsRouteImport } from './routes/psychologists'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as ResourcesRouteImport } from './routes/resources'
-import { Route as ServicesRouteImport } from './routes/services'
 import { Route as SkoolRouteImport } from './routes/skool'
 import { Route as SoleterreRouteImport } from './routes/soleterre'
 import { Route as TalentInnovationHubRouteImport } from './routes/talent-innovation-hub'
@@ -57,27 +47,19 @@ import { Route as UnsubscribeRouteImport } from './routes/unsubscribe'
 import { Route as WhyUsRouteImport } from './routes/why-us'
 import { Route as LocaleIndexRouteImport } from './routes/$locale/index'
 import { Route as LocaleAboutRouteImport } from './routes/$locale/about'
-import { Route as LocaleAdminRouteImport } from './routes/$locale/admin'
 import { Route as LocaleAiAssistantRouteImport } from './routes/$locale/ai-assistant'
-import { Route as LocaleApplyRouteImport } from './routes/$locale/apply'
 import { Route as LocaleAssessmentLabRouteImport } from './routes/$locale/assessment-lab'
 import { Route as LocaleAssessmentsRouteImport } from './routes/$locale/assessments'
 import { Route as LocaleAthleteHubRouteImport } from './routes/$locale/athlete-hub'
-import { Route as LocaleAuthRouteImport } from './routes/$locale/auth'
-import { Route as LocaleBlogRouteImport } from './routes/$locale/blog'
 import { Route as LocaleBookACallRouteImport } from './routes/$locale/book-a-call'
 import { Route as LocaleBrandRouteImport } from './routes/$locale/brand'
-import { Route as LocaleCenterRouteImport } from './routes/$locale/center'
 import { Route as LocaleContactRouteImport } from './routes/$locale/contact'
-import { Route as LocaleDashboardRouteImport } from './routes/$locale/dashboard'
 import { Route as LocaleForAthletesRouteImport } from './routes/$locale/for-athletes'
 import { Route as LocaleForOrganizationsRouteImport } from './routes/$locale/for-organizations'
 import { Route as LocaleFounderRouteImport } from './routes/$locale/founder'
 import { Route as LocaleFreeScoreRouteImport } from './routes/$locale/free-score'
 import { Route as LocaleGetMatchedRouteImport } from './routes/$locale/get-matched'
 import { Route as LocaleInstallRouteImport } from './routes/$locale/install'
-import { Route as LocaleIntakeRouteImport } from './routes/$locale/intake'
-import { Route as LocaleLearnRouteImport } from './routes/$locale/learn'
 import { Route as LocaleLegalRouteImport } from './routes/$locale/legal'
 import { Route as LocaleMembershipRouteImport } from './routes/$locale/membership'
 import { Route as LocaleMentalPerformanceRouteImport } from './routes/$locale/mental-performance'
@@ -91,25 +73,28 @@ import { Route as LocalePricingRouteImport } from './routes/$locale/pricing'
 import { Route as LocalePricingSpecialistsRouteImport } from './routes/$locale/pricing-specialists'
 import { Route as LocalePrivacyRouteImport } from './routes/$locale/privacy'
 import { Route as LocalePsfRouteImport } from './routes/$locale/psf'
-import { Route as LocalePsychologistsRouteImport } from './routes/$locale/psychologists'
 import { Route as LocaleResetPasswordRouteImport } from './routes/$locale/reset-password'
 import { Route as LocaleResourcesRouteImport } from './routes/$locale/resources'
-import { Route as LocaleServicesRouteImport } from './routes/$locale/services'
 import { Route as LocaleSkoolRouteImport } from './routes/$locale/skool'
 import { Route as LocaleTalentInnovationHubRouteImport } from './routes/$locale/talent-innovation-hub'
 import { Route as LocaleTermsRouteImport } from './routes/$locale/terms'
 import { Route as LocaleUnsubscribeRouteImport } from './routes/$locale/unsubscribe'
 import { Route as LocaleWhyUsRouteImport } from './routes/$locale/why-us'
+import { Route as AdminIndexRouteImport } from './routes/admin/index'
 import { Route as AdminApplicationsRouteImport } from './routes/admin/applications'
 import { Route as AdminAuditRouteImport } from './routes/admin/audit'
 import { Route as AdminCrmRouteImport } from './routes/admin/crm'
 import { Route as AdminDnsRouteImport } from './routes/admin/dns'
 import { Route as AdminFinanceRouteImport } from './routes/admin/finance'
 import { Route as AdminGrowthLeadsRouteImport } from './routes/admin/growth-leads'
+import { Route as ApplyIndexRouteImport } from './routes/apply/index'
 import { Route as ApplyOrganizationRouteImport } from './routes/apply/organization'
 import { Route as ApplyWizardRouteImport } from './routes/apply/wizard'
+import { Route as AuthIndexRouteImport } from './routes/auth/index'
 import { Route as AuthMfaSetupRouteImport } from './routes/auth/mfa-setup'
 import { Route as BSlugRouteImport } from './routes/b/$slug'
+import { Route as BlogIndexRouteImport } from './routes/blog/index'
+import { Route as BlogSlugRouteImport } from './routes/blog/$slug'
 import { Route as BlogBenefitsOnlineTherapyRouteImport } from './routes/blog/benefits-online-therapy'
 import { Route as BlogDoINeedTherapyRouteImport } from './routes/blog/do-i-need-therapy'
 import { Route as BlogFindRightPsychologistRouteImport } from './routes/blog/find-right-psychologist'
@@ -122,28 +107,39 @@ import { Route as BlogUnderstandingAnxietyRouteImport } from './routes/blog/unde
 import { Route as BlogUnderstandingDepressionRouteImport } from './routes/blog/understanding-depression'
 import { Route as CampaignsFirstSessionRouteImport } from './routes/campaigns/first-session'
 import { Route as CampaignsJoinSpecialistRouteImport } from './routes/campaigns/join-specialist'
+import { Route as CenterIndexRouteImport } from './routes/center/index'
 import { Route as CenterProgressRouteImport } from './routes/center/progress'
 import { Route as CenterSchoolsRouteImport } from './routes/center/schools'
+import { Route as DashboardIndexRouteImport } from './routes/dashboard/index'
 import { Route as DashboardClientRouteImport } from './routes/dashboard/client'
 import { Route as DashboardOrganizationRouteImport } from './routes/dashboard/organization'
 import { Route as DashboardSpecialistRouteImport } from './routes/dashboard/specialist'
+import { Route as IntakeIndexRouteImport } from './routes/intake/index'
 import { Route as IntakeBookingIdRouteImport } from './routes/intake/$bookingId'
 import { Route as InviteCodeRouteImport } from './routes/invite/$code'
+import { Route as LearnIndexRouteImport } from './routes/learn/index'
 import { Route as LearnSlugRouteImport } from './routes/learn/$slug'
 import { Route as OpsIndexRouteImport } from './routes/ops/index'
 import { Route as OpsWorkspaceRouteImport } from './routes/ops/$workspace'
 import { Route as OpsPreviewRouteImport } from './routes/ops/preview'
+import { Route as PsychologistsIndexRouteImport } from './routes/psychologists/index'
 import { Route as PsychologistsIdRouteImport } from './routes/psychologists/$id'
+import { Route as ServicesIndexRouteImport } from './routes/services/index'
 import { Route as ServicesConsultingForOrganizationsRouteImport } from './routes/services/consulting-for-organizations'
 import { Route as SessionSessionIdRouteImport } from './routes/session/$sessionId'
+import { Route as LocaleAdminIndexRouteImport } from './routes/$locale/admin/index'
 import { Route as LocaleAdminApplicationsRouteImport } from './routes/$locale/admin/applications'
 import { Route as LocaleAdminCrmRouteImport } from './routes/$locale/admin/crm'
 import { Route as LocaleAdminFinanceRouteImport } from './routes/$locale/admin/finance'
 import { Route as LocaleAdminGrowthLeadsRouteImport } from './routes/$locale/admin/growth-leads'
+import { Route as LocaleApplyIndexRouteImport } from './routes/$locale/apply/index'
 import { Route as LocaleApplyOrganizationRouteImport } from './routes/$locale/apply/organization'
 import { Route as LocaleApplyWizardRouteImport } from './routes/$locale/apply/wizard'
+import { Route as LocaleAuthIndexRouteImport } from './routes/$locale/auth/index'
 import { Route as LocaleAuthMfaSetupRouteImport } from './routes/$locale/auth/mfa-setup'
 import { Route as LocaleBSlugRouteImport } from './routes/$locale/b/$slug'
+import { Route as LocaleBlogIndexRouteImport } from './routes/$locale/blog/index'
+import { Route as LocaleBlogSlugRouteImport } from './routes/$locale/blog/$slug'
 import { Route as LocaleBlogBenefitsOnlineTherapyRouteImport } from './routes/$locale/blog/benefits-online-therapy'
 import { Route as LocaleBlogDoINeedTherapyRouteImport } from './routes/$locale/blog/do-i-need-therapy'
 import { Route as LocaleBlogFindRightPsychologistRouteImport } from './routes/$locale/blog/find-right-psychologist'
@@ -156,14 +152,20 @@ import { Route as LocaleBlogUnderstandingAnxietyRouteImport } from './routes/$lo
 import { Route as LocaleBlogUnderstandingDepressionRouteImport } from './routes/$locale/blog/understanding-depression'
 import { Route as LocaleCampaignsFirstSessionRouteImport } from './routes/$locale/campaigns/first-session'
 import { Route as LocaleCampaignsJoinSpecialistRouteImport } from './routes/$locale/campaigns/join-specialist'
+import { Route as LocaleCenterIndexRouteImport } from './routes/$locale/center/index'
 import { Route as LocaleCenterProgressRouteImport } from './routes/$locale/center/progress'
+import { Route as LocaleDashboardIndexRouteImport } from './routes/$locale/dashboard/index'
 import { Route as LocaleDashboardClientRouteImport } from './routes/$locale/dashboard/client'
 import { Route as LocaleDashboardOrganizationRouteImport } from './routes/$locale/dashboard/organization'
 import { Route as LocaleDashboardSpecialistRouteImport } from './routes/$locale/dashboard/specialist'
+import { Route as LocaleIntakeIndexRouteImport } from './routes/$locale/intake/index'
 import { Route as LocaleIntakeBookingIdRouteImport } from './routes/$locale/intake/$bookingId'
 import { Route as LocaleInviteCodeRouteImport } from './routes/$locale/invite/$code'
+import { Route as LocaleLearnIndexRouteImport } from './routes/$locale/learn/index'
 import { Route as LocaleLearnSlugRouteImport } from './routes/$locale/learn/$slug'
+import { Route as LocalePsychologistsIndexRouteImport } from './routes/$locale/psychologists/index'
 import { Route as LocalePsychologistsIdRouteImport } from './routes/$locale/psychologists/$id'
+import { Route as LocaleServicesIndexRouteImport } from './routes/$locale/services/index'
 import { Route as LocaleServicesConsultingForOrganizationsRouteImport } from './routes/$locale/services/consulting-for-organizations'
 import { Route as LocaleSessionSessionIdRouteImport } from './routes/$locale/session/$sessionId'
 import { Route as ApiPublicCiEventsRouteImport } from './routes/api/public/ci-events'
@@ -193,19 +195,9 @@ const AboutRoute = AboutRouteImport.update({
   path: '/about',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AdminRoute = AdminRouteImport.update({
-  id: '/admin',
-  path: '/admin',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const AiAssistantRoute = AiAssistantRouteImport.update({
   id: '/ai-assistant',
   path: '/ai-assistant',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ApplyRoute = ApplyRouteImport.update({
-  id: '/apply',
-  path: '/apply',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AssessmentLabRoute = AssessmentLabRouteImport.update({
@@ -223,16 +215,6 @@ const AthleteHubRoute = AthleteHubRouteImport.update({
   path: '/athlete-hub',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AuthRoute = AuthRouteImport.update({
-  id: '/auth',
-  path: '/auth',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const BlogRoute = BlogRouteImport.update({
-  id: '/blog',
-  path: '/blog',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const BookACallRoute = BookACallRouteImport.update({
   id: '/book-a-call',
   path: '/book-a-call',
@@ -243,19 +225,9 @@ const BrandRoute = BrandRouteImport.update({
   path: '/brand',
   getParentRoute: () => rootRouteImport,
 } as any)
-const CenterRoute = CenterRouteImport.update({
-  id: '/center',
-  path: '/center',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const ContactRoute = ContactRouteImport.update({
   id: '/contact',
   path: '/contact',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const DashboardRoute = DashboardRouteImport.update({
-  id: '/dashboard',
-  path: '/dashboard',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ForAthletesRoute = ForAthletesRouteImport.update({
@@ -286,16 +258,6 @@ const GetMatchedRoute = GetMatchedRouteImport.update({
 const InstallRoute = InstallRouteImport.update({
   id: '/install',
   path: '/install',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const IntakeRoute = IntakeRouteImport.update({
-  id: '/intake',
-  path: '/intake',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const LearnRoute = LearnRouteImport.update({
-  id: '/learn',
-  path: '/learn',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LegalRoute = LegalRouteImport.update({
@@ -363,11 +325,6 @@ const PsfRoute = PsfRouteImport.update({
   path: '/psf',
   getParentRoute: () => rootRouteImport,
 } as any)
-const PsychologistsRoute = PsychologistsRouteImport.update({
-  id: '/psychologists',
-  path: '/psychologists',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const ResetPasswordRoute = ResetPasswordRouteImport.update({
   id: '/reset-password',
   path: '/reset-password',
@@ -376,11 +333,6 @@ const ResetPasswordRoute = ResetPasswordRouteImport.update({
 const ResourcesRoute = ResourcesRouteImport.update({
   id: '/resources',
   path: '/resources',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ServicesRoute = ServicesRouteImport.update({
-  id: '/services',
-  path: '/services',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SkoolRoute = SkoolRouteImport.update({
@@ -423,19 +375,9 @@ const LocaleAboutRoute = LocaleAboutRouteImport.update({
   path: '/$locale/about',
   getParentRoute: () => rootRouteImport,
 } as any)
-const LocaleAdminRoute = LocaleAdminRouteImport.update({
-  id: '/$locale/admin',
-  path: '/$locale/admin',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const LocaleAiAssistantRoute = LocaleAiAssistantRouteImport.update({
   id: '/$locale/ai-assistant',
   path: '/$locale/ai-assistant',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const LocaleApplyRoute = LocaleApplyRouteImport.update({
-  id: '/$locale/apply',
-  path: '/$locale/apply',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LocaleAssessmentLabRoute = LocaleAssessmentLabRouteImport.update({
@@ -453,16 +395,6 @@ const LocaleAthleteHubRoute = LocaleAthleteHubRouteImport.update({
   path: '/$locale/athlete-hub',
   getParentRoute: () => rootRouteImport,
 } as any)
-const LocaleAuthRoute = LocaleAuthRouteImport.update({
-  id: '/$locale/auth',
-  path: '/$locale/auth',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const LocaleBlogRoute = LocaleBlogRouteImport.update({
-  id: '/$locale/blog',
-  path: '/$locale/blog',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const LocaleBookACallRoute = LocaleBookACallRouteImport.update({
   id: '/$locale/book-a-call',
   path: '/$locale/book-a-call',
@@ -473,19 +405,9 @@ const LocaleBrandRoute = LocaleBrandRouteImport.update({
   path: '/$locale/brand',
   getParentRoute: () => rootRouteImport,
 } as any)
-const LocaleCenterRoute = LocaleCenterRouteImport.update({
-  id: '/$locale/center',
-  path: '/$locale/center',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const LocaleContactRoute = LocaleContactRouteImport.update({
   id: '/$locale/contact',
   path: '/$locale/contact',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const LocaleDashboardRoute = LocaleDashboardRouteImport.update({
-  id: '/$locale/dashboard',
-  path: '/$locale/dashboard',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LocaleForAthletesRoute = LocaleForAthletesRouteImport.update({
@@ -516,16 +438,6 @@ const LocaleGetMatchedRoute = LocaleGetMatchedRouteImport.update({
 const LocaleInstallRoute = LocaleInstallRouteImport.update({
   id: '/$locale/install',
   path: '/$locale/install',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const LocaleIntakeRoute = LocaleIntakeRouteImport.update({
-  id: '/$locale/intake',
-  path: '/$locale/intake',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const LocaleLearnRoute = LocaleLearnRouteImport.update({
-  id: '/$locale/learn',
-  path: '/$locale/learn',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LocaleLegalRoute = LocaleLegalRouteImport.update({
@@ -595,11 +507,6 @@ const LocalePsfRoute = LocalePsfRouteImport.update({
   path: '/$locale/psf',
   getParentRoute: () => rootRouteImport,
 } as any)
-const LocalePsychologistsRoute = LocalePsychologistsRouteImport.update({
-  id: '/$locale/psychologists',
-  path: '/$locale/psychologists',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const LocaleResetPasswordRoute = LocaleResetPasswordRouteImport.update({
   id: '/$locale/reset-password',
   path: '/$locale/reset-password',
@@ -608,11 +515,6 @@ const LocaleResetPasswordRoute = LocaleResetPasswordRouteImport.update({
 const LocaleResourcesRoute = LocaleResourcesRouteImport.update({
   id: '/$locale/resources',
   path: '/$locale/resources',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const LocaleServicesRoute = LocaleServicesRouteImport.update({
-  id: '/$locale/services',
-  path: '/$locale/services',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LocaleSkoolRoute = LocaleSkoolRouteImport.update({
@@ -641,111 +543,136 @@ const LocaleWhyUsRoute = LocaleWhyUsRouteImport.update({
   path: '/$locale/why-us',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminIndexRoute = AdminIndexRouteImport.update({
+  id: '/admin/',
+  path: '/admin/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AdminApplicationsRoute = AdminApplicationsRouteImport.update({
-  id: '/applications',
-  path: '/applications',
-  getParentRoute: () => AdminRoute,
+  id: '/admin/applications',
+  path: '/admin/applications',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const AdminAuditRoute = AdminAuditRouteImport.update({
-  id: '/audit',
-  path: '/audit',
-  getParentRoute: () => AdminRoute,
+  id: '/admin/audit',
+  path: '/admin/audit',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const AdminCrmRoute = AdminCrmRouteImport.update({
-  id: '/crm',
-  path: '/crm',
-  getParentRoute: () => AdminRoute,
+  id: '/admin/crm',
+  path: '/admin/crm',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const AdminDnsRoute = AdminDnsRouteImport.update({
-  id: '/dns',
-  path: '/dns',
-  getParentRoute: () => AdminRoute,
+  id: '/admin/dns',
+  path: '/admin/dns',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const AdminFinanceRoute = AdminFinanceRouteImport.update({
-  id: '/finance',
-  path: '/finance',
-  getParentRoute: () => AdminRoute,
+  id: '/admin/finance',
+  path: '/admin/finance',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const AdminGrowthLeadsRoute = AdminGrowthLeadsRouteImport.update({
-  id: '/growth-leads',
-  path: '/growth-leads',
-  getParentRoute: () => AdminRoute,
+  id: '/admin/growth-leads',
+  path: '/admin/growth-leads',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApplyIndexRoute = ApplyIndexRouteImport.update({
+  id: '/apply/',
+  path: '/apply/',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const ApplyOrganizationRoute = ApplyOrganizationRouteImport.update({
-  id: '/organization',
-  path: '/organization',
-  getParentRoute: () => ApplyRoute,
+  id: '/apply/organization',
+  path: '/apply/organization',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const ApplyWizardRoute = ApplyWizardRouteImport.update({
-  id: '/wizard',
-  path: '/wizard',
-  getParentRoute: () => ApplyRoute,
+  id: '/apply/wizard',
+  path: '/apply/wizard',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthIndexRoute = AuthIndexRouteImport.update({
+  id: '/auth/',
+  path: '/auth/',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const AuthMfaSetupRoute = AuthMfaSetupRouteImport.update({
-  id: '/mfa-setup',
-  path: '/mfa-setup',
-  getParentRoute: () => AuthRoute,
+  id: '/auth/mfa-setup',
+  path: '/auth/mfa-setup',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const BSlugRoute = BSlugRouteImport.update({
   id: '/b/$slug',
   path: '/b/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const BlogIndexRoute = BlogIndexRouteImport.update({
+  id: '/blog/',
+  path: '/blog/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BlogSlugRoute = BlogSlugRouteImport.update({
+  id: '/blog/$slug',
+  path: '/blog/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const BlogBenefitsOnlineTherapyRoute =
   BlogBenefitsOnlineTherapyRouteImport.update({
-    id: '/benefits-online-therapy',
-    path: '/benefits-online-therapy',
-    getParentRoute: () => BlogRoute,
+    id: '/blog/benefits-online-therapy',
+    path: '/blog/benefits-online-therapy',
+    getParentRoute: () => rootRouteImport,
   } as any)
 const BlogDoINeedTherapyRoute = BlogDoINeedTherapyRouteImport.update({
-  id: '/do-i-need-therapy',
-  path: '/do-i-need-therapy',
-  getParentRoute: () => BlogRoute,
+  id: '/blog/do-i-need-therapy',
+  path: '/blog/do-i-need-therapy',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const BlogFindRightPsychologistRoute =
   BlogFindRightPsychologistRouteImport.update({
-    id: '/find-right-psychologist',
-    path: '/find-right-psychologist',
-    getParentRoute: () => BlogRoute,
+    id: '/blog/find-right-psychologist',
+    path: '/blog/find-right-psychologist',
+    getParentRoute: () => rootRouteImport,
   } as any)
 const BlogHowToClearBrainFogRoute = BlogHowToClearBrainFogRouteImport.update({
-  id: '/how-to-clear-brain-fog',
-  path: '/how-to-clear-brain-fog',
-  getParentRoute: () => BlogRoute,
+  id: '/blog/how-to-clear-brain-fog',
+  path: '/blog/how-to-clear-brain-fog',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const BlogHowToImproveFocusRoute = BlogHowToImproveFocusRouteImport.update({
-  id: '/how-to-improve-focus',
-  path: '/how-to-improve-focus',
-  getParentRoute: () => BlogRoute,
+  id: '/blog/how-to-improve-focus',
+  path: '/blog/how-to-improve-focus',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const BlogHowToSupportALovedOneRoute =
   BlogHowToSupportALovedOneRouteImport.update({
-    id: '/how-to-support-a-loved-one',
-    path: '/how-to-support-a-loved-one',
-    getParentRoute: () => BlogRoute,
+    id: '/blog/how-to-support-a-loved-one',
+    path: '/blog/how-to-support-a-loved-one',
+    getParentRoute: () => rootRouteImport,
   } as any)
 const BlogMentalHealthAtWorkRoute = BlogMentalHealthAtWorkRouteImport.update({
-  id: '/mental-health-at-work',
-  path: '/mental-health-at-work',
-  getParentRoute: () => BlogRoute,
+  id: '/blog/mental-health-at-work',
+  path: '/blog/mental-health-at-work',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const BlogMindfulnessForBeginnersRoute =
   BlogMindfulnessForBeginnersRouteImport.update({
-    id: '/mindfulness-for-beginners',
-    path: '/mindfulness-for-beginners',
-    getParentRoute: () => BlogRoute,
+    id: '/blog/mindfulness-for-beginners',
+    path: '/blog/mindfulness-for-beginners',
+    getParentRoute: () => rootRouteImport,
   } as any)
 const BlogUnderstandingAnxietyRoute =
   BlogUnderstandingAnxietyRouteImport.update({
-    id: '/understanding-anxiety',
-    path: '/understanding-anxiety',
-    getParentRoute: () => BlogRoute,
+    id: '/blog/understanding-anxiety',
+    path: '/blog/understanding-anxiety',
+    getParentRoute: () => rootRouteImport,
   } as any)
 const BlogUnderstandingDepressionRoute =
   BlogUnderstandingDepressionRouteImport.update({
-    id: '/understanding-depression',
-    path: '/understanding-depression',
-    getParentRoute: () => BlogRoute,
+    id: '/blog/understanding-depression',
+    path: '/blog/understanding-depression',
+    getParentRoute: () => rootRouteImport,
   } as any)
 const CampaignsFirstSessionRoute = CampaignsFirstSessionRouteImport.update({
   id: '/campaigns/first-session',
@@ -757,45 +684,65 @@ const CampaignsJoinSpecialistRoute = CampaignsJoinSpecialistRouteImport.update({
   path: '/campaigns/join-specialist',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CenterIndexRoute = CenterIndexRouteImport.update({
+  id: '/center/',
+  path: '/center/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const CenterProgressRoute = CenterProgressRouteImport.update({
-  id: '/progress',
-  path: '/progress',
-  getParentRoute: () => CenterRoute,
+  id: '/center/progress',
+  path: '/center/progress',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const CenterSchoolsRoute = CenterSchoolsRouteImport.update({
-  id: '/schools',
-  path: '/schools',
-  getParentRoute: () => CenterRoute,
+  id: '/center/schools',
+  path: '/center/schools',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DashboardIndexRoute = DashboardIndexRouteImport.update({
+  id: '/dashboard/',
+  path: '/dashboard/',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const DashboardClientRoute = DashboardClientRouteImport.update({
-  id: '/client',
-  path: '/client',
-  getParentRoute: () => DashboardRoute,
+  id: '/dashboard/client',
+  path: '/dashboard/client',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const DashboardOrganizationRoute = DashboardOrganizationRouteImport.update({
-  id: '/organization',
-  path: '/organization',
-  getParentRoute: () => DashboardRoute,
+  id: '/dashboard/organization',
+  path: '/dashboard/organization',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const DashboardSpecialistRoute = DashboardSpecialistRouteImport.update({
-  id: '/specialist',
-  path: '/specialist',
-  getParentRoute: () => DashboardRoute,
+  id: '/dashboard/specialist',
+  path: '/dashboard/specialist',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const IntakeIndexRoute = IntakeIndexRouteImport.update({
+  id: '/intake/',
+  path: '/intake/',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const IntakeBookingIdRoute = IntakeBookingIdRouteImport.update({
-  id: '/$bookingId',
-  path: '/$bookingId',
-  getParentRoute: () => IntakeRoute,
+  id: '/intake/$bookingId',
+  path: '/intake/$bookingId',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const InviteCodeRoute = InviteCodeRouteImport.update({
   id: '/invite/$code',
   path: '/invite/$code',
   getParentRoute: () => rootRouteImport,
 } as any)
+const LearnIndexRoute = LearnIndexRouteImport.update({
+  id: '/learn/',
+  path: '/learn/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LearnSlugRoute = LearnSlugRouteImport.update({
-  id: '/$slug',
-  path: '/$slug',
-  getParentRoute: () => LearnRoute,
+  id: '/learn/$slug',
+  path: '/learn/$slug',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const OpsIndexRoute = OpsIndexRouteImport.update({
   id: '/ops/',
@@ -812,121 +759,156 @@ const OpsPreviewRoute = OpsPreviewRouteImport.update({
   path: '/ops/preview',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PsychologistsIndexRoute = PsychologistsIndexRouteImport.update({
+  id: '/psychologists/',
+  path: '/psychologists/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PsychologistsIdRoute = PsychologistsIdRouteImport.update({
-  id: '/$id',
-  path: '/$id',
-  getParentRoute: () => PsychologistsRoute,
+  id: '/psychologists/$id',
+  path: '/psychologists/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ServicesIndexRoute = ServicesIndexRouteImport.update({
+  id: '/services/',
+  path: '/services/',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const ServicesConsultingForOrganizationsRoute =
   ServicesConsultingForOrganizationsRouteImport.update({
-    id: '/consulting-for-organizations',
-    path: '/consulting-for-organizations',
-    getParentRoute: () => ServicesRoute,
+    id: '/services/consulting-for-organizations',
+    path: '/services/consulting-for-organizations',
+    getParentRoute: () => rootRouteImport,
   } as any)
 const SessionSessionIdRoute = SessionSessionIdRouteImport.update({
   id: '/session/$sessionId',
   path: '/session/$sessionId',
   getParentRoute: () => rootRouteImport,
 } as any)
+const LocaleAdminIndexRoute = LocaleAdminIndexRouteImport.update({
+  id: '/$locale/admin/',
+  path: '/$locale/admin/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LocaleAdminApplicationsRoute = LocaleAdminApplicationsRouteImport.update({
-  id: '/applications',
-  path: '/applications',
-  getParentRoute: () => LocaleAdminRoute,
+  id: '/$locale/admin/applications',
+  path: '/$locale/admin/applications',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const LocaleAdminCrmRoute = LocaleAdminCrmRouteImport.update({
-  id: '/crm',
-  path: '/crm',
-  getParentRoute: () => LocaleAdminRoute,
+  id: '/$locale/admin/crm',
+  path: '/$locale/admin/crm',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const LocaleAdminFinanceRoute = LocaleAdminFinanceRouteImport.update({
-  id: '/finance',
-  path: '/finance',
-  getParentRoute: () => LocaleAdminRoute,
+  id: '/$locale/admin/finance',
+  path: '/$locale/admin/finance',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const LocaleAdminGrowthLeadsRoute = LocaleAdminGrowthLeadsRouteImport.update({
-  id: '/growth-leads',
-  path: '/growth-leads',
-  getParentRoute: () => LocaleAdminRoute,
+  id: '/$locale/admin/growth-leads',
+  path: '/$locale/admin/growth-leads',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LocaleApplyIndexRoute = LocaleApplyIndexRouteImport.update({
+  id: '/$locale/apply/',
+  path: '/$locale/apply/',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const LocaleApplyOrganizationRoute = LocaleApplyOrganizationRouteImport.update({
-  id: '/organization',
-  path: '/organization',
-  getParentRoute: () => LocaleApplyRoute,
+  id: '/$locale/apply/organization',
+  path: '/$locale/apply/organization',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const LocaleApplyWizardRoute = LocaleApplyWizardRouteImport.update({
-  id: '/wizard',
-  path: '/wizard',
-  getParentRoute: () => LocaleApplyRoute,
+  id: '/$locale/apply/wizard',
+  path: '/$locale/apply/wizard',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LocaleAuthIndexRoute = LocaleAuthIndexRouteImport.update({
+  id: '/$locale/auth/',
+  path: '/$locale/auth/',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const LocaleAuthMfaSetupRoute = LocaleAuthMfaSetupRouteImport.update({
-  id: '/mfa-setup',
-  path: '/mfa-setup',
-  getParentRoute: () => LocaleAuthRoute,
+  id: '/$locale/auth/mfa-setup',
+  path: '/$locale/auth/mfa-setup',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const LocaleBSlugRoute = LocaleBSlugRouteImport.update({
   id: '/$locale/b/$slug',
   path: '/$locale/b/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const LocaleBlogIndexRoute = LocaleBlogIndexRouteImport.update({
+  id: '/$locale/blog/',
+  path: '/$locale/blog/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LocaleBlogSlugRoute = LocaleBlogSlugRouteImport.update({
+  id: '/$locale/blog/$slug',
+  path: '/$locale/blog/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LocaleBlogBenefitsOnlineTherapyRoute =
   LocaleBlogBenefitsOnlineTherapyRouteImport.update({
-    id: '/benefits-online-therapy',
-    path: '/benefits-online-therapy',
-    getParentRoute: () => LocaleBlogRoute,
+    id: '/$locale/blog/benefits-online-therapy',
+    path: '/$locale/blog/benefits-online-therapy',
+    getParentRoute: () => rootRouteImport,
   } as any)
 const LocaleBlogDoINeedTherapyRoute =
   LocaleBlogDoINeedTherapyRouteImport.update({
-    id: '/do-i-need-therapy',
-    path: '/do-i-need-therapy',
-    getParentRoute: () => LocaleBlogRoute,
+    id: '/$locale/blog/do-i-need-therapy',
+    path: '/$locale/blog/do-i-need-therapy',
+    getParentRoute: () => rootRouteImport,
   } as any)
 const LocaleBlogFindRightPsychologistRoute =
   LocaleBlogFindRightPsychologistRouteImport.update({
-    id: '/find-right-psychologist',
-    path: '/find-right-psychologist',
-    getParentRoute: () => LocaleBlogRoute,
+    id: '/$locale/blog/find-right-psychologist',
+    path: '/$locale/blog/find-right-psychologist',
+    getParentRoute: () => rootRouteImport,
   } as any)
 const LocaleBlogHowToClearBrainFogRoute =
   LocaleBlogHowToClearBrainFogRouteImport.update({
-    id: '/how-to-clear-brain-fog',
-    path: '/how-to-clear-brain-fog',
-    getParentRoute: () => LocaleBlogRoute,
+    id: '/$locale/blog/how-to-clear-brain-fog',
+    path: '/$locale/blog/how-to-clear-brain-fog',
+    getParentRoute: () => rootRouteImport,
   } as any)
 const LocaleBlogHowToImproveFocusRoute =
   LocaleBlogHowToImproveFocusRouteImport.update({
-    id: '/how-to-improve-focus',
-    path: '/how-to-improve-focus',
-    getParentRoute: () => LocaleBlogRoute,
+    id: '/$locale/blog/how-to-improve-focus',
+    path: '/$locale/blog/how-to-improve-focus',
+    getParentRoute: () => rootRouteImport,
   } as any)
 const LocaleBlogHowToSupportALovedOneRoute =
   LocaleBlogHowToSupportALovedOneRouteImport.update({
-    id: '/how-to-support-a-loved-one',
-    path: '/how-to-support-a-loved-one',
-    getParentRoute: () => LocaleBlogRoute,
+    id: '/$locale/blog/how-to-support-a-loved-one',
+    path: '/$locale/blog/how-to-support-a-loved-one',
+    getParentRoute: () => rootRouteImport,
   } as any)
 const LocaleBlogMentalHealthAtWorkRoute =
   LocaleBlogMentalHealthAtWorkRouteImport.update({
-    id: '/mental-health-at-work',
-    path: '/mental-health-at-work',
-    getParentRoute: () => LocaleBlogRoute,
+    id: '/$locale/blog/mental-health-at-work',
+    path: '/$locale/blog/mental-health-at-work',
+    getParentRoute: () => rootRouteImport,
   } as any)
 const LocaleBlogMindfulnessForBeginnersRoute =
   LocaleBlogMindfulnessForBeginnersRouteImport.update({
-    id: '/mindfulness-for-beginners',
-    path: '/mindfulness-for-beginners',
-    getParentRoute: () => LocaleBlogRoute,
+    id: '/$locale/blog/mindfulness-for-beginners',
+    path: '/$locale/blog/mindfulness-for-beginners',
+    getParentRoute: () => rootRouteImport,
   } as any)
 const LocaleBlogUnderstandingAnxietyRoute =
   LocaleBlogUnderstandingAnxietyRouteImport.update({
-    id: '/understanding-anxiety',
-    path: '/understanding-anxiety',
-    getParentRoute: () => LocaleBlogRoute,
+    id: '/$locale/blog/understanding-anxiety',
+    path: '/$locale/blog/understanding-anxiety',
+    getParentRoute: () => rootRouteImport,
   } as any)
 const LocaleBlogUnderstandingDepressionRoute =
   LocaleBlogUnderstandingDepressionRouteImport.update({
-    id: '/understanding-depression',
-    path: '/understanding-depression',
-    getParentRoute: () => LocaleBlogRoute,
+    id: '/$locale/blog/understanding-depression',
+    path: '/$locale/blog/understanding-depression',
+    getParentRoute: () => rootRouteImport,
   } as any)
 const LocaleCampaignsFirstSessionRoute =
   LocaleCampaignsFirstSessionRouteImport.update({
@@ -940,53 +922,84 @@ const LocaleCampaignsJoinSpecialistRoute =
     path: '/$locale/campaigns/join-specialist',
     getParentRoute: () => rootRouteImport,
   } as any)
+const LocaleCenterIndexRoute = LocaleCenterIndexRouteImport.update({
+  id: '/$locale/center/',
+  path: '/$locale/center/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LocaleCenterProgressRoute = LocaleCenterProgressRouteImport.update({
-  id: '/progress',
-  path: '/progress',
-  getParentRoute: () => LocaleCenterRoute,
+  id: '/$locale/center/progress',
+  path: '/$locale/center/progress',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LocaleDashboardIndexRoute = LocaleDashboardIndexRouteImport.update({
+  id: '/$locale/dashboard/',
+  path: '/$locale/dashboard/',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const LocaleDashboardClientRoute = LocaleDashboardClientRouteImport.update({
-  id: '/client',
-  path: '/client',
-  getParentRoute: () => LocaleDashboardRoute,
+  id: '/$locale/dashboard/client',
+  path: '/$locale/dashboard/client',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const LocaleDashboardOrganizationRoute =
   LocaleDashboardOrganizationRouteImport.update({
-    id: '/organization',
-    path: '/organization',
-    getParentRoute: () => LocaleDashboardRoute,
+    id: '/$locale/dashboard/organization',
+    path: '/$locale/dashboard/organization',
+    getParentRoute: () => rootRouteImport,
   } as any)
 const LocaleDashboardSpecialistRoute =
   LocaleDashboardSpecialistRouteImport.update({
-    id: '/specialist',
-    path: '/specialist',
-    getParentRoute: () => LocaleDashboardRoute,
+    id: '/$locale/dashboard/specialist',
+    path: '/$locale/dashboard/specialist',
+    getParentRoute: () => rootRouteImport,
   } as any)
+const LocaleIntakeIndexRoute = LocaleIntakeIndexRouteImport.update({
+  id: '/$locale/intake/',
+  path: '/$locale/intake/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LocaleIntakeBookingIdRoute = LocaleIntakeBookingIdRouteImport.update({
-  id: '/$bookingId',
-  path: '/$bookingId',
-  getParentRoute: () => LocaleIntakeRoute,
+  id: '/$locale/intake/$bookingId',
+  path: '/$locale/intake/$bookingId',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const LocaleInviteCodeRoute = LocaleInviteCodeRouteImport.update({
   id: '/$locale/invite/$code',
   path: '/$locale/invite/$code',
   getParentRoute: () => rootRouteImport,
 } as any)
-const LocaleLearnSlugRoute = LocaleLearnSlugRouteImport.update({
-  id: '/$slug',
-  path: '/$slug',
-  getParentRoute: () => LocaleLearnRoute,
+const LocaleLearnIndexRoute = LocaleLearnIndexRouteImport.update({
+  id: '/$locale/learn/',
+  path: '/$locale/learn/',
+  getParentRoute: () => rootRouteImport,
 } as any)
+const LocaleLearnSlugRoute = LocaleLearnSlugRouteImport.update({
+  id: '/$locale/learn/$slug',
+  path: '/$locale/learn/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LocalePsychologistsIndexRoute =
+  LocalePsychologistsIndexRouteImport.update({
+    id: '/$locale/psychologists/',
+    path: '/$locale/psychologists/',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const LocalePsychologistsIdRoute = LocalePsychologistsIdRouteImport.update({
-  id: '/$id',
-  path: '/$id',
-  getParentRoute: () => LocalePsychologistsRoute,
+  id: '/$locale/psychologists/$id',
+  path: '/$locale/psychologists/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LocaleServicesIndexRoute = LocaleServicesIndexRouteImport.update({
+  id: '/$locale/services/',
+  path: '/$locale/services/',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const LocaleServicesConsultingForOrganizationsRoute =
   LocaleServicesConsultingForOrganizationsRouteImport.update({
-    id: '/consulting-for-organizations',
-    path: '/consulting-for-organizations',
-    getParentRoute: () => LocaleServicesRoute,
+    id: '/$locale/services/consulting-for-organizations',
+    path: '/$locale/services/consulting-for-organizations',
+    getParentRoute: () => rootRouteImport,
   } as any)
 const LocaleSessionSessionIdRoute = LocaleSessionSessionIdRouteImport.update({
   id: '/$locale/session/$sessionId',
@@ -1024,9 +1037,9 @@ const BookingRespondTokenRoute = BookingRespondTokenRouteImport.update({
   getParentRoute: () => rootRouteImport,
 } as any)
 const CenterCSlugRoute = CenterCSlugRouteImport.update({
-  id: '/c/$slug',
-  path: '/c/$slug',
-  getParentRoute: () => CenterRoute,
+  id: '/center/c/$slug',
+  path: '/center/c/$slug',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const OpsWorkspaceIndexRoute = OpsWorkspaceIndexRouteImport.update({
   id: '/',
@@ -1055,9 +1068,9 @@ const LocaleBookingRespondTokenRoute =
     getParentRoute: () => rootRouteImport,
   } as any)
 const LocaleCenterCSlugRoute = LocaleCenterCSlugRouteImport.update({
-  id: '/c/$slug',
-  path: '/c/$slug',
-  getParentRoute: () => LocaleCenterRoute,
+  id: '/$locale/center/c/$slug',
+  path: '/$locale/center/c/$slug',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const OpsWorkspaceEventsIndexRoute = OpsWorkspaceEventsIndexRouteImport.update({
   id: '/events/',
@@ -1079,27 +1092,19 @@ const OpsWorkspaceEventsNewRoute = OpsWorkspaceEventsNewRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
-  '/admin': typeof AdminRouteWithChildren
   '/ai-assistant': typeof AiAssistantRoute
-  '/apply': typeof ApplyRouteWithChildren
   '/assessment-lab': typeof AssessmentLabRoute
   '/assessments': typeof AssessmentsRoute
   '/athlete-hub': typeof AthleteHubRoute
-  '/auth': typeof AuthRouteWithChildren
-  '/blog': typeof BlogRouteWithChildren
   '/book-a-call': typeof BookACallRoute
   '/brand': typeof BrandRoute
-  '/center': typeof CenterRouteWithChildren
   '/contact': typeof ContactRoute
-  '/dashboard': typeof DashboardRouteWithChildren
   '/for-athletes': typeof ForAthletesRoute
   '/for-organizations': typeof ForOrganizationsRoute
   '/founder': typeof FounderRoute
   '/free-score': typeof FreeScoreRoute
   '/get-matched': typeof GetMatchedRoute
   '/install': typeof InstallRoute
-  '/intake': typeof IntakeRouteWithChildren
-  '/learn': typeof LearnRouteWithChildren
   '/legal': typeof LegalRoute
   '/membership': typeof MembershipRoute
   '/mental-performance': typeof MentalPerformanceRoute
@@ -1113,10 +1118,8 @@ export interface FileRoutesByFullPath {
   '/pricing-specialists': typeof PricingSpecialistsRoute
   '/privacy': typeof PrivacyRoute
   '/psf': typeof PsfRoute
-  '/psychologists': typeof PsychologistsRouteWithChildren
   '/reset-password': typeof ResetPasswordRoute
   '/resources': typeof ResourcesRoute
-  '/services': typeof ServicesRouteWithChildren
   '/skool': typeof SkoolRoute
   '/soleterre': typeof SoleterreRoute
   '/talent-innovation-hub': typeof TalentInnovationHubRoute
@@ -1124,27 +1127,19 @@ export interface FileRoutesByFullPath {
   '/unsubscribe': typeof UnsubscribeRoute
   '/why-us': typeof WhyUsRoute
   '/$locale/about': typeof LocaleAboutRoute
-  '/$locale/admin': typeof LocaleAdminRouteWithChildren
   '/$locale/ai-assistant': typeof LocaleAiAssistantRoute
-  '/$locale/apply': typeof LocaleApplyRouteWithChildren
   '/$locale/assessment-lab': typeof LocaleAssessmentLabRoute
   '/$locale/assessments': typeof LocaleAssessmentsRoute
   '/$locale/athlete-hub': typeof LocaleAthleteHubRoute
-  '/$locale/auth': typeof LocaleAuthRouteWithChildren
-  '/$locale/blog': typeof LocaleBlogRouteWithChildren
   '/$locale/book-a-call': typeof LocaleBookACallRoute
   '/$locale/brand': typeof LocaleBrandRoute
-  '/$locale/center': typeof LocaleCenterRouteWithChildren
   '/$locale/contact': typeof LocaleContactRoute
-  '/$locale/dashboard': typeof LocaleDashboardRouteWithChildren
   '/$locale/for-athletes': typeof LocaleForAthletesRoute
   '/$locale/for-organizations': typeof LocaleForOrganizationsRoute
   '/$locale/founder': typeof LocaleFounderRoute
   '/$locale/free-score': typeof LocaleFreeScoreRoute
   '/$locale/get-matched': typeof LocaleGetMatchedRoute
   '/$locale/install': typeof LocaleInstallRoute
-  '/$locale/intake': typeof LocaleIntakeRouteWithChildren
-  '/$locale/learn': typeof LocaleLearnRouteWithChildren
   '/$locale/legal': typeof LocaleLegalRoute
   '/$locale/membership': typeof LocaleMembershipRoute
   '/$locale/mental-performance': typeof LocaleMentalPerformanceRoute
@@ -1158,10 +1153,8 @@ export interface FileRoutesByFullPath {
   '/$locale/pricing-specialists': typeof LocalePricingSpecialistsRoute
   '/$locale/privacy': typeof LocalePrivacyRoute
   '/$locale/psf': typeof LocalePsfRoute
-  '/$locale/psychologists': typeof LocalePsychologistsRouteWithChildren
   '/$locale/reset-password': typeof LocaleResetPasswordRoute
   '/$locale/resources': typeof LocaleResourcesRoute
-  '/$locale/services': typeof LocaleServicesRouteWithChildren
   '/$locale/skool': typeof LocaleSkoolRoute
   '/$locale/talent-innovation-hub': typeof LocaleTalentInnovationHubRoute
   '/$locale/terms': typeof LocaleTermsRoute
@@ -1177,6 +1170,7 @@ export interface FileRoutesByFullPath {
   '/apply/wizard': typeof ApplyWizardRoute
   '/auth/mfa-setup': typeof AuthMfaSetupRoute
   '/b/$slug': typeof BSlugRoute
+  '/blog/$slug': typeof BlogSlugRoute
   '/blog/benefits-online-therapy': typeof BlogBenefitsOnlineTherapyRoute
   '/blog/do-i-need-therapy': typeof BlogDoINeedTherapyRoute
   '/blog/find-right-psychologist': typeof BlogFindRightPsychologistRoute
@@ -1203,7 +1197,17 @@ export interface FileRoutesByFullPath {
   '/services/consulting-for-organizations': typeof ServicesConsultingForOrganizationsRoute
   '/session/$sessionId': typeof SessionSessionIdRoute
   '/$locale/': typeof LocaleIndexRoute
+  '/admin/': typeof AdminIndexRoute
+  '/apply/': typeof ApplyIndexRoute
+  '/auth/': typeof AuthIndexRoute
+  '/blog/': typeof BlogIndexRoute
+  '/center/': typeof CenterIndexRoute
+  '/dashboard/': typeof DashboardIndexRoute
+  '/intake/': typeof IntakeIndexRoute
+  '/learn/': typeof LearnIndexRoute
   '/ops/': typeof OpsIndexRoute
+  '/psychologists/': typeof PsychologistsIndexRoute
+  '/services/': typeof ServicesIndexRoute
   '/$locale/admin/applications': typeof LocaleAdminApplicationsRoute
   '/$locale/admin/crm': typeof LocaleAdminCrmRoute
   '/$locale/admin/finance': typeof LocaleAdminFinanceRoute
@@ -1212,6 +1216,7 @@ export interface FileRoutesByFullPath {
   '/$locale/apply/wizard': typeof LocaleApplyWizardRoute
   '/$locale/auth/mfa-setup': typeof LocaleAuthMfaSetupRoute
   '/$locale/b/$slug': typeof LocaleBSlugRoute
+  '/$locale/blog/$slug': typeof LocaleBlogSlugRoute
   '/$locale/blog/benefits-online-therapy': typeof LocaleBlogBenefitsOnlineTherapyRoute
   '/$locale/blog/do-i-need-therapy': typeof LocaleBlogDoINeedTherapyRoute
   '/$locale/blog/find-right-psychologist': typeof LocaleBlogFindRightPsychologistRoute
@@ -1244,6 +1249,16 @@ export interface FileRoutesByFullPath {
   '/ops/$workspace/command': typeof OpsWorkspaceCommandRoute
   '/ops/$workspace/director': typeof OpsWorkspaceDirectorRoute
   '/ops/$workspace/tasks': typeof OpsWorkspaceTasksRoute
+  '/$locale/admin/': typeof LocaleAdminIndexRoute
+  '/$locale/apply/': typeof LocaleApplyIndexRoute
+  '/$locale/auth/': typeof LocaleAuthIndexRoute
+  '/$locale/blog/': typeof LocaleBlogIndexRoute
+  '/$locale/center/': typeof LocaleCenterIndexRoute
+  '/$locale/dashboard/': typeof LocaleDashboardIndexRoute
+  '/$locale/intake/': typeof LocaleIntakeIndexRoute
+  '/$locale/learn/': typeof LocaleLearnIndexRoute
+  '/$locale/psychologists/': typeof LocalePsychologistsIndexRoute
+  '/$locale/services/': typeof LocaleServicesIndexRoute
   '/ops/$workspace/': typeof OpsWorkspaceIndexRoute
   '/$locale/booking/respond/$token': typeof LocaleBookingRespondTokenRoute
   '/$locale/center/c/$slug': typeof LocaleCenterCSlugRoute
@@ -1254,27 +1269,19 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
-  '/admin': typeof AdminRouteWithChildren
   '/ai-assistant': typeof AiAssistantRoute
-  '/apply': typeof ApplyRouteWithChildren
   '/assessment-lab': typeof AssessmentLabRoute
   '/assessments': typeof AssessmentsRoute
   '/athlete-hub': typeof AthleteHubRoute
-  '/auth': typeof AuthRouteWithChildren
-  '/blog': typeof BlogRouteWithChildren
   '/book-a-call': typeof BookACallRoute
   '/brand': typeof BrandRoute
-  '/center': typeof CenterRouteWithChildren
   '/contact': typeof ContactRoute
-  '/dashboard': typeof DashboardRouteWithChildren
   '/for-athletes': typeof ForAthletesRoute
   '/for-organizations': typeof ForOrganizationsRoute
   '/founder': typeof FounderRoute
   '/free-score': typeof FreeScoreRoute
   '/get-matched': typeof GetMatchedRoute
   '/install': typeof InstallRoute
-  '/intake': typeof IntakeRouteWithChildren
-  '/learn': typeof LearnRouteWithChildren
   '/legal': typeof LegalRoute
   '/membership': typeof MembershipRoute
   '/mental-performance': typeof MentalPerformanceRoute
@@ -1288,10 +1295,8 @@ export interface FileRoutesByTo {
   '/pricing-specialists': typeof PricingSpecialistsRoute
   '/privacy': typeof PrivacyRoute
   '/psf': typeof PsfRoute
-  '/psychologists': typeof PsychologistsRouteWithChildren
   '/reset-password': typeof ResetPasswordRoute
   '/resources': typeof ResourcesRoute
-  '/services': typeof ServicesRouteWithChildren
   '/skool': typeof SkoolRoute
   '/soleterre': typeof SoleterreRoute
   '/talent-innovation-hub': typeof TalentInnovationHubRoute
@@ -1299,27 +1304,19 @@ export interface FileRoutesByTo {
   '/unsubscribe': typeof UnsubscribeRoute
   '/why-us': typeof WhyUsRoute
   '/$locale/about': typeof LocaleAboutRoute
-  '/$locale/admin': typeof LocaleAdminRouteWithChildren
   '/$locale/ai-assistant': typeof LocaleAiAssistantRoute
-  '/$locale/apply': typeof LocaleApplyRouteWithChildren
   '/$locale/assessment-lab': typeof LocaleAssessmentLabRoute
   '/$locale/assessments': typeof LocaleAssessmentsRoute
   '/$locale/athlete-hub': typeof LocaleAthleteHubRoute
-  '/$locale/auth': typeof LocaleAuthRouteWithChildren
-  '/$locale/blog': typeof LocaleBlogRouteWithChildren
   '/$locale/book-a-call': typeof LocaleBookACallRoute
   '/$locale/brand': typeof LocaleBrandRoute
-  '/$locale/center': typeof LocaleCenterRouteWithChildren
   '/$locale/contact': typeof LocaleContactRoute
-  '/$locale/dashboard': typeof LocaleDashboardRouteWithChildren
   '/$locale/for-athletes': typeof LocaleForAthletesRoute
   '/$locale/for-organizations': typeof LocaleForOrganizationsRoute
   '/$locale/founder': typeof LocaleFounderRoute
   '/$locale/free-score': typeof LocaleFreeScoreRoute
   '/$locale/get-matched': typeof LocaleGetMatchedRoute
   '/$locale/install': typeof LocaleInstallRoute
-  '/$locale/intake': typeof LocaleIntakeRouteWithChildren
-  '/$locale/learn': typeof LocaleLearnRouteWithChildren
   '/$locale/legal': typeof LocaleLegalRoute
   '/$locale/membership': typeof LocaleMembershipRoute
   '/$locale/mental-performance': typeof LocaleMentalPerformanceRoute
@@ -1333,10 +1330,8 @@ export interface FileRoutesByTo {
   '/$locale/pricing-specialists': typeof LocalePricingSpecialistsRoute
   '/$locale/privacy': typeof LocalePrivacyRoute
   '/$locale/psf': typeof LocalePsfRoute
-  '/$locale/psychologists': typeof LocalePsychologistsRouteWithChildren
   '/$locale/reset-password': typeof LocaleResetPasswordRoute
   '/$locale/resources': typeof LocaleResourcesRoute
-  '/$locale/services': typeof LocaleServicesRouteWithChildren
   '/$locale/skool': typeof LocaleSkoolRoute
   '/$locale/talent-innovation-hub': typeof LocaleTalentInnovationHubRoute
   '/$locale/terms': typeof LocaleTermsRoute
@@ -1352,6 +1347,7 @@ export interface FileRoutesByTo {
   '/apply/wizard': typeof ApplyWizardRoute
   '/auth/mfa-setup': typeof AuthMfaSetupRoute
   '/b/$slug': typeof BSlugRoute
+  '/blog/$slug': typeof BlogSlugRoute
   '/blog/benefits-online-therapy': typeof BlogBenefitsOnlineTherapyRoute
   '/blog/do-i-need-therapy': typeof BlogDoINeedTherapyRoute
   '/blog/find-right-psychologist': typeof BlogFindRightPsychologistRoute
@@ -1377,7 +1373,17 @@ export interface FileRoutesByTo {
   '/services/consulting-for-organizations': typeof ServicesConsultingForOrganizationsRoute
   '/session/$sessionId': typeof SessionSessionIdRoute
   '/$locale': typeof LocaleIndexRoute
+  '/admin': typeof AdminIndexRoute
+  '/apply': typeof ApplyIndexRoute
+  '/auth': typeof AuthIndexRoute
+  '/blog': typeof BlogIndexRoute
+  '/center': typeof CenterIndexRoute
+  '/dashboard': typeof DashboardIndexRoute
+  '/intake': typeof IntakeIndexRoute
+  '/learn': typeof LearnIndexRoute
   '/ops': typeof OpsIndexRoute
+  '/psychologists': typeof PsychologistsIndexRoute
+  '/services': typeof ServicesIndexRoute
   '/$locale/admin/applications': typeof LocaleAdminApplicationsRoute
   '/$locale/admin/crm': typeof LocaleAdminCrmRoute
   '/$locale/admin/finance': typeof LocaleAdminFinanceRoute
@@ -1386,6 +1392,7 @@ export interface FileRoutesByTo {
   '/$locale/apply/wizard': typeof LocaleApplyWizardRoute
   '/$locale/auth/mfa-setup': typeof LocaleAuthMfaSetupRoute
   '/$locale/b/$slug': typeof LocaleBSlugRoute
+  '/$locale/blog/$slug': typeof LocaleBlogSlugRoute
   '/$locale/blog/benefits-online-therapy': typeof LocaleBlogBenefitsOnlineTherapyRoute
   '/$locale/blog/do-i-need-therapy': typeof LocaleBlogDoINeedTherapyRoute
   '/$locale/blog/find-right-psychologist': typeof LocaleBlogFindRightPsychologistRoute
@@ -1418,6 +1425,16 @@ export interface FileRoutesByTo {
   '/ops/$workspace/command': typeof OpsWorkspaceCommandRoute
   '/ops/$workspace/director': typeof OpsWorkspaceDirectorRoute
   '/ops/$workspace/tasks': typeof OpsWorkspaceTasksRoute
+  '/$locale/admin': typeof LocaleAdminIndexRoute
+  '/$locale/apply': typeof LocaleApplyIndexRoute
+  '/$locale/auth': typeof LocaleAuthIndexRoute
+  '/$locale/blog': typeof LocaleBlogIndexRoute
+  '/$locale/center': typeof LocaleCenterIndexRoute
+  '/$locale/dashboard': typeof LocaleDashboardIndexRoute
+  '/$locale/intake': typeof LocaleIntakeIndexRoute
+  '/$locale/learn': typeof LocaleLearnIndexRoute
+  '/$locale/psychologists': typeof LocalePsychologistsIndexRoute
+  '/$locale/services': typeof LocaleServicesIndexRoute
   '/ops/$workspace': typeof OpsWorkspaceIndexRoute
   '/$locale/booking/respond/$token': typeof LocaleBookingRespondTokenRoute
   '/$locale/center/c/$slug': typeof LocaleCenterCSlugRoute
@@ -1429,27 +1446,19 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
-  '/admin': typeof AdminRouteWithChildren
   '/ai-assistant': typeof AiAssistantRoute
-  '/apply': typeof ApplyRouteWithChildren
   '/assessment-lab': typeof AssessmentLabRoute
   '/assessments': typeof AssessmentsRoute
   '/athlete-hub': typeof AthleteHubRoute
-  '/auth': typeof AuthRouteWithChildren
-  '/blog': typeof BlogRouteWithChildren
   '/book-a-call': typeof BookACallRoute
   '/brand': typeof BrandRoute
-  '/center': typeof CenterRouteWithChildren
   '/contact': typeof ContactRoute
-  '/dashboard': typeof DashboardRouteWithChildren
   '/for-athletes': typeof ForAthletesRoute
   '/for-organizations': typeof ForOrganizationsRoute
   '/founder': typeof FounderRoute
   '/free-score': typeof FreeScoreRoute
   '/get-matched': typeof GetMatchedRoute
   '/install': typeof InstallRoute
-  '/intake': typeof IntakeRouteWithChildren
-  '/learn': typeof LearnRouteWithChildren
   '/legal': typeof LegalRoute
   '/membership': typeof MembershipRoute
   '/mental-performance': typeof MentalPerformanceRoute
@@ -1463,10 +1472,8 @@ export interface FileRoutesById {
   '/pricing-specialists': typeof PricingSpecialistsRoute
   '/privacy': typeof PrivacyRoute
   '/psf': typeof PsfRoute
-  '/psychologists': typeof PsychologistsRouteWithChildren
   '/reset-password': typeof ResetPasswordRoute
   '/resources': typeof ResourcesRoute
-  '/services': typeof ServicesRouteWithChildren
   '/skool': typeof SkoolRoute
   '/soleterre': typeof SoleterreRoute
   '/talent-innovation-hub': typeof TalentInnovationHubRoute
@@ -1474,27 +1481,19 @@ export interface FileRoutesById {
   '/unsubscribe': typeof UnsubscribeRoute
   '/why-us': typeof WhyUsRoute
   '/$locale/about': typeof LocaleAboutRoute
-  '/$locale/admin': typeof LocaleAdminRouteWithChildren
   '/$locale/ai-assistant': typeof LocaleAiAssistantRoute
-  '/$locale/apply': typeof LocaleApplyRouteWithChildren
   '/$locale/assessment-lab': typeof LocaleAssessmentLabRoute
   '/$locale/assessments': typeof LocaleAssessmentsRoute
   '/$locale/athlete-hub': typeof LocaleAthleteHubRoute
-  '/$locale/auth': typeof LocaleAuthRouteWithChildren
-  '/$locale/blog': typeof LocaleBlogRouteWithChildren
   '/$locale/book-a-call': typeof LocaleBookACallRoute
   '/$locale/brand': typeof LocaleBrandRoute
-  '/$locale/center': typeof LocaleCenterRouteWithChildren
   '/$locale/contact': typeof LocaleContactRoute
-  '/$locale/dashboard': typeof LocaleDashboardRouteWithChildren
   '/$locale/for-athletes': typeof LocaleForAthletesRoute
   '/$locale/for-organizations': typeof LocaleForOrganizationsRoute
   '/$locale/founder': typeof LocaleFounderRoute
   '/$locale/free-score': typeof LocaleFreeScoreRoute
   '/$locale/get-matched': typeof LocaleGetMatchedRoute
   '/$locale/install': typeof LocaleInstallRoute
-  '/$locale/intake': typeof LocaleIntakeRouteWithChildren
-  '/$locale/learn': typeof LocaleLearnRouteWithChildren
   '/$locale/legal': typeof LocaleLegalRoute
   '/$locale/membership': typeof LocaleMembershipRoute
   '/$locale/mental-performance': typeof LocaleMentalPerformanceRoute
@@ -1508,10 +1507,8 @@ export interface FileRoutesById {
   '/$locale/pricing-specialists': typeof LocalePricingSpecialistsRoute
   '/$locale/privacy': typeof LocalePrivacyRoute
   '/$locale/psf': typeof LocalePsfRoute
-  '/$locale/psychologists': typeof LocalePsychologistsRouteWithChildren
   '/$locale/reset-password': typeof LocaleResetPasswordRoute
   '/$locale/resources': typeof LocaleResourcesRoute
-  '/$locale/services': typeof LocaleServicesRouteWithChildren
   '/$locale/skool': typeof LocaleSkoolRoute
   '/$locale/talent-innovation-hub': typeof LocaleTalentInnovationHubRoute
   '/$locale/terms': typeof LocaleTermsRoute
@@ -1527,6 +1524,7 @@ export interface FileRoutesById {
   '/apply/wizard': typeof ApplyWizardRoute
   '/auth/mfa-setup': typeof AuthMfaSetupRoute
   '/b/$slug': typeof BSlugRoute
+  '/blog/$slug': typeof BlogSlugRoute
   '/blog/benefits-online-therapy': typeof BlogBenefitsOnlineTherapyRoute
   '/blog/do-i-need-therapy': typeof BlogDoINeedTherapyRoute
   '/blog/find-right-psychologist': typeof BlogFindRightPsychologistRoute
@@ -1553,7 +1551,17 @@ export interface FileRoutesById {
   '/services/consulting-for-organizations': typeof ServicesConsultingForOrganizationsRoute
   '/session/$sessionId': typeof SessionSessionIdRoute
   '/$locale/': typeof LocaleIndexRoute
+  '/admin/': typeof AdminIndexRoute
+  '/apply/': typeof ApplyIndexRoute
+  '/auth/': typeof AuthIndexRoute
+  '/blog/': typeof BlogIndexRoute
+  '/center/': typeof CenterIndexRoute
+  '/dashboard/': typeof DashboardIndexRoute
+  '/intake/': typeof IntakeIndexRoute
+  '/learn/': typeof LearnIndexRoute
   '/ops/': typeof OpsIndexRoute
+  '/psychologists/': typeof PsychologistsIndexRoute
+  '/services/': typeof ServicesIndexRoute
   '/$locale/admin/applications': typeof LocaleAdminApplicationsRoute
   '/$locale/admin/crm': typeof LocaleAdminCrmRoute
   '/$locale/admin/finance': typeof LocaleAdminFinanceRoute
@@ -1562,6 +1570,7 @@ export interface FileRoutesById {
   '/$locale/apply/wizard': typeof LocaleApplyWizardRoute
   '/$locale/auth/mfa-setup': typeof LocaleAuthMfaSetupRoute
   '/$locale/b/$slug': typeof LocaleBSlugRoute
+  '/$locale/blog/$slug': typeof LocaleBlogSlugRoute
   '/$locale/blog/benefits-online-therapy': typeof LocaleBlogBenefitsOnlineTherapyRoute
   '/$locale/blog/do-i-need-therapy': typeof LocaleBlogDoINeedTherapyRoute
   '/$locale/blog/find-right-psychologist': typeof LocaleBlogFindRightPsychologistRoute
@@ -1594,6 +1603,16 @@ export interface FileRoutesById {
   '/ops/$workspace/command': typeof OpsWorkspaceCommandRoute
   '/ops/$workspace/director': typeof OpsWorkspaceDirectorRoute
   '/ops/$workspace/tasks': typeof OpsWorkspaceTasksRoute
+  '/$locale/admin/': typeof LocaleAdminIndexRoute
+  '/$locale/apply/': typeof LocaleApplyIndexRoute
+  '/$locale/auth/': typeof LocaleAuthIndexRoute
+  '/$locale/blog/': typeof LocaleBlogIndexRoute
+  '/$locale/center/': typeof LocaleCenterIndexRoute
+  '/$locale/dashboard/': typeof LocaleDashboardIndexRoute
+  '/$locale/intake/': typeof LocaleIntakeIndexRoute
+  '/$locale/learn/': typeof LocaleLearnIndexRoute
+  '/$locale/psychologists/': typeof LocalePsychologistsIndexRoute
+  '/$locale/services/': typeof LocaleServicesIndexRoute
   '/ops/$workspace/': typeof OpsWorkspaceIndexRoute
   '/$locale/booking/respond/$token': typeof LocaleBookingRespondTokenRoute
   '/$locale/center/c/$slug': typeof LocaleCenterCSlugRoute
@@ -1606,27 +1625,19 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/about'
-    | '/admin'
     | '/ai-assistant'
-    | '/apply'
     | '/assessment-lab'
     | '/assessments'
     | '/athlete-hub'
-    | '/auth'
-    | '/blog'
     | '/book-a-call'
     | '/brand'
-    | '/center'
     | '/contact'
-    | '/dashboard'
     | '/for-athletes'
     | '/for-organizations'
     | '/founder'
     | '/free-score'
     | '/get-matched'
     | '/install'
-    | '/intake'
-    | '/learn'
     | '/legal'
     | '/membership'
     | '/mental-performance'
@@ -1640,10 +1651,8 @@ export interface FileRouteTypes {
     | '/pricing-specialists'
     | '/privacy'
     | '/psf'
-    | '/psychologists'
     | '/reset-password'
     | '/resources'
-    | '/services'
     | '/skool'
     | '/soleterre'
     | '/talent-innovation-hub'
@@ -1651,27 +1660,19 @@ export interface FileRouteTypes {
     | '/unsubscribe'
     | '/why-us'
     | '/$locale/about'
-    | '/$locale/admin'
     | '/$locale/ai-assistant'
-    | '/$locale/apply'
     | '/$locale/assessment-lab'
     | '/$locale/assessments'
     | '/$locale/athlete-hub'
-    | '/$locale/auth'
-    | '/$locale/blog'
     | '/$locale/book-a-call'
     | '/$locale/brand'
-    | '/$locale/center'
     | '/$locale/contact'
-    | '/$locale/dashboard'
     | '/$locale/for-athletes'
     | '/$locale/for-organizations'
     | '/$locale/founder'
     | '/$locale/free-score'
     | '/$locale/get-matched'
     | '/$locale/install'
-    | '/$locale/intake'
-    | '/$locale/learn'
     | '/$locale/legal'
     | '/$locale/membership'
     | '/$locale/mental-performance'
@@ -1685,10 +1686,8 @@ export interface FileRouteTypes {
     | '/$locale/pricing-specialists'
     | '/$locale/privacy'
     | '/$locale/psf'
-    | '/$locale/psychologists'
     | '/$locale/reset-password'
     | '/$locale/resources'
-    | '/$locale/services'
     | '/$locale/skool'
     | '/$locale/talent-innovation-hub'
     | '/$locale/terms'
@@ -1704,6 +1703,7 @@ export interface FileRouteTypes {
     | '/apply/wizard'
     | '/auth/mfa-setup'
     | '/b/$slug'
+    | '/blog/$slug'
     | '/blog/benefits-online-therapy'
     | '/blog/do-i-need-therapy'
     | '/blog/find-right-psychologist'
@@ -1730,7 +1730,17 @@ export interface FileRouteTypes {
     | '/services/consulting-for-organizations'
     | '/session/$sessionId'
     | '/$locale/'
+    | '/admin/'
+    | '/apply/'
+    | '/auth/'
+    | '/blog/'
+    | '/center/'
+    | '/dashboard/'
+    | '/intake/'
+    | '/learn/'
     | '/ops/'
+    | '/psychologists/'
+    | '/services/'
     | '/$locale/admin/applications'
     | '/$locale/admin/crm'
     | '/$locale/admin/finance'
@@ -1739,6 +1749,7 @@ export interface FileRouteTypes {
     | '/$locale/apply/wizard'
     | '/$locale/auth/mfa-setup'
     | '/$locale/b/$slug'
+    | '/$locale/blog/$slug'
     | '/$locale/blog/benefits-online-therapy'
     | '/$locale/blog/do-i-need-therapy'
     | '/$locale/blog/find-right-psychologist'
@@ -1771,6 +1782,16 @@ export interface FileRouteTypes {
     | '/ops/$workspace/command'
     | '/ops/$workspace/director'
     | '/ops/$workspace/tasks'
+    | '/$locale/admin/'
+    | '/$locale/apply/'
+    | '/$locale/auth/'
+    | '/$locale/blog/'
+    | '/$locale/center/'
+    | '/$locale/dashboard/'
+    | '/$locale/intake/'
+    | '/$locale/learn/'
+    | '/$locale/psychologists/'
+    | '/$locale/services/'
     | '/ops/$workspace/'
     | '/$locale/booking/respond/$token'
     | '/$locale/center/c/$slug'
@@ -1781,27 +1802,19 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/about'
-    | '/admin'
     | '/ai-assistant'
-    | '/apply'
     | '/assessment-lab'
     | '/assessments'
     | '/athlete-hub'
-    | '/auth'
-    | '/blog'
     | '/book-a-call'
     | '/brand'
-    | '/center'
     | '/contact'
-    | '/dashboard'
     | '/for-athletes'
     | '/for-organizations'
     | '/founder'
     | '/free-score'
     | '/get-matched'
     | '/install'
-    | '/intake'
-    | '/learn'
     | '/legal'
     | '/membership'
     | '/mental-performance'
@@ -1815,10 +1828,8 @@ export interface FileRouteTypes {
     | '/pricing-specialists'
     | '/privacy'
     | '/psf'
-    | '/psychologists'
     | '/reset-password'
     | '/resources'
-    | '/services'
     | '/skool'
     | '/soleterre'
     | '/talent-innovation-hub'
@@ -1826,27 +1837,19 @@ export interface FileRouteTypes {
     | '/unsubscribe'
     | '/why-us'
     | '/$locale/about'
-    | '/$locale/admin'
     | '/$locale/ai-assistant'
-    | '/$locale/apply'
     | '/$locale/assessment-lab'
     | '/$locale/assessments'
     | '/$locale/athlete-hub'
-    | '/$locale/auth'
-    | '/$locale/blog'
     | '/$locale/book-a-call'
     | '/$locale/brand'
-    | '/$locale/center'
     | '/$locale/contact'
-    | '/$locale/dashboard'
     | '/$locale/for-athletes'
     | '/$locale/for-organizations'
     | '/$locale/founder'
     | '/$locale/free-score'
     | '/$locale/get-matched'
     | '/$locale/install'
-    | '/$locale/intake'
-    | '/$locale/learn'
     | '/$locale/legal'
     | '/$locale/membership'
     | '/$locale/mental-performance'
@@ -1860,10 +1863,8 @@ export interface FileRouteTypes {
     | '/$locale/pricing-specialists'
     | '/$locale/privacy'
     | '/$locale/psf'
-    | '/$locale/psychologists'
     | '/$locale/reset-password'
     | '/$locale/resources'
-    | '/$locale/services'
     | '/$locale/skool'
     | '/$locale/talent-innovation-hub'
     | '/$locale/terms'
@@ -1879,6 +1880,7 @@ export interface FileRouteTypes {
     | '/apply/wizard'
     | '/auth/mfa-setup'
     | '/b/$slug'
+    | '/blog/$slug'
     | '/blog/benefits-online-therapy'
     | '/blog/do-i-need-therapy'
     | '/blog/find-right-psychologist'
@@ -1904,7 +1906,17 @@ export interface FileRouteTypes {
     | '/services/consulting-for-organizations'
     | '/session/$sessionId'
     | '/$locale'
+    | '/admin'
+    | '/apply'
+    | '/auth'
+    | '/blog'
+    | '/center'
+    | '/dashboard'
+    | '/intake'
+    | '/learn'
     | '/ops'
+    | '/psychologists'
+    | '/services'
     | '/$locale/admin/applications'
     | '/$locale/admin/crm'
     | '/$locale/admin/finance'
@@ -1913,6 +1925,7 @@ export interface FileRouteTypes {
     | '/$locale/apply/wizard'
     | '/$locale/auth/mfa-setup'
     | '/$locale/b/$slug'
+    | '/$locale/blog/$slug'
     | '/$locale/blog/benefits-online-therapy'
     | '/$locale/blog/do-i-need-therapy'
     | '/$locale/blog/find-right-psychologist'
@@ -1945,6 +1958,16 @@ export interface FileRouteTypes {
     | '/ops/$workspace/command'
     | '/ops/$workspace/director'
     | '/ops/$workspace/tasks'
+    | '/$locale/admin'
+    | '/$locale/apply'
+    | '/$locale/auth'
+    | '/$locale/blog'
+    | '/$locale/center'
+    | '/$locale/dashboard'
+    | '/$locale/intake'
+    | '/$locale/learn'
+    | '/$locale/psychologists'
+    | '/$locale/services'
     | '/ops/$workspace'
     | '/$locale/booking/respond/$token'
     | '/$locale/center/c/$slug'
@@ -1955,27 +1978,19 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/about'
-    | '/admin'
     | '/ai-assistant'
-    | '/apply'
     | '/assessment-lab'
     | '/assessments'
     | '/athlete-hub'
-    | '/auth'
-    | '/blog'
     | '/book-a-call'
     | '/brand'
-    | '/center'
     | '/contact'
-    | '/dashboard'
     | '/for-athletes'
     | '/for-organizations'
     | '/founder'
     | '/free-score'
     | '/get-matched'
     | '/install'
-    | '/intake'
-    | '/learn'
     | '/legal'
     | '/membership'
     | '/mental-performance'
@@ -1989,10 +2004,8 @@ export interface FileRouteTypes {
     | '/pricing-specialists'
     | '/privacy'
     | '/psf'
-    | '/psychologists'
     | '/reset-password'
     | '/resources'
-    | '/services'
     | '/skool'
     | '/soleterre'
     | '/talent-innovation-hub'
@@ -2000,27 +2013,19 @@ export interface FileRouteTypes {
     | '/unsubscribe'
     | '/why-us'
     | '/$locale/about'
-    | '/$locale/admin'
     | '/$locale/ai-assistant'
-    | '/$locale/apply'
     | '/$locale/assessment-lab'
     | '/$locale/assessments'
     | '/$locale/athlete-hub'
-    | '/$locale/auth'
-    | '/$locale/blog'
     | '/$locale/book-a-call'
     | '/$locale/brand'
-    | '/$locale/center'
     | '/$locale/contact'
-    | '/$locale/dashboard'
     | '/$locale/for-athletes'
     | '/$locale/for-organizations'
     | '/$locale/founder'
     | '/$locale/free-score'
     | '/$locale/get-matched'
     | '/$locale/install'
-    | '/$locale/intake'
-    | '/$locale/learn'
     | '/$locale/legal'
     | '/$locale/membership'
     | '/$locale/mental-performance'
@@ -2034,10 +2039,8 @@ export interface FileRouteTypes {
     | '/$locale/pricing-specialists'
     | '/$locale/privacy'
     | '/$locale/psf'
-    | '/$locale/psychologists'
     | '/$locale/reset-password'
     | '/$locale/resources'
-    | '/$locale/services'
     | '/$locale/skool'
     | '/$locale/talent-innovation-hub'
     | '/$locale/terms'
@@ -2053,6 +2056,7 @@ export interface FileRouteTypes {
     | '/apply/wizard'
     | '/auth/mfa-setup'
     | '/b/$slug'
+    | '/blog/$slug'
     | '/blog/benefits-online-therapy'
     | '/blog/do-i-need-therapy'
     | '/blog/find-right-psychologist'
@@ -2079,7 +2083,17 @@ export interface FileRouteTypes {
     | '/services/consulting-for-organizations'
     | '/session/$sessionId'
     | '/$locale/'
+    | '/admin/'
+    | '/apply/'
+    | '/auth/'
+    | '/blog/'
+    | '/center/'
+    | '/dashboard/'
+    | '/intake/'
+    | '/learn/'
     | '/ops/'
+    | '/psychologists/'
+    | '/services/'
     | '/$locale/admin/applications'
     | '/$locale/admin/crm'
     | '/$locale/admin/finance'
@@ -2088,6 +2102,7 @@ export interface FileRouteTypes {
     | '/$locale/apply/wizard'
     | '/$locale/auth/mfa-setup'
     | '/$locale/b/$slug'
+    | '/$locale/blog/$slug'
     | '/$locale/blog/benefits-online-therapy'
     | '/$locale/blog/do-i-need-therapy'
     | '/$locale/blog/find-right-psychologist'
@@ -2120,6 +2135,16 @@ export interface FileRouteTypes {
     | '/ops/$workspace/command'
     | '/ops/$workspace/director'
     | '/ops/$workspace/tasks'
+    | '/$locale/admin/'
+    | '/$locale/apply/'
+    | '/$locale/auth/'
+    | '/$locale/blog/'
+    | '/$locale/center/'
+    | '/$locale/dashboard/'
+    | '/$locale/intake/'
+    | '/$locale/learn/'
+    | '/$locale/psychologists/'
+    | '/$locale/services/'
     | '/ops/$workspace/'
     | '/$locale/booking/respond/$token'
     | '/$locale/center/c/$slug'
@@ -2131,27 +2156,19 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
-  AdminRoute: typeof AdminRouteWithChildren
   AiAssistantRoute: typeof AiAssistantRoute
-  ApplyRoute: typeof ApplyRouteWithChildren
   AssessmentLabRoute: typeof AssessmentLabRoute
   AssessmentsRoute: typeof AssessmentsRoute
   AthleteHubRoute: typeof AthleteHubRoute
-  AuthRoute: typeof AuthRouteWithChildren
-  BlogRoute: typeof BlogRouteWithChildren
   BookACallRoute: typeof BookACallRoute
   BrandRoute: typeof BrandRoute
-  CenterRoute: typeof CenterRouteWithChildren
   ContactRoute: typeof ContactRoute
-  DashboardRoute: typeof DashboardRouteWithChildren
   ForAthletesRoute: typeof ForAthletesRoute
   ForOrganizationsRoute: typeof ForOrganizationsRoute
   FounderRoute: typeof FounderRoute
   FreeScoreRoute: typeof FreeScoreRoute
   GetMatchedRoute: typeof GetMatchedRoute
   InstallRoute: typeof InstallRoute
-  IntakeRoute: typeof IntakeRouteWithChildren
-  LearnRoute: typeof LearnRouteWithChildren
   LegalRoute: typeof LegalRoute
   MembershipRoute: typeof MembershipRoute
   MentalPerformanceRoute: typeof MentalPerformanceRoute
@@ -2165,10 +2182,8 @@ export interface RootRouteChildren {
   PricingSpecialistsRoute: typeof PricingSpecialistsRoute
   PrivacyRoute: typeof PrivacyRoute
   PsfRoute: typeof PsfRoute
-  PsychologistsRoute: typeof PsychologistsRouteWithChildren
   ResetPasswordRoute: typeof ResetPasswordRoute
   ResourcesRoute: typeof ResourcesRoute
-  ServicesRoute: typeof ServicesRouteWithChildren
   SkoolRoute: typeof SkoolRoute
   SoleterreRoute: typeof SoleterreRoute
   TalentInnovationHubRoute: typeof TalentInnovationHubRoute
@@ -2176,27 +2191,19 @@ export interface RootRouteChildren {
   UnsubscribeRoute: typeof UnsubscribeRoute
   WhyUsRoute: typeof WhyUsRoute
   LocaleAboutRoute: typeof LocaleAboutRoute
-  LocaleAdminRoute: typeof LocaleAdminRouteWithChildren
   LocaleAiAssistantRoute: typeof LocaleAiAssistantRoute
-  LocaleApplyRoute: typeof LocaleApplyRouteWithChildren
   LocaleAssessmentLabRoute: typeof LocaleAssessmentLabRoute
   LocaleAssessmentsRoute: typeof LocaleAssessmentsRoute
   LocaleAthleteHubRoute: typeof LocaleAthleteHubRoute
-  LocaleAuthRoute: typeof LocaleAuthRouteWithChildren
-  LocaleBlogRoute: typeof LocaleBlogRouteWithChildren
   LocaleBookACallRoute: typeof LocaleBookACallRoute
   LocaleBrandRoute: typeof LocaleBrandRoute
-  LocaleCenterRoute: typeof LocaleCenterRouteWithChildren
   LocaleContactRoute: typeof LocaleContactRoute
-  LocaleDashboardRoute: typeof LocaleDashboardRouteWithChildren
   LocaleForAthletesRoute: typeof LocaleForAthletesRoute
   LocaleForOrganizationsRoute: typeof LocaleForOrganizationsRoute
   LocaleFounderRoute: typeof LocaleFounderRoute
   LocaleFreeScoreRoute: typeof LocaleFreeScoreRoute
   LocaleGetMatchedRoute: typeof LocaleGetMatchedRoute
   LocaleInstallRoute: typeof LocaleInstallRoute
-  LocaleIntakeRoute: typeof LocaleIntakeRouteWithChildren
-  LocaleLearnRoute: typeof LocaleLearnRouteWithChildren
   LocaleLegalRoute: typeof LocaleLegalRoute
   LocaleMembershipRoute: typeof LocaleMembershipRoute
   LocaleMentalPerformanceRoute: typeof LocaleMentalPerformanceRoute
@@ -2210,28 +2217,91 @@ export interface RootRouteChildren {
   LocalePricingSpecialistsRoute: typeof LocalePricingSpecialistsRoute
   LocalePrivacyRoute: typeof LocalePrivacyRoute
   LocalePsfRoute: typeof LocalePsfRoute
-  LocalePsychologistsRoute: typeof LocalePsychologistsRouteWithChildren
   LocaleResetPasswordRoute: typeof LocaleResetPasswordRoute
   LocaleResourcesRoute: typeof LocaleResourcesRoute
-  LocaleServicesRoute: typeof LocaleServicesRouteWithChildren
   LocaleSkoolRoute: typeof LocaleSkoolRoute
   LocaleTalentInnovationHubRoute: typeof LocaleTalentInnovationHubRoute
   LocaleTermsRoute: typeof LocaleTermsRoute
   LocaleUnsubscribeRoute: typeof LocaleUnsubscribeRoute
   LocaleWhyUsRoute: typeof LocaleWhyUsRoute
+  AdminApplicationsRoute: typeof AdminApplicationsRoute
+  AdminAuditRoute: typeof AdminAuditRoute
+  AdminCrmRoute: typeof AdminCrmRoute
+  AdminDnsRoute: typeof AdminDnsRoute
+  AdminFinanceRoute: typeof AdminFinanceRoute
+  AdminGrowthLeadsRoute: typeof AdminGrowthLeadsRoute
+  ApplyOrganizationRoute: typeof ApplyOrganizationRoute
+  ApplyWizardRoute: typeof ApplyWizardRoute
+  AuthMfaSetupRoute: typeof AuthMfaSetupRoute
   BSlugRoute: typeof BSlugRoute
+  BlogSlugRoute: typeof BlogSlugRoute
+  BlogBenefitsOnlineTherapyRoute: typeof BlogBenefitsOnlineTherapyRoute
+  BlogDoINeedTherapyRoute: typeof BlogDoINeedTherapyRoute
+  BlogFindRightPsychologistRoute: typeof BlogFindRightPsychologistRoute
+  BlogHowToClearBrainFogRoute: typeof BlogHowToClearBrainFogRoute
+  BlogHowToImproveFocusRoute: typeof BlogHowToImproveFocusRoute
+  BlogHowToSupportALovedOneRoute: typeof BlogHowToSupportALovedOneRoute
+  BlogMentalHealthAtWorkRoute: typeof BlogMentalHealthAtWorkRoute
+  BlogMindfulnessForBeginnersRoute: typeof BlogMindfulnessForBeginnersRoute
+  BlogUnderstandingAnxietyRoute: typeof BlogUnderstandingAnxietyRoute
+  BlogUnderstandingDepressionRoute: typeof BlogUnderstandingDepressionRoute
   CampaignsFirstSessionRoute: typeof CampaignsFirstSessionRoute
   CampaignsJoinSpecialistRoute: typeof CampaignsJoinSpecialistRoute
+  CenterProgressRoute: typeof CenterProgressRoute
+  CenterSchoolsRoute: typeof CenterSchoolsRoute
+  DashboardClientRoute: typeof DashboardClientRoute
+  DashboardOrganizationRoute: typeof DashboardOrganizationRoute
+  DashboardSpecialistRoute: typeof DashboardSpecialistRoute
+  IntakeBookingIdRoute: typeof IntakeBookingIdRoute
   InviteCodeRoute: typeof InviteCodeRoute
+  LearnSlugRoute: typeof LearnSlugRoute
   OpsWorkspaceRoute: typeof OpsWorkspaceRouteWithChildren
   OpsPreviewRoute: typeof OpsPreviewRoute
+  PsychologistsIdRoute: typeof PsychologistsIdRoute
+  ServicesConsultingForOrganizationsRoute: typeof ServicesConsultingForOrganizationsRoute
   SessionSessionIdRoute: typeof SessionSessionIdRoute
   LocaleIndexRoute: typeof LocaleIndexRoute
+  AdminIndexRoute: typeof AdminIndexRoute
+  ApplyIndexRoute: typeof ApplyIndexRoute
+  AuthIndexRoute: typeof AuthIndexRoute
+  BlogIndexRoute: typeof BlogIndexRoute
+  CenterIndexRoute: typeof CenterIndexRoute
+  DashboardIndexRoute: typeof DashboardIndexRoute
+  IntakeIndexRoute: typeof IntakeIndexRoute
+  LearnIndexRoute: typeof LearnIndexRoute
   OpsIndexRoute: typeof OpsIndexRoute
+  PsychologistsIndexRoute: typeof PsychologistsIndexRoute
+  ServicesIndexRoute: typeof ServicesIndexRoute
+  LocaleAdminApplicationsRoute: typeof LocaleAdminApplicationsRoute
+  LocaleAdminCrmRoute: typeof LocaleAdminCrmRoute
+  LocaleAdminFinanceRoute: typeof LocaleAdminFinanceRoute
+  LocaleAdminGrowthLeadsRoute: typeof LocaleAdminGrowthLeadsRoute
+  LocaleApplyOrganizationRoute: typeof LocaleApplyOrganizationRoute
+  LocaleApplyWizardRoute: typeof LocaleApplyWizardRoute
+  LocaleAuthMfaSetupRoute: typeof LocaleAuthMfaSetupRoute
   LocaleBSlugRoute: typeof LocaleBSlugRoute
+  LocaleBlogSlugRoute: typeof LocaleBlogSlugRoute
+  LocaleBlogBenefitsOnlineTherapyRoute: typeof LocaleBlogBenefitsOnlineTherapyRoute
+  LocaleBlogDoINeedTherapyRoute: typeof LocaleBlogDoINeedTherapyRoute
+  LocaleBlogFindRightPsychologistRoute: typeof LocaleBlogFindRightPsychologistRoute
+  LocaleBlogHowToClearBrainFogRoute: typeof LocaleBlogHowToClearBrainFogRoute
+  LocaleBlogHowToImproveFocusRoute: typeof LocaleBlogHowToImproveFocusRoute
+  LocaleBlogHowToSupportALovedOneRoute: typeof LocaleBlogHowToSupportALovedOneRoute
+  LocaleBlogMentalHealthAtWorkRoute: typeof LocaleBlogMentalHealthAtWorkRoute
+  LocaleBlogMindfulnessForBeginnersRoute: typeof LocaleBlogMindfulnessForBeginnersRoute
+  LocaleBlogUnderstandingAnxietyRoute: typeof LocaleBlogUnderstandingAnxietyRoute
+  LocaleBlogUnderstandingDepressionRoute: typeof LocaleBlogUnderstandingDepressionRoute
   LocaleCampaignsFirstSessionRoute: typeof LocaleCampaignsFirstSessionRoute
   LocaleCampaignsJoinSpecialistRoute: typeof LocaleCampaignsJoinSpecialistRoute
+  LocaleCenterProgressRoute: typeof LocaleCenterProgressRoute
+  LocaleDashboardClientRoute: typeof LocaleDashboardClientRoute
+  LocaleDashboardOrganizationRoute: typeof LocaleDashboardOrganizationRoute
+  LocaleDashboardSpecialistRoute: typeof LocaleDashboardSpecialistRoute
+  LocaleIntakeBookingIdRoute: typeof LocaleIntakeBookingIdRoute
   LocaleInviteCodeRoute: typeof LocaleInviteCodeRoute
+  LocaleLearnSlugRoute: typeof LocaleLearnSlugRoute
+  LocalePsychologistsIdRoute: typeof LocalePsychologistsIdRoute
+  LocaleServicesConsultingForOrganizationsRoute: typeof LocaleServicesConsultingForOrganizationsRoute
   LocaleSessionSessionIdRoute: typeof LocaleSessionSessionIdRoute
   ApiPublicCiEventsRoute: typeof ApiPublicCiEventsRoute
   ApiPublicCrmEmailEventsRoute: typeof ApiPublicCrmEmailEventsRoute
@@ -2239,7 +2309,19 @@ export interface RootRouteChildren {
   ApiPublicHealthzRoute: typeof ApiPublicHealthzRoute
   ApiPublicRuntimeLogsRoute: typeof ApiPublicRuntimeLogsRoute
   BookingRespondTokenRoute: typeof BookingRespondTokenRoute
+  CenterCSlugRoute: typeof CenterCSlugRoute
+  LocaleAdminIndexRoute: typeof LocaleAdminIndexRoute
+  LocaleApplyIndexRoute: typeof LocaleApplyIndexRoute
+  LocaleAuthIndexRoute: typeof LocaleAuthIndexRoute
+  LocaleBlogIndexRoute: typeof LocaleBlogIndexRoute
+  LocaleCenterIndexRoute: typeof LocaleCenterIndexRoute
+  LocaleDashboardIndexRoute: typeof LocaleDashboardIndexRoute
+  LocaleIntakeIndexRoute: typeof LocaleIntakeIndexRoute
+  LocaleLearnIndexRoute: typeof LocaleLearnIndexRoute
+  LocalePsychologistsIndexRoute: typeof LocalePsychologistsIndexRoute
+  LocaleServicesIndexRoute: typeof LocaleServicesIndexRoute
   LocaleBookingRespondTokenRoute: typeof LocaleBookingRespondTokenRoute
+  LocaleCenterCSlugRoute: typeof LocaleCenterCSlugRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -2258,25 +2340,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AboutRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/admin': {
-      id: '/admin'
-      path: '/admin'
-      fullPath: '/admin'
-      preLoaderRoute: typeof AdminRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/ai-assistant': {
       id: '/ai-assistant'
       path: '/ai-assistant'
       fullPath: '/ai-assistant'
       preLoaderRoute: typeof AiAssistantRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/apply': {
-      id: '/apply'
-      path: '/apply'
-      fullPath: '/apply'
-      preLoaderRoute: typeof ApplyRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/assessment-lab': {
@@ -2300,20 +2368,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AthleteHubRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/auth': {
-      id: '/auth'
-      path: '/auth'
-      fullPath: '/auth'
-      preLoaderRoute: typeof AuthRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/blog': {
-      id: '/blog'
-      path: '/blog'
-      fullPath: '/blog'
-      preLoaderRoute: typeof BlogRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/book-a-call': {
       id: '/book-a-call'
       path: '/book-a-call'
@@ -2328,25 +2382,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof BrandRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/center': {
-      id: '/center'
-      path: '/center'
-      fullPath: '/center'
-      preLoaderRoute: typeof CenterRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/contact': {
       id: '/contact'
       path: '/contact'
       fullPath: '/contact'
       preLoaderRoute: typeof ContactRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/dashboard': {
-      id: '/dashboard'
-      path: '/dashboard'
-      fullPath: '/dashboard'
-      preLoaderRoute: typeof DashboardRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/for-athletes': {
@@ -2389,20 +2429,6 @@ declare module '@tanstack/react-router' {
       path: '/install'
       fullPath: '/install'
       preLoaderRoute: typeof InstallRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/intake': {
-      id: '/intake'
-      path: '/intake'
-      fullPath: '/intake'
-      preLoaderRoute: typeof IntakeRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/learn': {
-      id: '/learn'
-      path: '/learn'
-      fullPath: '/learn'
-      preLoaderRoute: typeof LearnRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/legal': {
@@ -2496,13 +2522,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PsfRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/psychologists': {
-      id: '/psychologists'
-      path: '/psychologists'
-      fullPath: '/psychologists'
-      preLoaderRoute: typeof PsychologistsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/reset-password': {
       id: '/reset-password'
       path: '/reset-password'
@@ -2515,13 +2534,6 @@ declare module '@tanstack/react-router' {
       path: '/resources'
       fullPath: '/resources'
       preLoaderRoute: typeof ResourcesRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/services': {
-      id: '/services'
-      path: '/services'
-      fullPath: '/services'
-      preLoaderRoute: typeof ServicesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/skool': {
@@ -2580,25 +2592,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LocaleAboutRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/$locale/admin': {
-      id: '/$locale/admin'
-      path: '/$locale/admin'
-      fullPath: '/$locale/admin'
-      preLoaderRoute: typeof LocaleAdminRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/$locale/ai-assistant': {
       id: '/$locale/ai-assistant'
       path: '/$locale/ai-assistant'
       fullPath: '/$locale/ai-assistant'
       preLoaderRoute: typeof LocaleAiAssistantRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/$locale/apply': {
-      id: '/$locale/apply'
-      path: '/$locale/apply'
-      fullPath: '/$locale/apply'
-      preLoaderRoute: typeof LocaleApplyRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/$locale/assessment-lab': {
@@ -2622,20 +2620,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LocaleAthleteHubRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/$locale/auth': {
-      id: '/$locale/auth'
-      path: '/$locale/auth'
-      fullPath: '/$locale/auth'
-      preLoaderRoute: typeof LocaleAuthRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/$locale/blog': {
-      id: '/$locale/blog'
-      path: '/$locale/blog'
-      fullPath: '/$locale/blog'
-      preLoaderRoute: typeof LocaleBlogRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/$locale/book-a-call': {
       id: '/$locale/book-a-call'
       path: '/$locale/book-a-call'
@@ -2650,25 +2634,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LocaleBrandRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/$locale/center': {
-      id: '/$locale/center'
-      path: '/$locale/center'
-      fullPath: '/$locale/center'
-      preLoaderRoute: typeof LocaleCenterRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/$locale/contact': {
       id: '/$locale/contact'
       path: '/$locale/contact'
       fullPath: '/$locale/contact'
       preLoaderRoute: typeof LocaleContactRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/$locale/dashboard': {
-      id: '/$locale/dashboard'
-      path: '/$locale/dashboard'
-      fullPath: '/$locale/dashboard'
-      preLoaderRoute: typeof LocaleDashboardRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/$locale/for-athletes': {
@@ -2711,20 +2681,6 @@ declare module '@tanstack/react-router' {
       path: '/$locale/install'
       fullPath: '/$locale/install'
       preLoaderRoute: typeof LocaleInstallRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/$locale/intake': {
-      id: '/$locale/intake'
-      path: '/$locale/intake'
-      fullPath: '/$locale/intake'
-      preLoaderRoute: typeof LocaleIntakeRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/$locale/learn': {
-      id: '/$locale/learn'
-      path: '/$locale/learn'
-      fullPath: '/$locale/learn'
-      preLoaderRoute: typeof LocaleLearnRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/$locale/legal': {
@@ -2818,13 +2774,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LocalePsfRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/$locale/psychologists': {
-      id: '/$locale/psychologists'
-      path: '/$locale/psychologists'
-      fullPath: '/$locale/psychologists'
-      preLoaderRoute: typeof LocalePsychologistsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/$locale/reset-password': {
       id: '/$locale/reset-password'
       path: '/$locale/reset-password'
@@ -2837,13 +2786,6 @@ declare module '@tanstack/react-router' {
       path: '/$locale/resources'
       fullPath: '/$locale/resources'
       preLoaderRoute: typeof LocaleResourcesRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/$locale/services': {
-      id: '/$locale/services'
-      path: '/$locale/services'
-      fullPath: '/$locale/services'
-      preLoaderRoute: typeof LocaleServicesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/$locale/skool': {
@@ -2881,68 +2823,89 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LocaleWhyUsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/': {
+      id: '/admin/'
+      path: '/admin'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof AdminIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/admin/applications': {
       id: '/admin/applications'
-      path: '/applications'
+      path: '/admin/applications'
       fullPath: '/admin/applications'
       preLoaderRoute: typeof AdminApplicationsRouteImport
-      parentRoute: typeof AdminRoute
+      parentRoute: typeof rootRouteImport
     }
     '/admin/audit': {
       id: '/admin/audit'
-      path: '/audit'
+      path: '/admin/audit'
       fullPath: '/admin/audit'
       preLoaderRoute: typeof AdminAuditRouteImport
-      parentRoute: typeof AdminRoute
+      parentRoute: typeof rootRouteImport
     }
     '/admin/crm': {
       id: '/admin/crm'
-      path: '/crm'
+      path: '/admin/crm'
       fullPath: '/admin/crm'
       preLoaderRoute: typeof AdminCrmRouteImport
-      parentRoute: typeof AdminRoute
+      parentRoute: typeof rootRouteImport
     }
     '/admin/dns': {
       id: '/admin/dns'
-      path: '/dns'
+      path: '/admin/dns'
       fullPath: '/admin/dns'
       preLoaderRoute: typeof AdminDnsRouteImport
-      parentRoute: typeof AdminRoute
+      parentRoute: typeof rootRouteImport
     }
     '/admin/finance': {
       id: '/admin/finance'
-      path: '/finance'
+      path: '/admin/finance'
       fullPath: '/admin/finance'
       preLoaderRoute: typeof AdminFinanceRouteImport
-      parentRoute: typeof AdminRoute
+      parentRoute: typeof rootRouteImport
     }
     '/admin/growth-leads': {
       id: '/admin/growth-leads'
-      path: '/growth-leads'
+      path: '/admin/growth-leads'
       fullPath: '/admin/growth-leads'
       preLoaderRoute: typeof AdminGrowthLeadsRouteImport
-      parentRoute: typeof AdminRoute
+      parentRoute: typeof rootRouteImport
+    }
+    '/apply/': {
+      id: '/apply/'
+      path: '/apply'
+      fullPath: '/apply/'
+      preLoaderRoute: typeof ApplyIndexRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/apply/organization': {
       id: '/apply/organization'
-      path: '/organization'
+      path: '/apply/organization'
       fullPath: '/apply/organization'
       preLoaderRoute: typeof ApplyOrganizationRouteImport
-      parentRoute: typeof ApplyRoute
+      parentRoute: typeof rootRouteImport
     }
     '/apply/wizard': {
       id: '/apply/wizard'
-      path: '/wizard'
+      path: '/apply/wizard'
       fullPath: '/apply/wizard'
       preLoaderRoute: typeof ApplyWizardRouteImport
-      parentRoute: typeof ApplyRoute
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth/': {
+      id: '/auth/'
+      path: '/auth'
+      fullPath: '/auth/'
+      preLoaderRoute: typeof AuthIndexRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/auth/mfa-setup': {
       id: '/auth/mfa-setup'
-      path: '/mfa-setup'
+      path: '/auth/mfa-setup'
       fullPath: '/auth/mfa-setup'
       preLoaderRoute: typeof AuthMfaSetupRouteImport
-      parentRoute: typeof AuthRoute
+      parentRoute: typeof rootRouteImport
     }
     '/b/$slug': {
       id: '/b/$slug'
@@ -2951,75 +2914,89 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof BSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/blog/': {
+      id: '/blog/'
+      path: '/blog'
+      fullPath: '/blog/'
+      preLoaderRoute: typeof BlogIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/blog/$slug': {
+      id: '/blog/$slug'
+      path: '/blog/$slug'
+      fullPath: '/blog/$slug'
+      preLoaderRoute: typeof BlogSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/blog/benefits-online-therapy': {
       id: '/blog/benefits-online-therapy'
-      path: '/benefits-online-therapy'
+      path: '/blog/benefits-online-therapy'
       fullPath: '/blog/benefits-online-therapy'
       preLoaderRoute: typeof BlogBenefitsOnlineTherapyRouteImport
-      parentRoute: typeof BlogRoute
+      parentRoute: typeof rootRouteImport
     }
     '/blog/do-i-need-therapy': {
       id: '/blog/do-i-need-therapy'
-      path: '/do-i-need-therapy'
+      path: '/blog/do-i-need-therapy'
       fullPath: '/blog/do-i-need-therapy'
       preLoaderRoute: typeof BlogDoINeedTherapyRouteImport
-      parentRoute: typeof BlogRoute
+      parentRoute: typeof rootRouteImport
     }
     '/blog/find-right-psychologist': {
       id: '/blog/find-right-psychologist'
-      path: '/find-right-psychologist'
+      path: '/blog/find-right-psychologist'
       fullPath: '/blog/find-right-psychologist'
       preLoaderRoute: typeof BlogFindRightPsychologistRouteImport
-      parentRoute: typeof BlogRoute
+      parentRoute: typeof rootRouteImport
     }
     '/blog/how-to-clear-brain-fog': {
       id: '/blog/how-to-clear-brain-fog'
-      path: '/how-to-clear-brain-fog'
+      path: '/blog/how-to-clear-brain-fog'
       fullPath: '/blog/how-to-clear-brain-fog'
       preLoaderRoute: typeof BlogHowToClearBrainFogRouteImport
-      parentRoute: typeof BlogRoute
+      parentRoute: typeof rootRouteImport
     }
     '/blog/how-to-improve-focus': {
       id: '/blog/how-to-improve-focus'
-      path: '/how-to-improve-focus'
+      path: '/blog/how-to-improve-focus'
       fullPath: '/blog/how-to-improve-focus'
       preLoaderRoute: typeof BlogHowToImproveFocusRouteImport
-      parentRoute: typeof BlogRoute
+      parentRoute: typeof rootRouteImport
     }
     '/blog/how-to-support-a-loved-one': {
       id: '/blog/how-to-support-a-loved-one'
-      path: '/how-to-support-a-loved-one'
+      path: '/blog/how-to-support-a-loved-one'
       fullPath: '/blog/how-to-support-a-loved-one'
       preLoaderRoute: typeof BlogHowToSupportALovedOneRouteImport
-      parentRoute: typeof BlogRoute
+      parentRoute: typeof rootRouteImport
     }
     '/blog/mental-health-at-work': {
       id: '/blog/mental-health-at-work'
-      path: '/mental-health-at-work'
+      path: '/blog/mental-health-at-work'
       fullPath: '/blog/mental-health-at-work'
       preLoaderRoute: typeof BlogMentalHealthAtWorkRouteImport
-      parentRoute: typeof BlogRoute
+      parentRoute: typeof rootRouteImport
     }
     '/blog/mindfulness-for-beginners': {
       id: '/blog/mindfulness-for-beginners'
-      path: '/mindfulness-for-beginners'
+      path: '/blog/mindfulness-for-beginners'
       fullPath: '/blog/mindfulness-for-beginners'
       preLoaderRoute: typeof BlogMindfulnessForBeginnersRouteImport
-      parentRoute: typeof BlogRoute
+      parentRoute: typeof rootRouteImport
     }
     '/blog/understanding-anxiety': {
       id: '/blog/understanding-anxiety'
-      path: '/understanding-anxiety'
+      path: '/blog/understanding-anxiety'
       fullPath: '/blog/understanding-anxiety'
       preLoaderRoute: typeof BlogUnderstandingAnxietyRouteImport
-      parentRoute: typeof BlogRoute
+      parentRoute: typeof rootRouteImport
     }
     '/blog/understanding-depression': {
       id: '/blog/understanding-depression'
-      path: '/understanding-depression'
+      path: '/blog/understanding-depression'
       fullPath: '/blog/understanding-depression'
       preLoaderRoute: typeof BlogUnderstandingDepressionRouteImport
-      parentRoute: typeof BlogRoute
+      parentRoute: typeof rootRouteImport
     }
     '/campaigns/first-session': {
       id: '/campaigns/first-session'
@@ -3035,47 +3012,68 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CampaignsJoinSpecialistRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/center/': {
+      id: '/center/'
+      path: '/center'
+      fullPath: '/center/'
+      preLoaderRoute: typeof CenterIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/center/progress': {
       id: '/center/progress'
-      path: '/progress'
+      path: '/center/progress'
       fullPath: '/center/progress'
       preLoaderRoute: typeof CenterProgressRouteImport
-      parentRoute: typeof CenterRoute
+      parentRoute: typeof rootRouteImport
     }
     '/center/schools': {
       id: '/center/schools'
-      path: '/schools'
+      path: '/center/schools'
       fullPath: '/center/schools'
       preLoaderRoute: typeof CenterSchoolsRouteImport
-      parentRoute: typeof CenterRoute
+      parentRoute: typeof rootRouteImport
+    }
+    '/dashboard/': {
+      id: '/dashboard/'
+      path: '/dashboard'
+      fullPath: '/dashboard/'
+      preLoaderRoute: typeof DashboardIndexRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/dashboard/client': {
       id: '/dashboard/client'
-      path: '/client'
+      path: '/dashboard/client'
       fullPath: '/dashboard/client'
       preLoaderRoute: typeof DashboardClientRouteImport
-      parentRoute: typeof DashboardRoute
+      parentRoute: typeof rootRouteImport
     }
     '/dashboard/organization': {
       id: '/dashboard/organization'
-      path: '/organization'
+      path: '/dashboard/organization'
       fullPath: '/dashboard/organization'
       preLoaderRoute: typeof DashboardOrganizationRouteImport
-      parentRoute: typeof DashboardRoute
+      parentRoute: typeof rootRouteImport
     }
     '/dashboard/specialist': {
       id: '/dashboard/specialist'
-      path: '/specialist'
+      path: '/dashboard/specialist'
       fullPath: '/dashboard/specialist'
       preLoaderRoute: typeof DashboardSpecialistRouteImport
-      parentRoute: typeof DashboardRoute
+      parentRoute: typeof rootRouteImport
+    }
+    '/intake/': {
+      id: '/intake/'
+      path: '/intake'
+      fullPath: '/intake/'
+      preLoaderRoute: typeof IntakeIndexRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/intake/$bookingId': {
       id: '/intake/$bookingId'
-      path: '/$bookingId'
+      path: '/intake/$bookingId'
       fullPath: '/intake/$bookingId'
       preLoaderRoute: typeof IntakeBookingIdRouteImport
-      parentRoute: typeof IntakeRoute
+      parentRoute: typeof rootRouteImport
     }
     '/invite/$code': {
       id: '/invite/$code'
@@ -3084,12 +3082,19 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof InviteCodeRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/learn/': {
+      id: '/learn/'
+      path: '/learn'
+      fullPath: '/learn/'
+      preLoaderRoute: typeof LearnIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/learn/$slug': {
       id: '/learn/$slug'
-      path: '/$slug'
+      path: '/learn/$slug'
       fullPath: '/learn/$slug'
       preLoaderRoute: typeof LearnSlugRouteImport
-      parentRoute: typeof LearnRoute
+      parentRoute: typeof rootRouteImport
     }
     '/ops/': {
       id: '/ops/'
@@ -3112,19 +3117,33 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof OpsPreviewRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/psychologists/': {
+      id: '/psychologists/'
+      path: '/psychologists'
+      fullPath: '/psychologists/'
+      preLoaderRoute: typeof PsychologistsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/psychologists/$id': {
       id: '/psychologists/$id'
-      path: '/$id'
+      path: '/psychologists/$id'
       fullPath: '/psychologists/$id'
       preLoaderRoute: typeof PsychologistsIdRouteImport
-      parentRoute: typeof PsychologistsRoute
+      parentRoute: typeof rootRouteImport
+    }
+    '/services/': {
+      id: '/services/'
+      path: '/services'
+      fullPath: '/services/'
+      preLoaderRoute: typeof ServicesIndexRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/services/consulting-for-organizations': {
       id: '/services/consulting-for-organizations'
-      path: '/consulting-for-organizations'
+      path: '/services/consulting-for-organizations'
       fullPath: '/services/consulting-for-organizations'
       preLoaderRoute: typeof ServicesConsultingForOrganizationsRouteImport
-      parentRoute: typeof ServicesRoute
+      parentRoute: typeof rootRouteImport
     }
     '/session/$sessionId': {
       id: '/session/$sessionId'
@@ -3133,54 +3152,75 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SessionSessionIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/$locale/admin/': {
+      id: '/$locale/admin/'
+      path: '/$locale/admin'
+      fullPath: '/$locale/admin/'
+      preLoaderRoute: typeof LocaleAdminIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/$locale/admin/applications': {
       id: '/$locale/admin/applications'
-      path: '/applications'
+      path: '/$locale/admin/applications'
       fullPath: '/$locale/admin/applications'
       preLoaderRoute: typeof LocaleAdminApplicationsRouteImport
-      parentRoute: typeof LocaleAdminRoute
+      parentRoute: typeof rootRouteImport
     }
     '/$locale/admin/crm': {
       id: '/$locale/admin/crm'
-      path: '/crm'
+      path: '/$locale/admin/crm'
       fullPath: '/$locale/admin/crm'
       preLoaderRoute: typeof LocaleAdminCrmRouteImport
-      parentRoute: typeof LocaleAdminRoute
+      parentRoute: typeof rootRouteImport
     }
     '/$locale/admin/finance': {
       id: '/$locale/admin/finance'
-      path: '/finance'
+      path: '/$locale/admin/finance'
       fullPath: '/$locale/admin/finance'
       preLoaderRoute: typeof LocaleAdminFinanceRouteImport
-      parentRoute: typeof LocaleAdminRoute
+      parentRoute: typeof rootRouteImport
     }
     '/$locale/admin/growth-leads': {
       id: '/$locale/admin/growth-leads'
-      path: '/growth-leads'
+      path: '/$locale/admin/growth-leads'
       fullPath: '/$locale/admin/growth-leads'
       preLoaderRoute: typeof LocaleAdminGrowthLeadsRouteImport
-      parentRoute: typeof LocaleAdminRoute
+      parentRoute: typeof rootRouteImport
+    }
+    '/$locale/apply/': {
+      id: '/$locale/apply/'
+      path: '/$locale/apply'
+      fullPath: '/$locale/apply/'
+      preLoaderRoute: typeof LocaleApplyIndexRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/$locale/apply/organization': {
       id: '/$locale/apply/organization'
-      path: '/organization'
+      path: '/$locale/apply/organization'
       fullPath: '/$locale/apply/organization'
       preLoaderRoute: typeof LocaleApplyOrganizationRouteImport
-      parentRoute: typeof LocaleApplyRoute
+      parentRoute: typeof rootRouteImport
     }
     '/$locale/apply/wizard': {
       id: '/$locale/apply/wizard'
-      path: '/wizard'
+      path: '/$locale/apply/wizard'
       fullPath: '/$locale/apply/wizard'
       preLoaderRoute: typeof LocaleApplyWizardRouteImport
-      parentRoute: typeof LocaleApplyRoute
+      parentRoute: typeof rootRouteImport
+    }
+    '/$locale/auth/': {
+      id: '/$locale/auth/'
+      path: '/$locale/auth'
+      fullPath: '/$locale/auth/'
+      preLoaderRoute: typeof LocaleAuthIndexRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/$locale/auth/mfa-setup': {
       id: '/$locale/auth/mfa-setup'
-      path: '/mfa-setup'
+      path: '/$locale/auth/mfa-setup'
       fullPath: '/$locale/auth/mfa-setup'
       preLoaderRoute: typeof LocaleAuthMfaSetupRouteImport
-      parentRoute: typeof LocaleAuthRoute
+      parentRoute: typeof rootRouteImport
     }
     '/$locale/b/$slug': {
       id: '/$locale/b/$slug'
@@ -3189,75 +3229,89 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LocaleBSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/$locale/blog/': {
+      id: '/$locale/blog/'
+      path: '/$locale/blog'
+      fullPath: '/$locale/blog/'
+      preLoaderRoute: typeof LocaleBlogIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/$locale/blog/$slug': {
+      id: '/$locale/blog/$slug'
+      path: '/$locale/blog/$slug'
+      fullPath: '/$locale/blog/$slug'
+      preLoaderRoute: typeof LocaleBlogSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/$locale/blog/benefits-online-therapy': {
       id: '/$locale/blog/benefits-online-therapy'
-      path: '/benefits-online-therapy'
+      path: '/$locale/blog/benefits-online-therapy'
       fullPath: '/$locale/blog/benefits-online-therapy'
       preLoaderRoute: typeof LocaleBlogBenefitsOnlineTherapyRouteImport
-      parentRoute: typeof LocaleBlogRoute
+      parentRoute: typeof rootRouteImport
     }
     '/$locale/blog/do-i-need-therapy': {
       id: '/$locale/blog/do-i-need-therapy'
-      path: '/do-i-need-therapy'
+      path: '/$locale/blog/do-i-need-therapy'
       fullPath: '/$locale/blog/do-i-need-therapy'
       preLoaderRoute: typeof LocaleBlogDoINeedTherapyRouteImport
-      parentRoute: typeof LocaleBlogRoute
+      parentRoute: typeof rootRouteImport
     }
     '/$locale/blog/find-right-psychologist': {
       id: '/$locale/blog/find-right-psychologist'
-      path: '/find-right-psychologist'
+      path: '/$locale/blog/find-right-psychologist'
       fullPath: '/$locale/blog/find-right-psychologist'
       preLoaderRoute: typeof LocaleBlogFindRightPsychologistRouteImport
-      parentRoute: typeof LocaleBlogRoute
+      parentRoute: typeof rootRouteImport
     }
     '/$locale/blog/how-to-clear-brain-fog': {
       id: '/$locale/blog/how-to-clear-brain-fog'
-      path: '/how-to-clear-brain-fog'
+      path: '/$locale/blog/how-to-clear-brain-fog'
       fullPath: '/$locale/blog/how-to-clear-brain-fog'
       preLoaderRoute: typeof LocaleBlogHowToClearBrainFogRouteImport
-      parentRoute: typeof LocaleBlogRoute
+      parentRoute: typeof rootRouteImport
     }
     '/$locale/blog/how-to-improve-focus': {
       id: '/$locale/blog/how-to-improve-focus'
-      path: '/how-to-improve-focus'
+      path: '/$locale/blog/how-to-improve-focus'
       fullPath: '/$locale/blog/how-to-improve-focus'
       preLoaderRoute: typeof LocaleBlogHowToImproveFocusRouteImport
-      parentRoute: typeof LocaleBlogRoute
+      parentRoute: typeof rootRouteImport
     }
     '/$locale/blog/how-to-support-a-loved-one': {
       id: '/$locale/blog/how-to-support-a-loved-one'
-      path: '/how-to-support-a-loved-one'
+      path: '/$locale/blog/how-to-support-a-loved-one'
       fullPath: '/$locale/blog/how-to-support-a-loved-one'
       preLoaderRoute: typeof LocaleBlogHowToSupportALovedOneRouteImport
-      parentRoute: typeof LocaleBlogRoute
+      parentRoute: typeof rootRouteImport
     }
     '/$locale/blog/mental-health-at-work': {
       id: '/$locale/blog/mental-health-at-work'
-      path: '/mental-health-at-work'
+      path: '/$locale/blog/mental-health-at-work'
       fullPath: '/$locale/blog/mental-health-at-work'
       preLoaderRoute: typeof LocaleBlogMentalHealthAtWorkRouteImport
-      parentRoute: typeof LocaleBlogRoute
+      parentRoute: typeof rootRouteImport
     }
     '/$locale/blog/mindfulness-for-beginners': {
       id: '/$locale/blog/mindfulness-for-beginners'
-      path: '/mindfulness-for-beginners'
+      path: '/$locale/blog/mindfulness-for-beginners'
       fullPath: '/$locale/blog/mindfulness-for-beginners'
       preLoaderRoute: typeof LocaleBlogMindfulnessForBeginnersRouteImport
-      parentRoute: typeof LocaleBlogRoute
+      parentRoute: typeof rootRouteImport
     }
     '/$locale/blog/understanding-anxiety': {
       id: '/$locale/blog/understanding-anxiety'
-      path: '/understanding-anxiety'
+      path: '/$locale/blog/understanding-anxiety'
       fullPath: '/$locale/blog/understanding-anxiety'
       preLoaderRoute: typeof LocaleBlogUnderstandingAnxietyRouteImport
-      parentRoute: typeof LocaleBlogRoute
+      parentRoute: typeof rootRouteImport
     }
     '/$locale/blog/understanding-depression': {
       id: '/$locale/blog/understanding-depression'
-      path: '/understanding-depression'
+      path: '/$locale/blog/understanding-depression'
       fullPath: '/$locale/blog/understanding-depression'
       preLoaderRoute: typeof LocaleBlogUnderstandingDepressionRouteImport
-      parentRoute: typeof LocaleBlogRoute
+      parentRoute: typeof rootRouteImport
     }
     '/$locale/campaigns/first-session': {
       id: '/$locale/campaigns/first-session'
@@ -3273,40 +3327,61 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LocaleCampaignsJoinSpecialistRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/$locale/center/': {
+      id: '/$locale/center/'
+      path: '/$locale/center'
+      fullPath: '/$locale/center/'
+      preLoaderRoute: typeof LocaleCenterIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/$locale/center/progress': {
       id: '/$locale/center/progress'
-      path: '/progress'
+      path: '/$locale/center/progress'
       fullPath: '/$locale/center/progress'
       preLoaderRoute: typeof LocaleCenterProgressRouteImport
-      parentRoute: typeof LocaleCenterRoute
+      parentRoute: typeof rootRouteImport
+    }
+    '/$locale/dashboard/': {
+      id: '/$locale/dashboard/'
+      path: '/$locale/dashboard'
+      fullPath: '/$locale/dashboard/'
+      preLoaderRoute: typeof LocaleDashboardIndexRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/$locale/dashboard/client': {
       id: '/$locale/dashboard/client'
-      path: '/client'
+      path: '/$locale/dashboard/client'
       fullPath: '/$locale/dashboard/client'
       preLoaderRoute: typeof LocaleDashboardClientRouteImport
-      parentRoute: typeof LocaleDashboardRoute
+      parentRoute: typeof rootRouteImport
     }
     '/$locale/dashboard/organization': {
       id: '/$locale/dashboard/organization'
-      path: '/organization'
+      path: '/$locale/dashboard/organization'
       fullPath: '/$locale/dashboard/organization'
       preLoaderRoute: typeof LocaleDashboardOrganizationRouteImport
-      parentRoute: typeof LocaleDashboardRoute
+      parentRoute: typeof rootRouteImport
     }
     '/$locale/dashboard/specialist': {
       id: '/$locale/dashboard/specialist'
-      path: '/specialist'
+      path: '/$locale/dashboard/specialist'
       fullPath: '/$locale/dashboard/specialist'
       preLoaderRoute: typeof LocaleDashboardSpecialistRouteImport
-      parentRoute: typeof LocaleDashboardRoute
+      parentRoute: typeof rootRouteImport
+    }
+    '/$locale/intake/': {
+      id: '/$locale/intake/'
+      path: '/$locale/intake'
+      fullPath: '/$locale/intake/'
+      preLoaderRoute: typeof LocaleIntakeIndexRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/$locale/intake/$bookingId': {
       id: '/$locale/intake/$bookingId'
-      path: '/$bookingId'
+      path: '/$locale/intake/$bookingId'
       fullPath: '/$locale/intake/$bookingId'
       preLoaderRoute: typeof LocaleIntakeBookingIdRouteImport
-      parentRoute: typeof LocaleIntakeRoute
+      parentRoute: typeof rootRouteImport
     }
     '/$locale/invite/$code': {
       id: '/$locale/invite/$code'
@@ -3315,26 +3390,47 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LocaleInviteCodeRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/$locale/learn/': {
+      id: '/$locale/learn/'
+      path: '/$locale/learn'
+      fullPath: '/$locale/learn/'
+      preLoaderRoute: typeof LocaleLearnIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/$locale/learn/$slug': {
       id: '/$locale/learn/$slug'
-      path: '/$slug'
+      path: '/$locale/learn/$slug'
       fullPath: '/$locale/learn/$slug'
       preLoaderRoute: typeof LocaleLearnSlugRouteImport
-      parentRoute: typeof LocaleLearnRoute
+      parentRoute: typeof rootRouteImport
+    }
+    '/$locale/psychologists/': {
+      id: '/$locale/psychologists/'
+      path: '/$locale/psychologists'
+      fullPath: '/$locale/psychologists/'
+      preLoaderRoute: typeof LocalePsychologistsIndexRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/$locale/psychologists/$id': {
       id: '/$locale/psychologists/$id'
-      path: '/$id'
+      path: '/$locale/psychologists/$id'
       fullPath: '/$locale/psychologists/$id'
       preLoaderRoute: typeof LocalePsychologistsIdRouteImport
-      parentRoute: typeof LocalePsychologistsRoute
+      parentRoute: typeof rootRouteImport
+    }
+    '/$locale/services/': {
+      id: '/$locale/services/'
+      path: '/$locale/services'
+      fullPath: '/$locale/services/'
+      preLoaderRoute: typeof LocaleServicesIndexRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/$locale/services/consulting-for-organizations': {
       id: '/$locale/services/consulting-for-organizations'
-      path: '/consulting-for-organizations'
+      path: '/$locale/services/consulting-for-organizations'
       fullPath: '/$locale/services/consulting-for-organizations'
       preLoaderRoute: typeof LocaleServicesConsultingForOrganizationsRouteImport
-      parentRoute: typeof LocaleServicesRoute
+      parentRoute: typeof rootRouteImport
     }
     '/$locale/session/$sessionId': {
       id: '/$locale/session/$sessionId'
@@ -3387,10 +3483,10 @@ declare module '@tanstack/react-router' {
     }
     '/center/c/$slug': {
       id: '/center/c/$slug'
-      path: '/c/$slug'
+      path: '/center/c/$slug'
       fullPath: '/center/c/$slug'
       preLoaderRoute: typeof CenterCSlugRouteImport
-      parentRoute: typeof CenterRoute
+      parentRoute: typeof rootRouteImport
     }
     '/ops/$workspace/': {
       id: '/ops/$workspace/'
@@ -3429,10 +3525,10 @@ declare module '@tanstack/react-router' {
     }
     '/$locale/center/c/$slug': {
       id: '/$locale/center/c/$slug'
-      path: '/c/$slug'
+      path: '/$locale/center/c/$slug'
       fullPath: '/$locale/center/c/$slug'
       preLoaderRoute: typeof LocaleCenterCSlugRouteImport
-      parentRoute: typeof LocaleCenterRoute
+      parentRoute: typeof rootRouteImport
     }
     '/ops/$workspace/events/': {
       id: '/ops/$workspace/events/'
@@ -3457,307 +3553,6 @@ declare module '@tanstack/react-router' {
     }
   }
 }
-
-interface AdminRouteChildren {
-  AdminApplicationsRoute: typeof AdminApplicationsRoute
-  AdminAuditRoute: typeof AdminAuditRoute
-  AdminCrmRoute: typeof AdminCrmRoute
-  AdminDnsRoute: typeof AdminDnsRoute
-  AdminFinanceRoute: typeof AdminFinanceRoute
-  AdminGrowthLeadsRoute: typeof AdminGrowthLeadsRoute
-}
-
-const AdminRouteChildren: AdminRouteChildren = {
-  AdminApplicationsRoute: AdminApplicationsRoute,
-  AdminAuditRoute: AdminAuditRoute,
-  AdminCrmRoute: AdminCrmRoute,
-  AdminDnsRoute: AdminDnsRoute,
-  AdminFinanceRoute: AdminFinanceRoute,
-  AdminGrowthLeadsRoute: AdminGrowthLeadsRoute,
-}
-
-const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
-
-interface ApplyRouteChildren {
-  ApplyOrganizationRoute: typeof ApplyOrganizationRoute
-  ApplyWizardRoute: typeof ApplyWizardRoute
-}
-
-const ApplyRouteChildren: ApplyRouteChildren = {
-  ApplyOrganizationRoute: ApplyOrganizationRoute,
-  ApplyWizardRoute: ApplyWizardRoute,
-}
-
-const ApplyRouteWithChildren = ApplyRoute._addFileChildren(ApplyRouteChildren)
-
-interface AuthRouteChildren {
-  AuthMfaSetupRoute: typeof AuthMfaSetupRoute
-}
-
-const AuthRouteChildren: AuthRouteChildren = {
-  AuthMfaSetupRoute: AuthMfaSetupRoute,
-}
-
-const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren)
-
-interface BlogRouteChildren {
-  BlogBenefitsOnlineTherapyRoute: typeof BlogBenefitsOnlineTherapyRoute
-  BlogDoINeedTherapyRoute: typeof BlogDoINeedTherapyRoute
-  BlogFindRightPsychologistRoute: typeof BlogFindRightPsychologistRoute
-  BlogHowToClearBrainFogRoute: typeof BlogHowToClearBrainFogRoute
-  BlogHowToImproveFocusRoute: typeof BlogHowToImproveFocusRoute
-  BlogHowToSupportALovedOneRoute: typeof BlogHowToSupportALovedOneRoute
-  BlogMentalHealthAtWorkRoute: typeof BlogMentalHealthAtWorkRoute
-  BlogMindfulnessForBeginnersRoute: typeof BlogMindfulnessForBeginnersRoute
-  BlogUnderstandingAnxietyRoute: typeof BlogUnderstandingAnxietyRoute
-  BlogUnderstandingDepressionRoute: typeof BlogUnderstandingDepressionRoute
-}
-
-const BlogRouteChildren: BlogRouteChildren = {
-  BlogBenefitsOnlineTherapyRoute: BlogBenefitsOnlineTherapyRoute,
-  BlogDoINeedTherapyRoute: BlogDoINeedTherapyRoute,
-  BlogFindRightPsychologistRoute: BlogFindRightPsychologistRoute,
-  BlogHowToClearBrainFogRoute: BlogHowToClearBrainFogRoute,
-  BlogHowToImproveFocusRoute: BlogHowToImproveFocusRoute,
-  BlogHowToSupportALovedOneRoute: BlogHowToSupportALovedOneRoute,
-  BlogMentalHealthAtWorkRoute: BlogMentalHealthAtWorkRoute,
-  BlogMindfulnessForBeginnersRoute: BlogMindfulnessForBeginnersRoute,
-  BlogUnderstandingAnxietyRoute: BlogUnderstandingAnxietyRoute,
-  BlogUnderstandingDepressionRoute: BlogUnderstandingDepressionRoute,
-}
-
-const BlogRouteWithChildren = BlogRoute._addFileChildren(BlogRouteChildren)
-
-interface CenterRouteChildren {
-  CenterProgressRoute: typeof CenterProgressRoute
-  CenterSchoolsRoute: typeof CenterSchoolsRoute
-  CenterCSlugRoute: typeof CenterCSlugRoute
-}
-
-const CenterRouteChildren: CenterRouteChildren = {
-  CenterProgressRoute: CenterProgressRoute,
-  CenterSchoolsRoute: CenterSchoolsRoute,
-  CenterCSlugRoute: CenterCSlugRoute,
-}
-
-const CenterRouteWithChildren =
-  CenterRoute._addFileChildren(CenterRouteChildren)
-
-interface DashboardRouteChildren {
-  DashboardClientRoute: typeof DashboardClientRoute
-  DashboardOrganizationRoute: typeof DashboardOrganizationRoute
-  DashboardSpecialistRoute: typeof DashboardSpecialistRoute
-}
-
-const DashboardRouteChildren: DashboardRouteChildren = {
-  DashboardClientRoute: DashboardClientRoute,
-  DashboardOrganizationRoute: DashboardOrganizationRoute,
-  DashboardSpecialistRoute: DashboardSpecialistRoute,
-}
-
-const DashboardRouteWithChildren = DashboardRoute._addFileChildren(
-  DashboardRouteChildren,
-)
-
-interface IntakeRouteChildren {
-  IntakeBookingIdRoute: typeof IntakeBookingIdRoute
-}
-
-const IntakeRouteChildren: IntakeRouteChildren = {
-  IntakeBookingIdRoute: IntakeBookingIdRoute,
-}
-
-const IntakeRouteWithChildren =
-  IntakeRoute._addFileChildren(IntakeRouteChildren)
-
-interface LearnRouteChildren {
-  LearnSlugRoute: typeof LearnSlugRoute
-}
-
-const LearnRouteChildren: LearnRouteChildren = {
-  LearnSlugRoute: LearnSlugRoute,
-}
-
-const LearnRouteWithChildren = LearnRoute._addFileChildren(LearnRouteChildren)
-
-interface PsychologistsRouteChildren {
-  PsychologistsIdRoute: typeof PsychologistsIdRoute
-}
-
-const PsychologistsRouteChildren: PsychologistsRouteChildren = {
-  PsychologistsIdRoute: PsychologistsIdRoute,
-}
-
-const PsychologistsRouteWithChildren = PsychologistsRoute._addFileChildren(
-  PsychologistsRouteChildren,
-)
-
-interface ServicesRouteChildren {
-  ServicesConsultingForOrganizationsRoute: typeof ServicesConsultingForOrganizationsRoute
-}
-
-const ServicesRouteChildren: ServicesRouteChildren = {
-  ServicesConsultingForOrganizationsRoute:
-    ServicesConsultingForOrganizationsRoute,
-}
-
-const ServicesRouteWithChildren = ServicesRoute._addFileChildren(
-  ServicesRouteChildren,
-)
-
-interface LocaleAdminRouteChildren {
-  LocaleAdminApplicationsRoute: typeof LocaleAdminApplicationsRoute
-  LocaleAdminCrmRoute: typeof LocaleAdminCrmRoute
-  LocaleAdminFinanceRoute: typeof LocaleAdminFinanceRoute
-  LocaleAdminGrowthLeadsRoute: typeof LocaleAdminGrowthLeadsRoute
-}
-
-const LocaleAdminRouteChildren: LocaleAdminRouteChildren = {
-  LocaleAdminApplicationsRoute: LocaleAdminApplicationsRoute,
-  LocaleAdminCrmRoute: LocaleAdminCrmRoute,
-  LocaleAdminFinanceRoute: LocaleAdminFinanceRoute,
-  LocaleAdminGrowthLeadsRoute: LocaleAdminGrowthLeadsRoute,
-}
-
-const LocaleAdminRouteWithChildren = LocaleAdminRoute._addFileChildren(
-  LocaleAdminRouteChildren,
-)
-
-interface LocaleApplyRouteChildren {
-  LocaleApplyOrganizationRoute: typeof LocaleApplyOrganizationRoute
-  LocaleApplyWizardRoute: typeof LocaleApplyWizardRoute
-}
-
-const LocaleApplyRouteChildren: LocaleApplyRouteChildren = {
-  LocaleApplyOrganizationRoute: LocaleApplyOrganizationRoute,
-  LocaleApplyWizardRoute: LocaleApplyWizardRoute,
-}
-
-const LocaleApplyRouteWithChildren = LocaleApplyRoute._addFileChildren(
-  LocaleApplyRouteChildren,
-)
-
-interface LocaleAuthRouteChildren {
-  LocaleAuthMfaSetupRoute: typeof LocaleAuthMfaSetupRoute
-}
-
-const LocaleAuthRouteChildren: LocaleAuthRouteChildren = {
-  LocaleAuthMfaSetupRoute: LocaleAuthMfaSetupRoute,
-}
-
-const LocaleAuthRouteWithChildren = LocaleAuthRoute._addFileChildren(
-  LocaleAuthRouteChildren,
-)
-
-interface LocaleBlogRouteChildren {
-  LocaleBlogBenefitsOnlineTherapyRoute: typeof LocaleBlogBenefitsOnlineTherapyRoute
-  LocaleBlogDoINeedTherapyRoute: typeof LocaleBlogDoINeedTherapyRoute
-  LocaleBlogFindRightPsychologistRoute: typeof LocaleBlogFindRightPsychologistRoute
-  LocaleBlogHowToClearBrainFogRoute: typeof LocaleBlogHowToClearBrainFogRoute
-  LocaleBlogHowToImproveFocusRoute: typeof LocaleBlogHowToImproveFocusRoute
-  LocaleBlogHowToSupportALovedOneRoute: typeof LocaleBlogHowToSupportALovedOneRoute
-  LocaleBlogMentalHealthAtWorkRoute: typeof LocaleBlogMentalHealthAtWorkRoute
-  LocaleBlogMindfulnessForBeginnersRoute: typeof LocaleBlogMindfulnessForBeginnersRoute
-  LocaleBlogUnderstandingAnxietyRoute: typeof LocaleBlogUnderstandingAnxietyRoute
-  LocaleBlogUnderstandingDepressionRoute: typeof LocaleBlogUnderstandingDepressionRoute
-}
-
-const LocaleBlogRouteChildren: LocaleBlogRouteChildren = {
-  LocaleBlogBenefitsOnlineTherapyRoute: LocaleBlogBenefitsOnlineTherapyRoute,
-  LocaleBlogDoINeedTherapyRoute: LocaleBlogDoINeedTherapyRoute,
-  LocaleBlogFindRightPsychologistRoute: LocaleBlogFindRightPsychologistRoute,
-  LocaleBlogHowToClearBrainFogRoute: LocaleBlogHowToClearBrainFogRoute,
-  LocaleBlogHowToImproveFocusRoute: LocaleBlogHowToImproveFocusRoute,
-  LocaleBlogHowToSupportALovedOneRoute: LocaleBlogHowToSupportALovedOneRoute,
-  LocaleBlogMentalHealthAtWorkRoute: LocaleBlogMentalHealthAtWorkRoute,
-  LocaleBlogMindfulnessForBeginnersRoute:
-    LocaleBlogMindfulnessForBeginnersRoute,
-  LocaleBlogUnderstandingAnxietyRoute: LocaleBlogUnderstandingAnxietyRoute,
-  LocaleBlogUnderstandingDepressionRoute:
-    LocaleBlogUnderstandingDepressionRoute,
-}
-
-const LocaleBlogRouteWithChildren = LocaleBlogRoute._addFileChildren(
-  LocaleBlogRouteChildren,
-)
-
-interface LocaleCenterRouteChildren {
-  LocaleCenterProgressRoute: typeof LocaleCenterProgressRoute
-  LocaleCenterCSlugRoute: typeof LocaleCenterCSlugRoute
-}
-
-const LocaleCenterRouteChildren: LocaleCenterRouteChildren = {
-  LocaleCenterProgressRoute: LocaleCenterProgressRoute,
-  LocaleCenterCSlugRoute: LocaleCenterCSlugRoute,
-}
-
-const LocaleCenterRouteWithChildren = LocaleCenterRoute._addFileChildren(
-  LocaleCenterRouteChildren,
-)
-
-interface LocaleDashboardRouteChildren {
-  LocaleDashboardClientRoute: typeof LocaleDashboardClientRoute
-  LocaleDashboardOrganizationRoute: typeof LocaleDashboardOrganizationRoute
-  LocaleDashboardSpecialistRoute: typeof LocaleDashboardSpecialistRoute
-}
-
-const LocaleDashboardRouteChildren: LocaleDashboardRouteChildren = {
-  LocaleDashboardClientRoute: LocaleDashboardClientRoute,
-  LocaleDashboardOrganizationRoute: LocaleDashboardOrganizationRoute,
-  LocaleDashboardSpecialistRoute: LocaleDashboardSpecialistRoute,
-}
-
-const LocaleDashboardRouteWithChildren = LocaleDashboardRoute._addFileChildren(
-  LocaleDashboardRouteChildren,
-)
-
-interface LocaleIntakeRouteChildren {
-  LocaleIntakeBookingIdRoute: typeof LocaleIntakeBookingIdRoute
-}
-
-const LocaleIntakeRouteChildren: LocaleIntakeRouteChildren = {
-  LocaleIntakeBookingIdRoute: LocaleIntakeBookingIdRoute,
-}
-
-const LocaleIntakeRouteWithChildren = LocaleIntakeRoute._addFileChildren(
-  LocaleIntakeRouteChildren,
-)
-
-interface LocaleLearnRouteChildren {
-  LocaleLearnSlugRoute: typeof LocaleLearnSlugRoute
-}
-
-const LocaleLearnRouteChildren: LocaleLearnRouteChildren = {
-  LocaleLearnSlugRoute: LocaleLearnSlugRoute,
-}
-
-const LocaleLearnRouteWithChildren = LocaleLearnRoute._addFileChildren(
-  LocaleLearnRouteChildren,
-)
-
-interface LocalePsychologistsRouteChildren {
-  LocalePsychologistsIdRoute: typeof LocalePsychologistsIdRoute
-}
-
-const LocalePsychologistsRouteChildren: LocalePsychologistsRouteChildren = {
-  LocalePsychologistsIdRoute: LocalePsychologistsIdRoute,
-}
-
-const LocalePsychologistsRouteWithChildren =
-  LocalePsychologistsRoute._addFileChildren(LocalePsychologistsRouteChildren)
-
-interface LocaleServicesRouteChildren {
-  LocaleServicesConsultingForOrganizationsRoute: typeof LocaleServicesConsultingForOrganizationsRoute
-}
-
-const LocaleServicesRouteChildren: LocaleServicesRouteChildren = {
-  LocaleServicesConsultingForOrganizationsRoute:
-    LocaleServicesConsultingForOrganizationsRoute,
-}
-
-const LocaleServicesRouteWithChildren = LocaleServicesRoute._addFileChildren(
-  LocaleServicesRouteChildren,
-)
 
 interface OpsWorkspaceRouteChildren {
   OpsWorkspaceCommandRoute: typeof OpsWorkspaceCommandRoute
@@ -3786,27 +3581,19 @@ const OpsWorkspaceRouteWithChildren = OpsWorkspaceRoute._addFileChildren(
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
-  AdminRoute: AdminRouteWithChildren,
   AiAssistantRoute: AiAssistantRoute,
-  ApplyRoute: ApplyRouteWithChildren,
   AssessmentLabRoute: AssessmentLabRoute,
   AssessmentsRoute: AssessmentsRoute,
   AthleteHubRoute: AthleteHubRoute,
-  AuthRoute: AuthRouteWithChildren,
-  BlogRoute: BlogRouteWithChildren,
   BookACallRoute: BookACallRoute,
   BrandRoute: BrandRoute,
-  CenterRoute: CenterRouteWithChildren,
   ContactRoute: ContactRoute,
-  DashboardRoute: DashboardRouteWithChildren,
   ForAthletesRoute: ForAthletesRoute,
   ForOrganizationsRoute: ForOrganizationsRoute,
   FounderRoute: FounderRoute,
   FreeScoreRoute: FreeScoreRoute,
   GetMatchedRoute: GetMatchedRoute,
   InstallRoute: InstallRoute,
-  IntakeRoute: IntakeRouteWithChildren,
-  LearnRoute: LearnRouteWithChildren,
   LegalRoute: LegalRoute,
   MembershipRoute: MembershipRoute,
   MentalPerformanceRoute: MentalPerformanceRoute,
@@ -3820,10 +3607,8 @@ const rootRouteChildren: RootRouteChildren = {
   PricingSpecialistsRoute: PricingSpecialistsRoute,
   PrivacyRoute: PrivacyRoute,
   PsfRoute: PsfRoute,
-  PsychologistsRoute: PsychologistsRouteWithChildren,
   ResetPasswordRoute: ResetPasswordRoute,
   ResourcesRoute: ResourcesRoute,
-  ServicesRoute: ServicesRouteWithChildren,
   SkoolRoute: SkoolRoute,
   SoleterreRoute: SoleterreRoute,
   TalentInnovationHubRoute: TalentInnovationHubRoute,
@@ -3831,27 +3616,19 @@ const rootRouteChildren: RootRouteChildren = {
   UnsubscribeRoute: UnsubscribeRoute,
   WhyUsRoute: WhyUsRoute,
   LocaleAboutRoute: LocaleAboutRoute,
-  LocaleAdminRoute: LocaleAdminRouteWithChildren,
   LocaleAiAssistantRoute: LocaleAiAssistantRoute,
-  LocaleApplyRoute: LocaleApplyRouteWithChildren,
   LocaleAssessmentLabRoute: LocaleAssessmentLabRoute,
   LocaleAssessmentsRoute: LocaleAssessmentsRoute,
   LocaleAthleteHubRoute: LocaleAthleteHubRoute,
-  LocaleAuthRoute: LocaleAuthRouteWithChildren,
-  LocaleBlogRoute: LocaleBlogRouteWithChildren,
   LocaleBookACallRoute: LocaleBookACallRoute,
   LocaleBrandRoute: LocaleBrandRoute,
-  LocaleCenterRoute: LocaleCenterRouteWithChildren,
   LocaleContactRoute: LocaleContactRoute,
-  LocaleDashboardRoute: LocaleDashboardRouteWithChildren,
   LocaleForAthletesRoute: LocaleForAthletesRoute,
   LocaleForOrganizationsRoute: LocaleForOrganizationsRoute,
   LocaleFounderRoute: LocaleFounderRoute,
   LocaleFreeScoreRoute: LocaleFreeScoreRoute,
   LocaleGetMatchedRoute: LocaleGetMatchedRoute,
   LocaleInstallRoute: LocaleInstallRoute,
-  LocaleIntakeRoute: LocaleIntakeRouteWithChildren,
-  LocaleLearnRoute: LocaleLearnRouteWithChildren,
   LocaleLegalRoute: LocaleLegalRoute,
   LocaleMembershipRoute: LocaleMembershipRoute,
   LocaleMentalPerformanceRoute: LocaleMentalPerformanceRoute,
@@ -3865,28 +3642,95 @@ const rootRouteChildren: RootRouteChildren = {
   LocalePricingSpecialistsRoute: LocalePricingSpecialistsRoute,
   LocalePrivacyRoute: LocalePrivacyRoute,
   LocalePsfRoute: LocalePsfRoute,
-  LocalePsychologistsRoute: LocalePsychologistsRouteWithChildren,
   LocaleResetPasswordRoute: LocaleResetPasswordRoute,
   LocaleResourcesRoute: LocaleResourcesRoute,
-  LocaleServicesRoute: LocaleServicesRouteWithChildren,
   LocaleSkoolRoute: LocaleSkoolRoute,
   LocaleTalentInnovationHubRoute: LocaleTalentInnovationHubRoute,
   LocaleTermsRoute: LocaleTermsRoute,
   LocaleUnsubscribeRoute: LocaleUnsubscribeRoute,
   LocaleWhyUsRoute: LocaleWhyUsRoute,
+  AdminApplicationsRoute: AdminApplicationsRoute,
+  AdminAuditRoute: AdminAuditRoute,
+  AdminCrmRoute: AdminCrmRoute,
+  AdminDnsRoute: AdminDnsRoute,
+  AdminFinanceRoute: AdminFinanceRoute,
+  AdminGrowthLeadsRoute: AdminGrowthLeadsRoute,
+  ApplyOrganizationRoute: ApplyOrganizationRoute,
+  ApplyWizardRoute: ApplyWizardRoute,
+  AuthMfaSetupRoute: AuthMfaSetupRoute,
   BSlugRoute: BSlugRoute,
+  BlogSlugRoute: BlogSlugRoute,
+  BlogBenefitsOnlineTherapyRoute: BlogBenefitsOnlineTherapyRoute,
+  BlogDoINeedTherapyRoute: BlogDoINeedTherapyRoute,
+  BlogFindRightPsychologistRoute: BlogFindRightPsychologistRoute,
+  BlogHowToClearBrainFogRoute: BlogHowToClearBrainFogRoute,
+  BlogHowToImproveFocusRoute: BlogHowToImproveFocusRoute,
+  BlogHowToSupportALovedOneRoute: BlogHowToSupportALovedOneRoute,
+  BlogMentalHealthAtWorkRoute: BlogMentalHealthAtWorkRoute,
+  BlogMindfulnessForBeginnersRoute: BlogMindfulnessForBeginnersRoute,
+  BlogUnderstandingAnxietyRoute: BlogUnderstandingAnxietyRoute,
+  BlogUnderstandingDepressionRoute: BlogUnderstandingDepressionRoute,
   CampaignsFirstSessionRoute: CampaignsFirstSessionRoute,
   CampaignsJoinSpecialistRoute: CampaignsJoinSpecialistRoute,
+  CenterProgressRoute: CenterProgressRoute,
+  CenterSchoolsRoute: CenterSchoolsRoute,
+  DashboardClientRoute: DashboardClientRoute,
+  DashboardOrganizationRoute: DashboardOrganizationRoute,
+  DashboardSpecialistRoute: DashboardSpecialistRoute,
+  IntakeBookingIdRoute: IntakeBookingIdRoute,
   InviteCodeRoute: InviteCodeRoute,
+  LearnSlugRoute: LearnSlugRoute,
   OpsWorkspaceRoute: OpsWorkspaceRouteWithChildren,
   OpsPreviewRoute: OpsPreviewRoute,
+  PsychologistsIdRoute: PsychologistsIdRoute,
+  ServicesConsultingForOrganizationsRoute:
+    ServicesConsultingForOrganizationsRoute,
   SessionSessionIdRoute: SessionSessionIdRoute,
   LocaleIndexRoute: LocaleIndexRoute,
+  AdminIndexRoute: AdminIndexRoute,
+  ApplyIndexRoute: ApplyIndexRoute,
+  AuthIndexRoute: AuthIndexRoute,
+  BlogIndexRoute: BlogIndexRoute,
+  CenterIndexRoute: CenterIndexRoute,
+  DashboardIndexRoute: DashboardIndexRoute,
+  IntakeIndexRoute: IntakeIndexRoute,
+  LearnIndexRoute: LearnIndexRoute,
   OpsIndexRoute: OpsIndexRoute,
+  PsychologistsIndexRoute: PsychologistsIndexRoute,
+  ServicesIndexRoute: ServicesIndexRoute,
+  LocaleAdminApplicationsRoute: LocaleAdminApplicationsRoute,
+  LocaleAdminCrmRoute: LocaleAdminCrmRoute,
+  LocaleAdminFinanceRoute: LocaleAdminFinanceRoute,
+  LocaleAdminGrowthLeadsRoute: LocaleAdminGrowthLeadsRoute,
+  LocaleApplyOrganizationRoute: LocaleApplyOrganizationRoute,
+  LocaleApplyWizardRoute: LocaleApplyWizardRoute,
+  LocaleAuthMfaSetupRoute: LocaleAuthMfaSetupRoute,
   LocaleBSlugRoute: LocaleBSlugRoute,
+  LocaleBlogSlugRoute: LocaleBlogSlugRoute,
+  LocaleBlogBenefitsOnlineTherapyRoute: LocaleBlogBenefitsOnlineTherapyRoute,
+  LocaleBlogDoINeedTherapyRoute: LocaleBlogDoINeedTherapyRoute,
+  LocaleBlogFindRightPsychologistRoute: LocaleBlogFindRightPsychologistRoute,
+  LocaleBlogHowToClearBrainFogRoute: LocaleBlogHowToClearBrainFogRoute,
+  LocaleBlogHowToImproveFocusRoute: LocaleBlogHowToImproveFocusRoute,
+  LocaleBlogHowToSupportALovedOneRoute: LocaleBlogHowToSupportALovedOneRoute,
+  LocaleBlogMentalHealthAtWorkRoute: LocaleBlogMentalHealthAtWorkRoute,
+  LocaleBlogMindfulnessForBeginnersRoute:
+    LocaleBlogMindfulnessForBeginnersRoute,
+  LocaleBlogUnderstandingAnxietyRoute: LocaleBlogUnderstandingAnxietyRoute,
+  LocaleBlogUnderstandingDepressionRoute:
+    LocaleBlogUnderstandingDepressionRoute,
   LocaleCampaignsFirstSessionRoute: LocaleCampaignsFirstSessionRoute,
   LocaleCampaignsJoinSpecialistRoute: LocaleCampaignsJoinSpecialistRoute,
+  LocaleCenterProgressRoute: LocaleCenterProgressRoute,
+  LocaleDashboardClientRoute: LocaleDashboardClientRoute,
+  LocaleDashboardOrganizationRoute: LocaleDashboardOrganizationRoute,
+  LocaleDashboardSpecialistRoute: LocaleDashboardSpecialistRoute,
+  LocaleIntakeBookingIdRoute: LocaleIntakeBookingIdRoute,
   LocaleInviteCodeRoute: LocaleInviteCodeRoute,
+  LocaleLearnSlugRoute: LocaleLearnSlugRoute,
+  LocalePsychologistsIdRoute: LocalePsychologistsIdRoute,
+  LocaleServicesConsultingForOrganizationsRoute:
+    LocaleServicesConsultingForOrganizationsRoute,
   LocaleSessionSessionIdRoute: LocaleSessionSessionIdRoute,
   ApiPublicCiEventsRoute: ApiPublicCiEventsRoute,
   ApiPublicCrmEmailEventsRoute: ApiPublicCrmEmailEventsRoute,
@@ -3894,7 +3738,19 @@ const rootRouteChildren: RootRouteChildren = {
   ApiPublicHealthzRoute: ApiPublicHealthzRoute,
   ApiPublicRuntimeLogsRoute: ApiPublicRuntimeLogsRoute,
   BookingRespondTokenRoute: BookingRespondTokenRoute,
+  CenterCSlugRoute: CenterCSlugRoute,
+  LocaleAdminIndexRoute: LocaleAdminIndexRoute,
+  LocaleApplyIndexRoute: LocaleApplyIndexRoute,
+  LocaleAuthIndexRoute: LocaleAuthIndexRoute,
+  LocaleBlogIndexRoute: LocaleBlogIndexRoute,
+  LocaleCenterIndexRoute: LocaleCenterIndexRoute,
+  LocaleDashboardIndexRoute: LocaleDashboardIndexRoute,
+  LocaleIntakeIndexRoute: LocaleIntakeIndexRoute,
+  LocaleLearnIndexRoute: LocaleLearnIndexRoute,
+  LocalePsychologistsIndexRoute: LocalePsychologistsIndexRoute,
+  LocaleServicesIndexRoute: LocaleServicesIndexRoute,
   LocaleBookingRespondTokenRoute: LocaleBookingRespondTokenRoute,
+  LocaleCenterCSlugRoute: LocaleCenterCSlugRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

@@ -2,12 +2,12 @@ import { createFileRoute } from "@tanstack/react-router";
 import { lazy } from "react";
 import PageTransition from "@/components/PageTransition";
 
-const Learn = lazy(() => import("@/pages/Learn"));
+const CenterHome = lazy(() => import("@/pages/center/CenterHome"));
 
-export const Route = createFileRoute("/learn")({
+export const Route = createFileRoute("/center/")({
   component: () => (
     <PageTransition>
-      <Learn />
+      <CenterHome />
     </PageTransition>
   ),
 });

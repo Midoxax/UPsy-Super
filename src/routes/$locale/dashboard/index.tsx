@@ -4,7 +4,7 @@ import { ProtectedRoute } from "@/components/ProtectedRoute";
 
 const RoleRouter = lazy(() => import("@/components/RoleRouter"));
 
-export const Route = createFileRoute("/dashboard")({
+export const Route = createFileRoute("/$locale/dashboard/")({
   component: () => (
     <ProtectedRoute>
       <RoleRouter />

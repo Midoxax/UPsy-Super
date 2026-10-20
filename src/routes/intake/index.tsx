@@ -5,7 +5,7 @@ import { ProtectedRoute } from "@/components/ProtectedRoute";
 
 const IntakeForm = lazy(() => import("@/pages/IntakeForm"));
 
-export const Route = createFileRoute("/$locale/intake")({
+export const Route = createFileRoute("/intake/")({
   component: () => (
     <ProtectedRoute>
       <PageTransition>

@@ -5,7 +5,7 @@ import { AdminRoute } from "@/components/AdminRoute";
 
 const AdminDashboard = lazy(() => import("@/pages/admin/Dashboard"));
 
-export const Route = createFileRoute("/$locale/admin")({
+export const Route = createFileRoute("/$locale/admin/")({
   component: () => (
     <AdminRoute>
       <PageTransition>

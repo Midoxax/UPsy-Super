@@ -113,7 +113,7 @@ const ApplyOrganization = () => {
   return (
     <main className="container mx-auto px-4 py-12 max-w-3xl">
       <div className="mb-8 text-center space-y-3">
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-medium">
+        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 text-foreground text-xs font-medium">
           <ShieldCheck className="h-3.5 w-3.5" /> Programme B2B U.Psy
         </div>
         <h1 className="text-3xl md:text-4xl font-bold tracking-tight">

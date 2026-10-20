@@ -22,7 +22,7 @@ const BlogArticleSchema = ({
   readTimeMinutes = 5,
 }: BlogArticleSchemaProps) => {
   const { locale } = useLocale();
-  const baseUrl = "https://upsy.ma";
+  const baseUrl = "https://www.upsy.ma";
   const localePath = locale === "en" ? "" : `/${locale}`;
   const articleUrl = `${baseUrl}${localePath}/blog/${slug}`;
   const wordCount = readTimeMinutes * 200;
