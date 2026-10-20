@@ -1,5 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { notifyBookingChange } from "@/lib/calendar";
 import { useAuth } from "@/contexts/AuthContext";
 import { format } from "date-fns";
 
@@ -155,20 +156,25 @@ export const useCreateBooking = () => {
       const amount =
         Math.round(((rate * booking.duration_minutes) / 60) * 100) / 100;
 
-      const { error } = await supabase.from("bookings").insert({
-        psychologist_id: booking.psychologist_id,
-        patient_id: user.id,
-        scheduled_at: booking.scheduled_at,
-        session_type: booking.session_type,
-        duration_minutes: booking.duration_minutes,
-        patient_notes: booking.patient_notes ?? null,
-        patient_address: booking.patient_address ?? null,
-        patient_lat: booking.patient_lat ?? null,
-        patient_lng: booking.patient_lng ?? null,
-        amount_mad: amount,
-        status: "pending",
-      });
+      const { data: created, error } = await supabase
+        .from("bookings")
+        .insert({
+          psychologist_id: booking.psychologist_id,
+          patient_id: user.id,
+          scheduled_at: booking.scheduled_at,
+          session_type: booking.session_type,
+          duration_minutes: booking.duration_minutes,
+          patient_notes: booking.patient_notes ?? null,
+          patient_address: booking.patient_address ?? null,
+          patient_lat: booking.patient_lat ?? null,
+          patient_lng: booking.patient_lng ?? null,
+          amount_mad: amount,
+          status: "pending",
+        })
+        .select("id")
+        .single();
       if (error) throw error;
+      void notifyBookingChange(created.id);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["available-slots"] });

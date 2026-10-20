@@ -19,7 +19,10 @@ import {
 } from "lucide-react";
 import { Link } from "@/lib/router-compat";
 import { useToast } from "@/hooks/use-toast";
-import { format, isPast } from "date-fns";
+import { addDays, format, isPast, isSameDay, startOfWeek } from "date-fns";
+import { AddToCalendar } from "@/components/dashboard/AddToCalendar";
+import { CalendarSyncCard } from "@/components/dashboard/CalendarSyncCard";
+import { notifyBookingChange } from "@/lib/calendar";
 import { useState as useStateReact } from "react";
 import AnamnesisDrawer from "@/components/anamnesis/AnamnesisDrawer";
 import { ClipboardList, CalendarPlus } from "lucide-react";
@@ -113,6 +116,8 @@ export const SessionsTab = () => {
     setSessions((prev) =>
       prev.map((s) => (s.id === sessionId ? { ...s, status } : s)),
     );
+    if (status === "confirmed" || status === "cancelled")
+      void notifyBookingChange(sessionId);
   };
 
   const requests = sessions.filter(
@@ -189,7 +194,18 @@ export const SessionsTab = () => {
           )}
         </div>
 
-        <div className="flex items-center gap-2 shrink-0">
+        <div className="flex items-center gap-2 shrink-0 flex-wrap">
+          {isUpcoming && (
+            <AddToCalendar
+              session={{
+                id: s.id,
+                start: s.date_time,
+                durationMinutes: s.duration_minutes,
+                title: `UPSY session with ${s.client_profile?.full_name || "client"}`,
+                online: isOnline,
+              }}
+            />
+          )}
           {isUpcoming && isOnline && s.video_room_id && (
             <Button variant="primary" size="sm" asChild>
               <Link to={`/session/${s.id}`}>
@@ -300,6 +316,7 @@ export const SessionsTab = () => {
               <TabsTrigger value="upcoming">
                 Upcoming ({upcoming.length})
               </TabsTrigger>
+              <TabsTrigger value="calendar">Calendar</TabsTrigger>
               <TabsTrigger value="past">Past ({past.length})</TabsTrigger>
               <TabsTrigger value="cancelled">
                 Cancelled ({cancelled.length})
@@ -329,6 +346,15 @@ export const SessionsTab = () => {
               ) : (
                 upcoming.map((s) => renderSession(s, true))
               )}
+            </TabsContent>
+
+            <TabsContent value="calendar" className="space-y-4">
+              <WeekView
+                sessions={sessions.filter((s) =>
+                  ["pending", "confirmed", "completed"].includes(s.status),
+                )}
+              />
+              <CalendarSyncCard />
             </TabsContent>
 
             <TabsContent value="past" className="space-y-3">
@@ -374,5 +400,68 @@ export const SessionsTab = () => {
         defaultMode="link"
       />
     </>
+  );
+};
+
+/** Seven days of sessions, Monday first. Pending requests are dashed. */
+const WeekView = ({ sessions }: { sessions: Session[] }) => {
+  const [weekStart, setWeekStart] = useState(() =>
+    startOfWeek(new Date(), { weekStartsOn: 1 }),
+  );
+  const days = Array.from({ length: 7 }, (_, i) => addDays(weekStart, i));
+  return (
+    <div className="space-y-3">
+      <div className="flex items-center justify-between">
+        <Button
+          size="sm"
+          variant="ghost"
+          onClick={() => setWeekStart((d) => addDays(d, -7))}
+        >
+          ← Previous
+        </Button>
+        <p className="text-sm font-medium">
+          {format(days[0], "MMM d")} – {format(days[6], "MMM d, yyyy")}
+        </p>
+        <Button
+          size="sm"
+          variant="ghost"
+          onClick={() => setWeekStart((d) => addDays(d, 7))}
+        >
+          Next →
+        </Button>
+      </div>
+      <div className="grid grid-cols-1 sm:grid-cols-7 gap-2">
+        {days.map((day) => {
+          const items = sessions
+            .filter((s) => isSameDay(new Date(s.date_time), day))
+            .sort((a, b) => a.date_time.localeCompare(b.date_time));
+          const today = isSameDay(day, new Date());
+          return (
+            <div
+              key={day.toISOString()}
+              className={`rounded-lg border p-2 min-h-24 ${today ? "border-primary" : "border-border"}`}
+            >
+              <p className="text-xs font-medium text-muted-foreground mb-2">
+                {format(day, "EEE d")}
+              </p>
+              <div className="space-y-1">
+                {items.map((s) => (
+                  <div
+                    key={s.id}
+                    className={`rounded px-1.5 py-1 text-[11px] leading-tight bg-primary/10 ${s.status === "pending" ? "border border-dashed border-primary" : ""}`}
+                  >
+                    <span className="font-medium">
+                      {format(new Date(s.date_time), "HH:mm")}
+                    </span>{" "}
+                    {s.client_profile?.full_name || "Client"}
+                    {s.status === "pending" && " · request"}
+                  </div>
+                ))}
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </div>
   );
 };

@@ -50,6 +50,7 @@ const WAVE_FOR_RECIPIENT: Record<RecipientRole, Wave[]> = {
 
 function formatDate(iso: string, locale = "fr-FR") {
   return new Date(iso).toLocaleString(locale, {
+    timeZone: "Africa/Casablanca",
     weekday: "long",
     day: "numeric",
     month: "long",
@@ -259,7 +260,7 @@ Deno.serve(async (req) => {
       b.reminder_channels ?? ["email", "in_app"],
     );
     const joinUrl = b.video_room_id
-      ? `${origin}/video-call/${b.video_room_id}`
+      ? `${origin}/session/${b.id}`
       : `${origin}/my-space?tab=sessions`;
     const whenLabel = formatDate(b.scheduled_at);
 

@@ -10,6 +10,9 @@ import {
   CalendarClock,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { AddToCalendar } from "@/components/dashboard/AddToCalendar";
+import { CalendarSyncCard } from "@/components/dashboard/CalendarSyncCard";
+import { notifyBookingChange } from "@/lib/calendar";
 import { Link } from "@/lib/router-compat";
 
 interface Booking {
@@ -46,6 +49,7 @@ export default function SessionsTimeline() {
       })
       .eq("id", upcoming.id);
     if (!error) {
+      void notifyBookingChange(upcoming.id);
       setUpcoming(null);
       void load();
     }
@@ -124,7 +128,18 @@ export default function SessionsTimeline() {
           <p className="text-xs text-muted-foreground mt-1">
             {formatDateTime(upcoming.scheduled_at)}
           </p>
-          <div className="flex gap-2 mt-3">
+          <div className="flex flex-wrap gap-2 mt-3">
+            {upcoming.status === "confirmed" && (
+              <AddToCalendar
+                session={{
+                  id: upcoming.id,
+                  start: upcoming.scheduled_at,
+                  durationMinutes: upcoming.duration_minutes,
+                  title: `UPSY session with ${upcoming.psychologist_name || "your specialist"}`,
+                  online: upcoming.session_type !== "in_person",
+                }}
+              />
+            )}
             {upcoming.status === "proposed" ? (
               <Button variant="outline" size="sm" asChild>
                 <Link to={`/session/${upcoming.id}`}>
@@ -194,6 +209,8 @@ export default function SessionsTimeline() {
           ))}
         </div>
       )}
+
+      <CalendarSyncCard />
     </div>
   );
 }

@@ -22,3 +22,6 @@ verify_jwt = false
 
 [functions.handle-email-suppression]
 verify_jwt = false
+
+[functions.calendar-feed]
+verify_jwt = false

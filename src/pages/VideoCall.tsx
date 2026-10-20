@@ -34,8 +34,16 @@ declare global {
 // Allow joining the room from T-10min until T+duration+5min.
 const JOIN_EARLY_MS = 10 * 60 * 1000;
 const JOIN_LATE_BUFFER_MS = 5 * 60 * 1000;
-const JITSI_DOMAIN = "meet.jit.si";
-const JITSI_SCRIPT_SRC = `https://${JITSI_DOMAIN}/external_api.js`;
+// Fallback when JaaS (8x8.vc) is not configured: the public Jitsi server.
+const PUBLIC_JITSI = "meet.jit.si";
+
+interface RoomConfig {
+  configured: boolean;
+  domain?: string;
+  room?: string;
+  jwt?: string;
+  moderator?: boolean;
+}
 
 interface BookingRow {
   id: string;
@@ -48,7 +56,8 @@ interface BookingRow {
   psychologist_id: string;
 }
 
-const loadJitsiScript = (): Promise<void> =>
+// JaaS serves its API script per tenant: 8x8.vc/<appId>/external_api.js.
+const loadJitsiScript = (src: string): Promise<void> =>
   new Promise((resolve, reject) => {
     if (window.JitsiMeetExternalAPI) return resolve();
     const timeout = setTimeout(
@@ -65,7 +74,7 @@ const loadJitsiScript = (): Promise<void> =>
       fn();
     };
     const existing = document.querySelector<HTMLScriptElement>(
-      `script[src="${JITSI_SCRIPT_SRC}"]`,
+      `script[src="${src}"]`,
     );
     if (existing) {
       existing.addEventListener(
@@ -79,7 +88,7 @@ const loadJitsiScript = (): Promise<void> =>
       return;
     }
     const s = document.createElement("script");
-    s.src = JITSI_SCRIPT_SRC;
+    s.src = src;
     s.async = true;
     s.onload = finish(() => resolve());
     s.onerror = finish(() => reject(new Error("Failed to load Jitsi")));
@@ -280,14 +289,28 @@ const VideoCall = () => {
 
     (async () => {
       try {
-        await loadJitsiScript();
+        const { data: cfg, error: cfgErr } =
+          await supabase.functions.invoke<RoomConfig>("jaas-token", {
+            body: { booking_id: booking.id },
+          });
+        // Until jaas-token is deployed and configured, keep the public room.
+        if (cfgErr) console.warn("jaas-token unavailable", cfgErr);
+        const jaas = cfg?.configured && cfg.domain && cfg.room && cfg.jwt;
+        const domain = jaas ? cfg.domain! : PUBLIC_JITSI;
+        const roomName = jaas ? cfg.room! : booking.video_room_id!;
+        await loadJitsiScript(
+          jaas
+            ? `https://${domain}/${roomName.split("/")[0]}/external_api.js`
+            : `https://${domain}/external_api.js`,
+        );
         if (cancelled || !containerRef.current || !window.JitsiMeetExternalAPI)
           return;
 
         const displayName =
           user.user_metadata?.full_name || user.email || "Participant";
-        const api = new window.JitsiMeetExternalAPI(JITSI_DOMAIN, {
-          roomName: booking.video_room_id,
+        const api = new window.JitsiMeetExternalAPI(domain, {
+          roomName,
+          ...(jaas ? { jwt: cfg.jwt } : {}),
           parentNode: containerRef.current,
           width: "100%",
           height: "100%",
@@ -322,6 +345,8 @@ const VideoCall = () => {
         apiRef.current = api;
 
         api.addListener("videoConferenceJoined", () => {
+          // The specialist holds the room: clients wait in the lobby.
+          if (jaas && cfg.moderator) api.executeCommand("toggleLobby", true);
           setConnectionState("connected");
           setEmbedReady(true);
           logEvent("joined");
