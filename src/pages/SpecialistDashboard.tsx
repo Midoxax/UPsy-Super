@@ -53,7 +53,7 @@ const SpecialistDashboard = () => {
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-6">
           {/* Main */}
           <div className="space-y-6 min-w-0">
-            <UpcomingSessionsCard />
+            <UpcomingSessionsCard as="specialist" />
 
             <div id="specialist-tabs-top" className="scroll-mt-20" />
             <Tabs

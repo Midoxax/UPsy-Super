@@ -80,6 +80,8 @@ const RoleRouter = () => {
         return <Navigate to="/dashboard/client" replace />;
       case "organization":
         return <Navigate to="/dashboard/organization" replace />;
+      case "athlete":
+        return <Navigate to="/athlete-hub" replace />;
     }
   }
 

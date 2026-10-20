@@ -1,9 +1,17 @@
-import { createContext, useContext, useEffect, useRef, useState } from "react";
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { User, Session } from "@supabase/supabase-js";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { setSentryUser } from "@/lib/analytics/sentry";
 import { identifyAnonymous } from "@/lib/analytics/posthog";
+import { useAdminPreview } from "@/components/admin/AdminPreviewProvider";
 
 interface AuthContextType {
   user: User | null;
@@ -209,8 +217,27 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
 export const useAuth = () => {
   const context = useContext(AuthContext);
+  const preview = useAdminPreview();
+  // Inside the admin "view as" frame, report the viewed user so dashboards
+  // load their data. Memoised: components depend on the user object's
+  // identity in effect dependencies.
+  const realUser = context?.user ?? null;
+  const viewedId = preview.isPreview ? preview.previewUserId : null;
+  const viewedEmail = preview.previewEmail;
+  const user = useMemo(
+    () =>
+      realUser && viewedId
+        ? ({
+            ...realUser,
+            id: viewedId,
+            email: viewedEmail ?? undefined,
+          } as User)
+        : realUser,
+    [realUser, viewedId, viewedEmail],
+  );
   if (context === undefined) {
     throw new Error("useAuth must be used within an AuthProvider");
   }
-  return context;
+  if (user === realUser) return context;
+  return { ...context, user };
 };

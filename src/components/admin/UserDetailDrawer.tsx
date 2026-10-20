@@ -97,12 +97,13 @@ export default function UserDetailDrawer({ userId, onClose }: Props) {
     queryKey: ["admin-user-rich-single", userId],
     enabled: open,
     queryFn: async () => {
-      const { data, error } = await supabase.rpc(
-        "admin_list_users_rich" as any,
-        { _search: null, _limit: 200 },
-      );
-      if (error) return null;
-      return (data as any[])?.find((u) => u.id === userId) ?? null;
+      // chisle: full list, then find. Add an id filter to the RPC if the
+      // user base grows past a few thousand.
+      const { data, error } = await supabase.rpc("admin_list_users_rich", {
+        _limit: 10000,
+      });
+      if (error) throw error;
+      return data?.find((u) => u.id === userId) ?? null;
     },
   });
 

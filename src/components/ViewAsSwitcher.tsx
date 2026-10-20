@@ -8,7 +8,15 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
-import { Eye, Shield, Stethoscope, User, Building2, Check } from "lucide-react";
+import {
+  Eye,
+  Shield,
+  Stethoscope,
+  User,
+  Building2,
+  Check,
+  Trophy,
+} from "lucide-react";
 import { useUserRole } from "@/hooks/useUserRole";
 import { useActiveView, type ActiveView } from "@/hooks/useActiveView";
 
@@ -28,6 +36,7 @@ const LABELS: Record<
     icon: Building2,
     path: "/dashboard/organization",
   },
+  athlete: { label: "Athlete Hub", icon: Trophy, path: "/athlete-hub" },
 };
 
 const ViewAsSwitcher = ({ compact = false }: { compact?: boolean }) => {
