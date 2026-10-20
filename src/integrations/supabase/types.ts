@@ -920,6 +920,24 @@ export type Database = {
           },
         ];
       };
+      calendar_feeds: {
+        Row: {
+          created_at: string;
+          token: string;
+          user_id: string;
+        };
+        Insert: {
+          created_at?: string;
+          token?: string;
+          user_id: string;
+        };
+        Update: {
+          created_at?: string;
+          token?: string;
+          user_id?: string;
+        };
+        Relationships: [];
+      };
       certificate_verifications: {
         Row: {
           certificate_id: string;
@@ -7277,6 +7295,10 @@ export type Database = {
       generate_referral_code: { Args: never; Returns: string };
       generate_slug: { Args: { id: string; name: string }; Returns: string };
       get_ai_tier: { Args: { _user_id: string }; Returns: string };
+      get_open_slots: {
+        Args: { p_date: string; p_psychologist_id: string };
+        Returns: { duration_minutes: number; slot_start: string }[];
+      };
       get_available_slots: {
         Args: { p_date: string; p_psychologist_id: string };
         Returns: {
@@ -7418,6 +7440,10 @@ export type Database = {
         Returns: undefined;
       };
       mark_all_notifications_read: { Args: never; Returns: number };
+      mark_anamnesis_reviewed: {
+        Args: { p_id: string; p_notes?: string | null };
+        Returns: undefined;
+      };
       move_to_dlq: {
         Args: {
           dlq_name: string;
@@ -7557,6 +7583,45 @@ export type Database = {
           collected_mad: number;
           issued_mad: number;
           year: number;
+        }[];
+      };
+      rank_psychologists: {
+        Args: {
+          p_availability?: string;
+          p_city?: string;
+          p_gender?: string;
+          p_in_person?: boolean;
+          p_languages?: string[];
+          p_max_price?: number;
+          p_min_price?: number;
+          p_online?: boolean;
+          p_page?: number;
+          p_page_size?: number;
+          p_query?: string;
+          p_sort?: string;
+          p_specialties?: string[];
+          p_therapy_approaches?: string[];
+        };
+        Returns: {
+          accreditation_level: string | null;
+          bio: string | null;
+          calendly_url: string | null;
+          city: string | null;
+          created_at: string;
+          full_name: string;
+          gender: string | null;
+          hourly_rate_mad: number | null;
+          id: string;
+          is_accredited: boolean;
+          next_available: string | null;
+          offers_in_person: boolean;
+          offers_online: boolean;
+          photo_url: string | null;
+          rating_avg: number | null;
+          rating_count: number;
+          score: number;
+          slug: string;
+          total_count: number;
         }[];
       };
       search_psychologists:

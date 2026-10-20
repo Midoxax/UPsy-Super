@@ -838,6 +838,56 @@
     <xhtml:link rel="alternate" hreflang="ar" href="https://www.upsy.ma/ar/moroccan-umbrella" />
   </url>
   <url>
+    <loc>https://www.upsy.ma/blog/pre-competition-anxiety</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.upsy.ma/fr/blog/pre-competition-anxiety</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.upsy.ma/blog/mental-imagery-for-athletes</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.upsy.ma/fr/blog/mental-imagery-for-athletes</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.upsy.ma/blog/injury-recovery-psychology</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.upsy.ma/fr/blog/injury-recovery-psychology</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.upsy.ma/blog/athlete-burnout</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.upsy.ma/fr/blog/athlete-burnout</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.upsy.ma/blog/when-to-see-a-sport-psychologist</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.upsy.ma/fr/blog/when-to-see-a-sport-psychologist</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
     <loc>https://www.upsy.ma/blog/benefits-online-therapy</loc>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>

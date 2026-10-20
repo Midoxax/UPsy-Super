@@ -1,4 +1,5 @@
 import { Locale, normalizeLocale, shellHtml } from "./i18n.ts";
+import { escapeHtml } from "../../html.ts";
 
 interface ApprovalParams {
   locale: unknown;
@@ -6,6 +7,8 @@ interface ApprovalParams {
   email: string;
   loginUrl: string;
   isNewUser: boolean;
+  /** One-time link to choose a password. Preferred over tempPassword. */
+  setupUrl?: string;
   tempPassword?: string;
 }
 
@@ -19,6 +22,10 @@ const COPY = {
       `Your existing account (${e}) has been upgraded with psychologist access. Use your current password — or reset it from the login page.`,
     emailLabel: "Email",
     passLabel: "Temporary password",
+    changeOnLogin: "Please change this password the first time you log in.",
+    setupNew: (e: string) =>
+      `Your account (${e}) is ready. Choose your password with the button below. The link can be used once and expires.`,
+    setupCta: "Choose my password",
     cta: "Log in to U.Psy",
     nextHeading: "Next steps",
     steps: [
@@ -39,6 +46,11 @@ const COPY = {
       `Votre compte existant (${e}) a été enrichi avec l'accès psychologue. Utilisez votre mot de passe actuel — ou réinitialisez-le depuis la page de connexion.`,
     emailLabel: "Email",
     passLabel: "Mot de passe temporaire",
+    changeOnLogin:
+      "Merci de changer ce mot de passe lors de votre première connexion.",
+    setupNew: (e: string) =>
+      `Votre compte (${e}) est prêt. Choisissez votre mot de passe avec le bouton ci-dessous. Le lien est à usage unique et expire.`,
+    setupCta: "Choisir mon mot de passe",
     cta: "Se connecter à U.Psy",
     nextHeading: "Prochaines étapes",
     steps: [
@@ -58,6 +70,10 @@ const COPY = {
       `تم ترقية حسابك الحالي (${e}) بصلاحيات الأخصائي النفسي. استخدم كلمة المرور الحالية — أو أعِد ضبطها من صفحة تسجيل الدخول.`,
     emailLabel: "البريد الإلكتروني",
     passLabel: "كلمة المرور المؤقتة",
+    changeOnLogin: "يرجى تغيير كلمة المرور هذه عند أول تسجيل دخول.",
+    setupNew: (e: string) =>
+      `حسابك (${e}) جاهز. اختر كلمة المرور عبر الزر أدناه. الرابط صالح لمرة واحدة وتنتهي صلاحيته.`,
+    setupCta: "اختيار كلمة المرور",
     cta: "تسجيل الدخول إلى U.Psy",
     nextHeading: "الخطوات التالية",
     steps: [
@@ -76,22 +92,29 @@ export function buildApprovalEmail(p: ApprovalParams): {
 } {
   const locale: Locale = normalizeLocale(p.locale);
   const c = COPY[locale];
-  const credsBlock = p.isNewUser
-    ? `<p>${c.credsNew}</p>
+  const email = escapeHtml(p.email);
+  const useSetupLink = p.isNewUser && !!p.setupUrl;
+  const credsBlock = useSetupLink
+    ? `<p>${c.setupNew(email)}</p>`
+    : p.isNewUser
+      ? `<p>${c.credsNew}</p>
        <table role="presentation" cellpadding="8" style="background:#FAF7F2;border-radius:8px;margin:8px 0;">
-         <tr><td style="color:#6B7280;font-size:13px;">${c.emailLabel}</td><td style="font-weight:600;">${p.email}</td></tr>
-         <tr><td style="color:#6B7280;font-size:13px;">${c.passLabel}</td><td style="font-weight:600;font-family:monospace;">${p.tempPassword ?? ""}</td></tr>
-       </table>`
-    : `<p>${c.credsExisting(p.email)}</p>`;
+         <tr><td style="color:#6B7280;font-size:13px;">${c.emailLabel}</td><td style="font-weight:600;">${email}</td></tr>
+         <tr><td style="color:#6B7280;font-size:13px;">${c.passLabel}</td><td style="font-weight:600;font-family:monospace;">${escapeHtml(p.tempPassword)}</td></tr>
+       </table>
+       <p>${c.changeOnLogin}</p>`
+      : `<p>${c.credsExisting(email)}</p>`;
+  const ctaUrl = useSetupLink ? p.setupUrl! : p.loginUrl;
+  const ctaLabel = useSetupLink ? c.setupCta : c.cta;
 
   const stepsList = c.steps.map((s) => `<li>${s}</li>`).join("");
 
   const body = `
-    <h1 style="margin:0 0 16px;font-size:22px;color:#6B1F2A;">${c.greeting(p.fullName)}</h1>
+    <h1 style="margin:0 0 16px;font-size:22px;color:#6B1F2A;">${c.greeting(escapeHtml(p.fullName))}</h1>
     <p>${c.intro}</p>
     ${credsBlock}
     <p style="margin:24px 0;">
-      <a href="${p.loginUrl}" style="display:inline-block;background:#6B1F2A;color:#fff;padding:12px 24px;border-radius:8px;text-decoration:none;font-weight:600;">${c.cta}</a>
+      <a href="${escapeHtml(ctaUrl)}" style="display:inline-block;background:#6B1F2A;color:#fff;padding:12px 24px;border-radius:8px;text-decoration:none;font-weight:600;">${ctaLabel}</a>
     </p>
     <h3 style="color:#6B1F2A;font-size:16px;margin:24px 0 8px;">${c.nextHeading}</h3>
     <ol style="padding-${locale === "ar" ? "right" : "left"}:20px;margin:0;">${stepsList}</ol>

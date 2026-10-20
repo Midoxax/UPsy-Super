@@ -27,10 +27,16 @@ import {
   Loader2,
 } from "lucide-react";
 import { format, addDays, startOfDay, isSameDay } from "date-fns";
-import { Link } from "@/lib/router-compat";
+import { Link, useNavigate } from "@/lib/router-compat";
+import { useAvailableSlots, useCreateBooking } from "@/hooks/useBooking";
 import DataPrivacyNotice from "@/components/DataPrivacyNotice";
 import { AddressAutocomplete } from "@/components/AddressAutocomplete";
-import { SignInPrompt } from "@/components/auth/SocialAuthButtons";
+import { addLocalePrefix } from "@/lib/i18n/utils";
+import {
+  clearPendingBooking,
+  loadPendingBooking,
+  savePendingBooking,
+} from "@/lib/booking/pendingBooking";
 import {
   FUNNELS,
   trackFunnelStep,
@@ -65,6 +71,19 @@ const DAY_NAMES = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
 type BookingStep = "type" | "date" | "time" | "confirm" | "success";
 
+// Choices an anonymous visitor made before being sent to sign up; restored
+// when they come back to this profile signed in (?book=1 reopens the modal).
+const PENDING_KEY = "upsy.pendingBookingModal";
+
+type PendingModalBooking = {
+  psychologistId: string;
+  sessionType: "online" | "in_person";
+  date: string;
+  slot: { start: string; end: string; at: string; duration: number };
+  notes: string;
+  address: string;
+};
+
 const BookingModal = ({
   open,
   onClose,
@@ -79,7 +98,8 @@ const BookingModal = ({
 }: BookingModalProps) => {
   const { toast } = useToast();
   const { user } = useAuth();
-  const { t } = useLocale();
+  const { t, locale } = useLocale();
+  const navigate = useNavigate();
   const [step, setStep] = useState<BookingStep>("type");
   const scrollRef = useScrollResetOnOpen<HTMLDivElement>(open, [step]);
   const [sessionType, setSessionType] = useState<"online" | "in_person">(
@@ -89,6 +109,8 @@ const BookingModal = ({
   const [selectedSlot, setSelectedSlot] = useState<{
     start: string;
     end: string;
+    at: string;
+    duration: number;
   } | null>(null);
   const [notes, setNotes] = useState("");
   const [address, setAddress] = useState("");
@@ -129,6 +151,21 @@ const BookingModal = ({
     }
   }, [open]);
 
+  // Resume a choice saved before sign-up: pre-fill and land on the summary so
+  // the visitor only has to press "Send request".
+  useEffect(() => {
+    if (!open || !user) return;
+    const pending = loadPendingBooking<PendingModalBooking>(PENDING_KEY);
+    if (!pending || pending.psychologistId !== psychologistId) return;
+    clearPendingBooking(PENDING_KEY);
+    setSessionType(pending.sessionType);
+    setSelectedDate(new Date(pending.date));
+    setSelectedSlot(pending.slot);
+    setNotes(pending.notes || "");
+    setAddress(pending.address || "");
+    setStep("confirm");
+  }, [open, user, psychologistId]);
+
   // The step union is exactly the declared funnel, so one effect covers every
   // path through the modal — including the back buttons, which a per-click
   // call site would miss.
@@ -152,14 +189,26 @@ const BookingModal = ({
     return dates;
   }, [slots]);
 
-  const timeSlots = useMemo(() => {
-    if (!selectedDate) return [];
-    const dow = selectedDate.getDay();
-    return slots
-      .filter((s) => s.day_of_week === dow)
-      .map((s) => ({ start: s.start_time, end: s.end_time }))
-      .sort((a, b) => a.start.localeCompare(b.start));
-  }, [selectedDate, slots]);
+  // Real, still-free slots for the chosen day (get_open_slots).
+  const { data: openSlots = [] } = useAvailableSlots(
+    psychologistId,
+    selectedDate,
+  );
+  const createBooking = useCreateBooking();
+  const timeSlots = useMemo(
+    () =>
+      openSlots.map((s) => {
+        const startAt = new Date(s.slot_start);
+        const endAt = new Date(startAt.getTime() + s.duration_minutes * 60_000);
+        return {
+          start: format(startAt, "HH:mm"),
+          end: format(endAt, "HH:mm"),
+          at: s.slot_start,
+          duration: s.duration_minutes,
+        };
+      }),
+    [openSlots],
+  );
 
   const handleBook = async () => {
     if (!user) {
@@ -170,67 +219,49 @@ const BookingModal = ({
         session_type: sessionType,
         price_bucket: priceBucket(hourlyRate),
       });
-      toast({
-        title: t("booking.signInRequired"),
-        description: t("booking.signInRequiredDesc"),
-        variant: "destructive",
-      });
+      // Keep the choice (localStorage, 24h) and come back to it after sign-up
+      // instead of leaving the visitor at a disabled button.
+      if (selectedDate && selectedSlot) {
+        savePendingBooking<PendingModalBooking>(PENDING_KEY, {
+          psychologistId,
+          sessionType,
+          date: selectedDate.toISOString(),
+          slot: selectedSlot,
+          notes,
+          address,
+        });
+      }
+      const returnPath = `${window.location.pathname}?book=1`;
+      navigate(
+        `${addLocalePrefix("/auth", locale)}?mode=signup&redirect=${encodeURIComponent(returnPath)}`,
+      );
       return;
     }
     if (!selectedDate || !selectedSlot) return;
 
     setLoading(true);
     try {
-      const [hours, minutes] = selectedSlot.start.split(":").map(Number);
-      const dateTime = new Date(selectedDate);
-      dateTime.setHours(hours, minutes, 0, 0);
-
-      // Step 1: create booking + pending deposit transaction (mock provider)
-      const createRes = await supabase.functions.invoke(
-        "create-booking-payment",
-        {
-          body: {
-            psychologistId,
-            scheduledAt: dateTime.toISOString(),
-            durationMinutes: 50,
-            sessionType,
-            patientNotes: notes || undefined,
-            patientAddress:
-              sessionType === "in_person" && address ? address : undefined,
-            patientLat:
-              sessionType === "in_person"
-                ? (addressCoords.lat ?? undefined)
-                : undefined,
-            patientLng:
-              sessionType === "in_person"
-                ? (addressCoords.lng ?? undefined)
-                : undefined,
-          },
-        },
-      );
-      if (createRes.error) throw new Error(createRes.error.message);
-      const { transactionId, breakdown } = createRes.data as {
-        transactionId: string;
-        breakdown: any;
-      };
-
-      // Step 2: simulate the payment webhook (mock — would be real PSP callback in prod)
-      const webhookRes = await supabase.functions.invoke(
-        "simulate-payment-webhook",
-        {
-          body: { transactionId, outcome: "succeeded" },
-        },
-      );
-      if (webhookRes.error) throw new Error(webhookRes.error.message);
-
-      // This string reaches real people booking real therapy. "(mock)" is an
-      // engineering note about the payment provider, and reading it at the
-      // moment of paying a deposit undermines trust in the one flow that can
-      // least afford it. The provider being simulated is a backend fact; the
-      // confirmation a client sees should state what happened to them.
+      // Pay at the session: this records a request the specialist confirms.
+      await createBooking.mutateAsync({
+        psychologist_id: psychologistId,
+        scheduled_at: selectedSlot.at,
+        duration_minutes: selectedSlot.duration,
+        session_type: sessionType === "online" ? "video" : "in_person",
+        patient_notes: notes || undefined,
+        patient_address:
+          sessionType === "in_person" && address ? address : undefined,
+        patient_lat:
+          sessionType === "in_person"
+            ? (addressCoords.lat ?? undefined)
+            : undefined,
+        patient_lng:
+          sessionType === "in_person"
+            ? (addressCoords.lng ?? undefined)
+            : undefined,
+      });
       toast({
-        title: t("booking.depositConfirmed"),
-        description: `${breakdown.deposit_amount_mad} MAD · ${breakdown.balance_amount_mad} MAD due after the session`,
+        title: t("booking.requestSent"),
+        description: t("booking.requestSentDesc"),
       });
       trackFunnelCompleted(FUNNELS.booking, {
         session_type: sessionType,
@@ -505,29 +536,9 @@ const BookingModal = ({
               </span>
             </div>
           )}
-          {hourlyRate &&
-            typeof depositPercentage === "number" &&
-            depositPercentage > 0 &&
-            depositPercentage < 100 && (
-              <>
-                <div className="flex justify-between text-sm">
-                  <span className="text-muted-foreground">
-                    Deposit due now ({depositPercentage}%)
-                  </span>
-                  <span className="text-foreground font-semibold">
-                    {Math.round((hourlyRate * depositPercentage) / 100)} MAD
-                  </span>
-                </div>
-                <div className="flex justify-between text-xs">
-                  <span className="text-muted-foreground">
-                    Balance after session
-                  </span>
-                  <span className="text-muted-foreground">
-                    {Math.round(hourlyRate * (1 - depositPercentage / 100))} MAD
-                  </span>
-                </div>
-              </>
-            )}
+          <p className="text-xs text-muted-foreground">
+            {t("booking.payAtSession")}
+          </p>
         </div>
       </div>
 
@@ -575,7 +586,11 @@ const BookingModal = ({
         />
       </div>
 
-      {!user && <SignInPrompt message={t("booking.signInToBook")} />}
+      {!user && (
+        <p className="glass-card p-3 text-sm text-muted-foreground text-center">
+          {t("booking.signupToFinishNotice")}
+        </p>
+      )}
 
       <DataPrivacyNotice />
 
@@ -583,18 +598,16 @@ const BookingModal = ({
         <Button variant="ghost" onClick={() => setStep("time")}>
           <ArrowLeft className="mr-2 h-4 w-4" /> {t("booking.back")}
         </Button>
-        <Button
-          variant="primary"
-          onClick={handleBook}
-          disabled={loading || !user}
-        >
+        <Button variant="primary" onClick={handleBook} disabled={loading}>
           {loading ? (
             <>
               <Loader2 className="mr-2 h-4 w-4 animate-spin" />{" "}
               {t("booking.confirming")}
             </>
+          ) : user ? (
+            t("booking.sendRequest")
           ) : (
-            t("booking.confirmBookingBtn")
+            t("booking.createAccountToContinue")
           )}
         </Button>
       </div>

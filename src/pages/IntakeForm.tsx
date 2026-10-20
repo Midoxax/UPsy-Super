@@ -29,11 +29,11 @@ import {
   AlertTriangle,
 } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
-import { useAnamnesis } from "@/hooks/useAnamnesis";
+import { useAnamnesis, type AnamnesisData } from "@/hooks/useAnamnesis";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import PsychometricScale, {
-  computeScaleScore,
+  computeCompleteScaleScore,
   getSeverity,
 } from "@/components/intake/PsychometricScale";
 import {
@@ -91,6 +91,10 @@ const SECTION_INTROS: Record<SectionKey, string> = {
     "Dernière étape — ce que tu attends de ce travail thérapeutique.",
 };
 
+// Radio value for "currently a victim of violence"; also drives the
+// current_violence clinical flag, so both must use this constant.
+const VIOLENCE_CURRENT = "Oui actuellement";
+
 const SKIPPABLE: SectionKey[] = [
   "history_personal",
   "history_family",
@@ -104,31 +108,84 @@ const IntakeForm = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
   const { toast } = useToast();
+  // The booking this intake prepares, so the anamnesis is linked to the
+  // psychologist (otherwise psychologist_id stays null and the psy never
+  // sees it in their briefs).
+  const [booking, setBooking] = useState<{
+    id: string;
+    psychologist_id: string | null;
+  } | null>(null);
+
+  useEffect(() => {
+    if (!bookingId || !user?.id) return;
+    let cancelled = false;
+    void (async () => {
+      const { data: b } = await supabase
+        .from("bookings")
+        .select("id, psychologist_id, patient_id")
+        .eq("id", bookingId)
+        .maybeSingle();
+      if (!cancelled && b && b.patient_id === user.id)
+        setBooking({
+          id: b.id,
+          psychologist_id: b.psychologist_id,
+        });
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [bookingId, user?.id]);
+
   const {
     data,
     loading,
     saving,
+    saveError,
     save,
     autoSave,
+    flush,
     complete,
     giveConsent,
     progress,
-  } = useAnamnesis(user?.id);
+  } = useAnamnesis(user?.id, booking?.psychologist_id, booking?.id);
 
   const [step, setStep] = useState(0);
   const [local, setLocal] = useState<Record<string, any>>({});
   const [crisisOpen, setCrisisOpen] = useState(false);
   const [consentGiven, setConsentGiven] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
 
   const sectionKey = SECTION_KEYS[step];
 
-  // Load section data when step changes
+  // Load section data when the step changes (or once the row has loaded).
+  // Not on every save: a save landing mid-typing must not overwrite `local`.
+  const hasData = !!data;
   useEffect(() => {
     if (data) {
       setLocal({ ...((data as any)[sectionKey] || {}) });
       setConsentGiven(!!data.consent_given);
     }
-  }, [step, data, sectionKey]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [step, hasData, sectionKey]);
+
+  useEffect(() => {
+    if (saveError)
+      toast({
+        title: "Sauvegarde impossible",
+        description: saveError,
+        variant: "destructive",
+      });
+  }, [saveError, toast]);
+
+  // Flush pending debounced edits before changing step so nothing is lost.
+  const goToStep = useCallback(
+    async (next: number) => {
+      const { error } = await flush();
+      if (error) return;
+      setStep(next);
+    },
+    [flush],
+  );
 
   const updateField = useCallback(
     (field: string, value: any) => {
@@ -158,15 +215,16 @@ const IntakeForm = () => {
 
   const handleSkip = () => {
     updateField("__skipped", true);
-    if (step < SECTION_KEYS.length - 1) setStep(step + 1);
+    if (step < SECTION_KEYS.length - 1) void goToStep(step + 1);
   };
 
   const handleSaveLater = async () => {
-    await save({
+    const { error } = await save({
       [sectionKey]: local,
       current_section: step + 1,
       completion_pct: progress,
     } as any);
+    if (error) return; // surfaced by the saveError toast
     toast({
       title: "Sauvegardé",
       description: "Tu peux reprendre à tout moment depuis ton espace.",
@@ -183,59 +241,102 @@ const IntakeForm = () => {
       });
       return;
     }
-    // Compute and save scores
-    const scales = (data as any)?.medical || {};
-    const phq9Vals = scales.phq9 || {};
-    const gad7Vals = scales.gad7 || {};
-    const pss10Vals = scales.pss10 || {};
+    if (submitting) return;
+    setSubmitting(true);
+    try {
+      // Write any pending edits first, then score from the latest row.
+      const flushed = await flush();
+      if (flushed.error) return;
+      const latest: Partial<AnamnesisData> = flushed.data || data || {};
+      const scales = latest.medical || {};
+      const phq9Vals = scales.phq9 || {};
+      const gad7Vals = scales.gad7 || {};
+      const pss10Vals = scales.pss10 || {};
 
-    const phq9Score = computeScaleScore(PHQ9_CONFIG.items, phq9Vals, 3);
-    const gad7Score = computeScaleScore(GAD7_CONFIG.items, gad7Vals, 3);
-    const pss10Score = computeScaleScore(PSS10_CONFIG.items, pss10Vals, 4);
+      // Partially answered scales are not scored (score/severity = null).
+      const phq9Score = computeCompleteScaleScore(
+        PHQ9_CONFIG.items,
+        phq9Vals,
+        3,
+      );
+      const gad7Score = computeCompleteScaleScore(
+        GAD7_CONFIG.items,
+        gad7Vals,
+        3,
+      );
+      const pss10Score = computeCompleteScaleScore(
+        PSS10_CONFIG.items,
+        pss10Vals,
+        4,
+      );
 
-    const flags: string[] = [];
-    if (phq9Vals[9] >= 1) flags.push("crisis_suicide_ideation");
-    if (phq9Score >= 20) flags.push("severe_depression");
-    else if (phq9Score >= 15) flags.push("moderately_severe_depression");
-    if (gad7Score >= 15) flags.push("severe_anxiety");
-    if (pss10Score >= 27) flags.push("high_perceived_stress");
+      const flags: string[] = [];
+      // Item 9 is a safety signal on its own, even if the scale is partial.
+      if (phq9Vals[9] >= 1) flags.push("crisis_suicide_ideation");
+      if (phq9Score != null && phq9Score >= 20) flags.push("severe_depression");
+      else if (phq9Score != null && phq9Score >= 15)
+        flags.push("moderately_severe_depression");
+      if (gad7Score != null && gad7Score >= 15) flags.push("severe_anxiety");
+      if (pss10Score != null && pss10Score >= 27)
+        flags.push("high_perceived_stress");
 
-    const relationships = (data as any)?.risk_screening || {};
-    if (relationships.violence === "oui_actuellement")
-      flags.push("current_violence");
+      const relationships = latest.risk_screening || {};
+      if (relationships.violence === VIOLENCE_CURRENT)
+        flags.push("current_violence");
 
-    await save({
-      objectives_consent: { ...local, consent_confirmed: true },
-      phq9_score: phq9Score,
-      phq9_severity: getSeverity(phq9Score, PHQ9_CONFIG.scoringBands).label,
-      gad7_score: gad7Score,
-      gad7_severity: getSeverity(gad7Score, GAD7_CONFIG.scoringBands).label,
-      pss10_score: pss10Score,
-      pss10_severity: getSeverity(pss10Score, PSS10_CONFIG.scoringBands).label,
-      clinical_flags: flags,
-      completion_pct: 100,
-      shared_with_psy_at: new Date().toISOString(),
-    } as any);
+      const severity = (
+        score: number | null,
+        bands: typeof PHQ9_CONFIG.scoringBands,
+      ) => (score == null ? null : getSeverity(score, bands).label);
 
-    await complete();
+      // One write: scores, flags, status, completed_at and sharing together.
+      const { data: saved, error } = await complete({
+        objectives_consent: { ...local, consent_confirmed: true },
+        phq9_score: phq9Score,
+        phq9_severity: severity(phq9Score, PHQ9_CONFIG.scoringBands),
+        gad7_score: gad7Score,
+        gad7_severity: severity(gad7Score, GAD7_CONFIG.scoringBands),
+        pss10_score: pss10Score,
+        pss10_severity: severity(pss10Score, PSS10_CONFIG.scoringBands),
+        clinical_flags: flags,
+        completion_pct: 100,
+        shared_with_psy_at: new Date().toISOString(),
+      });
+      if (error || !saved) return; // surfaced by the saveError toast
 
-    // Insert crisis alert if needed
-    if (flags.includes("crisis_suicide_ideation") && user) {
-      await supabase.from("crisis_alerts").insert({
-        client_id: user.id,
-        intake_form_id: data?.id,
-        alert_type: "crisis_suicide_ideation",
-        severity: phq9Vals[9] >= 3 ? "critical" : "moderate",
-        source_section: "phq9_item_9",
-        source_value: String(phq9Vals[9]),
-      } as any);
+      // Insert crisis alert if needed
+      if (flags.includes("crisis_suicide_ideation") && user) {
+        const { error: alertError } = await supabase
+          .from("crisis_alerts")
+          .insert({
+            client_id: user.id,
+            intake_form_id: saved.id,
+            booking_id: booking?.id ?? null,
+            alert_type: "crisis_suicide_ideation",
+            severity: phq9Vals[9] >= 3 ? "critical" : "moderate",
+            source_section: "phq9_item_9",
+            source_value: String(phq9Vals[9]),
+          } as any);
+        if (alertError) {
+          setCrisisOpen(true);
+          toast({
+            title: "Alerte non transmise",
+            description:
+              "Si tu es en danger, appelle le SAMU (141) ou Stop Silence (0801 000 180).",
+            variant: "destructive",
+          });
+          return;
+        }
+      }
+
+      toast({
+        title: "Anamnèse complétée",
+        description: "Merci. Ton psy la consultera avant ta séance.",
+      });
+      navigate("/my-space");
+    } finally {
+      setSubmitting(false);
     }
-
-    toast({
-      title: "Anamnèse complétée",
-      description: "Merci. Ton psy la consultera avant ta séance.",
-    });
-    navigate("/my-space");
   };
 
   const handleCrisis = useCallback((itemId: number, value: number) => {
@@ -1031,7 +1132,7 @@ const IntakeForm = () => {
           {[
             "Non",
             "Oui par le passé",
-            "Oui actuellement",
+            VIOLENCE_CURRENT,
             "Je préfère en parler en séance",
           ].map((v) => (
             <label
@@ -1043,7 +1144,7 @@ const IntakeForm = () => {
             </label>
           ))}
         </RadioGroup>
-        {local.violence === "Oui actuellement" && (
+        {local.violence === VIOLENCE_CURRENT && (
           <Card className="mt-2 border-destructive/40 bg-destructive/5">
             <CardContent className="p-3 text-xs space-y-1">
               <p className="font-medium text-destructive">
@@ -1290,7 +1391,7 @@ const IntakeForm = () => {
               variant="ghost"
               size="sm"
               disabled={step === 0}
-              onClick={() => setStep(step - 1)}
+              onClick={() => void goToStep(step - 1)}
             >
               <ChevronLeft className="h-4 w-4 mr-1" /> Retour
             </Button>
@@ -1318,14 +1419,14 @@ const IntakeForm = () => {
               </Button>
 
               {step < SECTION_KEYS.length - 1 ? (
-                <Button size="sm" onClick={() => setStep(step + 1)}>
+                <Button size="sm" onClick={() => void goToStep(step + 1)}>
                   Suivant <ChevronRight className="h-4 w-4 ml-1" />
                 </Button>
               ) : (
                 <Button
                   size="sm"
                   onClick={handleComplete}
-                  disabled={!consentGiven}
+                  disabled={!consentGiven || submitting}
                 >
                   <Check className="h-4 w-4 mr-1" /> Terminer
                 </Button>

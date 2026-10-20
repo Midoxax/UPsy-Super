@@ -171,7 +171,7 @@ export default function FreeScore() {
   const t = {
     en: {
       title: "Free Mental Performance Score",
-      subtitle: "10 questions • 2 minutes • Personalized result",
+      subtitle: "12 questions • 2 minutes • Personalized result",
       next: "Next",
       back: "Back",
       almost: "Almost done",
@@ -187,10 +187,12 @@ export default function FreeScore() {
       legal:
         "In accordance with Moroccan Law 09-08, your data is processed confidentially.",
       values: ["Very low", "Low", "Moderate", "High", "Very high"],
+      required: "Email and consent required",
+      answerAll: "Please answer every question before getting your score.",
     },
     fr: {
       title: "Score de Performance Mentale gratuit",
-      subtitle: "10 questions • 2 minutes • Résultat personnalisé",
+      subtitle: "12 questions • 2 minutes • Résultat personnalisé",
       next: "Suivant",
       back: "Retour",
       almost: "Presque terminé",
@@ -207,10 +209,13 @@ export default function FreeScore() {
       legal:
         "Conformément à la loi 09-08, vos données sont traitées confidentiellement.",
       values: ["Très bas", "Bas", "Modéré", "Élevé", "Très élevé"],
+      required: "Email et consentement requis",
+      answerAll:
+        "Merci de répondre à toutes les questions avant d'obtenir votre score.",
     },
     ar: {
       title: "نتيجة الأداء النفسي المجانية",
-      subtitle: "10 أسئلة • دقيقتان • نتيجة شخصية",
+      subtitle: "12 سؤالًا • دقيقتان • نتيجة شخصية",
       next: "التالي",
       back: "السابق",
       almost: "اقتربنا",
@@ -225,23 +230,28 @@ export default function FreeScore() {
       footnote: "إرشادي فقط — لا يحل محل التقييم السريري.",
       legal: "وفقًا للقانون 09-08، تتم معالجة بياناتك بسرية.",
       values: ["منخفض جدًا", "منخفض", "متوسط", "مرتفع", "مرتفع جدًا"],
+      required: "البريد الإلكتروني والموافقة مطلوبان",
+      answerAll: "يرجى الإجابة على جميع الأسئلة قبل الحصول على نتيجتك.",
     },
   }[lang];
 
   const submit = async () => {
+    // Every item must be answered: no silent default for skipped questions.
+    const firstUnanswered = QUESTIONS.findIndex((q) => answers[q.key] == null);
+    if (firstUnanswered !== -1) {
+      toast.error(t.answerAll);
+      setStep(firstUnanswered);
+      return;
+    }
     if (!email || !consent) {
-      toast.error(
-        lang === "fr"
-          ? "Email et consentement requis"
-          : "Email and consent required",
-      );
+      toast.error(t.required);
       return;
     }
     setSubmitting(true);
     // Compute overall + per-pillar (invert reverse-scored items)
     const scored: Record<string, number> = {};
     QUESTIONS.forEach((q) => {
-      const v = answers[q.key] ?? 3;
+      const v = answers[q.key];
       scored[q.key] = q.invert ? 6 - v : v;
     });
     const sum = Object.values(scored).reduce((a, b) => a + b, 0);

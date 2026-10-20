@@ -47,9 +47,10 @@ describe("sign-in does not gate on signup password complexity", () => {
     expect(handleLogin).toMatch(/if \(!loginData\.password\)/);
   });
 
-  it("keeps the complexity check on signup, where it belongs", () => {
+  it("keeps the minimum-length check on signup, where it belongs", () => {
+    // Composition rules were dropped as sign-up friction; length stays.
     expect(handleSignup).toMatch(
-      /passwordSchema\.parse\(signupData\.password\)/,
+      /signupData\.password\.length < MIN_PASSWORD_LENGTH/,
     );
   });
 
@@ -65,8 +66,14 @@ describe("sign-in does not gate on signup password complexity", () => {
 
   it("offers a resend-verification action via supabase.auth.resend", () => {
     expect(source).toMatch(
-      /supabase\.auth\.resend\(\{\s*type: "signup",\s*email: pendingVerificationEmail,?\s*\}\)/,
+      /supabase\.auth\.resend\(\{\s*type: "signup",\s*email,\s*options: \{ emailRedirectTo: buildEmailRedirectUrl\(/,
     );
+    // ...reachable both after sign-up and from a login blocked by an
+    // unconfirmed address.
+    expect(source).toMatch(
+      /handleResendVerification\(pendingVerificationEmail\)/,
+    );
+    expect(source).toMatch(/handleResendVerification\(unconfirmedEmail\)/);
   });
 });
 

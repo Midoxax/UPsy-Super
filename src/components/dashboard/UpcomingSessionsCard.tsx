@@ -20,9 +20,15 @@ interface UpcomingItem {
   status: string;
   video_room_id: string | null;
   psychologist_name?: string | null;
+  patient_name?: string | null;
 }
 
-const UpcomingSessionsCard = () => {
+/** "client": sessions I booked. "specialist": sessions booked with me. */
+const UpcomingSessionsCard = ({
+  as = "client",
+}: {
+  as?: "client" | "specialist";
+}) => {
   const { user } = useAuth();
   const [sessions, setSessions] = useState<UpcomingItem[]>([]);
 
@@ -32,9 +38,9 @@ const UpcomingSessionsCard = () => {
       const { data } = await supabase
         .from("bookings_with_details")
         .select(
-          "id, scheduled_at, session_type, status, video_room_id, psychologist_name",
+          "id, scheduled_at, session_type, status, video_room_id, psychologist_name, patient_name",
         )
-        .eq("patient_id", user.id)
+        .eq(as === "specialist" ? "psychologist_id" : "patient_id", user.id)
         .in("status", ["confirmed", "pending", "proposed"])
         .gte("scheduled_at", new Date().toISOString())
         .order("scheduled_at", { ascending: true })
@@ -42,7 +48,7 @@ const UpcomingSessionsCard = () => {
       if (data) setSessions(data as unknown as UpcomingItem[]);
     };
     load();
-  }, [user]);
+  }, [user, as]);
 
   if (sessions.length === 0) return null;
 
@@ -69,7 +75,9 @@ const UpcomingSessionsCard = () => {
             >
               <div className="space-y-0.5">
                 <p className="text-sm font-medium text-foreground">
-                  {s.psychologist_name || "Psychologist"}
+                  {as === "specialist"
+                    ? s.patient_name || "Client"
+                    : s.psychologist_name || "Psychologist"}
                 </p>
                 <div className="flex items-center gap-3 text-xs text-muted-foreground">
                   <span className="flex items-center gap-1">

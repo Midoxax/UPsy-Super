@@ -1,6 +1,8 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { Resend } from "npm:resend@2.0.0";
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 import { sender } from "../_shared/sender.ts";
+import { adminRecipients } from "../_shared/admin-recipients.ts";
 
 const resend = new Resend(Deno.env.get("RESEND_API_KEY"));
 
@@ -133,6 +135,7 @@ function sanitizeError(error: unknown): string {
   const message = error instanceof Error ? error.message : String(error);
 
   // Map known validation errors to safe messages
+  if (message === RATE_LIMITED) return message;
   if (
     message.includes("required") ||
     message.includes("Invalid") ||
@@ -143,6 +146,58 @@ function sanitizeError(error: unknown): string {
 
   // Generic fallback for unknown/internal errors
   return "Failed to send proposal notification";
+}
+
+const RATE_LIMITED = "Too many requests, please try again later";
+/** Emails per recipient address per hour. */
+const MAX_PER_HOUR = 3;
+
+/**
+ * Abuse guard. Anyone may call this (organisations submit the public proposal
+ * form without an account), so mail is only sent for a proposal_requests row
+ * stored for this address in the last 15 minutes by an anonymous caller, and
+ * at most MAX_PER_HOUR times per address per hour for everyone.
+ */
+async function checkAllowed(req: Request, email: string): Promise<void> {
+  const url = Deno.env.get("SUPABASE_URL") ?? "";
+  let signedIn = false;
+  const authHeader = req.headers.get("Authorization") ?? "";
+  if (authHeader.startsWith("Bearer ")) {
+    const userClient = createClient(
+      url,
+      Deno.env.get("SUPABASE_ANON_KEY") ?? "",
+      { global: { headers: { Authorization: authHeader } } },
+    );
+    const { data } = await userClient.auth.getClaims(
+      authHeader.replace("Bearer ", ""),
+    );
+    signedIn = !!data?.claims?.sub;
+  }
+
+  const admin = createClient(
+    url,
+    Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? "",
+  );
+  const pattern = email.replace(/[\\%_]/g, "\\$&");
+  const since = (minutes: number) =>
+    new Date(Date.now() - minutes * 60 * 1000).toISOString();
+
+  const { count: lastHour, error } = await admin
+    .from("proposal_requests")
+    .select("id", { count: "exact", head: true })
+    .ilike("email", pattern)
+    .gte("created_at", since(60));
+  if (error) throw new Error("Rate limit check failed");
+  if ((lastHour ?? 0) > MAX_PER_HOUR) throw new Error(RATE_LIMITED);
+
+  if (!signedIn) {
+    const { count: recent } = await admin
+      .from("proposal_requests")
+      .select("id", { count: "exact", head: true })
+      .ilike("email", pattern)
+      .gte("created_at", since(15));
+    if (!recent) throw new Error("Invalid request: no matching proposal");
+  }
 }
 
 const handler = async (req: Request): Promise<Response> => {
@@ -163,12 +218,17 @@ const handler = async (req: Request): Promise<Response> => {
       message,
     } = validateRequest(rawBody);
 
+    await checkAllowed(req, email);
+
     console.log("Sending proposal notification for:", organizationName);
 
     // Send notification to admin
+    const admins = await adminRecipients();
+    if (admins.length === 0)
+      console.warn("No admin recipient for proposal notification");
     const adminEmailResponse = await resend.emails.send({
       from: sender(),
-      to: ["mypersonalpsychologist212@gmail.com"],
+      to: admins,
       subject: `New Proposal Request from ${organizationName}`,
       html: `
         <h1>New Proposal Request</h1>
@@ -187,7 +247,7 @@ const handler = async (req: Request): Promise<Response> => {
         <p>${message || "No additional message provided"}</p>
         
         <hr>
-        <p><small>Submitted on ${new Date().toLocaleString()}</small></p>
+        <p><small>Submitted on ${new Date().toLocaleString("en-GB", { timeZone: "Africa/Casablanca" })} (Morocco time)</small></p>
       `,
     });
 
@@ -209,7 +269,6 @@ const handler = async (req: Request): Promise<Response> => {
         
         <p>If you have any urgent questions, feel free to reach out:</p>
         <ul>
-          <li>Email: mypersonalpsychologist212@gmail.com</li>
           <li>WhatsApp: +212 668-594699</li>
         </ul>
         
@@ -232,8 +291,9 @@ const handler = async (req: Request): Promise<Response> => {
     );
   } catch (error: unknown) {
     console.error("Error in send-proposal-notification:", error);
-    return new Response(JSON.stringify({ error: sanitizeError(error) }), {
-      status: 500,
+    const safe = sanitizeError(error);
+    return new Response(JSON.stringify({ error: safe }), {
+      status: safe === RATE_LIMITED ? 429 : 500,
       headers: { "Content-Type": "application/json", ...corsHeaders },
     });
   }

@@ -72,10 +72,22 @@ export const GAD7_CONFIG: ScaleConfig = {
   ],
 };
 
+// Cohen, Kamarck & Mermelstein (1983) PSS-10, items in the original order,
+// validated French wording (Bellinghausen et al., 2009). Items 4, 5, 7 and 8
+// are positively worded and reverse-scored (4 - answer). Total 0-40.
+// EN originals, for reference: 1 upset because of something that happened
+// unexpectedly; 2 unable to control the important things in your life;
+// 3 nervous and "stressed"; 4 confident about your ability to handle your
+// personal problems; 5 that things were going your way; 6 that you could not
+// cope with all the things that you had to do; 7 able to control irritations
+// in your life; 8 that you were on top of things; 9 angered because of things
+// that were outside of your control; 10 difficulties were piling up so high
+// that you could not overcome them.
 export const PSS10_CONFIG: ScaleConfig = {
   id: "pss10",
   title: "PSS-10 — Stress perçu",
-  instruction: "Au cours du dernier mois, à quelle fréquence as-tu…",
+  instruction:
+    "Au cours du dernier mois, combien de fois vous êtes-vous senti(e)…",
   options: [
     { value: 0, label: "Jamais" },
     { value: 1, label: "Presque jamais" },
@@ -84,41 +96,43 @@ export const PSS10_CONFIG: ScaleConfig = {
     { value: 4, label: "Très souvent" },
   ],
   items: [
-    { id: 1, text: "…été dérangé·e par quelque chose d'inattendu ?" },
+    { id: 1, text: "…dérangé(e) par un événement inattendu ?" },
     {
       id: 2,
-      text: "…senti que tu n'étais pas capable de contrôler les choses importantes de ta vie ?",
+      text: "…incapable de contrôler les choses importantes de votre vie ?",
     },
-    { id: 3, text: "…senti·e nerveux·se et stressé·e ?" },
+    { id: 3, text: "…nerveux(se) et stressé(e) ?" },
     {
       id: 4,
-      text: "…géré avec succès les soucis de la vie quotidienne ?",
+      text: "…confiant(e) dans votre capacité à prendre en main vos problèmes personnels ?",
       reversed: true,
     },
     {
       id: 5,
-      text: "…senti que tu faisais face efficacement aux changements importants ?",
+      text: "…que les choses allaient comme vous le vouliez ?",
       reversed: true,
     },
     {
       id: 6,
-      text: "…eu confiance dans ta capacité à gérer tes problèmes personnels ?",
-      reversed: true,
+      text: "…que vous ne pouviez pas assumer toutes les choses que vous deviez faire ?",
     },
     {
       id: 7,
-      text: "…senti que les choses allaient comme tu le voulais ?",
+      text: "…capable de maîtriser votre énervement ?",
       reversed: true,
     },
-    { id: 8, text: "…trouvé qu'il y avait trop de choses à faire ?" },
+    {
+      id: 8,
+      text: "…que vous dominiez la situation ?",
+      reversed: true,
+    },
     {
       id: 9,
-      text: "…été capable de contrôler tes irritations ?",
-      reversed: true,
+      text: "…irrité(e) parce que les événements échappaient à votre contrôle ?",
     },
     {
       id: 10,
-      text: "…senti que les difficultés s'accumulaient au point de ne plus pouvoir y faire face ?",
+      text: "…que les difficultés s'accumulaient à un tel point que vous ne pouviez les surmonter ?",
     },
   ],
   scoringBands: [

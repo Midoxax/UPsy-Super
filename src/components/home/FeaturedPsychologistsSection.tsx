@@ -10,6 +10,7 @@ import {
 } from "lucide-react";
 import { useLocale } from "@/contexts/LocaleContext";
 import { getHomeCopy } from "@/lib/i18n/homeCopy";
+import { addLocalePrefix } from "@/lib/i18n/utils";
 import ScrollReveal from "@/components/ScrollReveal";
 import StaggerContainer, { StaggerItem } from "@/components/StaggerContainer";
 import { useQuery } from "@tanstack/react-query";
@@ -61,6 +62,7 @@ const reviewCount = (id: string): number => {
 
 const FeaturedPsychologistsSection = () => {
   const tf = useSafeT();
+  const { locale } = useLocale();
 
   const { data: psychologists } = useQuery({
     queryKey: ["featured-psychologists"],
@@ -278,7 +280,9 @@ const FeaturedPsychologistsSection = () => {
                           size="sm"
                           className="flex-1"
                         >
-                          <Link to={`/psychologists/${psych.slug}?book=1`}>
+                          <Link
+                            to={`${addLocalePrefix(`/psychologists/${psych.slug}`, locale)}?book=1`}
+                          >
                             {tf("featured.bookNow", "Book a slot")}
                           </Link>
                         </Button>
@@ -288,7 +292,12 @@ const FeaturedPsychologistsSection = () => {
                           size="sm"
                           className="flex-1"
                         >
-                          <Link to={`/psychologists/${psych.slug}`}>
+                          <Link
+                            to={addLocalePrefix(
+                              `/psychologists/${psych.slug}`,
+                              locale,
+                            )}
+                          >
                             {tf("featured.viewProfile", "View profile")}
                           </Link>
                         </Button>

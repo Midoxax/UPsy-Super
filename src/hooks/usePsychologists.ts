@@ -5,22 +5,29 @@ import {
   fetchLanguages,
   fetchTherapyApproaches,
 } from "@/services/psychologistsService";
+import type { SortOption } from "@/services/psychologistsService";
 import type { FilterState } from "@/types/psychologist";
 
 interface UsePsychologistsParams {
   filters: FilterState;
+  query?: string;
+  sort?: SortOption;
   page?: number;
   pageSize?: number;
 }
 
 export const usePsychologists = ({
   filters,
+  query = "",
+  sort = "recommended",
   page = 1,
   pageSize = 12,
 }: UsePsychologistsParams) => {
   return useQuery({
-    queryKey: ["psychologists", filters, page],
-    queryFn: () => searchPsychologists({ filters, page, pageSize }),
+    queryKey: ["psychologists", filters, query, sort, page, pageSize],
+    queryFn: () =>
+      searchPsychologists({ filters, query, sort, page, pageSize }),
+    placeholderData: (prev) => prev,
   });
 };
 

@@ -1,5 +1,8 @@
 import { Link } from "@/lib/router-compat";
 import { ArrowRight, Clock } from "lucide-react";
+import { useLocale } from "@/contexts/LocaleContext";
+import { addLocalePrefix } from "@/lib/i18n/utils";
+import { ARTICLES, articleLang } from "@/content/blog/articles";
 
 type Related = {
   slug: string;
@@ -69,26 +72,41 @@ const ALL: Record<string, Related> = {
 };
 
 const RelatedArticles = ({ currentSlug }: { currentSlug: string }) => {
-  const related = Object.values(ALL)
+  const { locale } = useLocale();
+  const lang = articleLang(locale);
+  const fr = lang === "fr";
+  const related = [
+    ...ARTICLES.map((a) => ({
+      slug: a.slug,
+      title: a.content[lang].title,
+      desc: a.content[lang].description,
+      readTime: `${a.readMinutes} min`,
+      category: a.content[lang].category,
+    })),
+    ...Object.values(ALL),
+  ]
     .filter((a) => a.slug !== currentSlug)
     .slice(0, 3);
 
   return (
     <section className="space-y-6">
       <div className="flex items-baseline justify-between">
-        <h2 className="text-h2">Continue reading</h2>
+        <h2 className="text-h2">
+          {fr ? "Continuer la lecture" : "Continue reading"}
+        </h2>
         <Link
-          to="/blog"
+          to={addLocalePrefix("/blog", locale)}
           className="text-sm text-primary font-medium hover:underline inline-flex items-center gap-1"
         >
-          All articles <ArrowRight className="w-4 h-4" />
+          {fr ? "Tous les articles" : "All articles"}{" "}
+          <ArrowRight className="w-4 h-4" />
         </Link>
       </div>
       <div className="grid md:grid-cols-3 gap-5">
         {related.map((a) => (
           <Link
             key={a.slug}
-            to={`/blog/${a.slug}`}
+            to={addLocalePrefix(`/blog/${a.slug}`, locale)}
             className="glass-card p-5 group transition-all hover:border-primary/30 flex flex-col"
           >
             <div className="flex items-center justify-between mb-3">

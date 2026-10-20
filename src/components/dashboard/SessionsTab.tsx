@@ -18,7 +18,11 @@ import {
   FileText,
 } from "lucide-react";
 import { Link } from "@/lib/router-compat";
-import { format, isPast } from "date-fns";
+import { useToast } from "@/hooks/use-toast";
+import { addDays, format, isPast, isSameDay, startOfWeek } from "date-fns";
+import { AddToCalendar } from "@/components/dashboard/AddToCalendar";
+import { CalendarSyncCard } from "@/components/dashboard/CalendarSyncCard";
+import { notifyBookingChange } from "@/lib/calendar";
 import { useState as useStateReact } from "react";
 import AnamnesisDrawer from "@/components/anamnesis/AnamnesisDrawer";
 import { ClipboardList, CalendarPlus } from "lucide-react";
@@ -36,8 +40,26 @@ interface Session {
   client_profile: { full_name: string | null } | null;
 }
 
+// The call can be joined from shortly before the start until a grace period
+// after the scheduled end — a session doesn't stop being joinable (or drop out
+// of "Upcoming") the minute it starts.
+const JOIN_OPENS_BEFORE_MS = 10 * 60 * 1000;
+const JOIN_GRACE_AFTER_END_MS = 15 * 60 * 1000;
+
+const sessionWindow = (s: Pick<Session, "date_time" | "duration_minutes">) => {
+  const start = new Date(s.date_time).getTime();
+  const end = start + (s.duration_minutes || 50) * 60 * 1000;
+  return {
+    opensAt: start - JOIN_OPENS_BEFORE_MS,
+    closesAt: end + JOIN_GRACE_AFTER_END_MS,
+  };
+};
+
+/** The specialist's bookings: requests to answer, upcoming, past. Each
+ *  confirmed booking is also a session (same id) for notes and plans. */
 export const SessionsTab = () => {
   const { user } = useAuth();
+  const { toast } = useToast();
   const [sessions, setSessions] = useState<Session[]>([]);
   const [loading, setLoading] = useState(true);
   const [anamnesisFor, setAnamnesisFor] = useStateReact<{
@@ -46,64 +68,102 @@ export const SessionsTab = () => {
   } | null>(null);
   const [proposeOpen, setProposeOpen] = useState(false);
   const [linkOpen, setLinkOpen] = useState(false);
+  // Re-render periodically so Join appears/disappears and sessions move from
+  // Upcoming to Past without a page reload.
+  const [now, setNow] = useState(() => Date.now());
+  useEffect(() => {
+    const id = window.setInterval(() => setNow(Date.now()), 30_000);
+    return () => window.clearInterval(id);
+  }, []);
 
   useEffect(() => {
     if (!user) return;
     const load = async () => {
       setLoading(true);
-      const { data } = await supabase
-        .from("sessions")
+      const { data, error } = await supabase
+        .from("bookings_with_details")
         .select(
-          "id, date_time, session_type, status, duration_minutes, video_room_id, notes, client_id",
+          "id, scheduled_at, session_type, status, duration_minutes, video_room_id, patient_notes, patient_id, patient_name",
         )
         .eq("psychologist_id", user.id)
-        .order("date_time", { ascending: false })
-        .limit(50);
-
-      if (!data) {
-        setLoading(false);
-        return;
+        .order("scheduled_at", { ascending: false })
+        .limit(200);
+      if (error) {
+        toast({
+          title: "Could not load sessions",
+          description: error.message,
+          variant: "destructive",
+        });
       }
-
-      // Fetch client profiles
-      const clientIds = [...new Set(data.map((s) => s.client_id))];
-      const { data: profiles } = await supabase
-        .from("profiles")
-        .select("id, full_name")
-        .in("id", clientIds);
-
-      const profileMap = new Map(profiles?.map((p) => [p.id, p]) || []);
-
-      const enriched: Session[] = data.map((s) => ({
-        ...s,
-        client_profile: profileMap.get(s.client_id) || null,
-      }));
-
-      setSessions(enriched);
+      setSessions(
+        (data ?? [])
+          .filter((b) => b.id && b.scheduled_at && b.patient_id)
+          .map((b) => ({
+            id: b.id!,
+            date_time: b.scheduled_at!,
+            session_type: b.session_type ?? "video",
+            status: b.status ?? "pending",
+            duration_minutes: b.duration_minutes ?? 50,
+            video_room_id: b.video_room_id,
+            notes: b.patient_notes,
+            client_id: b.patient_id!,
+            client_profile: { full_name: b.patient_name },
+          })),
+      );
       setLoading(false);
     };
     load();
-  }, [user]);
+  }, [user, toast]);
 
-  const updateStatus = async (sessionId: string, status: string) => {
-    await supabase.from("sessions").update({ status }).eq("id", sessionId);
+  const updateStatus = async (
+    sessionId: string,
+    status: string,
+    reason?: string,
+  ) => {
+    const { error } = await supabase
+      .from("bookings")
+      .update({
+        status,
+        ...(reason ? { decline_reason: reason } : {}),
+      })
+      .eq("id", sessionId);
+    if (error) {
+      toast({
+        title: "Update failed",
+        description: error.message,
+        variant: "destructive",
+      });
+      return;
+    }
     setSessions((prev) =>
       prev.map((s) => (s.id === sessionId ? { ...s, status } : s)),
     );
+    if (status === "confirmed" || status === "cancelled")
+      void notifyBookingChange(sessionId);
   };
 
-  const upcoming = sessions.filter(
-    (s) => !isPast(new Date(s.date_time)) && s.status === "confirmed",
+  const requests = sessions.filter(
+    (s) => s.status === "pending" && !isPast(new Date(s.date_time)),
   );
+  const isOver = (s: Session) => now >= sessionWindow(s).closesAt;
+  const upcoming = sessions
+    .filter((s) => !isOver(s) && s.status === "confirmed")
+    .reverse();
   const past = sessions.filter(
-    (s) => isPast(new Date(s.date_time)) || s.status === "completed",
+    (s) =>
+      (isPast(new Date(s.date_time)) &&
+        s.status !== "cancelled" &&
+        (s.status !== "confirmed" || isOver(s))) ||
+      s.status === "completed",
   );
   const cancelled = sessions.filter((s) => s.status === "cancelled");
 
   const renderSession = (s: Session, showActions = false) => {
     const dt = new Date(s.date_time);
-    const isOnline = s.session_type === "online";
-    const isUpcoming = !isPast(dt) && s.status === "confirmed";
+    const isOnline = s.session_type !== "in_person";
+    const { opensAt, closesAt } = sessionWindow(s);
+    const isUpcoming = now < closesAt && s.status === "confirmed";
+    const canJoin = isUpcoming && now >= opensAt;
 
     return (
       <div
@@ -134,7 +194,9 @@ export const SessionsTab = () => {
                   ? "default"
                   : s.status === "completed"
                     ? "secondary"
-                    : "destructive"
+                    : s.status === "pending"
+                      ? "outline"
+                      : "destructive"
               }
               className="text-[10px]"
             >
@@ -159,14 +221,37 @@ export const SessionsTab = () => {
           )}
         </div>
 
-        <div className="flex items-center gap-2 shrink-0">
-          {isUpcoming && isOnline && s.video_room_id && (
-            <Button variant="primary" size="sm" asChild>
-              <Link to={`/session/${s.id}`}>
-                <Video className="h-4 w-4 mr-1" /> Join Call
-              </Link>
-            </Button>
+        <div className="flex items-center gap-2 shrink-0 flex-wrap">
+          {isUpcoming && (
+            <AddToCalendar
+              session={{
+                id: s.id,
+                start: s.date_time,
+                durationMinutes: s.duration_minutes,
+                title: `UPSY session with ${s.client_profile?.full_name || "client"}`,
+                online: isOnline,
+              }}
+            />
           )}
+          {isUpcoming &&
+            isOnline &&
+            s.video_room_id &&
+            (canJoin ? (
+              <Button variant="primary" size="sm" asChild>
+                <Link to={`/session/${s.id}`}>
+                  <Video className="h-4 w-4 mr-1" /> Join Call
+                </Link>
+              </Button>
+            ) : (
+              <Button
+                variant="primary"
+                size="sm"
+                disabled
+                title="Available 10 minutes before the start"
+              >
+                <Video className="h-4 w-4 mr-1" /> Join Call
+              </Button>
+            ))}
           <Button
             variant="outline"
             size="sm"
@@ -180,6 +265,27 @@ export const SessionsTab = () => {
           >
             <ClipboardList className="h-3.5 w-3.5 mr-1" /> Anamnesis
           </Button>
+          {showActions && s.status === "pending" && (
+            <>
+              <Button
+                variant="primary"
+                size="sm"
+                onClick={() => updateStatus(s.id, "confirmed")}
+              >
+                <CheckCircle2 className="h-3.5 w-3.5 mr-1" /> Confirm
+              </Button>
+              <Button
+                variant="ghost"
+                size="sm"
+                className="text-destructive hover:text-destructive"
+                onClick={() =>
+                  updateStatus(s.id, "cancelled", "Declined by the specialist")
+                }
+              >
+                <XCircle className="h-3.5 w-3.5 mr-1" /> Decline
+              </Button>
+            </>
+          )}
           {showActions && s.status === "confirmed" && (
             <>
               <Button
@@ -238,16 +344,35 @@ export const SessionsTab = () => {
           </div>
         </CardHeader>
         <CardContent>
-          <Tabs defaultValue="upcoming" className="space-y-4">
+          <Tabs
+            defaultValue={requests.length > 0 ? "requests" : "upcoming"}
+            className="space-y-4"
+          >
             <TabsList>
+              <TabsTrigger value="requests">
+                Requests ({requests.length})
+              </TabsTrigger>
               <TabsTrigger value="upcoming">
                 Upcoming ({upcoming.length})
               </TabsTrigger>
+              <TabsTrigger value="calendar">Calendar</TabsTrigger>
               <TabsTrigger value="past">Past ({past.length})</TabsTrigger>
               <TabsTrigger value="cancelled">
                 Cancelled ({cancelled.length})
               </TabsTrigger>
             </TabsList>
+
+            <TabsContent value="requests" className="space-y-3">
+              {requests.length === 0 ? (
+                <div className="text-center py-12">
+                  <p className="text-sm text-muted-foreground">
+                    No requests waiting for you.
+                  </p>
+                </div>
+              ) : (
+                requests.map((s) => renderSession(s, true))
+              )}
+            </TabsContent>
 
             <TabsContent value="upcoming" className="space-y-3">
               {upcoming.length === 0 ? (
@@ -260,6 +385,15 @@ export const SessionsTab = () => {
               ) : (
                 upcoming.map((s) => renderSession(s, true))
               )}
+            </TabsContent>
+
+            <TabsContent value="calendar" className="space-y-4">
+              <WeekView
+                sessions={sessions.filter((s) =>
+                  ["pending", "confirmed", "completed"].includes(s.status),
+                )}
+              />
+              <CalendarSyncCard />
             </TabsContent>
 
             <TabsContent value="past" className="space-y-3">
@@ -305,5 +439,68 @@ export const SessionsTab = () => {
         defaultMode="link"
       />
     </>
+  );
+};
+
+/** Seven days of sessions, Monday first. Pending requests are dashed. */
+const WeekView = ({ sessions }: { sessions: Session[] }) => {
+  const [weekStart, setWeekStart] = useState(() =>
+    startOfWeek(new Date(), { weekStartsOn: 1 }),
+  );
+  const days = Array.from({ length: 7 }, (_, i) => addDays(weekStart, i));
+  return (
+    <div className="space-y-3">
+      <div className="flex items-center justify-between">
+        <Button
+          size="sm"
+          variant="ghost"
+          onClick={() => setWeekStart((d) => addDays(d, -7))}
+        >
+          ← Previous
+        </Button>
+        <p className="text-sm font-medium">
+          {format(days[0], "MMM d")} – {format(days[6], "MMM d, yyyy")}
+        </p>
+        <Button
+          size="sm"
+          variant="ghost"
+          onClick={() => setWeekStart((d) => addDays(d, 7))}
+        >
+          Next →
+        </Button>
+      </div>
+      <div className="grid grid-cols-1 sm:grid-cols-7 gap-2">
+        {days.map((day) => {
+          const items = sessions
+            .filter((s) => isSameDay(new Date(s.date_time), day))
+            .sort((a, b) => a.date_time.localeCompare(b.date_time));
+          const today = isSameDay(day, new Date());
+          return (
+            <div
+              key={day.toISOString()}
+              className={`rounded-lg border p-2 min-h-24 ${today ? "border-primary" : "border-border"}`}
+            >
+              <p className="text-xs font-medium text-muted-foreground mb-2">
+                {format(day, "EEE d")}
+              </p>
+              <div className="space-y-1">
+                {items.map((s) => (
+                  <div
+                    key={s.id}
+                    className={`rounded px-1.5 py-1 text-[11px] leading-tight bg-primary/10 ${s.status === "pending" ? "border border-dashed border-primary" : ""}`}
+                  >
+                    <span className="font-medium">
+                      {format(new Date(s.date_time), "HH:mm")}
+                    </span>{" "}
+                    {s.client_profile?.full_name || "Client"}
+                    {s.status === "pending" && " · request"}
+                  </div>
+                ))}
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </div>
   );
 };

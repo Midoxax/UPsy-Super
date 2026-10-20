@@ -1,9 +1,18 @@
-import { createContext, useContext, useEffect, useRef, useState } from "react";
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { User, Session } from "@supabase/supabase-js";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { setSentryUser } from "@/lib/analytics/sentry";
 import { identifyAnonymous } from "@/lib/analytics/posthog";
+import { useAdminPreview } from "@/components/admin/AdminPreviewProvider";
+import { addLocalePrefix, getLocaleFromPath } from "@/lib/i18n/utils";
 
 interface AuthContextType {
   user: User | null;
@@ -20,6 +29,22 @@ interface AuthContextType {
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
+
+/**
+ * Where the email-confirmation link lands. Shared by sign-up and "resend
+ * confirmation" so both links behave the same. With a ?redirect= target we land
+ * on /auth so it can finalize and forward the user to the page they originally
+ * tried to reach; otherwise straight to My Space — in the visitor's locale, so
+ * a French visitor isn't dropped onto the English page after verifying.
+ */
+export const buildEmailRedirectUrl = (redirectAfter?: string): string => {
+  const locale = getLocaleFromPath(window.location.pathname);
+  const safe =
+    redirectAfter && !redirectAfter.startsWith("/auth") ? redirectAfter : "";
+  return safe
+    ? `${window.location.origin}${addLocalePrefix("/auth", locale)}?verified=1&redirect=${encodeURIComponent(safe)}`
+    : `${window.location.origin}${addLocalePrefix("/my-space", locale)}`;
+};
 
 // Idle timeouts: clinical/admin roles auto-logout after 30 min, regular users after 24h.
 const PRIVILEGED_IDLE_MS = 30 * 60 * 1000;
@@ -158,19 +183,11 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     fullName: string,
     redirectAfter?: string,
   ) => {
-    // After email verification, land on /auth so we can finalize and forward
-    // the user to the page they originally tried to access (?redirect=).
-    const safe =
-      redirectAfter && !redirectAfter.startsWith("/auth") ? redirectAfter : "";
-    const redirectUrl = safe
-      ? `${window.location.origin}/auth?verified=1&redirect=${encodeURIComponent(safe)}`
-      : `${window.location.origin}/my-space`;
-
-    const { data, error } = await supabase.auth.signUp({
+    const { error } = await supabase.auth.signUp({
       email,
       password,
       options: {
-        emailRedirectTo: redirectUrl,
+        emailRedirectTo: buildEmailRedirectUrl(redirectAfter),
         data: {
           full_name: fullName,
         },
@@ -209,8 +226,27 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
 export const useAuth = () => {
   const context = useContext(AuthContext);
+  const preview = useAdminPreview();
+  // Inside the admin "view as" frame, report the viewed user so dashboards
+  // load their data. Memoised: components depend on the user object's
+  // identity in effect dependencies.
+  const realUser = context?.user ?? null;
+  const viewedId = preview.isPreview ? preview.previewUserId : null;
+  const viewedEmail = preview.previewEmail;
+  const user = useMemo(
+    () =>
+      realUser && viewedId
+        ? ({
+            ...realUser,
+            id: viewedId,
+            email: viewedEmail ?? undefined,
+          } as User)
+        : realUser,
+    [realUser, viewedId, viewedEmail],
+  );
   if (context === undefined) {
     throw new Error("useAuth must be used within an AuthProvider");
   }
-  return context;
+  if (user === realUser) return context;
+  return { ...context, user };
 };

@@ -2,6 +2,7 @@
 // Runs on `predev` and `prebuild`.
 import { writeFileSync, readFileSync } from "fs";
 import { resolve } from "path";
+import { ARTICLES } from "../src/content/blog/articles";
 
 // Single source of truth, mirroring src/config/site.ts for the Node side (this
 // runs before Vite, so it cannot import the browser module).
@@ -125,6 +126,16 @@ for (const r of ROUTES) {
     const localized = localizedPath(r.path, l);
     const loc = `${BASE_URL}${localized}${r.path === "/" && l !== "en" ? "/" : ""}`;
     urls.push(urlBlock(loc, r.path, r.priority, r.changefreq, alt));
+  }
+}
+
+// Articles written as data have full English and French versions.
+for (const a of ARTICLES) {
+  const path = `/blog/${a.slug}`;
+  for (const l of ["en", "fr"] as const) {
+    urls.push(
+      urlBlock(`${BASE_URL}${localizedPath(path, l)}`, path, "0.6", "monthly"),
+    );
   }
 }
 

@@ -68,6 +68,11 @@ const empty = (clientId: string): AnamnesisData => ({
   consent_given: false,
 });
 
+type WriteResult = {
+  data: AnamnesisData | null;
+  error: { message: string } | null;
+};
+
 export const useAnamnesis = (
   clientId?: string,
   psychologistId?: string | null,
@@ -75,10 +80,28 @@ export const useAnamnesis = (
 ) => {
   const { user } = useAuth();
   const targetClient = clientId || user?.id;
-  const [data, setData] = useState<AnamnesisData | null>(null);
+  const [data, setDataState] = useState<AnamnesisData | null>(null);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [saveError, setSaveError] = useState<string | null>(null);
   const saveTimer = useRef<number | null>(null);
+  // Latest row as known to the client; writes merge onto this, never onto a
+  // render-time snapshot.
+  const dataRef = useRef<AnamnesisData | null>(null);
+  // Patches queued by autoSave and not yet written, merged per section.
+  const pendingRef = useRef<Partial<AnamnesisData>>({});
+  // Every write is chained on this promise so the first INSERT finishes (and
+  // gives us an id) before any later write runs.
+  const chainRef = useRef<Promise<unknown>>(Promise.resolve());
+  const psyRef = useRef(psychologistId);
+  const bookingRef = useRef(bookingId);
+  psyRef.current = psychologistId;
+  bookingRef.current = bookingId;
+
+  const setData = useCallback((next: AnamnesisData | null) => {
+    dataRef.current = next;
+    setDataState(next);
+  }, []);
 
   const load = useCallback(async () => {
     if (!targetClient) return;
@@ -103,85 +126,140 @@ export const useAnamnesis = (
       setData(rows[0] as any);
     } else setData(empty(targetClient));
     setLoading(false);
-  }, [targetClient]);
+  }, [targetClient, setData]);
 
   useEffect(() => {
     load();
   }, [load]);
 
-  const save = useCallback(
-    async (patch: Partial<AnamnesisData>) => {
-      if (!targetClient) return null;
-      setSaving(true);
-      const merged: AnamnesisData = {
-        ...(data || empty(targetClient)),
-        ...patch,
-      };
-      if (psychologistId && !merged.psychologist_id)
-        merged.psychologist_id = psychologistId;
-      if (bookingId && !merged.booking_id) merged.booking_id = bookingId;
-      if (merged.status === "draft") merged.status = "in_progress";
+  const write = useCallback(
+    async (patch: Partial<AnamnesisData>): Promise<WriteResult> => {
+      if (!targetClient)
+        return { data: null, error: new Error("No client for anamnesis") };
+      const current = dataRef.current || empty(targetClient);
+      const { id: _ignored, ...cleanPatch } = patch;
+      const changes: Partial<AnamnesisData> = { ...cleanPatch };
+      if (psyRef.current && !current.psychologist_id)
+        changes.psychologist_id = psyRef.current;
+      if (bookingRef.current && !current.booking_id)
+        changes.booking_id = bookingRef.current;
+      if (!changes.status && current.status === "draft")
+        changes.status = "in_progress";
 
+      setSaving(true);
       let result;
-      if (merged.id) {
-        const { id, ...rest } = merged;
+      if (current.id) {
+        // Row exists: send only the patch, by id.
         result = await supabase
           .from("client_anamneses")
-          .update(rest)
-          .eq("id", id)
+          .update(changes as never)
+          .eq("id", current.id)
           .select()
           .single();
       } else {
-        const { id, ...rest } = merged as any;
+        const { id: _none, ...base } = current;
         result = await supabase
           .from("client_anamneses")
-          .insert(rest)
+          .insert({ ...base, ...changes } as never)
           .select()
           .single();
       }
       setSaving(false);
-      if (result.data) setData(result.data as any);
-      return result;
+      if (result.error || !result.data) {
+        const error =
+          result.error || new Error("Anamnesis was not saved (no row)");
+        setSaveError(error.message || "save_failed");
+        return { data: null, error };
+      }
+      setSaveError(null);
+      const row = result.data as unknown as AnamnesisData;
+      setData(row);
+      return { data: row, error: null };
     },
-    [data, targetClient, psychologistId, bookingId],
+    [targetClient, setData],
   );
+
+  const enqueue = useCallback(
+    (patch: Partial<AnamnesisData>): Promise<WriteResult> => {
+      const next = chainRef.current.then(() => write(patch));
+      chainRef.current = next.catch(() => undefined);
+      return next;
+    },
+    [write],
+  );
+
+  const takePending = useCallback(() => {
+    if (saveTimer.current) {
+      window.clearTimeout(saveTimer.current);
+      saveTimer.current = null;
+    }
+    const pending = pendingRef.current;
+    pendingRef.current = {};
+    return pending;
+  }, []);
+
+  const save = useCallback(
+    (patch: Partial<AnamnesisData>) => enqueue({ ...takePending(), ...patch }),
+    [enqueue, takePending],
+  );
+
+  /** Write any debounced patches now and wait for all writes to settle. */
+  const flush = useCallback(async (): Promise<WriteResult> => {
+    const pending = takePending();
+    if (Object.keys(pending).length > 0) {
+      const res = await enqueue(pending);
+      if (res.error) return res;
+    } else {
+      await chainRef.current;
+    }
+    return { data: dataRef.current, error: null };
+  }, [enqueue, takePending]);
 
   const autoSave = useCallback(
     (patch: Partial<AnamnesisData>) => {
+      pendingRef.current = { ...pendingRef.current, ...patch };
       if (saveTimer.current) window.clearTimeout(saveTimer.current);
       saveTimer.current = window.setTimeout(() => {
-        save(patch);
+        const pending = takePending();
+        if (Object.keys(pending).length > 0) void enqueue(pending);
       }, 800);
+    },
+    [enqueue, takePending],
+  );
+
+  /** Completion is a single write: scores, flags and status together. */
+  const complete = useCallback(
+    async (extra: Partial<AnamnesisData> = {}) => {
+      const now = new Date().toISOString();
+      return save({
+        ...extra,
+        status: "completed",
+        completed_at: now,
+        shared_with_psy_at: extra.shared_with_psy_at ?? now,
+      });
     },
     [save],
   );
-
-  const complete = useCallback(async () => {
-    return save({
-      status: "completed",
-      completed_at: new Date().toISOString(),
-    });
-  }, [save]);
 
   const giveConsent = useCallback(async () => {
     return save({ consent_given: true, consent_at: new Date().toISOString() });
   }, [save]);
 
+  // Psychologists only have SELECT on client_anamneses, so reviewing goes
+  // through a SECURITY DEFINER RPC that checks the caller is the row's psy.
   const markReviewed = useCallback(
     async (notes?: string) => {
-      const patch: Partial<AnamnesisData> = {
-        status: "reviewed",
-        reviewed_at: new Date().toISOString(),
-      };
-      if (notes && notes.trim()) {
-        (patch as any).goals = {
-          ...(data?.goals || {}),
-          review_notes: notes.trim(),
-        };
-      }
-      return save(patch);
+      const id = dataRef.current?.id;
+      if (!id) return { error: new Error("No anamnesis to review") };
+      const { error } = await supabase.rpc("mark_anamnesis_reviewed", {
+        p_id: id,
+        p_notes: notes && notes.trim() ? notes.trim() : null,
+      });
+      if (error) return { error };
+      await load();
+      return { error: null };
     },
-    [save, data],
+    [load],
   );
 
   const progress = (() => {
@@ -206,8 +284,10 @@ export const useAnamnesis = (
     data,
     loading,
     saving,
+    saveError,
     save,
     autoSave,
+    flush,
     complete,
     giveConsent,
     markReviewed,

@@ -1,8 +1,13 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useDeferredValue } from "react";
 import { useSearchParams } from "@/lib/router-compat";
 import { Sparkles, X } from "lucide-react";
 import { FilterState } from "@/types/psychologist";
-import { usePsychologists } from "@/hooks/usePsychologists";
+import {
+  usePsychologists,
+  useSpecialties,
+  useTherapyApproaches,
+} from "@/hooks/usePsychologists";
+import type { SortOption } from "@/services/psychologistsService";
 import { PsychologistFilters } from "@/components/psychologists/PsychologistFilters";
 import { PsychologistCard } from "@/components/psychologists/PsychologistCard";
 import { PsychologistCardSkeleton } from "@/components/psychologists/PsychologistCardSkeleton";
@@ -54,7 +59,7 @@ const Psychologists = () => {
   const source = searchParams.get("source");
   const pillarQ = searchParams.get("q") || "";
 
-  // Pillar → filter presets (specialties + therapy approaches).
+  // Pillar → filter presets, by name; mapped to ids once the lists load.
   const PILLAR_FILTERS: Record<
     string,
     { specialties: string[]; therapyApproaches: string[] }
@@ -87,6 +92,10 @@ const Psychologists = () => {
     maxPrice: 2000,
   });
   const [searchQuery, setSearchQuery] = useState("");
+  const [sort, setSort] = useState<SortOption>("recommended");
+  const deferredQuery = useDeferredValue(searchQuery);
+  const { data: specialtyList } = useSpecialties();
+  const { data: approachList } = useTherapyApproaches();
 
   useEffect(() => {
     if (pillarQ && !searchQuery) setSearchQuery(pillarQ);
@@ -97,18 +106,29 @@ const Psychologists = () => {
   useEffect(() => {
     if (!pillar) return;
     const preset = PILLAR_FILTERS[pillar];
-    if (!preset) return;
+    if (!preset || !specialtyList || !approachList) return;
+    const idsFor = (names: string[], list: { id: string; name: string }[]) =>
+      list
+        .filter((x) =>
+          names.some((n) => n.toLowerCase() === x.name.toLowerCase()),
+        )
+        .map((x) => x.id);
     setFilters((prev) =>
       prev.specialties.length === 0 && prev.therapyApproaches.length === 0
         ? {
             ...prev,
-            specialties: preset.specialties,
-            therapyApproaches: preset.therapyApproaches,
+            specialties: idsFor(preset.specialties, specialtyList),
+            therapyApproaches: idsFor(preset.therapyApproaches, approachList),
           }
         : prev,
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pillar]);
+  }, [pillar, specialtyList, approachList]);
+
+  // Any change to what is searched starts again at page 1.
+  useEffect(() => {
+    setPage(1);
+  }, [filters, deferredQuery, sort]);
 
   const pillarBanner = useMemo(() => {
     if (!pillar) return null;
@@ -143,14 +163,15 @@ const Psychologists = () => {
     setFilters((prev) => ({ ...prev, specialties: [], therapyApproaches: [] }));
   };
 
-  const { data, isLoading } = usePsychologists({ filters, page, pageSize: 12 });
+  const { data, isLoading } = usePsychologists({
+    filters,
+    query: deferredQuery,
+    sort,
+    page,
+    pageSize: 12,
+  });
   const totalPages = data ? Math.ceil(data.total / data.pageSize) : 0;
-
-  const filteredProfiles = data?.profiles.filter((p) =>
-    searchQuery
-      ? p.full_name.toLowerCase().includes(searchQuery.toLowerCase())
-      : true,
-  );
+  const filteredProfiles = data?.profiles;
 
   const activeFilterCount = [
     filters.specialties.length > 0,
@@ -465,6 +486,30 @@ const Psychologists = () => {
                       {t("psychologists.ofPsychologists")}
                     </span>
                   </div>
+                  <label className="flex items-center gap-2 text-sm text-u-gray-300">
+                    <span>{t("psychologists.sortBy")}</span>
+                    <select
+                      value={sort}
+                      onChange={(e) => setSort(e.target.value as SortOption)}
+                      className="h-9 rounded-md border border-border bg-background px-2 text-foreground"
+                    >
+                      <option value="recommended">
+                        {t("psychologists.sortRecommended")}
+                      </option>
+                      <option value="soonest">
+                        {t("psychologists.sortSoonest")}
+                      </option>
+                      <option value="rating">
+                        {t("psychologists.sortRating")}
+                      </option>
+                      <option value="price_asc">
+                        {t("psychologists.sortPriceAsc")}
+                      </option>
+                      <option value="price_desc">
+                        {t("psychologists.sortPriceDesc")}
+                      </option>
+                    </select>
+                  </label>
                 </div>
               )}
 

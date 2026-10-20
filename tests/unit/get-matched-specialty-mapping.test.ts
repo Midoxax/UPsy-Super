@@ -39,15 +39,15 @@ describe("GetMatched need-to-specialty mapping", () => {
     expect(source).not.toMatch(/specialties\[0\]\?\.id/);
   });
 
-  it("omits specialtyNeeded from the request instead of sending a bogus value", () => {
-    expect(source).toMatch(
-      /if \(needToSpecialty\[0\]\) body\.specialtyNeeded = needToSpecialty\[0\];/,
-    );
+  it("ranks with the directory's search instead of the find-matches call", () => {
+    expect(source).toMatch(/await searchPsychologists\(/);
+    expect(source).not.toMatch(/functions\.invoke\("find-matches"/);
   });
 
-  it("omits languagesPreferred instead of sending an empty array that fails validation", () => {
+  it("derives the match percentage from criteria met, never at random", () => {
+    expect(source).not.toMatch(/Math\.random/);
     expect(source).toMatch(
-      /if \(languageId\) body\.languagesPreferred = \[languageId\];/,
+      /matchScore: Math\.round\(\(100 \* met\) \/ criteria\)/,
     );
   });
 });

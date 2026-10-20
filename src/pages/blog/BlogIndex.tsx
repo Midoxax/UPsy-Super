@@ -5,6 +5,7 @@ import { ArrowRight, Clock, BookOpen } from "lucide-react";
 import ScrollReveal from "@/components/ScrollReveal";
 import StaggerContainer, { StaggerItem } from "@/components/StaggerContainer";
 import SEOHead from "@/components/SEOHead";
+import { ARTICLES, articleLang } from "@/content/blog/articles";
 
 interface BlogArticle {
   slug: string;
@@ -144,6 +145,26 @@ const articles: BlogArticle[] = [
 
 const BlogIndex = () => {
   const { t, locale } = useLocale();
+  // Sport psychology articles (written as data) first, then the guides.
+  const lang = articleLang(locale);
+  const cards = [
+    ...ARTICLES.map((a) => ({
+      slug: a.slug,
+      title: a.content[lang].title,
+      desc: a.content[lang].description,
+      category: a.content[lang].category,
+      readTime: `${a.readMinutes} min`,
+      color: "bg-primary/10 text-primary",
+    })),
+    ...articles.map((a) => ({
+      slug: a.slug,
+      title: t(a.titleKey) || a.fallbackTitle,
+      desc: t(a.descKey) || a.fallbackDesc,
+      category: t(a.categoryKey) || a.category,
+      readTime: a.readTime,
+      color: a.color,
+    })),
+  ];
 
   return (
     <>
@@ -178,7 +199,7 @@ const BlogIndex = () => {
           <div className="container-custom max-w-4xl">
             <StaggerContainer staggerDelay={0.15}>
               <div className="grid md:grid-cols-2 gap-8">
-                {articles.map((article) => (
+                {cards.map((article) => (
                   <StaggerItem key={article.slug}>
                     <Link
                       to={addLocalePrefix(`/blog/${article.slug}`, locale)}
@@ -187,24 +208,22 @@ const BlogIndex = () => {
                       {/* Thumbnail placeholder */}
                       <div className="h-48 flex items-center justify-center bg-primary/5 border-b border-border/30 relative overflow-hidden">
                         <span className="text-6xl font-bold text-primary/10 group-hover:scale-110 transition-transform duration-500">
-                          {(
-                            t(article.titleKey) || article.fallbackTitle
-                          ).charAt(0)}
+                          {article.title.charAt(0)}
                         </span>
                         <div className="absolute top-4 left-4">
                           <span
                             className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium ${article.color}`}
                           >
-                            {t(article.categoryKey) || article.category}
+                            {article.category}
                           </span>
                         </div>
                       </div>
                       <div className="p-6 space-y-3">
                         <h2 className="text-lg font-semibold text-foreground group-hover:text-primary transition-colors leading-tight">
-                          {t(article.titleKey) || article.fallbackTitle}
+                          {article.title}
                         </h2>
                         <p className="text-sm text-muted-foreground leading-relaxed line-clamp-3">
-                          {t(article.descKey) || article.fallbackDesc}
+                          {article.desc}
                         </p>
                         <div className="flex items-center justify-between pt-2">
                           <span className="flex items-center gap-1.5 text-xs text-muted-foreground/60">

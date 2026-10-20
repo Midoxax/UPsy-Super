@@ -1,8 +1,10 @@
 import { Locale, normalizeLocale, shellHtml } from "./i18n.ts";
+import { escapeHtml } from "../../html.ts";
 
 interface RejectionParams {
   locale: unknown;
   fullName: string;
+  /** Raw text; escaped here. */
   reason?: string;
 }
 
@@ -51,11 +53,11 @@ export function buildRejectionEmail(p: RejectionParams): {
   const locale: Locale = normalizeLocale(p.locale);
   const c = COPY[locale];
   const feedback = p.reason
-    ? `<p style="background:#FAF7F2;padding:12px 16px;border-${locale === "ar" ? "right" : "left"}:3px solid #6B1F2A;border-radius:4px;"><strong>${c.feedbackLabel}:</strong> ${p.reason}</p>`
+    ? `<p style="background:#FAF7F2;padding:12px 16px;border-${locale === "ar" ? "right" : "left"}:3px solid #6B1F2A;border-radius:4px;"><strong>${c.feedbackLabel}:</strong> ${escapeHtml(p.reason)}</p>`
     : "";
 
   const body = `
-    <h1 style="margin:0 0 16px;font-size:22px;color:#6B1F2A;">${c.greeting(p.fullName)}</h1>
+    <h1 style="margin:0 0 16px;font-size:22px;color:#6B1F2A;">${c.greeting(escapeHtml(p.fullName))}</h1>
     <p>${c.intro}</p>
     <p>${c.decline}</p>
     ${feedback}

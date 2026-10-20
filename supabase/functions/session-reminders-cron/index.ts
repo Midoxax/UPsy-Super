@@ -6,6 +6,7 @@
 
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.45.0";
 import { sender } from "../_shared/sender.ts";
+import { SITE_URL } from "../_shared/site.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -50,6 +51,7 @@ const WAVE_FOR_RECIPIENT: Record<RecipientRole, Wave[]> = {
 
 function formatDate(iso: string, locale = "fr-FR") {
   return new Date(iso).toLocaleString(locale, {
+    timeZone: "Africa/Casablanca",
     weekday: "long",
     day: "numeric",
     month: "long",
@@ -174,26 +176,33 @@ Deno.serve(async (req) => {
   if (req.method === "OPTIONS")
     return new Response("ok", { headers: corsHeaders });
 
-  // Require cron secret for invocation
-  const cronSecret = Deno.env.get("CRON_SECRET");
-  if (cronSecret) {
-    const provided = req.headers.get("Authorization") ?? "";
-    if (provided !== `Bearer ${cronSecret}`) {
-      return new Response(JSON.stringify({ error: "Unauthorized" }), {
-        status: 401,
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
-      });
-    }
-  }
-
   const SUPABASE_URL = Deno.env.get("SUPABASE_URL")!;
   const SERVICE_KEY = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
+  const admin = createClient(SUPABASE_URL, SERVICE_KEY);
+
+  // Only the scheduled job may run this: it sends the reminders_cron_secret
+  // kept in Vault (see 20261020160000_reminders_cron_secret.sql). A
+  // CRON_SECRET env var is still accepted as an alternative.
+  const provided = (req.headers.get("Authorization") ?? "").replace(
+    /^Bearer\s+/i,
+    "",
+  );
+  const envSecret = Deno.env.get("CRON_SECRET");
+  const { data: vaultOk } = await admin.rpc("cron_secret_ok", {
+    p_name: "reminders_cron_secret",
+    p_token: provided,
+  });
+  if (!vaultOk && !(envSecret && provided === envSecret)) {
+    return new Response(JSON.stringify({ error: "Unauthorized" }), {
+      status: 401,
+      headers: { ...corsHeaders, "Content-Type": "application/json" },
+    });
+  }
+
   const RESEND_API_KEY = Deno.env.get("RESEND_API_KEY") ?? "";
   const WA_TOKEN = Deno.env.get("WHATSAPP_API_TOKEN") ?? "";
   const WA_PHONE_ID = Deno.env.get("WHATSAPP_PHONE_NUMBER_ID") ?? "";
   const WA_TEMPLATE = Deno.env.get("WHATSAPP_REMINDER_TEMPLATE") ?? "";
-
-  const admin = createClient(SUPABASE_URL, SERVICE_KEY);
   const now = new Date();
   const horizon = new Date(now.getTime() + 26 * 3600 * 1000); // 26h ahead
 
@@ -204,7 +213,9 @@ Deno.serve(async (req) => {
     )
     .gte("scheduled_at", new Date(now.getTime() - 5 * 60 * 1000).toISOString())
     .lte("scheduled_at", horizon.toISOString())
-    .in("status", ["confirmed", "pending", "proposed"]);
+    // Only confirmed sessions: a pending request or an unanswered proposal
+    // is not on anyone's calendar yet.
+    .eq("status", "confirmed");
 
   if (error) {
     console.error("[reminder] bookings query failed", error);
@@ -217,7 +228,7 @@ Deno.serve(async (req) => {
   let scanned = 0,
     dispatched = 0,
     skipped = 0;
-  const origin = "https://upsy.ma";
+  const origin = SITE_URL;
 
   for (const b of (bookings ?? []) as BookingRow[]) {
     scanned++;
@@ -259,7 +270,7 @@ Deno.serve(async (req) => {
       b.reminder_channels ?? ["email", "in_app"],
     );
     const joinUrl = b.video_room_id
-      ? `${origin}/video-call/${b.video_room_id}`
+      ? `${origin}/session/${b.id}`
       : `${origin}/my-space?tab=sessions`;
     const whenLabel = formatDate(b.scheduled_at);
 

@@ -4,6 +4,7 @@
 
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.45.0";
 import { sender } from "../_shared/sender.ts";
+import { icsCalendar } from "../_shared/ics.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -22,52 +23,6 @@ interface Body {
 
 function isValidEmail(s: string) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(s);
-}
-
-// Build an .ics calendar invite (RFC 5545) the recipient can add to Google/Apple Calendar.
-function buildIcs(opts: {
-  uid: string;
-  start: Date;
-  durationMin: number;
-  summary: string;
-  description: string;
-  url: string;
-}) {
-  const fmt = (d: Date) =>
-    d
-      .toISOString()
-      .replace(/[-:]/g, "")
-      .replace(/\.\d{3}/, "");
-  const end = new Date(opts.start.getTime() + opts.durationMin * 60 * 1000);
-  const escape = (s: string) =>
-    s
-      .replace(/\\/g, "\\\\")
-      .replace(/\n/g, "\\n")
-      .replace(/,/g, "\\,")
-      .replace(/;/g, "\\;");
-  return [
-    "BEGIN:VCALENDAR",
-    "VERSION:2.0",
-    "PRODID:-//U.Psy//Session//EN",
-    "CALSCALE:GREGORIAN",
-    "METHOD:REQUEST",
-    "BEGIN:VEVENT",
-    `UID:${opts.uid}@upsy.ma`,
-    `DTSTAMP:${fmt(new Date())}`,
-    `DTSTART:${fmt(opts.start)}`,
-    `DTEND:${fmt(end)}`,
-    `SUMMARY:${escape(opts.summary)}`,
-    `DESCRIPTION:${escape(opts.description)}`,
-    `URL:${opts.url}`,
-    `LOCATION:${escape(opts.url)}`,
-    "BEGIN:VALARM",
-    "ACTION:DISPLAY",
-    "DESCRIPTION:Reminder",
-    "TRIGGER:-PT15M",
-    "END:VALARM",
-    "END:VEVENT",
-    "END:VCALENDAR",
-  ].join("\r\n");
 }
 
 Deno.serve(async (req) => {
@@ -234,12 +189,13 @@ Deno.serve(async (req) => {
         .replace(/'/g, "&#39;");
 
     const origin = Deno.env.get("SITE_URL") ?? "https://upsy.ma";
-    const joinUrl = `${origin}/video-call/${booking.video_room_id}`;
+    const joinUrl = `${origin}/session/${booking.id}`;
 
     const isNow = startMs <= Date.now() + 60 * 1000;
     const dateStr = isNow
       ? "Right now"
       : new Date(startMs).toLocaleString("fr-FR", {
+          timeZone: "Africa/Casablanca",
           weekday: "long",
           day: "numeric",
           month: "long",
@@ -311,14 +267,16 @@ Deno.serve(async (req) => {
       : `https://wa.me/?text=${waText}`;
 
     // 3) .ics calendar invite (data URL — clients can attach in their browser/inbox)
-    const ics = buildIcs({
-      uid: booking.id,
-      start: new Date(startMs),
-      durationMin: body.duration_minutes,
-      summary: `Session with ${psyName} — U.Psy`,
-      description: `Join the secure video room: ${joinUrl}`,
-      url: joinUrl,
-    });
+    const ics = icsCalendar([
+      {
+        uid: booking.id,
+        start: new Date(startMs),
+        durationMin: body.duration_minutes,
+        summary: `Session with ${psyName} — U.Psy`,
+        description: `Join the secure video room: ${joinUrl}`,
+        url: joinUrl,
+      },
+    ]);
     const icsDataUrl = `data:text/calendar;charset=utf-8,${encodeURIComponent(ics)}`;
 
     const RESEND_API_KEY = Deno.env.get("RESEND_API_KEY");

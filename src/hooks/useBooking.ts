@@ -1,5 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { notifyBookingChange } from "@/lib/calendar";
 import { useAuth } from "@/contexts/AuthContext";
 import { format } from "date-fns";
 
@@ -110,12 +111,14 @@ export const useAvailableSlots = (
     queryFn: async () => {
       if (!date) return [];
       const dateStr = format(date, "yyyy-MM-dd");
-      const { data, error } = await supabase.rpc("get_available_slots", {
+      // Open slots only, in Morocco time, already minus requested and
+      // confirmed sessions (get_open_slots).
+      const { data, error } = await supabase.rpc("get_open_slots", {
         p_psychologist_id: psychologistId,
         p_date: dateStr,
       });
       if (error) throw error;
-      return (data ?? []) as { slot_start: string; is_available: boolean }[];
+      return (data ?? []).map((s) => ({ ...s, is_available: true }));
     },
     enabled: !!psychologistId && !!date,
   });
@@ -134,6 +137,9 @@ export const useCreateBooking = () => {
       duration_minutes: number;
       patient_notes?: string;
       amount_mad?: number;
+      patient_address?: string;
+      patient_lat?: number;
+      patient_lng?: number;
     }) => {
       if (!user) throw new Error("Not authenticated");
 
@@ -150,17 +156,25 @@ export const useCreateBooking = () => {
       const amount =
         Math.round(((rate * booking.duration_minutes) / 60) * 100) / 100;
 
-      const { error } = await supabase.from("bookings").insert({
-        psychologist_id: booking.psychologist_id,
-        patient_id: user.id,
-        scheduled_at: booking.scheduled_at,
-        session_type: booking.session_type,
-        duration_minutes: booking.duration_minutes,
-        patient_notes: booking.patient_notes ?? null,
-        amount_mad: amount,
-        status: "pending",
-      });
+      const { data: created, error } = await supabase
+        .from("bookings")
+        .insert({
+          psychologist_id: booking.psychologist_id,
+          patient_id: user.id,
+          scheduled_at: booking.scheduled_at,
+          session_type: booking.session_type,
+          duration_minutes: booking.duration_minutes,
+          patient_notes: booking.patient_notes ?? null,
+          patient_address: booking.patient_address ?? null,
+          patient_lat: booking.patient_lat ?? null,
+          patient_lng: booking.patient_lng ?? null,
+          amount_mad: amount,
+          status: "pending",
+        })
+        .select("id")
+        .single();
       if (error) throw error;
+      void notifyBookingChange(created.id);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["available-slots"] });

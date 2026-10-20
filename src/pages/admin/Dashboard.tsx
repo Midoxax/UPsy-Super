@@ -2,7 +2,13 @@ import type { ComponentType } from "react";
 import { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import { Navigate } from "@/lib/router-compat";
+import { Link, Navigate } from "@/lib/router-compat";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { useAdminAuth } from "@/hooks/useAdminAuth";
 import { format } from "date-fns";
 import {
@@ -40,6 +46,9 @@ import {
   Check,
   X,
   ScrollText,
+  Wrench,
+  HeartHandshake,
+  CreditCard,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -65,6 +74,8 @@ import BookingDetailDrawer from "@/components/admin/BookingDetailDrawer";
 import RolePreviewFrame from "@/components/admin/RolePreviewFrame";
 import LearningHubManager from "@/components/admin/LearningHubManager";
 import SupportInbox from "@/components/admin/SupportInbox";
+import MatchingRequestsManager from "@/components/admin/MatchingRequestsManager";
+import SubscriptionsOverview from "@/components/admin/SubscriptionsOverview";
 import { useAllTickets } from "@/hooks/useSupportTickets";
 import { rowsToCsv, downloadCsv } from "@/lib/admin/csv";
 
@@ -937,6 +948,21 @@ const AdminDashboard = () => {
                 <Search className="h-3.5 w-3.5" />
                 Search… <kbd className="ml-1 text-[10px] opacity-60">⌘K</kbd>
               </Button>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" size="sm" className="text-xs gap-1.5">
+                    <Wrench className="h-3.5 w-3.5" />
+                    Tools
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                  {ADMIN_TOOLS.map((t) => (
+                    <DropdownMenuItem key={t.to} asChild>
+                      <Link to={t.to}>{t.label}</Link>
+                    </DropdownMenuItem>
+                  ))}
+                </DropdownMenuContent>
+              </DropdownMenu>
               <Button
                 variant="ghost"
                 size="sm"
@@ -1009,6 +1035,12 @@ const AdminDashboard = () => {
           <TabsContent value="support">
             <SupportInbox />
           </TabsContent>
+          <TabsContent value="matching">
+            <MatchingRequestsManager />
+          </TabsContent>
+          <TabsContent value="subscriptions">
+            <SubscriptionsOverview />
+          </TabsContent>
           <TabsContent value="live-views">
             <RolePreviewFrame />
           </TabsContent>
@@ -1018,6 +1050,17 @@ const AdminDashboard = () => {
     </div>
   );
 };
+
+// Everything an admin runs lives here or one click away.
+const ADMIN_TOOLS = [
+  { to: "/admin/applications", label: "Psychologist applications" },
+  { to: "/admin/crm", label: "CRM workspace" },
+  { to: "/admin/finance", label: "Finance workspace" },
+  { to: "/admin/audit", label: "Audit & privacy requests" },
+  { to: "/admin/growth-leads", label: "Growth leads" },
+  { to: "/admin/dns", label: "DNS & domains" },
+  { to: "/ops", label: "Ops workspaces" },
+];
 
 const SupportAwareTabs = () => {
   const { data: tickets = [] } = useAllTickets();
@@ -1050,6 +1093,8 @@ const SupportAwareTabs = () => {
       icon: MessageSquare,
       badge: pendingAdmin,
     },
+    { value: "matching", label: "Matching", icon: HeartHandshake },
+    { value: "subscriptions", label: "Subscriptions", icon: CreditCard },
     { value: "live-views", label: "Live views", icon: Eye },
   ];
   return (

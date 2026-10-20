@@ -9,7 +9,7 @@ project_id = "skxxvgjjdshcopybokdt"
     verify_jwt = false
 
 [functions.process-email-queue]
-verify_jwt = true
+verify_jwt = false
 
 [functions.send-transactional-email]
 verify_jwt = true
@@ -21,4 +21,10 @@ verify_jwt = false
 verify_jwt = false
 
 [functions.handle-email-suppression]
+verify_jwt = false
+
+[functions.calendar-feed]
+verify_jwt = false
+
+[functions.anamnesis-reminder-cron]
 verify_jwt = false
