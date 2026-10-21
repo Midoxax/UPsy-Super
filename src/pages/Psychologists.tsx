@@ -13,7 +13,6 @@ import type { NearPoint, SortOption } from "@/services/psychologistsService";
 import { PsychologistFilters } from "@/components/psychologists/PsychologistFilters";
 import { PsychologistCard } from "@/components/psychologists/PsychologistCard";
 import { PsychologistCardSkeleton } from "@/components/psychologists/PsychologistCardSkeleton";
-import StaggerContainer, { StaggerItem } from "@/components/StaggerContainer";
 import ScrollReveal from "@/components/ScrollReveal";
 import MaroonDivider from "@/components/ui/maroon-divider";
 import {
@@ -252,12 +251,12 @@ const Psychologists = () => {
           <div className="max-w-3xl mx-auto text-center space-y-3">
             <h1 className="text-h2 md:text-display leading-tight">
               {t("psychologists.pageTitle")}{" "}
-              <span className="text-u-gold">
+              <span className="text-u-burgundy dark:text-u-gold">
                 {t("psychologists.pageTitleHighlight")}
               </span>{" "}
               {t("psychologists.pageTitleEnd")}
             </h1>
-            <p className="hidden md:block text-body text-u-gray-200 max-w-xl mx-auto">
+            <p className="hidden md:block text-body text-muted-foreground max-w-xl mx-auto">
               {t("psychologists.pageSubtitle")}
             </p>
             <div className="max-w-lg mx-auto relative">
@@ -276,7 +275,7 @@ const Psychologists = () => {
               ].map((item) => (
                 <div key={item.label} className="flex items-center gap-1.5">
                   <item.icon className="w-3.5 h-3.5 text-u-gold" />
-                  <span className="text-xs text-u-gray-300 font-medium">
+                  <span className="text-xs text-muted-foreground font-medium">
                     {item.label}
                   </span>
                 </div>
@@ -520,15 +519,15 @@ const Psychologists = () => {
                 filteredProfiles &&
                 filteredProfiles.length > 0 && (
                   <>
-                    <StaggerContainer staggerDelay={0.08}>
-                      <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-6">
-                        {filteredProfiles.map((psychologist) => (
-                          <StaggerItem key={psychologist.id}>
-                            <PsychologistCard psychologist={psychologist} />
-                          </StaggerItem>
-                        ))}
-                      </div>
-                    </StaggerContainer>
+                    {/* No fade-in: results are what people came for. */}
+                    <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-6">
+                      {filteredProfiles.map((psychologist) => (
+                        <PsychologistCard
+                          key={psychologist.id}
+                          psychologist={psychologist}
+                        />
+                      ))}
+                    </div>
 
                     {/* Pagination */}
                     {totalPages > 1 && (

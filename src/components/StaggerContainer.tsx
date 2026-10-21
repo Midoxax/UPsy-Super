@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { ReactNode } from "react";
 
 interface StaggerContainerProps {
@@ -10,6 +10,8 @@ const StaggerContainer = ({
   children,
   staggerDelay = 0.1,
 }: StaggerContainerProps) => {
+  // Reduced motion: show everything at once, never mid-fade.
+  if (useReducedMotion()) return <div>{children}</div>;
   return (
     <motion.div
       initial="hidden"
@@ -29,6 +31,7 @@ const StaggerContainer = ({
 };
 
 export const StaggerItem = ({ children }: { children: ReactNode }) => {
+  if (useReducedMotion()) return <div>{children}</div>;
   return (
     <motion.div
       variants={{
