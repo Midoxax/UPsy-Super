@@ -9,18 +9,13 @@ import { Button } from "@/components/ui/button";
 import { Phone, Heart, AlertTriangle } from "lucide-react";
 import { Link } from "@/lib/router-compat";
 import { useLocale } from "@/contexts/LocaleContext";
+import { CRISIS_LINES } from "@/lib/crisisLines";
 
 interface Props {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   riskLevel?: "low" | "moderate" | "high";
 }
-
-const RESOURCES = [
-  { name: "SOS Amitié Maroc", phone: "0801 000 180", available: "24/7" },
-  { name: "Stop Silence", phone: "0801 002 002", available: "24/7" },
-  { name: "SAMU", phone: "141", available: "24/7 emergency" },
-];
 
 export default function CrisisModal({
   open,
@@ -41,12 +36,12 @@ export default function CrisisModal({
           </DialogTitle>
           <DialogDescription className="text-sm leading-relaxed pt-2">
             {t("crisis.message") ||
-              "What you're feeling matters. Talking to someone right now can help. These free, confidential lines are staffed by trained professionals."}
+              "What you're feeling matters. Talking to someone right now can help. If you are in danger, call an emergency number now."}
           </DialogDescription>
         </DialogHeader>
 
         <div className="space-y-2.5 py-2">
-          {RESOURCES.map((r) => (
+          {CRISIS_LINES.map((r) => (
             <a
               key={r.phone}
               href={`tel:${r.phone.replace(/\s/g, "")}`}
@@ -54,7 +49,7 @@ export default function CrisisModal({
             >
               <div>
                 <p className="text-sm font-medium text-foreground">{r.name}</p>
-                <p className="text-xs text-muted-foreground">{r.available}</p>
+                <p className="text-xs text-muted-foreground">24/7</p>
               </div>
               <div className="flex items-center gap-2 text-primary font-semibold">
                 <Phone className="w-4 h-4" />

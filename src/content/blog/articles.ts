@@ -359,7 +359,7 @@ export const ARTICLES: Article[] = [
           {
             heading: "When to seek help",
             paragraphs: [
-              "Seek support if, for more than two weeks, you notice persistent low mood, loss of interest in things you used to enjoy, sleep or appetite changes, withdrawal from others, or if you rely on alcohol or painkillers to cope. If you have thoughts of harming yourself, contact emergency services (SAMU 141 in Morocco) or Stop Silence (0801 000 180) straight away.",
+              "Seek support if, for more than two weeks, you notice persistent low mood, loss of interest in things you used to enjoy, sleep or appetite changes, withdrawal from others, or if you rely on alcohol or painkillers to cope. If you have thoughts of harming yourself, contact emergency services straight away: SAMU 141 or Police 19 in Morocco.",
             ],
           },
         ],
@@ -415,7 +415,7 @@ export const ARTICLES: Article[] = [
           {
             heading: "Quand demander de l'aide",
             paragraphs: [
-              "Demandez du soutien si, pendant plus de deux semaines, vous constatez une humeur basse persistante, une perte d'intérêt pour ce que vous aimiez, des troubles du sommeil ou de l'appétit, un repli sur vous-même, ou si vous comptez sur l'alcool ou les antidouleurs pour tenir. Si vous avez des idées de vous faire du mal, contactez immédiatement les urgences (SAMU 141) ou Stop Silence (0801 000 180).",
+              "Demandez du soutien si, pendant plus de deux semaines, vous constatez une humeur basse persistante, une perte d'intérêt pour ce que vous aimiez, des troubles du sommeil ou de l'appétit, un repli sur vous-même, ou si vous comptez sur l'alcool ou les antidouleurs pour tenir. Si vous avez des idées de vous faire du mal, contactez immédiatement les urgences : SAMU 141 ou Police 19.",
             ],
           },
         ],
@@ -483,7 +483,7 @@ export const ARTICLES: Article[] = [
           {
             heading: "When to get support",
             paragraphs: [
-              "If exhaustion and loss of motivation have lasted several weeks despite rest, it is time to talk to a professional. A sport psychologist can help you understand what is draining you, rebuild a sustainable relationship with your sport and, if needed, coordinate with your doctor. If you feel hopeless or have thoughts of harming yourself, contact SAMU (141) or Stop Silence (0801 000 180) immediately.",
+              "If exhaustion and loss of motivation have lasted several weeks despite rest, it is time to talk to a professional. A sport psychologist can help you understand what is draining you, rebuild a sustainable relationship with your sport and, if needed, coordinate with your doctor. If you feel hopeless or have thoughts of harming yourself, contact SAMU (141) or the police (19) immediately.",
             ],
           },
         ],
@@ -545,7 +545,7 @@ export const ARTICLES: Article[] = [
           {
             heading: "Quand demander du soutien",
             paragraphs: [
-              "Si l'épuisement et la perte de motivation durent depuis plusieurs semaines malgré le repos, il est temps d'en parler à un professionnel. Un psychologue du sport peut vous aider à comprendre ce qui vous épuise, à reconstruire une relation durable avec votre sport et, si nécessaire, à vous coordonner avec votre médecin. Si vous vous sentez sans espoir ou avez des idées de vous faire du mal, contactez immédiatement le SAMU (141) ou Stop Silence (0801 000 180).",
+              "Si l'épuisement et la perte de motivation durent depuis plusieurs semaines malgré le repos, il est temps d'en parler à un professionnel. Un psychologue du sport peut vous aider à comprendre ce qui vous épuise, à reconstruire une relation durable avec votre sport et, si nécessaire, à vous coordonner avec votre médecin. Si vous vous sentez sans espoir ou avez des idées de vous faire du mal, contactez immédiatement le SAMU (141) ou la police (19).",
             ],
           },
         ],

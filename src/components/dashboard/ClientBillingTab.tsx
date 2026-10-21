@@ -21,11 +21,12 @@ import {
 import { format } from "date-fns";
 import {
   useOutstandingBookings,
+  usePaymentSettings,
   useTransactionHistory,
   useDownloadInvoice,
   type OutstandingBooking,
 } from "@/hooks/useClientBilling";
-import { SimulateCheckoutDialog } from "./SimulateCheckoutDialog";
+import { PayByTransferDialog } from "./PayByTransferDialog";
 
 const statusBadge = (status: string) => {
   const map: Record<string, { label: string; className: string }> = {
@@ -62,25 +63,21 @@ export const ClientBillingTab = () => {
   const { data: history, isLoading: loadingHist } = useTransactionHistory();
   const downloadInvoice = useDownloadInvoice();
 
-  const [checkoutOpen, setCheckoutOpen] = useState(false);
+  const { data: settings } = usePaymentSettings();
+  // Transfer is offered once an admin has entered where to send money.
+  const canTransfer = !!(settings?.rib || settings?.cash_recipient);
   const [activeBooking, setActiveBooking] = useState<OutstandingBooking | null>(
     null,
   );
-
-  const openCheckout = (b: OutstandingBooking) => {
-    setActiveBooking(b);
-    setCheckoutOpen(true);
-  };
-
-  const isLoading = loadingOut || loadingHist;
 
   return (
     <div className="space-y-6">
       <Alert className="border-primary/30 bg-primary/5">
         <Info className="h-4 w-4 text-primary" />
         <AlertDescription className="text-sm">
-          Payments are currently in <strong>test mode</strong>. No real charges
-          occur. Real-money checkout will be enabled in a future release.
+          {canTransfer
+            ? "Pay before your session by bank transfer, CashPlus or Wafacash and upload the receipt, or pay your specialist at the session."
+            : "You pay your specialist at the session."}
         </AlertDescription>
       </Alert>
 
@@ -91,9 +88,7 @@ export const ClientBillingTab = () => {
             <AlertCircle className="h-5 w-5 text-primary" />
             Outstanding payments
           </CardTitle>
-          <CardDescription>
-            Bookings awaiting deposit or balance payment
-          </CardDescription>
+          <CardDescription>Upcoming sessions not paid yet</CardDescription>
         </CardHeader>
         <CardContent>
           {loadingOut ? (
@@ -107,12 +102,7 @@ export const ClientBillingTab = () => {
           ) : (
             <div className="space-y-3">
               {outstanding.map((b) => {
-                const tx = b.pending_transaction;
-                const amount = tx?.amount_mad ?? b.amount_mad ?? 0;
-                const label =
-                  tx?.transaction_type === "deposit"
-                    ? "Pay deposit"
-                    : "Pay balance";
+                const proof = b.proof;
                 return (
                   <div
                     key={b.id}
@@ -127,27 +117,39 @@ export const ClientBillingTab = () => {
                         {format(new Date(b.scheduled_at), "PPp")}
                       </p>
                       <p className="text-sm text-muted-foreground capitalize">
-                        {b.session_type} · {b.duration_minutes} min
+                        {b.session_type.replace("_", " ")} ·{" "}
+                        {b.duration_minutes} min
                       </p>
+                      {proof?.status === "rejected" && (
+                        <p className="text-xs text-rose-600">
+                          Receipt not accepted
+                          {proof.review_note ? `: ${proof.review_note}` : ""}.
+                        </p>
+                      )}
                     </div>
                     <div className="flex items-center gap-3">
-                      <div className="text-right">
-                        <p className="text-lg font-semibold">
-                          {Number(amount).toFixed(2)} MAD
-                        </p>
-                        {tx?.transaction_type === "deposit" && (
-                          <p className="text-xs text-muted-foreground">
-                            Deposit
-                          </p>
-                        )}
-                      </div>
-                      <Button
-                        onClick={() => openCheckout(b)}
-                        disabled={!tx}
-                        className="bg-primary hover:bg-primary/90"
-                      >
-                        {label}
-                      </Button>
+                      <p className="text-lg font-semibold">
+                        {Number(b.amount_mad ?? 0).toFixed(2)} MAD
+                      </p>
+                      {proof?.status === "submitted" ? (
+                        <Badge
+                          variant="outline"
+                          className="bg-amber-500/15 text-amber-700 border-amber-500/30"
+                        >
+                          Receipt under review
+                        </Badge>
+                      ) : canTransfer ? (
+                        <Button onClick={() => setActiveBooking(b)}>
+                          <CreditCard className="mr-2 h-4 w-4" />
+                          {proof?.status === "rejected"
+                            ? "Send another receipt"
+                            : "Pay by transfer"}
+                        </Button>
+                      ) : (
+                        <span className="text-xs text-muted-foreground">
+                          Pay at the session
+                        </span>
+                      )}
                     </div>
                   </div>
                 );
@@ -227,16 +229,10 @@ export const ClientBillingTab = () => {
         </CardContent>
       </Card>
 
-      <SimulateCheckoutDialog
-        open={checkoutOpen}
-        onOpenChange={setCheckoutOpen}
-        transactionId={activeBooking?.pending_transaction?.id ?? null}
-        amountMad={Number(
-          activeBooking?.pending_transaction?.amount_mad ??
-            activeBooking?.amount_mad ??
-            0,
-        )}
-        psychologistName={activeBooking?.psychologist?.full_name ?? undefined}
+      <PayByTransferDialog
+        key={activeBooking?.id}
+        booking={activeBooking}
+        onOpenChange={(open) => !open && setActiveBooking(null)}
       />
     </div>
   );

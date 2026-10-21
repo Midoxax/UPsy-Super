@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, useLocation } from "@/lib/router-compat";
+import { Link, useLocation, useNavigate } from "@/lib/router-compat";
 import { Button } from "@/components/ui/button";
 import {
   Menu,
@@ -22,6 +22,7 @@ import {
   Compass,
   Crown,
   Landmark,
+  LogOut,
 } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { useLocale } from "@/contexts/LocaleContext";
@@ -38,8 +39,15 @@ const Header = () => {
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
-  const { user } = useAuth();
+  const { user, signOut } = useAuth();
   const { locale, t } = useLocale();
+  const navigate = useNavigate();
+
+  const handleSignOut = async () => {
+    setIsMobileMenuOpen(false);
+    await signOut();
+    navigate(addLocalePrefix("/auth", locale));
+  };
 
   // Scroll-aware glass header: light over hero, solid after scroll.
   useEffect(() => {
@@ -327,15 +335,26 @@ const Header = () => {
               aria-label="Install U.Psy app"
               className="hidden lg:inline-flex"
             />
-            {user && <ViewAsSwitcher compact />}
+            {user && <ViewAsSwitcher />}
             {user && <NotificationBell />}
             {user ? (
-              <Button variant="primary" size="sm" asChild>
-                <Link to={addLocalePrefix("/my-space", locale)}>
-                  <User className="mr-2 h-4 w-4" />
-                  {t("nav.mySpace")}
-                </Link>
-              </Button>
+              <>
+                <Button variant="primary" size="sm" asChild>
+                  <Link to={addLocalePrefix("/my-space", locale)}>
+                    <User className="mr-2 h-4 w-4" />
+                    {t("nav.mySpace")}
+                  </Link>
+                </Button>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={handleSignOut}
+                  aria-label={t("nav.logout")}
+                  title={t("nav.logout")}
+                >
+                  <LogOut className="h-4 w-4" />
+                </Button>
+              </>
             ) : (
               <>
                 <Link
@@ -354,13 +373,16 @@ const Header = () => {
           </div>
 
           {/* Mobile Menu Button */}
-          <button
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="lg:hidden p-2 text-foreground hover:text-muted-foreground transition-colors rounded-lg hover:bg-muted/50"
-            aria-label="Toggle mobile menu"
-          >
-            {isMobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
-          </button>
+          <div className="flex items-center gap-1 lg:hidden">
+            {user && <NotificationBell />}
+            <button
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              className="lg:hidden p-2 text-foreground hover:text-muted-foreground transition-colors rounded-lg hover:bg-muted/50"
+              aria-label="Toggle mobile menu"
+            >
+              {isMobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
+            </button>
+          </div>
         </div>
 
         {/* Mobile Menu */}
@@ -459,15 +481,24 @@ const Header = () => {
                   />
                 </div>
                 {user ? (
-                  <Button variant="primary" size="sm" asChild>
-                    <Link
-                      to={addLocalePrefix("/my-space", locale)}
-                      onClick={() => setIsMobileMenuOpen(false)}
-                    >
-                      <User className="mr-2 h-4 w-4" />
-                      {t("nav.mySpace")}
-                    </Link>
-                  </Button>
+                  <div className="flex flex-col gap-2 px-3">
+                    <ViewAsSwitcher
+                      onChoose={() => setIsMobileMenuOpen(false)}
+                    />
+                    <Button variant="primary" size="sm" asChild>
+                      <Link
+                        to={addLocalePrefix("/my-space", locale)}
+                        onClick={() => setIsMobileMenuOpen(false)}
+                      >
+                        <User className="mr-2 h-4 w-4" />
+                        {t("nav.mySpace")}
+                      </Link>
+                    </Button>
+                    <Button variant="outline" size="sm" onClick={handleSignOut}>
+                      <LogOut className="mr-2 h-4 w-4" />
+                      {t("nav.logout")}
+                    </Button>
+                  </div>
                 ) : (
                   <div className="flex gap-2 px-3">
                     <Button

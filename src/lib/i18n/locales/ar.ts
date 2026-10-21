@@ -17,6 +17,7 @@ const ar = {
     consultingForOrganizations: "الاستشارات للمؤسسات",
     legal: "الشروط القانونية",
     login: "تسجيل الدخول",
+    logout: "تسجيل الخروج",
     individualServices: "الخدمات الفردية",
     community: "المجتمع والموارد",
     ourStory: "قصتنا",
@@ -396,8 +397,8 @@ const ar = {
     sessionRequested: "تم طلب الجلسة",
     sessionRequestedDesc: "سيؤكد {name} جلستك يوم {date} على الساعة {time}.",
     confirmationEmailNote:
-      "سيتم إشعارك في لوحة التحكم بمجرد تأكيد الأخصائي النفسي. الدفع يتم أثناء الجلسة.",
-    feePaidAtSession: "درهم · تُدفع للأخصائي أثناء الجلسة",
+      "سيتم إشعارك في لوحة التحكم بمجرد تأكيد الأخصائي النفسي. ادفع بالتحويل من لوحة التحكم، أو أثناء الجلسة.",
+    feePaidAtSession: "درهم · بالتحويل أو أثناء الجلسة",
     bookAnother: "حجز جلسة أخرى",
     tryAgain: "يرجى المحاولة مرة أخرى",
     requestSentResumed: "تم إرسال الطلب",
@@ -439,7 +440,7 @@ const ar = {
     signInRequired: "تسجيل الدخول مطلوب",
     requestSent: "تم إرسال الطلب",
     requestSentDesc: "سيؤكد المختص الموعد، وستصلك إشعار في لوحتك.",
-    payAtSession: "لا دفع الآن: تدفع للمختص أثناء الجلسة.",
+    payAtSession: "لا دفع الآن: ادفع بالتحويل من لوحة التحكم، أو أثناء الجلسة.",
     signInRequiredDesc: "يرجى تسجيل الدخول لحجز جلسة.",
     bookingFailed: "فشل الحجز",
     depositConfirmed: "تم تأكيد العربون",
@@ -1660,7 +1661,7 @@ const ar = {
     requiredHint: "* مطلوب للإنهاء",
     crisisBannerTitle: "لماذا هذا مهم",
     crisisBannerDesc:
-      "إذا حدّدت أي مؤشر سلامة أدناه، سنعرض موارد دعم فورية (SOS Amitié Maroc) وسيتم إعلام معالجك في الجلسة القادمة.",
+      "إذا حدّدت أي مؤشر سلامة أدناه، سنعرض موارد دعم فورية (الإسعاف 141، الشرطة 19) وسيتم إعلام معالجك في الجلسة القادمة.",
     yes: "نعم",
     no: "لا",
     steps: {

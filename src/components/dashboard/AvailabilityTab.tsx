@@ -506,7 +506,7 @@ export const AvailabilityTab = () => {
 // ── Preview: next 14 days of bookable slots, as clients would see ────────────
 function ClientPreview({ psychologistId }: { psychologistId: string }) {
   const [rows, setRows] = useState<
-    { date: Date; slots: { slot_start: string; is_available: boolean }[] }[]
+    { date: Date; slots: { slot_start: string }[] }[]
   >([]);
   const [loading, setLoading] = useState(true);
 
@@ -521,14 +521,13 @@ function ClientPreview({ psychologistId }: { psychologistId: string }) {
         d.setHours(0, 0, 0, 0);
         d.setDate(d.getDate() + i);
         const dateStr = format(d, "yyyy-MM-dd");
-        const { data } = await supabase.rpc("get_available_slots", {
+        // Same function the booking modal uses: Morocco time, minus
+        // requested/confirmed sessions.
+        const { data } = await supabase.rpc("get_open_slots", {
           p_psychologist_id: psychologistId,
           p_date: dateStr,
         });
-        out.push({
-          date: d,
-          slots: ((data ?? []) as any[]).filter((s) => s.is_available),
-        });
+        out.push({ date: d, slots: (data ?? []) as any[] });
       }
       if (!cancelled) {
         setRows(out);
@@ -588,7 +587,11 @@ function ClientPreview({ psychologistId }: { psychologistId: string }) {
                     key={s.slot_start}
                     className="text-xs rounded-md bg-primary/10 text-primary px-2 py-0.5"
                   >
-                    {format(new Date(s.slot_start), "HH:mm")}
+                    {new Date(s.slot_start).toLocaleTimeString("en-GB", {
+                      timeZone: "Africa/Casablanca",
+                      hour: "2-digit",
+                      minute: "2-digit",
+                    })}
                   </span>
                 ))}
                 {r.slots.length > 10 && (

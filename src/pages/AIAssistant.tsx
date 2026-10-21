@@ -221,17 +221,17 @@ const DISCLAIMER: Record<
   en: {
     lead: "Nour is not a therapist. For serious concerns,",
     link: "speak with a professional",
-    crisis: "In crisis? Call SOS Amitié Maroc 0801 00 0180 (24/7).",
+    crisis: "In danger? Call SAMU 141 or Police 19.",
   },
   fr: {
     lead: "Nour n'est pas un thérapeute. Pour des préoccupations sérieuses,",
     link: "parlez à un professionnel",
-    crisis: "En crise ? Appelez SOS Amitié Maroc 0801 00 0180 (24h/24).",
+    crisis: "En danger ? Appelez le SAMU 141 ou la police 19.",
   },
   ar: {
     lead: "نور ليس معالجاً نفسياً. للحالات الجدية،",
     link: "تحدث مع مختص",
-    crisis: "في حالة أزمة؟ اتصل بـ SOS Amitié Maroc 0801 00 0180 (24/7).",
+    crisis: "في خطر؟ اتصل بالإسعاف 141 أو الشرطة 19.",
   },
 };
 

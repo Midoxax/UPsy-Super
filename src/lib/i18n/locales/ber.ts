@@ -17,6 +17,7 @@ const ber = {
     consultingForOrganizations: "ⴰⵎⵛⴰⵡⴰⵔ ⵉ ⵜⵎⵙⵙⵓⵔⵉⵏ",
     legal: "ⴰⵣⵔⴼ",
     login: "ⴽⵛⵎ",
+    logout: "ⴼⴼⵖ",
     individualServices: "ⵜⵉⵏⴰⴼⵓⵜⵉⵏ ⵜⵉⵎⵥⵍⴰⵢⵉⵏ",
     community: "ⵜⴰⵎⵙⵎⵓⵏⵜ ⴷ ⵜⵖⴱⵓⵍⴰ",
     ourStory: "ⵜⴰⵎⴽⵓⵏⵜ ⵏⵏⵖ",

@@ -39,42 +39,42 @@ const OrganizationDashboard = () => {
             });
           }}
         >
-          <TabsList className="flex flex-wrap h-auto gap-1">
+          <TabsList className="flex h-auto w-full justify-start gap-1 overflow-x-auto sm:flex-wrap">
             <TabsTrigger value="overview" className="gap-1.5">
               <LayoutDashboard className="h-4 w-4" />
-              <span className="hidden sm:inline">Overview</span>
+              <span>Overview</span>
             </TabsTrigger>
             <TabsTrigger value="pulse" className="gap-1.5">
               <Activity className="h-4 w-4" />
-              <span className="hidden sm:inline">Pulse</span>
+              <span>Pulse</span>
             </TabsTrigger>
             <TabsTrigger value="users" className="gap-1.5">
               <Users className="h-4 w-4" />
-              <span className="hidden sm:inline">Users</span>
+              <span>Users</span>
             </TabsTrigger>
             <TabsTrigger value="programs" className="gap-1.5">
               <BookOpen className="h-4 w-4" />
-              <span className="hidden sm:inline">Programs</span>
+              <span>Programs</span>
             </TabsTrigger>
             <TabsTrigger value="psychologists" className="gap-1.5">
               <UserCheck className="h-4 w-4" />
-              <span className="hidden sm:inline">Psychologists</span>
+              <span>Psychologists</span>
             </TabsTrigger>
             <TabsTrigger value="reports" className="gap-1.5">
               <FileText className="h-4 w-4" />
-              <span className="hidden sm:inline">Reports</span>
+              <span>Reports</span>
             </TabsTrigger>
             <TabsTrigger value="analytics" className="gap-1.5">
               <BarChart3 className="h-4 w-4" />
-              <span className="hidden sm:inline">Analytics</span>
+              <span>Analytics</span>
             </TabsTrigger>
             <TabsTrigger value="billing" className="gap-1.5">
               <CreditCard className="h-4 w-4" />
-              <span className="hidden sm:inline">Billing</span>
+              <span>Billing</span>
             </TabsTrigger>
             <TabsTrigger value="branding" className="gap-1.5">
               <Palette className="h-4 w-4" />
-              <span className="hidden sm:inline">Branding</span>
+              <span>Branding</span>
             </TabsTrigger>
           </TabsList>
 

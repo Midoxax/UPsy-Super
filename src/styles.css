@@ -299,6 +299,14 @@ html.lenis body {
     @apply border-border;
   }
 
+  /* Decorative layers (the blurred aurora) otherwise widen the phone layout
+     viewport a few px, so pages wiggle sideways. clip, unlike hidden, keeps
+     position: sticky working. */
+  html,
+  body {
+    overflow-x: clip;
+  }
+
   body {
     @apply bg-background text-foreground;
     font-family: var(--font-sans);

@@ -432,9 +432,9 @@ const AssessmentLab = () => {
                       {t("crisis.message")}
                     </p>
                     <p className="font-medium">
-                      Stop Silence —{" "}
-                      <a href="tel:0801000180" className="underline">
-                        0801 000 180
+                      Police —{" "}
+                      <a href="tel:19" className="underline">
+                        19
                       </a>{" "}
                       · SAMU —{" "}
                       <a href="tel:141" className="underline">

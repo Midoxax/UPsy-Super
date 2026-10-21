@@ -17,6 +17,7 @@ const fr = {
     consultingForOrganizations: "Conseil aux organisations",
     legal: "Mentions légales",
     login: "Connexion",
+    logout: "Se déconnecter",
     individualServices: "Services individuels",
     community: "Communauté & Ressources",
     ourStory: "Notre histoire",
@@ -410,8 +411,8 @@ const fr = {
     sessionRequested: "Séance demandée",
     sessionRequestedDesc: "{name} confirmera votre séance du {date} à {time}.",
     confirmationEmailNote:
-      "Vous serez prévenu dans votre espace dès que le psychologue aura confirmé. Le paiement se fait lors de la séance.",
-    feePaidAtSession: "MAD · réglés à votre spécialiste lors de la séance",
+      "Vous serez prévenu dans votre espace dès que le psychologue aura confirmé. Réglez par virement depuis votre espace, ou lors de la séance.",
+    feePaidAtSession: "MAD · par virement ou lors de la séance",
     bookAnother: "Réserver une autre séance",
     tryAgain: "Veuillez réessayer",
     requestSentResumed: "Demande envoyée",
@@ -456,7 +457,7 @@ const fr = {
     requestSentDesc:
       "Votre spécialiste va confirmer l'horaire. Vous serez notifié dans votre espace.",
     payAtSession:
-      "Aucun paiement maintenant : vous réglez votre spécialiste lors de la séance.",
+      "Aucun paiement maintenant : réglez par virement depuis votre espace, ou lors de la séance.",
     signInRequiredDesc: "Veuillez vous connecter pour réserver une séance.",
     bookingFailed: "Échec de la réservation",
     depositConfirmed: "Acompte confirmé",
@@ -1742,7 +1743,7 @@ const fr = {
     requiredHint: "* requis pour terminer",
     crisisBannerTitle: "Pourquoi c'est important",
     crisisBannerDesc:
-      "Si tu coches une alerte de sécurité ci-dessous, nous afficherons immédiatement les ressources d'urgence (SOS Amitié Maroc) — ton thérapeute sera aussi prévenu à la prochaine séance.",
+      "Si tu coches une alerte de sécurité ci-dessous, nous afficherons immédiatement les ressources d'urgence (SAMU 141, police 19) — ton thérapeute sera aussi prévenu à la prochaine séance.",
     yes: "Oui",
     no: "Non",
     steps: {

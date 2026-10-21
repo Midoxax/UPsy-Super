@@ -7,6 +7,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { Phone, Heart, ChevronRight } from "lucide-react";
+import { CRISIS_LINES } from "@/lib/crisisLines";
 
 interface Props {
   open: boolean;
@@ -29,30 +30,24 @@ const CrisisModal = ({ open, onClose }: Props) => (
       </AlertDialogHeader>
 
       <div className="space-y-2 mt-2">
-        <a href="tel:0801000180" className="block">
-          <Button
-            variant="destructive"
-            className="w-full justify-between"
-            size="lg"
-          >
-            <span className="flex items-center gap-2">
-              <Phone className="h-4 w-4" /> Stop Silence — 0801 000 180
-            </span>
-            <ChevronRight className="h-4 w-4" />
-          </Button>
-        </a>
-        <a href="tel:141" className="block">
-          <Button
-            variant="outline"
-            className="w-full justify-between border-destructive/30 text-destructive"
-            size="lg"
-          >
-            <span className="flex items-center gap-2">
-              <Phone className="h-4 w-4" /> SAMU — 141
-            </span>
-            <ChevronRight className="h-4 w-4" />
-          </Button>
-        </a>
+        {CRISIS_LINES.map((l, i) => (
+          <a key={l.phone} href={`tel:${l.phone}`} className="block">
+            <Button
+              variant={i === 0 ? "destructive" : "outline"}
+              className={
+                i === 0
+                  ? "w-full justify-between"
+                  : "w-full justify-between border-destructive/30 text-destructive"
+              }
+              size="lg"
+            >
+              <span className="flex items-center gap-2">
+                <Phone className="h-4 w-4" /> {l.name} — {l.phone}
+              </span>
+              <ChevronRight className="h-4 w-4" />
+            </Button>
+          </a>
+        ))}
       </div>
 
       <Button
