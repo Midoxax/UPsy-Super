@@ -1,34 +1,11 @@
 import { useEffect, useRef } from "react";
 import { Input } from "@/components/ui/input";
-
-const MAPS_API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY as
-  string | undefined;
+import { loadGoogleMaps, MAPS_API_KEY } from "@/lib/googleMaps";
 
 export interface AddressSelection {
   address: string;
   lat: number | null;
   lng: number | null;
-}
-
-/** Loaded once per page; concurrent callers share the same in-flight promise. */
-let placesLoader: Promise<void> | null = null;
-
-function loadPlacesLibrary(): Promise<void> {
-  if (placesLoader) return placesLoader;
-  placesLoader = new Promise((resolve, reject) => {
-    if ((window as any).google?.maps?.places) {
-      resolve();
-      return;
-    }
-    const script = document.createElement("script");
-    script.src = `https://maps.googleapis.com/maps/api/js?key=${MAPS_API_KEY}&libraries=places`;
-    script.async = true;
-    script.onload = () => resolve();
-    script.onerror = () =>
-      reject(new Error("Failed to load Google Maps JS API"));
-    document.head.appendChild(script);
-  });
-  return placesLoader;
 }
 
 /**
@@ -43,12 +20,14 @@ export function AddressAutocomplete({
   onSelect,
   placeholder,
   className,
+  id,
 }: {
   value: string;
   onChange: (value: string) => void;
   onSelect?: (selection: AddressSelection) => void;
   placeholder?: string;
   className?: string;
+  id?: string;
 }) {
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -60,12 +39,13 @@ export function AddressAutocomplete({
     let autocomplete: any;
     let cancelled = false;
 
-    loadPlacesLibrary()
-      .then(() => {
+    loadGoogleMaps()
+      .then((m) => {
         if (cancelled || !inputRef.current) return;
-        maps = (window as any).google.maps;
+        maps = m;
         autocomplete = new maps.places.Autocomplete(inputRef.current, {
           fields: ["formatted_address", "geometry"],
+          componentRestrictions: { country: "ma" },
         });
         autocomplete.addListener("place_changed", () => {
           const place = autocomplete.getPlace();
@@ -92,6 +72,7 @@ export function AddressAutocomplete({
   return (
     <Input
       ref={inputRef}
+      id={id}
       value={value}
       onChange={(e) => onChange(e.target.value)}
       placeholder={placeholder}

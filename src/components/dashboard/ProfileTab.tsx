@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { AddressAutocomplete } from "@/components/AddressAutocomplete";
 import {
   Card,
   CardContent,
@@ -39,6 +40,9 @@ export const ProfileTab = () => {
     offers_online: false,
     offers_in_person: false,
     is_published: false,
+    office_address: "",
+    office_lat: null as number | null,
+    office_lng: null as number | null,
   });
 
   const [selectedSpecialties, setSelectedSpecialties] = useState<string[]>([]);
@@ -55,23 +59,9 @@ export const ProfileTab = () => {
         offers_online: profile.offers_online || false,
         offers_in_person: profile.offers_in_person || false,
         is_published: profile.is_published || false,
-      });
-      setSelectedSpecialties(profile.specialties?.map((s: any) => s.id) || []);
-      setSelectedLanguages(profile.languages?.map((l: any) => l.id) || []);
-    }
-  }, [profile]);
-
-  // Sync form data with profile when it loads
-  useEffect(() => {
-    if (profile) {
-      setFormData({
-        full_name: profile.full_name || "",
-        bio: profile.bio || "",
-        city: profile.city || "",
-        photo_url: profile.photo_url || "",
-        offers_online: profile.offers_online || false,
-        offers_in_person: profile.offers_in_person || false,
-        is_published: profile.is_published || false,
+        office_address: profile.office_address || "",
+        office_lat: profile.office_lat ?? null,
+        office_lng: profile.office_lng ?? null,
       });
       setSelectedSpecialties(profile.specialties?.map((s: any) => s.id) || []);
       setSelectedLanguages(profile.languages?.map((l: any) => l.id) || []);
@@ -321,6 +311,39 @@ export const ProfileTab = () => {
               </div>
             </div>
           </div>
+
+          {formData.offers_in_person && (
+            <div className="space-y-2">
+              <Label htmlFor="office_address">Office address</Label>
+              <AddressAutocomplete
+                id="office_address"
+                value={formData.office_address}
+                onChange={(v) =>
+                  // Typing without picking a suggestion drops the old pin.
+                  setFormData((f) => ({
+                    ...f,
+                    office_address: v,
+                    office_lat: null,
+                    office_lng: null,
+                  }))
+                }
+                onSelect={({ address, lat, lng }) =>
+                  setFormData((f) => ({
+                    ...f,
+                    office_address: address,
+                    office_lat: lat,
+                    office_lng: lng,
+                  }))
+                }
+                placeholder="Start typing and pick your address"
+              />
+              <p className="text-xs text-muted-foreground">
+                {formData.office_lat != null
+                  ? "Your office is pinned on the map and clients near you see their distance."
+                  : "Pick an address from the suggestions to appear at your exact location on the map. Until then you show at your city's centre."}
+              </p>
+            </div>
+          )}
 
           <div className="flex items-center space-x-2 p-4 bg-primary/10 rounded-lg">
             <Checkbox
