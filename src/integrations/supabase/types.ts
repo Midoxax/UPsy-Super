@@ -7682,6 +7682,8 @@ export type Database = {
           p_languages?: string[];
           p_max_price?: number;
           p_min_price?: number;
+          p_near_lat?: number;
+          p_near_lng?: number;
           p_online?: boolean;
           p_page?: number;
           p_page_size?: number;
@@ -7696,14 +7698,19 @@ export type Database = {
           calendly_url: string | null;
           city: string | null;
           created_at: string;
+          distance_km: number | null;
           full_name: string;
           gender: string | null;
           hourly_rate_mad: number | null;
           id: string;
           is_accredited: boolean;
+          location_precise: boolean;
+          map_lat: number | null;
+          map_lng: number | null;
           next_available: string | null;
           offers_in_person: boolean;
           offers_online: boolean;
+          office_address: string | null;
           photo_url: string | null;
           rating_avg: number | null;
           rating_count: number;

@@ -41,6 +41,12 @@ export interface PsychologistProfile {
   rating_avg?: number | null;
   rating_count?: number;
   next_available?: string | null;
+  /** Map position: the office, or the city centre (location_precise false). */
+  map_lat?: number | null;
+  map_lng?: number | null;
+  location_precise?: boolean;
+  /** From the visitor's position, when they shared it. */
+  distance_km?: number | null;
 }
 
 export interface FilterState {

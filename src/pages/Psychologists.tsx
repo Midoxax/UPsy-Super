@@ -1,13 +1,15 @@
 import { useState, useEffect, useMemo, useDeferredValue } from "react";
 import { useSearchParams } from "@/lib/router-compat";
-import { Sparkles, X } from "lucide-react";
+import { List, LocateFixed, Map as MapIcon, Sparkles, X } from "lucide-react";
+import { toast } from "sonner";
+import { PsychologistsMap } from "@/components/psychologists/PsychologistsMap";
 import { FilterState } from "@/types/psychologist";
 import {
   usePsychologists,
   useSpecialties,
   useTherapyApproaches,
 } from "@/hooks/usePsychologists";
-import type { SortOption } from "@/services/psychologistsService";
+import type { NearPoint, SortOption } from "@/services/psychologistsService";
 import { PsychologistFilters } from "@/components/psychologists/PsychologistFilters";
 import { PsychologistCard } from "@/components/psychologists/PsychologistCard";
 import { PsychologistCardSkeleton } from "@/components/psychologists/PsychologistCardSkeleton";
@@ -93,6 +95,36 @@ const Psychologists = () => {
   });
   const [searchQuery, setSearchQuery] = useState("");
   const [sort, setSort] = useState<SortOption>("recommended");
+  const [view, setView] = useState<"list" | "map">("list");
+  // The visitor's position: asked for on "Near me", kept in memory only.
+  const [near, setNear] = useState<NearPoint | null>(null);
+  const [locating, setLocating] = useState(false);
+  const findNearMe = () => {
+    if (!("geolocation" in navigator)) {
+      toast.error(t("psychologists.locationUnavailable"));
+      return;
+    }
+    setLocating(true);
+    navigator.geolocation.getCurrentPosition(
+      (pos) => {
+        setNear({ lat: pos.coords.latitude, lng: pos.coords.longitude });
+        setSort("nearest");
+        setLocating(false);
+      },
+      (err) => {
+        setLocating(false);
+        if (sort === "nearest") setSort("recommended");
+        toast.error(
+          t(
+            err.code === err.PERMISSION_DENIED
+              ? "psychologists.locationDenied"
+              : "psychologists.locationUnavailable",
+          ),
+        );
+      },
+      { enableHighAccuracy: false, timeout: 10_000, maximumAge: 600_000 },
+    );
+  };
   const deferredQuery = useDeferredValue(searchQuery);
   const { data: specialtyList } = useSpecialties();
   const { data: approachList } = useTherapyApproaches();
@@ -165,10 +197,21 @@ const Psychologists = () => {
 
   const { data, isLoading } = usePsychologists({
     filters,
+    near,
     query: deferredQuery,
     sort,
     page,
     pageSize: 12,
+  });
+  // The map shows every match, not one page.
+  const { data: mapData } = usePsychologists({
+    filters,
+    near,
+    query: deferredQuery,
+    sort,
+    page: 1,
+    pageSize: 200,
+    enabled: view === "map",
   });
   const totalPages = data ? Math.ceil(data.total / data.pageSize) : 0;
   const filteredProfiles = data?.profiles;
@@ -476,8 +519,54 @@ const Psychologists = () => {
                 </div>
               )}
 
+              {/* Near me + list / map */}
+              <div className="flex flex-wrap items-center gap-2">
+                <Button
+                  variant={near ? "primary" : "secondary"}
+                  size="sm"
+                  onClick={findNearMe}
+                  disabled={locating}
+                >
+                  <LocateFixed className="mr-2 h-4 w-4" />
+                  {locating
+                    ? t("psychologists.locating")
+                    : t("psychologists.nearMe")}
+                </Button>
+                <div
+                  className="ml-auto inline-flex rounded-lg border border-border p-0.5"
+                  role="group"
+                  aria-label={t("psychologists.viewMap")}
+                >
+                  <Button
+                    size="sm"
+                    variant={view === "list" ? "primary" : "ghost"}
+                    aria-pressed={view === "list"}
+                    onClick={() => setView("list")}
+                  >
+                    <List className="mr-1.5 h-4 w-4" />
+                    {t("psychologists.viewList")}
+                  </Button>
+                  <Button
+                    size="sm"
+                    variant={view === "map" ? "primary" : "ghost"}
+                    aria-pressed={view === "map"}
+                    onClick={() => setView("map")}
+                  >
+                    <MapIcon className="mr-1.5 h-4 w-4" />
+                    {t("psychologists.viewMap")}
+                  </Button>
+                </div>
+              </div>
+
+              {view === "map" && (
+                <PsychologistsMap
+                  profiles={mapData?.profiles ?? data?.profiles ?? []}
+                  near={near}
+                />
+              )}
+
               {/* Results Count */}
-              {data && (
+              {data && view === "list" && (
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2 text-u-gray-300">
                     <Search className="w-4 h-4" />
@@ -490,7 +579,11 @@ const Psychologists = () => {
                     <span>{t("psychologists.sortBy")}</span>
                     <select
                       value={sort}
-                      onChange={(e) => setSort(e.target.value as SortOption)}
+                      onChange={(e) => {
+                        const next = e.target.value as SortOption;
+                        setSort(next);
+                        if (next === "nearest" && !near) findNearMe();
+                      }}
                       className="h-9 rounded-md border border-border bg-background px-2 text-foreground"
                     >
                       <option value="recommended">
@@ -508,13 +601,16 @@ const Psychologists = () => {
                       <option value="price_desc">
                         {t("psychologists.sortPriceDesc")}
                       </option>
+                      <option value="nearest">
+                        {t("psychologists.sortNearest")}
+                      </option>
                     </select>
                   </label>
                 </div>
               )}
 
               {/* Loading State */}
-              {isLoading && (
+              {view === "list" && isLoading && (
                 <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-6">
                   {Array.from({ length: 6 }).map((_, i) => (
                     <PsychologistCardSkeleton key={i} />
@@ -523,47 +619,50 @@ const Psychologists = () => {
               )}
 
               {/* Empty State */}
-              {!isLoading && (filteredProfiles?.length ?? 0) === 0 && (
-                <div className="glass-card p-12 text-center">
-                  <Users className="w-12 h-12 text-u-gray-400 mx-auto mb-4" />
-                  <h3 className="text-h3 mb-2">
-                    {t("psychologists.noResults")}
-                  </h3>
-                  <p className="text-u-gray-300 mb-6">
-                    {t("psychologists.noResultsDesc")}
-                  </p>
-                  <div className="flex flex-col sm:flex-row gap-3 justify-center">
-                    <Button variant="primary" asChild>
-                      <Link to="/get-matched">
-                        {t("psychologists.getMatchedInstead")}
-                      </Link>
-                    </Button>
-                    <Button
-                      variant="secondary"
-                      onClick={() => {
-                        setSearchQuery("");
-                        setFilters({
-                          specialties: [],
-                          languages: [],
-                          therapyApproaches: [],
-                          city: "",
-                          online: false,
-                          inPerson: false,
-                          gender: "",
-                          availability: "",
-                          minPrice: 0,
-                          maxPrice: 2000,
-                        });
-                      }}
-                    >
-                      {t("psychologists.clearAllFilters")}
-                    </Button>
+              {view === "list" &&
+                !isLoading &&
+                (filteredProfiles?.length ?? 0) === 0 && (
+                  <div className="glass-card p-12 text-center">
+                    <Users className="w-12 h-12 text-u-gray-400 mx-auto mb-4" />
+                    <h3 className="text-h3 mb-2">
+                      {t("psychologists.noResults")}
+                    </h3>
+                    <p className="text-u-gray-300 mb-6">
+                      {t("psychologists.noResultsDesc")}
+                    </p>
+                    <div className="flex flex-col sm:flex-row gap-3 justify-center">
+                      <Button variant="primary" asChild>
+                        <Link to="/get-matched">
+                          {t("psychologists.getMatchedInstead")}
+                        </Link>
+                      </Button>
+                      <Button
+                        variant="secondary"
+                        onClick={() => {
+                          setSearchQuery("");
+                          setFilters({
+                            specialties: [],
+                            languages: [],
+                            therapyApproaches: [],
+                            city: "",
+                            online: false,
+                            inPerson: false,
+                            gender: "",
+                            availability: "",
+                            minPrice: 0,
+                            maxPrice: 2000,
+                          });
+                        }}
+                      >
+                        {t("psychologists.clearAllFilters")}
+                      </Button>
+                    </div>
                   </div>
-                </div>
-              )}
+                )}
 
               {/* Cards Grid */}
-              {!isLoading &&
+              {view === "list" &&
+                !isLoading &&
                 filteredProfiles &&
                 filteredProfiles.length > 0 && (
                   <>

@@ -167,6 +167,14 @@ export const PsychologistCard = ({ psychologist }: PsychologistCardProps) => {
           <div className="flex items-center gap-2 text-sm text-u-gray-300 mb-2">
             <MapPin className="w-3.5 h-3.5 text-u-gold/50" />
             <span className="text-xs">{psychologist.city}</span>
+            {psychologist.offers_in_person &&
+              psychologist.distance_km != null && (
+                <span className="text-xs font-medium text-foreground">
+                  · {psychologist.distance_km.toFixed(1)} km
+                  {!psychologist.location_precise &&
+                    ` (${t("psychologists.approx")})`}
+                </span>
+              )}
           </div>
         )}
 

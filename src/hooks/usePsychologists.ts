@@ -5,29 +5,34 @@ import {
   fetchLanguages,
   fetchTherapyApproaches,
 } from "@/services/psychologistsService";
-import type { SortOption } from "@/services/psychologistsService";
+import type { NearPoint, SortOption } from "@/services/psychologistsService";
 import type { FilterState } from "@/types/psychologist";
 
 interface UsePsychologistsParams {
   filters: FilterState;
+  near?: NearPoint | null;
   query?: string;
   sort?: SortOption;
   page?: number;
   pageSize?: number;
+  enabled?: boolean;
 }
 
 export const usePsychologists = ({
   filters,
+  near = null,
   query = "",
   sort = "recommended",
   page = 1,
   pageSize = 12,
+  enabled = true,
 }: UsePsychologistsParams) => {
   return useQuery({
-    queryKey: ["psychologists", filters, query, sort, page, pageSize],
+    queryKey: ["psychologists", filters, near, query, sort, page, pageSize],
     queryFn: () =>
-      searchPsychologists({ filters, query, sort, page, pageSize }),
+      searchPsychologists({ filters, near, query, sort, page, pageSize }),
     placeholderData: (prev) => prev,
+    enabled,
   });
 };
 

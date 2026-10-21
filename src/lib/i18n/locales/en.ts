@@ -225,6 +225,21 @@ const en = {
     sortRating: "Top rated",
     sortPriceAsc: "Price: low to high",
     sortPriceDesc: "Price: high to low",
+    sortNearest: "Nearest to me",
+    nearMe: "Near me",
+    locating: "Locating…",
+    viewList: "List",
+    viewMap: "Map",
+    locationDenied:
+      "Location access was refused. Allow it in your browser settings to see who is near you.",
+    locationUnavailable: "Your location is not available right now.",
+    cityOnly: "city centre",
+    youAreHere: "You are here",
+    approx: "approx.",
+    mapUnavailable:
+      "The map is not available right now. The list shows the same psychologists.",
+    mapLegend:
+      "{n} psychologists offering in-person sessions. Pins without an exact address sit at their city centre.",
     noReviewsYet: "New on UPSY",
     reviewsCount: "reviews",
     nextAvailable: "Next availability",

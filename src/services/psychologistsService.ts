@@ -8,8 +8,15 @@ import type {
   TherapyApproach,
 } from "@/types/psychologist";
 
+/** The visitor's position, from the browser; only sent, never stored. */
+export interface NearPoint {
+  lat: number;
+  lng: number;
+}
+
 interface SearchParams {
   filters: FilterState;
+  near?: NearPoint | null;
   query?: string;
   sort?: SortOption;
   page?: number;
@@ -17,7 +24,7 @@ interface SearchParams {
 }
 
 export type SortOption =
-  "recommended" | "soonest" | "rating" | "price_asc" | "price_desc";
+  "recommended" | "soonest" | "rating" | "price_asc" | "price_desc" | "nearest";
 
 interface SearchResult {
   profiles: PsychologistProfile[];
@@ -35,6 +42,7 @@ export const PRICE_MAX = 2000;
  *  specialty, language and approach names for the cards. */
 export const searchPsychologists = async ({
   filters,
+  near,
   query,
   sort = "recommended",
   page = 1,
@@ -55,6 +63,8 @@ export const searchPsychologists = async ({
     p_sort: sort,
     p_page: page,
     p_page_size: pageSize,
+    p_near_lat: near?.lat,
+    p_near_lng: near?.lng,
   });
   if (error) throw error;
 
@@ -109,9 +119,9 @@ async function withTaxonomy(rows: RankedRow[]): Promise<PsychologistProfile[]> {
 
   return rows.map(({ total_count: _total, score: _score, ...r }) => ({
     ...r,
-    office_address: null,
-    office_lat: null,
-    office_lng: null,
+    office_lat: r.location_precise ? r.map_lat : null,
+    office_lng: r.location_precise ? r.map_lng : null,
+    distance_km: r.distance_km === null ? null : Number(r.distance_km),
     is_published: true,
     rating_avg: r.rating_avg === null ? null : Number(r.rating_avg),
     rating_count: Number(r.rating_count ?? 0),

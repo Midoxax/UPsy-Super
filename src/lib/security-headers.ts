@@ -20,7 +20,11 @@ const CONNECT_SRC = [
   "https://*.i.posthog.com",
   "https://www.googletagmanager.com",
   "https://*.google-analytics.com",
+  // Google Maps JS (psychologists map, address search). Scripts only from
+  // the two Maps hosts: *.google.com / *.googleusercontent.com would let a
+  // JSONP endpoint or user upload run as script. Tiles are img-src https:.
   "https://maps.googleapis.com",
+  "https://maps.gstatic.com",
   "https://o4511311085633536.ingest.de.sentry.io",
 ].join(" ");
 
@@ -31,7 +35,7 @@ const CONNECT_SRC = [
 // scripts, and removing it needs per-request nonces.
 const CSP = [
   "default-src 'self'",
-  "script-src 'self' 'unsafe-inline' https://meet.jit.si https://8x8.vc https://*.posthog.com https://www.googletagmanager.com https://maps.googleapis.com",
+  "script-src 'self' 'unsafe-inline' https://meet.jit.si https://8x8.vc https://*.posthog.com https://www.googletagmanager.com https://maps.googleapis.com https://maps.gstatic.com",
   "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
   "font-src 'self' data: https://fonts.gstatic.com",
   "img-src 'self' data: blob: https:",
@@ -54,7 +58,7 @@ export const SECURITY_HEADERS: Record<string, string> = {
   "x-content-type-options": "nosniff",
   "referrer-policy": "strict-origin-when-cross-origin",
   "permissions-policy":
-    "camera=(self), microphone=(self), geolocation=(), payment=(), usb=(), magnetometer=(), accelerometer=(), gyroscope=()",
+    "camera=(self), microphone=(self), geolocation=(self), payment=(), usb=(), magnetometer=(), accelerometer=(), gyroscope=()",
   "x-dns-prefetch-control": "off",
   // Explicitly off: the legacy auditor is a known XSS vector, CSP replaces it.
   "x-xss-protection": "0",

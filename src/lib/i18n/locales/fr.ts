@@ -229,6 +229,21 @@ const fr = {
     sortRating: "Mieux notés",
     sortPriceAsc: "Prix croissant",
     sortPriceDesc: "Prix décroissant",
+    sortNearest: "Les plus proches",
+    nearMe: "Près de moi",
+    locating: "Localisation…",
+    viewList: "Liste",
+    viewMap: "Carte",
+    locationDenied:
+      "L'accès à votre position a été refusé. Autorisez-le dans les réglages du navigateur pour voir qui est près de vous.",
+    locationUnavailable: "Votre position n'est pas disponible pour le moment.",
+    cityOnly: "centre-ville",
+    youAreHere: "Vous êtes ici",
+    approx: "env.",
+    mapUnavailable:
+      "La carte n'est pas disponible pour le moment. La liste montre les mêmes psychologues.",
+    mapLegend:
+      "{n} psychologues proposent des séances en cabinet. Sans adresse exacte, le repère est placé au centre de leur ville.",
     noReviewsYet: "Nouveau sur UPSY",
     reviewsCount: "avis",
     nextAvailable: "Prochaine disponibilité",
