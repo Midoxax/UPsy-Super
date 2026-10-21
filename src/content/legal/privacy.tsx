@@ -9,7 +9,7 @@ const en: LegalDoc = {
   seoTitle: "Privacy Policy — UPSY",
   description:
     "How UPSY collects, uses, stores and protects personal and health data, under Moroccan Law 09-08 and the GDPR.",
-  updated: "19 October 2026",
+  updated: "21 October 2026",
   updatedLabel: "Last updated",
   contentsLabel: "Contents",
   intro: (
@@ -60,8 +60,12 @@ const en: LegalDoc = {
           </li>
           <li>
             <strong>Payment data:</strong> purchases and payment confirmations.
-            Card details are entered directly with our payment provider (Stripe)
-            and never reach our servers.
+            If you pay a session by transfer: the receipt you upload, the
+            transfer reference and the amount. Receipts are visible only to you,
+            to the specialist for that session and to UPSY staff who check
+            payments. Card details for course purchases and subscriptions are
+            entered directly with our payment provider (Stripe) and never reach
+            our servers.
           </li>
           <li>
             <strong>Specialist applications:</strong> identity, diplomas,
@@ -188,7 +192,11 @@ const en: LegalDoc = {
               delivery infrastructure.
             </li>
             <li>Resend: sending service emails.</li>
-            <li>Stripe: payments.</li>
+            <li>Stripe: card payments for courses and subscriptions.</li>
+            <li>
+              Our bank, CashPlus and Wafacash: receiving session payments you
+              send by transfer.
+            </li>
             <li>Jitsi Meet: video sessions.</li>
             <li>PostHog: anonymised usage statistics, hosted in the EU.</li>
             <li>
@@ -350,7 +358,7 @@ const fr: LegalDoc = {
   seoTitle: "Politique de confidentialité — UPSY",
   description:
     "Comment UPSY collecte, utilise, conserve et protège les données personnelles et de santé, conformément à la loi marocaine 09-08 et au RGPD.",
-  updated: "19 octobre 2026",
+  updated: "21 octobre 2026",
   updatedLabel: "Dernière mise à jour",
   contentsLabel: "Sommaire",
   intro: (
@@ -405,9 +413,13 @@ const fr: LegalDoc = {
           </li>
           <li>
             <strong>Données de paiement :</strong> achats et confirmations de
-            paiement. Vos coordonnées bancaires sont saisies directement chez
-            notre prestataire de paiement (Stripe) et n'atteignent jamais nos
-            serveurs.
+            paiement. Si vous réglez une séance par virement : le justificatif
+            que vous déposez, la référence du virement et le montant. Les
+            justificatifs ne sont visibles que par vous, par le spécialiste de
+            la séance concernée et par l'équipe UPSY chargée de vérifier les
+            paiements. Les coordonnées de carte pour l'achat de formations et
+            les abonnements sont saisies directement chez notre prestataire de
+            paiement (Stripe) et n'atteignent jamais nos serveurs.
           </li>
           <li>
             <strong>Candidatures des spécialistes :</strong> identité, diplômes,
@@ -549,7 +561,11 @@ const fr: LegalDoc = {
               infrastructure d'envoi des e-mails.
             </li>
             <li>Resend : envoi des e-mails de service.</li>
-            <li>Stripe : paiements.</li>
+            <li>Stripe : paiements par carte des formations et abonnements.</li>
+            <li>
+              Notre banque, CashPlus et Wafacash : réception des paiements de
+              séances que vous effectuez par virement.
+            </li>
             <li>Jitsi Meet : séances vidéo.</li>
             <li>
               PostHog : statistiques d'utilisation anonymisées, hébergées dans

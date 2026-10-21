@@ -9,7 +9,7 @@ const en: LegalDoc = {
   seoTitle: "Terms of Service — UPSY",
   description:
     "The terms that govern use of the UPSY platform: accounts, bookings, cancellations, payments, specialists and liability.",
-  updated: "19 October 2026",
+  updated: "21 October 2026",
   updatedLabel: "Last updated",
   contentsLabel: "Contents",
   intro: (
@@ -114,13 +114,38 @@ const en: LegalDoc = {
       id: "payments",
       title: "Prices and payment",
       body: (
-        <p>
-          Prices are shown in Moroccan dirhams (MAD) before you confirm a
-          booking or purchase. Online payments are processed by Stripe; we do
-          not see or store your card details. Receipts are available for your
-          records and for any insurance claim. Psychology sessions are not
-          currently reimbursed by the AMO.
-        </p>
+        <>
+          <p>
+            Prices are shown in Moroccan dirhams (MAD) before you confirm a
+            booking or purchase.
+          </p>
+          <p>
+            You pay for a session either to your specialist at the session, or
+            beforehand by bank transfer, CashPlus or Wafacash to the UPSY
+            account shown in your dashboard. If you pay by transfer, upload the
+            receipt in your dashboard and quote the booking reference shown
+            there. A session counts as paid once we have matched your transfer
+            to our bank statement, usually within one working day; until then it
+            remains booked. If we cannot match a receipt we tell you, and you
+            can send another one or pay at the session. Transfer fees charged by
+            your bank or the transfer agent are yours.
+          </p>
+          <p>
+            If a session you paid for by transfer is cancelled, we refund what
+            the cancellation terms above do not charge, by bank transfer to an
+            account in your name: the full amount if you cancel more than 24
+            hours ahead or if your specialist cancels, and half if you cancel
+            within 24 hours.
+          </p>
+          <p>
+            Course and programme purchases and subscriptions paid by card are
+            processed by Stripe; we do not see or store your card details.
+          </p>
+          <p>
+            Receipts are available for your records and for any insurance claim.
+            Psychology sessions are not currently reimbursed by the AMO.
+          </p>
+        </>
       ),
     },
     {
@@ -247,7 +272,7 @@ const fr: LegalDoc = {
   seoTitle: "Conditions générales d'utilisation — UPSY",
   description:
     "Les conditions qui encadrent l'utilisation de la plateforme UPSY : compte, réservations, annulations, paiements, spécialistes et responsabilité.",
-  updated: "19 octobre 2026",
+  updated: "21 octobre 2026",
   updatedLabel: "Dernière mise à jour",
   contentsLabel: "Sommaire",
   intro: (
@@ -355,14 +380,42 @@ const fr: LegalDoc = {
       id: "payments",
       title: "Prix et paiement",
       body: (
-        <p>
-          Les prix sont indiqués en dirhams marocains (MAD) avant la
-          confirmation d'une réservation ou d'un achat. Les paiements en ligne
-          sont traités par Stripe ; nous ne voyons ni ne conservons vos
-          coordonnées bancaires. Des reçus sont disponibles pour vos dossiers et
-          pour toute demande auprès d'une assurance. Les séances de psychologie
-          ne sont pas actuellement remboursées par l'AMO.
-        </p>
+        <>
+          <p>
+            Les prix sont indiqués en dirhams marocains (MAD) avant la
+            confirmation d'une réservation ou d'un achat.
+          </p>
+          <p>
+            Vous réglez une séance soit à votre spécialiste lors de la séance,
+            soit à l'avance par virement bancaire, CashPlus ou Wafacash sur le
+            compte UPSY indiqué dans votre espace. Si vous payez par virement,
+            déposez le justificatif dans votre espace en indiquant la référence
+            de réservation affichée. La séance est considérée comme payée dès
+            que nous avons rapproché votre virement de notre relevé bancaire, en
+            général sous un jour ouvré ; d'ici là, elle reste réservée. Si nous
+            ne pouvons pas rapprocher un justificatif, nous vous en informons et
+            vous pouvez en envoyer un autre ou régler lors de la séance. Les
+            frais facturés par votre banque ou l'agent de transfert restent à
+            votre charge.
+          </p>
+          <p>
+            Si une séance réglée par virement est annulée, nous remboursons ce
+            que les conditions d'annulation ci-dessus ne facturent pas, par
+            virement sur un compte à votre nom : la totalité si vous annulez
+            plus de 24 heures à l'avance ou si votre spécialiste annule, et la
+            moitié si vous annulez dans les 24 heures.
+          </p>
+          <p>
+            Les achats de formations et de programmes et les abonnements réglés
+            par carte sont traités par Stripe ; nous ne voyons ni ne conservons
+            vos coordonnées bancaires.
+          </p>
+          <p>
+            Des reçus sont disponibles pour vos dossiers et pour toute demande
+            auprès d'une assurance. Les séances de psychologie ne sont pas
+            actuellement remboursées par l'AMO.
+          </p>
+        </>
       ),
     },
     {
