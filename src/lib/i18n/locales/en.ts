@@ -447,7 +447,8 @@ const en = {
     requestSent: "Request sent",
     requestSentDesc:
       "Your specialist will confirm the time. You'll be notified in your dashboard.",
-    payAtSession: "No payment now: pay by transfer from your dashboard, or at the session.",
+    payAtSession:
+      "No payment now: pay by transfer from your dashboard, or at the session.",
     signInRequiredDesc: "Please sign in to book a session.",
     bookingFailed: "Booking failed",
     depositConfirmed: "Deposit confirmed",
