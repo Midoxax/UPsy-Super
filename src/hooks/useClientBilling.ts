@@ -3,6 +3,14 @@ import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
 import { useToast } from "@/hooks/use-toast";
 
+export interface PaymentProof {
+  id: string;
+  status: "submitted" | "accepted" | "rejected";
+  method: string;
+  review_note: string | null;
+  created_at: string;
+}
+
 export interface OutstandingBooking {
   id: string;
   scheduled_at: string;
@@ -13,11 +21,8 @@ export interface OutstandingBooking {
   status: string;
   psychologist_id: string;
   psychologist?: { full_name: string | null; photo_url: string | null } | null;
-  pending_transaction?: {
-    id: string;
-    amount_mad: number;
-    transaction_type: string;
-  } | null;
+  /** Latest receipt the client uploaded for this booking, if any. */
+  proof?: PaymentProof | null;
 }
 
 export interface PaymentTransaction {
@@ -35,6 +40,7 @@ export interface PaymentTransaction {
   provider: string | null;
 }
 
+/** Upcoming requested or confirmed sessions that are not paid yet. */
 export const useOutstandingBookings = () => {
   const { user } = useAuth();
   return useQuery({
@@ -47,7 +53,10 @@ export const useOutstandingBookings = () => {
           "id, scheduled_at, duration_minutes, session_type, amount_mad, payment_status, status, psychologist_id",
         )
         .eq("patient_id", user.id)
-        .in("payment_status", ["pending", "pending_deposit", "deposit_paid"])
+        .in("status", ["pending", "confirmed"])
+        .eq("payment_status", "unpaid")
+        .gt("amount_mad", 0)
+        .gte("scheduled_at", new Date(Date.now() - 86_400_000).toISOString())
         .order("scheduled_at", { ascending: true });
       if (error) throw error;
       if (!bookings?.length) return [];
@@ -55,30 +64,95 @@ export const useOutstandingBookings = () => {
       const psyIds = Array.from(
         new Set(bookings.map((b) => b.psychologist_id).filter(Boolean)),
       );
-      const bookingIds = bookings.map((b) => b.id);
-
-      const [{ data: psys }, { data: txs }] = await Promise.all([
+      const [{ data: psys }, { data: proofs }] = await Promise.all([
         supabase
           .from("psychologist_profiles")
           .select("id, full_name, photo_url")
           .in("id", psyIds),
         supabase
-          .from("payment_transactions")
-          .select("id, booking_id, amount_mad, transaction_type")
-          .eq("status", "pending")
-          .in("booking_id", bookingIds),
+          .from("payment_proofs")
+          .select("id, booking_id, status, method, review_note, created_at")
+          .in(
+            "booking_id",
+            bookings.map((b) => b.id),
+          )
+          .order("created_at", { ascending: true }),
       ]);
 
       const psyMap = new Map((psys ?? []).map((p) => [p.id, p]));
-      const txMap = new Map((txs ?? []).map((t) => [t.booking_id, t]));
+      // Ascending order: the last write per booking is the latest receipt.
+      const proofMap = new Map((proofs ?? []).map((p) => [p.booking_id, p]));
 
       return bookings.map((b) => ({
         ...b,
         psychologist: psyMap.get(b.psychologist_id) ?? null,
-        pending_transaction: txMap.get(b.id) ?? null,
+        proof: (proofMap.get(b.id) as PaymentProof | undefined) ?? null,
       })) as OutstandingBooking[];
     },
     enabled: !!user,
+  });
+};
+
+/** Reference the client writes on the transfer so we can match it. */
+export const paymentReference = (bookingId: string) =>
+  `UPSY-${bookingId.slice(0, 8).toUpperCase()}`;
+
+export const usePaymentSettings = () =>
+  useQuery({
+    queryKey: ["payment-settings"],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("payment_settings")
+        .select("*")
+        .maybeSingle();
+      if (error) throw error;
+      return data;
+    },
+  });
+
+/** Upload a transfer receipt into the client's own folder, then record it. */
+export const useSubmitPaymentProof = () => {
+  const qc = useQueryClient();
+  const { user } = useAuth();
+  const { toast } = useToast();
+  return useMutation({
+    mutationFn: async (params: {
+      bookingId: string;
+      method: "bank_transfer" | "cashplus" | "wafacash";
+      reference: string;
+      amountMad: number;
+      file: File;
+    }) => {
+      if (!user) throw new Error("Not signed in");
+      const ext = params.file.name.split(".").pop()?.toLowerCase() || "pdf";
+      const path = `${user.id}/payments/${params.bookingId}/${Date.now()}.${ext}`;
+      const { error: upErr } = await supabase.storage
+        .from("user-documents")
+        .upload(path, params.file, { contentType: params.file.type });
+      if (upErr) throw upErr;
+      const { error } = await supabase.from("payment_proofs").insert({
+        booking_id: params.bookingId,
+        method: params.method,
+        reference: params.reference || null,
+        amount_mad: params.amountMad,
+        file_path: path,
+      });
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ["client-outstanding-bookings"] });
+      toast({
+        title: "Receipt sent",
+        description:
+          "We will check it against our bank statement, usually within one working day.",
+      });
+    },
+    onError: (err: Error) =>
+      toast({
+        title: "Could not send the receipt",
+        description: err.message,
+        variant: "destructive",
+      }),
   });
 };
 

@@ -402,8 +402,8 @@ const en = {
     sessionRequestedDesc:
       "{name} will confirm your session on {date} at {time}.",
     confirmationEmailNote:
-      "You'll be notified in your dashboard once the psychologist confirms. You pay at the session.",
-    feePaidAtSession: "MAD · paid to your specialist at the session",
+      "You'll be notified in your dashboard once the psychologist confirms. Pay by transfer from your dashboard, or at the session.",
+    feePaidAtSession: "MAD · by transfer or at the session",
     bookAnother: "Book another session",
     tryAgain: "Please try again",
     requestSentResumed: "Request sent",
@@ -447,7 +447,7 @@ const en = {
     requestSent: "Request sent",
     requestSentDesc:
       "Your specialist will confirm the time. You'll be notified in your dashboard.",
-    payAtSession: "No payment now: you pay your specialist at the session.",
+    payAtSession: "No payment now: pay by transfer from your dashboard, or at the session.",
     signInRequiredDesc: "Please sign in to book a session.",
     bookingFailed: "Booking failed",
     depositConfirmed: "Deposit confirmed",

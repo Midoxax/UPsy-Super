@@ -29,6 +29,7 @@ import {
 } from "@/components/ui/select";
 import { toast } from "sonner";
 import { downloadCsv } from "@/lib/admin/csv";
+import { PaymentSettingsForm, ReceiptsQueue } from "./PaymentReceipts";
 import {
   AE_CEILING_MAD,
   useContactOptions,
@@ -238,12 +239,21 @@ const FinanceManager = () => {
         </Card>
       </div>
 
-      <Tabs defaultValue="invoices">
-        <TabsList>
+      <Tabs defaultValue="receipts">
+        <TabsList className="flex h-auto w-full justify-start gap-1 overflow-x-auto sm:flex-wrap">
+          <TabsTrigger value="receipts">Receipts</TabsTrigger>
           <TabsTrigger value="invoices">Invoices</TabsTrigger>
           <TabsTrigger value="issue">Issue</TabsTrigger>
           <TabsTrigger value="reconcile">Reconcile</TabsTrigger>
+          <TabsTrigger value="bank">Bank details</TabsTrigger>
         </TabsList>
+
+        <TabsContent value="receipts" className="mt-4">
+          <ReceiptsQueue />
+        </TabsContent>
+        <TabsContent value="bank" className="mt-4">
+          <PaymentSettingsForm />
+        </TabsContent>
 
         <TabsContent value="invoices" className="mt-4 space-y-4">
           <div className="flex flex-wrap items-center gap-2">

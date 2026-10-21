@@ -12,9 +12,12 @@ export const DailyChallengeCard = () => {
   const { data, isLoading } = useDailyChallenge();
   const complete = useCompleteDailyChallenge();
 
-  if (isLoading || !data) {
+  if (isLoading) {
     return <div className="glass-card p-5 animate-pulse h-32" />;
   }
+  // No challenge assigned (none seeded, or the RPC answered with an error
+  // object): show nothing rather than crash the whole dashboard.
+  if (!data?.challenge) return null;
 
   const c = data.challenge;
   const done = data.completed;

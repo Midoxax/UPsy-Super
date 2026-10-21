@@ -411,8 +411,8 @@ const fr = {
     sessionRequested: "Séance demandée",
     sessionRequestedDesc: "{name} confirmera votre séance du {date} à {time}.",
     confirmationEmailNote:
-      "Vous serez prévenu dans votre espace dès que le psychologue aura confirmé. Le paiement se fait lors de la séance.",
-    feePaidAtSession: "MAD · réglés à votre spécialiste lors de la séance",
+      "Vous serez prévenu dans votre espace dès que le psychologue aura confirmé. Réglez par virement depuis votre espace, ou lors de la séance.",
+    feePaidAtSession: "MAD · par virement ou lors de la séance",
     bookAnother: "Réserver une autre séance",
     tryAgain: "Veuillez réessayer",
     requestSentResumed: "Demande envoyée",
@@ -457,7 +457,7 @@ const fr = {
     requestSentDesc:
       "Votre spécialiste va confirmer l'horaire. Vous serez notifié dans votre espace.",
     payAtSession:
-      "Aucun paiement maintenant : vous réglez votre spécialiste lors de la séance.",
+      "Aucun paiement maintenant : réglez par virement depuis votre espace, ou lors de la séance.",
     signInRequiredDesc: "Veuillez vous connecter pour réserver une séance.",
     bookingFailed: "Échec de la réservation",
     depositConfirmed: "Acompte confirmé",

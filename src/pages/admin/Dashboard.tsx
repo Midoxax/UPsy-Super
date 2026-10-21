@@ -906,7 +906,13 @@ const AdminDashboard = () => {
   const { isAdmin, loading: authLoading } = useAdminAuth();
   const { data: pending = [] } = usePendingApplications();
   const queryClient = useQueryClient();
-  const [activeTab, setActiveTab] = useState("overview");
+  // Notifications deep-link to a tab (/admin?tab=finance).
+  const [activeTab, setActiveTab] = useState(
+    () =>
+      (typeof window !== "undefined" &&
+        new URLSearchParams(window.location.search).get("tab")) ||
+      "overview",
+  );
 
   if (authLoading)
     return (

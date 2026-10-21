@@ -4326,6 +4326,90 @@ export type Database = {
         };
         Relationships: [];
       };
+      payment_proofs: {
+        Row: {
+          amount_mad: number | null;
+          booking_id: string;
+          created_at: string;
+          file_path: string;
+          id: string;
+          method: string;
+          patient_id: string;
+          reference: string | null;
+          review_note: string | null;
+          reviewed_at: string | null;
+          reviewed_by: string | null;
+          status: string;
+        };
+        Insert: {
+          amount_mad?: number | null;
+          booking_id: string;
+          created_at?: string;
+          file_path: string;
+          id?: string;
+          method: string;
+          patient_id?: string;
+          reference?: string | null;
+          review_note?: string | null;
+          reviewed_at?: string | null;
+          reviewed_by?: string | null;
+          status?: string;
+        };
+        Update: {
+          amount_mad?: number | null;
+          booking_id?: string;
+          created_at?: string;
+          file_path?: string;
+          id?: string;
+          method?: string;
+          patient_id?: string;
+          reference?: string | null;
+          review_note?: string | null;
+          reviewed_at?: string | null;
+          reviewed_by?: string | null;
+          status?: string;
+        };
+        Relationships: [];
+      };
+      payment_settings: {
+        Row: {
+          account_holder: string | null;
+          bank_name: string | null;
+          cash_phone: string | null;
+          cash_recipient: string | null;
+          iban: string | null;
+          id: boolean;
+          instructions: string | null;
+          rib: string | null;
+          swift: string | null;
+          updated_at: string;
+        };
+        Insert: {
+          account_holder?: string | null;
+          bank_name?: string | null;
+          cash_phone?: string | null;
+          cash_recipient?: string | null;
+          iban?: string | null;
+          id?: boolean;
+          instructions?: string | null;
+          rib?: string | null;
+          swift?: string | null;
+          updated_at?: string;
+        };
+        Update: {
+          account_holder?: string | null;
+          bank_name?: string | null;
+          cash_phone?: string | null;
+          cash_recipient?: string | null;
+          iban?: string | null;
+          id?: boolean;
+          instructions?: string | null;
+          rib?: string | null;
+          swift?: string | null;
+          updated_at?: string;
+        };
+        Relationships: [];
+      };
       payment_transactions: {
         Row: {
           amount_mad: number;
@@ -7563,6 +7647,10 @@ export type Database = {
       };
       replace_availability_for_day: {
         Args: { _day: number; _ranges: Json };
+        Returns: undefined;
+      };
+      review_payment_proof: {
+        Args: { p_accept: boolean; p_note?: string; p_proof_id: string };
         Returns: undefined;
       };
       resolve_referral_code: {
