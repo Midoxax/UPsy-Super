@@ -20,11 +20,8 @@ const CONNECT_SRC = [
   "https://*.i.posthog.com",
   "https://www.googletagmanager.com",
   "https://*.google-analytics.com",
-  // Google Maps JS (psychologists map, address search). Scripts only from
-  // the two Maps hosts: *.google.com / *.googleusercontent.com would let a
-  // JSONP endpoint or user upload run as script. Tiles are img-src https:.
-  "https://maps.googleapis.com",
-  "https://maps.gstatic.com",
+  // Address suggestions (OpenStreetMap data). Map tiles are img-src https:.
+  "https://photon.komoot.io",
   "https://o4511311085633536.ingest.de.sentry.io",
 ].join(" ");
 
@@ -35,13 +32,13 @@ const CONNECT_SRC = [
 // scripts, and removing it needs per-request nonces.
 const CSP = [
   "default-src 'self'",
-  "script-src 'self' 'unsafe-inline' https://meet.jit.si https://8x8.vc https://*.posthog.com https://www.googletagmanager.com https://maps.googleapis.com https://maps.gstatic.com",
+  "script-src 'self' 'unsafe-inline' https://meet.jit.si https://8x8.vc https://*.posthog.com https://www.googletagmanager.com",
   "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
   "font-src 'self' data: https://fonts.gstatic.com",
   "img-src 'self' data: blob: https:",
   "media-src 'self' blob: https: https://meet.jit.si https://8x8.vc",
   `connect-src ${CONNECT_SRC}`,
-  "frame-src 'self' https://meet.jit.si https://8x8.vc https://www.google.com https://www.googletagmanager.com",
+  "frame-src 'self' https://meet.jit.si https://8x8.vc https://www.openstreetmap.org https://www.googletagmanager.com",
   "frame-ancestors 'none'",
   "base-uri 'self'",
   "form-action 'self'",

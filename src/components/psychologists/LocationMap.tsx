@@ -1,17 +1,8 @@
 /**
- * Map for in-person sessions, via the Maps Embed API (a plain iframe — no
- * JS SDK, no script-src change, no per-load billing beyond the embed's own
- * free tier). Renders nothing when no key is configured, same
- * opt-in-until-proven pattern as src/config/auth.ts: a broken map is worse
- * than no map.
- *
- * Prefers the psychologist's precise office coordinates (set via
- * AddressAutocomplete in the admin edit drawer) and falls back to a
- * city-level view when only `city` is on file.
+ * Office map for in-person sessions: OpenStreetMap's embed (a plain iframe,
+ * free, no key). Shown only when the psychologist has pinned their office;
+ * with a city alone the city name on the profile says as much as a map.
  */
-const MAPS_API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY as
-  string | undefined;
-
 interface LocationMapProps {
   city: string;
   officeLat?: number | null;
@@ -19,21 +10,31 @@ interface LocationMapProps {
 }
 
 export function LocationMap({ city, officeLat, officeLng }: LocationMapProps) {
-  if (!MAPS_API_KEY) return null;
-
-  const hasCoords = officeLat != null && officeLng != null;
-  const query = hasCoords
-    ? `${officeLat},${officeLng}`
-    : encodeURIComponent(`${city}, Morocco`);
-  const zoom = hasCoords ? 15 : 12;
+  if (officeLat == null || officeLng == null) return null;
+  const d = 0.006;
+  const bbox = [
+    officeLng - d,
+    officeLat - d,
+    officeLng + d,
+    officeLat + d,
+  ].join(",");
 
   return (
-    <iframe
-      title={`Map of ${city}`}
-      className="w-full h-56 rounded-xl border border-border"
-      loading="lazy"
-      referrerPolicy="no-referrer-when-downgrade"
-      src={`https://www.google.com/maps/embed/v1/place?key=${MAPS_API_KEY}&q=${query}&zoom=${zoom}`}
-    />
+    <div className="space-y-1">
+      <iframe
+        title={`Map of ${city}`}
+        className="w-full h-56 rounded-xl border border-border"
+        loading="lazy"
+        src={`https://www.openstreetmap.org/export/embed.html?bbox=${bbox}&layer=mapnik&marker=${officeLat},${officeLng}`}
+      />
+      <a
+        className="text-xs text-muted-foreground underline"
+        href={`https://www.openstreetmap.org/?mlat=${officeLat}&mlon=${officeLng}#map=17/${officeLat}/${officeLng}`}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        © OpenStreetMap · open larger map
+      </a>
+    </div>
   );
 }
