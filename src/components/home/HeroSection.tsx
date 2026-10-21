@@ -96,7 +96,8 @@ const HeroSection = () => {
 
   const primaryTo = withSearch(vPrimary?.to ?? "/free-score", vPrimary?.search);
   const secondaryTo = withSearch(
-    vSecondary?.to ?? "/get-matched",
+    // Straight to the list: /get-matched opens on an intro screen first.
+    vSecondary?.to ?? "/psychologists",
     vSecondary?.search,
   );
   const primaryLabel = vPrimary?.label ?? base.ctaPrimary;
@@ -207,10 +208,10 @@ const HeroSection = () => {
       </div>
 
       {/* --- Layer 4: content grid --- */}
-      <div className="container-custom relative z-10 py-24 md:py-28">
+      <div className="container-custom relative z-10 pt-10 pb-28 md:py-28">
         <div className="grid lg:grid-cols-12 gap-12 items-center">
           {/* LEFT — editorial headline column */}
-          <div className="lg:col-span-6 space-y-8">
+          <div className="lg:col-span-6 space-y-6 md:space-y-8">
             <motion.div
               initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
@@ -244,7 +245,7 @@ const HeroSection = () => {
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.35 }}
-              className="max-w-lg text-lg text-[#FAFAFA]/70 leading-relaxed font-light"
+              className="hidden sm:block max-w-lg text-lg text-[#FAFAFA]/70 leading-relaxed font-light"
             >
               {c.body}
             </motion.p>

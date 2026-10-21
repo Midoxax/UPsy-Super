@@ -131,6 +131,13 @@ export const LocaleProvider = ({ children }: { children: ReactNode }) => {
       return;
     }
 
+    // A visitor who lands straight on /fr/... (search result, ad, shared
+    // link) has chosen French too. Remember it, or the next link written
+    // without a prefix ("/get-matched", "/contact") drops them into English.
+    if (urlLocale !== "en" && preferred !== urlLocale) {
+      setCookie("lng", urlLocale, 180);
+    }
+
     if (urlLocale !== locale) {
       setLocaleState(urlLocale);
     }

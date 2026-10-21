@@ -60,7 +60,7 @@ export type FunnelName = (typeof FUNNELS)[keyof typeof FUNNELS];
  */
 export const FUNNEL_STEPS: Record<FunnelName, readonly string[]> = {
   match: ["welcome", "feeling", "needs", "preferences", "searching", "results"],
-  booking: ["type", "date", "time", "confirm", "success"],
+  booking: ["slot", "confirm", "success"],
 } as const;
 
 /**
