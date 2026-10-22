@@ -838,6 +838,384 @@
     <xhtml:link rel="alternate" hreflang="ar" href="https://www.upsy.ma/ar/moroccan-umbrella" />
   </url>
   <url>
+    <loc>https://www.upsy.ma/explore</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.4</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.upsy.ma/explore" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.upsy.ma/explore" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.upsy.ma/fr/explore" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.upsy.ma/ar/explore" />
+  </url>
+  <url>
+    <loc>https://www.upsy.ma/fr/explore</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.4</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.upsy.ma/explore" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.upsy.ma/explore" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.upsy.ma/fr/explore" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.upsy.ma/ar/explore" />
+  </url>
+  <url>
+    <loc>https://www.upsy.ma/ar/explore</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.4</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.upsy.ma/explore" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.upsy.ma/explore" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.upsy.ma/fr/explore" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.upsy.ma/ar/explore" />
+  </url>
+  <url>
+    <loc>https://www.upsy.ma/book-a-call</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.upsy.ma/book-a-call" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.upsy.ma/book-a-call" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.upsy.ma/fr/book-a-call" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.upsy.ma/ar/book-a-call" />
+  </url>
+  <url>
+    <loc>https://www.upsy.ma/fr/book-a-call</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.upsy.ma/book-a-call" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.upsy.ma/book-a-call" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.upsy.ma/fr/book-a-call" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.upsy.ma/ar/book-a-call" />
+  </url>
+  <url>
+    <loc>https://www.upsy.ma/ar/book-a-call</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.upsy.ma/book-a-call" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.upsy.ma/book-a-call" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.upsy.ma/fr/book-a-call" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.upsy.ma/ar/book-a-call" />
+  </url>
+  <url>
+    <loc>https://www.upsy.ma/ai-assistant</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.upsy.ma/ai-assistant" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.upsy.ma/ai-assistant" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.upsy.ma/fr/ai-assistant" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.upsy.ma/ar/ai-assistant" />
+  </url>
+  <url>
+    <loc>https://www.upsy.ma/fr/ai-assistant</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.upsy.ma/ai-assistant" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.upsy.ma/ai-assistant" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.upsy.ma/fr/ai-assistant" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.upsy.ma/ar/ai-assistant" />
+  </url>
+  <url>
+    <loc>https://www.upsy.ma/ar/ai-assistant</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.upsy.ma/ai-assistant" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.upsy.ma/ai-assistant" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.upsy.ma/fr/ai-assistant" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.upsy.ma/ar/ai-assistant" />
+  </url>
+  <url>
+    <loc>https://www.upsy.ma/membership</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.upsy.ma/membership" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.upsy.ma/membership" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.upsy.ma/fr/membership" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.upsy.ma/ar/membership" />
+  </url>
+  <url>
+    <loc>https://www.upsy.ma/fr/membership</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.upsy.ma/membership" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.upsy.ma/membership" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.upsy.ma/fr/membership" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.upsy.ma/ar/membership" />
+  </url>
+  <url>
+    <loc>https://www.upsy.ma/ar/membership</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.upsy.ma/membership" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.upsy.ma/membership" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.upsy.ma/fr/membership" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.upsy.ma/ar/membership" />
+  </url>
+  <url>
+    <loc>https://www.upsy.ma/for-athletes</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.upsy.ma/for-athletes" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.upsy.ma/for-athletes" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.upsy.ma/fr/for-athletes" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.upsy.ma/ar/for-athletes" />
+  </url>
+  <url>
+    <loc>https://www.upsy.ma/fr/for-athletes</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.upsy.ma/for-athletes" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.upsy.ma/for-athletes" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.upsy.ma/fr/for-athletes" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.upsy.ma/ar/for-athletes" />
+  </url>
+  <url>
+    <loc>https://www.upsy.ma/ar/for-athletes</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.upsy.ma/for-athletes" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.upsy.ma/for-athletes" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.upsy.ma/fr/for-athletes" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.upsy.ma/ar/for-athletes" />
+  </url>
+  <url>
+    <loc>https://www.upsy.ma/apply/organization</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.upsy.ma/apply/organization" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.upsy.ma/apply/organization" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.upsy.ma/fr/apply/organization" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.upsy.ma/ar/apply/organization" />
+  </url>
+  <url>
+    <loc>https://www.upsy.ma/fr/apply/organization</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.upsy.ma/apply/organization" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.upsy.ma/apply/organization" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.upsy.ma/fr/apply/organization" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.upsy.ma/ar/apply/organization" />
+  </url>
+  <url>
+    <loc>https://www.upsy.ma/ar/apply/organization</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.upsy.ma/apply/organization" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.upsy.ma/apply/organization" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.upsy.ma/fr/apply/organization" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.upsy.ma/ar/apply/organization" />
+  </url>
+  <url>
+    <loc>https://www.upsy.ma/center</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.upsy.ma/center" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.upsy.ma/center" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.upsy.ma/fr/center" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.upsy.ma/ar/center" />
+  </url>
+  <url>
+    <loc>https://www.upsy.ma/fr/center</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.upsy.ma/center" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.upsy.ma/center" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.upsy.ma/fr/center" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.upsy.ma/ar/center" />
+  </url>
+  <url>
+    <loc>https://www.upsy.ma/ar/center</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.upsy.ma/center" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.upsy.ma/center" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.upsy.ma/fr/center" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.upsy.ma/ar/center" />
+  </url>
+  <url>
+    <loc>https://www.upsy.ma/center/schools</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.upsy.ma/center/schools" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.upsy.ma/center/schools" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.upsy.ma/fr/center/schools" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.upsy.ma/ar/center/schools" />
+  </url>
+  <url>
+    <loc>https://www.upsy.ma/fr/center/schools</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.upsy.ma/center/schools" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.upsy.ma/center/schools" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.upsy.ma/fr/center/schools" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.upsy.ma/ar/center/schools" />
+  </url>
+  <url>
+    <loc>https://www.upsy.ma/ar/center/schools</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.upsy.ma/center/schools" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.upsy.ma/center/schools" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.upsy.ma/fr/center/schools" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.upsy.ma/ar/center/schools" />
+  </url>
+  <url>
+    <loc>https://www.upsy.ma/soleterre</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.upsy.ma/soleterre" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.upsy.ma/soleterre" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.upsy.ma/fr/soleterre" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.upsy.ma/ar/soleterre" />
+  </url>
+  <url>
+    <loc>https://www.upsy.ma/fr/soleterre</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.upsy.ma/soleterre" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.upsy.ma/soleterre" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.upsy.ma/fr/soleterre" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.upsy.ma/ar/soleterre" />
+  </url>
+  <url>
+    <loc>https://www.upsy.ma/ar/soleterre</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.upsy.ma/soleterre" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.upsy.ma/soleterre" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.upsy.ma/fr/soleterre" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.upsy.ma/ar/soleterre" />
+  </url>
+  <url>
+    <loc>https://www.upsy.ma/campaigns/join-specialist</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.upsy.ma/campaigns/join-specialist" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.upsy.ma/campaigns/join-specialist" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.upsy.ma/fr/campaigns/join-specialist" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.upsy.ma/ar/campaigns/join-specialist" />
+  </url>
+  <url>
+    <loc>https://www.upsy.ma/fr/campaigns/join-specialist</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.upsy.ma/campaigns/join-specialist" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.upsy.ma/campaigns/join-specialist" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.upsy.ma/fr/campaigns/join-specialist" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.upsy.ma/ar/campaigns/join-specialist" />
+  </url>
+  <url>
+    <loc>https://www.upsy.ma/ar/campaigns/join-specialist</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.upsy.ma/campaigns/join-specialist" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.upsy.ma/campaigns/join-specialist" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.upsy.ma/fr/campaigns/join-specialist" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.upsy.ma/ar/campaigns/join-specialist" />
+  </url>
+  <url>
+    <loc>https://www.upsy.ma/campaigns/lsspm</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.upsy.ma/campaigns/lsspm" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.upsy.ma/campaigns/lsspm" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.upsy.ma/fr/campaigns/lsspm" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.upsy.ma/ar/campaigns/lsspm" />
+  </url>
+  <url>
+    <loc>https://www.upsy.ma/fr/campaigns/lsspm</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.upsy.ma/campaigns/lsspm" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.upsy.ma/campaigns/lsspm" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.upsy.ma/fr/campaigns/lsspm" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.upsy.ma/ar/campaigns/lsspm" />
+  </url>
+  <url>
+    <loc>https://www.upsy.ma/ar/campaigns/lsspm</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.upsy.ma/campaigns/lsspm" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.upsy.ma/campaigns/lsspm" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.upsy.ma/fr/campaigns/lsspm" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.upsy.ma/ar/campaigns/lsspm" />
+  </url>
+  <url>
+    <loc>https://www.upsy.ma/press</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.upsy.ma/press" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.upsy.ma/press" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.upsy.ma/fr/press" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.upsy.ma/ar/press" />
+  </url>
+  <url>
+    <loc>https://www.upsy.ma/fr/press</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.upsy.ma/press" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.upsy.ma/press" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.upsy.ma/fr/press" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.upsy.ma/ar/press" />
+  </url>
+  <url>
+    <loc>https://www.upsy.ma/ar/press</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.upsy.ma/press" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.upsy.ma/press" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.upsy.ma/fr/press" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.upsy.ma/ar/press" />
+  </url>
+  <url>
+    <loc>https://www.upsy.ma/brand</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.upsy.ma/brand" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.upsy.ma/brand" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.upsy.ma/fr/brand" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.upsy.ma/ar/brand" />
+  </url>
+  <url>
+    <loc>https://www.upsy.ma/fr/brand</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.upsy.ma/brand" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.upsy.ma/brand" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.upsy.ma/fr/brand" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.upsy.ma/ar/brand" />
+  </url>
+  <url>
+    <loc>https://www.upsy.ma/ar/brand</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.upsy.ma/brand" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.upsy.ma/brand" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.upsy.ma/fr/brand" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.upsy.ma/ar/brand" />
+  </url>
+  <url>
+    <loc>https://www.upsy.ma/campaigns/first-session</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.upsy.ma/campaigns/first-session" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.upsy.ma/campaigns/first-session" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.upsy.ma/fr/campaigns/first-session" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.upsy.ma/ar/campaigns/first-session" />
+  </url>
+  <url>
+    <loc>https://www.upsy.ma/fr/campaigns/first-session</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.upsy.ma/campaigns/first-session" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.upsy.ma/campaigns/first-session" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.upsy.ma/fr/campaigns/first-session" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.upsy.ma/ar/campaigns/first-session" />
+  </url>
+  <url>
+    <loc>https://www.upsy.ma/ar/campaigns/first-session</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.upsy.ma/campaigns/first-session" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.upsy.ma/campaigns/first-session" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.upsy.ma/fr/campaigns/first-session" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.upsy.ma/ar/campaigns/first-session" />
+  </url>
+  <url>
     <loc>https://www.upsy.ma/blog/pre-competition-anxiety</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>

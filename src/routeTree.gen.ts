@@ -18,6 +18,7 @@ import { Route as AthleteHubRouteImport } from './routes/athlete-hub'
 import { Route as BookACallRouteImport } from './routes/book-a-call'
 import { Route as BrandRouteImport } from './routes/brand'
 import { Route as ContactRouteImport } from './routes/contact'
+import { Route as ExploreRouteImport } from './routes/explore'
 import { Route as ForAthletesRouteImport } from './routes/for-athletes'
 import { Route as ForOrganizationsRouteImport } from './routes/for-organizations'
 import { Route as FounderRouteImport } from './routes/founder'
@@ -55,6 +56,7 @@ import { Route as LocaleAthleteHubRouteImport } from './routes/$locale/athlete-h
 import { Route as LocaleBookACallRouteImport } from './routes/$locale/book-a-call'
 import { Route as LocaleBrandRouteImport } from './routes/$locale/brand'
 import { Route as LocaleContactRouteImport } from './routes/$locale/contact'
+import { Route as LocaleExploreRouteImport } from './routes/$locale/explore'
 import { Route as LocaleForAthletesRouteImport } from './routes/$locale/for-athletes'
 import { Route as LocaleForOrganizationsRouteImport } from './routes/$locale/for-organizations'
 import { Route as LocaleFounderRouteImport } from './routes/$locale/founder'
@@ -78,6 +80,7 @@ import { Route as LocalePsfRouteImport } from './routes/$locale/psf'
 import { Route as LocaleResetPasswordRouteImport } from './routes/$locale/reset-password'
 import { Route as LocaleResourcesRouteImport } from './routes/$locale/resources'
 import { Route as LocaleSkoolRouteImport } from './routes/$locale/skool'
+import { Route as LocaleSoleterreRouteImport } from './routes/$locale/soleterre'
 import { Route as LocaleTalentInnovationHubRouteImport } from './routes/$locale/talent-innovation-hub'
 import { Route as LocaleTermsRouteImport } from './routes/$locale/terms'
 import { Route as LocaleUnsubscribeRouteImport } from './routes/$locale/unsubscribe'
@@ -159,6 +162,7 @@ import { Route as LocaleCampaignsJoinSpecialistRouteImport } from './routes/$loc
 import { Route as LocaleCampaignsLsspmRouteImport } from './routes/$locale/campaigns/lsspm'
 import { Route as LocaleCenterIndexRouteImport } from './routes/$locale/center/index'
 import { Route as LocaleCenterProgressRouteImport } from './routes/$locale/center/progress'
+import { Route as LocaleCenterSchoolsRouteImport } from './routes/$locale/center/schools'
 import { Route as LocaleDashboardIndexRouteImport } from './routes/$locale/dashboard/index'
 import { Route as LocaleDashboardClientRouteImport } from './routes/$locale/dashboard/client'
 import { Route as LocaleDashboardOrganizationRouteImport } from './routes/$locale/dashboard/organization'
@@ -234,6 +238,11 @@ const BrandRoute = BrandRouteImport.update({
 const ContactRoute = ContactRouteImport.update({
   id: '/contact',
   path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ExploreRoute = ExploreRouteImport.update({
+  id: '/explore',
+  path: '/explore',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ForAthletesRoute = ForAthletesRouteImport.update({
@@ -421,6 +430,11 @@ const LocaleContactRoute = LocaleContactRouteImport.update({
   path: '/$locale/contact',
   getParentRoute: () => rootRouteImport,
 } as any)
+const LocaleExploreRoute = LocaleExploreRouteImport.update({
+  id: '/$locale/explore',
+  path: '/$locale/explore',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LocaleForAthletesRoute = LocaleForAthletesRouteImport.update({
   id: '/$locale/for-athletes',
   path: '/$locale/for-athletes',
@@ -536,6 +550,11 @@ const LocaleResourcesRoute = LocaleResourcesRouteImport.update({
 const LocaleSkoolRoute = LocaleSkoolRouteImport.update({
   id: '/$locale/skool',
   path: '/$locale/skool',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LocaleSoleterreRoute = LocaleSoleterreRouteImport.update({
+  id: '/$locale/soleterre',
+  path: '/$locale/soleterre',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LocaleTalentInnovationHubRoute =
@@ -963,6 +982,11 @@ const LocaleCenterProgressRoute = LocaleCenterProgressRouteImport.update({
   path: '/$locale/center/progress',
   getParentRoute: () => rootRouteImport,
 } as any)
+const LocaleCenterSchoolsRoute = LocaleCenterSchoolsRouteImport.update({
+  id: '/$locale/center/schools',
+  path: '/$locale/center/schools',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LocaleDashboardIndexRoute = LocaleDashboardIndexRouteImport.update({
   id: '/$locale/dashboard/',
   path: '/$locale/dashboard/',
@@ -1135,6 +1159,7 @@ export interface FileRoutesByFullPath {
   '/book-a-call': typeof BookACallRoute
   '/brand': typeof BrandRoute
   '/contact': typeof ContactRoute
+  '/explore': typeof ExploreRoute
   '/for-athletes': typeof ForAthletesRoute
   '/for-organizations': typeof ForOrganizationsRoute
   '/founder': typeof FounderRoute
@@ -1171,6 +1196,7 @@ export interface FileRoutesByFullPath {
   '/$locale/book-a-call': typeof LocaleBookACallRoute
   '/$locale/brand': typeof LocaleBrandRoute
   '/$locale/contact': typeof LocaleContactRoute
+  '/$locale/explore': typeof LocaleExploreRoute
   '/$locale/for-athletes': typeof LocaleForAthletesRoute
   '/$locale/for-organizations': typeof LocaleForOrganizationsRoute
   '/$locale/founder': typeof LocaleFounderRoute
@@ -1194,6 +1220,7 @@ export interface FileRoutesByFullPath {
   '/$locale/reset-password': typeof LocaleResetPasswordRoute
   '/$locale/resources': typeof LocaleResourcesRoute
   '/$locale/skool': typeof LocaleSkoolRoute
+  '/$locale/soleterre': typeof LocaleSoleterreRoute
   '/$locale/talent-innovation-hub': typeof LocaleTalentInnovationHubRoute
   '/$locale/terms': typeof LocaleTermsRoute
   '/$locale/unsubscribe': typeof LocaleUnsubscribeRoute
@@ -1271,6 +1298,7 @@ export interface FileRoutesByFullPath {
   '/$locale/campaigns/join-specialist': typeof LocaleCampaignsJoinSpecialistRoute
   '/$locale/campaigns/lsspm': typeof LocaleCampaignsLsspmRoute
   '/$locale/center/progress': typeof LocaleCenterProgressRoute
+  '/$locale/center/schools': typeof LocaleCenterSchoolsRoute
   '/$locale/dashboard/client': typeof LocaleDashboardClientRoute
   '/$locale/dashboard/organization': typeof LocaleDashboardOrganizationRoute
   '/$locale/dashboard/specialist': typeof LocaleDashboardSpecialistRoute
@@ -1318,6 +1346,7 @@ export interface FileRoutesByTo {
   '/book-a-call': typeof BookACallRoute
   '/brand': typeof BrandRoute
   '/contact': typeof ContactRoute
+  '/explore': typeof ExploreRoute
   '/for-athletes': typeof ForAthletesRoute
   '/for-organizations': typeof ForOrganizationsRoute
   '/founder': typeof FounderRoute
@@ -1354,6 +1383,7 @@ export interface FileRoutesByTo {
   '/$locale/book-a-call': typeof LocaleBookACallRoute
   '/$locale/brand': typeof LocaleBrandRoute
   '/$locale/contact': typeof LocaleContactRoute
+  '/$locale/explore': typeof LocaleExploreRoute
   '/$locale/for-athletes': typeof LocaleForAthletesRoute
   '/$locale/for-organizations': typeof LocaleForOrganizationsRoute
   '/$locale/founder': typeof LocaleFounderRoute
@@ -1377,6 +1407,7 @@ export interface FileRoutesByTo {
   '/$locale/reset-password': typeof LocaleResetPasswordRoute
   '/$locale/resources': typeof LocaleResourcesRoute
   '/$locale/skool': typeof LocaleSkoolRoute
+  '/$locale/soleterre': typeof LocaleSoleterreRoute
   '/$locale/talent-innovation-hub': typeof LocaleTalentInnovationHubRoute
   '/$locale/terms': typeof LocaleTermsRoute
   '/$locale/unsubscribe': typeof LocaleUnsubscribeRoute
@@ -1453,6 +1484,7 @@ export interface FileRoutesByTo {
   '/$locale/campaigns/join-specialist': typeof LocaleCampaignsJoinSpecialistRoute
   '/$locale/campaigns/lsspm': typeof LocaleCampaignsLsspmRoute
   '/$locale/center/progress': typeof LocaleCenterProgressRoute
+  '/$locale/center/schools': typeof LocaleCenterSchoolsRoute
   '/$locale/dashboard/client': typeof LocaleDashboardClientRoute
   '/$locale/dashboard/organization': typeof LocaleDashboardOrganizationRoute
   '/$locale/dashboard/specialist': typeof LocaleDashboardSpecialistRoute
@@ -1501,6 +1533,7 @@ export interface FileRoutesById {
   '/book-a-call': typeof BookACallRoute
   '/brand': typeof BrandRoute
   '/contact': typeof ContactRoute
+  '/explore': typeof ExploreRoute
   '/for-athletes': typeof ForAthletesRoute
   '/for-organizations': typeof ForOrganizationsRoute
   '/founder': typeof FounderRoute
@@ -1537,6 +1570,7 @@ export interface FileRoutesById {
   '/$locale/book-a-call': typeof LocaleBookACallRoute
   '/$locale/brand': typeof LocaleBrandRoute
   '/$locale/contact': typeof LocaleContactRoute
+  '/$locale/explore': typeof LocaleExploreRoute
   '/$locale/for-athletes': typeof LocaleForAthletesRoute
   '/$locale/for-organizations': typeof LocaleForOrganizationsRoute
   '/$locale/founder': typeof LocaleFounderRoute
@@ -1560,6 +1594,7 @@ export interface FileRoutesById {
   '/$locale/reset-password': typeof LocaleResetPasswordRoute
   '/$locale/resources': typeof LocaleResourcesRoute
   '/$locale/skool': typeof LocaleSkoolRoute
+  '/$locale/soleterre': typeof LocaleSoleterreRoute
   '/$locale/talent-innovation-hub': typeof LocaleTalentInnovationHubRoute
   '/$locale/terms': typeof LocaleTermsRoute
   '/$locale/unsubscribe': typeof LocaleUnsubscribeRoute
@@ -1637,6 +1672,7 @@ export interface FileRoutesById {
   '/$locale/campaigns/join-specialist': typeof LocaleCampaignsJoinSpecialistRoute
   '/$locale/campaigns/lsspm': typeof LocaleCampaignsLsspmRoute
   '/$locale/center/progress': typeof LocaleCenterProgressRoute
+  '/$locale/center/schools': typeof LocaleCenterSchoolsRoute
   '/$locale/dashboard/client': typeof LocaleDashboardClientRoute
   '/$locale/dashboard/organization': typeof LocaleDashboardOrganizationRoute
   '/$locale/dashboard/specialist': typeof LocaleDashboardSpecialistRoute
@@ -1686,6 +1722,7 @@ export interface FileRouteTypes {
     | '/book-a-call'
     | '/brand'
     | '/contact'
+    | '/explore'
     | '/for-athletes'
     | '/for-organizations'
     | '/founder'
@@ -1722,6 +1759,7 @@ export interface FileRouteTypes {
     | '/$locale/book-a-call'
     | '/$locale/brand'
     | '/$locale/contact'
+    | '/$locale/explore'
     | '/$locale/for-athletes'
     | '/$locale/for-organizations'
     | '/$locale/founder'
@@ -1745,6 +1783,7 @@ export interface FileRouteTypes {
     | '/$locale/reset-password'
     | '/$locale/resources'
     | '/$locale/skool'
+    | '/$locale/soleterre'
     | '/$locale/talent-innovation-hub'
     | '/$locale/terms'
     | '/$locale/unsubscribe'
@@ -1822,6 +1861,7 @@ export interface FileRouteTypes {
     | '/$locale/campaigns/join-specialist'
     | '/$locale/campaigns/lsspm'
     | '/$locale/center/progress'
+    | '/$locale/center/schools'
     | '/$locale/dashboard/client'
     | '/$locale/dashboard/organization'
     | '/$locale/dashboard/specialist'
@@ -1869,6 +1909,7 @@ export interface FileRouteTypes {
     | '/book-a-call'
     | '/brand'
     | '/contact'
+    | '/explore'
     | '/for-athletes'
     | '/for-organizations'
     | '/founder'
@@ -1905,6 +1946,7 @@ export interface FileRouteTypes {
     | '/$locale/book-a-call'
     | '/$locale/brand'
     | '/$locale/contact'
+    | '/$locale/explore'
     | '/$locale/for-athletes'
     | '/$locale/for-organizations'
     | '/$locale/founder'
@@ -1928,6 +1970,7 @@ export interface FileRouteTypes {
     | '/$locale/reset-password'
     | '/$locale/resources'
     | '/$locale/skool'
+    | '/$locale/soleterre'
     | '/$locale/talent-innovation-hub'
     | '/$locale/terms'
     | '/$locale/unsubscribe'
@@ -2004,6 +2047,7 @@ export interface FileRouteTypes {
     | '/$locale/campaigns/join-specialist'
     | '/$locale/campaigns/lsspm'
     | '/$locale/center/progress'
+    | '/$locale/center/schools'
     | '/$locale/dashboard/client'
     | '/$locale/dashboard/organization'
     | '/$locale/dashboard/specialist'
@@ -2051,6 +2095,7 @@ export interface FileRouteTypes {
     | '/book-a-call'
     | '/brand'
     | '/contact'
+    | '/explore'
     | '/for-athletes'
     | '/for-organizations'
     | '/founder'
@@ -2087,6 +2132,7 @@ export interface FileRouteTypes {
     | '/$locale/book-a-call'
     | '/$locale/brand'
     | '/$locale/contact'
+    | '/$locale/explore'
     | '/$locale/for-athletes'
     | '/$locale/for-organizations'
     | '/$locale/founder'
@@ -2110,6 +2156,7 @@ export interface FileRouteTypes {
     | '/$locale/reset-password'
     | '/$locale/resources'
     | '/$locale/skool'
+    | '/$locale/soleterre'
     | '/$locale/talent-innovation-hub'
     | '/$locale/terms'
     | '/$locale/unsubscribe'
@@ -2187,6 +2234,7 @@ export interface FileRouteTypes {
     | '/$locale/campaigns/join-specialist'
     | '/$locale/campaigns/lsspm'
     | '/$locale/center/progress'
+    | '/$locale/center/schools'
     | '/$locale/dashboard/client'
     | '/$locale/dashboard/organization'
     | '/$locale/dashboard/specialist'
@@ -2235,6 +2283,7 @@ export interface RootRouteChildren {
   BookACallRoute: typeof BookACallRoute
   BrandRoute: typeof BrandRoute
   ContactRoute: typeof ContactRoute
+  ExploreRoute: typeof ExploreRoute
   ForAthletesRoute: typeof ForAthletesRoute
   ForOrganizationsRoute: typeof ForOrganizationsRoute
   FounderRoute: typeof FounderRoute
@@ -2271,6 +2320,7 @@ export interface RootRouteChildren {
   LocaleBookACallRoute: typeof LocaleBookACallRoute
   LocaleBrandRoute: typeof LocaleBrandRoute
   LocaleContactRoute: typeof LocaleContactRoute
+  LocaleExploreRoute: typeof LocaleExploreRoute
   LocaleForAthletesRoute: typeof LocaleForAthletesRoute
   LocaleForOrganizationsRoute: typeof LocaleForOrganizationsRoute
   LocaleFounderRoute: typeof LocaleFounderRoute
@@ -2294,6 +2344,7 @@ export interface RootRouteChildren {
   LocaleResetPasswordRoute: typeof LocaleResetPasswordRoute
   LocaleResourcesRoute: typeof LocaleResourcesRoute
   LocaleSkoolRoute: typeof LocaleSkoolRoute
+  LocaleSoleterreRoute: typeof LocaleSoleterreRoute
   LocaleTalentInnovationHubRoute: typeof LocaleTalentInnovationHubRoute
   LocaleTermsRoute: typeof LocaleTermsRoute
   LocaleUnsubscribeRoute: typeof LocaleUnsubscribeRoute
@@ -2371,6 +2422,7 @@ export interface RootRouteChildren {
   LocaleCampaignsJoinSpecialistRoute: typeof LocaleCampaignsJoinSpecialistRoute
   LocaleCampaignsLsspmRoute: typeof LocaleCampaignsLsspmRoute
   LocaleCenterProgressRoute: typeof LocaleCenterProgressRoute
+  LocaleCenterSchoolsRoute: typeof LocaleCenterSchoolsRoute
   LocaleDashboardClientRoute: typeof LocaleDashboardClientRoute
   LocaleDashboardOrganizationRoute: typeof LocaleDashboardOrganizationRoute
   LocaleDashboardSpecialistRoute: typeof LocaleDashboardSpecialistRoute
@@ -2465,6 +2517,13 @@ declare module '@tanstack/react-router' {
       path: '/contact'
       fullPath: '/contact'
       preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/explore': {
+      id: '/explore'
+      path: '/explore'
+      fullPath: '/explore'
+      preLoaderRoute: typeof ExploreRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/for-athletes': {
@@ -2726,6 +2785,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LocaleContactRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/$locale/explore': {
+      id: '/$locale/explore'
+      path: '/$locale/explore'
+      fullPath: '/$locale/explore'
+      preLoaderRoute: typeof LocaleExploreRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/$locale/for-athletes': {
       id: '/$locale/for-athletes'
       path: '/$locale/for-athletes'
@@ -2885,6 +2951,13 @@ declare module '@tanstack/react-router' {
       path: '/$locale/skool'
       fullPath: '/$locale/skool'
       preLoaderRoute: typeof LocaleSkoolRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/$locale/soleterre': {
+      id: '/$locale/soleterre'
+      path: '/$locale/soleterre'
+      fullPath: '/$locale/soleterre'
+      preLoaderRoute: typeof LocaleSoleterreRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/$locale/talent-innovation-hub': {
@@ -3454,6 +3527,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LocaleCenterProgressRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/$locale/center/schools': {
+      id: '/$locale/center/schools'
+      path: '/$locale/center/schools'
+      fullPath: '/$locale/center/schools'
+      preLoaderRoute: typeof LocaleCenterSchoolsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/$locale/dashboard/': {
       id: '/$locale/dashboard/'
       path: '/$locale/dashboard'
@@ -3708,6 +3788,7 @@ const rootRouteChildren: RootRouteChildren = {
   BookACallRoute: BookACallRoute,
   BrandRoute: BrandRoute,
   ContactRoute: ContactRoute,
+  ExploreRoute: ExploreRoute,
   ForAthletesRoute: ForAthletesRoute,
   ForOrganizationsRoute: ForOrganizationsRoute,
   FounderRoute: FounderRoute,
@@ -3744,6 +3825,7 @@ const rootRouteChildren: RootRouteChildren = {
   LocaleBookACallRoute: LocaleBookACallRoute,
   LocaleBrandRoute: LocaleBrandRoute,
   LocaleContactRoute: LocaleContactRoute,
+  LocaleExploreRoute: LocaleExploreRoute,
   LocaleForAthletesRoute: LocaleForAthletesRoute,
   LocaleForOrganizationsRoute: LocaleForOrganizationsRoute,
   LocaleFounderRoute: LocaleFounderRoute,
@@ -3767,6 +3849,7 @@ const rootRouteChildren: RootRouteChildren = {
   LocaleResetPasswordRoute: LocaleResetPasswordRoute,
   LocaleResourcesRoute: LocaleResourcesRoute,
   LocaleSkoolRoute: LocaleSkoolRoute,
+  LocaleSoleterreRoute: LocaleSoleterreRoute,
   LocaleTalentInnovationHubRoute: LocaleTalentInnovationHubRoute,
   LocaleTermsRoute: LocaleTermsRoute,
   LocaleUnsubscribeRoute: LocaleUnsubscribeRoute,
@@ -3847,6 +3930,7 @@ const rootRouteChildren: RootRouteChildren = {
   LocaleCampaignsJoinSpecialistRoute: LocaleCampaignsJoinSpecialistRoute,
   LocaleCampaignsLsspmRoute: LocaleCampaignsLsspmRoute,
   LocaleCenterProgressRoute: LocaleCenterProgressRoute,
+  LocaleCenterSchoolsRoute: LocaleCenterSchoolsRoute,
   LocaleDashboardClientRoute: LocaleDashboardClientRoute,
   LocaleDashboardOrganizationRoute: LocaleDashboardOrganizationRoute,
   LocaleDashboardSpecialistRoute: LocaleDashboardSpecialistRoute,

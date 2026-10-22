@@ -47,6 +47,20 @@ const Footer = () => {
         { name: t("header.privacyTerms"), href: "/legal#documents" },
         { name: t("header.ethics"), href: "/legal#ethics" },
         { name: t("header.telehealthSecurity"), href: "/legal#telehealth" },
+        {
+          name:
+            locale === "en" ? "Press" : locale === "ar" ? "الصحافة" : "Presse",
+          href: "/press",
+        },
+        {
+          name:
+            locale === "en"
+              ? "Site map"
+              : locale === "ar"
+                ? "خريطة الموقع"
+                : "Plan du site",
+          href: "/explore",
+        },
       ],
     },
   ];
