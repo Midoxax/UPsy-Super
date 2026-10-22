@@ -90,22 +90,61 @@ CREATE TABLE IF NOT EXISTS public.social_posts (
   UNIQUE (slug, network)
 );
 
--- Admin-only access to all of the above ----------------------------------------
-DO $$
-DECLARE t text;
-BEGIN
-  FOREACH t IN ARRAY ARRAY['automation_settings','automation_runs','newsletter_subscribers',
-                           'newsletter_issues','newsletter_deliveries','social_posts'] LOOP
-    EXECUTE format('ALTER TABLE public.%I ENABLE ROW LEVEL SECURITY', t);
-    EXECUTE format('DROP POLICY IF EXISTS "admins manage %s" ON public.%I', t, t);
-    EXECUTE format('CREATE POLICY "admins manage %s" ON public.%I FOR ALL TO authenticated
-                    USING (public.has_role(auth.uid(), ''admin''::app_role))
-                    WITH CHECK (public.has_role(auth.uid(), ''admin''::app_role))', t, t);
-    EXECUTE format('REVOKE ALL ON public.%I FROM anon', t);
-    EXECUTE format('GRANT SELECT, INSERT, UPDATE, DELETE ON public.%I TO authenticated', t);
-    EXECUTE format('GRANT ALL ON public.%I TO service_role', t);
-  END LOOP;
-END $$;
+-- Admin-only access to all of the above --------------------------------------
+ALTER TABLE public.automation_settings ENABLE ROW LEVEL SECURITY;
+DROP POLICY IF EXISTS "admins manage automation_settings" ON public.automation_settings;
+CREATE POLICY "admins manage automation_settings" ON public.automation_settings FOR ALL TO authenticated
+  USING (public.has_role(auth.uid(), 'admin'::app_role))
+  WITH CHECK (public.has_role(auth.uid(), 'admin'::app_role));
+REVOKE ALL ON public.automation_settings FROM anon;
+GRANT SELECT, INSERT, UPDATE, DELETE ON public.automation_settings TO authenticated;
+GRANT ALL ON public.automation_settings TO service_role;
+
+ALTER TABLE public.automation_runs ENABLE ROW LEVEL SECURITY;
+DROP POLICY IF EXISTS "admins manage automation_runs" ON public.automation_runs;
+CREATE POLICY "admins manage automation_runs" ON public.automation_runs FOR ALL TO authenticated
+  USING (public.has_role(auth.uid(), 'admin'::app_role))
+  WITH CHECK (public.has_role(auth.uid(), 'admin'::app_role));
+REVOKE ALL ON public.automation_runs FROM anon;
+GRANT SELECT, INSERT, UPDATE, DELETE ON public.automation_runs TO authenticated;
+GRANT ALL ON public.automation_runs TO service_role;
+
+ALTER TABLE public.newsletter_subscribers ENABLE ROW LEVEL SECURITY;
+DROP POLICY IF EXISTS "admins manage newsletter_subscribers" ON public.newsletter_subscribers;
+CREATE POLICY "admins manage newsletter_subscribers" ON public.newsletter_subscribers FOR ALL TO authenticated
+  USING (public.has_role(auth.uid(), 'admin'::app_role))
+  WITH CHECK (public.has_role(auth.uid(), 'admin'::app_role));
+REVOKE ALL ON public.newsletter_subscribers FROM anon;
+GRANT SELECT, INSERT, UPDATE, DELETE ON public.newsletter_subscribers TO authenticated;
+GRANT ALL ON public.newsletter_subscribers TO service_role;
+
+ALTER TABLE public.newsletter_issues ENABLE ROW LEVEL SECURITY;
+DROP POLICY IF EXISTS "admins manage newsletter_issues" ON public.newsletter_issues;
+CREATE POLICY "admins manage newsletter_issues" ON public.newsletter_issues FOR ALL TO authenticated
+  USING (public.has_role(auth.uid(), 'admin'::app_role))
+  WITH CHECK (public.has_role(auth.uid(), 'admin'::app_role));
+REVOKE ALL ON public.newsletter_issues FROM anon;
+GRANT SELECT, INSERT, UPDATE, DELETE ON public.newsletter_issues TO authenticated;
+GRANT ALL ON public.newsletter_issues TO service_role;
+
+ALTER TABLE public.newsletter_deliveries ENABLE ROW LEVEL SECURITY;
+DROP POLICY IF EXISTS "admins manage newsletter_deliveries" ON public.newsletter_deliveries;
+CREATE POLICY "admins manage newsletter_deliveries" ON public.newsletter_deliveries FOR ALL TO authenticated
+  USING (public.has_role(auth.uid(), 'admin'::app_role))
+  WITH CHECK (public.has_role(auth.uid(), 'admin'::app_role));
+REVOKE ALL ON public.newsletter_deliveries FROM anon;
+GRANT SELECT, INSERT, UPDATE, DELETE ON public.newsletter_deliveries TO authenticated;
+GRANT ALL ON public.newsletter_deliveries TO service_role;
+
+ALTER TABLE public.social_posts ENABLE ROW LEVEL SECURITY;
+DROP POLICY IF EXISTS "admins manage social_posts" ON public.social_posts;
+CREATE POLICY "admins manage social_posts" ON public.social_posts FOR ALL TO authenticated
+  USING (public.has_role(auth.uid(), 'admin'::app_role))
+  WITH CHECK (public.has_role(auth.uid(), 'admin'::app_role));
+REVOKE ALL ON public.social_posts FROM anon;
+GRANT SELECT, INSERT, UPDATE, DELETE ON public.social_posts TO authenticated;
+GRANT ALL ON public.social_posts TO service_role;
+
 GRANT USAGE ON SEQUENCE public.automation_runs_id_seq TO service_role;
 
 -- Public sign-up and confirmation (double opt-in) ------------------------------
