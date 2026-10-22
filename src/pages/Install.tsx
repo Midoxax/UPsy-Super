@@ -1,4 +1,5 @@
 import { useState } from "react";
+import UpsyLogo, { withLogo } from "@/components/UpsyLogo";
 import {
   Smartphone,
   Apple,
@@ -73,7 +74,7 @@ const Install = () => {
             <Smartphone className="h-8 w-8" />
           </div>
           <h1 className="text-3xl md:text-4xl font-semibold tracking-tight mb-3">
-            Install the U.Psy app
+            {withLogo("Install the U.Psy app", "h-[0.9em] mx-1")}
           </h1>
           <p className="text-muted-foreground max-w-xl mx-auto">
             Get U.Psy on your home screen — faster loading, full-screen, and

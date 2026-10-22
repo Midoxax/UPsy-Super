@@ -30,7 +30,7 @@ interface Props {
 }
 
 const LOGO =
-  "https://skxxvgjjdshcopybokdt.supabase.co/storage/v1/object/public/email-assets/logo.png";
+  "https://www.upsy.ma/brand/upsy-wordmark.png";
 
 const PILLAR_LABEL: Record<Pillar, Record<"en" | "fr" | "ar", string>> = {
   focus: { en: "Focus", fr: "Concentration", ar: "التركيز" },
@@ -149,7 +149,7 @@ const QuizResults = ({
       <Preview>{t.preview}</Preview>
       <Body style={main}>
         <Container style={container}>
-          <Img src={LOGO} alt="U.Psy" width="120" height="auto" style={logo} />
+          <Img src={LOGO} alt="U.Psy" width="160" height="auto" style={logo} />
           <Heading style={h1}>
             {t.overall}: {score}/100
           </Heading>

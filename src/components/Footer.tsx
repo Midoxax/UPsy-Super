@@ -7,7 +7,7 @@ import { COMPANY } from "@/content/legal/company";
 import { useLocale } from "@/contexts/LocaleContext";
 import { addLocalePrefix } from "@/lib/i18n/utils";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
-import logoUrl from "@/assets/upsy-logo-mark.webp";
+import UpsyLogo from "@/components/UpsyLogo";
 
 const Footer = () => {
   const { locale, t } = useLocale();
@@ -72,11 +72,7 @@ const Footer = () => {
           {/* Brand */}
           <div className="lg:col-span-4">
             <div className="mb-4 lg:mb-6 flex items-center gap-2 lg:gap-3">
-              <img
-                src={logoUrl}
-                alt="U.Psy logo"
-                className="h-10 lg:h-12 w-auto max-w-[40px] lg:max-w-[48px] object-contain dark:brightness-110"
-              />
+              <UpsyLogo className="h-10 lg:h-12 dark:brightness-110" />
               <span className="text-muted-foreground text-xs font-sans">
                 by Mehdi Felji
               </span>
@@ -172,7 +168,7 @@ const Footer = () => {
             <span className="font-mono tabular-nums">
               {new Date().getFullYear()}
             </span>{" "}
-            U.Psy by Mehdi Felji.{" "}
+            <UpsyLogo className="h-[1.1em]" /> by Mehdi Felji.{" "}
             {t("header.copyright") || "All rights reserved."}{" "}
             <button
               type="button"

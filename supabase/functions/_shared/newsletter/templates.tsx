@@ -29,7 +29,7 @@ export interface DigestItem {
 }
 
 const LOGO =
-  "https://skxxvgjjdshcopybokdt.supabase.co/storage/v1/object/public/email-assets/logo.png";
+  "https://www.upsy.ma/brand/upsy-wordmark.png";
 
 const T = {
   en: {
@@ -133,7 +133,7 @@ export function Digest({
           <Img
             src={LOGO}
             alt="U.Psy"
-            width="120"
+            width="160"
             height="auto"
             style={{ margin: "0 auto 24px" }}
           />
@@ -198,7 +198,7 @@ export function Confirm({
           <Img
             src={LOGO}
             alt="U.Psy"
-            width="120"
+            width="160"
             height="auto"
             style={{ margin: "0 auto 24px" }}
           />

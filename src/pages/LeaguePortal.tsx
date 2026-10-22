@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
+import UpsyLogo, { withLogo } from "@/components/UpsyLogo";
 import {
   ShieldCheck,
   Search,
@@ -259,7 +260,7 @@ export default function LeaguePortal() {
     <div className="container-custom py-8 sm:py-12 space-y-6">
       <header className="space-y-2">
         <Badge className="bg-primary/10 text-primary border-primary/20">
-          LSSPM × U.Psy
+          LSSPM × <UpsyLogo className="h-[1.3em] ml-0.5" />
         </Badge>
         <h1 className="text-h1">{c.title}</h1>
         <p className="text-muted-foreground max-w-3xl">{c.subtitle}</p>

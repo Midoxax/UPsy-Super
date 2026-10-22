@@ -11,6 +11,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { useToast } from "@/hooks/use-toast";
 import SEOHead from "@/components/SEOHead";
 import { pushDataLayer } from "@/lib/analytics/gtm";
+import { withLogo } from "@/components/UpsyLogo";
 
 export type CampaignConfig = {
   slug: string;
@@ -206,7 +207,7 @@ const CampaignLanding = ({ config }: { config: CampaignConfig }) => {
               className="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/5 px-3 py-1.5 text-xs font-mono uppercase tracking-widest text-primary"
             >
               <Sparkles className="h-3.5 w-3.5" />
-              {config.eyebrow}
+              {withLogo(config.eyebrow, "h-[1.4em] mx-0.5")}
             </motion.div>
 
             <motion.h1
@@ -215,7 +216,7 @@ const CampaignLanding = ({ config }: { config: CampaignConfig }) => {
               transition={{ duration: 0.6, delay: 0.05 }}
               className="mt-6 font-display text-4xl md:text-6xl leading-[1.05] tracking-tight"
             >
-              {config.headline}{" "}
+              {withLogo(config.headline, "h-[0.85em] mx-1")}{" "}
               <span className="italic accent-italic text-primary">
                 {config.headlineAccent}
               </span>

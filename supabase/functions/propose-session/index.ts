@@ -254,7 +254,7 @@ Deno.serve(async (req) => {
 <body style="margin:0;padding:0;background:#ffffff;font-family:Arial,sans-serif;color:#1a1a1a;">
   <div style="max-width:560px;margin:0 auto;padding:32px 24px;">
     <div style="text-align:center;margin-bottom:24px;">
-      <h1 style="color:#6B1F2A;margin:0;font-size:22px;">U.Psy</h1>
+      <img src="https://www.upsy.ma/brand/upsy-wordmark.png" alt="U.Psy" width="140" style="display:block;height:auto;border:0" />
     </div>
     <h2 style="color:#1a1a1a;margin:0 0 16px;">Session invitation from ${escapeHtml(psyName)}</h2>
     <p style="color:#444;line-height:1.6;margin:0 0 20px;">

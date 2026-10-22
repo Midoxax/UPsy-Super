@@ -1,4 +1,5 @@
 import { Link } from "@/lib/router-compat";
+import UpsyLogo, { withLogo } from "@/components/UpsyLogo";
 import { motion } from "framer-motion";
 import {
   ArrowRight,
@@ -180,7 +181,7 @@ const WhyUs = () => {
                 {t("whyUs.compare.directory") || "Typical directory"}
               </div>
               <div className="p-5 md:p-6 text-sm font-semibold text-center text-primary bg-primary/5">
-                U.Psy
+                <UpsyLogo className="h-6" />
               </div>
             </div>
             {comparisonRows.map((row, idx) => (
