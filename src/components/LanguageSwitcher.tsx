@@ -22,8 +22,9 @@ const LANGUAGES: ReadonlyArray<{ code: Locale; short: string; name: string }> =
   ];
 
 const OPTION_CLASSES =
-  // px-2 py-1 keeps the hit area at the 24px WCAG 2.2 minimum; the labels
-  // themselves are only ~20px tall.
+  // 40px hit area on touch screens (a thumb misses 24px targets); desktop
+  // keeps the compact 24px WCAG 2.2 minimum.
+  "inline-flex min-h-10 min-w-10 items-center justify-center sm:min-h-0 sm:min-w-0 " +
   "rounded-sm px-2 py-1 transition-colors focus:outline-hidden focus-visible:ring-2 " +
   "focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background";
 

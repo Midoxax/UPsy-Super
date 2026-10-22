@@ -13,12 +13,15 @@ import { CheckCircle2, Circle, Clock } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
 import type { Protocol } from "@/hooks/useAthleteHub";
 
+import { useHubCopy, protocolText } from "@/components/athlete/copy";
+
 interface Props {
   protocol: Protocol | null;
   onOpenChange: (o: boolean) => void;
   onComplete: (
     protocolId: string,
     durationMinutes: number,
+    rating?: number,
   ) => Promise<{ error: any }>;
 }
 
@@ -27,8 +30,11 @@ export default function ProtocolRunner({
   onOpenChange,
   onComplete,
 }: Props) {
+  const c = useHubCopy();
   const [done, setDone] = useState<Set<number>>(new Set());
+  const [rating, setRating] = useState<number | null>(null);
   const open = !!protocol;
+  const text = protocol ? protocolText(c, protocol) : null;
 
   const toggle = (i: number) => {
     setDone((s) => {
@@ -41,20 +47,25 @@ export default function ProtocolRunner({
 
   const handleComplete = async () => {
     if (!protocol) return;
-    const res = await onComplete(protocol.id, protocol.duration_minutes);
+    const res = await onComplete(
+      protocol.id,
+      protocol.duration_minutes,
+      rating ?? undefined,
+    );
     if (res.error) {
       toast({
-        title: "Could not log session",
+        title: c.saveFailed,
         description: res.error.message,
         variant: "destructive",
       });
       return;
     }
     toast({
-      title: "Protocol logged",
-      description: `+${protocol.duration_minutes} min · ${protocol.title}`,
+      title: c.logged,
+      description: `+${protocol.duration_minutes} ${c.minutes} · ${text?.title}`,
     });
     setDone(new Set());
+    setRating(null);
     onOpenChange(false);
   };
 
@@ -71,20 +82,20 @@ export default function ProtocolRunner({
           <>
             <DialogHeader>
               <div className="flex items-center gap-2 mb-1">
-                <Badge variant="outline" className="capitalize">
-                  {protocol.category}
+                <Badge variant="outline">
+                  {c.categories[protocol.category] ?? protocol.category}
                 </Badge>
                 <Badge variant="outline">
                   <Clock className="w-3 h-3 mr-1" />
-                  {protocol.duration_minutes} min
+                  {protocol.duration_minutes} {c.minutes}
                 </Badge>
               </div>
-              <DialogTitle>{protocol.title}</DialogTitle>
-              <DialogDescription>{protocol.description}</DialogDescription>
+              <DialogTitle>{text?.title}</DialogTitle>
+              <DialogDescription>{text?.description}</DialogDescription>
             </DialogHeader>
 
             <ol className="space-y-2 py-2">
-              {protocol.steps.map((s, i) => (
+              {(text?.steps ?? []).map((label, i) => (
                 <li key={i}>
                   <button
                     type="button"
@@ -103,23 +114,43 @@ export default function ProtocolRunner({
                           : "text-foreground"
                       }
                     >
-                      {s.label}
+                      {label}
                     </span>
                   </button>
                 </li>
               ))}
             </ol>
 
-            <DialogFooter>
+            {done.size > 0 && (
+              <div className="space-y-2">
+                <p className="text-sm text-muted-foreground">{c.rateIt}</p>
+                <div className="flex gap-2" role="radiogroup">
+                  {[1, 2, 3, 4, 5].map((n) => (
+                    <button
+                      key={n}
+                      type="button"
+                      role="radio"
+                      aria-checked={rating === n}
+                      onClick={() => setRating(n)}
+                      className={`h-10 w-10 rounded-full border text-sm font-medium ${rating === n ? "bg-primary text-primary-foreground border-primary" : "border-border"}`}
+                    >
+                      {n}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            <DialogFooter className="flex-col-reverse gap-2 sm:flex-row">
               <Button variant="ghost" onClick={() => onOpenChange(false)}>
-                Close
+                {c.close}
               </Button>
               <Button
                 variant="primary"
                 onClick={handleComplete}
                 disabled={done.size === 0}
               >
-                Log completion
+                {c.logCompletion}
               </Button>
             </DialogFooter>
           </>

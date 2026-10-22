@@ -20,7 +20,7 @@ interface MagicLinkEmailProps {
 }
 
 const logoUrl =
-  "https://skxxvgjjdshcopybokdt.supabase.co/storage/v1/object/public/email-assets/logo.png";
+  "https://www.upsy.ma/brand/upsy-wordmark.png";
 
 export const MagicLinkEmail = ({
   siteName,
@@ -31,7 +31,7 @@ export const MagicLinkEmail = ({
     <Preview>Your UPsy login link</Preview>
     <Body style={main}>
       <Container style={container}>
-        <Img src={logoUrl} alt="UPsy" width="120" height="auto" style={logo} />
+        <Img src={logoUrl} alt="U.Psy" width="160" height="auto" style={logo} />
         <Heading style={h1}>Your login link</Heading>
         <Text style={text}>
           Click the button below to log in to UPsy. This link will expire

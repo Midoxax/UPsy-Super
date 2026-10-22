@@ -23,7 +23,7 @@ interface SignupEmailProps {
 }
 
 const logoUrl =
-  "https://skxxvgjjdshcopybokdt.supabase.co/storage/v1/object/public/email-assets/logo.png";
+  "https://www.upsy.ma/brand/upsy-wordmark.png";
 
 export const SignupEmail = ({
   siteName,
@@ -36,7 +36,7 @@ export const SignupEmail = ({
     <Preview>Welcome to UPsy — Confirm your email</Preview>
     <Body style={main}>
       <Container style={container}>
-        <Img src={logoUrl} alt="UPsy" width="120" height="auto" style={logo} />
+        <Img src={logoUrl} alt="U.Psy" width="160" height="auto" style={logo} />
         <Heading style={h1}>Welcome to UPsy</Heading>
         <Text style={text}>
           Thank you for joining{" "}

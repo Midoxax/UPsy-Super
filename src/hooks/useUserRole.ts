@@ -64,13 +64,15 @@ export const useUserRole = () => {
     ? "admin"
     : effective.includes("psychologist")
       ? "psychologist"
-      : effective.includes("athlete")
-        ? "athlete"
-        : effective.includes("coach")
-          ? "coach"
-          : effective.includes("organization")
-            ? "organization"
-            : "user";
+      : effective.includes("league")
+        ? "league"
+        : effective.includes("athlete")
+          ? "athlete"
+          : effective.includes("coach")
+            ? "coach"
+            : effective.includes("organization")
+              ? "organization"
+              : "user";
 
   return {
     roles: effective,
@@ -80,6 +82,7 @@ export const useUserRole = () => {
     isAthlete: effective.includes("athlete"),
     isCoach: effective.includes("coach"),
     isOrganization: effective.includes("organization"),
+    isLeague: effective.includes("league"),
     loading: preview.isPreview ? false : authLoading || loading,
   };
 };

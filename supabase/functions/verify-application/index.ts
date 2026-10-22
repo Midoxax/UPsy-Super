@@ -310,7 +310,7 @@ function shell(body: string): string {
   return `<!doctype html>
 <html><body style="margin:0;padding:32px;background:#F7F3F0;font-family:Inter,Arial,sans-serif;color:#2a1a1d">
   <div style="max-width:560px;margin:0 auto;background:#fff;border-radius:20px;padding:32px;border:1px solid #e9dfd8;font-size:15px;line-height:1.6">
-    <div style="color:#6B1F2A;font-weight:700;font-size:14px;letter-spacing:2px;margin-bottom:8px">U.Psy</div>
+    <div style="margin-bottom:12px"><img src="https://www.upsy.ma/brand/upsy-wordmark.png" alt="U.Psy" width="140" style="display:block;height:auto;border:0" /></div>
     ${body}
   </div>
 </body></html>`;

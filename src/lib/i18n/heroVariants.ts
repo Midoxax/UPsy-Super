@@ -61,7 +61,7 @@ const VARIANTS: VariantTable = {
       headlineLine2: "who actually helps.",
       tagline: "Matched in 48 hours. Free rebook if the fit is wrong.",
       body: "Answer a few questions and we match you with an accredited psychologist who fits your language, schedule and what you're working through. Video anywhere in the world, or in person in select cities.",
-      ctaPrimary: { label: "FIND MY PSYCHOLOGIST", to: "/get-matched" },
+      ctaPrimary: { label: "FIND MY PSYCHOLOGIST", to: "/psychologists" },
       ctaSecondary: { label: "TAKE THE 3-MIN ASSESSMENT", to: "/free-score" },
       ctaFootnote: "No card needed to get matched.",
     },
@@ -72,7 +72,7 @@ const VARIANTS: VariantTable = {
       tagline:
         "Mise en relation en 48 heures. Nouvelle séance offerte si le courant ne passe pas.",
       body: "Répondez à quelques questions et nous vous mettons en relation avec un psychologue accrédité adapté à votre langue, à vos horaires et à ce que vous traversez. En visio partout dans le monde, ou en présentiel dans certaines villes.",
-      ctaPrimary: { label: "TROUVER MON PSYCHOLOGUE", to: "/get-matched" },
+      ctaPrimary: { label: "TROUVER MON PSYCHOLOGUE", to: "/psychologists" },
       ctaSecondary: { label: "FAIRE LE TEST DE 3 MIN", to: "/free-score" },
       ctaFootnote: "Aucune carte bancaire requise.",
     },
@@ -83,7 +83,7 @@ const VARIANTS: VariantTable = {
       tagline:
         "مطابقة خلال 48 ساعة. جلسة بديلة مجاناً إن لم يكن الاختيار مناسباً.",
       body: "أجب عن بضعة أسئلة وسنطابقك مع أخصائي نفسي معتمد يناسب لغتك وجدولك وما تمرّ به. جلسات مرئية من أي مكان، أو حضورياً في مدن مختارة.",
-      ctaPrimary: { label: "ابحث عن أخصائيي", to: "/get-matched" },
+      ctaPrimary: { label: "ابحث عن أخصائيي", to: "/psychologists" },
       ctaSecondary: { label: "ابدأ التقييم في 3 دقائق", to: "/free-score" },
       ctaFootnote: "لا حاجة لبطاقة بنكية.",
     },

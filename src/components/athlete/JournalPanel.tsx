@@ -17,6 +17,8 @@ interface Props {
   onSynthesize?: (entryId: string) => Promise<{ error: any }>;
 }
 
+import { useHubCopy, fmtDate } from "@/components/athlete/copy";
+
 const MOODS = [
   "focused",
   "calm",
@@ -27,6 +29,7 @@ const MOODS = [
 ] as const;
 
 export default function JournalPanel({ entries, onAdd, onSynthesize }: Props) {
+  const c = useHubCopy();
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [mood, setMood] = useState<string | null>(null);
@@ -40,12 +43,11 @@ export default function JournalPanel({ entries, onAdd, onSynthesize }: Props) {
     setSynthesizingId(null);
     if (res.error) {
       toast({
-        title: "Synthesis failed",
-        description: res.error.message ?? "Try again later.",
+        title: c.reflectionFailed,
         variant: "destructive",
       });
     } else {
-      toast({ title: "Reflection ready" });
+      toast({ title: c.reflectionReady });
     }
   };
 
@@ -60,7 +62,7 @@ export default function JournalPanel({ entries, onAdd, onSynthesize }: Props) {
     setSaving(false);
     if (res.error) {
       toast({
-        title: "Could not save",
+        title: c.saveFailed,
         description: res.error.message,
         variant: "destructive",
       });
@@ -69,28 +71,30 @@ export default function JournalPanel({ entries, onAdd, onSynthesize }: Props) {
     setTitle("");
     setContent("");
     setMood(null);
-    toast({ title: "Journal entry saved" });
+    toast({ title: c.entrySaved });
   };
 
   return (
     <div className="glass-card p-6 space-y-5">
       <div className="flex items-center gap-2">
         <BookOpen className="w-5 h-5 text-primary" />
-        <h3 className="text-h3">Journal</h3>
+        <h3 className="text-h3">{c.journal}</h3>
       </div>
 
       <div className="space-y-3">
         <Input
           value={title}
           onChange={(e) => setTitle(e.target.value)}
-          placeholder="Title (optional)"
+          placeholder={c.titleOptional}
+          aria-label={c.titleOptional}
           maxLength={120}
         />
         <Textarea
           value={content}
           onChange={(e) => setContent(e.target.value)}
           rows={4}
-          placeholder="What's on your mind?"
+          placeholder={c.journalPlaceholder}
+          aria-label={c.journal}
           maxLength={4000}
         />
         <div className="flex flex-wrap gap-2">
@@ -99,9 +103,10 @@ export default function JournalPanel({ entries, onAdd, onSynthesize }: Props) {
               key={m}
               type="button"
               onClick={() => setMood(mood === m ? null : m)}
-              className={`text-xs px-3 py-1 rounded-full border transition-colors ${mood === m ? "bg-primary text-primary-foreground border-primary" : "border-border/50 text-muted-foreground hover:text-foreground"}`}
+              aria-pressed={mood === m}
+              className={`text-xs px-3 min-h-9 rounded-full border transition-colors ${mood === m ? "bg-primary text-primary-foreground border-primary" : "border-border/50 text-muted-foreground hover:text-foreground"}`}
             >
-              {m}
+              {c.moods[m]}
             </button>
           ))}
         </div>
@@ -112,7 +117,7 @@ export default function JournalPanel({ entries, onAdd, onSynthesize }: Props) {
             disabled={!content.trim() || saving}
           >
             <Sparkles className="w-4 h-4 mr-1" />
-            {saving ? "Saving…" : "Save entry"}
+            {saving ? c.saving : c.saveEntry}
           </Button>
         </div>
       </div>
@@ -120,17 +125,17 @@ export default function JournalPanel({ entries, onAdd, onSynthesize }: Props) {
       {entries.length > 0 && (
         <div className="space-y-3 pt-4 border-t border-border/40">
           <p className="text-xs uppercase tracking-widest text-muted-foreground">
-            Recent entries
+            {c.recentEntries}
           </p>
           {entries.slice(0, 5).map((e) => (
             <div key={e.id} className="p-3 rounded-xl border border-border/40">
               <div className="flex items-center justify-between mb-1">
                 <p className="text-sm font-medium text-foreground">
-                  {e.title || "Untitled"}
+                  {e.title || c.untitled}
                 </p>
                 {e.mood_tag && (
                   <Badge variant="outline" className="text-[10px]">
-                    {e.mood_tag}
+                    {c.moods[e.mood_tag] ?? e.mood_tag}
                   </Badge>
                 )}
               </div>
@@ -138,12 +143,17 @@ export default function JournalPanel({ entries, onAdd, onSynthesize }: Props) {
                 {e.content}
               </p>
               <p className="text-[10px] text-muted-foreground/70 mt-1">
-                {new Date(e.created_at).toLocaleString()}
+                {fmtDate(c, e.created_at, {
+                  day: "numeric",
+                  month: "short",
+                  hour: "2-digit",
+                  minute: "2-digit",
+                })}
               </p>
               {e.ai_summary ? (
                 <div className="mt-2 p-2.5 rounded-lg bg-primary/5 border border-primary/20">
                   <p className="text-[10px] uppercase tracking-widest text-primary/80 mb-1 flex items-center gap-1">
-                    <Wand2 className="w-3 h-3" /> Nour reflection
+                    <Wand2 className="w-3 h-3" /> {c.reflection}
                   </p>
                   <p className="text-xs text-foreground/90 whitespace-pre-wrap">
                     {e.ai_summary}
@@ -167,18 +177,18 @@ export default function JournalPanel({ entries, onAdd, onSynthesize }: Props) {
                   <Button
                     size="sm"
                     variant="ghost"
-                    className="h-7 px-2 text-[11px]"
+                    className="min-h-9 px-2 text-xs"
                     onClick={() => synthesize(e.id)}
                     disabled={synthesizingId === e.id}
                   >
                     {synthesizingId === e.id ? (
                       <>
                         <Loader2 className="w-3 h-3 mr-1 animate-spin" />{" "}
-                        Reflecting…
+                        {c.reflecting}
                       </>
                     ) : (
                       <>
-                        <Wand2 className="w-3 h-3 mr-1" /> Reflect with Nour
+                        <Wand2 className="w-3 h-3 mr-1" /> {c.reflect}
                       </>
                     )}
                   </Button>

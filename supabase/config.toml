@@ -28,3 +28,9 @@ verify_jwt = false
 
 [functions.anamnesis-reminder-cron]
 verify_jwt = false
+
+[functions.content-automation]
+verify_jwt = false
+
+[functions.newsletter-subscribe]
+verify_jwt = false

@@ -49,6 +49,7 @@ import {
   Wrench,
   HeartHandshake,
   CreditCard,
+  Megaphone,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -57,6 +58,9 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
 import AccreditationManager from "@/components/admin/AccreditationManager";
+import ContentAutomationPanel from "@/components/admin/ContentAutomationPanel";
+import UsersPanel from "@/components/admin/UsersPanel";
+import MonitoringPanel from "@/components/admin/MonitoringPanel";
 import TranslationManager from "@/components/admin/TranslationManager";
 import AnamnesisCopyEditor from "@/components/admin/AnamnesisCopyEditor";
 import PricingControl from "@/components/admin/PricingControl";
@@ -128,20 +132,6 @@ const useAllBookings = () =>
         .from("bookings_with_details")
         .select("*")
         .order("scheduled_at", { ascending: false })
-        .limit(200);
-      if (error) throw error;
-      return data ?? [];
-    },
-  });
-
-const useAllUsers = () =>
-  useQuery({
-    queryKey: ["admin-users"],
-    queryFn: async () => {
-      const { data, error } = await supabase
-        .from("profiles")
-        .select("*")
-        .order("created_at", { ascending: false })
         .limit(200);
       if (error) throw error;
       return data ?? [];
@@ -793,112 +783,7 @@ const BookingsTab = () => {
 
 // ── Users tab ─────────────────────────────────────────────────────────────────
 
-const UsersTab = () => {
-  const [search, setSearch] = useState("");
-  const [openId, setOpenId] = useState<string | null>(null);
-  const { data: users = [], isLoading } = useAllUsers();
-
-  const filtered = users.filter(
-    (u: any) =>
-      !search || u.full_name?.toLowerCase().includes(search.toLowerCase()),
-  );
-
-  return (
-    <div className="space-y-4">
-      <div className="flex gap-3">
-        <div className="relative max-w-xs flex-1">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-          <Input
-            placeholder="Search users..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className="pl-9 bg-surface"
-          />
-        </div>
-        <ExportCsvButton
-          filename="users.csv"
-          rows={filtered.map((u: any) => ({
-            id: u.id,
-            name: u.full_name,
-            city: u.city,
-            phone: u.phone,
-            joined: u.created_at,
-            suspended: u.is_suspended,
-          }))}
-        />
-      </div>
-
-      {isLoading ? (
-        <div className="flex justify-center py-16">
-          <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
-        </div>
-      ) : (
-        <div className="rounded-2xl border border-border overflow-hidden">
-          <table className="w-full text-sm">
-            <thead className="bg-surface border-b border-border">
-              <tr>
-                <th className="text-left px-4 py-3 text-xs font-medium text-muted-foreground uppercase tracking-wide">
-                  User
-                </th>
-                <th className="text-left px-4 py-3 text-xs font-medium text-muted-foreground uppercase tracking-wide hidden md:table-cell">
-                  City
-                </th>
-                <th className="text-left px-4 py-3 text-xs font-medium text-muted-foreground uppercase tracking-wide">
-                  Joined
-                </th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-border bg-background">
-              {filtered.map((u: any) => (
-                <tr
-                  key={u.id}
-                  className="hover:bg-surface/50 transition-colors cursor-pointer"
-                  onClick={() => setOpenId(u.id)}
-                >
-                  <td className="px-4 py-3">
-                    <div className="flex items-center gap-3">
-                      {u.avatar_url ? (
-                        <img
-                          src={u.avatar_url}
-                          alt=""
-                          className="w-8 h-8 rounded-full object-cover"
-                        />
-                      ) : (
-                        <div className="w-8 h-8 rounded-full bg-muted flex items-center justify-center text-xs font-bold text-muted-foreground">
-                          {u.full_name?.slice(0, 2).toUpperCase() ?? "?"}
-                        </div>
-                      )}
-                      <div>
-                        <span className="font-medium">
-                          {u.full_name ?? "Anonymous"}
-                        </span>
-                        {u.is_suspended && (
-                          <Badge
-                            variant="destructive"
-                            className="ml-2 text-[10px]"
-                          >
-                            Suspended
-                          </Badge>
-                        )}
-                      </div>
-                    </div>
-                  </td>
-                  <td className="px-4 py-3 text-muted-foreground hidden md:table-cell">
-                    {u.city ?? "–"}
-                  </td>
-                  <td className="px-4 py-3 text-muted-foreground text-xs">
-                    {format(new Date(u.created_at), "MMM d, yyyy")}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      )}
-      <UserDetailDrawer userId={openId} onClose={() => setOpenId(null)} />
-    </div>
-  );
-};
+const UsersTab = () => <UsersPanel />;
 
 // ── Main dashboard ────────────────────────────────────────────────────────────
 
@@ -1050,6 +935,12 @@ const AdminDashboard = () => {
           <TabsContent value="live-views">
             <RolePreviewFrame />
           </TabsContent>
+          <TabsContent value="content">
+            <ContentAutomationPanel />
+          </TabsContent>
+          <TabsContent value="monitoring">
+            <MonitoringPanel />
+          </TabsContent>
         </Tabs>
       </main>
       <CommandPalette onTabChange={setActiveTab} />
@@ -1102,6 +993,8 @@ const SupportAwareTabs = () => {
     { value: "matching", label: "Matching", icon: HeartHandshake },
     { value: "subscriptions", label: "Subscriptions", icon: CreditCard },
     { value: "live-views", label: "Live views", icon: Eye },
+    { value: "content", label: "Content & social", icon: Megaphone },
+    { value: "monitoring", label: "Monitoring", icon: Activity },
   ];
   return (
     <>
@@ -1109,7 +1002,7 @@ const SupportAwareTabs = () => {
         <TabsTrigger
           key={value}
           value={value}
-          className="gap-1.5 text-xs relative"
+          className="gap-1.5 text-xs relative min-h-10 sm:min-h-0"
         >
           <Icon className="h-3.5 w-3.5" />
           <span>{label}</span>

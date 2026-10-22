@@ -18,7 +18,7 @@ interface ReauthenticationEmailProps {
 }
 
 const logoUrl =
-  "https://skxxvgjjdshcopybokdt.supabase.co/storage/v1/object/public/email-assets/logo.png";
+  "https://www.upsy.ma/brand/upsy-wordmark.png";
 
 export const ReauthenticationEmail = ({
   token,
@@ -28,7 +28,7 @@ export const ReauthenticationEmail = ({
     <Preview>Your UPsy verification code</Preview>
     <Body style={main}>
       <Container style={container}>
-        <Img src={logoUrl} alt="UPsy" width="120" height="auto" style={logo} />
+        <Img src={logoUrl} alt="U.Psy" width="160" height="auto" style={logo} />
         <Heading style={h1}>Verification code</Heading>
         <Text style={text}>Use the code below to confirm your identity:</Text>
         <Text style={codeStyle}>{token}</Text>

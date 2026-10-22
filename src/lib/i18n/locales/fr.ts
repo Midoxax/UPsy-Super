@@ -230,6 +230,21 @@ const fr = {
     sortPriceAsc: "Prix croissant",
     sortPriceDesc: "Prix décroissant",
     sortNearest: "Les plus proches",
+    guideTitle: "Comment trouver le bon psychologue",
+    guideIntro:
+      "Bien choisir compte plus que choisir vite. Quatre étapes que nous recommandons à chacun, que vous réserviez ici ou ailleurs.",
+    guide1Title: "Nommez l'objectif, pas seulement la douleur",
+    guide1Body:
+      "Écrivez une phrase : qu'est-ce qui aurait changé dans votre vie dans 3 mois ? Moins d'anxiété, une décision plus claire, le sommeil, la performance, une relation précise. Cela filtre 80 % de l'annuaire.",
+    guide2Title: "Adaptez la méthode à l'objectif",
+    guide2Body:
+      "TCC pour l'anxiété et les ruminations. Thérapie des schémas ou psychodynamique pour les schémas relationnels qui se répètent. EMDR pour le trauma. Psychologie de la performance pour la compétition, la concentration et la charge décisionnelle. Filtrez par approche, pas seulement par ville.",
+    guide3Title: "Faites de la première séance un entretien",
+    guide3Body:
+      "Vous recrutez un spécialiste. Demandez : comment travaillez-vous, à quoi ressemblent les progrès, quand m'orienteriez-vous ailleurs ? Si vous ne vous sentez pas en sécurité, curieux ou respecté, ce n'est pas la bonne personne.",
+    guide4Title: "Donnez-vous 3 séances, puis décidez",
+    guide4Body:
+      "L'alliance est une vraie donnée. Si après trois séances vous ne sentez ni avancée ni alliance de travail, réservez quelqu'un d'autre. Sur U.Psy, la première nouvelle réservation est offerte : c'est notre garantie.",
     nearMe: "Près de moi",
     locating: "Localisation…",
     viewList: "Liste",
@@ -418,6 +433,10 @@ const fr = {
     sendRequest: "Envoyer la demande",
     continueToBook: "Continuer la réservation",
     createAccountToContinue: "Créer un compte pour continuer",
+    chooseSlot: "Choisissez un créneau",
+    addNote: "Ajouter un mot pour votre psychologue (facultatif)",
+    continueWithEmail: "Continuer avec un e-mail",
+    changeTime: "Changer d'horaire",
     signupToFinishNotice:
       "Créez un compte gratuit pour finaliser la réservation. Nous conservons vos choix pendant 24 heures.",
     createAccountToSend: "Vous y êtes presque",
@@ -469,6 +488,8 @@ const fr = {
     close: "Fermer",
     signInRequired: "Connexion requise",
     requestSent: "Demande envoyée",
+    requestSentWith:
+      "{name} va confirmer votre demande, en général sous quelques heures. Vous recevrez un e-mail, puis vous pourrez régler par virement depuis votre espace ou lors de la séance.",
     requestSentDesc:
       "Votre spécialiste va confirmer l'horaire. Vous serez notifié dans votre espace.",
     payAtSession:

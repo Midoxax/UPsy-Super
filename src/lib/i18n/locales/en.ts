@@ -226,6 +226,21 @@ const en = {
     sortPriceAsc: "Price: low to high",
     sortPriceDesc: "Price: high to low",
     sortNearest: "Nearest to me",
+    guideTitle: "How to find the right psychologist",
+    guideIntro:
+      "Choosing well matters more than choosing fast. Four steps we recommend to every client, whether you book here or elsewhere.",
+    guide1Title: "Name the goal, not just the pain",
+    guide1Body:
+      "Write one sentence: what would be different in your life 3 months from now? Anxiety relief, decision clarity, sleep, performance, a specific relationship. This filters 80% of the directory.",
+    guide2Title: "Match the method to the goal",
+    guide2Body:
+      "CBT for anxiety and thought loops. Schema or psychodynamic work for recurring relationship patterns. EMDR for trauma. Performance psychology for competition, focus and decision load. Filter by approach, not just city.",
+    guide3Title: "Use the first session as an interview",
+    guide3Body:
+      "You are hiring a specialist. Ask: how do you work, what does progress look like, when would you refer me elsewhere. If you don't feel safe, curious or respected, it's not the right fit.",
+    guide4Title: "Give it 3 sessions, then decide",
+    guide4Body:
+      "Rapport is real data. If after three sessions you don't feel movement or a working alliance, book someone else. On U.Psy the first rebooking is free: that's our guarantee.",
     nearMe: "Near me",
     locating: "Locating…",
     viewList: "List",
@@ -408,6 +423,10 @@ const en = {
     sendRequest: "Send request",
     continueToBook: "Continue to book",
     createAccountToContinue: "Create an account to continue",
+    chooseSlot: "Choose a time",
+    addNote: "Add a note for your psychologist (optional)",
+    continueWithEmail: "Continue with email",
+    changeTime: "Change the time",
     signupToFinishNotice:
       "Create a free account to finish booking. We'll keep your choices for 24 hours.",
     createAccountToSend: "Almost there",
@@ -460,6 +479,8 @@ const en = {
     close: "Close",
     signInRequired: "Sign in required",
     requestSent: "Request sent",
+    requestSentWith:
+      "{name} will confirm your request, usually within a few hours. You will get an email, then you can pay by transfer from your dashboard or at the session.",
     requestSentDesc:
       "Your specialist will confirm the time. You'll be notified in your dashboard.",
     payAtSession:

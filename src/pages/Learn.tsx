@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import UpsyLogo, { withLogo } from "@/components/UpsyLogo";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { Link, useSearchParams } from "@/lib/router-compat";
@@ -146,7 +147,8 @@ export default function Learn() {
             variant="outline"
             className="border-white/20 text-white/80 bg-white/5"
           >
-            <GraduationCap className="h-3.5 w-3.5 mr-1.5" /> U.Psy Academy
+            <GraduationCap className="h-3.5 w-3.5 mr-1.5" />{" "}
+            {withLogo("U.Psy Academy", "h-[1.2em] mr-1")}
           </Badge>
           <h1 className="font-display text-4xl md:text-6xl leading-[1.05] tracking-tight max-w-3xl">
             Learn directly from the clinicians who shape mental performance in

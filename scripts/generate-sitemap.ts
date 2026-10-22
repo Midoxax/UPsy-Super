@@ -3,6 +3,7 @@
 import { writeFileSync, readFileSync } from "fs";
 import { resolve } from "path";
 import { ARTICLES } from "../src/content/blog/articles";
+import { SITE_MAP } from "../src/content/siteMap";
 
 // Single source of truth, mirroring src/config/site.ts for the Node side (this
 // runs before Vite, so it cannot import the browser module).
@@ -72,7 +73,14 @@ const ROUTES: Entry[] = [
   { path: "/privacy", changefreq: "yearly", priority: "0.3" },
   { path: "/terms", changefreq: "yearly", priority: "0.3" },
   { path: "/moroccan-umbrella", changefreq: "monthly", priority: "0.6" },
+  { path: "/explore", changefreq: "monthly", priority: "0.4" },
 ];
+
+// Every page listed on the site-map page is in the XML sitemap too.
+for (const g of SITE_MAP)
+  for (const p of g.pages)
+    if (!ROUTES.some((r) => r.path === p.path))
+      ROUTES.push({ path: p.path, changefreq: "monthly", priority: "0.5" });
 
 // English-only content (blog posts).
 const EN_ONLY_ROUTES: Entry[] = [

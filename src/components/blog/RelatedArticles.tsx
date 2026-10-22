@@ -3,6 +3,7 @@ import { ArrowRight, Clock } from "lucide-react";
 import { useLocale } from "@/contexts/LocaleContext";
 import { addLocalePrefix } from "@/lib/i18n/utils";
 import { ARTICLES, articleLang } from "@/content/blog/articles";
+import NewsletterSignup from "@/components/NewsletterSignup";
 
 type Related = {
   slug: string;
@@ -96,7 +97,7 @@ const RelatedArticles = ({ currentSlug }: { currentSlug: string }) => {
         </h2>
         <Link
           to={addLocalePrefix("/blog", locale)}
-          className="text-sm text-primary font-medium hover:underline inline-flex items-center gap-1"
+          className="text-sm text-primary font-medium hover:underline inline-flex min-h-10 items-center gap-1"
         >
           {fr ? "Tous les articles" : "All articles"}{" "}
           <ArrowRight className="w-4 h-4" />
@@ -125,6 +126,9 @@ const RelatedArticles = ({ currentSlug }: { currentSlug: string }) => {
             </p>
           </Link>
         ))}
+      </div>
+      <div className="glass-card p-6 mt-8 max-w-xl">
+        <NewsletterSignup source="blog" />
       </div>
     </section>
   );

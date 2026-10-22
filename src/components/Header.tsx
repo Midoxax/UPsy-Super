@@ -27,7 +27,7 @@ import {
 import { useAuth } from "@/contexts/AuthContext";
 import { useLocale } from "@/contexts/LocaleContext";
 import { addLocalePrefix, stripLocalePrefix } from "@/lib/i18n/utils";
-import logo from "@/assets/upsy-logo-mark.webp";
+import UpsyLogo from "@/components/UpsyLogo";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
 import ThemeToggle from "@/components/ThemeToggle";
 import NotificationBell from "@/components/NotificationBell";
@@ -251,10 +251,9 @@ const Header = () => {
             aria-label="U.Psy — Go to homepage"
             className="flex items-center min-w-0 focus:outline-hidden focus:ring-2 focus:ring-ring rounded-md"
           >
-            <img
-              src={logo}
-              alt="U.Psy logo"
-              className="h-10 md:h-12 lg:h-16 w-auto max-w-[40px] md:max-w-[48px] lg:max-w-[64px] object-contain transition-all duration-200 dark:brightness-110"
+            <UpsyLogo
+              decorative
+              className="h-8 md:h-9 lg:h-10 align-middle transition-all duration-200 dark:brightness-110"
             />
           </Link>
 

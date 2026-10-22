@@ -55,12 +55,15 @@ export type SenderKind =
   /** Authentication: password resets, address confirmation. */
   | "auth"
   /** Documents generated for a user, e.g. certificates. */
-  | "documents";
+  | "documents"
+  /** The monthly newsletter and its sign-up confirmation. */
+  | "newsletter";
 
 const MAILBOX: Record<SenderKind, string> = {
   notifications: "notifications",
   auth: "noreply",
   documents: "certificates",
+  newsletter: "newsletter",
 };
 
 /**

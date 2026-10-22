@@ -35,7 +35,7 @@ export function shellHtml(opts: {
     <tr><td align="center">
       <table role="presentation" width="600" cellpadding="0" cellspacing="0" style="max-width:600px;background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 4px 16px rgba(107,31,42,.08);">
         <tr><td style="background:${BRAND.maroon};padding:24px;text-align:${dir === "rtl" ? "right" : "left"};">
-          <div style="color:#fff;font-size:22px;font-weight:600;letter-spacing:.5px;">U.Psy</div>
+          <span style="display:inline-block;background:#fff;border-radius:8px;padding:6px 10px;"><img src="https://www.upsy.ma/brand/upsy-wordmark.png" alt="U.Psy" width="110" style="display:block;height:auto;border:0" /></span>
           <div style="color:${BRAND.gold};font-size:12px;margin-top:4px;">Mental Health Performance System</div>
         </td></tr>
         <tr><td style="padding:32px 28px;text-align:${dir === "rtl" ? "right" : "left"};line-height:1.6;font-size:15px;">${opts.body}</td></tr>

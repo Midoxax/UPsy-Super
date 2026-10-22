@@ -33,7 +33,7 @@ function CopyBlock({ text, label }: { text: string; label: string }) {
             toast.success("Copied to clipboard");
             setTimeout(() => setCopied(false), 1500);
           }}
-          className="text-xs inline-flex items-center gap-1 text-primary hover:opacity-80"
+          className="text-xs inline-flex min-h-10 items-center gap-1 px-2 text-primary hover:opacity-80"
         >
           <Copy className="h-3 w-3" /> {copied ? "Copied" : "Copy"}
         </button>

@@ -74,10 +74,9 @@ const PsychologistProfile = () => {
     if (!psychologist) return;
     const fetchExtras = async () => {
       const [reviewsRes, slotsRes] = await Promise.all([
-        supabase
-          .from("reviews")
-          .select("rating")
-          .eq("psychologist_id", psychologist.id),
+        supabase.rpc("psychologist_rating", {
+          p_psychologist: psychologist.id,
+        }),
         supabase
           .from("availability_slots")
           .select("day_of_week, start_time, end_time")
@@ -86,13 +85,11 @@ const PsychologistProfile = () => {
           .order("day_of_week")
           .order("start_time"),
       ]);
-      if (reviewsRes.data && reviewsRes.data.length > 0) {
-        const avg =
-          reviewsRes.data.reduce((s, r) => s + r.rating, 0) /
-          reviewsRes.data.length;
+      const stats = reviewsRes.data?.[0];
+      if (stats && Number(stats.n) > 0) {
         setReviewStats({
-          count: reviewsRes.data.length,
-          avg: Math.round(avg * 10) / 10,
+          count: Number(stats.n),
+          avg: Number(stats.avg_rating),
         });
       }
       if (slotsRes.data) setAvailabilitySlots(slotsRes.data);

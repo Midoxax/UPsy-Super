@@ -14,6 +14,7 @@ import { AddToCalendar } from "@/components/dashboard/AddToCalendar";
 import { CalendarSyncCard } from "@/components/dashboard/CalendarSyncCard";
 import { notifyBookingChange } from "@/lib/calendar";
 import { Link } from "@/lib/router-compat";
+import ReviewFormModal from "@/components/psychologists/ReviewFormModal";
 
 interface Booking {
   id: string;
@@ -32,6 +33,8 @@ export default function SessionsTimeline() {
   const [upcoming, setUpcoming] = useState<Booking | null>(null);
   const [past, setPast] = useState<Booking[]>([]);
   const [loading, setLoading] = useState(true);
+  const [reviewed, setReviewed] = useState<Set<string>>(new Set());
+  const [reviewing, setReviewing] = useState<Booking | null>(null);
 
   useEffect(() => {
     if (!user) return;
@@ -78,7 +81,17 @@ export default function SessionsTimeline() {
     ]);
 
     if (upRes.data?.[0]) setUpcoming(upRes.data[0] as Booking);
-    if (pastRes.data) setPast(pastRes.data as Booking[]);
+    if (pastRes.data) {
+      setPast(pastRes.data as Booking[]);
+      const ids = pastRes.data.map((b) => b.id).filter(Boolean) as string[];
+      if (ids.length) {
+        const { data: mine } = await supabase
+          .from("reviews")
+          .select("booking_id")
+          .in("booking_id", ids);
+        setReviewed(new Set((mine ?? []).map((r) => r.booking_id as string)));
+      }
+    }
     setLoading(false);
   };
 
@@ -199,18 +212,40 @@ export default function SessionsTimeline() {
                   {formatDateTime(b.scheduled_at)}
                 </p>
               </div>
-              {b.status === "completed" && (
-                <Button variant="ghost" size="sm">
-                  <Star className="w-3.5 h-3.5 mr-1" />
-                  {t("dashboard.review") || "Review"}
-                </Button>
-              )}
+              {(b.status === "completed" || b.status === "confirmed") &&
+                (reviewed.has(b.id) ? (
+                  <Star
+                    className="w-4 h-4 fill-primary text-primary"
+                    aria-label="reviewed"
+                  />
+                ) : (
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => setReviewing(b)}
+                  >
+                    <Star className="w-3.5 h-3.5 mr-1" />
+                    {t("dashboard.review") || "Review"}
+                  </Button>
+                ))}
             </div>
           ))}
         </div>
       )}
 
       <CalendarSyncCard />
+      {reviewing && (
+        <ReviewFormModal
+          open
+          onClose={() => setReviewing(null)}
+          bookingId={reviewing.id}
+          psychologistId={reviewing.psychologist_id}
+          psychologistName={reviewing.psychologist_name || ""}
+          onReviewSubmitted={() =>
+            setReviewed((s) => new Set(s).add(reviewing.id))
+          }
+        />
+      )}
     </div>
   );
 }

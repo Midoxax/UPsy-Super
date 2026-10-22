@@ -71,20 +71,19 @@ describe("OAuth does not depend on Lovable hosting", () => {
 /**
  * A social sign-in button must not be shown unless it can succeed.
  *
- * Supabase answers /authorize with 400 `validation_failed — missing OAuth
- * secret` for both Google and Apple in production — neither has a client
- * ID/secret configured in Supabase Auth — so a button that always fails is a
- * worse first impression than no button at all. Providers default to none;
- * `VITE_OAUTH_PROVIDERS` opts one in once it's actually configured and proven
- * working.
+ * Google is configured in Supabase Auth (verified 21 Oct 2026: /authorize
+ * redirects to Google with the UPSY OAuth client), so it is on by default.
+ * Apple is not (no Apple Developer key), so it stays off unless
+ * `VITE_OAUTH_PROVIDERS` names it; "none" hides every button without a code
+ * change if a provider breaks.
  */
 describe("social sign-in buttons are gated on real configuration", () => {
-  it("defaults to no providers until one is proven configured", async () => {
+  it("defaults to Google only", async () => {
     const { OAUTH_PROVIDERS, hasAnyOAuth, isOAuthEnabled } =
       await import("@/config/auth");
-    expect([...OAUTH_PROVIDERS]).toEqual([]);
-    expect(hasAnyOAuth()).toBe(false);
-    expect(isOAuthEnabled("google")).toBe(false);
+    expect([...OAUTH_PROVIDERS]).toEqual(["google"]);
+    expect(hasAnyOAuth()).toBe(true);
+    expect(isOAuthEnabled("google")).toBe(true);
     expect(isOAuthEnabled("apple")).toBe(false);
   });
 

@@ -1,3 +1,4 @@
+import NewsletterSignup from "@/components/NewsletterSignup";
 import { Link } from "@/lib/router-compat";
 import { openConsentSettings } from "@/lib/consent";
 import { Heart } from "lucide-react";
@@ -6,7 +7,7 @@ import { COMPANY } from "@/content/legal/company";
 import { useLocale } from "@/contexts/LocaleContext";
 import { addLocalePrefix } from "@/lib/i18n/utils";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
-import logoUrl from "@/assets/upsy-logo-mark.webp";
+import UpsyLogo from "@/components/UpsyLogo";
 
 const Footer = () => {
   const { locale, t } = useLocale();
@@ -46,6 +47,20 @@ const Footer = () => {
         { name: t("header.privacyTerms"), href: "/legal#documents" },
         { name: t("header.ethics"), href: "/legal#ethics" },
         { name: t("header.telehealthSecurity"), href: "/legal#telehealth" },
+        {
+          name:
+            locale === "en" ? "Press" : locale === "ar" ? "الصحافة" : "Presse",
+          href: "/press",
+        },
+        {
+          name:
+            locale === "en"
+              ? "Site map"
+              : locale === "ar"
+                ? "خريطة الموقع"
+                : "Plan du site",
+          href: "/explore",
+        },
       ],
     },
   ];
@@ -57,11 +72,7 @@ const Footer = () => {
           {/* Brand */}
           <div className="lg:col-span-4">
             <div className="mb-4 lg:mb-6 flex items-center gap-2 lg:gap-3">
-              <img
-                src={logoUrl}
-                alt="U.Psy logo"
-                className="h-10 lg:h-12 w-auto max-w-[40px] lg:max-w-[48px] object-contain dark:brightness-110"
-              />
+              <UpsyLogo className="h-10 lg:h-12 dark:brightness-110" />
               <span className="text-muted-foreground text-xs font-sans">
                 by Mehdi Felji
               </span>
@@ -102,6 +113,7 @@ const Footer = () => {
 
             {/* Social */}
             <SocialLinks />
+            <NewsletterSignup source="footer" className="pt-4" />
           </div>
 
           {/* Link Columns */}
@@ -156,12 +168,12 @@ const Footer = () => {
             <span className="font-mono tabular-nums">
               {new Date().getFullYear()}
             </span>{" "}
-            U.Psy by Mehdi Felji.{" "}
+            <UpsyLogo className="h-[1.1em]" /> by Mehdi Felji.{" "}
             {t("header.copyright") || "All rights reserved."}{" "}
             <button
               type="button"
               onClick={openConsentSettings}
-              className="inline-block py-1 underline hover:text-primary"
+              className="inline-flex min-h-10 items-center sm:min-h-0 sm:py-1 underline hover:text-primary"
             >
               {t("consent.settings") || "Cookie settings"}
             </button>

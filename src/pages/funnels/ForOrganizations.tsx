@@ -14,14 +14,14 @@ export default function ForOrganizations() {
       />
       <main className="min-h-screen bg-background">
         <section className="container mx-auto px-4 py-20 text-center">
-          <h1 className="text-5xl md:text-6xl font-display font-bold mb-4">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl font-display font-bold mb-4">
             A healthier team is a higher-performing team.
           </h1>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto mb-8">
             Anonymized wellbeing analytics, certified clinical care, and
             CNDP-compliant reporting.
           </p>
-          <div className="flex gap-3 justify-center">
+          <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <Button asChild size="lg">
               <Link to="/apply/organization">Apply as organization</Link>
             </Button>

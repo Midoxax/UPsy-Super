@@ -487,6 +487,375 @@ export type Database = {
         };
         Relationships: [];
       };
+      athlete_competitions: {
+        Row: {
+          checklist: Json;
+          created_at: string;
+          event_date: string;
+          id: string;
+          importance: number;
+          location: string | null;
+          name: string;
+          performance_rating: number | null;
+          reflection: string | null;
+          result: string | null;
+          updated_at: string;
+          user_id: string;
+        };
+        Insert: {
+          checklist?: Json;
+          created_at?: string;
+          event_date: string;
+          id?: string;
+          importance?: number;
+          location?: string | null;
+          name: string;
+          performance_rating?: number | null;
+          reflection?: string | null;
+          result?: string | null;
+          updated_at?: string;
+          user_id: string;
+        };
+        Update: {
+          checklist?: Json;
+          created_at?: string;
+          event_date?: string;
+          id?: string;
+          importance?: number;
+          location?: string | null;
+          name?: string;
+          performance_rating?: number | null;
+          reflection?: string | null;
+          result?: string | null;
+          updated_at?: string;
+          user_id?: string;
+        };
+        Relationships: [];
+      };
+      athlete_goals: {
+        Row: {
+          created_at: string;
+          id: string;
+          kind: string;
+          progress: number;
+          status: string;
+          target_date: string | null;
+          title: string;
+          updated_at: string;
+          user_id: string;
+        };
+        Insert: {
+          created_at?: string;
+          id?: string;
+          kind?: string;
+          progress?: number;
+          status?: string;
+          target_date?: string | null;
+          title: string;
+          updated_at?: string;
+          user_id: string;
+        };
+        Update: {
+          created_at?: string;
+          id?: string;
+          kind?: string;
+          progress?: number;
+          status?: string;
+          target_date?: string | null;
+          title?: string;
+          updated_at?: string;
+          user_id?: string;
+        };
+        Relationships: [];
+      };
+      athlete_shares: {
+        Row: {
+          athlete_id: string;
+          created_at: string;
+          id: string;
+          psychologist_id: string;
+          revoked_at: string | null;
+          scopes: string[];
+        };
+        Insert: {
+          athlete_id: string;
+          created_at?: string;
+          id?: string;
+          psychologist_id: string;
+          revoked_at?: string | null;
+          scopes?: string[];
+        };
+        Update: {
+          athlete_id?: string;
+          created_at?: string;
+          id?: string;
+          psychologist_id?: string;
+          revoked_at?: string | null;
+          scopes?: string[];
+        };
+        Relationships: [];
+      };
+      league_reviews: {
+        Row: {
+          application_id: string;
+          created_at: string;
+          id: string;
+          member_status: string;
+          notes: string | null;
+          recommendation: string;
+          reviewer_id: string;
+          score_documents: number;
+          score_ethics: number;
+          score_experience: number;
+          score_specialisation: number;
+          score_training: number;
+          total: number | null;
+          updated_at: string;
+        };
+        Insert: {
+          application_id: string;
+          created_at?: string;
+          id?: string;
+          member_status?: string;
+          notes?: string | null;
+          recommendation: string;
+          reviewer_id: string;
+          score_documents: number;
+          score_ethics: number;
+          score_experience: number;
+          score_specialisation: number;
+          score_training: number;
+          total?: number | null;
+          updated_at?: string;
+        };
+        Update: {
+          application_id?: string;
+          created_at?: string;
+          id?: string;
+          member_status?: string;
+          notes?: string | null;
+          recommendation?: string;
+          reviewer_id?: string;
+          score_documents?: number;
+          score_ethics?: number;
+          score_experience?: number;
+          score_specialisation?: number;
+          score_training?: number;
+          total?: number | null;
+          updated_at?: string;
+        };
+        Relationships: [];
+      };
+      automation_settings: {
+        Row: {
+          id: boolean;
+          newsletter_enabled: boolean;
+          newsletter_review_days: number;
+          social_auto_publish: boolean;
+          social_networks: string[];
+          updated_at: string;
+        };
+        Insert: {
+          id?: boolean;
+          newsletter_enabled?: boolean;
+          newsletter_review_days?: number;
+          social_auto_publish?: boolean;
+          social_networks?: string[];
+          updated_at?: string;
+        };
+        Update: {
+          id?: boolean;
+          newsletter_enabled?: boolean;
+          newsletter_review_days?: number;
+          social_auto_publish?: boolean;
+          social_networks?: string[];
+          updated_at?: string;
+        };
+        Relationships: [];
+      };
+      automation_runs: {
+        Row: {
+          finished_at: string | null;
+          id: number;
+          job: string;
+          ok: boolean | null;
+          started_at: string;
+          summary: Json;
+        };
+        Insert: {
+          finished_at?: string | null;
+          id?: number;
+          job: string;
+          ok?: boolean | null;
+          started_at?: string;
+          summary?: Json;
+        };
+        Update: {
+          finished_at?: string | null;
+          id?: number;
+          job?: string;
+          ok?: boolean | null;
+          started_at?: string;
+          summary?: Json;
+        };
+        Relationships: [];
+      };
+      newsletter_subscribers: {
+        Row: {
+          confirm_token: string | null;
+          confirmation_sent_at: string | null;
+          confirmed_at: string | null;
+          consent_evidence: Json;
+          created_at: string;
+          email: string;
+          id: string;
+          locale: string;
+          source: string | null;
+          status: string;
+          unsubscribed_at: string | null;
+        };
+        Insert: {
+          confirm_token?: string | null;
+          confirmation_sent_at?: string | null;
+          confirmed_at?: string | null;
+          consent_evidence?: Json;
+          created_at?: string;
+          email: string;
+          id?: string;
+          locale?: string;
+          source?: string | null;
+          status?: string;
+          unsubscribed_at?: string | null;
+        };
+        Update: {
+          confirm_token?: string | null;
+          confirmation_sent_at?: string | null;
+          confirmed_at?: string | null;
+          consent_evidence?: Json;
+          created_at?: string;
+          email?: string;
+          id?: string;
+          locale?: string;
+          source?: string | null;
+          status?: string;
+          unsubscribed_at?: string | null;
+        };
+        Relationships: [];
+      };
+      newsletter_issues: {
+        Row: {
+          created_at: string;
+          error: string | null;
+          id: string;
+          intro_en: string | null;
+          intro_fr: string | null;
+          items: Json;
+          period: string;
+          recipients: number;
+          scheduled_for: string;
+          sent: number;
+          sent_at: string | null;
+          status: string;
+        };
+        Insert: {
+          created_at?: string;
+          error?: string | null;
+          id?: string;
+          intro_en?: string | null;
+          intro_fr?: string | null;
+          items?: Json;
+          period: string;
+          recipients?: number;
+          scheduled_for: string;
+          sent?: number;
+          sent_at?: string | null;
+          status?: string;
+        };
+        Update: {
+          created_at?: string;
+          error?: string | null;
+          id?: string;
+          intro_en?: string | null;
+          intro_fr?: string | null;
+          items?: Json;
+          period?: string;
+          recipients?: number;
+          scheduled_for?: string;
+          sent?: number;
+          sent_at?: string | null;
+          status?: string;
+        };
+        Relationships: [];
+      };
+      newsletter_deliveries: {
+        Row: {
+          created_at: string;
+          email: string;
+          issue_id: string;
+          status: string;
+        };
+        Insert: {
+          created_at?: string;
+          email: string;
+          issue_id: string;
+          status: string;
+        };
+        Update: {
+          created_at?: string;
+          email?: string;
+          issue_id?: string;
+          status?: string;
+        };
+        Relationships: [];
+      };
+      social_posts: {
+        Row: {
+          attempts: number;
+          caption: string;
+          created_at: string;
+          error: string | null;
+          external_id: string | null;
+          id: string;
+          image_url: string | null;
+          link: string;
+          network: string;
+          published_at: string | null;
+          scheduled_for: string;
+          slug: string;
+          status: string;
+        };
+        Insert: {
+          attempts?: number;
+          caption: string;
+          created_at?: string;
+          error?: string | null;
+          external_id?: string | null;
+          id?: string;
+          image_url?: string | null;
+          link: string;
+          network: string;
+          published_at?: string | null;
+          scheduled_for?: string;
+          slug: string;
+          status?: string;
+        };
+        Update: {
+          attempts?: number;
+          caption?: string;
+          created_at?: string;
+          error?: string | null;
+          external_id?: string | null;
+          id?: string;
+          image_url?: string | null;
+          link?: string;
+          network?: string;
+          published_at?: string | null;
+          scheduled_for?: string;
+          slug?: string;
+          status?: string;
+        };
+        Relationships: [];
+      };
       athlete_profiles: {
         Row: {
           coach_id: string | null;
@@ -4990,6 +5359,9 @@ export type Database = {
       };
       psychologist_applications: {
         Row: {
+          league_share_consent: boolean;
+          league_share_consented_at: string | null;
+          source: string | null;
           accreditation_level: string;
           accreditation_number: string | null;
           auto_check_flags: Json | null;
@@ -5040,6 +5412,9 @@ export type Database = {
           years_experience: number | null;
         };
         Insert: {
+          league_share_consent?: boolean;
+          league_share_consented_at?: string | null;
+          source?: string | null;
           accreditation_level?: string;
           accreditation_number?: string | null;
           auto_check_flags?: Json | null;
@@ -5090,6 +5465,9 @@ export type Database = {
           years_experience?: number | null;
         };
         Update: {
+          league_share_consent?: boolean;
+          league_share_consented_at?: string | null;
+          source?: string | null;
           accreditation_level?: string;
           accreditation_number?: string | null;
           auto_check_flags?: Json | null;
@@ -5657,31 +6035,34 @@ export type Database = {
       };
       reviews: {
         Row: {
+          booking_id: string | null;
           client_id: string;
           comment: string | null;
           created_at: string | null;
           id: string;
           psychologist_id: string;
           rating: number;
-          session_id: string;
+          session_id: string | null;
         };
         Insert: {
+          booking_id?: string | null;
           client_id: string;
           comment?: string | null;
           created_at?: string | null;
           id?: string;
           psychologist_id: string;
           rating: number;
-          session_id: string;
+          session_id?: string | null;
         };
         Update: {
+          booking_id?: string | null;
           client_id?: string;
           comment?: string | null;
           created_at?: string | null;
           id?: string;
           psychologist_id?: string;
           rating?: number;
-          session_id?: string;
+          session_id?: string | null;
         };
         Relationships: [
           {
@@ -7027,6 +7408,111 @@ export type Database = {
       };
     };
     Functions: {
+      psychologist_rating: {
+        Args: { p_psychologist: string };
+        Returns: { avg_rating: number; n: number }[];
+      };
+      psychologist_reviews: {
+        Args: { p_psychologist: string; p_limit?: number };
+        Returns: {
+          id: string;
+          rating: number;
+          comment: string | null;
+          created_at: string;
+        }[];
+      };
+      admin_email_health: {
+        Args: never;
+        Returns: Json;
+      };
+      admin_cron_status: {
+        Args: never;
+        Returns: {
+          jobname: string;
+          schedule: string;
+          active: boolean;
+          last_start: string | null;
+          last_status: string | null;
+          last_message: string | null;
+          failures_24h: number;
+        }[];
+      };
+      newsletter_confirm: {
+        Args: { p_token: string };
+        Returns: boolean;
+      };
+      newsletter_subscribe: {
+        Args: { p_email: string; p_locale?: string; p_source?: string };
+        Returns: undefined;
+      };
+      league_applications: {
+        Args: never;
+        Returns: {
+          id: string;
+          full_name: string;
+          email: string;
+          city: string | null;
+          years_experience: number | null;
+          qualifications: string | null;
+          accreditation_number: string | null;
+          specialties: string[] | null;
+          approaches: string[] | null;
+          languages: string[] | null;
+          bio_short: string | null;
+          photo_url: string | null;
+          status: string;
+          accreditation_level: string;
+          suggested_level: string | null;
+          auto_check_status: string | null;
+          auto_check_flags: Json;
+          submitted_at: string | null;
+          consented_at: string | null;
+          source: string | null;
+          doc_diploma_url: string | null;
+          doc_cv_url: string | null;
+          doc_license_morocco_url: string | null;
+          doc_order_registration_url: string | null;
+          doc_insurance_url: string | null;
+          doc_specialty_certs_urls: string[] | null;
+          upsy_score: number;
+          league_avg: number | null;
+          league_reviews: number;
+          my_review: Json | null;
+        }[];
+      };
+      league_recruitment_stats: {
+        Args: { p_source?: string };
+        Returns: Json;
+      };
+      league_file_shared: {
+        Args: { _app: string };
+        Returns: boolean;
+      };
+      is_league_reviewer: {
+        Args: { _uid: string };
+        Returns: boolean;
+      };
+      set_league_share: {
+        Args: { p_consent: boolean };
+        Returns: boolean;
+      };
+      athlete_shared_overview: {
+        Args: { p_athlete: string };
+        Returns: Json;
+      };
+      athletes_shared_with_me: {
+        Args: never;
+        Returns: {
+          athlete_id: string;
+          full_name: string | null;
+          scopes: string[];
+          shared_at: string;
+        }[];
+      };
+      athlete_share_candidates: {
+        Args: never;
+        Returns: { psychologist_id: string; full_name: string }[];
+      };
       admin_assign_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"];
@@ -7850,7 +8336,8 @@ export type Database = {
         | "user"
         | "athlete"
         | "coach"
-        | "organization";
+        | "organization"
+        | "league";
       certificate_type:
         | "course_completion"
         | "assessment_completion"
@@ -8017,6 +8504,7 @@ export const Constants = {
         "athlete",
         "coach",
         "organization",
+        "league",
       ],
       certificate_type: [
         "course_completion",

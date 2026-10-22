@@ -11,6 +11,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { useToast } from "@/hooks/use-toast";
 import SEOHead from "@/components/SEOHead";
 import { pushDataLayer } from "@/lib/analytics/gtm";
+import { withLogo } from "@/components/UpsyLogo";
 
 export type CampaignConfig = {
   slug: string;
@@ -33,6 +34,21 @@ export type CampaignConfig = {
   successCta: { label: string; href: string };
   askPhone?: boolean;
   askOrg?: boolean;
+  /** Form wording, for campaigns not in English. */
+  labels?: Partial<typeof DEFAULT_LABELS>;
+};
+
+const DEFAULT_LABELS = {
+  name: "Full name",
+  email: "Email",
+  phone: "Phone / WhatsApp",
+  org: "Practice / clinic (optional)",
+  whatsapp: "Send updates on WhatsApp too (optional, unsubscribe anytime).",
+  consentBefore:
+    "I agree to receive personalized messages from U.Psy and I've read the",
+  privacy: "privacy notice",
+  consentAfter: ". Data protected under Moroccan Law 09-08 — CNDP compliant.",
+  noSpam: "No spam. One-click unsubscribe in every message.",
 };
 
 const emailSchema = z.string().trim().email("Enter a valid email").max(255);
@@ -62,6 +78,7 @@ function readAttribution() {
 }
 
 const CampaignLanding = ({ config }: { config: CampaignConfig }) => {
+  const L = { ...DEFAULT_LABELS, ...config.labels };
   const { toast } = useToast();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -190,7 +207,7 @@ const CampaignLanding = ({ config }: { config: CampaignConfig }) => {
               className="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/5 px-3 py-1.5 text-xs font-mono uppercase tracking-widest text-primary"
             >
               <Sparkles className="h-3.5 w-3.5" />
-              {config.eyebrow}
+              {withLogo(config.eyebrow, "h-[1.4em] mx-0.5")}
             </motion.div>
 
             <motion.h1
@@ -199,7 +216,7 @@ const CampaignLanding = ({ config }: { config: CampaignConfig }) => {
               transition={{ duration: 0.6, delay: 0.05 }}
               className="mt-6 font-display text-4xl md:text-6xl leading-[1.05] tracking-tight"
             >
-              {config.headline}{" "}
+              {withLogo(config.headline, "h-[0.85em] mx-1")}{" "}
               <span className="italic accent-italic text-primary">
                 {config.headlineAccent}
               </span>
@@ -280,7 +297,7 @@ const CampaignLanding = ({ config }: { config: CampaignConfig }) => {
                   </div>
 
                   <div>
-                    <Label htmlFor="name">Full name</Label>
+                    <Label htmlFor="name">{L.name}</Label>
                     <Input
                       id="name"
                       value={name}
@@ -297,7 +314,7 @@ const CampaignLanding = ({ config }: { config: CampaignConfig }) => {
                   </div>
 
                   <div>
-                    <Label htmlFor="email">Email</Label>
+                    <Label htmlFor="email">{L.email}</Label>
                     <Input
                       id="email"
                       type="email"
@@ -316,7 +333,7 @@ const CampaignLanding = ({ config }: { config: CampaignConfig }) => {
 
                   {(config.askPhone || whatsapp) && (
                     <div>
-                      <Label htmlFor="phone">Phone / WhatsApp</Label>
+                      <Label htmlFor="phone">{L.phone}</Label>
                       <Input
                         id="phone"
                         type="tel"
@@ -336,7 +353,7 @@ const CampaignLanding = ({ config }: { config: CampaignConfig }) => {
 
                   {config.askOrg && (
                     <div>
-                      <Label htmlFor="org">Practice / clinic (optional)</Label>
+                      <Label htmlFor="org">{L.org}</Label>
                       <Input
                         id="org"
                         value={org}
@@ -353,8 +370,7 @@ const CampaignLanding = ({ config }: { config: CampaignConfig }) => {
                       className="mt-0.5"
                     />
                     <span className="text-foreground/80 leading-relaxed">
-                      Send updates on WhatsApp too (optional, unsubscribe
-                      anytime).
+                      {L.whatsapp}
                     </span>
                   </label>
 
@@ -366,16 +382,14 @@ const CampaignLanding = ({ config }: { config: CampaignConfig }) => {
                       required
                     />
                     <span className="text-muted-foreground leading-relaxed">
-                      I agree to receive personalized messages from U.Psy and
-                      I've read the{" "}
+                      {L.consentBefore}{" "}
                       <Link
                         to="/privacy"
                         className="underline hover:text-foreground"
                       >
-                        privacy notice
+                        {L.privacy}
                       </Link>
-                      . Data protected under Moroccan Law 09-08 — CNDP
-                      compliant.
+                      {L.consentAfter}
                     </span>
                   </label>
                   {errors.consent && (
@@ -399,7 +413,7 @@ const CampaignLanding = ({ config }: { config: CampaignConfig }) => {
                   </Button>
 
                   <p className="text-[11px] text-center text-muted-foreground">
-                    No spam. One-click unsubscribe in every message.
+                    {L.noSpam}
                   </p>
                 </form>
               )}

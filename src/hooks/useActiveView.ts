@@ -1,7 +1,13 @@
 import { useEffect, useState, useCallback } from "react";
 
 export type ActiveView =
-  "auto" | "admin" | "specialist" | "client" | "organization" | "athlete";
+  | "auto"
+  | "admin"
+  | "specialist"
+  | "client"
+  | "organization"
+  | "athlete"
+  | "league";
 
 const KEY = "upsy.activeView";
 

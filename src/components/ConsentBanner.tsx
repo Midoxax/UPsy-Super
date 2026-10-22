@@ -38,26 +38,34 @@ export function ConsentBanner() {
     <section
       role="region"
       aria-labelledby="consent-title"
-      className="fixed inset-x-0 bottom-0 z-50 p-4 sm:p-6 pointer-events-none"
+      className="fixed inset-x-0 bottom-0 z-50 p-2 sm:p-6 pointer-events-none"
     >
-      <div className="pointer-events-auto mx-auto max-w-3xl rounded-xl border border-border bg-background p-5 shadow-2xl">
-        <h2 id="consent-title" className="font-semibold text-foreground mb-1">
+      {/* Compact on phones: it used to cover the hero and its buttons. */}
+      <div className="pointer-events-auto mx-auto max-w-3xl rounded-xl border border-border bg-background p-3 sm:p-5 shadow-2xl">
+        <h2
+          id="consent-title"
+          className="sr-only sm:not-sr-only sm:mb-1 sm:block font-semibold text-foreground"
+        >
           {t("consent.title") || "Your privacy"}
         </h2>
-        <p className="text-sm text-muted-foreground">
+        <p className="text-xs sm:text-sm text-muted-foreground">
           {t("consent.body")}{" "}
           <Link
             to={addLocalePrefix("/privacy#cookies", locale)}
-            className="inline-block py-1 text-foreground underline underline-offset-2 hover:text-primary"
+            className="inline-block text-foreground underline underline-offset-2 hover:text-primary"
           >
             {t("consent.learnMore") || "Cookie policy"}
           </Link>
         </p>
-        <div className="mt-4 flex flex-col-reverse gap-2 sm:flex-row sm:justify-end">
-          <Button variant="outline" onClick={() => choose("denied")}>
+        <div className="mt-2 sm:mt-4 grid grid-cols-2 gap-2 sm:flex sm:justify-end">
+          <Button variant="outline" size="sm" onClick={() => choose("denied")}>
             {t("consent.decline") || "Decline"}
           </Button>
-          <Button onClick={() => choose("granted")}>
+          <Button
+            size="sm"
+            className="h-auto min-h-9 whitespace-normal"
+            onClick={() => choose("granted")}
+          >
             {t("consent.accept") || "Accept analytics"}
           </Button>
         </div>

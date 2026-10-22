@@ -20,7 +20,7 @@ interface RecoveryEmailProps {
 }
 
 const logoUrl =
-  "https://skxxvgjjdshcopybokdt.supabase.co/storage/v1/object/public/email-assets/logo.png";
+  "https://www.upsy.ma/brand/upsy-wordmark.png";
 
 export const RecoveryEmail = ({
   siteName,
@@ -31,7 +31,7 @@ export const RecoveryEmail = ({
     <Preview>Reset your UPsy password</Preview>
     <Body style={main}>
       <Container style={container}>
-        <Img src={logoUrl} alt="UPsy" width="120" height="auto" style={logo} />
+        <Img src={logoUrl} alt="U.Psy" width="160" height="auto" style={logo} />
         <Heading style={h1}>Reset your password</Heading>
         <Text style={text}>
           We received a request to reset your password. Click the button below

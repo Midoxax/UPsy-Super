@@ -18,6 +18,7 @@ const ROLE_ALLOW_LIST: Record<string, string> = {
   user: "user",
   psychologist: "psychologist",
   organization: "organization",
+  league: "league",
 };
 
 Deno.serve(async (req) => {

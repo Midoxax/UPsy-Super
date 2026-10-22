@@ -22,6 +22,8 @@ import { useLocale } from "@/contexts/LocaleContext";
 import { useAuth } from "@/contexts/AuthContext";
 import { useAvailableSlots, useCreateBooking } from "@/hooks/useBooking";
 import { cn } from "@/lib/utils";
+import { SocialAuthButtons } from "@/components/auth/SocialAuthButtons";
+import { hasAnyOAuth } from "@/config/auth";
 import { addLocalePrefix } from "@/lib/i18n/utils";
 import {
   clearPendingBooking,
@@ -162,24 +164,29 @@ export const BookingWidget = ({
     setStep("confirm");
   };
 
+  // localStorage (24h TTL), not sessionStorage: the confirmation email
+  // link opens a new tab, which would not see a sessionStorage entry.
+  const stashPending = () => {
+    const pending: PendingBooking = {
+      psychologistId,
+      scheduled_at: selectedSlot!,
+      session_type: sessionType,
+      duration_minutes: selectedDuration,
+      notes,
+      amount_mad: hourlyRate ?? undefined,
+      return_path: `${window.location.pathname}#booking`,
+    };
+    savePendingBooking(PENDING_KEY, pending);
+    return pending;
+  };
+
   const handleConfirm = async () => {
     if (!selectedSlot) return;
     const duration = selectedDuration;
 
     // Slot-before-signup: stash intent, send to auth, resume on return.
     if (!user) {
-      const pending: PendingBooking = {
-        psychologistId,
-        scheduled_at: selectedSlot,
-        session_type: sessionType,
-        duration_minutes: duration,
-        notes,
-        amount_mad: hourlyRate ?? undefined,
-        return_path: `${window.location.pathname}#booking`,
-      };
-      // localStorage (24h TTL), not sessionStorage: the confirmation email
-      // link opens a new tab, which would not see a sessionStorage entry.
-      savePendingBooking(PENDING_KEY, pending);
+      const pending = stashPending();
       toast({
         title: t("booking.createAccountToSend"),
         description: t("booking.createAccountToSendDesc"),
@@ -432,6 +439,16 @@ export const BookingWidget = ({
               className="bg-surface text-sm resize-none"
             />
           </div>
+
+          {!user && hasAnyOAuth() && (
+            // One tap, no confirmation email; the slot is stashed first so
+            // it is waiting when Google sends them back.
+            <div onClickCapture={stashPending}>
+              <SocialAuthButtons
+                redirect={`${window.location.pathname}#booking`}
+              />
+            </div>
+          )}
 
           {!user && (
             <div className="flex items-start gap-2 text-xs text-emerald-800 dark:text-emerald-200 bg-emerald-500/10 border border-emerald-500/20 rounded-lg px-3 py-2">

@@ -23,7 +23,7 @@ interface EmailChangeEmailProps {
 }
 
 const logoUrl =
-  "https://skxxvgjjdshcopybokdt.supabase.co/storage/v1/object/public/email-assets/logo.png";
+  "https://www.upsy.ma/brand/upsy-wordmark.png";
 
 export const EmailChangeEmail = ({
   siteName,
@@ -36,7 +36,7 @@ export const EmailChangeEmail = ({
     <Preview>Confirm your email change for UPsy</Preview>
     <Body style={main}>
       <Container style={container}>
-        <Img src={logoUrl} alt="UPsy" width="120" height="auto" style={logo} />
+        <Img src={logoUrl} alt="U.Psy" width="160" height="auto" style={logo} />
         <Heading style={h1}>Confirm your email change</Heading>
         <Text style={text}>
           You requested to change your email from{" "}
