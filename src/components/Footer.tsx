@@ -1,3 +1,4 @@
+import NewsletterSignup from "@/components/NewsletterSignup";
 import { Link } from "@/lib/router-compat";
 import { openConsentSettings } from "@/lib/consent";
 import { Heart } from "lucide-react";
@@ -102,6 +103,7 @@ const Footer = () => {
 
             {/* Social */}
             <SocialLinks />
+            <NewsletterSignup source="footer" className="pt-4" />
           </div>
 
           {/* Link Columns */}

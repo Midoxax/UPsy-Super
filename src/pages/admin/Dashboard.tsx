@@ -49,6 +49,7 @@ import {
   Wrench,
   HeartHandshake,
   CreditCard,
+  Megaphone,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -57,6 +58,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
 import AccreditationManager from "@/components/admin/AccreditationManager";
+import ContentAutomationPanel from "@/components/admin/ContentAutomationPanel";
+import MonitoringPanel from "@/components/admin/MonitoringPanel";
 import TranslationManager from "@/components/admin/TranslationManager";
 import AnamnesisCopyEditor from "@/components/admin/AnamnesisCopyEditor";
 import PricingControl from "@/components/admin/PricingControl";
@@ -1050,6 +1053,12 @@ const AdminDashboard = () => {
           <TabsContent value="live-views">
             <RolePreviewFrame />
           </TabsContent>
+          <TabsContent value="content">
+            <ContentAutomationPanel />
+          </TabsContent>
+          <TabsContent value="monitoring">
+            <MonitoringPanel />
+          </TabsContent>
         </Tabs>
       </main>
       <CommandPalette onTabChange={setActiveTab} />
@@ -1102,6 +1111,8 @@ const SupportAwareTabs = () => {
     { value: "matching", label: "Matching", icon: HeartHandshake },
     { value: "subscriptions", label: "Subscriptions", icon: CreditCard },
     { value: "live-views", label: "Live views", icon: Eye },
+    { value: "content", label: "Content & social", icon: Megaphone },
+    { value: "monitoring", label: "Monitoring", icon: Activity },
   ];
   return (
     <>

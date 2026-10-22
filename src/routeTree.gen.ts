@@ -122,6 +122,7 @@ import { Route as IntakeBookingIdRouteImport } from './routes/intake/$bookingId'
 import { Route as InviteCodeRouteImport } from './routes/invite/$code'
 import { Route as LearnIndexRouteImport } from './routes/learn/index'
 import { Route as LearnSlugRouteImport } from './routes/learn/$slug'
+import { Route as NewsletterConfirmRouteImport } from './routes/newsletter/confirm'
 import { Route as OpsIndexRouteImport } from './routes/ops/index'
 import { Route as OpsWorkspaceRouteImport } from './routes/ops/$workspace'
 import { Route as OpsPreviewRouteImport } from './routes/ops/preview'
@@ -167,6 +168,7 @@ import { Route as LocaleIntakeBookingIdRouteImport } from './routes/$locale/inta
 import { Route as LocaleInviteCodeRouteImport } from './routes/$locale/invite/$code'
 import { Route as LocaleLearnIndexRouteImport } from './routes/$locale/learn/index'
 import { Route as LocaleLearnSlugRouteImport } from './routes/$locale/learn/$slug'
+import { Route as LocaleNewsletterConfirmRouteImport } from './routes/$locale/newsletter/confirm'
 import { Route as LocalePsychologistsIndexRouteImport } from './routes/$locale/psychologists/index'
 import { Route as LocalePsychologistsIdRouteImport } from './routes/$locale/psychologists/$id'
 import { Route as LocaleServicesIndexRouteImport } from './routes/$locale/services/index'
@@ -763,6 +765,11 @@ const LearnSlugRoute = LearnSlugRouteImport.update({
   path: '/learn/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const NewsletterConfirmRoute = NewsletterConfirmRouteImport.update({
+  id: '/newsletter/confirm',
+  path: '/newsletter/confirm',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const OpsIndexRoute = OpsIndexRouteImport.update({
   id: '/ops/',
   path: '/ops/',
@@ -1003,6 +1010,11 @@ const LocaleLearnSlugRoute = LocaleLearnSlugRouteImport.update({
   path: '/$locale/learn/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const LocaleNewsletterConfirmRoute = LocaleNewsletterConfirmRouteImport.update({
+  id: '/$locale/newsletter/confirm',
+  path: '/$locale/newsletter/confirm',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LocalePsychologistsIndexRoute =
   LocalePsychologistsIndexRouteImport.update({
     id: '/$locale/psychologists/',
@@ -1218,6 +1230,7 @@ export interface FileRoutesByFullPath {
   '/intake/$bookingId': typeof IntakeBookingIdRoute
   '/invite/$code': typeof InviteCodeRoute
   '/learn/$slug': typeof LearnSlugRoute
+  '/newsletter/confirm': typeof NewsletterConfirmRoute
   '/ops/$workspace': typeof OpsWorkspaceRouteWithChildren
   '/ops/preview': typeof OpsPreviewRoute
   '/psychologists/$id': typeof PsychologistsIdRoute
@@ -1264,6 +1277,7 @@ export interface FileRoutesByFullPath {
   '/$locale/intake/$bookingId': typeof LocaleIntakeBookingIdRoute
   '/$locale/invite/$code': typeof LocaleInviteCodeRoute
   '/$locale/learn/$slug': typeof LocaleLearnSlugRoute
+  '/$locale/newsletter/confirm': typeof LocaleNewsletterConfirmRoute
   '/$locale/psychologists/$id': typeof LocalePsychologistsIdRoute
   '/$locale/services/consulting-for-organizations': typeof LocaleServicesConsultingForOrganizationsRoute
   '/$locale/session/$sessionId': typeof LocaleSessionSessionIdRoute
@@ -1399,6 +1413,7 @@ export interface FileRoutesByTo {
   '/intake/$bookingId': typeof IntakeBookingIdRoute
   '/invite/$code': typeof InviteCodeRoute
   '/learn/$slug': typeof LearnSlugRoute
+  '/newsletter/confirm': typeof NewsletterConfirmRoute
   '/ops/preview': typeof OpsPreviewRoute
   '/psychologists/$id': typeof PsychologistsIdRoute
   '/services/consulting-for-organizations': typeof ServicesConsultingForOrganizationsRoute
@@ -1444,6 +1459,7 @@ export interface FileRoutesByTo {
   '/$locale/intake/$bookingId': typeof LocaleIntakeBookingIdRoute
   '/$locale/invite/$code': typeof LocaleInviteCodeRoute
   '/$locale/learn/$slug': typeof LocaleLearnSlugRoute
+  '/$locale/newsletter/confirm': typeof LocaleNewsletterConfirmRoute
   '/$locale/psychologists/$id': typeof LocalePsychologistsIdRoute
   '/$locale/services/consulting-for-organizations': typeof LocaleServicesConsultingForOrganizationsRoute
   '/$locale/session/$sessionId': typeof LocaleSessionSessionIdRoute
@@ -1580,6 +1596,7 @@ export interface FileRoutesById {
   '/intake/$bookingId': typeof IntakeBookingIdRoute
   '/invite/$code': typeof InviteCodeRoute
   '/learn/$slug': typeof LearnSlugRoute
+  '/newsletter/confirm': typeof NewsletterConfirmRoute
   '/ops/$workspace': typeof OpsWorkspaceRouteWithChildren
   '/ops/preview': typeof OpsPreviewRoute
   '/psychologists/$id': typeof PsychologistsIdRoute
@@ -1626,6 +1643,7 @@ export interface FileRoutesById {
   '/$locale/intake/$bookingId': typeof LocaleIntakeBookingIdRoute
   '/$locale/invite/$code': typeof LocaleInviteCodeRoute
   '/$locale/learn/$slug': typeof LocaleLearnSlugRoute
+  '/$locale/newsletter/confirm': typeof LocaleNewsletterConfirmRoute
   '/$locale/psychologists/$id': typeof LocalePsychologistsIdRoute
   '/$locale/services/consulting-for-organizations': typeof LocaleServicesConsultingForOrganizationsRoute
   '/$locale/session/$sessionId': typeof LocaleSessionSessionIdRoute
@@ -1763,6 +1781,7 @@ export interface FileRouteTypes {
     | '/intake/$bookingId'
     | '/invite/$code'
     | '/learn/$slug'
+    | '/newsletter/confirm'
     | '/ops/$workspace'
     | '/ops/preview'
     | '/psychologists/$id'
@@ -1809,6 +1828,7 @@ export interface FileRouteTypes {
     | '/$locale/intake/$bookingId'
     | '/$locale/invite/$code'
     | '/$locale/learn/$slug'
+    | '/$locale/newsletter/confirm'
     | '/$locale/psychologists/$id'
     | '/$locale/services/consulting-for-organizations'
     | '/$locale/session/$sessionId'
@@ -1944,6 +1964,7 @@ export interface FileRouteTypes {
     | '/intake/$bookingId'
     | '/invite/$code'
     | '/learn/$slug'
+    | '/newsletter/confirm'
     | '/ops/preview'
     | '/psychologists/$id'
     | '/services/consulting-for-organizations'
@@ -1989,6 +2010,7 @@ export interface FileRouteTypes {
     | '/$locale/intake/$bookingId'
     | '/$locale/invite/$code'
     | '/$locale/learn/$slug'
+    | '/$locale/newsletter/confirm'
     | '/$locale/psychologists/$id'
     | '/$locale/services/consulting-for-organizations'
     | '/$locale/session/$sessionId'
@@ -2124,6 +2146,7 @@ export interface FileRouteTypes {
     | '/intake/$bookingId'
     | '/invite/$code'
     | '/learn/$slug'
+    | '/newsletter/confirm'
     | '/ops/$workspace'
     | '/ops/preview'
     | '/psychologists/$id'
@@ -2170,6 +2193,7 @@ export interface FileRouteTypes {
     | '/$locale/intake/$bookingId'
     | '/$locale/invite/$code'
     | '/$locale/learn/$slug'
+    | '/$locale/newsletter/confirm'
     | '/$locale/psychologists/$id'
     | '/$locale/services/consulting-for-organizations'
     | '/$locale/session/$sessionId'
@@ -2306,6 +2330,7 @@ export interface RootRouteChildren {
   IntakeBookingIdRoute: typeof IntakeBookingIdRoute
   InviteCodeRoute: typeof InviteCodeRoute
   LearnSlugRoute: typeof LearnSlugRoute
+  NewsletterConfirmRoute: typeof NewsletterConfirmRoute
   OpsWorkspaceRoute: typeof OpsWorkspaceRouteWithChildren
   OpsPreviewRoute: typeof OpsPreviewRoute
   PsychologistsIdRoute: typeof PsychologistsIdRoute
@@ -2352,6 +2377,7 @@ export interface RootRouteChildren {
   LocaleIntakeBookingIdRoute: typeof LocaleIntakeBookingIdRoute
   LocaleInviteCodeRoute: typeof LocaleInviteCodeRoute
   LocaleLearnSlugRoute: typeof LocaleLearnSlugRoute
+  LocaleNewsletterConfirmRoute: typeof LocaleNewsletterConfirmRoute
   LocalePsychologistsIdRoute: typeof LocalePsychologistsIdRoute
   LocaleServicesConsultingForOrganizationsRoute: typeof LocaleServicesConsultingForOrganizationsRoute
   LocaleSessionSessionIdRoute: typeof LocaleSessionSessionIdRoute
@@ -3169,6 +3195,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LearnSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/newsletter/confirm': {
+      id: '/newsletter/confirm'
+      path: '/newsletter/confirm'
+      fullPath: '/newsletter/confirm'
+      preLoaderRoute: typeof NewsletterConfirmRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/ops/': {
       id: '/ops/'
       path: '/ops'
@@ -3484,6 +3517,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LocaleLearnSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/$locale/newsletter/confirm': {
+      id: '/$locale/newsletter/confirm'
+      path: '/$locale/newsletter/confirm'
+      fullPath: '/$locale/newsletter/confirm'
+      preLoaderRoute: typeof LocaleNewsletterConfirmRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/$locale/psychologists/': {
       id: '/$locale/psychologists/'
       path: '/$locale/psychologists'
@@ -3763,6 +3803,7 @@ const rootRouteChildren: RootRouteChildren = {
   IntakeBookingIdRoute: IntakeBookingIdRoute,
   InviteCodeRoute: InviteCodeRoute,
   LearnSlugRoute: LearnSlugRoute,
+  NewsletterConfirmRoute: NewsletterConfirmRoute,
   OpsWorkspaceRoute: OpsWorkspaceRouteWithChildren,
   OpsPreviewRoute: OpsPreviewRoute,
   PsychologistsIdRoute: PsychologistsIdRoute,
@@ -3812,6 +3853,7 @@ const rootRouteChildren: RootRouteChildren = {
   LocaleIntakeBookingIdRoute: LocaleIntakeBookingIdRoute,
   LocaleInviteCodeRoute: LocaleInviteCodeRoute,
   LocaleLearnSlugRoute: LocaleLearnSlugRoute,
+  LocaleNewsletterConfirmRoute: LocaleNewsletterConfirmRoute,
   LocalePsychologistsIdRoute: LocalePsychologistsIdRoute,
   LocaleServicesConsultingForOrganizationsRoute:
     LocaleServicesConsultingForOrganizationsRoute,

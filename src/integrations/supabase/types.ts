@@ -646,6 +646,216 @@ export type Database = {
         };
         Relationships: [];
       };
+      automation_settings: {
+        Row: {
+          id: boolean;
+          newsletter_enabled: boolean;
+          newsletter_review_days: number;
+          social_auto_publish: boolean;
+          social_networks: string[];
+          updated_at: string;
+        };
+        Insert: {
+          id?: boolean;
+          newsletter_enabled?: boolean;
+          newsletter_review_days?: number;
+          social_auto_publish?: boolean;
+          social_networks?: string[];
+          updated_at?: string;
+        };
+        Update: {
+          id?: boolean;
+          newsletter_enabled?: boolean;
+          newsletter_review_days?: number;
+          social_auto_publish?: boolean;
+          social_networks?: string[];
+          updated_at?: string;
+        };
+        Relationships: [];
+      };
+      automation_runs: {
+        Row: {
+          finished_at: string | null;
+          id: number;
+          job: string;
+          ok: boolean | null;
+          started_at: string;
+          summary: Json;
+        };
+        Insert: {
+          finished_at?: string | null;
+          id?: number;
+          job: string;
+          ok?: boolean | null;
+          started_at?: string;
+          summary?: Json;
+        };
+        Update: {
+          finished_at?: string | null;
+          id?: number;
+          job?: string;
+          ok?: boolean | null;
+          started_at?: string;
+          summary?: Json;
+        };
+        Relationships: [];
+      };
+      newsletter_subscribers: {
+        Row: {
+          confirm_token: string | null;
+          confirmation_sent_at: string | null;
+          confirmed_at: string | null;
+          consent_evidence: Json;
+          created_at: string;
+          email: string;
+          id: string;
+          locale: string;
+          source: string | null;
+          status: string;
+          unsubscribed_at: string | null;
+        };
+        Insert: {
+          confirm_token?: string | null;
+          confirmation_sent_at?: string | null;
+          confirmed_at?: string | null;
+          consent_evidence?: Json;
+          created_at?: string;
+          email: string;
+          id?: string;
+          locale?: string;
+          source?: string | null;
+          status?: string;
+          unsubscribed_at?: string | null;
+        };
+        Update: {
+          confirm_token?: string | null;
+          confirmation_sent_at?: string | null;
+          confirmed_at?: string | null;
+          consent_evidence?: Json;
+          created_at?: string;
+          email?: string;
+          id?: string;
+          locale?: string;
+          source?: string | null;
+          status?: string;
+          unsubscribed_at?: string | null;
+        };
+        Relationships: [];
+      };
+      newsletter_issues: {
+        Row: {
+          created_at: string;
+          error: string | null;
+          id: string;
+          intro_en: string | null;
+          intro_fr: string | null;
+          items: Json;
+          period: string;
+          recipients: number;
+          scheduled_for: string;
+          sent: number;
+          sent_at: string | null;
+          status: string;
+        };
+        Insert: {
+          created_at?: string;
+          error?: string | null;
+          id?: string;
+          intro_en?: string | null;
+          intro_fr?: string | null;
+          items?: Json;
+          period: string;
+          recipients?: number;
+          scheduled_for: string;
+          sent?: number;
+          sent_at?: string | null;
+          status?: string;
+        };
+        Update: {
+          created_at?: string;
+          error?: string | null;
+          id?: string;
+          intro_en?: string | null;
+          intro_fr?: string | null;
+          items?: Json;
+          period?: string;
+          recipients?: number;
+          scheduled_for?: string;
+          sent?: number;
+          sent_at?: string | null;
+          status?: string;
+        };
+        Relationships: [];
+      };
+      newsletter_deliveries: {
+        Row: {
+          created_at: string;
+          email: string;
+          issue_id: string;
+          status: string;
+        };
+        Insert: {
+          created_at?: string;
+          email: string;
+          issue_id: string;
+          status: string;
+        };
+        Update: {
+          created_at?: string;
+          email?: string;
+          issue_id?: string;
+          status?: string;
+        };
+        Relationships: [];
+      };
+      social_posts: {
+        Row: {
+          attempts: number;
+          caption: string;
+          created_at: string;
+          error: string | null;
+          external_id: string | null;
+          id: string;
+          image_url: string | null;
+          link: string;
+          network: string;
+          published_at: string | null;
+          scheduled_for: string;
+          slug: string;
+          status: string;
+        };
+        Insert: {
+          attempts?: number;
+          caption: string;
+          created_at?: string;
+          error?: string | null;
+          external_id?: string | null;
+          id?: string;
+          image_url?: string | null;
+          link: string;
+          network: string;
+          published_at?: string | null;
+          scheduled_for?: string;
+          slug: string;
+          status?: string;
+        };
+        Update: {
+          attempts?: number;
+          caption?: string;
+          created_at?: string;
+          error?: string | null;
+          external_id?: string | null;
+          id?: string;
+          image_url?: string | null;
+          link?: string;
+          network?: string;
+          published_at?: string | null;
+          scheduled_for?: string;
+          slug?: string;
+          status?: string;
+        };
+        Relationships: [];
+      };
       athlete_profiles: {
         Row: {
           coach_id: string | null;
@@ -7195,6 +7405,30 @@ export type Database = {
       };
     };
     Functions: {
+      admin_email_health: {
+        Args: never;
+        Returns: Json;
+      };
+      admin_cron_status: {
+        Args: never;
+        Returns: {
+          jobname: string;
+          schedule: string;
+          active: boolean;
+          last_start: string | null;
+          last_status: string | null;
+          last_message: string | null;
+          failures_24h: number;
+        }[];
+      };
+      newsletter_confirm: {
+        Args: { p_token: string };
+        Returns: boolean;
+      };
+      newsletter_subscribe: {
+        Args: { p_email: string; p_locale?: string; p_source?: string };
+        Returns: undefined;
+      };
       league_applications: {
         Args: never;
         Returns: {

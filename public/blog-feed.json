@@ -1,0 +1,350 @@
+{
+  "version": 1,
+  "items": [
+    {
+      "slug": "athlete-burnout",
+      "date": "2026-10-20",
+      "legacy": false,
+      "url": {
+        "en": "https://www.upsy.ma/blog/athlete-burnout",
+        "fr": "https://www.upsy.ma/fr/blog/athlete-burnout"
+      },
+      "title": {
+        "en": "Athlete burnout: recognise it early, prevent it for good",
+        "fr": "Le burn-out du sportif : le repérer tôt, le prévenir durablement"
+      },
+      "description": {
+        "en": "Exhausted, less effective, and losing the love for your sport? These are the three signs of athlete burnout. What causes it and how to protect yourself.",
+        "fr": "Épuisé, moins efficace et en train de perdre l'amour de votre sport ? Ce sont les trois signes du burn-out sportif. Ses causes, et comment vous protéger."
+      },
+      "category": {
+        "en": "Sport psychology",
+        "fr": "Psychologie du sport"
+      },
+      "readMinutes": 6,
+      "image": "https://www.upsy.ma/social/athlete-burnout.jpg"
+    },
+    {
+      "slug": "injury-recovery-psychology",
+      "date": "2026-10-20",
+      "legacy": false,
+      "url": {
+        "en": "https://www.upsy.ma/blog/injury-recovery-psychology",
+        "fr": "https://www.upsy.ma/fr/blog/injury-recovery-psychology"
+      },
+      "title": {
+        "en": "Coming back from injury: the mental side of recovery",
+        "fr": "Revenir de blessure : le versant mental de la récupération"
+      },
+      "description": {
+        "en": "Injury hurts the body and often the mind. What athletes go through after an injury, why fear of re-injury matters, and how to prepare the head for return to play.",
+        "fr": "Une blessure touche le corps et souvent le mental. Ce que vivent les sportifs après une blessure, pourquoi la peur de la rechute compte, et comment préparer la tête au retour au jeu."
+      },
+      "category": {
+        "en": "Sport psychology",
+        "fr": "Psychologie du sport"
+      },
+      "readMinutes": 7,
+      "image": "https://www.upsy.ma/social/injury-recovery-psychology.jpg"
+    },
+    {
+      "slug": "mental-imagery-for-athletes",
+      "date": "2026-10-20",
+      "legacy": false,
+      "url": {
+        "en": "https://www.upsy.ma/blog/mental-imagery-for-athletes",
+        "fr": "https://www.upsy.ma/fr/blog/mental-imagery-for-athletes"
+      },
+      "title": {
+        "en": "Mental imagery for athletes: how to train in your head",
+        "fr": "L'imagerie mentale pour les sportifs : s'entraîner dans sa tête"
+      },
+      "description": {
+        "en": "Imagery is one of the best-studied tools in sport psychology. Here is how to practise it properly, step by step, with the PETTLEP method.",
+        "fr": "L'imagerie est l'un des outils les plus étudiés en psychologie du sport. Voici comment la pratiquer correctement, étape par étape, avec la méthode PETTLEP."
+      },
+      "category": {
+        "en": "Sport psychology",
+        "fr": "Psychologie du sport"
+      },
+      "readMinutes": 6,
+      "image": "https://www.upsy.ma/social/mental-imagery-for-athletes.jpg"
+    },
+    {
+      "slug": "pre-competition-anxiety",
+      "date": "2026-10-20",
+      "legacy": false,
+      "url": {
+        "en": "https://www.upsy.ma/blog/pre-competition-anxiety",
+        "fr": "https://www.upsy.ma/fr/blog/pre-competition-anxiety"
+      },
+      "title": {
+        "en": "Pre-competition anxiety: understand it, then use it",
+        "fr": "Anxiété pré-compétitive : la comprendre, puis s'en servir"
+      },
+      "description": {
+        "en": "Butterflies before a match are normal. What matters is how you read them. A sport psychologist's guide to turning pre-competition nerves into focus.",
+        "fr": "Le trac avant un match est normal. Tout dépend de la façon dont vous le lisez. Le guide d'un psychologue du sport pour transformer la pression en concentration."
+      },
+      "category": {
+        "en": "Sport psychology",
+        "fr": "Psychologie du sport"
+      },
+      "readMinutes": 7,
+      "image": "https://www.upsy.ma/social/pre-competition-anxiety.jpg"
+    },
+    {
+      "slug": "when-to-see-a-sport-psychologist",
+      "date": "2026-10-20",
+      "legacy": false,
+      "url": {
+        "en": "https://www.upsy.ma/blog/when-to-see-a-sport-psychologist",
+        "fr": "https://www.upsy.ma/fr/blog/when-to-see-a-sport-psychologist"
+      },
+      "title": {
+        "en": "When should an athlete see a sport psychologist?",
+        "fr": "Quand un sportif devrait-il consulter un psychologue du sport ?"
+      },
+      "description": {
+        "en": "You don't need to be in crisis to work with a sport psychologist. What they do, the myths that hold athletes back, and what a first session looks like.",
+        "fr": "Pas besoin d'être en crise pour travailler avec un psychologue du sport. Ce qu'il fait, les idées reçues qui freinent les sportifs, et à quoi ressemble une première séance."
+      },
+      "category": {
+        "en": "Guide",
+        "fr": "Guide"
+      },
+      "readMinutes": 5,
+      "image": "https://www.upsy.ma/social/when-to-see-a-sport-psychologist.jpg"
+    },
+    {
+      "slug": "benefits-online-therapy",
+      "date": "2026-03-01",
+      "legacy": true,
+      "url": {
+        "en": "https://www.upsy.ma/blog/benefits-online-therapy",
+        "fr": "https://www.upsy.ma/fr/blog/benefits-online-therapy"
+      },
+      "title": {
+        "en": "The Benefits of Online Therapy",
+        "fr": "Les Avantages de la Thérapie en Ligne"
+      },
+      "description": {
+        "en": "Online therapy has transformed mental health care. Discover why more people are choosing virtual sessions.",
+        "fr": "La thérapie en ligne a transformé les soins de santé mentale. Découvrez pourquoi de plus en plus de personnes choisissent les séances virtuelles."
+      },
+      "category": {
+        "en": "Guide",
+        "fr": "Guide"
+      },
+      "readMinutes": 4,
+      "image": "https://www.upsy.ma/social/benefits-online-therapy.jpg"
+    },
+    {
+      "slug": "do-i-need-therapy",
+      "date": "2026-03-01",
+      "legacy": true,
+      "url": {
+        "en": "https://www.upsy.ma/blog/do-i-need-therapy",
+        "fr": "https://www.upsy.ma/fr/blog/do-i-need-therapy"
+      },
+      "title": {
+        "en": "Do I Need Therapy?",
+        "fr": "Ai-je Besoin d'une Thérapie ?"
+      },
+      "description": {
+        "en": "If you're asking this question, you're already taking a brave step. Here's how to recognize when professional support could help.",
+        "fr": "Si vous vous posez cette question, vous faites déjà un pas courageux. Voici comment reconnaître quand un soutien professionnel peut aider."
+      },
+      "category": {
+        "en": "Mental Health",
+        "fr": "Santé mentale"
+      },
+      "readMinutes": 6,
+      "image": "https://www.upsy.ma/social/do-i-need-therapy.jpg"
+    },
+    {
+      "slug": "find-right-psychologist",
+      "date": "2026-03-01",
+      "legacy": true,
+      "url": {
+        "en": "https://www.upsy.ma/blog/find-right-psychologist",
+        "fr": "https://www.upsy.ma/fr/blog/find-right-psychologist"
+      },
+      "title": {
+        "en": "How to Find the Right Psychologist for You",
+        "fr": "Comment Trouver le Bon Psychologue pour Vous"
+      },
+      "description": {
+        "en": "Finding the right psychologist can feel overwhelming. This guide breaks down the process into simple, actionable steps so you can make a confident choice.",
+        "fr": "Trouver le bon psychologue peut sembler complexe. Ce guide décompose le processus en étapes simples et concrètes."
+      },
+      "category": {
+        "en": "Guide",
+        "fr": "Guide"
+      },
+      "readMinutes": 5,
+      "image": "https://www.upsy.ma/social/find-right-psychologist.jpg"
+    },
+    {
+      "slug": "how-to-clear-brain-fog",
+      "date": "2026-03-01",
+      "legacy": true,
+      "url": {
+        "en": "https://www.upsy.ma/blog/how-to-clear-brain-fog",
+        "fr": "https://www.upsy.ma/fr/blog/how-to-clear-brain-fog"
+      },
+      "title": {
+        "en": "How to Clear Brain Fog — Causes, Fixes and When to See a Doctor",
+        "fr": "How to Clear Brain Fog — Causes, Fixes and When to See a Doctor"
+      },
+      "description": {
+        "en": "Brain fog is a signal, not a personality flaw. The five most common drivers, a 2-week clarity protocol, and the bloodwork to ask for.",
+        "fr": "Brain fog is a signal, not a personality flaw. The five most common drivers, a 2-week clarity protocol, and the bloodwork to ask for."
+      },
+      "category": {
+        "en": "Performance",
+        "fr": "Performance"
+      },
+      "readMinutes": 7,
+      "image": "https://www.upsy.ma/social/how-to-clear-brain-fog.jpg"
+    },
+    {
+      "slug": "how-to-improve-focus",
+      "date": "2026-03-01",
+      "legacy": true,
+      "url": {
+        "en": "https://www.upsy.ma/blog/how-to-improve-focus",
+        "fr": "https://www.upsy.ma/fr/blog/how-to-improve-focus"
+      },
+      "title": {
+        "en": "How to Improve Focus and Concentration",
+        "fr": "How to Improve Focus and Concentration"
+      },
+      "description": {
+        "en": "Focus is not a personality trait — it's a trainable skill. The four evidence-based levers, a 4-week protocol, and when to get help.",
+        "fr": "Focus is not a personality trait — it's a trainable skill. The four evidence-based levers, a 4-week protocol, and when to get help."
+      },
+      "category": {
+        "en": "Performance",
+        "fr": "Performance"
+      },
+      "readMinutes": 7,
+      "image": "https://www.upsy.ma/social/how-to-improve-focus.jpg"
+    },
+    {
+      "slug": "how-to-support-a-loved-one",
+      "date": "2026-03-01",
+      "legacy": true,
+      "url": {
+        "en": "https://www.upsy.ma/blog/how-to-support-a-loved-one",
+        "fr": "https://www.upsy.ma/fr/blog/how-to-support-a-loved-one"
+      },
+      "title": {
+        "en": "How to Support a Loved One with Mental Health Challenges",
+        "fr": "Comment Soutenir un Proche en Difficulté Psychologique"
+      },
+      "description": {
+        "en": "When someone you care about is struggling, knowing what to say — and what not to say — can make all the difference.",
+        "fr": "Quand quelqu'un que vous aimez souffre, savoir quoi dire — et quoi ne pas dire — peut faire toute la différence."
+      },
+      "category": {
+        "en": "Guide",
+        "fr": "Guide"
+      },
+      "readMinutes": 5,
+      "image": "https://www.upsy.ma/social/how-to-support-a-loved-one.jpg"
+    },
+    {
+      "slug": "mental-health-at-work",
+      "date": "2026-03-01",
+      "legacy": true,
+      "url": {
+        "en": "https://www.upsy.ma/blog/mental-health-at-work",
+        "fr": "https://www.upsy.ma/fr/blog/mental-health-at-work"
+      },
+      "title": {
+        "en": "Mental Health at Work: Why It Matters",
+        "fr": "La Santé Mentale au Travail : Pourquoi C'est Important"
+      },
+      "description": {
+        "en": "Work is one of the biggest factors affecting our mental health. Learn how to recognize burnout and create healthier boundaries.",
+        "fr": "Le travail est l'un des plus grands facteurs affectant notre santé mentale. Apprenez à reconnaître l'épuisement professionnel et à créer des limites saines."
+      },
+      "category": {
+        "en": "Workplace",
+        "fr": "Milieu professionnel"
+      },
+      "readMinutes": 6,
+      "image": "https://www.upsy.ma/social/mental-health-at-work.jpg"
+    },
+    {
+      "slug": "mindfulness-for-beginners",
+      "date": "2026-03-01",
+      "legacy": true,
+      "url": {
+        "en": "https://www.upsy.ma/blog/mindfulness-for-beginners",
+        "fr": "https://www.upsy.ma/fr/blog/mindfulness-for-beginners"
+      },
+      "title": {
+        "en": "Mindfulness for Beginners: A Practical Guide",
+        "fr": "Pleine Conscience pour Débutants : Guide Pratique"
+      },
+      "description": {
+        "en": "Mindfulness isn't about emptying your mind. It's about paying attention to the present moment — without judgment.",
+        "fr": "La pleine conscience ne consiste pas à vider votre esprit. C'est porter attention au moment présent — sans jugement."
+      },
+      "category": {
+        "en": "Wellness",
+        "fr": "Bien-être"
+      },
+      "readMinutes": 6,
+      "image": "https://www.upsy.ma/social/mindfulness-for-beginners.jpg"
+    },
+    {
+      "slug": "understanding-anxiety",
+      "date": "2026-03-01",
+      "legacy": true,
+      "url": {
+        "en": "https://www.upsy.ma/blog/understanding-anxiety",
+        "fr": "https://www.upsy.ma/fr/blog/understanding-anxiety"
+      },
+      "title": {
+        "en": "Understanding Anxiety: What It Is and How to Manage It",
+        "fr": "Comprendre l'Anxiété : Ce Que C'est et Comment la Gérer"
+      },
+      "description": {
+        "en": "Anxiety is one of the most common mental health experiences. Learn what it really means and practical steps to manage it.",
+        "fr": "L'anxiété est l'une des expériences de santé mentale les plus courantes. Découvrez ce qu'elle signifie vraiment et des étapes pratiques pour la gérer."
+      },
+      "category": {
+        "en": "Mental Health",
+        "fr": "Santé mentale"
+      },
+      "readMinutes": 5,
+      "image": "https://www.upsy.ma/social/understanding-anxiety.jpg"
+    },
+    {
+      "slug": "understanding-depression",
+      "date": "2026-03-01",
+      "legacy": true,
+      "url": {
+        "en": "https://www.upsy.ma/blog/understanding-depression",
+        "fr": "https://www.upsy.ma/fr/blog/understanding-depression"
+      },
+      "title": {
+        "en": "Understanding Depression: More Than Just Sadness",
+        "fr": "Comprendre la Dépression : Plus Qu'une Simple Tristesse"
+      },
+      "description": {
+        "en": "Depression is one of the most common mental health conditions worldwide. Understanding what it really is — and what it isn't — is the first step toward recovery.",
+        "fr": "La dépression est l'une des conditions de santé mentale les plus courantes au monde. Comprendre ce qu'elle est vraiment est la première étape vers la guérison."
+      },
+      "category": {
+        "en": "Mental Health",
+        "fr": "Santé mentale"
+      },
+      "readMinutes": 5,
+      "image": "https://www.upsy.ma/social/understanding-depression.jpg"
+    }
+  ]
+}

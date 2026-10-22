@@ -3,6 +3,7 @@ import { ArrowRight, Clock } from "lucide-react";
 import { useLocale } from "@/contexts/LocaleContext";
 import { addLocalePrefix } from "@/lib/i18n/utils";
 import { ARTICLES, articleLang } from "@/content/blog/articles";
+import NewsletterSignup from "@/components/NewsletterSignup";
 
 type Related = {
   slug: string;
@@ -125,6 +126,9 @@ const RelatedArticles = ({ currentSlug }: { currentSlug: string }) => {
             </p>
           </Link>
         ))}
+      </div>
+      <div className="glass-card p-6 mt-8 max-w-xl">
+        <NewsletterSignup source="blog" />
       </div>
     </section>
   );
