@@ -77,8 +77,10 @@ const Psychologists = () => {
     specialties: [],
     languages: [],
     therapyApproaches: [],
-    city: "",
-    online: false,
+    // ?city= comes from the city landing pages (/psychologue/<city>).
+    city: searchParams.get("city")?.slice(0, 60) ?? "",
+    // ?online=1 comes from the online-therapy landing pages.
+    online: searchParams.get("online") === "1",
     inPerson: false,
     gender: "",
     availability: "",

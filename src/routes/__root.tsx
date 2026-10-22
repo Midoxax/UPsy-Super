@@ -9,6 +9,7 @@ import {
   Scripts,
   useLocation,
   useRouter,
+  useRouterState,
   type ErrorComponentProps,
 } from "@tanstack/react-router";
 // Imported for its side effect, not as a URL.
@@ -38,6 +39,7 @@ import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { LocaleProvider } from "@/contexts/LocaleContext";
 import { ThemeProvider } from "@/contexts/ThemeContext";
 import { stripLocalePrefix } from "@/lib/i18n/utils";
+import { seoForPath } from "@/lib/seo/meta";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import SkipToContent from "@/components/SkipToContent";
@@ -132,120 +134,119 @@ const JSONLD_ORG = JSON.stringify({
   },
 });
 
-const DEFAULT_TITLE = "U.Psy — Performance Psychology Platform for Morocco";
-const DEFAULT_DESCRIPTION =
-  "Book accredited psychologists worldwide. Video sessions in any timezone, or in-person in select cities. Free rebook if not the right fit.";
-
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
   {
-    head: () => ({
-      meta: [
-        { charSet: "utf-8" },
-        { name: "viewport", content: "width=device-width, initial-scale=1.0" },
-        { title: DEFAULT_TITLE },
-        { name: "description", content: DEFAULT_DESCRIPTION },
-        {
-          name: "keywords",
-          content:
-            "Mehdi Felji, UPsy, U.Psy, mental health platform, psychology platform, therapy, find psychologist, online therapy, mental health support, self assessment psychology, therapy matching, digital mental health",
-        },
-        { name: "author", content: "Mehdi Felji" },
-        {
-          name: "google-site-verification",
-          content: "ODHFtEUxPdKxliJLEqr4fI3CJC3ZznJnFB5vBzNpwqE",
-        },
-        { name: "theme-color", content: "#6B1F2A" },
-        { name: "apple-mobile-web-app-capable", content: "yes" },
-        {
-          name: "apple-mobile-web-app-status-bar-style",
-          content: "black-translucent",
-        },
-        { name: "apple-mobile-web-app-title", content: "U.Psy" },
-        { property: "og:type", content: "website" },
-        { property: "og:site_name", content: "U.Psy" },
-        { property: "og:title", content: DEFAULT_TITLE },
-        { property: "og:description", content: DEFAULT_DESCRIPTION },
-        { property: "og:locale", content: "en_US" },
-        { property: "og:locale:alternate", content: "fr_FR" },
-        { property: "og:locale:alternate", content: "ar_MA" },
-        { property: "og:image", content: "https://www.upsy.ma/og-image.jpg" },
-        { property: "og:image:alt", content: "U.Psy logo" },
-        { property: "og:image:type", content: "image/jpeg" },
-        { property: "og:image:width", content: "1920" },
-        { property: "og:image:height", content: "1080" },
-        { property: "og:url", content: "https://www.upsy.ma/" },
-        { name: "twitter:card", content: "summary_large_image" },
-        { name: "twitter:site", content: "@upsy_ma" },
-        { name: "twitter:title", content: DEFAULT_TITLE },
-        {
-          name: "twitter:description",
-          content:
-            "Book accredited psychologists worldwide. Video sessions in any timezone, or in-person in select cities.",
-        },
-        { name: "twitter:image", content: "https://www.upsy.ma/og-image.jpg" },
-        { name: "twitter:image:alt", content: "U.Psy logo" },
-      ],
-      links: [
-        { rel: "manifest", href: "/manifest.webmanifest" },
-        { rel: "icon", href: "/favicon.ico", sizes: "any" },
-        {
-          rel: "icon",
-          type: "image/png",
-          sizes: "16x16",
-          href: "/favicon-16x16.png",
-        },
-        {
-          rel: "icon",
-          type: "image/png",
-          sizes: "32x32",
-          href: "/favicon-32x32.png",
-        },
-        {
-          rel: "icon",
-          type: "image/png",
-          sizes: "48x48",
-          href: "/favicon-48x48.png",
-        },
-        {
-          rel: "icon",
-          type: "image/png",
-          sizes: "192x192",
-          href: "/icon-192.png",
-        },
-        {
-          rel: "icon",
-          type: "image/png",
-          sizes: "512x512",
-          href: "/icon-512.png",
-        },
-        {
-          rel: "apple-touch-icon",
-          sizes: "180x180",
-          href: "/apple-touch-icon.png",
-        },
-        { rel: "mask-icon", href: "/favicon.png", color: "#6B1F2A" },
-        {
-          rel: "preconnect",
-          href: "https://skxxvgjjdshcopybokdt.supabase.co",
-          crossOrigin: "anonymous",
-        },
-        { rel: "canonical", href: "https://www.upsy.ma/" },
-        {
-          rel: "alternate",
-          hrefLang: "x-default",
-          href: "https://www.upsy.ma/",
-        },
-        { rel: "alternate", hrefLang: "en", href: "https://www.upsy.ma/" },
-        { rel: "alternate", hrefLang: "fr", href: "https://www.upsy.ma/fr/" },
-        { rel: "alternate", hrefLang: "ar", href: "https://www.upsy.ma/ar/" },
-      ],
-      scripts: [
-        { children: CONSENT_BOOTSTRAP },
-        { children: THEME_BOOTSTRAP },
-        { type: "application/ld+json", children: JSONLD_WEBSITE },
-        { type: "application/ld+json", children: JSONLD_ORG },
-      ],
-    }),
+    head: ({ matches }) => {
+      const seo = seoForPath(matches[matches.length - 1]?.pathname ?? "/");
+      return {
+        meta: [
+          { charSet: "utf-8" },
+          {
+            name: "viewport",
+            content: "width=device-width, initial-scale=1.0",
+          },
+          { title: seo.title },
+          { name: "description", content: seo.description },
+          ...(seo.noindex
+            ? [{ name: "robots", content: "noindex, follow" }]
+            : []),
+          {
+            name: "keywords",
+            content:
+              "Mehdi Felji, UPsy, U.Psy, mental health platform, psychology platform, therapy, find psychologist, online therapy, mental health support, self assessment psychology, therapy matching, digital mental health",
+          },
+          { name: "author", content: "Mehdi Felji" },
+          {
+            name: "google-site-verification",
+            content: "ODHFtEUxPdKxliJLEqr4fI3CJC3ZznJnFB5vBzNpwqE",
+          },
+          { name: "theme-color", content: "#6B1F2A" },
+          { name: "apple-mobile-web-app-capable", content: "yes" },
+          {
+            name: "apple-mobile-web-app-status-bar-style",
+            content: "black-translucent",
+          },
+          { name: "apple-mobile-web-app-title", content: "U.Psy" },
+          { property: "og:type", content: "website" },
+          { property: "og:site_name", content: "U.Psy" },
+          { property: "og:title", content: seo.title },
+          { property: "og:description", content: seo.description },
+          { property: "og:locale", content: seo.ogLocale },
+          { property: "og:image", content: "https://www.upsy.ma/og-image.jpg" },
+          { property: "og:image:alt", content: "U.Psy logo" },
+          { property: "og:image:type", content: "image/jpeg" },
+          { property: "og:image:width", content: "1920" },
+          { property: "og:image:height", content: "1080" },
+          { property: "og:url", content: seo.canonical },
+          { name: "twitter:card", content: "summary_large_image" },
+          { name: "twitter:site", content: "@upsy_ma" },
+          { name: "twitter:title", content: seo.title },
+          { name: "twitter:description", content: seo.description },
+          {
+            name: "twitter:image",
+            content: "https://www.upsy.ma/og-image.jpg",
+          },
+          { name: "twitter:image:alt", content: "U.Psy logo" },
+        ],
+        links: [
+          { rel: "manifest", href: "/manifest.webmanifest" },
+          { rel: "icon", href: "/favicon.ico", sizes: "any" },
+          {
+            rel: "icon",
+            type: "image/png",
+            sizes: "16x16",
+            href: "/favicon-16x16.png",
+          },
+          {
+            rel: "icon",
+            type: "image/png",
+            sizes: "32x32",
+            href: "/favicon-32x32.png",
+          },
+          {
+            rel: "icon",
+            type: "image/png",
+            sizes: "48x48",
+            href: "/favicon-48x48.png",
+          },
+          {
+            rel: "icon",
+            type: "image/png",
+            sizes: "192x192",
+            href: "/icon-192.png",
+          },
+          {
+            rel: "icon",
+            type: "image/png",
+            sizes: "512x512",
+            href: "/icon-512.png",
+          },
+          {
+            rel: "apple-touch-icon",
+            sizes: "180x180",
+            href: "/apple-touch-icon.png",
+          },
+          { rel: "mask-icon", href: "/favicon.png", color: "#6B1F2A" },
+          {
+            rel: "preconnect",
+            href: "https://skxxvgjjdshcopybokdt.supabase.co",
+            crossOrigin: "anonymous",
+          },
+          { rel: "canonical", href: seo.canonical },
+          ...seo.alternates.map((a) => ({
+            rel: "alternate",
+            hrefLang: a.hrefLang,
+            href: a.href,
+          })),
+        ],
+        scripts: [
+          { children: CONSENT_BOOTSTRAP },
+          { children: THEME_BOOTSTRAP },
+          { type: "application/ld+json", children: JSONLD_WEBSITE },
+          { type: "application/ld+json", children: JSONLD_ORG },
+        ],
+      };
+    },
     // Resolve A/B buckets before the first byte of HTML, so SSR and hydration
     // agree on which variant the visitor sees. staleTime keeps this from
     // re-running (and re-hitting the server) on client-side navigation.
@@ -268,8 +269,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 );
 
 function RootShell({ children }: { children: React.ReactNode }) {
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const { lang, dir } = seoForPath(pathname);
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang={lang} dir={dir} suppressHydrationWarning>
       <head>
         <HeadContent />
       </head>

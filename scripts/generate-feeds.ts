@@ -114,6 +114,25 @@ ${items
   writeFileSync(resolve("public", file), rss);
 }
 
+// French titles of the page-based posts, for server-rendered <title> tags
+// (the app loads the French locale file lazily; the head needs it at once).
+writeFileSync(
+  resolve("src/content/blog/legacy-fr.generated.json"),
+  JSON.stringify(
+    Object.fromEntries(
+      LEGACY_POSTS.map((p) => [
+        p.slug,
+        {
+          title: frText(p.titleKey, p.fallbackTitle),
+          description: frText(p.descKey, p.fallbackDesc),
+        },
+      ]),
+    ),
+    null,
+    2,
+  ) + "\n",
+);
+
 console.log(
   `Feeds: ${items.length} posts → blog-feed.json, rss.xml, rss-fr.xml`,
 );

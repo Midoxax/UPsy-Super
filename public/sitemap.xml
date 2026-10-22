@@ -865,6 +865,870 @@
     <xhtml:link rel="alternate" hreflang="ar" href="https://www.upsy.ma/ar/explore" />
   </url>
   <url>
+    <loc>https://www.upsy.ma/psychologue/casablanca</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.upsy.ma/psychologue/casablanca" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.upsy.ma/psychologue/casablanca" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.upsy.ma/fr/psychologue/casablanca" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.upsy.ma/ar/psychologue/casablanca" />
+  </url>
+  <url>
+    <loc>https://www.upsy.ma/fr/psychologue/casablanca</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.upsy.ma/psychologue/casablanca" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.upsy.ma/psychologue/casablanca" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.upsy.ma/fr/psychologue/casablanca" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.upsy.ma/ar/psychologue/casablanca" />
+  </url>
+  <url>
+    <loc>https://www.upsy.ma/ar/psychologue/casablanca</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.upsy.ma/psychologue/casablanca" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.upsy.ma/psychologue/casablanca" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.upsy.ma/fr/psychologue/casablanca" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.upsy.ma/ar/psychologue/casablanca" />
+  </url>
+  <url>
+    <loc>https://www.upsy.ma/psychologue/rabat</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.upsy.ma/psychologue/rabat" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.upsy.ma/psychologue/rabat" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.upsy.ma/fr/psychologue/rabat" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.upsy.ma/ar/psychologue/rabat" />
+  </url>
+  <url>
+    <loc>https://www.upsy.ma/fr/psychologue/rabat</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.upsy.ma/psychologue/rabat" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.upsy.ma/psychologue/rabat" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.upsy.ma/fr/psychologue/rabat" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.upsy.ma/ar/psychologue/rabat" />
+  </url>
+  <url>
+    <loc>https://www.upsy.ma/ar/psychologue/rabat</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.upsy.ma/psychologue/rabat" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.upsy.ma/psychologue/rabat" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.upsy.ma/fr/psychologue/rabat" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.upsy.ma/ar/psychologue/rabat" />
+  </url>
+  <url>
+    <loc>https://www.upsy.ma/psychologue/marrakech</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.upsy.ma/psychologue/marrakech" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.upsy.ma/psychologue/marrakech" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.upsy.ma/fr/psychologue/marrakech" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.upsy.ma/ar/psychologue/marrakech" />
+  </url>
+  <url>
+    <loc>https://www.upsy.ma/fr/psychologue/marrakech</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.upsy.ma/psychologue/marrakech" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.upsy.ma/psychologue/marrakech" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.upsy.ma/fr/psychologue/marrakech" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.upsy.ma/ar/psychologue/marrakech" />
+  </url>
+  <url>
+    <loc>https://www.upsy.ma/ar/psychologue/marrakech</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.upsy.ma/psychologue/marrakech" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.upsy.ma/psychologue/marrakech" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.upsy.ma/fr/psychologue/marrakech" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.upsy.ma/ar/psychologue/marrakech" />
+  </url>
+  <url>
+    <loc>https://www.upsy.ma/psychologue/fes</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.upsy.ma/psychologue/fes" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.upsy.ma/psychologue/fes" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.upsy.ma/fr/psychologue/fes" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.upsy.ma/ar/psychologue/fes" />
+  </url>
+  <url>
+    <loc>https://www.upsy.ma/fr/psychologue/fes</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.upsy.ma/psychologue/fes" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.upsy.ma/psychologue/fes" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.upsy.ma/fr/psychologue/fes" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.upsy.ma/ar/psychologue/fes" />
+  </url>
+  <url>
+    <loc>https://www.upsy.ma/ar/psychologue/fes</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.upsy.ma/psychologue/fes" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.upsy.ma/psychologue/fes" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.upsy.ma/fr/psychologue/fes" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.upsy.ma/ar/psychologue/fes" />
+  </url>
+  <url>
+    <loc>https://www.upsy.ma/psychologue/tanger</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.upsy.ma/psychologue/tanger" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.upsy.ma/psychologue/tanger" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.upsy.ma/fr/psychologue/tanger" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.upsy.ma/ar/psychologue/tanger" />
+  </url>
+  <url>
+    <loc>https://www.upsy.ma/fr/psychologue/tanger</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.upsy.ma/psychologue/tanger" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.upsy.ma/psychologue/tanger" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.upsy.ma/fr/psychologue/tanger" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.upsy.ma/ar/psychologue/tanger" />
+  </url>
+  <url>
+    <loc>https://www.upsy.ma/ar/psychologue/tanger</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.upsy.ma/psychologue/tanger" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.upsy.ma/psychologue/tanger" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.upsy.ma/fr/psychologue/tanger" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.upsy.ma/ar/psychologue/tanger" />
+  </url>
+  <url>
+    <loc>https://www.upsy.ma/psychologue/agadir</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.upsy.ma/psychologue/agadir" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.upsy.ma/psychologue/agadir" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.upsy.ma/fr/psychologue/agadir" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.upsy.ma/ar/psychologue/agadir" />
+  </url>
+  <url>
+    <loc>https://www.upsy.ma/fr/psychologue/agadir</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.upsy.ma/psychologue/agadir" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.upsy.ma/psychologue/agadir" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.upsy.ma/fr/psychologue/agadir" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.upsy.ma/ar/psychologue/agadir" />
+  </url>
+  <url>
+    <loc>https://www.upsy.ma/ar/psychologue/agadir</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.upsy.ma/psychologue/agadir" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.upsy.ma/psychologue/agadir" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.upsy.ma/fr/psychologue/agadir" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.upsy.ma/ar/psychologue/agadir" />
+  </url>
+  <url>
+    <loc>https://www.upsy.ma/psychologue/meknes</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.upsy.ma/psychologue/meknes" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.upsy.ma/psychologue/meknes" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.upsy.ma/fr/psychologue/meknes" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.upsy.ma/ar/psychologue/meknes" />
+  </url>
+  <url>
+    <loc>https://www.upsy.ma/fr/psychologue/meknes</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.upsy.ma/psychologue/meknes" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.upsy.ma/psychologue/meknes" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.upsy.ma/fr/psychologue/meknes" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.upsy.ma/ar/psychologue/meknes" />
+  </url>
+  <url>
+    <loc>https://www.upsy.ma/ar/psychologue/meknes</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.upsy.ma/psychologue/meknes" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.upsy.ma/psychologue/meknes" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.upsy.ma/fr/psychologue/meknes" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.upsy.ma/ar/psychologue/meknes" />
+  </url>
+  <url>
+    <loc>https://www.upsy.ma/psychologue/oujda</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.upsy.ma/psychologue/oujda" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.upsy.ma/psychologue/oujda" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.upsy.ma/fr/psychologue/oujda" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.upsy.ma/ar/psychologue/oujda" />
+  </url>
+  <url>
+    <loc>https://www.upsy.ma/fr/psychologue/oujda</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.upsy.ma/psychologue/oujda" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.upsy.ma/psychologue/oujda" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.upsy.ma/fr/psychologue/oujda" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.upsy.ma/ar/psychologue/oujda" />
+  </url>
+  <url>
+    <loc>https://www.upsy.ma/ar/psychologue/oujda</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.upsy.ma/psychologue/oujda" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.upsy.ma/psychologue/oujda" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.upsy.ma/fr/psychologue/oujda" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.upsy.ma/ar/psychologue/oujda" />
+  </url>
+  <url>
+    <loc>https://www.upsy.ma/psychologue/kenitra</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.upsy.ma/psychologue/kenitra" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.upsy.ma/psychologue/kenitra" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.upsy.ma/fr/psychologue/kenitra" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.upsy.ma/ar/psychologue/kenitra" />
+  </url>
+  <url>
+    <loc>https://www.upsy.ma/fr/psychologue/kenitra</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.upsy.ma/psychologue/kenitra" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.upsy.ma/psychologue/kenitra" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.upsy.ma/fr/psychologue/kenitra" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.upsy.ma/ar/psychologue/kenitra" />
+  </url>
+  <url>
+    <loc>https://www.upsy.ma/ar/psychologue/kenitra</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.upsy.ma/psychologue/kenitra" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.upsy.ma/psychologue/kenitra" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.upsy.ma/fr/psychologue/kenitra" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.upsy.ma/ar/psychologue/kenitra" />
+  </url>
+  <url>
+    <loc>https://www.upsy.ma/psychologue/tetouan</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.upsy.ma/psychologue/tetouan" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.upsy.ma/psychologue/tetouan" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.upsy.ma/fr/psychologue/tetouan" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.upsy.ma/ar/psychologue/tetouan" />
+  </url>
+  <url>
+    <loc>https://www.upsy.ma/fr/psychologue/tetouan</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.upsy.ma/psychologue/tetouan" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.upsy.ma/psychologue/tetouan" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.upsy.ma/fr/psychologue/tetouan" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.upsy.ma/ar/psychologue/tetouan" />
+  </url>
+  <url>
+    <loc>https://www.upsy.ma/ar/psychologue/tetouan</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.upsy.ma/psychologue/tetouan" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.upsy.ma/psychologue/tetouan" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.upsy.ma/fr/psychologue/tetouan" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.upsy.ma/ar/psychologue/tetouan" />
+  </url>
+  <url>
+    <loc>https://www.upsy.ma/psychologue/el-jadida</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.upsy.ma/psychologue/el-jadida" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.upsy.ma/psychologue/el-jadida" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.upsy.ma/fr/psychologue/el-jadida" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.upsy.ma/ar/psychologue/el-jadida" />
+  </url>
+  <url>
+    <loc>https://www.upsy.ma/fr/psychologue/el-jadida</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.upsy.ma/psychologue/el-jadida" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.upsy.ma/psychologue/el-jadida" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.upsy.ma/fr/psychologue/el-jadida" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.upsy.ma/ar/psychologue/el-jadida" />
+  </url>
+  <url>
+    <loc>https://www.upsy.ma/ar/psychologue/el-jadida</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.upsy.ma/psychologue/el-jadida" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.upsy.ma/psychologue/el-jadida" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.upsy.ma/fr/psychologue/el-jadida" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.upsy.ma/ar/psychologue/el-jadida" />
+  </url>
+  <url>
+    <loc>https://www.upsy.ma/psychologue/mohammedia</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.upsy.ma/psychologue/mohammedia" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.upsy.ma/psychologue/mohammedia" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.upsy.ma/fr/psychologue/mohammedia" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.upsy.ma/ar/psychologue/mohammedia" />
+  </url>
+  <url>
+    <loc>https://www.upsy.ma/fr/psychologue/mohammedia</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.upsy.ma/psychologue/mohammedia" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.upsy.ma/psychologue/mohammedia" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.upsy.ma/fr/psychologue/mohammedia" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.upsy.ma/ar/psychologue/mohammedia" />
+  </url>
+  <url>
+    <loc>https://www.upsy.ma/ar/psychologue/mohammedia</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.upsy.ma/psychologue/mohammedia" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.upsy.ma/psychologue/mohammedia" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.upsy.ma/fr/psychologue/mohammedia" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.upsy.ma/ar/psychologue/mohammedia" />
+  </url>
+  <url>
+    <loc>https://www.upsy.ma/psychologue/sale</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.upsy.ma/psychologue/sale" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.upsy.ma/psychologue/sale" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.upsy.ma/fr/psychologue/sale" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.upsy.ma/ar/psychologue/sale" />
+  </url>
+  <url>
+    <loc>https://www.upsy.ma/fr/psychologue/sale</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.upsy.ma/psychologue/sale" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.upsy.ma/psychologue/sale" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.upsy.ma/fr/psychologue/sale" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.upsy.ma/ar/psychologue/sale" />
+  </url>
+  <url>
+    <loc>https://www.upsy.ma/ar/psychologue/sale</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.upsy.ma/psychologue/sale" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.upsy.ma/psychologue/sale" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.upsy.ma/fr/psychologue/sale" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.upsy.ma/ar/psychologue/sale" />
+  </url>
+  <url>
+    <loc>https://www.upsy.ma/psychologue/beni-mellal</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.upsy.ma/psychologue/beni-mellal" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.upsy.ma/psychologue/beni-mellal" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.upsy.ma/fr/psychologue/beni-mellal" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.upsy.ma/ar/psychologue/beni-mellal" />
+  </url>
+  <url>
+    <loc>https://www.upsy.ma/fr/psychologue/beni-mellal</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.upsy.ma/psychologue/beni-mellal" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.upsy.ma/psychologue/beni-mellal" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.upsy.ma/fr/psychologue/beni-mellal" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.upsy.ma/ar/psychologue/beni-mellal" />
+  </url>
+  <url>
+    <loc>https://www.upsy.ma/ar/psychologue/beni-mellal</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.upsy.ma/psychologue/beni-mellal" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.upsy.ma/psychologue/beni-mellal" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.upsy.ma/fr/psychologue/beni-mellal" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.upsy.ma/ar/psychologue/beni-mellal" />
+  </url>
+  <url>
+    <loc>https://www.upsy.ma/psychologue/laayoune</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.upsy.ma/psychologue/laayoune" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.upsy.ma/psychologue/laayoune" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.upsy.ma/fr/psychologue/laayoune" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.upsy.ma/ar/psychologue/laayoune" />
+  </url>
+  <url>
+    <loc>https://www.upsy.ma/fr/psychologue/laayoune</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.upsy.ma/psychologue/laayoune" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.upsy.ma/psychologue/laayoune" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.upsy.ma/fr/psychologue/laayoune" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.upsy.ma/ar/psychologue/laayoune" />
+  </url>
+  <url>
+    <loc>https://www.upsy.ma/ar/psychologue/laayoune</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.upsy.ma/psychologue/laayoune" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.upsy.ma/psychologue/laayoune" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.upsy.ma/fr/psychologue/laayoune" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.upsy.ma/ar/psychologue/laayoune" />
+  </url>
+  <url>
+    <loc>https://www.upsy.ma/psychologue-en-ligne/senegal</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.upsy.ma/psychologue-en-ligne/senegal" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.upsy.ma/psychologue-en-ligne/senegal" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.upsy.ma/fr/psychologue-en-ligne/senegal" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.upsy.ma/ar/psychologue-en-ligne/senegal" />
+  </url>
+  <url>
+    <loc>https://www.upsy.ma/fr/psychologue-en-ligne/senegal</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.upsy.ma/psychologue-en-ligne/senegal" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.upsy.ma/psychologue-en-ligne/senegal" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.upsy.ma/fr/psychologue-en-ligne/senegal" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.upsy.ma/ar/psychologue-en-ligne/senegal" />
+  </url>
+  <url>
+    <loc>https://www.upsy.ma/ar/psychologue-en-ligne/senegal</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.upsy.ma/psychologue-en-ligne/senegal" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.upsy.ma/psychologue-en-ligne/senegal" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.upsy.ma/fr/psychologue-en-ligne/senegal" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.upsy.ma/ar/psychologue-en-ligne/senegal" />
+  </url>
+  <url>
+    <loc>https://www.upsy.ma/psychologue-en-ligne/cote-d-ivoire</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.upsy.ma/psychologue-en-ligne/cote-d-ivoire" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.upsy.ma/psychologue-en-ligne/cote-d-ivoire" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.upsy.ma/fr/psychologue-en-ligne/cote-d-ivoire" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.upsy.ma/ar/psychologue-en-ligne/cote-d-ivoire" />
+  </url>
+  <url>
+    <loc>https://www.upsy.ma/fr/psychologue-en-ligne/cote-d-ivoire</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.upsy.ma/psychologue-en-ligne/cote-d-ivoire" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.upsy.ma/psychologue-en-ligne/cote-d-ivoire" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.upsy.ma/fr/psychologue-en-ligne/cote-d-ivoire" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.upsy.ma/ar/psychologue-en-ligne/cote-d-ivoire" />
+  </url>
+  <url>
+    <loc>https://www.upsy.ma/ar/psychologue-en-ligne/cote-d-ivoire</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.upsy.ma/psychologue-en-ligne/cote-d-ivoire" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.upsy.ma/psychologue-en-ligne/cote-d-ivoire" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.upsy.ma/fr/psychologue-en-ligne/cote-d-ivoire" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.upsy.ma/ar/psychologue-en-ligne/cote-d-ivoire" />
+  </url>
+  <url>
+    <loc>https://www.upsy.ma/psychologue-en-ligne/tunisie</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.upsy.ma/psychologue-en-ligne/tunisie" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.upsy.ma/psychologue-en-ligne/tunisie" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.upsy.ma/fr/psychologue-en-ligne/tunisie" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.upsy.ma/ar/psychologue-en-ligne/tunisie" />
+  </url>
+  <url>
+    <loc>https://www.upsy.ma/fr/psychologue-en-ligne/tunisie</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.upsy.ma/psychologue-en-ligne/tunisie" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.upsy.ma/psychologue-en-ligne/tunisie" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.upsy.ma/fr/psychologue-en-ligne/tunisie" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.upsy.ma/ar/psychologue-en-ligne/tunisie" />
+  </url>
+  <url>
+    <loc>https://www.upsy.ma/ar/psychologue-en-ligne/tunisie</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.upsy.ma/psychologue-en-ligne/tunisie" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.upsy.ma/psychologue-en-ligne/tunisie" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.upsy.ma/fr/psychologue-en-ligne/tunisie" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.upsy.ma/ar/psychologue-en-ligne/tunisie" />
+  </url>
+  <url>
+    <loc>https://www.upsy.ma/psychologue-en-ligne/algerie</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.upsy.ma/psychologue-en-ligne/algerie" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.upsy.ma/psychologue-en-ligne/algerie" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.upsy.ma/fr/psychologue-en-ligne/algerie" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.upsy.ma/ar/psychologue-en-ligne/algerie" />
+  </url>
+  <url>
+    <loc>https://www.upsy.ma/fr/psychologue-en-ligne/algerie</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.upsy.ma/psychologue-en-ligne/algerie" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.upsy.ma/psychologue-en-ligne/algerie" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.upsy.ma/fr/psychologue-en-ligne/algerie" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.upsy.ma/ar/psychologue-en-ligne/algerie" />
+  </url>
+  <url>
+    <loc>https://www.upsy.ma/ar/psychologue-en-ligne/algerie</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.upsy.ma/psychologue-en-ligne/algerie" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.upsy.ma/psychologue-en-ligne/algerie" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.upsy.ma/fr/psychologue-en-ligne/algerie" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.upsy.ma/ar/psychologue-en-ligne/algerie" />
+  </url>
+  <url>
+    <loc>https://www.upsy.ma/psychologue-en-ligne/cameroun</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.upsy.ma/psychologue-en-ligne/cameroun" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.upsy.ma/psychologue-en-ligne/cameroun" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.upsy.ma/fr/psychologue-en-ligne/cameroun" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.upsy.ma/ar/psychologue-en-ligne/cameroun" />
+  </url>
+  <url>
+    <loc>https://www.upsy.ma/fr/psychologue-en-ligne/cameroun</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.upsy.ma/psychologue-en-ligne/cameroun" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.upsy.ma/psychologue-en-ligne/cameroun" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.upsy.ma/fr/psychologue-en-ligne/cameroun" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.upsy.ma/ar/psychologue-en-ligne/cameroun" />
+  </url>
+  <url>
+    <loc>https://www.upsy.ma/ar/psychologue-en-ligne/cameroun</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.upsy.ma/psychologue-en-ligne/cameroun" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.upsy.ma/psychologue-en-ligne/cameroun" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.upsy.ma/fr/psychologue-en-ligne/cameroun" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.upsy.ma/ar/psychologue-en-ligne/cameroun" />
+  </url>
+  <url>
+    <loc>https://www.upsy.ma/psychologue-en-ligne/mauritanie</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.upsy.ma/psychologue-en-ligne/mauritanie" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.upsy.ma/psychologue-en-ligne/mauritanie" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.upsy.ma/fr/psychologue-en-ligne/mauritanie" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.upsy.ma/ar/psychologue-en-ligne/mauritanie" />
+  </url>
+  <url>
+    <loc>https://www.upsy.ma/fr/psychologue-en-ligne/mauritanie</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.upsy.ma/psychologue-en-ligne/mauritanie" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.upsy.ma/psychologue-en-ligne/mauritanie" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.upsy.ma/fr/psychologue-en-ligne/mauritanie" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.upsy.ma/ar/psychologue-en-ligne/mauritanie" />
+  </url>
+  <url>
+    <loc>https://www.upsy.ma/ar/psychologue-en-ligne/mauritanie</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.upsy.ma/psychologue-en-ligne/mauritanie" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.upsy.ma/psychologue-en-ligne/mauritanie" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.upsy.ma/fr/psychologue-en-ligne/mauritanie" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.upsy.ma/ar/psychologue-en-ligne/mauritanie" />
+  </url>
+  <url>
+    <loc>https://www.upsy.ma/psychologue-en-ligne/gabon</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.upsy.ma/psychologue-en-ligne/gabon" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.upsy.ma/psychologue-en-ligne/gabon" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.upsy.ma/fr/psychologue-en-ligne/gabon" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.upsy.ma/ar/psychologue-en-ligne/gabon" />
+  </url>
+  <url>
+    <loc>https://www.upsy.ma/fr/psychologue-en-ligne/gabon</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.upsy.ma/psychologue-en-ligne/gabon" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.upsy.ma/psychologue-en-ligne/gabon" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.upsy.ma/fr/psychologue-en-ligne/gabon" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.upsy.ma/ar/psychologue-en-ligne/gabon" />
+  </url>
+  <url>
+    <loc>https://www.upsy.ma/ar/psychologue-en-ligne/gabon</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.upsy.ma/psychologue-en-ligne/gabon" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.upsy.ma/psychologue-en-ligne/gabon" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.upsy.ma/fr/psychologue-en-ligne/gabon" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.upsy.ma/ar/psychologue-en-ligne/gabon" />
+  </url>
+  <url>
+    <loc>https://www.upsy.ma/psychologue-en-ligne/mali</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.upsy.ma/psychologue-en-ligne/mali" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.upsy.ma/psychologue-en-ligne/mali" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.upsy.ma/fr/psychologue-en-ligne/mali" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.upsy.ma/ar/psychologue-en-ligne/mali" />
+  </url>
+  <url>
+    <loc>https://www.upsy.ma/fr/psychologue-en-ligne/mali</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.upsy.ma/psychologue-en-ligne/mali" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.upsy.ma/psychologue-en-ligne/mali" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.upsy.ma/fr/psychologue-en-ligne/mali" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.upsy.ma/ar/psychologue-en-ligne/mali" />
+  </url>
+  <url>
+    <loc>https://www.upsy.ma/ar/psychologue-en-ligne/mali</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.upsy.ma/psychologue-en-ligne/mali" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.upsy.ma/psychologue-en-ligne/mali" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.upsy.ma/fr/psychologue-en-ligne/mali" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.upsy.ma/ar/psychologue-en-ligne/mali" />
+  </url>
+  <url>
+    <loc>https://www.upsy.ma/psychologue-en-ligne/burkina-faso</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.upsy.ma/psychologue-en-ligne/burkina-faso" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.upsy.ma/psychologue-en-ligne/burkina-faso" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.upsy.ma/fr/psychologue-en-ligne/burkina-faso" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.upsy.ma/ar/psychologue-en-ligne/burkina-faso" />
+  </url>
+  <url>
+    <loc>https://www.upsy.ma/fr/psychologue-en-ligne/burkina-faso</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.upsy.ma/psychologue-en-ligne/burkina-faso" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.upsy.ma/psychologue-en-ligne/burkina-faso" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.upsy.ma/fr/psychologue-en-ligne/burkina-faso" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.upsy.ma/ar/psychologue-en-ligne/burkina-faso" />
+  </url>
+  <url>
+    <loc>https://www.upsy.ma/ar/psychologue-en-ligne/burkina-faso</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.upsy.ma/psychologue-en-ligne/burkina-faso" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.upsy.ma/psychologue-en-ligne/burkina-faso" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.upsy.ma/fr/psychologue-en-ligne/burkina-faso" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.upsy.ma/ar/psychologue-en-ligne/burkina-faso" />
+  </url>
+  <url>
+    <loc>https://www.upsy.ma/psychologue-en-ligne/benin</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.upsy.ma/psychologue-en-ligne/benin" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.upsy.ma/psychologue-en-ligne/benin" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.upsy.ma/fr/psychologue-en-ligne/benin" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.upsy.ma/ar/psychologue-en-ligne/benin" />
+  </url>
+  <url>
+    <loc>https://www.upsy.ma/fr/psychologue-en-ligne/benin</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.upsy.ma/psychologue-en-ligne/benin" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.upsy.ma/psychologue-en-ligne/benin" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.upsy.ma/fr/psychologue-en-ligne/benin" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.upsy.ma/ar/psychologue-en-ligne/benin" />
+  </url>
+  <url>
+    <loc>https://www.upsy.ma/ar/psychologue-en-ligne/benin</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.upsy.ma/psychologue-en-ligne/benin" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.upsy.ma/psychologue-en-ligne/benin" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.upsy.ma/fr/psychologue-en-ligne/benin" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.upsy.ma/ar/psychologue-en-ligne/benin" />
+  </url>
+  <url>
+    <loc>https://www.upsy.ma/psychologue-en-ligne/guinee</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.upsy.ma/psychologue-en-ligne/guinee" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.upsy.ma/psychologue-en-ligne/guinee" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.upsy.ma/fr/psychologue-en-ligne/guinee" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.upsy.ma/ar/psychologue-en-ligne/guinee" />
+  </url>
+  <url>
+    <loc>https://www.upsy.ma/fr/psychologue-en-ligne/guinee</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.upsy.ma/psychologue-en-ligne/guinee" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.upsy.ma/psychologue-en-ligne/guinee" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.upsy.ma/fr/psychologue-en-ligne/guinee" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.upsy.ma/ar/psychologue-en-ligne/guinee" />
+  </url>
+  <url>
+    <loc>https://www.upsy.ma/ar/psychologue-en-ligne/guinee</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.upsy.ma/psychologue-en-ligne/guinee" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.upsy.ma/psychologue-en-ligne/guinee" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.upsy.ma/fr/psychologue-en-ligne/guinee" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.upsy.ma/ar/psychologue-en-ligne/guinee" />
+  </url>
+  <url>
+    <loc>https://www.upsy.ma/psychologue-en-ligne/rdc</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.upsy.ma/psychologue-en-ligne/rdc" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.upsy.ma/psychologue-en-ligne/rdc" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.upsy.ma/fr/psychologue-en-ligne/rdc" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.upsy.ma/ar/psychologue-en-ligne/rdc" />
+  </url>
+  <url>
+    <loc>https://www.upsy.ma/fr/psychologue-en-ligne/rdc</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.upsy.ma/psychologue-en-ligne/rdc" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.upsy.ma/psychologue-en-ligne/rdc" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.upsy.ma/fr/psychologue-en-ligne/rdc" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.upsy.ma/ar/psychologue-en-ligne/rdc" />
+  </url>
+  <url>
+    <loc>https://www.upsy.ma/ar/psychologue-en-ligne/rdc</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.upsy.ma/psychologue-en-ligne/rdc" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.upsy.ma/psychologue-en-ligne/rdc" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.upsy.ma/fr/psychologue-en-ligne/rdc" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.upsy.ma/ar/psychologue-en-ligne/rdc" />
+  </url>
+  <url>
+    <loc>https://www.upsy.ma/psychologue-en-ligne/france</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.upsy.ma/psychologue-en-ligne/france" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.upsy.ma/psychologue-en-ligne/france" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.upsy.ma/fr/psychologue-en-ligne/france" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.upsy.ma/ar/psychologue-en-ligne/france" />
+  </url>
+  <url>
+    <loc>https://www.upsy.ma/fr/psychologue-en-ligne/france</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.upsy.ma/psychologue-en-ligne/france" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.upsy.ma/psychologue-en-ligne/france" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.upsy.ma/fr/psychologue-en-ligne/france" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.upsy.ma/ar/psychologue-en-ligne/france" />
+  </url>
+  <url>
+    <loc>https://www.upsy.ma/ar/psychologue-en-ligne/france</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.upsy.ma/psychologue-en-ligne/france" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.upsy.ma/psychologue-en-ligne/france" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.upsy.ma/fr/psychologue-en-ligne/france" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.upsy.ma/ar/psychologue-en-ligne/france" />
+  </url>
+  <url>
+    <loc>https://www.upsy.ma/psychologue-en-ligne/belgique</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.upsy.ma/psychologue-en-ligne/belgique" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.upsy.ma/psychologue-en-ligne/belgique" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.upsy.ma/fr/psychologue-en-ligne/belgique" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.upsy.ma/ar/psychologue-en-ligne/belgique" />
+  </url>
+  <url>
+    <loc>https://www.upsy.ma/fr/psychologue-en-ligne/belgique</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.upsy.ma/psychologue-en-ligne/belgique" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.upsy.ma/psychologue-en-ligne/belgique" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.upsy.ma/fr/psychologue-en-ligne/belgique" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.upsy.ma/ar/psychologue-en-ligne/belgique" />
+  </url>
+  <url>
+    <loc>https://www.upsy.ma/ar/psychologue-en-ligne/belgique</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.upsy.ma/psychologue-en-ligne/belgique" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.upsy.ma/psychologue-en-ligne/belgique" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.upsy.ma/fr/psychologue-en-ligne/belgique" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.upsy.ma/ar/psychologue-en-ligne/belgique" />
+  </url>
+  <url>
+    <loc>https://www.upsy.ma/psychologue-en-ligne/canada</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.upsy.ma/psychologue-en-ligne/canada" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.upsy.ma/psychologue-en-ligne/canada" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.upsy.ma/fr/psychologue-en-ligne/canada" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.upsy.ma/ar/psychologue-en-ligne/canada" />
+  </url>
+  <url>
+    <loc>https://www.upsy.ma/fr/psychologue-en-ligne/canada</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.upsy.ma/psychologue-en-ligne/canada" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.upsy.ma/psychologue-en-ligne/canada" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.upsy.ma/fr/psychologue-en-ligne/canada" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.upsy.ma/ar/psychologue-en-ligne/canada" />
+  </url>
+  <url>
+    <loc>https://www.upsy.ma/ar/psychologue-en-ligne/canada</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.upsy.ma/psychologue-en-ligne/canada" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.upsy.ma/psychologue-en-ligne/canada" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.upsy.ma/fr/psychologue-en-ligne/canada" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.upsy.ma/ar/psychologue-en-ligne/canada" />
+  </url>
+  <url>
+    <loc>https://www.upsy.ma/psychologue</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.upsy.ma/psychologue" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.upsy.ma/psychologue" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.upsy.ma/fr/psychologue" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.upsy.ma/ar/psychologue" />
+  </url>
+  <url>
+    <loc>https://www.upsy.ma/fr/psychologue</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.upsy.ma/psychologue" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.upsy.ma/psychologue" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.upsy.ma/fr/psychologue" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.upsy.ma/ar/psychologue" />
+  </url>
+  <url>
+    <loc>https://www.upsy.ma/ar/psychologue</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.upsy.ma/psychologue" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.upsy.ma/psychologue" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.upsy.ma/fr/psychologue" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.upsy.ma/ar/psychologue" />
+  </url>
+  <url>
+    <loc>https://www.upsy.ma/psychologue-en-ligne</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.upsy.ma/psychologue-en-ligne" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.upsy.ma/psychologue-en-ligne" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.upsy.ma/fr/psychologue-en-ligne" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.upsy.ma/ar/psychologue-en-ligne" />
+  </url>
+  <url>
+    <loc>https://www.upsy.ma/fr/psychologue-en-ligne</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.upsy.ma/psychologue-en-ligne" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.upsy.ma/psychologue-en-ligne" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.upsy.ma/fr/psychologue-en-ligne" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.upsy.ma/ar/psychologue-en-ligne" />
+  </url>
+  <url>
+    <loc>https://www.upsy.ma/ar/psychologue-en-ligne</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.upsy.ma/psychologue-en-ligne" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.upsy.ma/psychologue-en-ligne" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.upsy.ma/fr/psychologue-en-ligne" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.upsy.ma/ar/psychologue-en-ligne" />
+  </url>
+  <url>
     <loc>https://www.upsy.ma/book-a-call</loc>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>

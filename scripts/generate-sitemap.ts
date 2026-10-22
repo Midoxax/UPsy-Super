@@ -4,6 +4,7 @@ import { writeFileSync, readFileSync } from "fs";
 import { resolve } from "path";
 import { ARTICLES } from "../src/content/blog/articles";
 import { SITE_MAP } from "../src/content/siteMap";
+import { CITIES, COUNTRIES } from "../src/content/seo/places";
 
 // Single source of truth, mirroring src/config/site.ts for the Node side (this
 // runs before Vite, so it cannot import the browser module).
@@ -75,6 +76,20 @@ const ROUTES: Entry[] = [
   { path: "/moroccan-umbrella", changefreq: "monthly", priority: "0.6" },
   { path: "/explore", changefreq: "monthly", priority: "0.4" },
 ];
+
+// Local landing pages: one per Moroccan city and per country served online.
+for (const c of CITIES)
+  ROUTES.push({
+    path: `/psychologue/${c.slug}`,
+    changefreq: "weekly",
+    priority: "0.8",
+  });
+for (const c of COUNTRIES)
+  ROUTES.push({
+    path: `/psychologue-en-ligne/${c.slug}`,
+    changefreq: "monthly",
+    priority: "0.7",
+  });
 
 // Every page listed on the site-map page is in the XML sitemap too.
 for (const g of SITE_MAP)
