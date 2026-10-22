@@ -47,7 +47,7 @@ const CenterHome = () => {
           </p>
           <Link
             to="/center/schools"
-            className="inline-flex items-center gap-1.5 text-sm font-medium text-primary hover:underline"
+            className="inline-flex min-h-10 items-center gap-1.5 text-sm font-medium text-primary hover:underline"
           >
             Explore the 11 schools & academies{" "}
             <ArrowRight className="h-3.5 w-3.5" />

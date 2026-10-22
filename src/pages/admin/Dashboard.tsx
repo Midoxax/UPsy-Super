@@ -1109,7 +1109,7 @@ const SupportAwareTabs = () => {
         <TabsTrigger
           key={value}
           value={value}
-          className="gap-1.5 text-xs relative"
+          className="gap-1.5 text-xs relative min-h-10 sm:min-h-0"
         >
           <Icon className="h-3.5 w-3.5" />
           <span>{label}</span>

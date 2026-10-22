@@ -15,7 +15,7 @@ const buttonVariants = cva(
         secondary:
           "text-[16px] font-medium px-[22px] py-[14px] min-h-[48px] bg-transparent text-u-gold border border-u-gold hover:bg-u-gold/10 hover:shadow-[0_0_20px_rgba(255,179,0,0.15)]",
         tertiary:
-          "text-u-white hover:text-u-gold bg-transparent border-none p-0 h-auto font-medium transition-colors duration-200",
+          "text-u-white hover:text-u-gold bg-transparent border-none p-0 h-auto min-h-10 sm:min-h-0 font-medium transition-colors duration-200",
 
         /* Standard variants */
         default:
@@ -25,7 +25,7 @@ const buttonVariants = cva(
         outline:
           "border border-input bg-background hover:bg-accent hover:text-accent-foreground text-sm",
         ghost: "hover:bg-accent hover:text-accent-foreground text-sm",
-        link: "text-primary underline-offset-4 hover:underline text-sm",
+        link: "text-primary underline-offset-4 hover:underline text-sm min-h-10 sm:min-h-0",
       },
       size: {
         default: "h-10 px-4 py-2",

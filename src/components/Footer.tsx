@@ -161,7 +161,7 @@ const Footer = () => {
             <button
               type="button"
               onClick={openConsentSettings}
-              className="inline-block py-1 underline hover:text-primary"
+              className="inline-flex min-h-10 items-center sm:min-h-0 sm:py-1 underline hover:text-primary"
             >
               {t("consent.settings") || "Cookie settings"}
             </button>

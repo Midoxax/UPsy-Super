@@ -96,7 +96,7 @@ const RelatedArticles = ({ currentSlug }: { currentSlug: string }) => {
         </h2>
         <Link
           to={addLocalePrefix("/blog", locale)}
-          className="text-sm text-primary font-medium hover:underline inline-flex items-center gap-1"
+          className="text-sm text-primary font-medium hover:underline inline-flex min-h-10 items-center gap-1"
         >
           {fr ? "Tous les articles" : "All articles"}{" "}
           <ArrowRight className="w-4 h-4" />
