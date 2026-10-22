@@ -487,6 +487,114 @@ export type Database = {
         };
         Relationships: [];
       };
+      athlete_competitions: {
+        Row: {
+          checklist: Json;
+          created_at: string;
+          event_date: string;
+          id: string;
+          importance: number;
+          location: string | null;
+          name: string;
+          performance_rating: number | null;
+          reflection: string | null;
+          result: string | null;
+          updated_at: string;
+          user_id: string;
+        };
+        Insert: {
+          checklist?: Json;
+          created_at?: string;
+          event_date: string;
+          id?: string;
+          importance?: number;
+          location?: string | null;
+          name: string;
+          performance_rating?: number | null;
+          reflection?: string | null;
+          result?: string | null;
+          updated_at?: string;
+          user_id: string;
+        };
+        Update: {
+          checklist?: Json;
+          created_at?: string;
+          event_date?: string;
+          id?: string;
+          importance?: number;
+          location?: string | null;
+          name?: string;
+          performance_rating?: number | null;
+          reflection?: string | null;
+          result?: string | null;
+          updated_at?: string;
+          user_id?: string;
+        };
+        Relationships: [];
+      };
+      athlete_goals: {
+        Row: {
+          created_at: string;
+          id: string;
+          kind: string;
+          progress: number;
+          status: string;
+          target_date: string | null;
+          title: string;
+          updated_at: string;
+          user_id: string;
+        };
+        Insert: {
+          created_at?: string;
+          id?: string;
+          kind?: string;
+          progress?: number;
+          status?: string;
+          target_date?: string | null;
+          title: string;
+          updated_at?: string;
+          user_id: string;
+        };
+        Update: {
+          created_at?: string;
+          id?: string;
+          kind?: string;
+          progress?: number;
+          status?: string;
+          target_date?: string | null;
+          title?: string;
+          updated_at?: string;
+          user_id?: string;
+        };
+        Relationships: [];
+      };
+      athlete_shares: {
+        Row: {
+          athlete_id: string;
+          created_at: string;
+          id: string;
+          psychologist_id: string;
+          revoked_at: string | null;
+          scopes: string[];
+        };
+        Insert: {
+          athlete_id: string;
+          created_at?: string;
+          id?: string;
+          psychologist_id: string;
+          revoked_at?: string | null;
+          scopes?: string[];
+        };
+        Update: {
+          athlete_id?: string;
+          created_at?: string;
+          id?: string;
+          psychologist_id?: string;
+          revoked_at?: string | null;
+          scopes?: string[];
+        };
+        Relationships: [];
+      };
       athlete_profiles: {
         Row: {
           coach_id: string | null;
@@ -7027,6 +7135,23 @@ export type Database = {
       };
     };
     Functions: {
+      athlete_shared_overview: {
+        Args: { p_athlete: string };
+        Returns: Json;
+      };
+      athletes_shared_with_me: {
+        Args: never;
+        Returns: {
+          athlete_id: string;
+          full_name: string | null;
+          scopes: string[];
+          shared_at: string;
+        }[];
+      };
+      athlete_share_candidates: {
+        Args: never;
+        Returns: { psychologist_id: string; full_name: string }[];
+      };
       admin_assign_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"];

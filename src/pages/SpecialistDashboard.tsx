@@ -19,6 +19,7 @@ import {
   ShieldCheck,
   Rocket,
   Brain,
+  Medal,
 } from "lucide-react";
 import { ClipboardList, ListChecks, TrendingUp, LogOut } from "lucide-react";
 import { ProfileTab } from "@/components/dashboard/ProfileTab";
@@ -45,6 +46,7 @@ import ClinicalBriefsTab from "@/components/dashboard/ClinicalBriefsTab";
 import SpecialistBurnoutCard from "@/components/dashboard/SpecialistBurnoutCard";
 import SmartSchedulingCard from "@/components/dashboard/SmartSchedulingCard";
 import ContinueLearningCard from "@/components/dashboard/ContinueLearningCard";
+import AthletesTab from "@/components/dashboard/AthletesTab";
 
 const SpecialistDashboard = () => {
   return (
@@ -99,6 +101,10 @@ const SpecialistDashboard = () => {
                 <TabsTrigger value="discharge" className="gap-1.5">
                   <LogOut className="h-4 w-4" />
                   <span>Discharge</span>
+                </TabsTrigger>
+                <TabsTrigger value="athletes" className="gap-1.5">
+                  <Medal className="h-4 w-4" />
+                  <span>Athletes</span>
                 </TabsTrigger>
                 <TabsTrigger value="availability" className="gap-1.5">
                   <Calendar className="h-4 w-4" />
@@ -173,6 +179,9 @@ const SpecialistDashboard = () => {
               </TabsContent>
               <TabsContent value="discharge">
                 <DischargeTab role="psychologist" />
+              </TabsContent>
+              <TabsContent value="athletes">
+                <AthletesTab />
               </TabsContent>
               <TabsContent value="availability">
                 <AvailabilityTab />

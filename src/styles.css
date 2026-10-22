@@ -880,3 +880,22 @@ html.lenis body {
   background-clip: text;
   color: transparent;
 }
+
+/* Athlete Hub progress report: printing (or "Save as PDF") the hub prints
+   only the report card. */
+@media print {
+  body:has(.print-report) * {
+    visibility: hidden;
+  }
+  body:has(.print-report) .print-report,
+  body:has(.print-report) .print-report * {
+    visibility: visible;
+  }
+  body:has(.print-report) .print-report {
+    position: absolute;
+    inset: 0 0 auto 0;
+    box-shadow: none;
+    background: #fff;
+    color: #111;
+  }
+}
