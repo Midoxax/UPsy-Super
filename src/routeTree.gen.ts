@@ -24,6 +24,7 @@ import { Route as FounderRouteImport } from './routes/founder'
 import { Route as FreeScoreRouteImport } from './routes/free-score'
 import { Route as GetMatchedRouteImport } from './routes/get-matched'
 import { Route as InstallRouteImport } from './routes/install'
+import { Route as LeagueRouteImport } from './routes/league'
 import { Route as LegalRouteImport } from './routes/legal'
 import { Route as MembershipRouteImport } from './routes/membership'
 import { Route as MentalPerformanceRouteImport } from './routes/mental-performance'
@@ -60,6 +61,7 @@ import { Route as LocaleFounderRouteImport } from './routes/$locale/founder'
 import { Route as LocaleFreeScoreRouteImport } from './routes/$locale/free-score'
 import { Route as LocaleGetMatchedRouteImport } from './routes/$locale/get-matched'
 import { Route as LocaleInstallRouteImport } from './routes/$locale/install'
+import { Route as LocaleLeagueRouteImport } from './routes/$locale/league'
 import { Route as LocaleLegalRouteImport } from './routes/$locale/legal'
 import { Route as LocaleMembershipRouteImport } from './routes/$locale/membership'
 import { Route as LocaleMentalPerformanceRouteImport } from './routes/$locale/mental-performance'
@@ -107,6 +109,7 @@ import { Route as BlogUnderstandingAnxietyRouteImport } from './routes/blog/unde
 import { Route as BlogUnderstandingDepressionRouteImport } from './routes/blog/understanding-depression'
 import { Route as CampaignsFirstSessionRouteImport } from './routes/campaigns/first-session'
 import { Route as CampaignsJoinSpecialistRouteImport } from './routes/campaigns/join-specialist'
+import { Route as CampaignsLsspmRouteImport } from './routes/campaigns/lsspm'
 import { Route as CenterIndexRouteImport } from './routes/center/index'
 import { Route as CenterProgressRouteImport } from './routes/center/progress'
 import { Route as CenterSchoolsRouteImport } from './routes/center/schools'
@@ -152,6 +155,7 @@ import { Route as LocaleBlogUnderstandingAnxietyRouteImport } from './routes/$lo
 import { Route as LocaleBlogUnderstandingDepressionRouteImport } from './routes/$locale/blog/understanding-depression'
 import { Route as LocaleCampaignsFirstSessionRouteImport } from './routes/$locale/campaigns/first-session'
 import { Route as LocaleCampaignsJoinSpecialistRouteImport } from './routes/$locale/campaigns/join-specialist'
+import { Route as LocaleCampaignsLsspmRouteImport } from './routes/$locale/campaigns/lsspm'
 import { Route as LocaleCenterIndexRouteImport } from './routes/$locale/center/index'
 import { Route as LocaleCenterProgressRouteImport } from './routes/$locale/center/progress'
 import { Route as LocaleDashboardIndexRouteImport } from './routes/$locale/dashboard/index'
@@ -258,6 +262,11 @@ const GetMatchedRoute = GetMatchedRouteImport.update({
 const InstallRoute = InstallRouteImport.update({
   id: '/install',
   path: '/install',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LeagueRoute = LeagueRouteImport.update({
+  id: '/league',
+  path: '/league',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LegalRoute = LegalRouteImport.update({
@@ -438,6 +447,11 @@ const LocaleGetMatchedRoute = LocaleGetMatchedRouteImport.update({
 const LocaleInstallRoute = LocaleInstallRouteImport.update({
   id: '/$locale/install',
   path: '/$locale/install',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LocaleLeagueRoute = LocaleLeagueRouteImport.update({
+  id: '/$locale/league',
+  path: '/$locale/league',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LocaleLegalRoute = LocaleLegalRouteImport.update({
@@ -684,6 +698,11 @@ const CampaignsJoinSpecialistRoute = CampaignsJoinSpecialistRouteImport.update({
   path: '/campaigns/join-specialist',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CampaignsLsspmRoute = CampaignsLsspmRouteImport.update({
+  id: '/campaigns/lsspm',
+  path: '/campaigns/lsspm',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const CenterIndexRoute = CenterIndexRouteImport.update({
   id: '/center/',
   path: '/center/',
@@ -922,6 +941,11 @@ const LocaleCampaignsJoinSpecialistRoute =
     path: '/$locale/campaigns/join-specialist',
     getParentRoute: () => rootRouteImport,
   } as any)
+const LocaleCampaignsLsspmRoute = LocaleCampaignsLsspmRouteImport.update({
+  id: '/$locale/campaigns/lsspm',
+  path: '/$locale/campaigns/lsspm',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LocaleCenterIndexRoute = LocaleCenterIndexRouteImport.update({
   id: '/$locale/center/',
   path: '/$locale/center/',
@@ -1105,6 +1129,7 @@ export interface FileRoutesByFullPath {
   '/free-score': typeof FreeScoreRoute
   '/get-matched': typeof GetMatchedRoute
   '/install': typeof InstallRoute
+  '/league': typeof LeagueRoute
   '/legal': typeof LegalRoute
   '/membership': typeof MembershipRoute
   '/mental-performance': typeof MentalPerformanceRoute
@@ -1140,6 +1165,7 @@ export interface FileRoutesByFullPath {
   '/$locale/free-score': typeof LocaleFreeScoreRoute
   '/$locale/get-matched': typeof LocaleGetMatchedRoute
   '/$locale/install': typeof LocaleInstallRoute
+  '/$locale/league': typeof LocaleLeagueRoute
   '/$locale/legal': typeof LocaleLegalRoute
   '/$locale/membership': typeof LocaleMembershipRoute
   '/$locale/mental-performance': typeof LocaleMentalPerformanceRoute
@@ -1183,6 +1209,7 @@ export interface FileRoutesByFullPath {
   '/blog/understanding-depression': typeof BlogUnderstandingDepressionRoute
   '/campaigns/first-session': typeof CampaignsFirstSessionRoute
   '/campaigns/join-specialist': typeof CampaignsJoinSpecialistRoute
+  '/campaigns/lsspm': typeof CampaignsLsspmRoute
   '/center/progress': typeof CenterProgressRoute
   '/center/schools': typeof CenterSchoolsRoute
   '/dashboard/client': typeof DashboardClientRoute
@@ -1229,6 +1256,7 @@ export interface FileRoutesByFullPath {
   '/$locale/blog/understanding-depression': typeof LocaleBlogUnderstandingDepressionRoute
   '/$locale/campaigns/first-session': typeof LocaleCampaignsFirstSessionRoute
   '/$locale/campaigns/join-specialist': typeof LocaleCampaignsJoinSpecialistRoute
+  '/$locale/campaigns/lsspm': typeof LocaleCampaignsLsspmRoute
   '/$locale/center/progress': typeof LocaleCenterProgressRoute
   '/$locale/dashboard/client': typeof LocaleDashboardClientRoute
   '/$locale/dashboard/organization': typeof LocaleDashboardOrganizationRoute
@@ -1282,6 +1310,7 @@ export interface FileRoutesByTo {
   '/free-score': typeof FreeScoreRoute
   '/get-matched': typeof GetMatchedRoute
   '/install': typeof InstallRoute
+  '/league': typeof LeagueRoute
   '/legal': typeof LegalRoute
   '/membership': typeof MembershipRoute
   '/mental-performance': typeof MentalPerformanceRoute
@@ -1317,6 +1346,7 @@ export interface FileRoutesByTo {
   '/$locale/free-score': typeof LocaleFreeScoreRoute
   '/$locale/get-matched': typeof LocaleGetMatchedRoute
   '/$locale/install': typeof LocaleInstallRoute
+  '/$locale/league': typeof LocaleLeagueRoute
   '/$locale/legal': typeof LocaleLegalRoute
   '/$locale/membership': typeof LocaleMembershipRoute
   '/$locale/mental-performance': typeof LocaleMentalPerformanceRoute
@@ -1360,6 +1390,7 @@ export interface FileRoutesByTo {
   '/blog/understanding-depression': typeof BlogUnderstandingDepressionRoute
   '/campaigns/first-session': typeof CampaignsFirstSessionRoute
   '/campaigns/join-specialist': typeof CampaignsJoinSpecialistRoute
+  '/campaigns/lsspm': typeof CampaignsLsspmRoute
   '/center/progress': typeof CenterProgressRoute
   '/center/schools': typeof CenterSchoolsRoute
   '/dashboard/client': typeof DashboardClientRoute
@@ -1405,6 +1436,7 @@ export interface FileRoutesByTo {
   '/$locale/blog/understanding-depression': typeof LocaleBlogUnderstandingDepressionRoute
   '/$locale/campaigns/first-session': typeof LocaleCampaignsFirstSessionRoute
   '/$locale/campaigns/join-specialist': typeof LocaleCampaignsJoinSpecialistRoute
+  '/$locale/campaigns/lsspm': typeof LocaleCampaignsLsspmRoute
   '/$locale/center/progress': typeof LocaleCenterProgressRoute
   '/$locale/dashboard/client': typeof LocaleDashboardClientRoute
   '/$locale/dashboard/organization': typeof LocaleDashboardOrganizationRoute
@@ -1459,6 +1491,7 @@ export interface FileRoutesById {
   '/free-score': typeof FreeScoreRoute
   '/get-matched': typeof GetMatchedRoute
   '/install': typeof InstallRoute
+  '/league': typeof LeagueRoute
   '/legal': typeof LegalRoute
   '/membership': typeof MembershipRoute
   '/mental-performance': typeof MentalPerformanceRoute
@@ -1494,6 +1527,7 @@ export interface FileRoutesById {
   '/$locale/free-score': typeof LocaleFreeScoreRoute
   '/$locale/get-matched': typeof LocaleGetMatchedRoute
   '/$locale/install': typeof LocaleInstallRoute
+  '/$locale/league': typeof LocaleLeagueRoute
   '/$locale/legal': typeof LocaleLegalRoute
   '/$locale/membership': typeof LocaleMembershipRoute
   '/$locale/mental-performance': typeof LocaleMentalPerformanceRoute
@@ -1537,6 +1571,7 @@ export interface FileRoutesById {
   '/blog/understanding-depression': typeof BlogUnderstandingDepressionRoute
   '/campaigns/first-session': typeof CampaignsFirstSessionRoute
   '/campaigns/join-specialist': typeof CampaignsJoinSpecialistRoute
+  '/campaigns/lsspm': typeof CampaignsLsspmRoute
   '/center/progress': typeof CenterProgressRoute
   '/center/schools': typeof CenterSchoolsRoute
   '/dashboard/client': typeof DashboardClientRoute
@@ -1583,6 +1618,7 @@ export interface FileRoutesById {
   '/$locale/blog/understanding-depression': typeof LocaleBlogUnderstandingDepressionRoute
   '/$locale/campaigns/first-session': typeof LocaleCampaignsFirstSessionRoute
   '/$locale/campaigns/join-specialist': typeof LocaleCampaignsJoinSpecialistRoute
+  '/$locale/campaigns/lsspm': typeof LocaleCampaignsLsspmRoute
   '/$locale/center/progress': typeof LocaleCenterProgressRoute
   '/$locale/dashboard/client': typeof LocaleDashboardClientRoute
   '/$locale/dashboard/organization': typeof LocaleDashboardOrganizationRoute
@@ -1638,6 +1674,7 @@ export interface FileRouteTypes {
     | '/free-score'
     | '/get-matched'
     | '/install'
+    | '/league'
     | '/legal'
     | '/membership'
     | '/mental-performance'
@@ -1673,6 +1710,7 @@ export interface FileRouteTypes {
     | '/$locale/free-score'
     | '/$locale/get-matched'
     | '/$locale/install'
+    | '/$locale/league'
     | '/$locale/legal'
     | '/$locale/membership'
     | '/$locale/mental-performance'
@@ -1716,6 +1754,7 @@ export interface FileRouteTypes {
     | '/blog/understanding-depression'
     | '/campaigns/first-session'
     | '/campaigns/join-specialist'
+    | '/campaigns/lsspm'
     | '/center/progress'
     | '/center/schools'
     | '/dashboard/client'
@@ -1762,6 +1801,7 @@ export interface FileRouteTypes {
     | '/$locale/blog/understanding-depression'
     | '/$locale/campaigns/first-session'
     | '/$locale/campaigns/join-specialist'
+    | '/$locale/campaigns/lsspm'
     | '/$locale/center/progress'
     | '/$locale/dashboard/client'
     | '/$locale/dashboard/organization'
@@ -1815,6 +1855,7 @@ export interface FileRouteTypes {
     | '/free-score'
     | '/get-matched'
     | '/install'
+    | '/league'
     | '/legal'
     | '/membership'
     | '/mental-performance'
@@ -1850,6 +1891,7 @@ export interface FileRouteTypes {
     | '/$locale/free-score'
     | '/$locale/get-matched'
     | '/$locale/install'
+    | '/$locale/league'
     | '/$locale/legal'
     | '/$locale/membership'
     | '/$locale/mental-performance'
@@ -1893,6 +1935,7 @@ export interface FileRouteTypes {
     | '/blog/understanding-depression'
     | '/campaigns/first-session'
     | '/campaigns/join-specialist'
+    | '/campaigns/lsspm'
     | '/center/progress'
     | '/center/schools'
     | '/dashboard/client'
@@ -1938,6 +1981,7 @@ export interface FileRouteTypes {
     | '/$locale/blog/understanding-depression'
     | '/$locale/campaigns/first-session'
     | '/$locale/campaigns/join-specialist'
+    | '/$locale/campaigns/lsspm'
     | '/$locale/center/progress'
     | '/$locale/dashboard/client'
     | '/$locale/dashboard/organization'
@@ -1991,6 +2035,7 @@ export interface FileRouteTypes {
     | '/free-score'
     | '/get-matched'
     | '/install'
+    | '/league'
     | '/legal'
     | '/membership'
     | '/mental-performance'
@@ -2026,6 +2071,7 @@ export interface FileRouteTypes {
     | '/$locale/free-score'
     | '/$locale/get-matched'
     | '/$locale/install'
+    | '/$locale/league'
     | '/$locale/legal'
     | '/$locale/membership'
     | '/$locale/mental-performance'
@@ -2069,6 +2115,7 @@ export interface FileRouteTypes {
     | '/blog/understanding-depression'
     | '/campaigns/first-session'
     | '/campaigns/join-specialist'
+    | '/campaigns/lsspm'
     | '/center/progress'
     | '/center/schools'
     | '/dashboard/client'
@@ -2115,6 +2162,7 @@ export interface FileRouteTypes {
     | '/$locale/blog/understanding-depression'
     | '/$locale/campaigns/first-session'
     | '/$locale/campaigns/join-specialist'
+    | '/$locale/campaigns/lsspm'
     | '/$locale/center/progress'
     | '/$locale/dashboard/client'
     | '/$locale/dashboard/organization'
@@ -2169,6 +2217,7 @@ export interface RootRouteChildren {
   FreeScoreRoute: typeof FreeScoreRoute
   GetMatchedRoute: typeof GetMatchedRoute
   InstallRoute: typeof InstallRoute
+  LeagueRoute: typeof LeagueRoute
   LegalRoute: typeof LegalRoute
   MembershipRoute: typeof MembershipRoute
   MentalPerformanceRoute: typeof MentalPerformanceRoute
@@ -2204,6 +2253,7 @@ export interface RootRouteChildren {
   LocaleFreeScoreRoute: typeof LocaleFreeScoreRoute
   LocaleGetMatchedRoute: typeof LocaleGetMatchedRoute
   LocaleInstallRoute: typeof LocaleInstallRoute
+  LocaleLeagueRoute: typeof LocaleLeagueRoute
   LocaleLegalRoute: typeof LocaleLegalRoute
   LocaleMembershipRoute: typeof LocaleMembershipRoute
   LocaleMentalPerformanceRoute: typeof LocaleMentalPerformanceRoute
@@ -2247,6 +2297,7 @@ export interface RootRouteChildren {
   BlogUnderstandingDepressionRoute: typeof BlogUnderstandingDepressionRoute
   CampaignsFirstSessionRoute: typeof CampaignsFirstSessionRoute
   CampaignsJoinSpecialistRoute: typeof CampaignsJoinSpecialistRoute
+  CampaignsLsspmRoute: typeof CampaignsLsspmRoute
   CenterProgressRoute: typeof CenterProgressRoute
   CenterSchoolsRoute: typeof CenterSchoolsRoute
   DashboardClientRoute: typeof DashboardClientRoute
@@ -2293,6 +2344,7 @@ export interface RootRouteChildren {
   LocaleBlogUnderstandingDepressionRoute: typeof LocaleBlogUnderstandingDepressionRoute
   LocaleCampaignsFirstSessionRoute: typeof LocaleCampaignsFirstSessionRoute
   LocaleCampaignsJoinSpecialistRoute: typeof LocaleCampaignsJoinSpecialistRoute
+  LocaleCampaignsLsspmRoute: typeof LocaleCampaignsLsspmRoute
   LocaleCenterProgressRoute: typeof LocaleCenterProgressRoute
   LocaleDashboardClientRoute: typeof LocaleDashboardClientRoute
   LocaleDashboardOrganizationRoute: typeof LocaleDashboardOrganizationRoute
@@ -2429,6 +2481,13 @@ declare module '@tanstack/react-router' {
       path: '/install'
       fullPath: '/install'
       preLoaderRoute: typeof InstallRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/league': {
+      id: '/league'
+      path: '/league'
+      fullPath: '/league'
+      preLoaderRoute: typeof LeagueRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/legal': {
@@ -2681,6 +2740,13 @@ declare module '@tanstack/react-router' {
       path: '/$locale/install'
       fullPath: '/$locale/install'
       preLoaderRoute: typeof LocaleInstallRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/$locale/league': {
+      id: '/$locale/league'
+      path: '/$locale/league'
+      fullPath: '/$locale/league'
+      preLoaderRoute: typeof LocaleLeagueRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/$locale/legal': {
@@ -3012,6 +3078,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CampaignsJoinSpecialistRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/campaigns/lsspm': {
+      id: '/campaigns/lsspm'
+      path: '/campaigns/lsspm'
+      fullPath: '/campaigns/lsspm'
+      preLoaderRoute: typeof CampaignsLsspmRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/center/': {
       id: '/center/'
       path: '/center'
@@ -3327,6 +3400,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LocaleCampaignsJoinSpecialistRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/$locale/campaigns/lsspm': {
+      id: '/$locale/campaigns/lsspm'
+      path: '/$locale/campaigns/lsspm'
+      fullPath: '/$locale/campaigns/lsspm'
+      preLoaderRoute: typeof LocaleCampaignsLsspmRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/$locale/center/': {
       id: '/$locale/center/'
       path: '/$locale/center'
@@ -3594,6 +3674,7 @@ const rootRouteChildren: RootRouteChildren = {
   FreeScoreRoute: FreeScoreRoute,
   GetMatchedRoute: GetMatchedRoute,
   InstallRoute: InstallRoute,
+  LeagueRoute: LeagueRoute,
   LegalRoute: LegalRoute,
   MembershipRoute: MembershipRoute,
   MentalPerformanceRoute: MentalPerformanceRoute,
@@ -3629,6 +3710,7 @@ const rootRouteChildren: RootRouteChildren = {
   LocaleFreeScoreRoute: LocaleFreeScoreRoute,
   LocaleGetMatchedRoute: LocaleGetMatchedRoute,
   LocaleInstallRoute: LocaleInstallRoute,
+  LocaleLeagueRoute: LocaleLeagueRoute,
   LocaleLegalRoute: LocaleLegalRoute,
   LocaleMembershipRoute: LocaleMembershipRoute,
   LocaleMentalPerformanceRoute: LocaleMentalPerformanceRoute,
@@ -3672,6 +3754,7 @@ const rootRouteChildren: RootRouteChildren = {
   BlogUnderstandingDepressionRoute: BlogUnderstandingDepressionRoute,
   CampaignsFirstSessionRoute: CampaignsFirstSessionRoute,
   CampaignsJoinSpecialistRoute: CampaignsJoinSpecialistRoute,
+  CampaignsLsspmRoute: CampaignsLsspmRoute,
   CenterProgressRoute: CenterProgressRoute,
   CenterSchoolsRoute: CenterSchoolsRoute,
   DashboardClientRoute: DashboardClientRoute,
@@ -3721,6 +3804,7 @@ const rootRouteChildren: RootRouteChildren = {
     LocaleBlogUnderstandingDepressionRoute,
   LocaleCampaignsFirstSessionRoute: LocaleCampaignsFirstSessionRoute,
   LocaleCampaignsJoinSpecialistRoute: LocaleCampaignsJoinSpecialistRoute,
+  LocaleCampaignsLsspmRoute: LocaleCampaignsLsspmRoute,
   LocaleCenterProgressRoute: LocaleCenterProgressRoute,
   LocaleDashboardClientRoute: LocaleDashboardClientRoute,
   LocaleDashboardOrganizationRoute: LocaleDashboardOrganizationRoute,

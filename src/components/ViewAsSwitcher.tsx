@@ -16,6 +16,7 @@ import {
   Building2,
   Check,
   Trophy,
+  Scale,
 } from "lucide-react";
 import { useUserRole } from "@/hooks/useUserRole";
 import { useActiveView, type ActiveView } from "@/hooks/useActiveView";
@@ -37,6 +38,7 @@ const LABELS: Record<
     path: "/dashboard/organization",
   },
   athlete: { label: "Athlete Hub", icon: Trophy, path: "/athlete-hub" },
+  league: { label: "League portal (LSSPM)", icon: Scale, path: "/league" },
 };
 
 // Desktop header: icon, label from xl up. Mobile menu (onChoose given):

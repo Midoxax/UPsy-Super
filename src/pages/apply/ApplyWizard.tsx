@@ -61,7 +61,24 @@ const APPLICANT_EDITABLE_FIELDS = [
   "doc_auto_entrepreneur_url",
   "doc_rib_url",
   "doc_specialty_certs_urls",
+  "league_share_consent",
+  "source",
 ] as const;
+
+// Campaign that brought the applicant (e.g. ?source=lsspm), kept across the
+// sign-in round trip so it is still known when the file is first saved.
+const SOURCE_KEY = "upsy.applySource";
+function campaignSource(): string | null {
+  if (typeof window === "undefined") return null;
+  const fromUrl = new URLSearchParams(window.location.search).get("source");
+  try {
+    if (fromUrl && /^[a-z0-9_-]{1,40}$/.test(fromUrl))
+      localStorage.setItem(SOURCE_KEY, fromUrl);
+    return localStorage.getItem(SOURCE_KEY);
+  } catch {
+    return fromUrl;
+  }
+}
 
 const SPECIALTY_OPTIONS = [
   "Anxiété",
@@ -124,6 +141,7 @@ const ApplyWizard = () => {
   const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
+    campaignSource();
     if (!authLoading && !user) navigate("/auth?redirect=/apply/wizard");
   }, [authLoading, user, navigate]);
 
@@ -157,6 +175,8 @@ const ApplyWizard = () => {
         specialties_requested: [],
         therapy_approaches_requested: [],
         populations_served: [],
+        source: campaignSource(),
+        league_share_consent: false,
       });
   }, [app, user]);
 
@@ -748,6 +768,31 @@ const ApplyWizard = () => {
                   </p>
                 </div>
               </div>
+              <label
+                className={`flex items-start gap-3 rounded-xl border p-4 cursor-pointer ${draft.source === "lsspm" ? "border-primary/50 bg-primary/5" : "border-border"}`}
+              >
+                <Checkbox
+                  checked={!!draft.league_share_consent}
+                  onCheckedChange={(v) =>
+                    update({ league_share_consent: v === true })
+                  }
+                  className="mt-0.5"
+                />
+                <span className="text-sm space-y-1">
+                  <span className="block font-medium text-foreground">
+                    Partager mon dossier avec la LSSPM (facultatif)
+                  </span>
+                  <span className="block text-muted-foreground">
+                    La Ligue des Spécialistes de la Santé Psychologique et
+                    Mentale pourra consulter vos documents professionnels
+                    (diplômes, autorisation, inscription, CV, assurance) et le
+                    résultat de la pré-vérification, pour évaluer votre dossier.
+                    Jamais votre CIN, RIB, date de naissance ni téléphone. Vous
+                    pouvez retirer cet accord à tout moment depuis votre tableau
+                    de bord.
+                  </span>
+                </span>
+              </label>
               <DataPrivacyNotice />
             </div>
           )}

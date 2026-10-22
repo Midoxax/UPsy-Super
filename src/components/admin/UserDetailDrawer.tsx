@@ -57,6 +57,7 @@ const ROLES: AppRole[] = [
   "athlete",
   "coach",
   "organization",
+  "league",
 ];
 
 interface Props {

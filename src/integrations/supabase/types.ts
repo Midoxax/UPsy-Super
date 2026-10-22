@@ -595,6 +595,57 @@ export type Database = {
         };
         Relationships: [];
       };
+      league_reviews: {
+        Row: {
+          application_id: string;
+          created_at: string;
+          id: string;
+          member_status: string;
+          notes: string | null;
+          recommendation: string;
+          reviewer_id: string;
+          score_documents: number;
+          score_ethics: number;
+          score_experience: number;
+          score_specialisation: number;
+          score_training: number;
+          total: number | null;
+          updated_at: string;
+        };
+        Insert: {
+          application_id: string;
+          created_at?: string;
+          id?: string;
+          member_status?: string;
+          notes?: string | null;
+          recommendation: string;
+          reviewer_id: string;
+          score_documents: number;
+          score_ethics: number;
+          score_experience: number;
+          score_specialisation: number;
+          score_training: number;
+          total?: number | null;
+          updated_at?: string;
+        };
+        Update: {
+          application_id?: string;
+          created_at?: string;
+          id?: string;
+          member_status?: string;
+          notes?: string | null;
+          recommendation?: string;
+          reviewer_id?: string;
+          score_documents?: number;
+          score_ethics?: number;
+          score_experience?: number;
+          score_specialisation?: number;
+          score_training?: number;
+          total?: number | null;
+          updated_at?: string;
+        };
+        Relationships: [];
+      };
       athlete_profiles: {
         Row: {
           coach_id: string | null;
@@ -5098,6 +5149,9 @@ export type Database = {
       };
       psychologist_applications: {
         Row: {
+          league_share_consent: boolean;
+          league_share_consented_at: string | null;
+          source: string | null;
           accreditation_level: string;
           accreditation_number: string | null;
           auto_check_flags: Json | null;
@@ -5148,6 +5202,9 @@ export type Database = {
           years_experience: number | null;
         };
         Insert: {
+          league_share_consent?: boolean;
+          league_share_consented_at?: string | null;
+          source?: string | null;
           accreditation_level?: string;
           accreditation_number?: string | null;
           auto_check_flags?: Json | null;
@@ -5198,6 +5255,9 @@ export type Database = {
           years_experience?: number | null;
         };
         Update: {
+          league_share_consent?: boolean;
+          league_share_consented_at?: string | null;
+          source?: string | null;
           accreditation_level?: string;
           accreditation_number?: string | null;
           auto_check_flags?: Json | null;
@@ -7135,6 +7195,57 @@ export type Database = {
       };
     };
     Functions: {
+      league_applications: {
+        Args: never;
+        Returns: {
+          id: string;
+          full_name: string;
+          email: string;
+          city: string | null;
+          years_experience: number | null;
+          qualifications: string | null;
+          accreditation_number: string | null;
+          specialties: string[] | null;
+          approaches: string[] | null;
+          languages: string[] | null;
+          bio_short: string | null;
+          photo_url: string | null;
+          status: string;
+          accreditation_level: string;
+          suggested_level: string | null;
+          auto_check_status: string | null;
+          auto_check_flags: Json;
+          submitted_at: string | null;
+          consented_at: string | null;
+          source: string | null;
+          doc_diploma_url: string | null;
+          doc_cv_url: string | null;
+          doc_license_morocco_url: string | null;
+          doc_order_registration_url: string | null;
+          doc_insurance_url: string | null;
+          doc_specialty_certs_urls: string[] | null;
+          upsy_score: number;
+          league_avg: number | null;
+          league_reviews: number;
+          my_review: Json | null;
+        }[];
+      };
+      league_recruitment_stats: {
+        Args: { p_source?: string };
+        Returns: Json;
+      };
+      league_file_shared: {
+        Args: { _app: string };
+        Returns: boolean;
+      };
+      is_league_reviewer: {
+        Args: { _uid: string };
+        Returns: boolean;
+      };
+      set_league_share: {
+        Args: { p_consent: boolean };
+        Returns: boolean;
+      };
       athlete_shared_overview: {
         Args: { p_athlete: string };
         Returns: Json;
@@ -7975,7 +8086,8 @@ export type Database = {
         | "user"
         | "athlete"
         | "coach"
-        | "organization";
+        | "organization"
+        | "league";
       certificate_type:
         | "course_completion"
         | "assessment_completion"
@@ -8142,6 +8254,7 @@ export const Constants = {
         "athlete",
         "coach",
         "organization",
+        "league",
       ],
       certificate_type: [
         "course_completion",

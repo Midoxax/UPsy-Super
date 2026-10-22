@@ -82,6 +82,8 @@ const RoleRouter = () => {
         return <Navigate to="/dashboard/organization" replace />;
       case "athlete":
         return <Navigate to="/athlete-hub" replace />;
+      case "league":
+        return <Navigate to="/league" replace />;
     }
   }
 
@@ -92,6 +94,8 @@ const RoleRouter = () => {
       return <Navigate to="/dashboard/specialist" replace />;
     case "organization":
       return <Navigate to="/dashboard/organization" replace />;
+    case "league":
+      return <Navigate to="/league" replace />;
     case "athlete":
     case "coach":
       return <Navigate to="/athlete-hub" replace />;

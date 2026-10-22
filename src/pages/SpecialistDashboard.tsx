@@ -47,6 +47,7 @@ import SpecialistBurnoutCard from "@/components/dashboard/SpecialistBurnoutCard"
 import SmartSchedulingCard from "@/components/dashboard/SmartSchedulingCard";
 import ContinueLearningCard from "@/components/dashboard/ContinueLearningCard";
 import AthletesTab from "@/components/dashboard/AthletesTab";
+import LeagueShareCard from "@/components/dashboard/LeagueShareCard";
 
 const SpecialistDashboard = () => {
   return (
@@ -240,6 +241,7 @@ const SpecialistDashboard = () => {
               </Button>
             </Card>
 
+            <LeagueShareCard />
             <SpecialistBurnoutCard />
             <SmartSchedulingCard />
             <ContinueLearningCard path="clinical-cpd" />
