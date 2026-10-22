@@ -6035,31 +6035,34 @@ export type Database = {
       };
       reviews: {
         Row: {
+          booking_id: string | null;
           client_id: string;
           comment: string | null;
           created_at: string | null;
           id: string;
           psychologist_id: string;
           rating: number;
-          session_id: string;
+          session_id: string | null;
         };
         Insert: {
+          booking_id?: string | null;
           client_id: string;
           comment?: string | null;
           created_at?: string | null;
           id?: string;
           psychologist_id: string;
           rating: number;
-          session_id: string;
+          session_id?: string | null;
         };
         Update: {
+          booking_id?: string | null;
           client_id?: string;
           comment?: string | null;
           created_at?: string | null;
           id?: string;
           psychologist_id?: string;
           rating?: number;
-          session_id?: string;
+          session_id?: string | null;
         };
         Relationships: [
           {
@@ -7405,6 +7408,19 @@ export type Database = {
       };
     };
     Functions: {
+      psychologist_rating: {
+        Args: { p_psychologist: string };
+        Returns: { avg_rating: number; n: number }[];
+      };
+      psychologist_reviews: {
+        Args: { p_psychologist: string; p_limit?: number };
+        Returns: {
+          id: string;
+          rating: number;
+          comment: string | null;
+          created_at: string;
+        }[];
+      };
       admin_email_health: {
         Args: never;
         Returns: Json;

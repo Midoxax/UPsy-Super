@@ -8,7 +8,6 @@ interface Review {
   rating: number;
   comment: string | null;
   created_at: string;
-  client_id: string;
 }
 
 interface ReviewsListProps {
@@ -26,12 +25,12 @@ const ReviewsList = ({ psychologistId }: ReviewsListProps) => {
       // `error` was previously discarded, so a failed request was indistinguishable
       // from a psychologist with no reviews yet — the section rendered its empty
       // state and the failure never reached the console or the user.
-      const { data, error } = await supabase
-        .from("reviews")
-        .select("id, rating, comment, created_at, client_id")
-        .eq("psychologist_id", psychologistId)
-        .order("created_at", { ascending: false })
-        .limit(20);
+      // The public function omits the reviewer's identity; the reviews
+      // table itself is readable only by its client and psychologist.
+      const { data, error } = await supabase.rpc("psychologist_reviews", {
+        p_psychologist: psychologistId,
+        p_limit: 20,
+      });
       if (cancelled) return;
       if (error) {
         console.error("[reviews] failed to load:", error.message);
@@ -61,7 +60,7 @@ const ReviewsList = ({ psychologistId }: ReviewsListProps) => {
       : null;
 
   const getInitials = (id: string) => {
-    // Generate consistent 2-letter initials from client_id
+    // Consistent anonymous initials derived from the review id
     const chars = id.replace(/-/g, "").slice(0, 4).toUpperCase();
     return chars.slice(0, 1) + "." + chars.slice(1, 2) + ".";
   };
@@ -137,7 +136,7 @@ const ReviewsList = ({ psychologistId }: ReviewsListProps) => {
                         border: "1px solid rgba(255,179,0,0.2)",
                       }}
                     >
-                      {getInitials(review.client_id)}
+                      {getInitials(review.id)}
                     </div>
                     <div className="flex">
                       {[...Array(5)].map((_, j) => (
