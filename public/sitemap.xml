@@ -1945,6 +1945,33 @@
     <xhtml:link rel="alternate" hreflang="ar" href="https://www.upsy.ma/ar/soleterre" />
   </url>
   <url>
+    <loc>https://www.upsy.ma/academy</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.upsy.ma/academy" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.upsy.ma/academy" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.upsy.ma/fr/academy" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.upsy.ma/ar/academy" />
+  </url>
+  <url>
+    <loc>https://www.upsy.ma/fr/academy</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.upsy.ma/academy" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.upsy.ma/academy" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.upsy.ma/fr/academy" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.upsy.ma/ar/academy" />
+  </url>
+  <url>
+    <loc>https://www.upsy.ma/ar/academy</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.upsy.ma/academy" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.upsy.ma/academy" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.upsy.ma/fr/academy" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.upsy.ma/ar/academy" />
+  </url>
+  <url>
     <loc>https://www.upsy.ma/campaigns/join-specialist</loc>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
