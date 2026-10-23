@@ -1,0 +1,430 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>U.Psy Academy — Programme hybride 2026-2027</title>
+<style>
+@font-face { font-family: Fraunces; src: url(assets/fraunces-latin-400-normal.woff2); font-weight: 400; }
+@font-face { font-family: Fraunces; src: url(assets/fraunces-latin-400-italic.woff2); font-weight: 400; font-style: italic; }
+@font-face { font-family: Fraunces; src: url(assets/fraunces-latin-600-normal.woff2); font-weight: 600; }
+@font-face { font-family: Fraunces; src: url(assets/fraunces-latin-700-normal.woff2); font-weight: 700; }
+@font-face { font-family: Manrope; src: url(assets/manrope-latin-400-normal.woff2); font-weight: 400; }
+@font-face { font-family: Manrope; src: url(assets/manrope-latin-500-normal.woff2); font-weight: 500; }
+@font-face { font-family: Manrope; src: url(assets/manrope-latin-600-normal.woff2); font-weight: 600; }
+@font-face { font-family: Manrope; src: url(assets/manrope-latin-700-normal.woff2); font-weight: 700; }
+
+:root {
+  --wine: #6B1F2A; --wine-deep: #4a141d; --gold: #FFB300; --gold-ink: #9a6a00;
+  --sand: #EFE5D6; --sand-2: #E4D5BF; --paper: #FAF6F0; --ink: #2A1A1D; --muted: #6E5D5A; --line: #DCCDB8;
+}
+@page { size: A4; margin: 0; }
+* { box-sizing: border-box; }
+html, body { margin: 0; background: #d9d0c4; }
+body { font: 400 10pt/1.55 Manrope, sans-serif; color: var(--ink); -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+.page { width: 210mm; height: 297mm; position: relative; overflow: hidden; background: var(--paper); page-break-after: always; margin: 0 auto 8mm; }
+@media print { .page { margin: 0; } html, body { background: none; } }
+.pad { position: absolute; inset: 20mm 18mm 18mm; display: flex; flex-direction: column; }
+.folio { position: absolute; bottom: 9mm; left: 18mm; right: 18mm; display: flex; justify-content: space-between; font: 600 7pt Manrope; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+.kicker { font: 700 7.5pt Manrope; letter-spacing: .2em; text-transform: uppercase; color: var(--wine); }
+h1, h2, h3 { font-family: Fraunces, serif; font-weight: 600; margin: 0; letter-spacing: -.01em; }
+h2 { font-size: 27pt; line-height: 1.08; margin: 5mm 0 6mm; text-wrap: balance; }
+h3 { font-size: 13pt; line-height: 1.2; margin: 0 0 2mm; }
+p { margin: 0 0 3.2mm; }
+.lede { font: 400 13pt/1.45 Fraunces, serif; color: var(--ink); }
+em { font-family: Fraunces, serif; font-style: italic; }
+.tbc { background: #FFE9B0; color: #6b4a00; padding: 0 1.4mm; border-radius: 1mm; font-weight: 600; white-space: nowrap; }
+.rule { height: 0; border-top: .35mm solid var(--wine); width: 18mm; margin: 0 0 5mm; }
+.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 7mm; }
+.grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 5mm; }
+.card { background: #fff; border: .25mm solid var(--line); border-radius: 2.5mm; padding: 5mm; }
+.num { font: 600 30pt/1 Fraunces; color: var(--wine); }
+ul.ticks { list-style: none; margin: 0; padding: 0; }
+ul.ticks li { position: relative; padding-left: 6mm; margin: 0 0 2.2mm; }
+ul.ticks li::before { content: ""; position: absolute; left: 0; top: 1.7mm; width: 2.6mm; height: 2.6mm; border-radius: 50%; background: var(--gold); }
+.wordmark { height: 11mm; }
+
+/* cover */
+.cover { background: var(--wine); color: var(--paper); }
+.cover .art { position: absolute; left: -6mm; right: -6mm; top: 62mm; height: 150mm; background: url(assets/athlete-hub.png) center/contain no-repeat; }
+.cover h1 { font-size: 46pt; line-height: 1; letter-spacing: -.02em; }
+.cover h1 em { color: var(--gold); }
+.cover .sub { font: 400 12pt/1.45 Manrope; max-width: 120mm; opacity: .92; margin-top: 5mm; }
+.cover .tag { display: inline-block; border: .3mm solid var(--gold); color: var(--gold); padding: 1.6mm 3.5mm; border-radius: 10mm; font: 700 7.5pt Manrope; letter-spacing: .16em; text-transform: uppercase; }
+.cover .foot { position: absolute; left: 18mm; right: 18mm; bottom: 16mm; display: flex; justify-content: space-between; align-items: end; font: 600 8pt Manrope; letter-spacing: .12em; text-transform: uppercase; }
+.cover .wm { filter: brightness(0) invert(1); height: 10mm; }
+
+/* manifesto */
+.quote { font: 400 21pt/1.25 Fraunces; color: var(--wine); text-wrap: balance; }
+.quote em { color: var(--ink); }
+.stat { border-top: .3mm solid var(--line); padding-top: 4mm; }
+.stat small { display: block; color: var(--muted); font-size: 7.5pt; margin-top: 1.5mm; }
+
+/* ecosystem */
+.eco { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4mm; margin-top: 4mm; }
+.eco .card { padding: 4mm; min-height: 47mm; display: flex; flex-direction: column; }
+.eco .card .ico { height: 25mm; background: center/contain no-repeat; margin: -2mm -2mm 2mm; }
+.eco .card b { font: 600 11pt Fraunces; display: block; margin-bottom: 1mm; color: var(--wine); }
+.eco .card span { font-size: 8.6pt; color: var(--muted); line-height: 1.45; }
+
+/* hybrid */
+.timeline { display: grid; grid-template-columns: repeat(4, 1fr); gap: 3mm; margin: 4mm 0 6mm; }
+.step { background: var(--sand); border-radius: 2.5mm; padding: 4.5mm; position: relative; }
+.step .n { font: 700 7pt Manrope; letter-spacing: .18em; color: var(--wine); text-transform: uppercase; }
+.step b { display: block; font: 600 12pt/1.2 Fraunces; margin: 1.5mm 0; }
+.step span { font-size: 8.6pt; color: var(--muted); }
+.split { display: grid; grid-template-columns: 1.1fr .9fr; gap: 8mm; align-items: center; }
+
+/* track pages */
+.track .band { position: absolute; left: 0; right: 0; top: 0; height: 96mm; background: var(--sand); }
+.track .band .img { position: absolute; right: 6mm; top: 4mm; width: 108mm; height: 88mm; background: center/contain no-repeat; }
+.track .head { position: absolute; left: 18mm; top: 20mm; width: 82mm; }
+.track .head .tno { font: 600 52pt/1 Fraunces; color: var(--wine); }
+.track .head h2 { font-size: 22pt; margin: 3mm 0 3mm; }
+.track .head p { font-size: 9.6pt; color: var(--ink); }
+.track .body { position: absolute; left: 18mm; right: 18mm; top: 104mm; bottom: 18mm; display: grid; grid-template-columns: 1fr 64mm; gap: 8mm; }
+.mod { display: grid; grid-template-columns: 9mm 1fr; gap: 0 2mm; padding: 2.1mm 0; border-bottom: .25mm solid var(--line); }
+.mod:last-child { border-bottom: 0; }
+.mod i { font: 600 10pt Fraunces; font-style: normal; color: var(--gold-ink); }
+.mod b { font: 600 10.4pt Manrope; display: block; }
+.outcome { margin-top: 4mm; background: var(--sand); border-radius: 2.5mm; padding: 4.5mm 5mm; }
+.outcome h3 { font-size: 11pt; color: var(--wine); }
+.outcome ul { margin: 0; }
+.mod span { font-size: 8.5pt; color: var(--muted); }
+.facts { background: var(--wine); color: var(--paper); border-radius: 3mm; padding: 6mm; align-self: start; }
+.facts dl { margin: 0; }
+.facts dt { font: 700 6.8pt Manrope; letter-spacing: .18em; text-transform: uppercase; color: var(--gold); margin-top: 3.6mm; }
+.facts dt:first-child { margin-top: 0; }
+.facts dd { margin: .8mm 0 0; font-size: 9pt; line-height: 1.4; }
+.facts .tbc { background: rgba(255,179,0,.18); color: var(--gold); }
+
+/* faculty */
+.person { display: grid; grid-template-columns: 34mm 1fr; gap: 6mm; align-items: center; }
+.person img { width: 34mm; height: 40mm; object-fit: cover; border-radius: 2.5mm; filter: saturate(.9); }
+.seal { display: grid; grid-template-columns: 40mm 1fr; gap: 6mm; align-items: center; }
+.seal .ill { height: 40mm; background: url(assets/league.png) center/contain no-repeat; }
+.levels { display: grid; grid-template-columns: repeat(6, 1fr); gap: 2mm; margin-top: 3mm; }
+.levels div { background: var(--sand); border-radius: 1.8mm; padding: 2.4mm 2mm; text-align: center; font-size: 7.6pt; line-height: 1.3; }
+.levels div b { display: block; font: 600 13pt Fraunces; color: var(--wine); }
+
+/* practical */
+table.info { width: 100%; border-collapse: collapse; font-size: 9.4pt; }
+table.info th { text-align: left; font: 700 7pt Manrope; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); padding: 2.6mm 0; border-bottom: .3mm solid var(--wine); }
+table.info td { padding: 3mm 2mm 3mm 0; border-bottom: .25mm solid var(--line); vertical-align: top; }
+.amb { background: var(--wine); color: var(--paper); border-radius: 3mm; padding: 6mm 7mm; display: grid; grid-template-columns: 1fr 34mm; gap: 6mm; align-items: center; }
+.amb h3 { color: var(--gold); font-size: 15pt; }
+.amb .qr { background: var(--paper); padding: 3mm; border-radius: 2mm; }
+.amb .qr img { width: 100%; display: block; }
+
+/* back */
+.back { background: var(--sand); }
+.back .art { position: absolute; left: 20mm; right: 20mm; top: 34mm; height: 120mm; background: url(assets/online-africa.png) center/contain no-repeat; }
+.back .mission { position: absolute; left: 18mm; right: 18mm; top: 170mm; text-align: center; }
+.back .mission .quote { font-size: 22pt; }
+.back .contact { position: absolute; left: 18mm; right: 18mm; bottom: 20mm; display: flex; justify-content: space-between; align-items: end; font-size: 9pt; }
+.back .contact b { display: block; font: 600 11pt Fraunces; color: var(--wine); }
+</style>
+</head>
+<body>
+
+<!-- 1. Cover -->
+<section class="page cover">
+  <div class="pad">
+    <span class="tag">Programme hybride · 2026-2027</span>
+    <h1 style="margin-top:9mm">Former l'excellence.<br><em>Ouvrir l'accès.</em></h1>
+    <p class="sub">U.Psy Academy : quatre parcours pour les psychologues, les sportifs, les entraîneurs et les organisations qui veulent faire de la santé mentale un levier de performance et un droit pour tous.</p>
+  </div>
+  <div class="art" role="img" aria-label="Piste d'athlétisme qui se transforme en flèche ascendante"></div>
+  <div class="foot">
+    <img class="wm" src="assets/upsy-wordmark.webp" alt="U.Psy">
+    <span>upsy.ma · Maroc · Afrique · en ligne</span>
+  </div>
+</section>
+
+<!-- 2. Manifesto -->
+<section class="page">
+  <div class="pad">
+    <span class="kicker">Notre raison d'être</span>
+    <div class="rule" style="margin-top:5mm"></div>
+    <p class="quote">Au Maroc et en Afrique, la plupart des personnes qui ont besoin d'un psychologue n'en voient jamais. <em>Nous construisons le chemin le plus court entre un besoin et le bon professionnel.</em></p>
+    <div class="grid2" style="margin-top:12mm">
+      <div>
+        <p>U.Psy est né d'une conviction clinique : la santé mentale n'est pas un luxe réservé à quelques-uns. C'est une condition de la santé, de l'apprentissage, du travail et de la performance sportive.</p>
+        <p>Pour la rendre accessible, il faut deux choses en même temps : des professionnels formés au plus haut niveau, et une infrastructure qui les met en relation avec ceux qui en ont besoin, au cabinet ou en ligne, en darija, en arabe, en français ou en anglais.</p>
+      </div>
+      <div>
+        <p>U.Psy Academy est la première de ces deux moitiés. Elle forme, certifie et accompagne les praticiens qui rejoignent le réseau, et elle transmet aux sportifs, aux entraîneurs et aux organisations les outils que la recherche a validés.</p>
+        <p>La plateforme est la seconde : orientation, réservation, téléconsultation, suivi, et une évaluation des dossiers par la Ligue des Spécialistes de la Santé Psychologique et Mentale (LSSPM).</p>
+      </div>
+    </div>
+    <div style="height:62mm;margin:6mm 0;background:url(assets/care.png) center/contain no-repeat"></div>
+    <div class="grid3" style="margin-top:auto">
+      <div class="stat"><div class="num">4</div>parcours de formation<small>Sport · préparation mentale · organisations · clinique</small></div>
+      <div class="stat"><div class="num">11</div>écoles thématiques<small>Le Centre de formation U.Psy, de la clinique à l'IA</small></div>
+      <div class="stat"><div class="num">4</div>langues de pratique<small>Darija, arabe, français, anglais</small></div>
+    </div>
+  </div>
+  <div class="folio"><span>U.Psy Academy</span><span>02</span></div>
+</section>
+
+<!-- 3. Ecosystem -->
+<section class="page">
+  <div class="pad">
+    <span class="kicker">Un écosystème, pas seulement une formation</span>
+    <h2>Ce que vous apprenez ici, vous l'exercez sur U.Psy dès le lendemain.</h2>
+    <p style="max-width:150mm">Chaque parcours débouche sur la plateforme : un profil vérifié, des patients orientés, des outils de suivi et une communauté de pairs. La formation n'est pas une fin, c'est une porte d'entrée.</p>
+    <div class="eco">
+      <div class="card"><div class="ico" style="background-image:url(assets/care.png)"></div><b>Accompagnement</b><span>Psychologues vérifiés, au cabinet ou en visio, avec tarifs affichés.</span></div>
+      <div class="card"><div class="ico" style="background-image:url(assets/get-matched.png)"></div><b>Orientation</b><span>Un parcours en 6 étapes qui oriente chaque personne vers le bon praticien.</span></div>
+      <div class="card"><div class="ico" style="background-image:url(assets/athlete-hub.png)"></div><b>Espace Athlète</b><span>Disponibilité, objectifs, compétitions, protocoles, journal et rapport de progression.</span></div>
+      <div class="card"><div class="ico" style="background-image:url(assets/assessments.png)"></div><b>Évaluations</b><span>Dépistages validés (GAD-7, PHQ-9) et outils de profilage sportif.</span></div>
+      <div class="card"><div class="ico" style="background-image:url(assets/league.png)"></div><b>Ligue LSSPM</b><span>Revue des dossiers professionnels par la Ligue, pour un réseau de confiance.</span></div>
+      <div class="card"><div class="ico" style="background-image:url(assets/newsletter.png)"></div><b>Communauté</b><span>Espaces de pairs, supervision, veille mensuelle et Observatoire U.Psy.</span></div>
+    </div>
+  </div>
+  <div class="folio"><span>U.Psy Academy</span><span>03</span></div>
+</section>
+
+<!-- 4. Hybrid model -->
+<section class="page">
+  <div class="pad">
+    <span class="kicker">Le format hybride</span>
+    <h2>Le meilleur du présentiel et du digital, dans un seul parcours.</h2>
+    <div class="split">
+      <div>
+        <p class="lede">Les compétences cliniques et la préparation mentale s'apprennent en pratiquant, devant un formateur. La théorie, elle, s'apprend mieux à son rythme.</p>
+        <p>Chaque parcours alterne donc des journées intensives en présentiel, des modules en ligne disponibles à tout moment, des classes virtuelles en direct et une mise en pratique supervisée sur la plateforme U.Psy.</p>
+      </div>
+      <div style="height:70mm;background:url(assets/online-africa.png) center/contain no-repeat"></div>
+    </div>
+    <div class="timeline">
+      <div class="step"><span class="n">Étape 1</span><b>Lancement en présentiel</b><span>Deux jours intensifs : cadre, méthodes, mises en situation.</span></div>
+      <div class="step"><span class="n">Étape 2</span><b>Modules en ligne</b><span>Vidéos, lectures, quiz, études de cas, à votre rythme.</span></div>
+      <div class="step"><span class="n">Étape 3</span><b>Classes virtuelles</b><span>Sessions en direct avec les formateurs, questions, supervision.</span></div>
+      <div class="step"><span class="n">Étape 4</span><b>Pratique et certification</b><span>Cas réels supervisés, journée de clôture, évaluation finale.</span></div>
+    </div>
+    <div class="grid2">
+      <div class="card"><h3>Présentiel</h3><p style="margin:0">Villes : <span class="tbc">à confirmer</span><br>Rythme : <span class="tbc">à confirmer</span></p></div>
+      <div class="card"><h3>En ligne</h3><p style="margin:0">Accessible depuis le Maroc, l'Afrique et la diaspora. Replays disponibles pendant toute la durée du parcours.</p></div>
+    </div>
+  </div>
+  <div class="folio"><span>U.Psy Academy</span><span>04</span></div>
+</section>
+
+<!-- 5. Track 1 -->
+<section class="page track">
+  <div class="band"><div class="img" style="background-image:url(assets/athlete-hub.png)"></div></div>
+  <div class="head">
+    <span class="kicker">Parcours 01 · Professionnels</span>
+    <h2>Certification en psychologie du sport et de la performance</h2>
+    <p>Pour les psychologues et les professionnels de l'accompagnement qui veulent intervenir auprès des sportifs, des clubs et des fédérations avec rigueur.</p>
+  </div>
+  <div class="body">
+    <div>
+      <div class="mod"><i>01</i><div><b>Fondements de la psychologie du sport</b><span>Motivation, attention, émotions et performance ; le cadre d'intervention.</span></div></div>
+      <div class="mod"><i>02</i><div><b>Évaluation et profilage mental</b><span>Entretien, outils psychométriques, lecture des données de disponibilité.</span></div></div>
+      <div class="mod"><i>03</i><div><b>Techniques d'intervention</b><span>Imagerie, routines, fixation d'objectifs, régulation émotionnelle, dialogue interne.</span></div></div>
+      <div class="mod"><i>04</i><div><b>Préparation à la compétition</b><span>Gestion de la pression, plans pré-compétition, analyse post-compétition.</span></div></div>
+      <div class="mod"><i>05</i><div><b>Santé mentale de l'athlète</b><span>Blessure, transitions de carrière, surentraînement, repérage et orientation.</span></div></div>
+      <div class="mod"><i>06</i><div><b>Éthique et pratique en club</b><span>Confidentialité, rôles avec le staff, contractualisation, travail en fédération.</span></div></div>
+      <div class="outcome"><h3>À l'issue du parcours, vous saurez</h3><ul class="ticks"><li>Conduire une évaluation mentale complète d'un sportif</li><li>Construire et suivre un plan de préparation mentale</li><li>Intervenir dans un club ou une fédération avec un cadre clair</li></ul></div>
+    </div>
+    <div class="facts"><dl>
+      <dt>Public</dt><dd>Psychologues, étudiants en fin de cursus, professionnels de l'accompagnement</dd>
+      <dt>Format</dt><dd>Hybride : présentiel, modules en ligne, supervision de cas</dd>
+      <dt>Durée</dt><dd><span class="tbc">à confirmer</span></dd>
+      <dt>Validation</dt><dd>Certificat U.Psy après évaluation finale et cas supervisés</dd>
+      <dt>Débouché</dt><dd>Profil « Performance » sur U.Psy et accès à l'Espace Athlète</dd>
+    </dl></div>
+  </div>
+  <div class="folio"><span>Parcours 01</span><span>05</span></div>
+</section>
+
+<!-- 6. Track 2 -->
+<section class="page track">
+  <div class="band"><div class="img" style="background-image:url(assets/get-matched.png)"></div></div>
+  <div class="head">
+    <span class="kicker">Parcours 02 · Sportifs et entraîneurs</span>
+    <h2>Préparation mentale à la compétition</h2>
+    <p>Pour les sportifs, les entraîneurs et les clubs qui veulent travailler le mental avec la même méthode que le physique.</p>
+  </div>
+  <div class="body">
+    <div>
+      <div class="mod"><i>01</i><div><b>Comprendre son fonctionnement mental</b><span>Stress, activation, confiance : ce qui se passe avant et pendant l'épreuve.</span></div></div>
+      <div class="mod"><i>02</i><div><b>Concentration et attention</b><span>Rester dans l'action, revenir au présent après une erreur.</span></div></div>
+      <div class="mod"><i>03</i><div><b>Routines de performance</b><span>Construire sa routine d'avant-match, de récupération et de sommeil.</span></div></div>
+      <div class="mod"><i>04</i><div><b>Gérer la pression</b><span>Respiration, imagerie, dialogue interne, plan de match mental.</span></div></div>
+      <div class="mod"><i>05</i><div><b>Rebondir</b><span>Après une défaite, une blessure ou une sélection manquée.</span></div></div>
+      <div class="mod"><i>06</i><div><b>Le rôle de l'entraîneur</b><span>Communication, climat d'équipe, repérer quand orienter vers un psychologue.</span></div></div>
+      <div class="outcome"><h3>À l'issue du parcours, vous saurez</h3><ul class="ticks"><li>Appliquer une routine de performance personnelle</li><li>Gérer la pression avant et pendant la compétition</li><li>Suivre sa progression dans l'Espace Athlète</li></ul></div>
+    </div>
+    <div class="facts"><dl>
+      <dt>Public</dt><dd>Sportifs (dès 15 ans, avec accord parental pour les mineurs), entraîneurs, clubs</dd>
+      <dt>Format</dt><dd>Ateliers en présentiel, programme en ligne et suivi dans l'Espace Athlète</dd>
+      <dt>Durée</dt><dd><span class="tbc">à confirmer</span></dd>
+      <dt>Livrable</dt><dd>Plan mental personnel et rapport de progression</dd>
+      <dt>Pour les clubs</dt><dd>Sessions d'équipe et tableau de bord collectif</dd>
+    </dl></div>
+  </div>
+  <div class="folio"><span>Parcours 02</span><span>06</span></div>
+</section>
+
+<!-- 7. Track 3 -->
+<section class="page track">
+  <div class="band"><div class="img" style="background-image:url(assets/league.png)"></div></div>
+  <div class="head">
+    <span class="kicker">Parcours 03 · Organisations</span>
+    <h2>Résilience et leadership</h2>
+    <p>Pour les entreprises, les fédérations et les institutions qui veulent prévenir l'épuisement et faire de la santé psychologique un levier de performance collective.</p>
+  </div>
+  <div class="body">
+    <div>
+      <div class="mod"><i>01</i><div><b>Comprendre le stress au travail</b><span>Mécanismes, signaux d'alerte, facteurs organisationnels.</span></div></div>
+      <div class="mod"><i>02</i><div><b>Prévenir l'épuisement professionnel</b><span>Charge, récupération, limites, repérage précoce.</span></div></div>
+      <div class="mod"><i>03</i><div><b>Leadership et sécurité psychologique</b><span>Créer un climat où l'on peut parler, se tromper et progresser.</span></div></div>
+      <div class="mod"><i>04</i><div><b>Communication en situation difficile</b><span>Conflits, annonces, accompagnement d'un collaborateur en difficulté.</span></div></div>
+      <div class="mod"><i>05</i><div><b>Mesurer pour agir</b><span>Baromètre de bien-être, indicateurs, plan d'action.</span></div></div>
+      <div class="mod"><i>06</i><div><b>Orienter vers le soin</b><span>Un circuit clair vers un psychologue, dans le respect de la confidentialité.</span></div></div>
+      <div class="outcome"><h3>À l'issue du parcours, vous saurez</h3><ul class="ticks"><li>Repérer les signaux d'épuisement dans une équipe</li><li>Installer des pratiques de sécurité psychologique</li><li>Mesurer le bien-être et piloter un plan d'action</li></ul></div>
+    </div>
+    <div class="facts"><dl>
+      <dt>Public</dt><dd>Dirigeants, managers, RH, staff de fédérations</dd>
+      <dt>Format</dt><dd>Séminaires sur site, classes virtuelles, programme pour les équipes</dd>
+      <dt>Durée</dt><dd><span class="tbc">à confirmer</span></dd>
+      <dt>Livrable</dt><dd>Diagnostic, plan d'action et indicateurs de suivi</dd>
+      <dt>Option</dt><dd>Accès des collaborateurs aux psychologues U.Psy</dd>
+    </dl></div>
+  </div>
+  <div class="folio"><span>Parcours 03</span><span>07</span></div>
+</section>
+
+<!-- 8. Track 4 -->
+<section class="page track">
+  <div class="band"><div class="img" style="background-image:url(assets/care.png)"></div></div>
+  <div class="head">
+    <span class="kicker">Parcours 04 · Psychologues</span>
+    <h2>Pratique clinique avancée</h2>
+    <p>Pour les psychologues qui veulent consolider leur pratique, en cabinet comme en téléconsultation, en lien avec la Ligue (LSSPM).</p>
+  </div>
+  <div class="body">
+    <div>
+      <div class="mod"><i>01</i><div><b>Entretien et évaluation structurés</b><span>Anamnèse, outils validés, formulation de cas.</span></div></div>
+      <div class="mod"><i>02</i><div><b>Interventions fondées sur les preuves</b><span>TCC et approches validées, adaptation culturelle au contexte marocain.</span></div></div>
+      <div class="mod"><i>03</i><div><b>Risque et crise</b><span>Repérage du risque suicidaire, plan de sécurité, orientation en urgence.</span></div></div>
+      <div class="mod"><i>04</i><div><b>Téléconsultation</b><span>Cadre, éthique, sécurité et alliance thérapeutique à distance.</span></div></div>
+      <div class="mod"><i>05</i><div><b>Dossier et documentation</b><span>Notes, consentement, confidentialité, conservation des données.</span></div></div>
+      <div class="mod"><i>06</i><div><b>Supervision et intervision</b><span>Cas cliniques en petits groupes, avec des praticiens expérimentés.</span></div></div>
+      <div class="outcome"><h3>À l'issue du parcours, vous saurez</h3><ul class="ticks"><li>Structurer une évaluation clinique et une formulation de cas</li><li>Gérer une situation de risque avec un plan de sécurité</li><li>Exercer en téléconsultation avec un cadre éthique solide</li></ul></div>
+    </div>
+    <div class="facts"><dl>
+      <dt>Public</dt><dd>Psychologues cliniciens et psychothérapeutes</dd>
+      <dt>Format</dt><dd>Hybride, avec supervision en petits groupes</dd>
+      <dt>Durée</dt><dd><span class="tbc">à confirmer</span></dd>
+      <dt>Validation</dt><dd>Certificat U.Psy ; dossier transmissible à la LSSPM pour revue</dd>
+      <dt>Débouché</dt><dd>Profil vérifié et patients orientés sur U.Psy</dd>
+    </dl></div>
+  </div>
+  <div class="folio"><span>Parcours 04</span><span>08</span></div>
+</section>
+
+<!-- 9. Pedagogy -->
+<section class="page">
+  <div class="pad">
+    <span class="kicker">Notre pédagogie</span>
+    <h2>Fondée sur la recherche. Ancrée dans le terrain.</h2>
+    <div class="grid2" style="margin-top:2mm">
+      <div class="card"><h3>Des méthodes validées</h3><p style="margin:0">Chaque module s'appuie sur des approches dont l'efficacité est documentée, et sur des outils d'évaluation reconnus comme le GAD-7 et le PHQ-9.</p></div>
+      <div class="card"><h3>Adaptées au contexte</h3><p style="margin:0">Exemples, cas et supports pensés pour le Maroc et l'Afrique, dans les langues dans lesquelles vous exercez.</p></div>
+      <div class="card"><h3>De vrais outils</h3><p style="margin:0">Vous pratiquez avec les outils de la plateforme : Espace Athlète, évaluations, téléconsultation, assistant Nour.</p></div>
+      <div class="card"><h3>Une supervision réelle</h3><p style="margin:0">La certification exige des cas pratiques supervisés, pas seulement un examen.</p></div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:6mm;margin-top:8mm;align-items:center">
+      <div style="height:78mm;background:url(assets/assessments.png) center/contain no-repeat"></div>
+      <div>
+        <h3>Ce que vous recevez</h3>
+        <ul class="ticks">
+          <li>Accès à la plateforme de formation et aux replays</li>
+          <li>Supports, fiches outils et protocoles à réutiliser</li>
+          <li>Accès aux évaluations de la plateforme</li>
+          <li>Espace de pairs et supervision de groupe</li>
+          <li>Certificat U.Psy vérifiable en ligne</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="folio"><span>U.Psy Academy</span><span>09</span></div>
+</section>
+
+<!-- 10. Credentials -->
+<section class="page">
+  <div class="pad">
+    <span class="kicker">Qui forme, qui garantit</span>
+    <h2>Une exigence portée par des praticiens et par la Ligue.</h2>
+    <div class="person" style="margin-top:2mm">
+      <img src="assets/mehdi-felji.webp" alt="Mehdi Felji">
+      <div>
+        <h3>Mehdi Felji</h3>
+        <p style="color:var(--wine);font-weight:600;margin-bottom:2mm">Psychologue clinicien du sport · Fondateur d'U.Psy</p>
+        <p style="margin:0">Il a conçu U.Psy pour rapprocher l'exigence clinique et la performance, et pour rendre l'accompagnement psychologique accessible au plus grand nombre.</p>
+      </div>
+    </div>
+    <div class="card" style="margin-top:7mm"><h3>Équipe pédagogique</h3><p style="margin:0">Psychologues cliniciens, psychologues du sport et spécialistes des organisations. Composition par parcours : <span class="tbc">à confirmer</span></p></div>
+    <div class="seal" style="margin-top:8mm">
+      <div class="ill"></div>
+      <div>
+        <h3>En collaboration avec la LSSPM</h3>
+        <p>La Ligue des Spécialistes de la Santé Psychologique et Mentale (LSSPM) évalue, sur U.Psy, les dossiers des psychologues qui l'y autorisent.</p>
+      </div>
+    </div>
+    <h3 style="margin-top:8mm">La grille de la Ligue</h3>
+    <p style="font-size:9pt;color:var(--muted)">Chaque dossier partagé avec la LSSPM est noté de 0 à 5 sur cinq critères, puis reçoit un avis : recommandé, compléments demandés ou non recommandé.</p>
+    <div class="levels" style="grid-template-columns:repeat(5,1fr)">
+      <div><b>0–5</b>Formation et diplômes</div><div><b>0–5</b>Expérience clinique</div><div><b>0–5</b>Complétude du dossier</div><div><b>0–5</b>Spécialisation</div><div><b>0–5</b>Déontologie</div>
+    </div>
+  </div>
+  <div class="folio"><span>U.Psy Academy</span><span>10</span></div>
+</section>
+
+<!-- 11. Practical -->
+<section class="page">
+  <div class="pad">
+    <span class="kicker">Informations pratiques</span>
+    <h2>Rejoindre la première promotion.</h2>
+    <table class="info">
+      <thead><tr><th>Parcours</th><th>Dates</th><th>Lieux</th><th>Tarif</th></tr></thead>
+      <tbody>
+        <tr><td><b>01 · Psychologie du sport et de la performance</b></td><td><span class="tbc">à confirmer</span></td><td><span class="tbc">à confirmer</span> + en ligne</td><td><span class="tbc">à confirmer</span></td></tr>
+        <tr><td><b>02 · Préparation mentale à la compétition</b></td><td><span class="tbc">à confirmer</span></td><td><span class="tbc">à confirmer</span> + en ligne</td><td><span class="tbc">à confirmer</span></td></tr>
+        <tr><td><b>03 · Résilience et leadership</b></td><td>Sur demande</td><td>Sur site + en ligne</td><td>Sur devis</td></tr>
+        <tr><td><b>04 · Pratique clinique avancée</b></td><td><span class="tbc">à confirmer</span></td><td><span class="tbc">à confirmer</span> + en ligne</td><td><span class="tbc">à confirmer</span></td></tr>
+      </tbody>
+    </table>
+    <div class="grid2" style="margin-top:7mm">
+      <div><h3>Admission</h3><p>Candidature en ligne, puis entretien court. Places limitées par promotion pour garantir la supervision.</p></div>
+      <div><h3>Financement</h3><p>Tarifs groupes pour les clubs, fédérations et organisations. Facilités de paiement : <span class="tbc">à confirmer</span></p></div>
+    </div>
+    <div class="amb" style="margin-top:auto">
+      <div>
+        <h3>Programme Ambassadeurs U.Psy</h3>
+        <p style="margin:2mm 0 0">Les psychologues certifiés de la première promotion peuvent devenir Ambassadeurs : 0 % de commission pendant 3 mois sur la plateforme, puis les fonctionnalités Pro offertes jusqu'au 6e mois, et un badge Ambassadeur sur leur profil.</p>
+        <p style="margin:3mm 0 0;font-weight:600;color:var(--gold)">Candidater : upsy.ma/academy</p>
+      </div>
+      <div class="qr"><img src="assets/qr-brochure.svg" alt="QR code vers upsy.ma/academy"></div>
+    </div>
+  </div>
+  <div class="folio"><span>U.Psy Academy</span><span>11</span></div>
+</section>
+
+<!-- 12. Back -->
+<section class="page back">
+  <div class="art" role="img" aria-label="Globe centré sur l'Afrique relié à une fenêtre de visioconférence"></div>
+  <div class="mission">
+    <p class="quote">La santé mentale, accessible à chacun.<br><em>Portée par les meilleurs professionnels.</em></p>
+  </div>
+  <div class="contact">
+    <div><b>U.Psy</b>www.upsy.ma<br>contact@upsy.ma<br>+212 668-594699</div>
+    <img src="assets/upsy-wordmark.webp" alt="U.Psy" style="height:12mm">
+  </div>
+</section>
+
+</body>
+</html>

@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AboutRouteImport } from './routes/about'
+import { Route as AcademyRouteImport } from './routes/academy'
 import { Route as AiAssistantRouteImport } from './routes/ai-assistant'
 import { Route as AssessmentLabRouteImport } from './routes/assessment-lab'
 import { Route as AssessmentsRouteImport } from './routes/assessments'
@@ -49,6 +50,7 @@ import { Route as UnsubscribeRouteImport } from './routes/unsubscribe'
 import { Route as WhyUsRouteImport } from './routes/why-us'
 import { Route as LocaleIndexRouteImport } from './routes/$locale/index'
 import { Route as LocaleAboutRouteImport } from './routes/$locale/about'
+import { Route as LocaleAcademyRouteImport } from './routes/$locale/academy'
 import { Route as LocaleAiAssistantRouteImport } from './routes/$locale/ai-assistant'
 import { Route as LocaleAssessmentLabRouteImport } from './routes/$locale/assessment-lab'
 import { Route as LocaleAssessmentsRouteImport } from './routes/$locale/assessments'
@@ -211,6 +213,11 @@ const IndexRoute = IndexRouteImport.update({
 const AboutRoute = AboutRouteImport.update({
   id: '/about',
   path: '/about',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AcademyRoute = AcademyRouteImport.update({
+  id: '/academy',
+  path: '/academy',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AiAssistantRoute = AiAssistantRouteImport.update({
@@ -401,6 +408,11 @@ const LocaleIndexRoute = LocaleIndexRouteImport.update({
 const LocaleAboutRoute = LocaleAboutRouteImport.update({
   id: '/$locale/about',
   path: '/$locale/about',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LocaleAcademyRoute = LocaleAcademyRouteImport.update({
+  id: '/$locale/academy',
+  path: '/$locale/academy',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LocaleAiAssistantRoute = LocaleAiAssistantRouteImport.update({
@@ -1203,6 +1215,7 @@ const OpsWorkspaceEventsNewRoute = OpsWorkspaceEventsNewRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/academy': typeof AcademyRoute
   '/ai-assistant': typeof AiAssistantRoute
   '/assessment-lab': typeof AssessmentLabRoute
   '/assessments': typeof AssessmentsRoute
@@ -1240,6 +1253,7 @@ export interface FileRoutesByFullPath {
   '/unsubscribe': typeof UnsubscribeRoute
   '/why-us': typeof WhyUsRoute
   '/$locale/about': typeof LocaleAboutRoute
+  '/$locale/academy': typeof LocaleAcademyRoute
   '/$locale/ai-assistant': typeof LocaleAiAssistantRoute
   '/$locale/assessment-lab': typeof LocaleAssessmentLabRoute
   '/$locale/assessments': typeof LocaleAssessmentsRoute
@@ -1398,6 +1412,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/academy': typeof AcademyRoute
   '/ai-assistant': typeof AiAssistantRoute
   '/assessment-lab': typeof AssessmentLabRoute
   '/assessments': typeof AssessmentsRoute
@@ -1435,6 +1450,7 @@ export interface FileRoutesByTo {
   '/unsubscribe': typeof UnsubscribeRoute
   '/why-us': typeof WhyUsRoute
   '/$locale/about': typeof LocaleAboutRoute
+  '/$locale/academy': typeof LocaleAcademyRoute
   '/$locale/ai-assistant': typeof LocaleAiAssistantRoute
   '/$locale/assessment-lab': typeof LocaleAssessmentLabRoute
   '/$locale/assessments': typeof LocaleAssessmentsRoute
@@ -1593,6 +1609,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/academy': typeof AcademyRoute
   '/ai-assistant': typeof AiAssistantRoute
   '/assessment-lab': typeof AssessmentLabRoute
   '/assessments': typeof AssessmentsRoute
@@ -1630,6 +1647,7 @@ export interface FileRoutesById {
   '/unsubscribe': typeof UnsubscribeRoute
   '/why-us': typeof WhyUsRoute
   '/$locale/about': typeof LocaleAboutRoute
+  '/$locale/academy': typeof LocaleAcademyRoute
   '/$locale/ai-assistant': typeof LocaleAiAssistantRoute
   '/$locale/assessment-lab': typeof LocaleAssessmentLabRoute
   '/$locale/assessments': typeof LocaleAssessmentsRoute
@@ -1790,6 +1808,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/about'
+    | '/academy'
     | '/ai-assistant'
     | '/assessment-lab'
     | '/assessments'
@@ -1827,6 +1846,7 @@ export interface FileRouteTypes {
     | '/unsubscribe'
     | '/why-us'
     | '/$locale/about'
+    | '/$locale/academy'
     | '/$locale/ai-assistant'
     | '/$locale/assessment-lab'
     | '/$locale/assessments'
@@ -1985,6 +2005,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/about'
+    | '/academy'
     | '/ai-assistant'
     | '/assessment-lab'
     | '/assessments'
@@ -2022,6 +2043,7 @@ export interface FileRouteTypes {
     | '/unsubscribe'
     | '/why-us'
     | '/$locale/about'
+    | '/$locale/academy'
     | '/$locale/ai-assistant'
     | '/$locale/assessment-lab'
     | '/$locale/assessments'
@@ -2179,6 +2201,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/about'
+    | '/academy'
     | '/ai-assistant'
     | '/assessment-lab'
     | '/assessments'
@@ -2216,6 +2239,7 @@ export interface FileRouteTypes {
     | '/unsubscribe'
     | '/why-us'
     | '/$locale/about'
+    | '/$locale/academy'
     | '/$locale/ai-assistant'
     | '/$locale/assessment-lab'
     | '/$locale/assessments'
@@ -2375,6 +2399,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
+  AcademyRoute: typeof AcademyRoute
   AiAssistantRoute: typeof AiAssistantRoute
   AssessmentLabRoute: typeof AssessmentLabRoute
   AssessmentsRoute: typeof AssessmentsRoute
@@ -2412,6 +2437,7 @@ export interface RootRouteChildren {
   UnsubscribeRoute: typeof UnsubscribeRoute
   WhyUsRoute: typeof WhyUsRoute
   LocaleAboutRoute: typeof LocaleAboutRoute
+  LocaleAcademyRoute: typeof LocaleAcademyRoute
   LocaleAiAssistantRoute: typeof LocaleAiAssistantRoute
   LocaleAssessmentLabRoute: typeof LocaleAssessmentLabRoute
   LocaleAssessmentsRoute: typeof LocaleAssessmentsRoute
@@ -2575,6 +2601,13 @@ declare module '@tanstack/react-router' {
       path: '/about'
       fullPath: '/about'
       preLoaderRoute: typeof AboutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/academy': {
+      id: '/academy'
+      path: '/academy'
+      fullPath: '/academy'
+      preLoaderRoute: typeof AcademyRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/ai-assistant': {
@@ -2841,6 +2874,13 @@ declare module '@tanstack/react-router' {
       path: '/$locale/about'
       fullPath: '/$locale/about'
       preLoaderRoute: typeof LocaleAboutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/$locale/academy': {
+      id: '/$locale/academy'
+      path: '/$locale/academy'
+      fullPath: '/$locale/academy'
+      preLoaderRoute: typeof LocaleAcademyRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/$locale/ai-assistant': {
@@ -3944,6 +3984,7 @@ const OpsWorkspaceRouteWithChildren = OpsWorkspaceRoute._addFileChildren(
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
+  AcademyRoute: AcademyRoute,
   AiAssistantRoute: AiAssistantRoute,
   AssessmentLabRoute: AssessmentLabRoute,
   AssessmentsRoute: AssessmentsRoute,
@@ -3981,6 +4022,7 @@ const rootRouteChildren: RootRouteChildren = {
   UnsubscribeRoute: UnsubscribeRoute,
   WhyUsRoute: WhyUsRoute,
   LocaleAboutRoute: LocaleAboutRoute,
+  LocaleAcademyRoute: LocaleAcademyRoute,
   LocaleAiAssistantRoute: LocaleAiAssistantRoute,
   LocaleAssessmentLabRoute: LocaleAssessmentLabRoute,
   LocaleAssessmentsRoute: LocaleAssessmentsRoute,
