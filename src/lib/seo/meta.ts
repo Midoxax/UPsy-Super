@@ -3,10 +3,6 @@
 // alternates, robots. The root route renders it into the server HTML, so a
 // crawler gets the right tags before any JavaScript runs.
 import { SITE_URL } from "@/config/site";
-import { ARTICLES } from "@/content/blog/articles";
-import { LEGACY_POSTS } from "@/content/blog/legacy";
-import legacyFr from "@/content/blog/legacy-fr.generated.json";
-import { CITIES, COUNTRIES } from "@/content/seo/places";
 
 export type Lang = "en" | "fr" | "ar";
 type L3 = Record<Lang, string>;
@@ -24,7 +20,14 @@ export interface PageSeo {
   curated: boolean;
 }
 
-const BRAND = " | U.Psy";
+export const BRAND = " | U.Psy";
+
+/** Head copy a route supplies from its loader data (see content.ts). */
+export interface DynamicSeo {
+  title: Partial<L3>;
+  description: Partial<L3>;
+  langs: Lang[];
+}
 
 // Hand-written for the pages people search for. Titles stay under ~60
 // characters before the brand, descriptions under ~155.
@@ -205,6 +208,7 @@ const href = (locale: Lang, path: string) =>
 function contentFor(
   path: string,
   lang: Lang,
+  dynamic?: DynamicSeo | null,
 ): { title: string; description: string; langs: Lang[] } | null {
   const page = PAGES[path];
   if (page)
@@ -213,69 +217,13 @@ function contentFor(
       description: page.description[lang],
       langs: ["en", "fr", "ar"],
     };
-
-  const blog = path.match(/^\/blog\/([a-z0-9-]+)$/);
-  if (blog) {
-    const a = ARTICLES.find((x) => x.slug === blog[1]);
-    if (a) {
-      // Data articles exist in English and French; Arabic readers get French.
-      const c = a.content[lang === "en" ? "en" : "fr"];
-      return {
-        title: c.title + BRAND,
-        description: c.description,
-        langs: ["en", "fr"],
-      };
-    }
-    const p = LEGACY_POSTS.find((x) => x.slug === blog[1]);
-    if (p) {
-      const fr = (
-        legacyFr as Record<string, { title: string; description: string }>
-      )[p.slug];
-      return {
-        title:
-          (lang === "en" ? p.fallbackTitle : (fr?.title ?? p.fallbackTitle)) +
-          BRAND,
-        description:
-          lang === "en" ? p.fallbackDesc : (fr?.description ?? p.fallbackDesc),
-        langs: ["en", "fr", "ar"],
-      };
-    }
-  }
-
-  const city = path.match(/^\/psychologue\/([a-z-]+)$/);
-  if (city) {
-    const c = CITIES.find((x) => x.slug === city[1]);
-    if (c) {
-      const n = c.name[lang];
-      return {
-        title:
-          (lang === "fr"
-            ? `Psychologue à ${n} : cabinet ou en ligne`
-            : lang === "en"
-              ? `Psychologist in ${n}: in person or online`
-              : `أخصائي نفسي في ${n}: حضورياً أو عن بعد`) + BRAND,
-        description: c.intro[lang].slice(0, 155),
-        langs: ["en", "fr", "ar"],
-      };
-    }
-  }
-
-  const country = path.match(/^\/psychologue-en-ligne\/([a-z-]+)$/);
-  if (country) {
-    const c = COUNTRIES.find((x) => x.slug === country[1]);
-    if (c) {
-      const n = c.name[lang];
-      return {
-        title:
-          (lang === "fr"
-            ? `Psychologue en ligne ${c.inFr === "au" ? "au" : "en"} ${n}`
-            : lang === "en"
-              ? `Online psychologist in ${n}`
-              : `أخصائي نفسي عبر الإنترنت في ${n}`) + BRAND,
-        description: c.intro[lang].slice(0, 155),
-        langs: ["en", "fr", "ar"],
-      };
-    }
+  if (dynamic) {
+    // A language the page is not written in falls back to French.
+    const l = dynamic.langs.includes(lang) ? lang : "fr";
+    const title = dynamic.title[l];
+    const description = dynamic.description[l];
+    if (title && description)
+      return { title, description, langs: dynamic.langs };
   }
   return null;
 }
@@ -286,12 +234,28 @@ const DEFAULT: L3 = {
   ar: "U.Psy: أخصائيون نفسيون موثوقون في المغرب وعبر الإنترنت",
 };
 
-export function seoForPath(pathname: string): PageSeo {
+/** The deepest route's loader-supplied head copy, if it has any. */
+export function dynamicSeo(
+  matches: ReadonlyArray<{ loaderData?: unknown }>,
+): DynamicSeo | null {
+  for (let i = matches.length - 1; i >= 0; i--) {
+    const seo = (
+      matches[i].loaderData as { seo?: DynamicSeo | null } | undefined
+    )?.seo;
+    if (seo) return seo;
+  }
+  return null;
+}
+
+export function seoForPath(
+  pathname: string,
+  dynamic?: DynamicSeo | null,
+): PageSeo {
   const { locale, path } = splitLocale(pathname);
   // Berber pages show French or Arabic text for now: they point search
   // engines at the French page rather than competing with it.
   const lang: Lang = locale === "ber" ? "fr" : locale;
-  const content = contentFor(path, lang);
+  const content = contentFor(path, lang, dynamic);
   const langs = content?.langs ?? ["en", "fr", "ar"];
   // A language the page is not written in canonicalises to French.
   const canonicalLang: Lang = langs.includes(lang) ? lang : "fr";

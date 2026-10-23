@@ -2,7 +2,8 @@ import { useEffect } from "react";
 import { useLocale } from "@/contexts/LocaleContext";
 import { addLocalePrefix, stripLocalePrefix } from "@/lib/i18n/utils";
 import { absoluteUrl } from "@/config/site";
-import { seoForPath } from "@/lib/seo/meta";
+import { useRouterState } from "@tanstack/react-router";
+import { dynamicSeo, seoForPath } from "@/lib/seo/meta";
 
 interface SEOHeadProps {
   path: string;
@@ -32,9 +33,10 @@ const SEOHead = ({
 }: SEOHeadProps) => {
   const { locale } = useLocale();
   const basePath = stripLocalePrefix(path);
+  const dynamic = useRouterState({ select: (s) => dynamicSeo(s.matches) });
 
   useEffect(() => {
-    const seo = seoForPath(addLocalePrefix(basePath, locale));
+    const seo = seoForPath(addLocalePrefix(basePath, locale), dynamic);
     const effectiveTitle = seo.curated ? seo.title : title || seo.title;
     const effectiveDescription = seo.curated
       ? seo.description
@@ -96,7 +98,7 @@ const SEOHead = ({
         .querySelectorAll('script[data-seo-jsonld="true"]')
         .forEach((el) => el.remove());
     };
-  }, [locale, basePath, title, description, ogImage, ogType, jsonLd]);
+  }, [locale, basePath, dynamic, title, description, ogImage, ogType, jsonLd]);
 
   return null;
 };
