@@ -196,7 +196,9 @@ export function splitLocale(pathname: string): {
   locale: Lang | "ber";
   path: string;
 } {
-  const clean = pathname.split(/[?#]/)[0] || "/";
+  // Index routes match with a trailing slash ("/psychologists/"); the
+  // canonical form, the sitemap and PAGES keys have none.
+  const clean = pathname.split(/[?#]/)[0].replace(/(.)\/+$/, "$1") || "/";
   const m = clean.match(/^\/(fr|ar|ber)(\/.*)?$/);
   if (m) return { locale: m[1] as Lang | "ber", path: m[2] || "/" };
   return { locale: "en", path: clean };

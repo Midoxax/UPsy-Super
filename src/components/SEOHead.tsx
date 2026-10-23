@@ -64,22 +64,9 @@ const SEOHead = ({
     setMeta("property", "og:image", ogImage || DEFAULT_OG_IMAGE);
     setMeta("name", "twitter:image", ogImage || DEFAULT_OG_IMAGE);
 
-    document
-      .querySelectorAll(
-        'link[rel="alternate"][hreflang], link[rel="canonical"]',
-      )
-      .forEach((el) => el.remove());
-    const canonical = document.createElement("link");
-    canonical.rel = "canonical";
-    canonical.href = seo.canonical;
-    document.head.appendChild(canonical);
-    for (const a of seo.alternates) {
-      const link = document.createElement("link");
-      link.rel = "alternate";
-      link.hreflang = a.hrefLang;
-      link.href = a.href;
-      document.head.appendChild(link);
-    }
+    // Canonical and hreflang links are rendered by the root head, which
+    // updates them on navigation. React owns those elements: removing them
+    // here makes its next head update throw (removeChild on null).
 
     document
       .querySelectorAll('script[data-seo-jsonld="true"]')

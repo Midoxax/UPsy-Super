@@ -325,3 +325,13 @@ describe("deep links have a server entry behind them", () => {
     ).toBe(false);
   });
 });
+
+describe("seoForPath", () => {
+  it("drops an index route's trailing slash and finds its curated copy", () => {
+    const withSlash = seoForPath("/fr/psychologists/");
+    expect(withSlash.canonical).toBe(seoForPath("/fr/psychologists").canonical);
+    expect(withSlash.canonical.endsWith("/")).toBe(false);
+    expect(withSlash.curated).toBe(true);
+    expect(seoForPath("/").canonical.replace(/^https:\/\/[^/]+/, "")).toBe("/");
+  });
+});
