@@ -1,4 +1,54 @@
 const en = {
+  menu: {
+    care: "Care",
+    findPsych: "Find a psychologist",
+    findPsychDesc: "Browse accredited specialists",
+    getMatched: "Get matched",
+    getMatchedDesc: "6-step intelligent matching",
+    selfAssessment: "Self-assessment",
+    selfAssessmentDesc: "Clinical screenings (GAD-7, PHQ-9)",
+    programs: "Programs & services",
+    training: "Training Center",
+    communities: "Communities",
+    communitiesDesc: "Spaces, feeds, discussions",
+    schools: "Schools & academies",
+    schoolsDesc: "11 schools + Civic & Social Impact Academy",
+    courses: "Courses & learning",
+    coursesDesc: "Cohort-based & self-paced",
+    certifications: "Certifications",
+    certificationsDesc: "Performance Psychology pathways",
+    mentors: "Mentors",
+    mentorsDesc: "1:1 elite guidance",
+    athleteHub: "Athlete Hub",
+    dashboard: "Performance dashboard",
+    dashboardDesc: "Readiness, protocols, journal",
+    aiCoach: "AI Coach (Nour)",
+    aiCoachDesc: "Performance & reflective AI",
+    forAthletes: "For athletes",
+    forAthletesDesc: "Why elite performers train here",
+    organizations: "For Organizations",
+    teams: "Teams & enterprises",
+    teamsDesc: "Pulse, programs, dashboards",
+    consulting: "Consulting",
+    talentHub: "Talent Innovation Hub",
+    talentHubDesc: "Research & applied science",
+    applyOrg: "Apply as an organization",
+    about: "About",
+    membership: "Membership",
+    membershipDesc: "7 tiers — Discover → Elite",
+    founder: "Founder",
+    story: "Our story",
+    umbrella: "The Moroccan Umbrella",
+    psf: "Psychologues Sans Frontières",
+    blog: "Blog",
+    applyAccreditation: "Apply for accreditation",
+    specialistPricing: "For specialists · Pricing",
+    homeAria: "U.Psy — Go to homepage",
+    primaryNav: "Primary",
+    installApp: "Install U.Psy app",
+    toggleMenu: "Toggle mobile menu",
+    mobileNav: "Mobile",
+  },
   nav: {
     home: "Home",
     services: "Services",
@@ -1429,7 +1479,7 @@ const en = {
     heroTitle: "Built from the Field. Not from Theory.",
     heroSubtitle:
       "Mehdi Felji designed U.Psy as a system — not a directory. Born from operational psychology in sport, crisis, and institutional environments where models must perform or fail.",
-    motTitle: "Mot du Président",
+    motTitle: "A Word from the President",
     motOpener:
       "Psychology doesn't lack theories. It lacks applicability under pressure.",
     mot1: "In the field — in elite sport, in migration contexts, in crisis situations — classical models quickly reach their limits. What works in a clinical office doesn't always work in urgency, uncertainty, or under performance pressure.",
@@ -1543,313 +1593,164 @@ const en = {
       ctaTitle: "Take the First Step",
       ctaText:
         "Not sure where to start? Our free self-assessment can help you understand your needs and get personalized recommendations.",
-      workplace: "Workplace",
-      anxiety: {
-        title: "Understanding Anxiety: What It Is and How to Manage It",
-        intro:
-          "Anxiety is one of the most common mental health experiences. Learn what it really means, how it affects you, and practical steps to manage it.",
-        whatTitle: "What Is Anxiety?",
-        whatText:
-          "Anxiety is your body's natural response to stress. It's a feeling of fear or apprehension about what's to come. While occasional anxiety is normal, persistent anxiety that interferes with daily life may indicate an anxiety disorder.",
-        symptomsTitle: "Common Symptoms",
-        symptom1: "Excessive worry or fear",
-        symptom2: "Restlessness or feeling on edge",
-        symptom3: "Difficulty concentrating",
-        symptom4: "Sleep disturbances",
-        symptom5: "Physical tension or headaches",
-        symptom6: "Avoiding situations that trigger anxiety",
-        manageTitle: "How to Manage Anxiety",
-        manageText:
-          "Managing anxiety is possible with the right strategies. Regular exercise, mindfulness practices, adequate sleep, and limiting caffeine can all help. Most importantly, talking to a professional can provide personalized strategies and support.",
-        helpTitle: "When to Seek Help",
-        helpText:
-          "If anxiety is interfering with your work, relationships, or daily activities, it's time to reach out. A psychologist can help you understand the root causes and develop effective coping strategies tailored to your situation.",
-        ctaTitle: "You Don't Have to Face Anxiety Alone",
-        ctaText:
-          "Take our free self-assessment to better understand your anxiety and get matched with a psychologist who can help.",
-      },
-      online: {
-        title: "The Benefits of Online Therapy",
-        intro:
-          "Online therapy has transformed mental health care. Discover why more people are choosing virtual sessions and how they can work for you.",
-        whyTitle: "Why Online Therapy?",
-        whyText:
-          "The shift to online therapy has made mental health support more accessible than ever. Whether you live in a remote area, have a busy schedule, or simply prefer the comfort of home, online therapy removes many traditional barriers to getting help.",
-        benefit1Title: "Access From Anywhere",
-        benefit1Text:
-          "Connect with qualified psychologists regardless of your location. All you need is an internet connection.",
-        benefit2Title: "Flexible Scheduling",
-        benefit2Text:
-          "Book sessions that fit your schedule — early morning, lunch break, or evening. No commute time needed.",
-        benefit3Title: "Privacy & Comfort",
-        benefit3Text:
-          "Attend sessions from the comfort of your own space. Many people find it easier to open up in familiar surroundings.",
-        benefit4Title: "Same Quality of Care",
-        benefit4Text:
-          "Research shows that online therapy is just as effective as in-person sessions for most conditions.",
-        worksTitle: "Does Online Therapy Really Work?",
-        worksText:
-          "Multiple studies have shown that online therapy can be just as effective as face-to-face therapy for conditions like anxiety, depression, and stress. The key is finding a qualified therapist and committing to the process.",
-        ctaTitle: "Ready to Try Online Therapy?",
-        ctaText:
-          "Browse UPsy's network of qualified psychologists offering online sessions. Find your match today.",
-      },
-      work: {
-        title: "Mental Health at Work: Why It Matters and What You Can Do",
-        intro:
-          "Work is one of the biggest factors affecting our mental health. Learn how to recognize burnout, set boundaries, and create a healthier work environment.",
-        burnoutTitle: "Recognizing Burnout",
-        burnoutText:
-          "Burnout isn't just feeling tired. It's a state of chronic physical and emotional exhaustion that comes from prolonged workplace stress. Signs include feeling detached from your work, reduced performance, and persistent fatigue that doesn't improve with rest.",
-        statsTitle: "The Numbers Speak",
-        stat1: "of workers report stress affecting their mental health",
-        stat2: "people will experience a mental health issue each year",
-        stat3: "of long-term absences are caused by stress and anxiety",
-        tipsTitle: "What You Can Do",
-        tip1: "Set clear boundaries between work and personal time",
-        tip2: "Take regular breaks throughout the day",
-        tip3: "Talk to a manager or HR about workload concerns",
-        tip4: "Consider speaking with a psychologist who specializes in workplace issues",
-        tip5: "Practice stress management techniques like mindfulness or exercise",
-        orgTitle: "For Organizations",
-        orgText:
-          "Investing in employee mental health isn't just the right thing to do — it's smart business. Organizations that prioritize psychological wellbeing see improved productivity, reduced absenteeism, and higher retention rates.",
-        ctaTitle: "Need Support With Workplace Stress?",
-        ctaText:
-          "Whether you're an individual or an organization, UPsy can help. Take a self-assessment or explore our consulting services.",
-        orgCta: "Explore Organization Services",
-      },
-      backToBlog: "Back to Blog",
-      wellness: "Wellness",
-      depression: {
-        title: "Understanding Depression: More Than Just Sadness",
-        intro:
-          "Depression is one of the most common mental health conditions worldwide. Understanding what it really is — and what it isn't — is the first step toward recovery.",
-        whatTitle: "What Is Depression?",
-        whatText:
-          "Depression is more than feeling sad or going through a rough patch. It's a serious mental health condition that affects how you think, feel, and handle daily activities. It can last for weeks, months, or even years if left untreated.",
-        signsTitle: "Common Signs of Depression",
-        sign1: "Persistent feelings of sadness, emptiness, or hopelessness",
-        sign2: "Loss of interest in activities you once enjoyed",
-        sign3: "Changes in appetite or weight",
-        sign4: "Difficulty sleeping or sleeping too much",
-        sign5: "Fatigue and lack of energy",
-        sign6: "Difficulty concentrating or making decisions",
-        sign7: "Feelings of worthlessness or excessive guilt",
-        typesTitle: "Types of Depression",
-        typesText:
-          "Depression isn't one-size-fits-all. Major depressive disorder, persistent depressive disorder (dysthymia), seasonal affective disorder, and postpartum depression are all different forms. A qualified psychologist can help determine what you're experiencing.",
-        treatmentTitle: "How Is Depression Treated?",
-        treatmentText:
-          "Depression is highly treatable. The most common approaches include psychotherapy (especially CBT), medication, lifestyle changes, and social support. Many people see significant improvement with professional help.",
-        ctaTitle: "You Don't Have to Face Depression Alone",
-        ctaText:
-          "If you recognize these signs in yourself or someone you care about, reaching out is the first step.",
-      },
-      support: {
-        title: "How to Support a Loved One with Mental Health Challenges",
-        intro:
-          "When someone you care about is struggling, knowing what to say — and what not to say — can make all the difference.",
-        listenTitle: "1. Listen Without Judging",
-        listenText:
-          "The most powerful thing you can do is simply be present. Don't try to fix the problem or minimize their feelings.",
-        educateTitle: "2. Educate Yourself",
-        educateText:
-          "Learning about mental health conditions helps you understand what your loved one is experiencing.",
-        encourageTitle: "3. Encourage Professional Help",
-        encourageText:
-          "Gently suggest speaking with a professional. Offer to help them find a psychologist.",
-        boundariesTitle: "4. Set Healthy Boundaries",
-        boundariesText:
-          "Supporting someone doesn't mean sacrificing your own wellbeing. It's okay to set limits and seek your own support.",
-        avoidTitle: "5. What to Avoid",
-        avoid1: 'Don\'t say "just cheer up" or "it\'s all in your head"',
-        avoid2: "Don't compare their situation to others",
-        avoid3: "Don't take it personally if they withdraw",
-        avoid4: "Don't try to be their therapist",
-        ctaTitle: "Need Guidance?",
-        ctaText:
-          "If you're supporting someone through a difficult time, UPsy can help you find the right resources and professional guidance.",
-      },
-      mindfulness: {
-        title: "Mindfulness for Beginners: A Practical Guide",
-        intro:
-          "Mindfulness isn't about emptying your mind. It's about paying attention to the present moment — without judgment.",
-        whatTitle: "What Is Mindfulness?",
-        whatText:
-          "Mindfulness is the practice of bringing your full attention to the present moment. It's a skill backed by decades of research showing benefits for stress reduction, emotional regulation, focus, and overall mental health.",
-        benefitsTitle: "Benefits of Regular Practice",
-        benefit1: "Reduced stress and anxiety",
-        benefit2: "Improved focus and concentration",
-        benefit3: "Better emotional regulation",
-        benefit4: "Enhanced self-awareness",
-        benefit5: "Better sleep quality",
-        startTitle: "How to Start (3 Simple Exercises)",
-        exercise1Title: "1. The 5-Minute Breathing Exercise",
-        exercise1Text:
-          "Sit comfortably, close your eyes, and focus on your breath. Inhale for 4 counts, hold for 4, exhale for 4. Start with 5 minutes daily.",
-        exercise2Title: "2. The Body Scan",
-        exercise2Text:
-          "Lie down and slowly move your attention from your toes to the top of your head. Notice any tension without trying to change anything.",
-        exercise3Title: "3. Mindful Observation",
-        exercise3Text:
-          "Pick one routine activity and do it with full attention. Notice every detail: textures, temperatures, sounds.",
-        tipsTitle: "Tips for Building a Habit",
-        tipsText:
-          "Start small — even 2 minutes counts. Practice at the same time each day. Be patient with yourself.",
-        ctaTitle: "Want Guided Mindfulness Support?",
-        ctaText:
-          "Our mindfulness programs and psychologists can help you build a sustainable practice tailored to your needs.",
-      },
     },
-    backToBlog: "Retour au Blog",
-    wellness: "Bien-être",
-    workplace: "Milieu professionnel",
+    backToBlog: "Back to Blog",
+    wellness: "Wellness",
+    workplace: "Workplace",
     anxiety: {
-      ctaText:
-        "Faites notre auto-évaluation gratuite pour mieux comprendre votre anxiété et être mis en relation avec un psychologue.",
-      ctaTitle: "Vous N'Avez Pas à Affronter l'Anxiété Seul",
-      helpText:
-        "Si l'anxiété interfère avec votre travail, vos relations ou vos activités quotidiennes, il est temps de consulter. Un psychologue peut vous aider à comprendre les causes profondes.",
-      helpTitle: "Quand Chercher de l'Aide",
+      title: "Understanding Anxiety: What It Is and How to Manage It",
       intro:
-        "L'anxiété est l'une des expériences de santé mentale les plus courantes. Découvrez ce qu'elle signifie vraiment et des étapes pratiques pour la gérer.",
+        "Anxiety is one of the most common mental health experiences. Learn what it really means, how it affects you, and practical steps to manage it.",
+      whatTitle: "What Is Anxiety?",
+      whatText:
+        "Anxiety is your body's natural response to stress. It's a feeling of fear or apprehension about what's to come. While occasional anxiety is normal, persistent anxiety that interferes with daily life may indicate an anxiety disorder.",
+      symptomsTitle: "Common Symptoms",
+      symptom1: "Excessive worry or fear",
+      symptom2: "Restlessness or feeling on edge",
+      symptom3: "Difficulty concentrating",
+      symptom4: "Sleep disturbances",
+      symptom5: "Physical tension or headaches",
+      symptom6: "Avoiding situations that trigger anxiety",
+      manageTitle: "How to Manage Anxiety",
       manageText:
-        "Gérer l'anxiété est possible avec les bonnes stratégies. L'exercice régulier, la pleine conscience, un sommeil adéquat et la limitation de la caféine peuvent aider. Surtout, parler à un professionnel peut fournir des stratégies personnalisées.",
-      manageTitle: "Comment Gérer l'Anxiété",
-      symptom1: "Inquiétude ou peur excessive",
-      symptom2: "Agitation ou sensation d'être sur les nerfs",
-      symptom3: "Difficulté à se concentrer",
-      symptom4: "Troubles du sommeil",
-      symptom5: "Tension physique ou maux de tête",
-      symptom6: "Évitement des situations déclencheuses",
-      symptomsTitle: "Symptômes Courants",
-      title: "Comprendre l'Anxiété : Ce Que C'est et Comment la Gérer",
-      whatText:
-        "L'anxiété est la réponse naturelle de votre corps au stress. C'est un sentiment de peur ou d'appréhension face à l'avenir. Bien que l'anxiété occasionnelle soit normale, une anxiété persistante qui interfère avec la vie quotidienne peut indiquer un trouble anxieux.",
-      whatTitle: "Qu'est-ce que l'Anxiété ?",
-    },
-    depression: {
+        "Managing anxiety is possible with the right strategies. Regular exercise, mindfulness practices, adequate sleep, and limiting caffeine can all help. Most importantly, talking to a professional can provide personalized strategies and support.",
+      helpTitle: "When to Seek Help",
+      helpText:
+        "If anxiety is interfering with your work, relationships, or daily activities, it's time to reach out. A psychologist can help you understand the root causes and develop effective coping strategies tailored to your situation.",
+      ctaTitle: "You Don't Have to Face Anxiety Alone",
       ctaText:
-        "Si vous reconnaissez ces signes, tendre la main est la première étape.",
-      ctaTitle: "Vous N'avez Pas à Affronter la Dépression Seul",
-      intro:
-        "La dépression est l'une des conditions de santé mentale les plus courantes au monde. Comprendre ce qu'elle est vraiment est la première étape vers la guérison.",
-      sign1: "Sentiments persistants de tristesse, de vide ou de désespoir",
-      sign2: "Perte d'intérêt pour les activités que vous aimiez",
-      sign3: "Changements d'appétit ou de poids",
-      sign4: "Difficultés à dormir ou sommeil excessif",
-      sign5: "Fatigue et manque d'énergie",
-      sign6: "Difficulté à se concentrer ou à prendre des décisions",
-      sign7: "Sentiments d'inutilité ou de culpabilité excessive",
-      signsTitle: "Signes Courants de la Dépression",
-      title: "Comprendre la Dépression : Plus Qu'une Simple Tristesse",
-      treatmentText:
-        "La dépression est très traitable. Les approches les plus courantes incluent la psychothérapie (notamment la TCC), les médicaments, les changements de mode de vie et le soutien social.",
-      treatmentTitle: "Comment Traite-t-on la Dépression ?",
-      typesText:
-        "La dépression n'est pas universelle. Trouble dépressif majeur, dysthymie, trouble affectif saisonnier et dépression post-partum sont des formes différentes.",
-      typesTitle: "Types de Dépression",
-      whatText:
-        "La dépression est plus que se sentir triste. C'est une condition sérieuse qui affecte votre façon de penser, ressentir et gérer les activités quotidiennes.",
-      whatTitle: "Qu'est-ce que la Dépression ?",
-    },
-    mindfulness: {
-      benefit1: "Réduction du stress et de l'anxiété",
-      benefit2: "Amélioration de la concentration",
-      benefit3: "Meilleure régulation émotionnelle",
-      benefit4: "Conscience de soi accrue",
-      benefit5: "Meilleure qualité de sommeil",
-      benefitsTitle: "Bienfaits d'une Pratique Régulière",
-      ctaText:
-        "Nos programmes et psychologues peuvent vous aider à construire une pratique durable adaptée à vos besoins.",
-      ctaTitle: "Envie d'un Accompagnement en Pleine Conscience ?",
-      exercise1Text:
-        "Asseyez-vous confortablement, fermez les yeux et concentrez-vous sur votre respiration. Inspirez sur 4 temps, retenez 4 temps, expirez 4 temps.",
-      exercise1Title: "1. L'Exercice de Respiration de 5 Minutes",
-      exercise2Text:
-        "Allongez-vous et déplacez lentement votre attention de vos orteils au sommet de votre tête.",
-      exercise2Title: "2. Le Scan Corporel",
-      exercise3Text:
-        "Choisissez une activité routinière et faites-la avec une attention totale. Remarquez chaque détail.",
-      exercise3Title: "3. L'Observation Consciente",
-      intro:
-        "La pleine conscience ne consiste pas à vider votre esprit. C'est porter attention au moment présent — sans jugement.",
-      startTitle: "Comment Commencer (3 Exercices Simples)",
-      tipsText:
-        "Commencez petit — même 2 minutes comptent. Pratiquez à la même heure chaque jour. Soyez patient avec vous-même.",
-      tipsTitle: "Conseils pour Créer une Habitude",
-      title: "Pleine Conscience pour Débutants : Guide Pratique",
-      whatText:
-        "La pleine conscience est la pratique de porter toute votre attention au moment présent. C'est une compétence soutenue par des décennies de recherche.",
-      whatTitle: "Qu'est-ce que la Pleine Conscience ?",
+        "Take our free self-assessment to better understand your anxiety and get matched with a psychologist who can help.",
     },
     online: {
-      ctaText:
-        "Parcourez le réseau UPsy de psychologues qualifiés proposant des séances en ligne.",
-      ctaTitle: "Prêt à Essayer la Thérapie en Ligne ?",
+      title: "The Benefits of Online Therapy",
       intro:
-        "La thérapie en ligne a transformé les soins de santé mentale. Découvrez pourquoi de plus en plus de personnes choisissent les séances virtuelles.",
-      title: "Les Avantages de la Thérapie en Ligne",
+        "Online therapy has transformed mental health care. Discover why more people are choosing virtual sessions and how they can work for you.",
+      whyTitle: "Why Online Therapy?",
       whyText:
-        "La thérapie en ligne a rendu le soutien en santé mentale plus accessible que jamais. Que vous viviez dans une zone éloignée ou que vous ayez un emploi du temps chargé, la thérapie en ligne supprime de nombreuses barrières.",
-      whyTitle: "Pourquoi la Thérapie en Ligne ?",
+        "The shift to online therapy has made mental health support more accessible than ever. Whether you live in a remote area, have a busy schedule, or simply prefer the comfort of home, online therapy removes many traditional barriers to getting help.",
+      benefit1Title: "Access From Anywhere",
+      benefit1Text:
+        "Connect with qualified psychologists regardless of your location. All you need is an internet connection.",
+      benefit2Title: "Flexible Scheduling",
+      benefit2Text:
+        "Book sessions that fit your schedule — early morning, lunch break, or evening. No commute time needed.",
+      benefit3Title: "Privacy & Comfort",
+      benefit3Text:
+        "Attend sessions from the comfort of your own space. Many people find it easier to open up in familiar surroundings.",
+      benefit4Title: "Same Quality of Care",
+      benefit4Text:
+        "Research shows that online therapy is just as effective as in-person sessions for most conditions.",
+      worksTitle: "Does Online Therapy Really Work?",
       worksText:
-        "Plusieurs études ont montré que la thérapie en ligne peut être aussi efficace que la thérapie en face à face pour l'anxiété, la dépression et le stress.",
-      worksTitle: "La Thérapie en Ligne Fonctionne-t-elle Vraiment ?",
-    },
-    support: {
-      avoid1: "Ne dites pas « remonte-toi » ou « c'est dans ta tête »",
-      avoid2: "Ne comparez pas leur situation à celle des autres",
-      avoid3: "Ne le prenez pas personnellement s'ils se retirent",
-      avoid4: "N'essayez pas d'être leur thérapeute",
-      avoidTitle: "5. Ce Qu'il Faut Éviter",
-      boundariesText:
-        "Soutenir quelqu'un ne signifie pas sacrifier votre propre bien-être.",
-      boundariesTitle: "4. Établir des Limites Saines",
+        "Multiple studies have shown that online therapy can be just as effective as face-to-face therapy for conditions like anxiety, depression, and stress. The key is finding a qualified therapist and committing to the process.",
+      ctaTitle: "Ready to Try Online Therapy?",
       ctaText:
-        "Si vous soutenez quelqu'un dans un moment difficile, UPsy peut vous aider à trouver les bonnes ressources.",
-      ctaTitle: "Besoin de Conseils ?",
-      educateText:
-        "Apprendre sur les conditions de santé mentale vous aide à comprendre ce que vit votre proche.",
-      educateTitle: "2. S'Informer",
-      encourageText:
-        "Suggérez doucement de parler à un professionnel. Proposez de les aider à trouver un psychologue.",
-      encourageTitle: "3. Encourager l'Aide Professionnelle",
-      intro:
-        "Quand quelqu'un que vous aimez souffre, savoir quoi dire — et quoi ne pas dire — peut faire toute la différence.",
-      listenText:
-        "La chose la plus puissante que vous puissiez faire est simplement être présent.",
-      listenTitle: "1. Écouter Sans Juger",
-      title: "Comment Soutenir un Proche en Difficulté Psychologique",
+        "Browse UPsy's network of qualified psychologists offering online sessions. Find your match today.",
     },
     work: {
-      burnoutText:
-        "Le burnout n'est pas simplement de la fatigue. C'est un état d'épuisement physique et émotionnel chronique causé par un stress professionnel prolongé.",
-      burnoutTitle: "Reconnaître l'Épuisement Professionnel",
-      ctaText:
-        "Que vous soyez un individu ou une organisation, UPsy peut aider. Faites une auto-évaluation ou explorez nos services de conseil.",
-      ctaTitle: "Besoin de Soutien Face au Stress Professionnel ?",
+      title: "Mental Health at Work: Why It Matters and What You Can Do",
       intro:
-        "Le travail est l'un des plus grands facteurs affectant notre santé mentale. Apprenez à reconnaître l'épuisement professionnel et à créer des limites saines.",
-      orgCta: "Explorer les Services aux Organisations",
+        "Work is one of the biggest factors affecting our mental health. Learn how to recognize burnout, set boundaries, and create a healthier work environment.",
+      burnoutTitle: "Recognizing Burnout",
+      burnoutText:
+        "Burnout isn't just feeling tired. It's a state of chronic physical and emotional exhaustion that comes from prolonged workplace stress. Signs include feeling detached from your work, reduced performance, and persistent fatigue that doesn't improve with rest.",
+      statsTitle: "The Numbers Speak",
+      stat1: "of workers report stress affecting their mental health",
+      stat2: "people will experience a mental health issue each year",
+      stat3: "of long-term absences are caused by stress and anxiety",
+      tipsTitle: "What You Can Do",
+      tip1: "Set clear boundaries between work and personal time",
+      tip2: "Take regular breaks throughout the day",
+      tip3: "Talk to a manager or HR about workload concerns",
+      tip4: "Consider speaking with a psychologist who specializes in workplace issues",
+      tip5: "Practice stress management techniques like mindfulness or exercise",
+      orgTitle: "For Organizations",
       orgText:
-        "Investir dans la santé mentale des employés est non seulement juste, mais aussi intelligent. Les organisations qui priorisent le bien-être psychologique voient une productivité améliorée.",
-      orgTitle: "Pour les Organisations",
-      stat1:
-        "des travailleurs signalent que le stress affecte leur santé mentale",
-      stat2:
-        "des personnes connaîtront un problème de santé mentale chaque année",
-      stat3:
-        "des absences longue durée sont causées par le stress et l'anxiété",
-      statsTitle: "Les Chiffres Parlent",
-      tip1: "Fixez des limites claires entre travail et vie personnelle",
-      tip2: "Prenez des pauses régulières tout au long de la journée",
-      tip3: "Parlez à votre manager ou aux RH de la charge de travail",
-      tip4: "Envisagez de consulter un psychologue spécialisé en problèmes professionnels",
-      tip5: "Pratiquez des techniques de gestion du stress comme la pleine conscience",
-      tipsTitle: "Ce Que Vous Pouvez Faire",
-      title: "La Santé Mentale au Travail : Pourquoi C'est Important",
+        "Investing in employee mental health isn't just the right thing to do — it's smart business. Organizations that prioritize psychological wellbeing see improved productivity, reduced absenteeism, and higher retention rates.",
+      ctaTitle: "Need Support With Workplace Stress?",
+      ctaText:
+        "Whether you're an individual or an organization, UPsy can help. Take a self-assessment or explore our consulting services.",
+      orgCta: "Explore Organization Services",
+    },
+    depression: {
+      title: "Understanding Depression: More Than Just Sadness",
+      intro:
+        "Depression is one of the most common mental health conditions worldwide. Understanding what it really is — and what it isn't — is the first step toward recovery.",
+      whatTitle: "What Is Depression?",
+      whatText:
+        "Depression is more than feeling sad or going through a rough patch. It's a serious mental health condition that affects how you think, feel, and handle daily activities. It can last for weeks, months, or even years if left untreated.",
+      signsTitle: "Common Signs of Depression",
+      sign1: "Persistent feelings of sadness, emptiness, or hopelessness",
+      sign2: "Loss of interest in activities you once enjoyed",
+      sign3: "Changes in appetite or weight",
+      sign4: "Difficulty sleeping or sleeping too much",
+      sign5: "Fatigue and lack of energy",
+      sign6: "Difficulty concentrating or making decisions",
+      sign7: "Feelings of worthlessness or excessive guilt",
+      typesTitle: "Types of Depression",
+      typesText:
+        "Depression isn't one-size-fits-all. Major depressive disorder, persistent depressive disorder (dysthymia), seasonal affective disorder, and postpartum depression are all different forms. A qualified psychologist can help determine what you're experiencing.",
+      treatmentTitle: "How Is Depression Treated?",
+      treatmentText:
+        "Depression is highly treatable. The most common approaches include psychotherapy (especially CBT), medication, lifestyle changes, and social support. Many people see significant improvement with professional help.",
+      ctaTitle: "You Don't Have to Face Depression Alone",
+      ctaText:
+        "If you recognize these signs in yourself or someone you care about, reaching out is the first step.",
+    },
+    support: {
+      title: "How to Support a Loved One with Mental Health Challenges",
+      intro:
+        "When someone you care about is struggling, knowing what to say — and what not to say — can make all the difference.",
+      listenTitle: "1. Listen Without Judging",
+      listenText:
+        "The most powerful thing you can do is simply be present. Don't try to fix the problem or minimize their feelings.",
+      educateTitle: "2. Educate Yourself",
+      educateText:
+        "Learning about mental health conditions helps you understand what your loved one is experiencing.",
+      encourageTitle: "3. Encourage Professional Help",
+      encourageText:
+        "Gently suggest speaking with a professional. Offer to help them find a psychologist.",
+      boundariesTitle: "4. Set Healthy Boundaries",
+      boundariesText:
+        "Supporting someone doesn't mean sacrificing your own wellbeing. It's okay to set limits and seek your own support.",
+      avoidTitle: "5. What to Avoid",
+      avoid1: 'Don\'t say "just cheer up" or "it\'s all in your head"',
+      avoid2: "Don't compare their situation to others",
+      avoid3: "Don't take it personally if they withdraw",
+      avoid4: "Don't try to be their therapist",
+      ctaTitle: "Need Guidance?",
+      ctaText:
+        "If you're supporting someone through a difficult time, UPsy can help you find the right resources and professional guidance.",
+    },
+    mindfulness: {
+      title: "Mindfulness for Beginners: A Practical Guide",
+      intro:
+        "Mindfulness isn't about emptying your mind. It's about paying attention to the present moment — without judgment.",
+      whatTitle: "What Is Mindfulness?",
+      whatText:
+        "Mindfulness is the practice of bringing your full attention to the present moment. It's a skill backed by decades of research showing benefits for stress reduction, emotional regulation, focus, and overall mental health.",
+      benefitsTitle: "Benefits of Regular Practice",
+      benefit1: "Reduced stress and anxiety",
+      benefit2: "Improved focus and concentration",
+      benefit3: "Better emotional regulation",
+      benefit4: "Enhanced self-awareness",
+      benefit5: "Better sleep quality",
+      startTitle: "How to Start (3 Simple Exercises)",
+      exercise1Title: "1. The 5-Minute Breathing Exercise",
+      exercise1Text:
+        "Sit comfortably, close your eyes, and focus on your breath. Inhale for 4 counts, hold for 4, exhale for 4. Start with 5 minutes daily.",
+      exercise2Title: "2. The Body Scan",
+      exercise2Text:
+        "Lie down and slowly move your attention from your toes to the top of your head. Notice any tension without trying to change anything.",
+      exercise3Title: "3. Mindful Observation",
+      exercise3Text:
+        "Pick one routine activity and do it with full attention. Notice every detail: textures, temperatures, sounds.",
+      tipsTitle: "Tips for Building a Habit",
+      tipsText:
+        "Start small — even 2 minutes counts. Practice at the same time each day. Be patient with yourself.",
+      ctaTitle: "Want Guided Mindfulness Support?",
+      ctaText:
+        "Our mindfulness programs and psychologists can help you build a sustainable practice tailored to your needs.",
     },
   },
   mps: {

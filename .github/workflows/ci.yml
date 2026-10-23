@@ -101,6 +101,13 @@ jobs:
       - name: Type check
         run: bunx tsc --noEmit -p tsconfig.json
 
+      # Every English key must have French and Arabic text (hand-written or
+      # machine-translated by .github/workflows/i18n-translate.yml), and no
+      # component may gain English typed straight into its markup: counts are
+      # ratcheted per file in i18n-baseline.json.
+      - name: Translation coverage
+        run: npx tsx scripts/i18n/audit.ts
+
       # The other half of the backend.
       #
       # tsconfig.json includes only `src`, so `tsc` never sees

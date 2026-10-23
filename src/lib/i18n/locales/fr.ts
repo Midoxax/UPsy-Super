@@ -1,4 +1,57 @@
+import { withAuto } from "../autoMerge";
+import auto from "./auto/fr.json";
+
 const fr = {
+  menu: {
+    care: "Accompagnement",
+    findPsych: "Trouver un psychologue",
+    findPsychDesc: "Parcourir les spécialistes accrédités",
+    getMatched: "Être orienté",
+    getMatchedDesc: "Orientation intelligente en 6 étapes",
+    selfAssessment: "Auto-évaluation",
+    selfAssessmentDesc: "Dépistages cliniques (GAD-7, PHQ-9)",
+    programs: "Programmes et services",
+    training: "Centre de formation",
+    communities: "Communautés",
+    communitiesDesc: "Espaces, fils d'actualité, discussions",
+    schools: "Écoles et académies",
+    schoolsDesc: "11 écoles + Académie de l'impact civique et social",
+    courses: "Formations et apprentissage",
+    coursesDesc: "En cohorte ou à votre rythme",
+    certifications: "Certifications",
+    certificationsDesc: "Parcours en psychologie de la performance",
+    mentors: "Mentors",
+    mentorsDesc: "Accompagnement individuel d'élite",
+    athleteHub: "Espace Athlète",
+    dashboard: "Tableau de bord de performance",
+    dashboardDesc: "Disponibilité, protocoles, journal",
+    aiCoach: "Coach IA (Nour)",
+    aiCoachDesc: "IA de performance et de réflexion",
+    forAthletes: "Pour les sportifs",
+    forAthletesDesc: "Pourquoi les sportifs d'élite s'entraînent ici",
+    organizations: "Pour les organisations",
+    teams: "Équipes et entreprises",
+    teamsDesc: "Baromètre, programmes, tableaux de bord",
+    consulting: "Conseil",
+    talentHub: "Pôle Talents et Innovation",
+    talentHubDesc: "Recherche et science appliquée",
+    applyOrg: "Candidater en tant qu'organisation",
+    about: "À propos",
+    membership: "Abonnement",
+    membershipDesc: "7 niveaux — Découverte → Élite",
+    founder: "Fondateur",
+    story: "Notre histoire",
+    umbrella: "L'ombrelle marocaine",
+    psf: "Psychologues Sans Frontières",
+    blog: "Blog",
+    applyAccreditation: "Demander l'accréditation",
+    specialistPricing: "Spécialistes · Tarifs",
+    homeAria: "U.Psy — Aller à l'accueil",
+    primaryNav: "Navigation principale",
+    installApp: "Installer l'application U.Psy",
+    toggleMenu: "Ouvrir ou fermer le menu",
+    mobileNav: "Navigation mobile",
+  },
   nav: {
     home: "Accueil",
     services: "Services",
@@ -1058,7 +1111,7 @@ const fr = {
     browseByFormat: "Parcourir par format",
     browseByFormatDesc:
       "Trouvez le bon type de contenu pour votre style d'apprentissage.",
-    articlesGuides: "Articles & Guides",
+    articlesGuides: "Articles et guides",
     articlesGuidesDesc:
       "Articles fondés sur les preuves sur la santé mentale, les techniques thérapeutiques et les stratégies de bien-être.",
     videoLibrary: "Vidéothèque",
@@ -1977,4 +2030,4 @@ const fr = {
   },
 };
 
-export default fr;
+export default withAuto(fr, auto);

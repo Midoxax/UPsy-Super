@@ -83,147 +83,152 @@ const Header = () => {
     dropdown?: NavDropdownItem[];
   }[] = [
     {
-      name: "Care",
+      name: t("menu.care"),
       href: "/psychologists",
       icon: HeartPulse,
       dropdown: [
         {
-          name: "Find a psychologist",
+          name: t("menu.findPsych"),
           href: "/psychologists",
           icon: Stethoscope,
-          desc: "Browse accredited specialists",
+          desc: t("menu.findPsychDesc"),
         },
         {
-          name: "Get matched",
+          name: t("menu.getMatched"),
           href: "/get-matched",
           icon: Compass,
-          desc: "6-step intelligent matching",
+          desc: t("menu.getMatchedDesc"),
         },
         {
-          name: "Self-assessment",
+          name: t("menu.selfAssessment"),
           href: "/assessment-lab",
           icon: Brain,
-          desc: "Clinical screenings (GAD-7, PHQ-9)",
+          desc: t("menu.selfAssessmentDesc"),
         },
-        { name: "Programs & services", href: "/services", icon: BookOpen },
+        { name: t("menu.programs"), href: "/services", icon: BookOpen },
       ],
     },
     {
-      name: "Training Center",
+      name: t("menu.training"),
       href: "/center",
       icon: GraduationCap,
       dropdown: [
         {
-          name: "Communities",
+          name: t("menu.communities"),
           href: "/center",
           icon: Users,
           featured: true,
-          desc: "Spaces, feeds, discussions",
+          desc: t("menu.communitiesDesc"),
         },
         {
-          name: "Schools & academies",
+          name: t("menu.schools"),
           href: "/center/schools",
           icon: Landmark,
-          desc: "11 schools + Civic & Social Impact Academy",
+          desc: t("menu.schoolsDesc"),
         },
         {
-          name: "Courses & learning",
+          name: t("menu.courses"),
           href: "/learn",
           icon: BookOpen,
-          desc: "Cohort-based & self-paced",
+          desc: t("menu.coursesDesc"),
         },
         {
-          name: "Certifications",
+          name: t("menu.certifications"),
           href: "/learn?tab=certifications",
           icon: Award,
-          desc: "Performance Psychology pathways",
+          desc: t("menu.certificationsDesc"),
         },
         {
-          name: "Mentors",
+          name: t("menu.mentors"),
           href: "/psychologists?type=mentor",
           icon: Sparkles,
-          desc: "1:1 elite guidance",
+          desc: t("menu.mentorsDesc"),
         },
       ],
     },
     {
-      name: "Athlete Hub",
+      name: t("menu.athleteHub"),
       href: "/athlete-hub",
       icon: Activity,
       dropdown: [
         {
-          name: "Performance dashboard",
+          name: t("menu.dashboard"),
           href: "/athlete-hub",
           icon: Trophy,
           featured: true,
-          desc: "Readiness, protocols, journal",
+          desc: t("menu.dashboardDesc"),
         },
         {
-          name: "AI Coach (Nour)",
+          name: t("menu.aiCoach"),
           href: "/ai-assistant",
           icon: Sparkles,
-          desc: "Performance & reflective AI",
+          desc: t("menu.aiCoachDesc"),
         },
         {
-          name: "For athletes",
+          name: t("menu.forAthletes"),
           href: "/for-athletes",
           icon: Activity,
-          desc: "Why elite performers train here",
+          desc: t("menu.forAthletesDesc"),
         },
       ],
     },
     {
-      name: "For Organizations",
+      name: t("menu.organizations"),
       href: "/for-organizations",
       icon: Building2,
       dropdown: [
         {
-          name: "Teams & enterprises",
+          name: t("menu.teams"),
           href: "/for-organizations",
           icon: Building2,
-          desc: "Pulse, programs, dashboards",
+          desc: t("menu.teamsDesc"),
         },
         {
-          name: "Consulting",
+          name: t("menu.consulting"),
           href: "/services/consulting-for-organizations",
           icon: Stethoscope,
         },
         {
-          name: "Talent Innovation Hub",
+          name: t("menu.talentHub"),
           href: "/talent-innovation-hub",
           icon: Brain,
-          desc: "Research & applied science",
+          desc: t("menu.talentHubDesc"),
         },
         {
-          name: "Apply as an organization",
+          name: t("menu.applyOrg"),
           href: "/apply/organization",
           icon: Award,
         },
       ],
     },
     {
-      name: "About",
+      name: t("menu.about"),
       href: "/about",
       dropdown: [
         {
-          name: "Membership",
+          name: t("menu.membership"),
           href: "/membership",
           icon: Crown,
           featured: true,
-          desc: "7 tiers — Discover → Elite",
+          desc: t("menu.membershipDesc"),
         },
-        { name: "Founder", href: "/founder", icon: Award, featured: true },
-        { name: "Our story", href: "/about" },
         {
-          name: "The Moroccan Umbrella",
+          name: t("menu.founder"),
+          href: "/founder",
+          icon: Award,
+          featured: true,
+        },
+        { name: t("menu.story"), href: "/about" },
+        {
+          name: t("menu.umbrella"),
           href: "/moroccan-umbrella",
           icon: Umbrella,
         },
-        { name: "Psychologues Sans Frontières", href: "/psf", icon: Heart },
-        { name: "Blog", href: "/blog", icon: BookOpen },
+        { name: t("menu.psf"), href: "/psf", icon: Heart },
+        { name: t("menu.blog"), href: "/blog", icon: BookOpen },
         { name: t("nav.contact"), href: "/contact" },
-        { name: "Apply for accreditation", href: "/apply" },
-        { name: "For specialists · Pricing", href: "/pricing-specialists" },
+        { name: t("menu.applyAccreditation"), href: "/apply" },
+        { name: t("menu.specialistPricing"), href: "/pricing-specialists" },
       ],
     },
   ];
@@ -248,7 +253,7 @@ const Header = () => {
           {/* Logo */}
           <Link
             to="/"
-            aria-label="U.Psy — Go to homepage"
+            aria-label={t("menu.homeAria")}
             className="flex items-center min-w-0 focus:outline-hidden focus:ring-2 focus:ring-ring rounded-md"
           >
             <UpsyLogo
@@ -260,7 +265,7 @@ const Header = () => {
           {/* Desktop Navigation */}
           <nav
             className="hidden lg:flex items-center gap-1"
-            aria-label="Primary"
+            aria-label={t("menu.primaryNav")}
           >
             {navigation.map((item) => (
               <div key={item.name} className="relative group">
@@ -331,7 +336,7 @@ const Header = () => {
               variant="ghost"
               size="sm"
               label=""
-              aria-label="Install U.Psy app"
+              aria-label={t("menu.installApp")}
               className="hidden lg:inline-flex"
             />
             {user && <ViewAsSwitcher />}
@@ -377,7 +382,7 @@ const Header = () => {
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               className="lg:hidden p-2 text-foreground hover:text-muted-foreground transition-colors rounded-lg hover:bg-muted/50"
-              aria-label="Toggle mobile menu"
+              aria-label={t("menu.toggleMenu")}
             >
               {isMobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
             </button>
@@ -387,7 +392,10 @@ const Header = () => {
         {/* Mobile Menu */}
         {isMobileMenuOpen && (
           <div className="lg:hidden py-4 border-t border-border/30 max-h-[calc(100vh-4rem)] overflow-y-auto animate-in slide-in-from-top-2 duration-200">
-            <nav className="flex flex-col gap-1" aria-label="Mobile">
+            <nav
+              className="flex flex-col gap-1"
+              aria-label={t("menu.mobileNav")}
+            >
               {navigation.map((item) => (
                 <div key={item.name}>
                   <button

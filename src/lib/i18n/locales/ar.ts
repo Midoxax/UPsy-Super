@@ -1,4 +1,57 @@
+import { withAuto } from "../autoMerge";
+import auto from "./auto/ar.json";
+
 const ar = {
+  menu: {
+    care: "المرافقة",
+    findPsych: "ابحث عن أخصائي نفسي",
+    findPsychDesc: "تصفح الأخصائيين المعتمدين",
+    getMatched: "احصل على توجيه",
+    getMatchedDesc: "توجيه ذكي في 6 خطوات",
+    selfAssessment: "تقييم ذاتي",
+    selfAssessmentDesc: "فحوصات سريرية (GAD-7، PHQ-9)",
+    programs: "البرامج والخدمات",
+    training: "مركز التكوين",
+    communities: "المجتمعات",
+    communitiesDesc: "فضاءات ومنشورات ونقاشات",
+    schools: "المدارس والأكاديميات",
+    schoolsDesc: "11 مدرسة + أكاديمية الأثر المدني والاجتماعي",
+    courses: "الدورات والتعلّم",
+    coursesDesc: "ضمن مجموعات أو بوتيرتك الخاصة",
+    certifications: "الشهادات",
+    certificationsDesc: "مسارات علم نفس الأداء",
+    mentors: "الموجّهون",
+    mentorsDesc: "توجيه فردي رفيع المستوى",
+    athleteHub: "فضاء الرياضي",
+    dashboard: "لوحة الأداء",
+    dashboardDesc: "الجاهزية والبروتوكولات واليوميات",
+    aiCoach: "المدرّب الذكي (نور)",
+    aiCoachDesc: "ذكاء اصطناعي للأداء والتأمل",
+    forAthletes: "للرياضيين",
+    forAthletesDesc: "لماذا يتدرّب هنا رياضيو النخبة",
+    organizations: "للمؤسسات",
+    teams: "الفرق والمقاولات",
+    teamsDesc: "مؤشر وبرامج ولوحات قيادة",
+    consulting: "الاستشارات",
+    talentHub: "مركز المواهب والابتكار",
+    talentHubDesc: "البحث والعلوم التطبيقية",
+    applyOrg: "التقديم كمؤسسة",
+    about: "من نحن",
+    membership: "الاشتراك",
+    membershipDesc: "7 مستويات — من الاكتشاف إلى النخبة",
+    founder: "المؤسس",
+    story: "قصتنا",
+    umbrella: "المظلة المغربية",
+    psf: "أخصائيون نفسيون بلا حدود",
+    blog: "المدونة",
+    applyAccreditation: "طلب الاعتماد",
+    specialistPricing: "للأخصائيين · الأسعار",
+    homeAria: "U.Psy — الذهاب إلى الصفحة الرئيسية",
+    primaryNav: "التنقل الرئيسي",
+    installApp: "تثبيت تطبيق U.Psy",
+    toggleMenu: "فتح القائمة أو إغلاقها",
+    mobileNav: "التنقل على الهاتف",
+  },
   nav: {
     home: "الرئيسية",
     services: "الخدمات",
@@ -1885,4 +1938,4 @@ const ar = {
   },
 };
 
-export default ar;
+export default withAuto(ar, auto);

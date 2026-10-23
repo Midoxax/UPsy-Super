@@ -1,0 +1,74 @@
+name: Translate new strings
+
+# When English copy changes on main, machine-translate the new or changed keys
+# into French and Arabic and open a pull request for review. Hand-written
+# translations in fr.ts / ar.ts always win over these (src/lib/i18n/autoMerge.ts).
+#
+# Needs the repository secret ANTHROPIC_API_KEY. Without it the job explains
+# what is missing and stops; the CI i18n gate then reports the untranslated keys.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - src/lib/i18n/locales/en.ts
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: i18n-translate
+  cancel-in-progress: false
+
+jobs:
+  translate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version-file: .nvmrc
+          package-manager-cache: false
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - run: bun install --frozen-lockfile
+
+      - name: Check for the API key
+        id: key
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          if [ -z "$ANTHROPIC_API_KEY" ]; then
+            echo "::warning::ANTHROPIC_API_KEY is not set; add it under Settings > Secrets and variables > Actions to enable automatic translation."
+            echo "present=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "present=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      # Installed just-in-time: nothing in the app needs the SDK.
+      - name: Translate
+        if: steps.key.outputs.present == 'true'
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          bun add --no-save @anthropic-ai/sdk
+          npx tsx scripts/i18n/translate.ts
+          npx tsx scripts/i18n/audit.ts
+
+      - name: Open pull request
+        if: steps.key.outputs.present == 'true'
+        uses: peter-evans/create-pull-request@v7
+        with:
+          branch: i18n/auto-translations
+          commit-message: "Machine-translate new English strings into French and Arabic"
+          title: "Translations: new English strings in French and Arabic"
+          body: |
+            Machine translations for English keys that French or Arabic had no text for, or whose English changed.
+            They live in `src/lib/i18n/locales/auto/`; hand-written text in `fr.ts` / `ar.ts` always takes precedence.
+
+            Review the wording, edit any line here or move it into `fr.ts` / `ar.ts`, then merge.
+          add-paths: src/lib/i18n/locales/auto/*.json
+          delete-branch: true
