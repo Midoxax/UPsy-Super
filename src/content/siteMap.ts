@@ -30,6 +30,22 @@ export const SITE_MAP: SiteGroup[] = [
         label: { en: "Get matched", fr: "Être orienté", ar: "التوجيه" },
       },
       {
+        path: "/psychologue",
+        label: {
+          en: "Psychologists by city",
+          fr: "Psychologue par ville",
+          ar: "الأخصائيون حسب المدن",
+        },
+      },
+      {
+        path: "/psychologue-en-ligne",
+        label: {
+          en: "Online, Africa and diaspora",
+          fr: "En ligne : Afrique et diaspora",
+          ar: "عبر الإنترنت: إفريقيا والجالية",
+        },
+      },
+      {
         path: "/book-a-call",
         label: {
           en: "Book a free call",
