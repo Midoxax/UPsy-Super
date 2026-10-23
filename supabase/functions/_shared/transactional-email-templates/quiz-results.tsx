@@ -29,8 +29,7 @@ interface Props {
   resultsUrl?: string;
 }
 
-const LOGO =
-  "https://www.upsy.ma/brand/upsy-wordmark.png";
+const LOGO = "https://www.upsy.ma/brand/upsy-wordmark.png";
 
 const PILLAR_LABEL: Record<Pillar, Record<"en" | "fr" | "ar", string>> = {
   focus: { en: "Focus", fr: "Concentration", ar: "التركيز" },

@@ -132,7 +132,7 @@ async function syncSocial(db: SupabaseClient, feed: FeedItem[], s: Settings) {
 
 async function publishOne(
   db: SupabaseClient,
-  p: Record<string, any>,
+  p: SocialPost,
   feed: FeedItem[],
 ): Promise<"published" | "failed" | "needs_setup"> {
   const n = p.network as Network;
@@ -177,6 +177,27 @@ async function publishOne(
 }
 
 // --- Newsletter ----------------------------------------------------------------
+type SocialPost = {
+  id: string;
+  slug: string;
+  network: string;
+  status: string;
+  caption: string;
+  link: string;
+  image_url: string | null;
+  attempts: number | null;
+};
+
+type NewsletterIssue = {
+  id: string;
+  period: string;
+  status: string;
+  intro_en: string | null;
+  intro_fr: string | null;
+  items: FeedItem[];
+  sent: number | null;
+};
+
 type Settings = {
   newsletter_enabled: boolean;
   newsletter_review_days: number;
@@ -201,7 +222,7 @@ function digestItems(items: FeedItem[], lang: Lang): DigestItem[] {
 }
 
 async function renderDigest(
-  issue: Record<string, any>,
+  issue: NewsletterIssue,
   lang: Lang,
   unsubscribeUrl: string,
 ) {
@@ -317,7 +338,7 @@ async function newsletter(db: SupabaseClient, feed: FeedItem[], s: Settings) {
   return out;
 }
 
-async function sendBatch(db: SupabaseClient, issue: Record<string, any>) {
+async function sendBatch(db: SupabaseClient, issue: NewsletterIssue) {
   if (issue.status === "scheduled") {
     const { count } = await db
       .from("newsletter_subscribers")
