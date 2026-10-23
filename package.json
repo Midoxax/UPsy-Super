@@ -15,6 +15,8 @@
     "lint:prune": "eslint . --prune-suppressions",
     "check:runtime": "node scripts/check-runtime.mjs",
     "typecheck": "tsc --noEmit",
+    "i18n:audit": "npx tsx scripts/i18n/audit.ts",
+    "i18n:translate": "npx tsx scripts/i18n/translate.ts",
     "test": "vitest run",
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
