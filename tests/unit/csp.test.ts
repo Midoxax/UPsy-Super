@@ -18,6 +18,7 @@ import { describe, it, expect } from "vitest";
 import { readFileSync, existsSync } from "node:fs";
 import { resolve } from "node:path";
 import { SECURITY_HEADERS } from "@/lib/security-headers";
+import { seoForPath } from "@/lib/seo/meta";
 
 const ROOT = resolve(__dirname, "../..");
 
@@ -198,23 +199,20 @@ describe("SEO origin is internally consistent", () => {
     ).toMatch(/^https:\/\/[^/]+$/);
   });
 
-  it("the root canonical and og:url match the declared homepage", () => {
-    const canonical = rootRoute.match(
-      /rel:\s*"canonical",\s*href:\s*"([^"]+)"/,
-    )?.[1];
-    const ogUrl = metaContent("og:url");
-    for (const [name, value] of [
-      ["canonical", canonical],
-      ["og:url", ogUrl],
-    ] as const) {
-      expect(
-        value,
-        `${name} is absent from src/routes/__root.tsx`,
-      ).toBeTruthy();
-      expect(
-        new URL(value!).origin,
-        `${name} points at ${value}, but the site is served from ${homepage}`,
-      ).toBe(homepage);
+  it("the canonical and og:url match the declared homepage", () => {
+    // The root head renders both from seoForPath, per page.
+    expect(rootRoute).toMatch(
+      /property:\s*"og:url",\s*content:\s*seo\.canonical/,
+    );
+    expect(rootRoute).toMatch(/rel:\s*"canonical",\s*href:\s*seo\.canonical/);
+    for (const path of ["/", "/fr/psychologists", "/ar/blog"]) {
+      const { canonical, alternates } = seoForPath(path);
+      for (const url of [canonical, ...alternates.map((a) => a.href)]) {
+        expect(
+          new URL(url).origin,
+          `${path} points at ${url}, but the site is served from ${homepage}`,
+        ).toBe(homepage);
+      }
     }
   });
 
@@ -325,5 +323,15 @@ describe("deep links have a server entry behind them", () => {
       "vercel.json is back — routing now lives in the Worker entry, and two " +
         "sources of routing truth is how the deep-link 404 happened before",
     ).toBe(false);
+  });
+});
+
+describe("seoForPath", () => {
+  it("drops an index route's trailing slash and finds its curated copy", () => {
+    const withSlash = seoForPath("/fr/psychologists/");
+    expect(withSlash.canonical).toBe(seoForPath("/fr/psychologists").canonical);
+    expect(withSlash.canonical.endsWith("/")).toBe(false);
+    expect(withSlash.curated).toBe(true);
+    expect(seoForPath("/").canonical.replace(/^https:\/\/[^/]+/, "")).toBe("/");
   });
 });

@@ -2,7 +2,8 @@ import { useEffect } from "react";
 import { useLocale } from "@/contexts/LocaleContext";
 import { addLocalePrefix, stripLocalePrefix } from "@/lib/i18n/utils";
 import { absoluteUrl } from "@/config/site";
-import { seoForPath } from "@/lib/seo/meta";
+import { useRouterState } from "@tanstack/react-router";
+import { dynamicSeo, seoForPath } from "@/lib/seo/meta";
 
 interface SEOHeadProps {
   path: string;
@@ -32,9 +33,10 @@ const SEOHead = ({
 }: SEOHeadProps) => {
   const { locale } = useLocale();
   const basePath = stripLocalePrefix(path);
+  const dynamic = useRouterState({ select: (s) => dynamicSeo(s.matches) });
 
   useEffect(() => {
-    const seo = seoForPath(addLocalePrefix(basePath, locale));
+    const seo = seoForPath(addLocalePrefix(basePath, locale), dynamic);
     const effectiveTitle = seo.curated ? seo.title : title || seo.title;
     const effectiveDescription = seo.curated
       ? seo.description
@@ -62,22 +64,9 @@ const SEOHead = ({
     setMeta("property", "og:image", ogImage || DEFAULT_OG_IMAGE);
     setMeta("name", "twitter:image", ogImage || DEFAULT_OG_IMAGE);
 
-    document
-      .querySelectorAll(
-        'link[rel="alternate"][hreflang], link[rel="canonical"]',
-      )
-      .forEach((el) => el.remove());
-    const canonical = document.createElement("link");
-    canonical.rel = "canonical";
-    canonical.href = seo.canonical;
-    document.head.appendChild(canonical);
-    for (const a of seo.alternates) {
-      const link = document.createElement("link");
-      link.rel = "alternate";
-      link.hreflang = a.hrefLang;
-      link.href = a.href;
-      document.head.appendChild(link);
-    }
+    // Canonical and hreflang links are rendered by the root head, which
+    // updates them on navigation. React owns those elements: removing them
+    // here makes its next head update throw (removeChild on null).
 
     document
       .querySelectorAll('script[data-seo-jsonld="true"]')
@@ -96,7 +85,7 @@ const SEOHead = ({
         .querySelectorAll('script[data-seo-jsonld="true"]')
         .forEach((el) => el.remove());
     };
-  }, [locale, basePath, title, description, ogImage, ogType, jsonLd]);
+  }, [locale, basePath, dynamic, title, description, ogImage, ogType, jsonLd]);
 
   return null;
 };

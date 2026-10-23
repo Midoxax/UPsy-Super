@@ -39,7 +39,7 @@ import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { LocaleProvider } from "@/contexts/LocaleContext";
 import { ThemeProvider } from "@/contexts/ThemeContext";
 import { stripLocalePrefix } from "@/lib/i18n/utils";
-import { seoForPath } from "@/lib/seo/meta";
+import { dynamicSeo, seoForPath } from "@/lib/seo/meta";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import SkipToContent from "@/components/SkipToContent";
@@ -137,7 +137,10 @@ const JSONLD_ORG = JSON.stringify({
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
   {
     head: ({ matches }) => {
-      const seo = seoForPath(matches[matches.length - 1]?.pathname ?? "/");
+      const seo = seoForPath(
+        matches[matches.length - 1]?.pathname ?? "/",
+        dynamicSeo(matches),
+      );
       return {
         meta: [
           { charSet: "utf-8" },

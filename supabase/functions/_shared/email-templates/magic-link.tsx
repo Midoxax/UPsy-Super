@@ -19,8 +19,7 @@ interface MagicLinkEmailProps {
   confirmationUrl: string;
 }
 
-const logoUrl =
-  "https://www.upsy.ma/brand/upsy-wordmark.png";
+const logoUrl = "https://www.upsy.ma/brand/upsy-wordmark.png";
 
 export const MagicLinkEmail = ({
   siteName,
