@@ -279,10 +279,18 @@ const CampaignLanding = ({ config }: { config: CampaignConfig }) => {
                     {config.successBody}
                   </p>
                   <Button asChild className="mt-6 w-full" size="lg">
-                    <Link to={config.successCta.href}>
-                      {config.successCta.label}
-                      <ArrowRight className="ml-2 h-4 w-4" />
-                    </Link>
+                    {/\.[a-z0-9]+$/i.test(config.successCta.href) ? (
+                      // A file (a campaign brochure), not an app route.
+                      <a href={config.successCta.href} download>
+                        {config.successCta.label}
+                        <ArrowRight className="ml-2 h-4 w-4" />
+                      </a>
+                    ) : (
+                      <Link to={config.successCta.href}>
+                        {config.successCta.label}
+                        <ArrowRight className="ml-2 h-4 w-4" />
+                      </Link>
+                    )}
                   </Button>
                 </div>
               ) : (

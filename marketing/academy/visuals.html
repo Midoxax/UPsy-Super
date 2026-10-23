@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<style>
+@font-face { font-family: Fraunces; src: url(assets/fraunces-latin-400-normal.woff2); font-weight: 400; }
+@font-face { font-family: Fraunces; src: url(assets/fraunces-latin-400-italic.woff2); font-weight: 400; font-style: italic; }
+@font-face { font-family: Fraunces; src: url(assets/fraunces-latin-600-normal.woff2); font-weight: 600; }
+@font-face { font-family: Manrope; src: url(assets/manrope-latin-500-normal.woff2); font-weight: 500; }
+@font-face { font-family: Manrope; src: url(assets/manrope-latin-600-normal.woff2); font-weight: 600; }
+@font-face { font-family: Manrope; src: url(assets/manrope-latin-700-normal.woff2); font-weight: 700; }
+:root { --wine: #6B1F2A; --gold: #FFB300; --sand: #EFE5D6; --paper: #FAF6F0; --ink: #2A1A1D; --muted: #6E5D5A; }
+* { box-sizing: border-box; margin: 0; }
+html, body { background: transparent; }
+/* All sizes are in --u, 1/100 of the canvas's short side, so one layout serves every format. */
+#c { position: relative; overflow: hidden; font-family: Manrope, sans-serif; color: var(--ink); }
+#c.wine { background: var(--wine); color: var(--paper); }
+#c.sand { background: var(--sand); }
+#c.paper { background: var(--paper); }
+.brand { position: absolute; left: calc(var(--u) * 7); top: calc(var(--u) * 6.5); height: calc(var(--u) * 6); }
+.wine .brand { filter: brightness(0) invert(1); }
+.url { position: absolute; right: calc(var(--u) * 7); top: calc(var(--u) * 7.5); font: 700 calc(var(--u) * 2.1) Manrope; letter-spacing: .14em; text-transform: uppercase; opacity: .85; }
+.kicker { font: 700 calc(var(--u) * 2.4) Manrope; letter-spacing: .16em; text-transform: uppercase; color: var(--wine); }
+.wine .kicker { color: var(--gold); }
+h1 { font: 600 calc(var(--u) * 8.4)/1.04 Fraunces, serif; letter-spacing: -.015em; text-wrap: balance; }
+h1 em { font-style: italic; font-weight: 400; color: var(--gold); }
+.sand h1 em, .paper h1 em { color: var(--wine); }
+.body { font: 500 calc(var(--u) * 3.1)/1.4 Manrope; max-width: 34ch; opacity: .92; }
+.art { position: absolute; background: center/contain no-repeat; }
+.text { position: absolute; display: flex; flex-direction: column; gap: calc(var(--u) * 3); }
+.no { font: 600 calc(var(--u) * 15)/1 Fraunces; color: var(--wine); }
+.points { list-style: none; padding: 0; display: grid; gap: calc(var(--u) * 1.6); }
+.points li { font: 600 calc(var(--u) * 3.2)/1.3 Manrope; padding-left: calc(var(--u) * 4.4); position: relative; }
+.points li::before { content: ""; position: absolute; left: 0; top: calc(var(--u) * 1.2); width: calc(var(--u) * 2); height: calc(var(--u) * 2); border-radius: 50%; background: var(--gold); }
+.quote { font: 400 calc(var(--u) * 6)/1.22 Fraunces; text-wrap: balance; }
+.quote::before { content: "« "; color: var(--gold); } .quote::after { content: " »"; color: var(--gold); }
+.who { display: flex; align-items: center; gap: calc(var(--u) * 2.4); }
+.who img { width: calc(var(--u) * 12); height: calc(var(--u) * 12); border-radius: 50%; object-fit: cover; border: calc(var(--u) * .5) solid var(--gold); }
+.who b { display: block; font: 600 calc(var(--u) * 3.6) Fraunces; }
+.who span { font: 600 calc(var(--u) * 2.2) Manrope; letter-spacing: .06em; opacity: .8; }
+.btn { align-self: flex-start; background: var(--gold); color: var(--ink); font: 700 calc(var(--u) * 3) Manrope; padding: calc(var(--u) * 2) calc(var(--u) * 4); border-radius: calc(var(--u) * 6); }
+.btn small { font-weight: 600; opacity: .7; margin-left: calc(var(--u) * 1.6); }
+.foot { position: absolute; left: calc(var(--u) * 7); bottom: calc(var(--u) * 6); font: 700 calc(var(--u) * 2) Manrope; letter-spacing: .16em; text-transform: uppercase; opacity: .7; }
+</style>
+</head>
+<body>
+<div id="c"></div>
+<script src="posts.js"></script>
+<script>
+const FORMATS = { ig: [1080, 1350], story: [1080, 1920], li: [1200, 627], sq: [1080, 1080] };
+const q = new URLSearchParams(location.search);
+const post = CAMPAIGN.posts.find((p) => p.id === q.get("post"));
+const [W, H] = FORMATS[q.get("fmt") || "ig"];
+const wide = W / H > 1.3, tall = H / W > 1.5;
+const c = document.getElementById("c");
+c.style.width = W + "px"; c.style.height = H + "px";
+c.style.setProperty("--u", Math.min(W, H) / 100 + "px");
+const u = Math.min(W, H) / 100;
+const img = (n) => `assets/${n}.png`;
+const bg = { hero: "wine", track: "sand", quote: "paper", cta: "wine" }[post.layout];
+c.className = bg;
+
+// Where the illustration and the text go, per format.
+let art, text;
+if (wide) { art = { right: -2 * u, top: 6 * u, width: W * 0.5, height: H - 6 * u }; text = { left: 7 * u, top: 18 * u, width: W * 0.48 }; }
+else if (tall) { art = { left: 0, right: 0, top: H * 0.5, height: H * 0.42 }; text = { left: 7 * u, right: 7 * u, top: 22 * u }; }
+else { art = { left: W * 0.18, right: -4 * u, top: H * 0.44, height: H * 0.5 }; text = { left: 7 * u, right: 7 * u, top: 19 * u }; }
+const css = (o) => Object.entries(o).map(([k, v]) => `${k}:${typeof v === "number" ? v + "px" : v}`).join(";");
+
+let inner = "";
+if (post.layout === "hero" || post.layout === "cta") {
+  inner = `<span class="kicker">${post.kicker}</span><h1>${post.title}</h1><p class="body">${post.body}</p>` +
+    (post.cta ? `<span class="btn">${post.cta} <small>${CAMPAIGN.url}</small></span>` : "");
+} else if (post.layout === "track") {
+  if (!wide) art = { ...art, top: H * (tall ? 0.56 : 0.54), height: H * (tall ? 0.38 : 0.42), left: W * 0.3 };
+  inner = `<span class="no">${post.no}</span><span class="kicker">${post.kicker}</span><h1 style="font-size:${(wide ? 6 : 7) * u}px">${post.title}</h1>` +
+    `<ul class="points">${post.points.map((p) => `<li>${p}</li>`).join("")}</ul>`;
+} else if (post.layout === "quote") {
+  inner = `<p class="quote" style="font-size:${(wide ? 4.6 : 5.6) * u}px">${post.quote}</p>` +
+    `<div class="who">${post.photo ? `<img src="assets/${post.photo}.webp" alt="">` : ""}<div><b>${post.author}</b><span>${post.role}</span></div></div>`;
+  if (!wide) art = { ...art, top: H * 0.6, height: H * 0.36, left: W * 0.4 };
+}
+c.innerHTML = `<img class="brand" src="assets/upsy-wordmark.webp" alt="U.Psy"><span class="url">${CAMPAIGN.url}</span>` +
+  `<div class="art" style="${css(art)};background-image:url(${img(post.art)})"></div>` +
+  `<div class="text" style="${css(text)}">${inner}</div>` +
+  `<span class="foot">U.Psy Academy · Programme hybride</span>`;
+document.fonts.ready.then(() => (window.READY = true));
+</script>
+</body>
+</html>

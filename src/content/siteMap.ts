@@ -200,6 +200,14 @@ export const SITE_MAP: SiteGroup[] = [
   {
     title: { en: "Learn", fr: "Apprendre", ar: "التعلّم" },
     pages: [
+      {
+        path: "/academy",
+        label: {
+          en: "U.Psy Academy",
+          fr: "U.Psy Academy",
+          ar: "أكاديمية U.Psy",
+        },
+      },
       { path: "/blog", label: { en: "Blog", fr: "Blog", ar: "المدونة" } },
       {
         path: "/resources",
