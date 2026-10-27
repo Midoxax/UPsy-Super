@@ -177,6 +177,7 @@
   "src/pages/admin/DnsChecklist.tsx": 8,
   "src/pages/admin/Finance.tsx": 3,
   "src/pages/admin/GrowthLeads.tsx": 9,
+  "src/pages/admin/Study.tsx": 5,
   "src/pages/apply/ApplyOrganization.tsx": 17,
   "src/pages/apply/ApplyWizard.tsx": 46,
   "src/pages/blog/BenefitsOnlineTherapy.tsx": 1,
