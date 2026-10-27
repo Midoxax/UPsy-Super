@@ -51,6 +51,7 @@ import { reportLovableError } from "@/lib/lovable-error-reporting";
 // ported from main.tsx
 import { applyConsent } from "@/lib/consent";
 import { ConsentBanner } from "@/components/ConsentBanner";
+import StickyMobileCta from "@/components/StickyMobileCta";
 import { initSentry } from "@/lib/analytics/sentry";
 import { assertRequiredEnv } from "@/lib/env-check";
 
@@ -346,6 +347,7 @@ const AppShell = () => {
         </Suspense>
       </main>
       <Footer />
+      <StickyMobileCta />
       <ConsentBanner />
     </div>
   );

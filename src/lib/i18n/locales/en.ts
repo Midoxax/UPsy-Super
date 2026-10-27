@@ -606,6 +606,8 @@ const en = {
     followUs: "Follow Us",
     email: "Email",
     whatsapp: "WhatsApp",
+    address: "Address",
+    bookNow: "Find a psychologist",
     availableOnRequest: "Available upon request",
     language: "Language",
   },

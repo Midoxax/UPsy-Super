@@ -618,6 +618,8 @@ const fr = {
     followUs: "Suivez-nous",
     email: "E-mail",
     whatsapp: "WhatsApp",
+    address: "Adresse",
+    bookNow: "Trouver un psychologue",
     availableOnRequest: "Disponible sur demande",
     language: "Langue",
   },
