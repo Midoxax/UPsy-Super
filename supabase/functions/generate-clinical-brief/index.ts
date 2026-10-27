@@ -1,6 +1,6 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
-import { aiErrorResponse, aiText } from "../_shared/ai.ts";
+import { aiErrorResponse, aiModel, aiText } from "../_shared/ai.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -81,8 +81,8 @@ serve(async (req) => {
         )
       : null;
     const briefInput = {
+      // No name: the model does not need it to write the brief.
       client: {
-        name: clientName,
         age,
         gender: identity.gender,
         city: identity.city,
@@ -127,7 +127,7 @@ serve(async (req) => {
         red_flags: redFlags,
         key_history_points: [],
         treatment_suggestions: [],
-        ai_model: "google/gemini-2.5-flash",
+        ai_model: aiModel(),
         generation_tokens_used: tokensUsed,
       },
       { onConflict: "intake_form_id" },

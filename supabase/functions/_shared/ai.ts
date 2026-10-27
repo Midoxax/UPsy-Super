@@ -32,6 +32,10 @@ export class AiError extends Error {
   }
 }
 
+/** The model that answers, for audit columns. */
+export const aiModel = () =>
+  Deno.env.get("ANTHROPIC_API_KEY") ? MODEL : GATEWAY_MODEL;
+
 export const aiConfigured = () =>
   !!(Deno.env.get("ANTHROPIC_API_KEY") || Deno.env.get("LOVABLE_API_KEY"));
 
