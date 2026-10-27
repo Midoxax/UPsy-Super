@@ -83,7 +83,7 @@ if (post.layout === "hero" || post.layout === "cta") {
 c.innerHTML = `<img class="brand" src="assets/upsy-wordmark.webp" alt="U.Psy"><span class="url">${CAMPAIGN.url}</span>` +
   `<div class="art" style="${css(art)};background-image:url(${img(post.art)})"></div>` +
   `<div class="text" style="${css(text)}">${inner}</div>` +
-  `<span class="foot">U.Psy Academy · Programme hybride</span>`;
+  `<span class="foot">${CAMPAIGN.footer ?? "U.Psy Academy · Programme hybride"}</span>`;
 document.fonts.ready.then(() => (window.READY = true));
 </script>
 </body>

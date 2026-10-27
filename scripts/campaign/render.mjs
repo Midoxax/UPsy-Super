@@ -6,6 +6,8 @@
 // Sources: marketing/<campaign>/{brochure.html, visuals.html, posts.js, assets/}.
 // Output:  public/campaign/<campaign>/ — the brochure PDF and <format>/<post>.jpg,
 //          served by the site so the social automation can publish them.
+// CAMPAIGN_SRC / CAMPAIGN_OUT override both directories, CAMPAIGN_FORMATS
+// (e.g. "ig,story") limits the formats; scripts/agent/news-insight.ts uses them.
 // Needs Playwright with Chromium (`bun add --no-save playwright` and
 // `bunx playwright install chromium`, or PLAYWRIGHT_CHROMIUM=/path/to/chrome).
 import { chromium } from "playwright";
@@ -17,14 +19,21 @@ if (!campaign)
   throw new Error(
     "usage: node scripts/campaign/render.mjs <campaign> [post-id]",
   );
-const src = resolve("marketing", campaign);
-const out = resolve("public/campaign", campaign);
-const FORMATS = {
+const src = process.env.CAMPAIGN_SRC ?? resolve("marketing", campaign);
+const out = process.env.CAMPAIGN_OUT ?? resolve("public/campaign", campaign);
+const ALL_FORMATS = {
   ig: [1080, 1350],
   story: [1080, 1920],
   li: [1200, 627],
   sq: [1080, 1080],
 };
+const FORMATS = Object.fromEntries(
+  Object.entries(ALL_FORMATS).filter(
+    ([f]) =>
+      !process.env.CAMPAIGN_FORMATS ||
+      process.env.CAMPAIGN_FORMATS.split(",").includes(f),
+  ),
+);
 
 const browser = await chromium.launch(
   process.env.PLAYWRIGHT_CHROMIUM

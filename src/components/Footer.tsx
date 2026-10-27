@@ -109,6 +109,12 @@ const Footer = () => {
                   {COMPANY.phone}
                 </a>
               </p>
+              <address className="text-muted-foreground not-italic">
+                <span className="text-foreground font-medium">
+                  {t("footer.address")}:
+                </span>{" "}
+                {COMPANY.address.join(", ")}
+              </address>
             </div>
 
             {/* Social */}

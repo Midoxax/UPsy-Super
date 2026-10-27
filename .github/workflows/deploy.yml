@@ -9,7 +9,7 @@ name: Deploy (Cloudflare Workers)
 #   CLOUDFLARE_API_TOKEN   — token with "Edit Cloudflare Workers" permission
 #   CLOUDFLARE_ACCOUNT_ID
 #   VITE_SUPABASE_URL / VITE_SUPABASE_PUBLISHABLE_KEY / VITE_SUPABASE_PROJECT_ID
-#   VITE_SITE_URL          — canonical origin, e.g. https://www.upsy.ma
+#   VITE_SITE_URL          — canonical origin, e.g. https://upsy.ma
 #   SUPABASE_ACCESS_TOKEN  — personal access token, dashboard.supabase.com/account/tokens
 #   SUPABASE_DB_PASSWORD   — the linked project's Postgres password
 # Optional: VITE_SENTRY_DSN, VITE_POSTHOG_KEY, VITE_POSTHOG_HOST

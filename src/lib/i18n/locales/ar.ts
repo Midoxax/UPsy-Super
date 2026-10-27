@@ -597,6 +597,8 @@ const ar = {
     followUs: "تابعنا",
     email: "البريد الإلكتروني",
     whatsapp: "واتساب",
+    address: "العنوان",
+    bookNow: "ابحث عن أخصائي",
     availableOnRequest: "متاح عند الطلب",
     language: "اللغة",
   },

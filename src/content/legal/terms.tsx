@@ -15,9 +15,9 @@ const en: LegalDoc = {
   intro: (
     <p>
       These terms form the agreement between you and UPSY when you use{" "}
-      <a href="https://www.upsy.ma">www.upsy.ma</a> and its services. By
-      creating an account or booking a session, you accept them. Please also
-      read our <a href="/privacy">Privacy Policy</a>.
+      <a href="https://upsy.ma">upsy.ma</a> and its services. By creating an
+      account or booking a session, you accept them. Please also read our{" "}
+      <a href="/privacy">Privacy Policy</a>.
     </p>
   ),
   sections: [
@@ -278,8 +278,8 @@ const fr: LegalDoc = {
   intro: (
     <p>
       Ces conditions constituent l'accord entre vous et UPSY lorsque vous
-      utilisez <a href="https://www.upsy.ma">www.upsy.ma</a> et ses services. En
-      créant un compte ou en réservant une séance, vous les acceptez. Consultez
+      utilisez <a href="https://upsy.ma">upsy.ma</a> et ses services. En créant
+      un compte ou en réservant une séance, vous les acceptez. Consultez
       également notre <a href="/fr/privacy">Politique de confidentialité</a>.
     </p>
   ),

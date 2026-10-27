@@ -188,7 +188,7 @@ const DOCS: Array<[keyof FileRow, string, string]> = [
   ["doc_insurance_url", "Assurance RC pro", "Professional insurance"],
 ];
 
-const CAMPAIGN_URL = "https://www.upsy.ma/fr/campaigns/lsspm";
+const CAMPAIGN_URL = "https://upsy.ma/fr/campaigns/lsspm";
 
 function scoreTone(n: number | null) {
   if (n == null) return "text-muted-foreground";

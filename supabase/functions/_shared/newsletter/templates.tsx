@@ -28,7 +28,7 @@ export interface DigestItem {
   image: string | null;
 }
 
-const LOGO = "https://www.upsy.ma/brand/upsy-wordmark.png";
+const LOGO = "https://upsy.ma/brand/upsy-wordmark.png";
 
 const T = {
   en: {

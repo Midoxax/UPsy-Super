@@ -18,7 +18,7 @@ const BASE_URL = (
   process.env.VITE_SITE_URL ||
   (JSON.parse(readFileSync(resolve("package.json"), "utf8"))
     .homepage as string) ||
-  "https://www.upsy.ma"
+  "https://upsy.ma"
 ).replace(/\/$/, "");
 const LOCALES = ["en", "fr", "ar"] as const;
 type Locale = (typeof LOCALES)[number];

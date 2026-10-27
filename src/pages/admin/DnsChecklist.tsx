@@ -31,7 +31,7 @@ type HealthBody = {
 
 const PREVIEW_HOST =
   "id-preview--355cf905-7152-433f-b59d-dda69a853e16.lovable.app";
-const PROD_HOST = "www.upsy.ma";
+const PROD_HOST = "upsy.ma";
 
 const RECORDS = [
   {
@@ -73,7 +73,7 @@ const RECORDS = [
 
 const SIGNALS = [
   "https://upsy.ma returns 200 (not a redirect to old host)",
-  "https://www.upsy.ma returns 200 and matches the apex",
+  "https://upsy.ma returns 200 and matches the apex",
   "GTmetrix / Lighthouse mobile score ≥ 85 on the homepage",
   "No mixed-content warnings in the browser console",
   "Supabase auth sign-in completes end-to-end (Google + Apple)",

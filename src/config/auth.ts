@@ -35,7 +35,7 @@
  *   3. Supabase -> Authentication -> Providers -> Google: paste the client ID
  *      and client secret, enable.
  *   4. Supabase -> Authentication -> URL Configuration -> Redirect URLs: add
- *      https://www.upsy.ma
+ *      https://upsy.ma
  *   5. Set `VITE_OAUTH_PROVIDERS="google"` and deploy.
  *   6. Complete one real sign-in before telling anyone it works.
  *
