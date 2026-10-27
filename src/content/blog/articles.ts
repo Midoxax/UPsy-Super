@@ -3,6 +3,10 @@
 // French and English are written in full; Arabic readers get the French
 // text until an Arabic version is added.
 
+// Regard U.Psy: analyses of current news, written by scripts/agent/news-insight.ts
+// and reviewed in a pull request before they go live.
+import NEWS from "./news.generated.json";
+
 export type ArticleLang = "en" | "fr";
 
 export interface ArticleSection {
@@ -26,9 +30,11 @@ export interface Article {
   readMinutes: number;
   datePublished: string;
   content: Record<ArticleLang, ArticleBody>;
+  /** The news story an analysis responds to (Regard U.Psy, scripts/agent/news-insight.ts). */
+  source?: { outlet: string; title: string; url: string; date: string };
 }
 
-export const ARTICLES: Article[] = [
+const WRITTEN: Article[] = [
   {
     slug: "pre-competition-anxiety",
     readMinutes: 7,
@@ -682,6 +688,8 @@ export const ARTICLES: Article[] = [
     },
   },
 ];
+
+export const ARTICLES: Article[] = [...(NEWS as Article[]), ...WRITTEN];
 
 export const articleLang = (locale: string): ArticleLang =>
   locale === "en" ? "en" : "fr";

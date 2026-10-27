@@ -98,6 +98,21 @@ export default function BlogArticle() {
               </ScrollReveal>
             ))}
 
+            {article.source && (
+              <p className="text-sm text-muted-foreground border-s-2 border-primary/40 ps-4">
+                {lang === "fr" ? "Source : " : "Source: "}
+                <a
+                  href={article.source.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="underline underline-offset-2 hover:text-primary"
+                >
+                  {article.source.title}
+                </a>{" "}
+                — {article.source.outlet}, {article.source.date}
+              </p>
+            )}
+
             <ScrollReveal>
               <section className="space-y-4">
                 <h2 className="text-h2 font-display">FAQ</h2>

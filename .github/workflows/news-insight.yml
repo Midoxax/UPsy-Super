@@ -1,0 +1,101 @@
+name: Regard U.Psy
+
+# Three mornings a week, picks one current news story, writes a psychological
+# and philosophical analysis (French and English), renders the brand visuals
+# and a short vertical video, and opens a pull request. Merging the pull
+# request is the editorial review: after the deploy the article is live,
+# content-automation posts it to the U.Psy pages and the monthly newsletter
+# includes it. See scripts/agent/news-insight.ts.
+#
+# Needs the repository secret ANTHROPIC_API_KEY. Without it the job explains
+# what is missing and stops.
+
+on:
+  schedule:
+    # Monday, Wednesday, Friday at 06:17 UTC (07:17 in Morocco).
+    - cron: "17 6 * * 1,3,5"
+  workflow_dispatch:
+    inputs:
+      url:
+        description: "Analyse this article instead of picking one from the feeds (optional)"
+        required: false
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: news-insight
+  cancel-in-progress: false
+
+jobs:
+  write:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version-file: .nvmrc
+          package-manager-cache: false
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - run: bun install --frozen-lockfile
+
+      - name: Check for the API key
+        id: key
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          if [ -z "$ANTHROPIC_API_KEY" ]; then
+            echo "::warning::ANTHROPIC_API_KEY is not set; add it under Settings > Secrets and variables > Actions to enable Regard U.Psy."
+            echo "present=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "present=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      # Installed just-in-time: nothing in the app needs them.
+      - name: Install the SDK, Chromium and ffmpeg
+        if: steps.key.outputs.present == 'true'
+        run: |
+          bun add --no-save @anthropic-ai/sdk playwright
+          npx playwright install --with-deps chromium
+          sudo apt-get install -y ffmpeg >/dev/null
+
+      - name: Write and render
+        id: write
+        if: steps.key.outputs.present == 'true'
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          URL: ${{ inputs.url }}
+        run: |
+          if [ -n "$URL" ]; then npx tsx scripts/agent/news-insight.ts --url "$URL"
+          else npx tsx scripts/agent/news-insight.ts; fi
+          if git diff --quiet -- src/content/blog/news.generated.json; then
+            echo "written=false" >> "$GITHUB_OUTPUT"; exit 0
+          fi
+          npx tsx scripts/generate-feeds.ts
+          slug=$(node -p "require('./src/content/blog/news.generated.json')[0].slug")
+          title=$(node -p "require('./src/content/blog/news.generated.json')[0].content.fr.title")
+          echo "written=true" >> "$GITHUB_OUTPUT"
+          echo "slug=$slug" >> "$GITHUB_OUTPUT"
+          echo "title=$title" >> "$GITHUB_OUTPUT"
+          cp /tmp/regard-pr.md pr.md
+
+      - name: Open pull request
+        if: steps.write.outputs.written == 'true'
+        uses: peter-evans/create-pull-request@v7
+        with:
+          branch: regard/${{ steps.write.outputs.slug }}
+          commit-message: "Regard U.Psy: ${{ steps.write.outputs.title }}"
+          title: "Regard U.Psy: ${{ steps.write.outputs.title }}"
+          body-path: pr.md
+          add-paths: |
+            src/content/blog/news.generated.json
+            marketing/news/*.json
+            public/social/*.jpg
+            public/campaign/news/**
+            public/blog-feed.json
+            public/rss.xml
+            public/rss-fr.xml
+          delete-branch: true
