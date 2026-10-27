@@ -94,17 +94,17 @@ const JSONLD_WEBSITE = JSON.stringify({
   "@context": "https://schema.org",
   "@type": "WebSite",
   name: "U.Psy",
-  url: "https://www.upsy.ma",
+  url: "https://upsy.ma",
   description:
     "Modern mental health platform helping users find psychologists, take self-assessments, and access personalized support.",
   publisher: {
     "@type": "Organization",
     name: "U.Psy",
-    url: "https://www.upsy.ma",
+    url: "https://upsy.ma",
   },
   potentialAction: {
     "@type": "SearchAction",
-    target: "https://www.upsy.ma/psychologists?q={search_term_string}",
+    target: "https://upsy.ma/psychologists?q={search_term_string}",
     "query-input": "required name=search_term_string",
   },
 });
@@ -113,15 +113,15 @@ const JSONLD_ORG = JSON.stringify({
   "@context": "https://schema.org",
   "@type": "Organization",
   name: "U.Psy",
-  url: "https://www.upsy.ma",
-  logo: "https://www.upsy.ma/icon-512.png",
+  url: "https://upsy.ma",
+  logo: "https://upsy.ma/icon-512.png",
   description:
     "Performance psychology platform. Book accredited psychologists worldwide via video or in-person in select cities.",
   founder: {
     "@type": "Person",
     name: "Mehdi Felji",
     jobTitle: "Founder",
-    url: "https://www.upsy.ma/founder",
+    url: "https://upsy.ma/founder",
   },
   sameAs: Object.values(SOCIAL_LINKS),
   areaServed: "Worldwide",
@@ -175,7 +175,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
           { property: "og:title", content: seo.title },
           { property: "og:description", content: seo.description },
           { property: "og:locale", content: seo.ogLocale },
-          { property: "og:image", content: "https://www.upsy.ma/og-image.jpg" },
+          { property: "og:image", content: "https://upsy.ma/og-image.jpg" },
           { property: "og:image:alt", content: "U.Psy logo" },
           { property: "og:image:type", content: "image/jpeg" },
           { property: "og:image:width", content: "1920" },
@@ -187,7 +187,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
           { name: "twitter:description", content: seo.description },
           {
             name: "twitter:image",
-            content: "https://www.upsy.ma/og-image.jpg",
+            content: "https://upsy.ma/og-image.jpg",
           },
           { name: "twitter:image:alt", content: "U.Psy logo" },
         ],

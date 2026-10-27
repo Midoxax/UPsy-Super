@@ -209,7 +209,7 @@ Deno.serve(async (req) => {
 <body style="margin:0;padding:0;background:#ffffff;font-family:Arial,sans-serif;color:#1a1a1a;">
   <div style="max-width:560px;margin:0 auto;padding:32px 24px;">
     <div style="text-align:center;margin-bottom:24px;">
-      <img src="https://www.upsy.ma/brand/upsy-wordmark.png" alt="U.Psy" width="140" style="display:block;height:auto;border:0" />
+      <img src="https://upsy.ma/brand/upsy-wordmark.png" alt="U.Psy" width="140" style="display:block;height:auto;border:0" />
     </div>
     <h2 style="color:#1a1a1a;margin:0 0 16px;">${escapeHtml(psyName)} is inviting you to a video session</h2>
     <p style="color:#444;line-height:1.6;margin:0 0 20px;">

@@ -203,7 +203,7 @@ const Auth = () => {
       if (error instanceof z.ZodError) {
         toast({
           title: t("auth.validationError"),
-          description: error.errors[0].message,
+          description: error.issues[0].message,
           variant: "destructive",
         });
       }
@@ -248,7 +248,7 @@ const Auth = () => {
       if (error instanceof z.ZodError) {
         toast({
           title: t("auth.validationError"),
-          description: error.errors[0].message,
+          description: error.issues[0].message,
           variant: "destructive",
         });
       } else if (error instanceof Error) {

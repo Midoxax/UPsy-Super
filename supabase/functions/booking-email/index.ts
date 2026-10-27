@@ -212,7 +212,7 @@ function html(title: string, body: string, cta: string) {
   return `<!doctype html>
 <html><body style="margin:0;padding:32px;background:#F7F3F0;font-family:Inter,Arial,sans-serif;color:#2a1a1d">
   <div style="max-width:560px;margin:0 auto;background:#fff;border-radius:20px;padding:32px;border:1px solid #e9dfd8">
-    <div style="margin-bottom:12px"><img src="https://www.upsy.ma/brand/upsy-wordmark.png" alt="U.Psy" width="140" style="display:block;height:auto;border:0" /></div>
+    <div style="margin-bottom:12px"><img src="https://upsy.ma/brand/upsy-wordmark.png" alt="U.Psy" width="140" style="display:block;height:auto;border:0" /></div>
     <h1 style="font-size:22px;margin:0 0 12px">${esc(title)}</h1>
     <p style="font-size:15px;line-height:1.6;color:#5a4a4d;white-space:pre-wrap">${esc(body)}</p>
     <a href="${esc(cta)}" style="display:inline-block;margin-top:20px;padding:12px 24px;background:#6B1F2A;color:#fff;text-decoration:none;border-radius:12px;font-weight:600">Open U.Psy</a>

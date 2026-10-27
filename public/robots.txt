@@ -16,4 +16,4 @@ Allow: /
 User-agent: *
 Allow: /
 
-Sitemap: https://www.upsy.ma/sitemap.xml
+Sitemap: https://upsy.ma/sitemap.xml

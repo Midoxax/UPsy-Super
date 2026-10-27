@@ -6,7 +6,7 @@
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.45.0";
 import { icsCalendar } from "../_shared/ics.ts";
 
-const ORIGIN = Deno.env.get("PUBLIC_SITE_URL") ?? "https://www.upsy.ma";
+const ORIGIN = Deno.env.get("PUBLIC_SITE_URL") ?? "https://upsy.ma";
 
 Deno.serve(async (req) => {
   const token = new URL(req.url).searchParams.get("token") ?? "";

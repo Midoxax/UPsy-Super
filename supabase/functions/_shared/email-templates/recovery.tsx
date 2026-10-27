@@ -19,7 +19,7 @@ interface RecoveryEmailProps {
   confirmationUrl: string;
 }
 
-const logoUrl = "https://www.upsy.ma/brand/upsy-wordmark.png";
+const logoUrl = "https://upsy.ma/brand/upsy-wordmark.png";
 
 export const RecoveryEmail = ({
   siteName,

@@ -17,7 +17,7 @@ interface ReauthenticationEmailProps {
   token: string;
 }
 
-const logoUrl = "https://www.upsy.ma/brand/upsy-wordmark.png";
+const logoUrl = "https://upsy.ma/brand/upsy-wordmark.png";
 
 export const ReauthenticationEmail = ({
   token,

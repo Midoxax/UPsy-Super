@@ -21,12 +21,12 @@
  * them and moving the domain later meant finding them again. It resolves here
  * instead, and moving to the real domain is one environment variable.
  *
- * WHY www AND NOT THE APEX
+ * WHY THE APEX
  *
- * `upsy.ma` answers 308 and redirects to `www.upsy.ma`, so www is where a
- * visitor actually lands. A canonical tag should name the URL that serves the
- * page, not one that bounces to it — an extra hop on every crawl, and two URLs
- * competing to represent one page.
+ * Since the move to Cloudflare the site is served on `upsy.ma` and
+ * `www.upsy.ma` has no DNS record at all, so every hardcoded www link (social
+ * preview images, email logos and links, the brochure QR code) was dead. A
+ * canonical tag should name the URL that serves the page.
  *
  * Do not point this at a host before it serves the site. This file exists
  * because all of it named `upsy.ma` while that domain had no DNS record at all,
@@ -38,7 +38,7 @@
  * Set `VITE_SITE_URL` and `homepage` in package.json together, then re-run
  * `npm run sitemap`. `tests/unit/csp.test.ts` fails if index.html, robots.txt
  * and package.json stop agreeing, so a half-finished change cannot ship.
- * Confirm with `PROD_URL=https://www.upsy.ma npm run check:production` first.
+ * Confirm with `PROD_URL=https://upsy.ma npm run check:production` first.
  */
 
 /**
@@ -48,7 +48,7 @@
  * in step with package.json `homepage` by the SEO origin tests.
  */
 export const SITE_URL = (
-  (import.meta.env.VITE_SITE_URL as string | undefined) || "https://www.upsy.ma"
+  (import.meta.env.VITE_SITE_URL as string | undefined) || "https://upsy.ma"
 ).replace(/\/$/, "");
 
 /** Absolute URL for a root-relative path. */

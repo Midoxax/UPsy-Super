@@ -29,8 +29,8 @@ const en: LegalDoc = {
         <p>
           The data controller is UPSY, operated by Mehdi Felji, registered as an
           auto-entrepreneur in Morocco, website{" "}
-          <a href="https://www.upsy.ma">www.upsy.ma</a>. For any question about
-          your data, write to {mail(PRIVACY)}.
+          <a href="https://upsy.ma">upsy.ma</a>. For any question about your
+          data, write to {mail(PRIVACY)}.
         </p>
       ),
     },
@@ -379,8 +379,8 @@ const fr: LegalDoc = {
         <p>
           Le responsable du traitement est UPSY, exploité par Mehdi Felji,
           auto-entrepreneur immatriculé au Maroc, site{" "}
-          <a href="https://www.upsy.ma">www.upsy.ma</a>. Pour toute question sur
-          vos données, écrivez à {mail(PRIVACY)}.
+          <a href="https://upsy.ma">upsy.ma</a>. Pour toute question sur vos
+          données, écrivez à {mail(PRIVACY)}.
         </p>
       ),
     },

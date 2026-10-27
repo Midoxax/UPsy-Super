@@ -6,8 +6,8 @@
       "date": "2026-10-20",
       "legacy": false,
       "url": {
-        "en": "https://www.upsy.ma/blog/athlete-burnout",
-        "fr": "https://www.upsy.ma/fr/blog/athlete-burnout"
+        "en": "https://upsy.ma/blog/athlete-burnout",
+        "fr": "https://upsy.ma/fr/blog/athlete-burnout"
       },
       "title": {
         "en": "Athlete burnout: recognise it early, prevent it for good",
@@ -22,15 +22,15 @@
         "fr": "Psychologie du sport"
       },
       "readMinutes": 6,
-      "image": "https://www.upsy.ma/social/athlete-burnout.jpg"
+      "image": "https://upsy.ma/social/athlete-burnout.jpg"
     },
     {
       "slug": "injury-recovery-psychology",
       "date": "2026-10-20",
       "legacy": false,
       "url": {
-        "en": "https://www.upsy.ma/blog/injury-recovery-psychology",
-        "fr": "https://www.upsy.ma/fr/blog/injury-recovery-psychology"
+        "en": "https://upsy.ma/blog/injury-recovery-psychology",
+        "fr": "https://upsy.ma/fr/blog/injury-recovery-psychology"
       },
       "title": {
         "en": "Coming back from injury: the mental side of recovery",
@@ -45,15 +45,15 @@
         "fr": "Psychologie du sport"
       },
       "readMinutes": 7,
-      "image": "https://www.upsy.ma/social/injury-recovery-psychology.jpg"
+      "image": "https://upsy.ma/social/injury-recovery-psychology.jpg"
     },
     {
       "slug": "mental-imagery-for-athletes",
       "date": "2026-10-20",
       "legacy": false,
       "url": {
-        "en": "https://www.upsy.ma/blog/mental-imagery-for-athletes",
-        "fr": "https://www.upsy.ma/fr/blog/mental-imagery-for-athletes"
+        "en": "https://upsy.ma/blog/mental-imagery-for-athletes",
+        "fr": "https://upsy.ma/fr/blog/mental-imagery-for-athletes"
       },
       "title": {
         "en": "Mental imagery for athletes: how to train in your head",
@@ -68,15 +68,15 @@
         "fr": "Psychologie du sport"
       },
       "readMinutes": 6,
-      "image": "https://www.upsy.ma/social/mental-imagery-for-athletes.jpg"
+      "image": "https://upsy.ma/social/mental-imagery-for-athletes.jpg"
     },
     {
       "slug": "pre-competition-anxiety",
       "date": "2026-10-20",
       "legacy": false,
       "url": {
-        "en": "https://www.upsy.ma/blog/pre-competition-anxiety",
-        "fr": "https://www.upsy.ma/fr/blog/pre-competition-anxiety"
+        "en": "https://upsy.ma/blog/pre-competition-anxiety",
+        "fr": "https://upsy.ma/fr/blog/pre-competition-anxiety"
       },
       "title": {
         "en": "Pre-competition anxiety: understand it, then use it",
@@ -91,15 +91,15 @@
         "fr": "Psychologie du sport"
       },
       "readMinutes": 7,
-      "image": "https://www.upsy.ma/social/pre-competition-anxiety.jpg"
+      "image": "https://upsy.ma/social/pre-competition-anxiety.jpg"
     },
     {
       "slug": "when-to-see-a-sport-psychologist",
       "date": "2026-10-20",
       "legacy": false,
       "url": {
-        "en": "https://www.upsy.ma/blog/when-to-see-a-sport-psychologist",
-        "fr": "https://www.upsy.ma/fr/blog/when-to-see-a-sport-psychologist"
+        "en": "https://upsy.ma/blog/when-to-see-a-sport-psychologist",
+        "fr": "https://upsy.ma/fr/blog/when-to-see-a-sport-psychologist"
       },
       "title": {
         "en": "When should an athlete see a sport psychologist?",
@@ -114,15 +114,15 @@
         "fr": "Guide"
       },
       "readMinutes": 5,
-      "image": "https://www.upsy.ma/social/when-to-see-a-sport-psychologist.jpg"
+      "image": "https://upsy.ma/social/when-to-see-a-sport-psychologist.jpg"
     },
     {
       "slug": "benefits-online-therapy",
       "date": "2026-03-01",
       "legacy": true,
       "url": {
-        "en": "https://www.upsy.ma/blog/benefits-online-therapy",
-        "fr": "https://www.upsy.ma/fr/blog/benefits-online-therapy"
+        "en": "https://upsy.ma/blog/benefits-online-therapy",
+        "fr": "https://upsy.ma/fr/blog/benefits-online-therapy"
       },
       "title": {
         "en": "The Benefits of Online Therapy",
@@ -137,15 +137,15 @@
         "fr": "Guide"
       },
       "readMinutes": 4,
-      "image": "https://www.upsy.ma/social/benefits-online-therapy.jpg"
+      "image": "https://upsy.ma/social/benefits-online-therapy.jpg"
     },
     {
       "slug": "do-i-need-therapy",
       "date": "2026-03-01",
       "legacy": true,
       "url": {
-        "en": "https://www.upsy.ma/blog/do-i-need-therapy",
-        "fr": "https://www.upsy.ma/fr/blog/do-i-need-therapy"
+        "en": "https://upsy.ma/blog/do-i-need-therapy",
+        "fr": "https://upsy.ma/fr/blog/do-i-need-therapy"
       },
       "title": {
         "en": "Do I Need Therapy?",
@@ -160,15 +160,15 @@
         "fr": "Santé mentale"
       },
       "readMinutes": 6,
-      "image": "https://www.upsy.ma/social/do-i-need-therapy.jpg"
+      "image": "https://upsy.ma/social/do-i-need-therapy.jpg"
     },
     {
       "slug": "find-right-psychologist",
       "date": "2026-03-01",
       "legacy": true,
       "url": {
-        "en": "https://www.upsy.ma/blog/find-right-psychologist",
-        "fr": "https://www.upsy.ma/fr/blog/find-right-psychologist"
+        "en": "https://upsy.ma/blog/find-right-psychologist",
+        "fr": "https://upsy.ma/fr/blog/find-right-psychologist"
       },
       "title": {
         "en": "How to Find the Right Psychologist for You",
@@ -183,15 +183,15 @@
         "fr": "Guide"
       },
       "readMinutes": 5,
-      "image": "https://www.upsy.ma/social/find-right-psychologist.jpg"
+      "image": "https://upsy.ma/social/find-right-psychologist.jpg"
     },
     {
       "slug": "how-to-clear-brain-fog",
       "date": "2026-03-01",
       "legacy": true,
       "url": {
-        "en": "https://www.upsy.ma/blog/how-to-clear-brain-fog",
-        "fr": "https://www.upsy.ma/fr/blog/how-to-clear-brain-fog"
+        "en": "https://upsy.ma/blog/how-to-clear-brain-fog",
+        "fr": "https://upsy.ma/fr/blog/how-to-clear-brain-fog"
       },
       "title": {
         "en": "How to Clear Brain Fog — Causes, Fixes and When to See a Doctor",
@@ -206,15 +206,15 @@
         "fr": "Performance"
       },
       "readMinutes": 7,
-      "image": "https://www.upsy.ma/social/how-to-clear-brain-fog.jpg"
+      "image": "https://upsy.ma/social/how-to-clear-brain-fog.jpg"
     },
     {
       "slug": "how-to-improve-focus",
       "date": "2026-03-01",
       "legacy": true,
       "url": {
-        "en": "https://www.upsy.ma/blog/how-to-improve-focus",
-        "fr": "https://www.upsy.ma/fr/blog/how-to-improve-focus"
+        "en": "https://upsy.ma/blog/how-to-improve-focus",
+        "fr": "https://upsy.ma/fr/blog/how-to-improve-focus"
       },
       "title": {
         "en": "How to Improve Focus and Concentration",
@@ -229,15 +229,15 @@
         "fr": "Performance"
       },
       "readMinutes": 7,
-      "image": "https://www.upsy.ma/social/how-to-improve-focus.jpg"
+      "image": "https://upsy.ma/social/how-to-improve-focus.jpg"
     },
     {
       "slug": "how-to-support-a-loved-one",
       "date": "2026-03-01",
       "legacy": true,
       "url": {
-        "en": "https://www.upsy.ma/blog/how-to-support-a-loved-one",
-        "fr": "https://www.upsy.ma/fr/blog/how-to-support-a-loved-one"
+        "en": "https://upsy.ma/blog/how-to-support-a-loved-one",
+        "fr": "https://upsy.ma/fr/blog/how-to-support-a-loved-one"
       },
       "title": {
         "en": "How to Support a Loved One with Mental Health Challenges",
@@ -252,15 +252,15 @@
         "fr": "Guide"
       },
       "readMinutes": 5,
-      "image": "https://www.upsy.ma/social/how-to-support-a-loved-one.jpg"
+      "image": "https://upsy.ma/social/how-to-support-a-loved-one.jpg"
     },
     {
       "slug": "mental-health-at-work",
       "date": "2026-03-01",
       "legacy": true,
       "url": {
-        "en": "https://www.upsy.ma/blog/mental-health-at-work",
-        "fr": "https://www.upsy.ma/fr/blog/mental-health-at-work"
+        "en": "https://upsy.ma/blog/mental-health-at-work",
+        "fr": "https://upsy.ma/fr/blog/mental-health-at-work"
       },
       "title": {
         "en": "Mental Health at Work: Why It Matters",
@@ -275,15 +275,15 @@
         "fr": "Milieu professionnel"
       },
       "readMinutes": 6,
-      "image": "https://www.upsy.ma/social/mental-health-at-work.jpg"
+      "image": "https://upsy.ma/social/mental-health-at-work.jpg"
     },
     {
       "slug": "mindfulness-for-beginners",
       "date": "2026-03-01",
       "legacy": true,
       "url": {
-        "en": "https://www.upsy.ma/blog/mindfulness-for-beginners",
-        "fr": "https://www.upsy.ma/fr/blog/mindfulness-for-beginners"
+        "en": "https://upsy.ma/blog/mindfulness-for-beginners",
+        "fr": "https://upsy.ma/fr/blog/mindfulness-for-beginners"
       },
       "title": {
         "en": "Mindfulness for Beginners: A Practical Guide",
@@ -298,15 +298,15 @@
         "fr": "Bien-être"
       },
       "readMinutes": 6,
-      "image": "https://www.upsy.ma/social/mindfulness-for-beginners.jpg"
+      "image": "https://upsy.ma/social/mindfulness-for-beginners.jpg"
     },
     {
       "slug": "understanding-anxiety",
       "date": "2026-03-01",
       "legacy": true,
       "url": {
-        "en": "https://www.upsy.ma/blog/understanding-anxiety",
-        "fr": "https://www.upsy.ma/fr/blog/understanding-anxiety"
+        "en": "https://upsy.ma/blog/understanding-anxiety",
+        "fr": "https://upsy.ma/fr/blog/understanding-anxiety"
       },
       "title": {
         "en": "Understanding Anxiety: What It Is and How to Manage It",
@@ -321,15 +321,15 @@
         "fr": "Santé mentale"
       },
       "readMinutes": 5,
-      "image": "https://www.upsy.ma/social/understanding-anxiety.jpg"
+      "image": "https://upsy.ma/social/understanding-anxiety.jpg"
     },
     {
       "slug": "understanding-depression",
       "date": "2026-03-01",
       "legacy": true,
       "url": {
-        "en": "https://www.upsy.ma/blog/understanding-depression",
-        "fr": "https://www.upsy.ma/fr/blog/understanding-depression"
+        "en": "https://upsy.ma/blog/understanding-depression",
+        "fr": "https://upsy.ma/fr/blog/understanding-depression"
       },
       "title": {
         "en": "Understanding Depression: More Than Just Sadness",
@@ -344,7 +344,7 @@
         "fr": "Santé mentale"
       },
       "readMinutes": 5,
-      "image": "https://www.upsy.ma/social/understanding-depression.jpg"
+      "image": "https://upsy.ma/social/understanding-depression.jpg"
     }
   ]
 }

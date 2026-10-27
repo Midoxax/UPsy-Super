@@ -20,7 +20,7 @@ const BASE_URL = (
   process.env.VITE_SITE_URL ||
   (JSON.parse(readFileSync(resolve("package.json"), "utf8"))
     .homepage as string) ||
-  "https://www.upsy.ma"
+  "https://upsy.ma"
 ).replace(/\/$/, "");
 
 // The older page-based posts carry no date; they predate the data articles.

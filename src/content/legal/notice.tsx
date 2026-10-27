@@ -20,9 +20,9 @@ const en: LegalDoc = {
       body: (
         <>
           <p>
-            <a href="https://www.upsy.ma">www.upsy.ma</a> is published by Mehdi
-            Felji, registered in the Moroccan national register of
-            auto-entrepreneurs, who is also the director of publication.
+            <a href="https://upsy.ma">upsy.ma</a> is published by Mehdi Felji,
+            registered in the Moroccan national register of auto-entrepreneurs,
+            who is also the director of publication.
           </p>
           <ul>
             <li>Auto-entrepreneur ID: {COMPANY.autoEntrepreneurId}</li>
@@ -154,8 +154,8 @@ const fr: LegalDoc = {
       body: (
         <>
           <p>
-            Le site <a href="https://www.upsy.ma">www.upsy.ma</a> est édité par
-            Mehdi Felji, inscrit au registre national de l'auto-entrepreneur,
+            Le site <a href="https://upsy.ma">upsy.ma</a> est édité par Mehdi
+            Felji, inscrit au registre national de l'auto-entrepreneur,
             également directeur de la publication.
           </p>
           <ul>

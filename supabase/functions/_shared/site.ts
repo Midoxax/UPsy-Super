@@ -2,5 +2,5 @@
 export const SITE_URL = (
   Deno.env.get("PUBLIC_SITE_URL") ??
   Deno.env.get("SITE_URL") ??
-  "https://www.upsy.ma"
+  "https://upsy.ma"
 ).replace(/\/$/, "");
