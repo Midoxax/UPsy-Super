@@ -2107,6 +2107,16 @@
     <xhtml:link rel="alternate" hreflang="ar" href="https://upsy.ma/ar/campaigns/first-session" />
   </url>
   <url>
+    <loc>https://upsy.ma/blog/al-haouz-reconstruire-les-maisons-et-les-vies</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://upsy.ma/fr/blog/al-haouz-reconstruire-les-maisons-et-les-vies</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
     <loc>https://upsy.ma/blog/pre-competition-anxiety</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>

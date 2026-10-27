@@ -2,6 +2,29 @@
   "version": 1,
   "items": [
     {
+      "slug": "al-haouz-reconstruire-les-maisons-et-les-vies",
+      "date": "2026-10-27",
+      "legacy": false,
+      "url": {
+        "en": "https://upsy.ma/blog/al-haouz-reconstruire-les-maisons-et-les-vies",
+        "fr": "https://upsy.ma/fr/blog/al-haouz-reconstruire-les-maisons-et-les-vies"
+      },
+      "title": {
+        "en": "Al Haouz: rebuilding homes, and lives",
+        "fr": "Al Haouz : reconstruire les maisons, et les vies"
+      },
+      "description": {
+        "en": "Morocco's 2027 budget details the billions spent since the Al Haouz earthquake. A psychological and philosophical reading of what budgets do not measure: rebuilding on the inside.",
+        "fr": "Le PLF 2027 détaille les milliards engagés après le séisme d'Al Haouz. Lecture psychologique et philosophique de ce que les budgets ne mesurent pas : la reconstruction intérieure."
+      },
+      "category": {
+        "en": "Regard U.Psy",
+        "fr": "Regard U.Psy"
+      },
+      "readMinutes": 7,
+      "image": "https://upsy.ma/social/al-haouz-reconstruire-les-maisons-et-les-vies.jpg"
+    },
+    {
       "slug": "athlete-burnout",
       "date": "2026-10-20",
       "legacy": false,
