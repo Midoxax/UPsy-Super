@@ -34,6 +34,9 @@ import CompetitionsPanel from "@/components/athlete/CompetitionsPanel";
 import SharePanel from "@/components/athlete/SharePanel";
 import AssessmentsPanel from "@/components/athlete/AssessmentsPanel";
 import ProgressReport from "@/components/athlete/ProgressReport";
+import StudyPanel from "@/components/athlete/StudyPanel";
+import { useStudyCopy } from "@/lib/study/copy";
+import { FlaskConical } from "lucide-react";
 import { useHubCopy, protocolText, fmtDate } from "@/components/athlete/copy";
 import { checkinStreak } from "@/components/athlete/stats";
 
@@ -68,6 +71,7 @@ const AthleteHub = () => {
   const { user } = useAuth();
   const { locale } = useLocale();
   const c = useHubCopy();
+  const st = useStudyCopy();
   const hub = useAthleteHub();
   const {
     checkins,
@@ -158,6 +162,15 @@ const AthleteHub = () => {
         className="sticky top-16 z-20 border-y border-border/40 bg-background/90 backdrop-blur print:hidden"
       >
         <ol className="container-custom flex gap-2 overflow-x-auto py-2 sm:flex-wrap">
+          <li className="shrink-0">
+            <a
+              href="#study"
+              className="inline-flex min-h-10 items-center gap-2 rounded-full border border-primary/60 bg-primary/10 px-3 text-sm text-foreground hover:border-primary hover:text-primary"
+            >
+              <FlaskConical className="h-3.5 w-3.5 text-primary" />
+              {st.nav}
+            </a>
+          </li>
           {c.modules.map((label, i) => (
             <li key={label} className="shrink-0">
               <a
@@ -174,6 +187,11 @@ const AthleteHub = () => {
 
       <div className="py-8 sm:py-12 liquid-bg">
         <div className="container-custom space-y-12">
+          {/* The longitudinal study the Hub feeds. */}
+          <section id="study" className="scroll-mt-32">
+            <StudyPanel />
+          </section>
+
           {/* 1. Check-in */}
           <Module n={1} title={c.modules[0]}>
             <div className="glass-card p-5 sm:p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">

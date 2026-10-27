@@ -6553,6 +6553,78 @@ export type Database = {
         };
         Relationships: [];
       };
+      study_enrollments: {
+        Row: {
+          birth_year: number;
+          consent_version: string;
+          consented_at: string;
+          data_deleted: boolean;
+          level: string;
+          participant_code: string;
+          sex: string;
+          sport: string;
+          user_id: string;
+          withdrawn_at: string | null;
+        };
+        Insert: {
+          birth_year: number;
+          consent_version: string;
+          consented_at?: string;
+          data_deleted?: boolean;
+          level: string;
+          participant_code: string;
+          sex: string;
+          sport: string;
+          user_id: string;
+          withdrawn_at?: string | null;
+        };
+        Update: {
+          birth_year?: number;
+          consent_version?: string;
+          consented_at?: string;
+          data_deleted?: boolean;
+          level?: string;
+          participant_code?: string;
+          sex?: string;
+          sport?: string;
+          user_id?: string;
+          withdrawn_at?: string | null;
+        };
+        Relationships: [];
+      };
+      study_responses: {
+        Row: {
+          answers: number[];
+          created_at: string;
+          id: string;
+          instrument: string;
+          period_start: string;
+          score: number;
+          subscores: Json;
+          user_id: string;
+        };
+        Insert: {
+          answers: number[];
+          created_at?: string;
+          id?: string;
+          instrument: string;
+          period_start: string;
+          score: number;
+          subscores?: Json;
+          user_id: string;
+        };
+        Update: {
+          answers?: number[];
+          created_at?: string;
+          id?: string;
+          instrument?: string;
+          period_start?: string;
+          score?: number;
+          subscores?: Json;
+          user_id?: string;
+        };
+        Relationships: [];
+      };
       subscription_invoices: {
         Row: {
           amount_mad: number;
@@ -8303,6 +8375,42 @@ export type Database = {
           isSetofReturn: false;
         };
       };
+      study_enroll: {
+        Args: {
+          p_birth_year: number;
+          p_consent_version: string;
+          p_level: string;
+          p_sex: string;
+          p_sport: string;
+        };
+        Returns: string;
+      };
+      study_export: {
+        Args: never;
+        Returns: {
+          item: string;
+          observed_on: string;
+          participant_code: string;
+          source: string;
+          value: number;
+        }[];
+      };
+      study_is_active: { Args: { p_user: string }; Returns: boolean };
+      study_participants: {
+        Args: never;
+        Returns: {
+          birth_year: number;
+          consent_version: string;
+          consented_on: string;
+          level: string;
+          participant_code: string;
+          sex: string;
+          sport: string;
+          withdrawn_on: string | null;
+        }[];
+      };
+      study_stats: { Args: never; Returns: Json };
+      study_withdraw: { Args: { p_delete: boolean }; Returns: undefined };
       survey_save: {
         Args: {
           _ambassador_code?: string;

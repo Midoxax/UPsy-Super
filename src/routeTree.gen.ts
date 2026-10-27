@@ -94,6 +94,7 @@ import { Route as AdminCrmRouteImport } from './routes/admin/crm'
 import { Route as AdminDnsRouteImport } from './routes/admin/dns'
 import { Route as AdminFinanceRouteImport } from './routes/admin/finance'
 import { Route as AdminGrowthLeadsRouteImport } from './routes/admin/growth-leads'
+import { Route as AdminStudyRouteImport } from './routes/admin/study'
 import { Route as ApplyIndexRouteImport } from './routes/apply/index'
 import { Route as ApplyOrganizationRouteImport } from './routes/apply/organization'
 import { Route as ApplyWizardRouteImport } from './routes/apply/wizard'
@@ -631,6 +632,11 @@ const AdminFinanceRoute = AdminFinanceRouteImport.update({
 const AdminGrowthLeadsRoute = AdminGrowthLeadsRouteImport.update({
   id: '/admin/growth-leads',
   path: '/admin/growth-leads',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminStudyRoute = AdminStudyRouteImport.update({
+  id: '/admin/study',
+  path: '/admin/study',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApplyIndexRoute = ApplyIndexRouteImport.update({
@@ -1296,6 +1302,7 @@ export interface FileRoutesByFullPath {
   '/admin/dns': typeof AdminDnsRoute
   '/admin/finance': typeof AdminFinanceRoute
   '/admin/growth-leads': typeof AdminGrowthLeadsRoute
+  '/admin/study': typeof AdminStudyRoute
   '/apply/organization': typeof ApplyOrganizationRoute
   '/apply/wizard': typeof ApplyWizardRoute
   '/auth/mfa-setup': typeof AuthMfaSetupRoute
@@ -1493,6 +1500,7 @@ export interface FileRoutesByTo {
   '/admin/dns': typeof AdminDnsRoute
   '/admin/finance': typeof AdminFinanceRoute
   '/admin/growth-leads': typeof AdminGrowthLeadsRoute
+  '/admin/study': typeof AdminStudyRoute
   '/apply/organization': typeof ApplyOrganizationRoute
   '/apply/wizard': typeof ApplyWizardRoute
   '/auth/mfa-setup': typeof AuthMfaSetupRoute
@@ -1690,6 +1698,7 @@ export interface FileRoutesById {
   '/admin/dns': typeof AdminDnsRoute
   '/admin/finance': typeof AdminFinanceRoute
   '/admin/growth-leads': typeof AdminGrowthLeadsRoute
+  '/admin/study': typeof AdminStudyRoute
   '/apply/organization': typeof ApplyOrganizationRoute
   '/apply/wizard': typeof ApplyWizardRoute
   '/auth/mfa-setup': typeof AuthMfaSetupRoute
@@ -1889,6 +1898,7 @@ export interface FileRouteTypes {
     | '/admin/dns'
     | '/admin/finance'
     | '/admin/growth-leads'
+    | '/admin/study'
     | '/apply/organization'
     | '/apply/wizard'
     | '/auth/mfa-setup'
@@ -2086,6 +2096,7 @@ export interface FileRouteTypes {
     | '/admin/dns'
     | '/admin/finance'
     | '/admin/growth-leads'
+    | '/admin/study'
     | '/apply/organization'
     | '/apply/wizard'
     | '/auth/mfa-setup'
@@ -2282,6 +2293,7 @@ export interface FileRouteTypes {
     | '/admin/dns'
     | '/admin/finance'
     | '/admin/growth-leads'
+    | '/admin/study'
     | '/apply/organization'
     | '/apply/wizard'
     | '/auth/mfa-setup'
@@ -2480,6 +2492,7 @@ export interface RootRouteChildren {
   AdminDnsRoute: typeof AdminDnsRoute
   AdminFinanceRoute: typeof AdminFinanceRoute
   AdminGrowthLeadsRoute: typeof AdminGrowthLeadsRoute
+  AdminStudyRoute: typeof AdminStudyRoute
   ApplyOrganizationRoute: typeof ApplyOrganizationRoute
   ApplyWizardRoute: typeof ApplyWizardRoute
   AuthMfaSetupRoute: typeof AuthMfaSetupRoute
@@ -3182,6 +3195,13 @@ declare module '@tanstack/react-router' {
       path: '/admin/growth-leads'
       fullPath: '/admin/growth-leads'
       preLoaderRoute: typeof AdminGrowthLeadsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/study': {
+      id: '/admin/study'
+      path: '/admin/study'
+      fullPath: '/admin/study'
+      preLoaderRoute: typeof AdminStudyRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/apply/': {
@@ -4065,6 +4085,7 @@ const rootRouteChildren: RootRouteChildren = {
   AdminDnsRoute: AdminDnsRoute,
   AdminFinanceRoute: AdminFinanceRoute,
   AdminGrowthLeadsRoute: AdminGrowthLeadsRoute,
+  AdminStudyRoute: AdminStudyRoute,
   ApplyOrganizationRoute: ApplyOrganizationRoute,
   ApplyWizardRoute: ApplyWizardRoute,
   AuthMfaSetupRoute: AuthMfaSetupRoute,
