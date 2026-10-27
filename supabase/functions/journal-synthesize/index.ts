@@ -1,5 +1,16 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+import { aiErrorResponse, aiJson } from "../_shared/ai.ts";
+
+const REFLECTION_SCHEMA = {
+  type: "object",
+  properties: {
+    summary: { type: "string" },
+    themes: { type: "array", items: { type: "string" } },
+  },
+  required: ["summary", "themes"],
+  additionalProperties: false,
+};
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -63,9 +74,6 @@ serve(async (req) => {
       });
     }
 
-    const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
-    if (!LOVABLE_API_KEY) throw new Error("LOVABLE_API_KEY not configured");
-
     const userMsg = [
       entry.title ? `Title: ${entry.title}` : null,
       entry.mood_tag ? `Mood tag: ${entry.mood_tag}` : null,
@@ -74,41 +82,16 @@ serve(async (req) => {
       .filter(Boolean)
       .join("\n\n");
 
-    const res = await fetch(
-      "https://ai.gateway.lovable.dev/v1/chat/completions",
-      {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${LOVABLE_API_KEY}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          model: "openai/gpt-5-mini",
-          messages: [
-            { role: "system", content: SYSTEM },
-            { role: "user", content: userMsg },
-          ],
-          response_format: { type: "json_object" },
-        }),
-      },
-    );
-    if (!res.ok) {
-      const t = await res.text();
-      return new Response(
-        JSON.stringify({ error: "AI error", detail: t.slice(0, 200) }),
-        {
-          status: 502,
-          headers: { ...corsHeaders, "Content-Type": "application/json" },
-        },
-      );
-    }
-    const json = await res.json();
-    const raw = json?.choices?.[0]?.message?.content ?? "{}";
     let parsed: { summary?: string; themes?: string[] } = {};
     try {
-      parsed = JSON.parse(raw);
-    } catch {
-      parsed = {};
+      parsed = await aiJson<{ summary: string; themes: string[] }>({
+        system: SYSTEM,
+        messages: [{ role: "user", content: userMsg }],
+        schema: REFLECTION_SCHEMA,
+        effort: "low",
+      });
+    } catch (e) {
+      return aiErrorResponse(e, corsHeaders);
     }
     const summary = (parsed.summary ?? "").toString().slice(0, 1200);
     const themes = Array.isArray(parsed.themes)

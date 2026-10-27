@@ -1,5 +1,27 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+import { aiErrorResponse, aiJson } from "../_shared/ai.ts";
+
+const SUMMARY_SCHEMA = {
+  type: "object",
+  properties: {
+    summary: { type: "string" },
+    themes: { type: "array", items: { type: "string" } },
+    interventions: { type: "array", items: { type: "string" } },
+    progress: { type: "string" },
+    next_steps: { type: "array", items: { type: "string" } },
+    risk_flags: { type: "array", items: { type: "string" } },
+  },
+  required: [
+    "summary",
+    "themes",
+    "interventions",
+    "progress",
+    "next_steps",
+    "risk_flags",
+  ],
+  additionalProperties: false,
+};
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -76,94 +98,16 @@ serve(async (req) => {
       });
     }
 
-    const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
-    if (!LOVABLE_API_KEY) throw new Error("LOVABLE_API_KEY not configured");
-
-    const response = await fetch(
-      "https://ai.gateway.lovable.dev/v1/chat/completions",
-      {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${LOVABLE_API_KEY}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          model: "google/gemini-2.5-flash",
-          messages: [
-            { role: "system", content: SYSTEM_PROMPT },
-            { role: "user", content: notes.slice(0, 8000) },
-          ],
-          tools: [
-            {
-              type: "function",
-              function: {
-                name: "emit_summary",
-                description: "Emit the structured session summary",
-                parameters: {
-                  type: "object",
-                  properties: {
-                    summary: { type: "string" },
-                    themes: { type: "array", items: { type: "string" } },
-                    interventions: { type: "array", items: { type: "string" } },
-                    progress: { type: "string" },
-                    next_steps: { type: "array", items: { type: "string" } },
-                    risk_flags: { type: "array", items: { type: "string" } },
-                  },
-                  required: [
-                    "summary",
-                    "themes",
-                    "interventions",
-                    "progress",
-                    "next_steps",
-                    "risk_flags",
-                  ],
-                  additionalProperties: false,
-                },
-              },
-            },
-          ],
-          tool_choice: { type: "function", function: { name: "emit_summary" } },
-        }),
-      },
-    );
-
-    if (!response.ok) {
-      if (response.status === 429) {
-        return new Response(
-          JSON.stringify({ error: "Rate limit. Retry shortly." }),
-          {
-            status: 429,
-            headers: { ...corsHeaders, "Content-Type": "application/json" },
-          },
-        );
-      }
-      if (response.status === 402) {
-        return new Response(
-          JSON.stringify({ error: "AI credits exhausted." }),
-          {
-            status: 402,
-            headers: { ...corsHeaders, "Content-Type": "application/json" },
-          },
-        );
-      }
-      const t = await response.text();
-      console.error("AI gateway error:", response.status, t);
-      return new Response(JSON.stringify({ error: "AI service error" }), {
-        status: 500,
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
+    let summary: Record<string, unknown>;
+    try {
+      summary = await aiJson<Record<string, unknown>>({
+        system: SYSTEM_PROMPT,
+        messages: [{ role: "user", content: notes.slice(0, 8000) }],
+        schema: SUMMARY_SCHEMA,
       });
+    } catch (e) {
+      return aiErrorResponse(e, corsHeaders);
     }
-
-    const data = await response.json();
-    const toolCall = data.choices?.[0]?.message?.tool_calls?.[0];
-    if (!toolCall?.function?.arguments) {
-      return new Response(JSON.stringify({ error: "Malformed AI response" }), {
-        status: 500,
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
-      });
-    }
-
-    const summary = JSON.parse(toolCall.function.arguments);
     return new Response(JSON.stringify(summary), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
