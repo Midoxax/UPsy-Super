@@ -1,3 +1,4 @@
+import { captureFirstTouch } from "@/lib/attribution";
 import { lazy, Suspense, useEffect } from "react";
 import { COMPANY, SOCIAL_LINKS } from "@/content/legal/company";
 import type { QueryClient } from "@tanstack/react-query";
@@ -355,6 +356,9 @@ const AppShell = () => {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+
+  // What brought this visitor first, for CRM attribution.
+  useEffect(captureFirstTouch, []);
 
   // ported from main.tsx — env sanity check + analytics init (both no-op without keys)
   useEffect(() => {

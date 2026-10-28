@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Card,
   CardContent,
@@ -69,6 +69,12 @@ export const ClientBillingTab = () => {
   const [activeBooking, setActiveBooking] = useState<OutstandingBooking | null>(
     null,
   );
+  // Opened from the confirmation email: ?pay=<booking id>.
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("pay");
+    const b = id && outstanding?.find((x) => x.id === id);
+    if (b) setActiveBooking(b);
+  }, [outstanding]);
 
   return (
     <div className="space-y-6">

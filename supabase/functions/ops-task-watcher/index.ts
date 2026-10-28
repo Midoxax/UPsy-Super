@@ -13,15 +13,18 @@ Deno.serve(async (req) => {
   if (req.method === "OPTIONS")
     return new Response("ok", { headers: corsHeaders });
 
-  const cronSecret = Deno.env.get("CRON_SECRET");
-  if (!cronSecret) {
-    return new Response(JSON.stringify({ error: "Not configured" }), {
-      status: 503,
-      headers: { ...corsHeaders, "Content-Type": "application/json" },
-    });
-  }
-  const provided = req.headers.get("Authorization") ?? "";
-  if (provided !== `Bearer ${cronSecret}`) {
+  // pg_cron sends the Vault secret ops_task_watcher_cron_secret
+  // (20261027100000_ops_watcher_cron_secret.sql); nothing else may run this.
+  const admin = createClient(SUPABASE_URL, SERVICE_KEY);
+  const bearer = (req.headers.get("Authorization") ?? "").replace(
+    /^Bearer\s+/i,
+    "",
+  );
+  const { data: ok } = await admin.rpc("cron_secret_ok", {
+    p_name: "ops_task_watcher_cron_secret",
+    p_token: bearer,
+  });
+  if (!ok) {
     return new Response(JSON.stringify({ error: "Unauthorized" }), {
       status: 401,
       headers: { ...corsHeaders, "Content-Type": "application/json" },
@@ -29,7 +32,6 @@ Deno.serve(async (req) => {
   }
 
   try {
-    const admin = createClient(SUPABASE_URL, SERVICE_KEY);
     const nowIso = new Date().toISOString();
 
     // Find overdue tasks in non-terminal states

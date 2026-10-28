@@ -34,3 +34,6 @@ verify_jwt = false
 
 [functions.newsletter-subscribe]
 verify_jwt = false
+
+[functions.ops-task-watcher]
+verify_jwt = false

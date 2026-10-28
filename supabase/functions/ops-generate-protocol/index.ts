@@ -1,51 +1,69 @@
 import { corsHeaders } from "npm:@supabase/supabase-js@2/cors";
 import { createClient } from "npm:@supabase/supabase-js@2";
+import { aiErrorResponse, aiJson } from "../_shared/ai.ts";
 
-const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
 const SUPABASE_URL = Deno.env.get("SUPABASE_URL")!;
 const SERVICE_KEY = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
 
-const TOOL = {
-  type: "function",
-  function: {
-    name: "create_protocol",
-    description:
-      "Create a full operational protocol for an event with phases and tasks.",
-    parameters: {
-      type: "object",
-      properties: {
-        title: { type: "string" },
-        summary: { type: "string" },
-        phases: {
-          type: "array",
-          items: {
-            type: "object",
-            properties: {
-              title: { type: "string" },
-              description: { type: "string" },
-              tasks: {
-                type: "array",
-                items: {
-                  type: "object",
-                  properties: {
-                    title: { type: "string" },
-                    description: { type: "string" },
-                    owner_role: { type: "string" },
-                    days_before_event: { type: "number" },
-                    proof_required: { type: "boolean" },
-                    psych_safety_flag: { type: "boolean" },
-                  },
-                  required: ["title", "owner_role"],
-                },
-              },
-            },
-            required: ["title", "tasks"],
-          },
+const TASK = {
+  type: "object",
+  properties: {
+    title: { type: "string" },
+    description: { type: "string" },
+    owner_role: { type: "string" },
+    days_before_event: { type: "number" },
+    proof_required: { type: "boolean" },
+    psych_safety_flag: { type: "boolean" },
+  },
+  required: [
+    "title",
+    "description",
+    "owner_role",
+    "days_before_event",
+    "proof_required",
+    "psych_safety_flag",
+  ],
+  additionalProperties: false,
+};
+
+const PROTOCOL_SCHEMA = {
+  type: "object",
+  properties: {
+    title: { type: "string" },
+    summary: { type: "string" },
+    phases: {
+      type: "array",
+      items: {
+        type: "object",
+        properties: {
+          title: { type: "string" },
+          description: { type: "string" },
+          tasks: { type: "array", items: TASK },
         },
+        required: ["title", "description", "tasks"],
+        additionalProperties: false,
       },
-      required: ["title", "phases"],
     },
   },
+  required: ["title", "summary", "phases"],
+  additionalProperties: false,
+};
+
+type Protocol = {
+  title: string;
+  summary: string;
+  phases: Array<{
+    title: string;
+    description: string;
+    tasks: Array<{
+      title: string;
+      description: string;
+      owner_role: string;
+      days_before_event: number;
+      proof_required: boolean;
+      psych_safety_flag: boolean;
+    }>;
+  }>;
 };
 
 Deno.serve(async (req) => {
@@ -53,8 +71,6 @@ Deno.serve(async (req) => {
     return new Response("ok", { headers: corsHeaders });
 
   try {
-    if (!LOVABLE_API_KEY) throw new Error("LOVABLE_API_KEY not configured");
-
     const authHeader = req.headers.get("Authorization") ?? "";
     const userClient = createClient(
       SUPABASE_URL,
@@ -91,78 +107,20 @@ Deno.serve(async (req) => {
       });
     }
 
-    // Call Claude
-    const systemPrompt = `You are the UPSY OPS Director — an expert in psychological-safety-aware event operations for institutions in Morocco (clinics, federations, NGOs, universities). Generate a complete operational protocol given the intake. Use the create_protocol tool. Be thorough: 3-6 phases (preparation → logistics → execution → debrief → archive). Each phase 3-8 concrete tasks with realistic owner roles (Director, Logistics Lead, Psych Safety Officer, Comms Lead, etc). When psychological sensitivity is high or trauma-informed, flag psych_safety_flag=true on relevant tasks and include calm-room / debriefing tasks. Days_before_event: negative = before event, 0 = event day, positive = after.`;
+    const systemPrompt = `You are the UPSY OPS Director — an expert in psychological-safety-aware event operations for institutions in Morocco (clinics, federations, NGOs, universities). Generate a complete operational protocol given the intake. Be thorough: 3-6 phases (preparation → logistics → execution → debrief → archive). Each phase 3-8 concrete tasks with realistic owner roles (Director, Logistics Lead, Psych Safety Officer, Comms Lead, etc). When psychological sensitivity is high or trauma-informed, flag psych_safety_flag=true on relevant tasks and include calm-room / debriefing tasks. Days_before_event: negative = before event, 0 = event day, positive = after.`;
 
     const userPrompt = `Generate the protocol for this operation:\n${JSON.stringify(intake, null, 2)}`;
 
-    const aiRes = await fetch(
-      "https://ai.gateway.lovable.dev/v1/chat/completions",
-      {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${LOVABLE_API_KEY}`,
-          "content-type": "application/json",
-        },
-        body: JSON.stringify({
-          model: "google/gemini-2.5-flash",
-          messages: [
-            { role: "system", content: systemPrompt },
-            { role: "user", content: userPrompt },
-          ],
-          tools: [TOOL],
-          tool_choice: {
-            type: "function",
-            function: { name: "create_protocol" },
-          },
-        }),
-      },
-    );
-
-    if (!aiRes.ok) {
-      const errText = await aiRes.text();
-      console.error("AI error:", aiRes.status, errText);
-      if (aiRes.status === 429) {
-        return new Response(
-          JSON.stringify({
-            error: "rate_limited",
-            message: "AI rate limit reached. Try again in a moment.",
-          }),
-          {
-            status: 429,
-            headers: { ...corsHeaders, "Content-Type": "application/json" },
-          },
-        );
-      }
-      if (aiRes.status === 402) {
-        return new Response(
-          JSON.stringify({
-            error: "payment_required",
-            message:
-              "AI credits exhausted. Add funds in Settings → Workspace → Usage.",
-          }),
-          {
-            status: 402,
-            headers: { ...corsHeaders, "Content-Type": "application/json" },
-          },
-        );
-      }
-      return new Response(
-        JSON.stringify({ error: `AI ${aiRes.status}: ${errText}` }),
-        {
-          status: 500,
-          headers: { ...corsHeaders, "Content-Type": "application/json" },
-        },
-      );
+    let protocol: Protocol;
+    try {
+      protocol = await aiJson<Protocol>({
+        system: systemPrompt,
+        messages: [{ role: "user", content: userPrompt }],
+        schema: PROTOCOL_SCHEMA,
+      });
+    } catch (e) {
+      return aiErrorResponse(e, corsHeaders);
     }
-
-    const aiJson = await aiRes.json();
-    const toolCall = aiJson.choices?.[0]?.message?.tool_calls?.[0];
-    if (!toolCall) throw new Error("No tool_call in AI response");
-    const protocol = JSON.parse(toolCall.function.arguments) as {
-      title: string;
-      phases: Array<{ title: string; description?: string; tasks: any[] }>;
-    };
 
     // Compute deadlines: use start_at if available, else now + 30d
     const baseDate = intake.start_at

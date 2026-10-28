@@ -1,5 +1,6 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+import { aiErrorResponse, aiModel, aiText } from "../_shared/ai.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -80,8 +81,8 @@ serve(async (req) => {
         )
       : null;
     const briefInput = {
+      // No name: the model does not need it to write the brief.
       client: {
-        name: clientName,
         age,
         gender: identity.gender,
         city: identity.city,
@@ -99,36 +100,18 @@ serve(async (req) => {
       relationships: intake.risk_screening,
       objectives: intake.objectives_consent || intake.goals,
     };
-    const aiResponse = await fetch(
-      "https://ai-gateway.lovable.dev/v1/chat/completions",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + Deno.env.get("LOVABLE_API_KEY"),
-        },
-        body: JSON.stringify({
-          model: "google/gemini-2.5-flash",
-          messages: [
-            { role: "system", content: SYSTEM_PROMPT },
-            { role: "user", content: JSON.stringify(briefInput) },
-          ],
-          max_tokens: 3000,
-          temperature: 0.3,
-        }),
-      },
-    );
-    if (!aiResponse.ok) {
-      const e = await aiResponse.text();
-      console.error("AI error:", e);
-      return new Response(JSON.stringify({ error: "AI generation failed" }), {
-        status: 502,
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
+    let briefMarkdown: string;
+    try {
+      briefMarkdown = await aiText({
+        system: SYSTEM_PROMPT,
+        messages: [{ role: "user", content: JSON.stringify(briefInput) }],
+        effort: "medium",
       });
+    } catch (e) {
+      return aiErrorResponse(e, corsHeaders);
     }
-    const aiData = await aiResponse.json();
-    const briefMarkdown = aiData.choices?.[0]?.message?.content || "";
-    const tokensUsed = aiData.usage?.total_tokens || 0;
+    // Not reported by the shared helper; kept for the table column.
+    const tokensUsed = 0;
     const redFlags = (intake.clinical_flags || []) as string[];
     await supabase.from("intake_clinical_briefs").upsert(
       {
@@ -144,7 +127,7 @@ serve(async (req) => {
         red_flags: redFlags,
         key_history_points: [],
         treatment_suggestions: [],
-        ai_model: "google/gemini-2.5-flash",
+        ai_model: aiModel(),
         generation_tokens_used: tokensUsed,
       },
       { onConflict: "intake_form_id" },

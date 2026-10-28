@@ -34,7 +34,7 @@ const config: CampaignConfig = {
     "Laissez vos coordonnées, puis complétez votre dossier en 12 minutes environ.",
   successTitle: "C'est noté 🤝",
   successBody:
-    "Continuez maintenant votre dossier. À la dernière étape, cochez le partage avec la LSSPM pour que la Ligue puisse l'évaluer.",
+    "Continuez maintenant votre dossier. À la dernière étape, cochez le partage avec le comité d'évaluation externe.",
   successCta: {
     label: "Compléter mon dossier",
     href: "/apply/wizard?source=lsspm",

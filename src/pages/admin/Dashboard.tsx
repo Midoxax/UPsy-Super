@@ -954,6 +954,7 @@ const ADMIN_TOOLS = [
   { to: "/admin/crm", label: "CRM workspace" },
   { to: "/admin/finance", label: "Finance workspace" },
   { to: "/admin/audit", label: "Audit & privacy requests" },
+  { to: "/admin/study", label: "Athlete study" },
   { to: "/admin/growth-leads", label: "Growth leads" },
   { to: "/admin/dns", label: "DNS & domains" },
   { to: "/ops", label: "Ops workspaces" },

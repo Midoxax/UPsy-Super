@@ -81,8 +81,10 @@ const ViewAsSwitcher = ({ onChoose }: { onChoose?: () => void }) => {
       <DropdownMenuContent align="end" className="w-56 z-[60]">
         <DropdownMenuLabel>Switch dashboard</DropdownMenuLabel>
         <DropdownMenuSeparator />
-        {(Object.keys(LABELS) as Array<Exclude<ActiveView, "auto">>).map(
-          (key) => {
+        {(Object.keys(LABELS) as Array<Exclude<ActiveView, "auto">>)
+          // The League portal belongs to League accounts, not admins.
+          .filter((key) => key !== "league" || roles.includes("league"))
+          .map((key) => {
             const Icon = LABELS[key].icon;
             return (
               <DropdownMenuItem
@@ -97,8 +99,7 @@ const ViewAsSwitcher = ({ onChoose }: { onChoose?: () => void }) => {
                 )}
               </DropdownMenuItem>
             );
-          },
-        )}
+          })}
         <DropdownMenuSeparator />
         <DropdownMenuItem
           onClick={() => setActiveView("auto")}
