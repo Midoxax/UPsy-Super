@@ -22,6 +22,7 @@
   "src/components/admin/ContentAutomationPanel.tsx": 16,
   "src/components/admin/CourseEditDrawer.tsx": 13,
   "src/components/admin/CrmAutomationsPanel.tsx": 7,
+  "src/components/admin/CrmContentPanel.tsx": 4,
   "src/components/admin/CrmForecastPanel.tsx": 6,
   "src/components/admin/CrmFunnelPanel.tsx": 17,
   "src/components/admin/CrmManager.tsx": 26,
