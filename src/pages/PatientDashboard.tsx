@@ -237,7 +237,15 @@ const PatientDashboard = () => {
         <div className="container-custom">
           <div id="patient-tabs-top" className="scroll-mt-20" />
           <Tabs
-            defaultValue="overview"
+            // ?tab=billing&pay=<booking> lands on the payment of one session
+            // (link in the confirmation email).
+            defaultValue={
+              typeof window !== "undefined" &&
+              new URLSearchParams(window.location.search).get("tab") ===
+                "billing"
+                ? "billing"
+                : "overview"
+            }
             className="space-y-6"
             onValueChange={() => {
               requestAnimationFrame(() => {

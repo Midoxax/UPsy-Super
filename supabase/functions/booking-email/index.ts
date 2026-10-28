@@ -46,7 +46,7 @@ Deno.serve(async (req) => {
     const { data: b } = await sb
       .from("bookings")
       .select(
-        "id, patient_id, psychologist_id, patient_email, status, session_type, scheduled_at, duration_minutes, decline_reason",
+        "id, patient_id, psychologist_id, patient_email, status, session_type, scheduled_at, duration_minutes, decline_reason, payment_status",
       )
       .eq("id", booking_id)
       .maybeSingle();
@@ -119,6 +119,7 @@ Deno.serve(async (req) => {
       subject: string;
       body: string;
       cta: string;
+      label?: string;
       ics?: string;
     }> = [];
     if (b.status === "pending") {
@@ -133,8 +134,23 @@ Deno.serve(async (req) => {
         {
           to: clientEmail,
           subject: `Session confirmed with ${psyName}`,
-          body: `Your session with ${psyName} on ${when} (Morocco time) is confirmed.\n\n${where}\n\nYou pay your specialist at the session. The calendar invite is attached.`,
-          cta: online ? joinUrl : `${ORIGIN}/dashboard/client`,
+          // Paying ahead (transfer, CashPlus, Wafacash) secures the slot and
+          // is what the button leads to; paying at the session stays allowed.
+          body: `Your session with ${psyName} on ${when} (Morocco time) is confirmed.\n\n${where}\n\n${
+            b.payment_status === "paid" || b.payment_status === "comp"
+              ? "Your session is already paid."
+              : "Secure it now: pay by bank transfer, CashPlus or Wafacash and upload your receipt (button below). You can still pay at the session if you prefer."
+          }\n\nThe calendar invite is attached. ${online ? `Join link: ${joinUrl}` : ""}`,
+          cta:
+            b.payment_status === "paid" || b.payment_status === "comp"
+              ? online
+                ? joinUrl
+                : `${ORIGIN}/dashboard/client`
+              : `${ORIGIN}/dashboard/client?tab=billing&pay=${b.id}`,
+          label:
+            b.payment_status === "paid" || b.payment_status === "comp"
+              ? undefined
+              : "Pay and secure my session",
           ics: invite(`Session with ${psyName} — U.Psy`),
         },
         {
@@ -171,7 +187,7 @@ Deno.serve(async (req) => {
           from: sender(),
           to: [m.to],
           subject: m.subject,
-          html: html(m.subject, m.body, m.cta),
+          html: html(m.subject, m.body, m.cta, m.label),
           ...(m.ics
             ? {
                 attachments: [
@@ -208,14 +224,14 @@ const esc = (s: string) =>
     .replace(/>/g, "&gt;")
     .replace(/"/g, "&quot;");
 
-function html(title: string, body: string, cta: string) {
+function html(title: string, body: string, cta: string, label = "Open U.Psy") {
   return `<!doctype html>
 <html><body style="margin:0;padding:32px;background:#F7F3F0;font-family:Inter,Arial,sans-serif;color:#2a1a1d">
   <div style="max-width:560px;margin:0 auto;background:#fff;border-radius:20px;padding:32px;border:1px solid #e9dfd8">
     <div style="margin-bottom:12px"><img src="https://upsy.ma/brand/upsy-wordmark.png" alt="U.Psy" width="140" style="display:block;height:auto;border:0" /></div>
     <h1 style="font-size:22px;margin:0 0 12px">${esc(title)}</h1>
     <p style="font-size:15px;line-height:1.6;color:#5a4a4d;white-space:pre-wrap">${esc(body)}</p>
-    <a href="${esc(cta)}" style="display:inline-block;margin-top:20px;padding:12px 24px;background:#6B1F2A;color:#fff;text-decoration:none;border-radius:12px;font-weight:600">Open U.Psy</a>
+    <a href="${esc(cta)}" style="display:inline-block;margin-top:20px;padding:12px 24px;background:#6B1F2A;color:#fff;text-decoration:none;border-radius:12px;font-weight:600">${esc(label)}</a>
     <hr style="border:none;border-top:1px solid #f0e6df;margin:32px 0 16px" />
     <p style="font-size:12px;color:#a09590;margin:0">U.Psy · +212 668-594699 · upsy.ma</p>
   </div>

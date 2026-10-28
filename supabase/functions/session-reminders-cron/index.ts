@@ -27,6 +27,7 @@ interface BookingRow {
   duration_minutes: number;
   session_type: string;
   status: string;
+  payment_status: string | null;
   video_room_id: string | null;
   reminder_24h_enabled: boolean;
   reminder_1h_enabled: boolean;
@@ -68,6 +69,8 @@ function emailHtml(p: {
   wave: Wave;
   greeting: string;
   isSpecialist: boolean;
+  /** Client's unpaid session: link to pay ahead (24h reminder only). */
+  payUrl?: string;
 }) {
   const headline =
     p.wave === "5min"
@@ -87,6 +90,11 @@ function emailHtml(p: {
       <p style="margin:0 0 6px;"><strong>When:</strong> ${p.whenLabel}</p>
       <p style="margin:0;"><strong>Duration:</strong> ${p.durationMin} minutes</p>
     </div>
+    ${
+      p.payUrl
+        ? `<p style="color:#444;line-height:1.6;margin:0 0 12px;">Not paid yet? Pay ahead by bank transfer, CashPlus or Wafacash and upload your receipt: <a href="${p.payUrl}" style="color:#6B1F2A;font-weight:600">pay and secure my session</a>.</p>`
+        : ""
+    }
     <div style="text-align:center;margin:28px 0;">
       <a href="${p.joinUrl}" style="display:inline-block;background:#6B1F2A;color:#ffffff;padding:14px 36px;border-radius:8px;text-decoration:none;font-weight:600;font-size:16px;">${p.isSpecialist ? "Open consultation room" : "Join the session"}</a>
     </div>
@@ -209,7 +217,7 @@ Deno.serve(async (req) => {
   const { data: bookings, error } = await admin
     .from("bookings")
     .select(
-      "id, patient_id, patient_email, patient_phone, psychologist_id, scheduled_at, duration_minutes, session_type, status, video_room_id, reminder_24h_enabled, reminder_1h_enabled, reminder_5min_enabled, reminder_channels",
+      "id, patient_id, patient_email, patient_phone, psychologist_id, scheduled_at, duration_minutes, session_type, status, payment_status, video_room_id, reminder_24h_enabled, reminder_1h_enabled, reminder_5min_enabled, reminder_channels",
     )
     .gte("scheduled_at", new Date(now.getTime() - 5 * 60 * 1000).toISOString())
     .lte("scheduled_at", horizon.toISOString())
@@ -377,6 +385,12 @@ Deno.serve(async (req) => {
             wave,
             greeting,
             isSpecialist,
+            payUrl:
+              !isSpecialist &&
+              wave === "24h" &&
+              !["paid", "comp"].includes(b.payment_status ?? "")
+                ? `https://upsy.ma/dashboard/client?tab=billing&pay=${b.id}`
+                : undefined,
           }),
         });
         if (ok) {
