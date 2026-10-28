@@ -202,7 +202,7 @@ function scoreTone(n: number | null) {
 export default function LeaguePortal() {
   const { locale } = useLocale();
   const c = locale === "en" ? COPY.en : COPY.fr;
-  const { isLeague, isAdmin, loading: roleLoading } = useUserRole();
+  const { isLeague, loading: roleLoading } = useUserRole();
   const [rows, setRows] = useState<FileRow[] | null>(null);
   const [stats, setStats] = useState<Record<string, number> | null>(null);
   const [q, setQ] = useState("");
@@ -210,7 +210,8 @@ export default function LeaguePortal() {
   const [onlyTodo, setOnlyTodo] = useState(false);
   const [openId, setOpenId] = useState<string | null>(null);
 
-  const allowed = isLeague || isAdmin;
+  // League accounts only: U.Psy admins are kept out (separate accounts).
+  const allowed = isLeague;
 
   const load = async () => {
     const [a, s] = await Promise.all([

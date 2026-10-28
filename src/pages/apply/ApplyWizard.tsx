@@ -503,7 +503,7 @@ const ApplyWizard = () => {
                 onChange={(p) => update({ doc_license_morocco_url: p })}
               />
               <DocUploader
-                label="Inscription Ordre / Ligue spécialistes santé psychique"
+                label="Inscription à un ordre ou une association professionnelle"
                 slot="order"
                 kind="doc"
                 description="Carte ou attestation d'inscription professionnelle."
@@ -780,16 +780,17 @@ const ApplyWizard = () => {
                 />
                 <span className="text-sm space-y-1">
                   <span className="block font-medium text-foreground">
-                    Partager mon dossier avec la LSSPM (facultatif)
+                    Partager mon dossier avec le comité d'évaluation externe
+                    (facultatif)
                   </span>
                   <span className="block text-muted-foreground">
-                    La Ligue des Spécialistes de la Santé Psychologique et
-                    Mentale pourra consulter vos documents professionnels
-                    (diplômes, autorisation, inscription, CV, assurance) et le
-                    résultat de la pré-vérification, pour évaluer votre dossier.
-                    Jamais votre CIN, RIB, date de naissance ni téléphone. Vous
-                    pouvez retirer cet accord à tout moment depuis votre tableau
-                    de bord.
+                    Le comité de spécialistes mandaté par U.Psy pourra consulter
+                    vos documents professionnels (diplômes, autorisation,
+                    inscription, CV, assurance) et le résultat de la
+                    pré-vérification, pour évaluer votre dossier. Jamais votre
+                    CIN, RIB, date de naissance ni téléphone. Vous pouvez
+                    retirer cet accord à tout moment depuis votre tableau de
+                    bord.
                   </span>
                 </span>
               </label>

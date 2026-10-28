@@ -107,4 +107,18 @@ SELECT pg_temp.expect((SELECT count(*) FROM public.league_applications()) = 0
   AND (SELECT count(*) FROM storage.objects WHERE bucket_id = 'accreditation-docs') = 0,
   'withdrawn consent hides the file and its documents');
 
+-- Admins are not League reviewers, and one account cannot be both.
+RESET ROLE;
+INSERT INTO auth.users (id, email) VALUES ('00000000-0000-0000-0000-00000000b1ad', 'founder@league.test');
+INSERT INTO public.user_roles (user_id, role) VALUES ('00000000-0000-0000-0000-00000000b1ad', 'admin');
+SELECT pg_temp.expect(NOT public.is_league_reviewer('00000000-0000-0000-0000-00000000b1ad'),
+  'a U.Psy admin is not a League reviewer');
+DO $$ BEGIN
+  INSERT INTO public.user_roles (user_id, role) VALUES ('00000000-0000-0000-0000-00000000b1ad', 'league');
+  RAISE EXCEPTION 'FAILED: admin also became League reviewer';
+EXCEPTION WHEN raise_exception THEN
+  IF SQLERRM LIKE 'FAILED%' THEN RAISE; END IF;
+  RAISE NOTICE 'ok: admin and League roles are exclusive';
+END $$;
+
 ROLLBACK;

@@ -34,7 +34,9 @@ export default function LeagueShareCard() {
     if (error) return toast.error(error.message);
     setOn(v);
     toast.success(
-      v ? "Dossier partagé avec la LSSPM" : "Partage avec la LSSPM retiré",
+      v
+        ? "Dossier partagé avec le comité d'évaluation"
+        : "Partage avec le comité retiré",
     );
   };
 
@@ -43,19 +45,19 @@ export default function LeagueShareCard() {
       <div className="flex items-center justify-between gap-3">
         <h3 className="font-semibold text-foreground flex items-center gap-2">
           <ShieldCheck className="h-4 w-4 text-primary" />
-          Ligue (LSSPM)
+          Comité d'évaluation externe
         </h3>
         <Switch
           checked={on}
           disabled={busy}
           onCheckedChange={change}
-          aria-label="Partager mon dossier avec la LSSPM"
+          aria-label="Partager mon dossier avec le comité d'évaluation externe"
         />
       </div>
       <p className="text-sm text-muted-foreground">
         {on
-          ? "La Ligue peut évaluer vos documents professionnels et votre pré-vérification. Jamais votre CIN, RIB, date de naissance ni téléphone."
-          : "Autorisez la Ligue des Spécialistes de la Santé Psychologique et Mentale à évaluer votre dossier professionnel. Révocable à tout moment."}
+          ? "Le comité peut évaluer vos documents professionnels et votre pré-vérification. Jamais votre CIN, RIB, date de naissance ni téléphone."
+          : "Autorisez le comité de spécialistes mandaté par U.Psy à évaluer votre dossier professionnel. Révocable à tout moment."}
       </p>
     </Card>
   );
