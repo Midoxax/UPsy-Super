@@ -1,3 +1,4 @@
+import { getFirstTouch } from "@/lib/attribution";
 import { useEffect, useState } from "react";
 import SEOHead from "@/components/SEOHead";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -292,6 +293,7 @@ export default function FreeScore() {
         _locale: lang,
         _contact_type: "client",
         _source: "free_score",
+        _first_touch: getFirstTouch() as never,
         _activity_kind: "quiz_completed",
         _activity_subject: `Mental Performance Score — ${computed}/100`,
         _activity_metadata: { pillars } as never,

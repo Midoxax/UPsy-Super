@@ -54,6 +54,29 @@ Deno.serve(async (req) => {
   });
   if (error) return reply({ error: "failed" }, 500);
 
+  // One CRM identity per person, with what first brought them (UTM tags
+  // captured on their first visit). Best effort: never blocks subscribing.
+  const firstTouch =
+    body.first_touch && typeof body.first_touch === "object"
+      ? Object.fromEntries(
+          Object.entries(body.first_touch as Record<string, unknown>)
+            .filter(([, v]) => typeof v === "string")
+            .slice(0, 10)
+            .map(([k, v]) => [k.slice(0, 40), String(v).slice(0, 200)]),
+        )
+      : {};
+  await db
+    .rpc("crm_upsert_contact", {
+      _email: email,
+      _locale: lang,
+      _contact_type: "client",
+      _source: `newsletter_${source}`.slice(0, 40),
+      _first_touch: firstTouch,
+      _activity_kind: "form_submitted",
+      _activity_subject: "Newsletter subscription",
+    })
+    .then(({ error: e }) => e && console.error("crm upsert:", e.message));
+
   const { data: sub } = await db
     .from("newsletter_subscribers")
     .select("id, status, confirm_token, confirmation_sent_at")

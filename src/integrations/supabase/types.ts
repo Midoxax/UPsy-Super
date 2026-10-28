@@ -7769,6 +7769,18 @@ export type Database = {
           withdrawn_at: string;
         }[];
       };
+      crm_content_attribution: {
+        Args: { p_days?: number };
+        Returns: {
+          accounts: number;
+          campaign: string;
+          clients: number;
+          contacts: number;
+          last_contact_at: string;
+          medium: string;
+          source: string;
+        }[];
+      };
       crm_log_email: {
         Args: {
           _campaign?: string;

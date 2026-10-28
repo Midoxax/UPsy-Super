@@ -1,3 +1,4 @@
+import { getFirstTouch } from "@/lib/attribution";
 // L'Observatoire U.Psy — permanent research pole.
 //
 // ANONYMITY WALL (non-negotiable):
@@ -263,7 +264,7 @@ export default function Observatoire() {
           track === "patient"
             ? "observatoire_patient"
             : "observatoire_psychologist",
-        _first_touch: (utm ?? {}) as never,
+        _first_touch: { ...getFirstTouch(), ...utm } as never,
         _activity_kind: "form_submitted",
         _activity_subject: "Observatoire opt-in",
         _activity_metadata: {

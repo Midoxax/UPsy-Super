@@ -58,6 +58,7 @@ import CrmForecastPanel from "@/components/admin/CrmForecastPanel";
 import CrmAutomationsPanel from "@/components/admin/CrmAutomationsPanel";
 import CrmFunnelPanel from "@/components/admin/CrmFunnelPanel";
 import ExperimentPanel from "@/components/admin/ExperimentPanel";
+import CrmContentPanel from "@/components/admin/CrmContentPanel";
 
 const PIPELINES = [
   { key: "b2c_first_session", label: "First session" },
@@ -801,6 +802,7 @@ const CrmManager = () => {
           <TabsTrigger value="automations">Automations</TabsTrigger>
           <TabsTrigger value="funnels">Funnels</TabsTrigger>
           <TabsTrigger value="experiments">Experiments</TabsTrigger>
+          <TabsTrigger value="content">Content</TabsTrigger>
         </TabsList>
         <TabsContent value="overview">
           <OverviewView onOpenContact={setOpenContact} />
@@ -822,6 +824,9 @@ const CrmManager = () => {
         </TabsContent>
         <TabsContent value="experiments">
           <ExperimentPanel />
+        </TabsContent>
+        <TabsContent value="content">
+          <CrmContentPanel />
         </TabsContent>
       </Tabs>
 

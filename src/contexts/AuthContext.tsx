@@ -1,3 +1,4 @@
+import { getFirstTouch } from "@/lib/attribution";
 import {
   createContext,
   useContext,
@@ -190,6 +191,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         emailRedirectTo: buildEmailRedirectUrl(redirectAfter),
         data: {
           full_name: fullName,
+          // Copied to the CRM contact by crm_link_profile_to_contact.
+          first_touch: getFirstTouch(),
         },
       },
     });

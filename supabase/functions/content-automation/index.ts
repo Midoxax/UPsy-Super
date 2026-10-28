@@ -101,9 +101,9 @@ async function syncSocial(db: SupabaseClient, feed: FeedItem[], s: Settings) {
           title: it.title.fr,
           description: it.description.fr,
           category: it.category.fr,
-          url: it.url.fr,
+          url: tagged(it.url.fr, n, "social", it.slug),
         }),
-        link: it.url.fr,
+        link: tagged(it.url.fr, n, "social", it.slug),
         image_url: it.image,
         scheduled_for: nextMorningSlot().toISOString(),
       });
@@ -207,6 +207,15 @@ type Settings = {
 
 const langOf = (l: string): Lang => (l === "en" || l === "ar" ? l : "fr");
 
+/** Campaign tags, so the CRM can trace a contact back to the post or issue. */
+function tagged(url: string, source: string, medium: string, slug: string) {
+  const u = new URL(url);
+  u.searchParams.set("utm_source", source);
+  u.searchParams.set("utm_medium", medium);
+  u.searchParams.set("utm_campaign", slug);
+  return u.toString();
+}
+
 function digestItems(items: FeedItem[], lang: Lang): DigestItem[] {
   // Arabic readers get the French article (as on the site).
   const k = lang === "en" ? "en" : "fr";
@@ -216,7 +225,7 @@ function digestItems(items: FeedItem[], lang: Lang): DigestItem[] {
     description: it.description[k],
     category: it.category[k],
     readMinutes: it.readMinutes,
-    url: `${it.url[k]}?utm_source=newsletter&utm_medium=email`,
+    url: tagged(it.url[k], "newsletter", "email", it.slug),
     image: it.image,
   }));
 }

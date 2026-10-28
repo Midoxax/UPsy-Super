@@ -1,3 +1,4 @@
+import { getFirstTouch } from "@/lib/attribution";
 import { useState } from "react";
 import { Mail, Check, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -51,7 +52,7 @@ export default function NewsletterSignup({
     e.preventDefault();
     setState("busy");
     const { error } = await supabase.functions.invoke("newsletter-subscribe", {
-      body: { email, locale, source },
+      body: { email, locale, source, first_touch: getFirstTouch() },
     });
     setState(error ? "error" : "done");
   };

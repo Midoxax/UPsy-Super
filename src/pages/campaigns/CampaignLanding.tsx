@@ -1,3 +1,4 @@
+import { getFirstTouch } from "@/lib/attribution";
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "@/lib/router-compat";
 import { motion } from "framer-motion";
@@ -150,7 +151,7 @@ const CampaignLanding = ({ config }: { config: CampaignConfig }) => {
         _contact_type:
           config.audience === "specialist" ? "specialist" : "client",
         _source: config.source,
-        _first_touch: attribution as never,
+        _first_touch: { ...getFirstTouch(), ...attribution } as never,
         _activity_kind: "form_submitted",
         _activity_subject: `Campaign — ${config.slug}`,
         _activity_metadata: {
