@@ -243,9 +243,12 @@ const Header = () => {
   return (
     <header
       className={`sticky top-0 z-50 transition-[background-color,backdrop-filter,box-shadow,border-color] duration-300 ${
-        scrolled
-          ? "bg-background/95 backdrop-blur-xl border-b border-border/80 shadow-md"
-          : "bg-background/60 backdrop-blur-md border-b border-border/20"
+        // Open mobile menu: solid, so the list reads over the page behind it.
+        isMobileMenuOpen
+          ? "bg-background border-b border-border shadow-lg"
+          : scrolled
+            ? "bg-background/95 backdrop-blur-xl border-b border-border/80 shadow-md"
+            : "bg-background/60 backdrop-blur-md border-b border-border/20"
       }`}
     >
       <div className="container-custom">
@@ -415,7 +418,7 @@ const Header = () => {
                     className={`flex items-center justify-between w-full text-sm font-medium transition-colors rounded-lg px-3 py-2.5 ${
                       isActive(item.href)
                         ? "text-primary bg-primary/8"
-                        : "text-foreground/70 hover:text-foreground hover:bg-muted/50"
+                        : "text-foreground hover:bg-muted/60"
                     }`}
                   >
                     {!item.dropdown ? (
@@ -456,7 +459,7 @@ const Header = () => {
                           className={`flex items-center gap-2 text-sm py-2 px-3 rounded-lg transition-colors ${
                             subItem.featured
                               ? "text-primary font-semibold bg-primary/5 hover:bg-primary/10"
-                              : "text-foreground/60 hover:text-primary hover:bg-primary/5"
+                              : "text-foreground/85 hover:text-primary hover:bg-primary/5"
                           }`}
                         >
                           {subItem.icon && (
@@ -512,7 +515,8 @@ const Header = () => {
                       variant="secondary"
                       size="sm"
                       asChild
-                      className="flex-1"
+                      // Gold text on ivory is unreadable; keep the gold border.
+                      className="flex-1 text-foreground hover:text-foreground"
                     >
                       <Link
                         to={authHref}
