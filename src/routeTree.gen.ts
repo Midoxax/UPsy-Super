@@ -35,6 +35,7 @@ import { Route as MoroccanUmbrellaRouteImport } from './routes/moroccan-umbrella
 import { Route as MySpaceRouteImport } from './routes/my-space'
 import { Route as NotificationsRouteImport } from './routes/notifications'
 import { Route as ObservatoireRouteImport } from './routes/observatoire'
+import { Route as PitchRouteImport } from './routes/pitch'
 import { Route as PressRouteImport } from './routes/press'
 import { Route as PricingRouteImport } from './routes/pricing'
 import { Route as PricingSpecialistsRouteImport } from './routes/pricing-specialists'
@@ -74,6 +75,7 @@ import { Route as LocaleMoroccanUmbrellaRouteImport } from './routes/$locale/mor
 import { Route as LocaleMySpaceRouteImport } from './routes/$locale/my-space'
 import { Route as LocaleNotificationsRouteImport } from './routes/$locale/notifications'
 import { Route as LocaleObservatoireRouteImport } from './routes/$locale/observatoire'
+import { Route as LocalePitchRouteImport } from './routes/$locale/pitch'
 import { Route as LocalePressRouteImport } from './routes/$locale/press'
 import { Route as LocalePricingRouteImport } from './routes/$locale/pricing'
 import { Route as LocalePricingSpecialistsRouteImport } from './routes/$locale/pricing-specialists'
@@ -336,6 +338,11 @@ const ObservatoireRoute = ObservatoireRouteImport.update({
   path: '/observatoire',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PitchRoute = PitchRouteImport.update({
+  id: '/pitch',
+  path: '/pitch',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PressRoute = PressRouteImport.update({
   id: '/press',
   path: '/press',
@@ -530,6 +537,11 @@ const LocaleNotificationsRoute = LocaleNotificationsRouteImport.update({
 const LocaleObservatoireRoute = LocaleObservatoireRouteImport.update({
   id: '/$locale/observatoire',
   path: '/$locale/observatoire',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LocalePitchRoute = LocalePitchRouteImport.update({
+  id: '/$locale/pitch',
+  path: '/$locale/pitch',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LocalePressRoute = LocalePressRouteImport.update({
@@ -1245,6 +1257,7 @@ export interface FileRoutesByFullPath {
   '/my-space': typeof MySpaceRoute
   '/notifications': typeof NotificationsRoute
   '/observatoire': typeof ObservatoireRoute
+  '/pitch': typeof PitchRoute
   '/press': typeof PressRoute
   '/pricing': typeof PricingRoute
   '/pricing-specialists': typeof PricingSpecialistsRoute
@@ -1283,6 +1296,7 @@ export interface FileRoutesByFullPath {
   '/$locale/my-space': typeof LocaleMySpaceRoute
   '/$locale/notifications': typeof LocaleNotificationsRoute
   '/$locale/observatoire': typeof LocaleObservatoireRoute
+  '/$locale/pitch': typeof LocalePitchRoute
   '/$locale/press': typeof LocalePressRoute
   '/$locale/pricing': typeof LocalePricingRoute
   '/$locale/pricing-specialists': typeof LocalePricingSpecialistsRoute
@@ -1443,6 +1457,7 @@ export interface FileRoutesByTo {
   '/my-space': typeof MySpaceRoute
   '/notifications': typeof NotificationsRoute
   '/observatoire': typeof ObservatoireRoute
+  '/pitch': typeof PitchRoute
   '/press': typeof PressRoute
   '/pricing': typeof PricingRoute
   '/pricing-specialists': typeof PricingSpecialistsRoute
@@ -1481,6 +1496,7 @@ export interface FileRoutesByTo {
   '/$locale/my-space': typeof LocaleMySpaceRoute
   '/$locale/notifications': typeof LocaleNotificationsRoute
   '/$locale/observatoire': typeof LocaleObservatoireRoute
+  '/$locale/pitch': typeof LocalePitchRoute
   '/$locale/press': typeof LocalePressRoute
   '/$locale/pricing': typeof LocalePricingRoute
   '/$locale/pricing-specialists': typeof LocalePricingSpecialistsRoute
@@ -1641,6 +1657,7 @@ export interface FileRoutesById {
   '/my-space': typeof MySpaceRoute
   '/notifications': typeof NotificationsRoute
   '/observatoire': typeof ObservatoireRoute
+  '/pitch': typeof PitchRoute
   '/press': typeof PressRoute
   '/pricing': typeof PricingRoute
   '/pricing-specialists': typeof PricingSpecialistsRoute
@@ -1679,6 +1696,7 @@ export interface FileRoutesById {
   '/$locale/my-space': typeof LocaleMySpaceRoute
   '/$locale/notifications': typeof LocaleNotificationsRoute
   '/$locale/observatoire': typeof LocaleObservatoireRoute
+  '/$locale/pitch': typeof LocalePitchRoute
   '/$locale/press': typeof LocalePressRoute
   '/$locale/pricing': typeof LocalePricingRoute
   '/$locale/pricing-specialists': typeof LocalePricingSpecialistsRoute
@@ -1841,6 +1859,7 @@ export interface FileRouteTypes {
     | '/my-space'
     | '/notifications'
     | '/observatoire'
+    | '/pitch'
     | '/press'
     | '/pricing'
     | '/pricing-specialists'
@@ -1879,6 +1898,7 @@ export interface FileRouteTypes {
     | '/$locale/my-space'
     | '/$locale/notifications'
     | '/$locale/observatoire'
+    | '/$locale/pitch'
     | '/$locale/press'
     | '/$locale/pricing'
     | '/$locale/pricing-specialists'
@@ -2039,6 +2059,7 @@ export interface FileRouteTypes {
     | '/my-space'
     | '/notifications'
     | '/observatoire'
+    | '/pitch'
     | '/press'
     | '/pricing'
     | '/pricing-specialists'
@@ -2077,6 +2098,7 @@ export interface FileRouteTypes {
     | '/$locale/my-space'
     | '/$locale/notifications'
     | '/$locale/observatoire'
+    | '/$locale/pitch'
     | '/$locale/press'
     | '/$locale/pricing'
     | '/$locale/pricing-specialists'
@@ -2236,6 +2258,7 @@ export interface FileRouteTypes {
     | '/my-space'
     | '/notifications'
     | '/observatoire'
+    | '/pitch'
     | '/press'
     | '/pricing'
     | '/pricing-specialists'
@@ -2274,6 +2297,7 @@ export interface FileRouteTypes {
     | '/$locale/my-space'
     | '/$locale/notifications'
     | '/$locale/observatoire'
+    | '/$locale/pitch'
     | '/$locale/press'
     | '/$locale/pricing'
     | '/$locale/pricing-specialists'
@@ -2435,6 +2459,7 @@ export interface RootRouteChildren {
   MySpaceRoute: typeof MySpaceRoute
   NotificationsRoute: typeof NotificationsRoute
   ObservatoireRoute: typeof ObservatoireRoute
+  PitchRoute: typeof PitchRoute
   PressRoute: typeof PressRoute
   PricingRoute: typeof PricingRoute
   PricingSpecialistsRoute: typeof PricingSpecialistsRoute
@@ -2473,6 +2498,7 @@ export interface RootRouteChildren {
   LocaleMySpaceRoute: typeof LocaleMySpaceRoute
   LocaleNotificationsRoute: typeof LocaleNotificationsRoute
   LocaleObservatoireRoute: typeof LocaleObservatoireRoute
+  LocalePitchRoute: typeof LocalePitchRoute
   LocalePressRoute: typeof LocalePressRoute
   LocalePricingRoute: typeof LocalePricingRoute
   LocalePricingSpecialistsRoute: typeof LocalePricingSpecialistsRoute
@@ -2784,6 +2810,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ObservatoireRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/pitch': {
+      id: '/pitch'
+      path: '/pitch'
+      fullPath: '/pitch'
+      preLoaderRoute: typeof PitchRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/press': {
       id: '/press'
       path: '/press'
@@ -3055,6 +3088,13 @@ declare module '@tanstack/react-router' {
       path: '/$locale/observatoire'
       fullPath: '/$locale/observatoire'
       preLoaderRoute: typeof LocaleObservatoireRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/$locale/pitch': {
+      id: '/$locale/pitch'
+      path: '/$locale/pitch'
+      fullPath: '/$locale/pitch'
+      preLoaderRoute: typeof LocalePitchRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/$locale/press': {
@@ -4028,6 +4068,7 @@ const rootRouteChildren: RootRouteChildren = {
   MySpaceRoute: MySpaceRoute,
   NotificationsRoute: NotificationsRoute,
   ObservatoireRoute: ObservatoireRoute,
+  PitchRoute: PitchRoute,
   PressRoute: PressRoute,
   PricingRoute: PricingRoute,
   PricingSpecialistsRoute: PricingSpecialistsRoute,
@@ -4066,6 +4107,7 @@ const rootRouteChildren: RootRouteChildren = {
   LocaleMySpaceRoute: LocaleMySpaceRoute,
   LocaleNotificationsRoute: LocaleNotificationsRoute,
   LocaleObservatoireRoute: LocaleObservatoireRoute,
+  LocalePitchRoute: LocalePitchRoute,
   LocalePressRoute: LocalePressRoute,
   LocalePricingRoute: LocalePricingRoute,
   LocalePricingSpecialistsRoute: LocalePricingSpecialistsRoute,

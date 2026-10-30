@@ -140,6 +140,18 @@ const PAGES: Record<string, { title: L3; description: L3 }> = {
       ar: "قدّم ملفك واحصل على التحقق وانشر ملفك. الحجوزات والفيديو والتذكيرات والمدفوعات علينا.",
     },
   },
+  "/pitch": {
+    title: {
+      fr: "Le mental dans le sport : le pitch U.Psy en 4 actes",
+      en: "The mind in sport: the U.Psy pitch in 4 acts",
+      ar: "الذهن في الرياضة: عرض U.Psy في 4 فصول",
+    },
+    description: {
+      fr: "Un sportif de haut niveau sur trois présente des symptômes d'anxiété ou de dépression. Le problème, la solution, la valeur ajoutée, en trois minutes et avec les sources.",
+      en: "One elite athlete in three shows anxiety or depression symptoms. The problem, the solution and the added value in three minutes, with sources.",
+      ar: "رياضي من كل ثلاثة من النخبة تظهر عليه أعراض القلق أو الاكتئاب. المشكلة والحل والقيمة المضافة في ثلاث دقائق، مع المصادر.",
+    },
+  },
   "/blog": {
     title: {
       fr: "Blog santé mentale et psychologie du sport",

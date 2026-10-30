@@ -18,6 +18,7 @@ import {
 } from "@/lib/experiments/useExperiment";
 import { trackCTAClick } from "@/lib/analytics/gtm";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
+import { canAffordWebGL } from "@/lib/motion/canAffordWebGL";
 
 /**
  * Spread-merge helper: a variant that omits a field must inherit the control's
@@ -36,44 +37,10 @@ function stripUndefined<T extends object>(obj: T): Partial<T> {
 
 const HeroScene = lazy(() => import("@/components/three/HeroScene"));
 
-const prefersReducedMotion =
-  typeof window !== "undefined" &&
-  window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
-
-type NetworkInfo = { saveData?: boolean; effectiveType?: string };
-type CapabilityNavigator = Navigator & {
-  connection?: NetworkInfo;
-  deviceMemory?: number;
-};
 type IdleWindow = Window & {
   requestIdleCallback?: (cb: () => void, opts?: { timeout: number }) => number;
   cancelIdleCallback?: (handle: number) => void;
 };
-
-/**
- * The orb costs ~850 KB of Three.js — roughly half the homepage's JavaScript —
- * to render decoration. That is a fair trade on a laptop and a bad one on a
- * mid-range phone over mobile data, where it delays the copy and the CTA that
- * the page actually exists to deliver. So we ask whether this visitor can
- * afford it rather than assuming they can.
- */
-function canAffordHeroScene(): boolean {
-  if (prefersReducedMotion) return false;
-  if (typeof navigator === "undefined") return false;
-
-  const nav = navigator as CapabilityNavigator;
-
-  // Data Saver is an explicit request not to spend the user's bytes.
-  if (nav.connection?.saveData) return false;
-  // Below 4g, the scene alone is measured in seconds.
-  if (nav.connection?.effectiveType && nav.connection.effectiveType !== "4g")
-    return false;
-  // Low-memory handsets struggle with WebGL even on a good connection.
-  if (typeof nav.deviceMemory === "number" && nav.deviceMemory < 4)
-    return false;
-
-  return true;
-}
 
 const HeroSection = () => {
   const { locale } = useLocale();
@@ -111,7 +78,7 @@ const HeroSection = () => {
     });
 
   useEffect(() => {
-    if (!canAffordHeroScene()) return;
+    if (!canAffordWebGL()) return;
 
     // Load only once the browser is idle, so the orb never competes with the
     // hero copy for bandwidth or main-thread time during first paint.
