@@ -212,7 +212,11 @@ function InviteDialog({
     );
     setBusy(false);
     if (error || data?.error) {
-      toast.error(data?.error ?? error?.message ?? "Invitation failed");
+      // On a non-2xx reply the function's own message is in the response body.
+      const body = await error?.context?.json?.().catch(() => null);
+      toast.error(
+        data?.error ?? body?.error ?? error?.message ?? "Invitation failed",
+      );
       return;
     }
     toast.success(`Invitation sent to ${email}`);
