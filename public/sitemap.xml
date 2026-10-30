@@ -2026,6 +2026,33 @@
     <xhtml:link rel="alternate" hreflang="ar" href="https://upsy.ma/ar/campaigns/lsspm" />
   </url>
   <url>
+    <loc>https://upsy.ma/pitch</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://upsy.ma/pitch" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://upsy.ma/pitch" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://upsy.ma/fr/pitch" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://upsy.ma/ar/pitch" />
+  </url>
+  <url>
+    <loc>https://upsy.ma/fr/pitch</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://upsy.ma/pitch" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://upsy.ma/pitch" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://upsy.ma/fr/pitch" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://upsy.ma/ar/pitch" />
+  </url>
+  <url>
+    <loc>https://upsy.ma/ar/pitch</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://upsy.ma/pitch" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://upsy.ma/pitch" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://upsy.ma/fr/pitch" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://upsy.ma/ar/pitch" />
+  </url>
+  <url>
     <loc>https://upsy.ma/press</loc>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>

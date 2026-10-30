@@ -300,6 +300,10 @@ export const SITE_MAP: SiteGroup[] = [
         path: "/why-us",
         label: { en: "Why U.Psy", fr: "Pourquoi U.Psy", ar: "لماذا U.Psy" },
       },
+      {
+        path: "/pitch",
+        label: { en: "The pitch", fr: "Le pitch", ar: "العرض" },
+      },
       { path: "/press", label: { en: "Press", fr: "Presse", ar: "الصحافة" } },
       {
         path: "/brand",
