@@ -197,7 +197,7 @@ const Header = () => {
         },
         {
           name: t("menu.pitch"),
-          href: "/pitch?for=club",
+          href: "/pitch?for=company",
           icon: Presentation,
           desc: t("menu.pitchDesc"),
         },
