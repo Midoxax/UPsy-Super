@@ -155,12 +155,6 @@ export const REFERENCES: Reference[] = [
   },
 ];
 
-/** The founder's Short, embedded on the first panel. */
-export const FOUNDER_VIDEO = {
-  youtubeId: "t6OOSEoseTU",
-  poster: "/pitch/founder-talk.webp",
-};
-
 /** Text with citations: [n] markers are rendered as links to REFERENCES. */
 export type Cited = string;
 
@@ -231,7 +225,6 @@ export interface PitchUi {
     subject: string;
   };
   readTime: string;
-  video: { label: string; caption: string; play: string };
   story: {
     label: string;
     title: string;
@@ -348,11 +341,6 @@ const en: Copy = {
       subject: "U.Psy, in four acts",
     },
     readTime: "5 min read",
-    video: {
-      label: "Mehdi Felji, live at a U.Psy session",
-      caption: "Filmed on the ground, not in a studio.",
-      play: "Play the video",
-    },
     story: {
       label: "The story",
       title: "It started where the models break.",
@@ -809,11 +797,6 @@ const fr: Copy = {
       subject: "U.Psy, en quatre actes",
     },
     readTime: "5 min de lecture",
-    video: {
-      label: "Mehdi Felji, en direct lors d'une séance U.Psy",
-      caption: "Filmé sur le terrain, pas en studio.",
-      play: "Lancer la vidéo",
-    },
     story: {
       label: "L'histoire",
       title: "Tout a commencé là où les modèles cassent.",
@@ -1276,11 +1259,6 @@ const ar: Copy = {
       subject: "U.Psy في أربعة فصول",
     },
     readTime: "قراءة في 5 دقائق",
-    video: {
-      label: "مهدي فلجي مباشرة خلال حصة U.Psy",
-      caption: "صُوّر في الميدان، لا في الأستوديو.",
-      play: "شغّل الفيديو",
-    },
     story: {
       label: "الحكاية",
       title: "بدأ كل شيء حيث تنكسر النماذج.",
