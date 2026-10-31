@@ -1,13 +1,25 @@
 // The pitch: four acts (problem, solution, added value, call to action),
-// rewritten for whoever opens the link. A 3D cloud behind the copy changes
-// shape with the act on screen; every figure links to its source; the share
+// rewritten for whoever opens the link, read as a deck of panels. A 3D cloud
+// behind the copy changes shape with the panel on screen; every figure links to its source; the share
 // panel builds a personal link with UTM tags, so replies land in the CRM's
 // content report under campaign "pitch".
-import { lazy, Suspense, useEffect, useMemo, useRef, useState } from "react";
+import {
+  createContext,
+  lazy,
+  Suspense,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { animate, motion, useInView } from "framer-motion";
 import {
   ArrowRight,
   Check,
+  ChevronLeft,
+  ChevronRight,
   Copy,
   ExternalLink,
   FileDown,
@@ -54,9 +66,15 @@ const GLOW = [
 
 const GOLD = "hsl(var(--gold-accent))";
 
+// The deck reads one panel at a time: arrows, keyboard, swipe, or one wheel
+// notch per panel. Panels taller than the screen scroll inside before the
+// wheel moves on. Citation links jump to the references panel.
+const CiteContext = createContext<(n: number) => void>(() => {});
+
 export default function Pitch() {
   const { locale } = useLocale();
   const lang = pitchLang(locale);
+  const rtl = lang === "ar";
   const { ui, audiences } = pitchCopy(lang);
   const [params, setParams] = useSearchParams();
   const audience = parseAudience(params.get("for"));
@@ -65,26 +83,11 @@ export default function Pitch() {
   const path = addLocalePrefix("/pitch", locale);
   const to = (href: string) => addLocalePrefix(href, locale);
 
-  const [stage, setStage] = useState(0);
   const [webgl, setWebgl] = useState(false);
   useEffect(() => {
     if (!canAffordWebGL()) return;
     const id = window.setTimeout(() => setWebgl(true), 600);
     return () => window.clearTimeout(id);
-  }, []);
-
-  const sections = useRef<(HTMLElement | null)[]>([]);
-  useEffect(() => {
-    const io = new IntersectionObserver(
-      (entries) => {
-        for (const e of entries)
-          if (e.isIntersecting)
-            setStage(Number((e.target as HTMLElement).dataset.stage));
-      },
-      { rootMargin: "-45% 0px -45% 0px" },
-    );
-    for (const el of sections.current) if (el) io.observe(el);
-    return () => io.disconnect();
   }, []);
 
   const setAudience = (a: Audience) => {
@@ -100,329 +103,543 @@ export default function Pitch() {
       destination,
     });
 
-  const acts: { key: "problem" | "solution" | "value"; act: Act }[] = [
-    { key: "problem", act: p.problem },
-    { key: "solution", act: p.solution },
-    { key: "value", act: p.value },
-  ];
+  const audienceLabels = Object.fromEntries(
+    AUDIENCES.map((a) => [a, audiences[a].label]),
+  ) as Record<Audience, string>;
 
-  return (
-    <div
-      dir={lang === "ar" ? "rtl" : "ltr"}
-      className={`pitch relative bg-[#0D0406] text-[#FAFAFA] font-body overflow-x-clip selection:bg-[hsl(var(--gold-accent))] selection:text-[#0D0406]`}
-    >
-      <SEOHead path="/pitch" />
-      <style>{PRINT_CSS}</style>
+  const labels = [ui.deck.intro, ...ui.acts, ui.deck.send, ui.references];
+  const COUNT = labels.length;
+  const REFS = COUNT - 1;
+  // Which 3D shape each panel shows: intro sphere, the four acts, then the
+  // portal behind "send" and the calm sphere behind the references.
+  const SCENE = [0, 1, 2, 3, 4, 4, 0];
 
-      {/* Backdrop: a viewport-tall layer that follows the reader. The
-          page transition wrapper is transformed, which breaks "fixed";
-          a sticky layer inside a page-tall box still follows the viewport and
-          stops at the end of the page. Decorative, and never able to
-          take the page down. */}
-      <div
-        className="pitch-backdrop pointer-events-none absolute inset-0 z-0"
-        aria-hidden="true"
-      >
-        <div className="sticky top-0 h-[100svh] overflow-hidden">
-          <div
-            className="absolute inset-0 transition-[background] duration-1000"
-            style={{ background: GLOW[stage] }}
-          />
-          {webgl && (
-            <ErrorBoundary fallback={null}>
-              <Suspense fallback={null}>
-                <div className="absolute inset-0 opacity-90 md:translate-x-[18%] rtl:md:-translate-x-[18%]">
-                  <PitchScene stage={stage} />
-                </div>
-              </Suspense>
-            </ErrorBoundary>
-          )}
-          <div className="absolute inset-0 bg-gradient-to-r from-[#0D0406] via-[#0D0406]/70 to-transparent rtl:bg-gradient-to-l" />
+  const [cur, setCur] = useState(0);
+  const slides = useRef<(HTMLElement | null)[]>([]);
+  const deck = useRef<HTMLDivElement>(null);
+  const go = useCallback(
+    (i: number) => setCur(Math.max(0, Math.min(COUNT - 1, i))),
+    [COUNT],
+  );
+
+  // Deep links: /pitch#3 opens the third panel; the hash follows the reader.
+  useEffect(() => {
+    const n = Number(window.location.hash.slice(1));
+    if (n >= 1 && n <= COUNT) setCur(n - 1);
+  }, [COUNT]);
+  useEffect(() => {
+    const { pathname, search } = window.location;
+    window.history.replaceState(
+      window.history.state,
+      "",
+      cur ? `${pathname}${search}#${cur + 1}` : `${pathname}${search}`,
+    );
+    slides.current[cur]?.scrollTo({ top: 0 });
+  }, [cur]);
+
+  // Keyboard: arrows follow the reading direction, so → goes back in Arabic.
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      const t = e.target as HTMLElement;
+      if (t.closest("input, textarea, select, [contenteditable=true]")) return;
+      const fwd = rtl ? "ArrowLeft" : "ArrowRight";
+      const back = rtl ? "ArrowRight" : "ArrowLeft";
+      if (e.key === fwd || e.key === "PageDown") go(cur + 1);
+      else if (e.key === back || e.key === "PageUp") go(cur - 1);
+      else if (e.key === "Home") go(0);
+      else if (e.key === "End") go(COUNT - 1);
+      else return;
+      e.preventDefault();
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [cur, go, rtl, COUNT]);
+
+  // Wheel: one notch, one panel, unless the panel itself still scrolls.
+  // Non-passive so the page behind does not scroll at the same time.
+  useEffect(() => {
+    const el = deck.current;
+    if (!el) return;
+    let locked = false;
+    const onWheel = (e: WheelEvent) => {
+      const dy = Math.abs(e.deltaY) >= Math.abs(e.deltaX) ? e.deltaY : e.deltaX;
+      const down = dy > 0;
+      const slide = slides.current[cur];
+      if (slide) {
+        const canScroll = down
+          ? slide.scrollTop + slide.clientHeight < slide.scrollHeight - 2
+          : slide.scrollTop > 2;
+        if (canScroll) return;
+      }
+      // Let the page scroll on to the footer past the last panel.
+      if ((down && cur === COUNT - 1) || (!down && cur === 0)) return;
+      e.preventDefault();
+      if (locked || Math.abs(dy) < 12) return;
+      locked = true;
+      go(cur + (down ? 1 : -1));
+      window.setTimeout(() => (locked = false), 850);
+    };
+    el.addEventListener("wheel", onWheel, { passive: false });
+    return () => el.removeEventListener("wheel", onWheel);
+  }, [cur, go, COUNT]);
+
+  // Swipe: horizontal only, so vertical scrolling inside a panel still works.
+  const touch = useRef<{ x: number; y: number } | null>(null);
+  const onTouchStart = (e: React.TouchEvent) => {
+    touch.current = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+  };
+  const onTouchEnd = (e: React.TouchEvent) => {
+    const start = touch.current;
+    touch.current = null;
+    if (!start) return;
+    const dx = e.changedTouches[0].clientX - start.x;
+    const dy = e.changedTouches[0].clientY - start.y;
+    if (Math.abs(dx) < 60 || Math.abs(dx) < Math.abs(dy) * 1.5) return;
+    const forward = rtl ? dx > 0 : dx < 0;
+    go(cur + (forward ? 1 : -1));
+  };
+
+  // The deck fills the screen under the site header.
+  const [height, setHeight] = useState<string>("calc(100svh - 5rem)");
+  useEffect(() => {
+    const fit = () => {
+      const header = document.querySelector("header");
+      const top = header ? header.getBoundingClientRect().bottom : 80;
+      setHeight(`${Math.max(window.innerHeight - Math.max(top, 0), 520)}px`);
+    };
+    fit();
+    window.addEventListener("resize", fit);
+    return () => window.removeEventListener("resize", fit);
+  }, []);
+
+  const cite = useCallback(
+    (n: number) => {
+      go(REFS);
+      window.setTimeout(
+        () =>
+          document
+            .getElementById(`ref-${n}`)
+            ?.scrollIntoView({ behavior: "smooth", block: "center" }),
+        750,
+      );
+    },
+    [go, REFS],
+  );
+
+  const stage = SCENE[cur] ?? 0;
+  const dir = rtl ? -1 : 1;
+
+  const panels: React.ReactNode[] = [
+    // 0 · Intro
+    <div key="intro" className="mx-auto w-full max-w-6xl">
+      <div className="max-w-3xl">
+        {recipient && (
+          <p className="mb-6 inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-4 py-1.5 text-sm backdrop-blur">
+            <span className="text-white/60">{ui.preparedFor}</span>
+            <span className="font-semibold" style={{ color: GOLD }}>
+              {recipient}
+            </span>
+          </p>
+        )}
+        <p className="text-xs uppercase tracking-[0.25em] text-white/60">
+          {ui.eyebrow} · {ui.readTime}
+        </p>
+        <motion.h1
+          key={audience + "h"}
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="mt-5 font-display text-4xl leading-[1.05] sm:text-6xl lg:text-[4.25rem]"
+        >
+          {p.hero.title}{" "}
+          <span className="block" style={{ color: GOLD }}>
+            {p.hero.accent}
+          </span>
+        </motion.h1>
+        <p className="mt-6 max-w-xl text-base leading-relaxed text-white/80 sm:text-lg">
+          <CitedText text={p.hero.sub} />
+        </p>
+        <AudiencePicker
+          label={ui.audienceLabel}
+          value={audience}
+          onChange={setAudience}
+          labels={audienceLabels}
+        />
+        <div className="mt-8 flex flex-wrap items-center gap-3 print:hidden">
+          <button
+            type="button"
+            onClick={() => go(1)}
+            className="group inline-flex min-h-12 items-center gap-2 rounded-full px-6 text-sm font-semibold text-[#0D0406] transition hover:brightness-110"
+            style={{ background: GOLD }}
+          >
+            {ui.deck.start}
+            <ArrowRight className="h-4 w-4 transition group-hover:translate-x-0.5 rtl:rotate-180" />
+          </button>
+          <Link
+            to={to(p.cta.primary.to)}
+            onClick={() => track(p.cta.primary.label, "hero", p.cta.primary.to)}
+            className="inline-flex min-h-12 items-center rounded-full border border-white/20 px-6 text-sm text-white/85 hover:bg-white/5"
+          >
+            {p.cta.primary.label}
+          </Link>
         </div>
+        <p className="mt-6 text-xs text-white/45 print:hidden">
+          {ui.deck.hint}
+        </p>
       </div>
-      <div className="pointer-events-none absolute inset-0 z-20 print:hidden">
-        <div className="sticky top-0 h-[100svh]">
-          <ProgressRail stage={stage} labels={ui.acts} />
-        </div>
-      </div>
+    </div>,
 
-      {/* Hero */}
-      <section
-        ref={(el) => {
-          sections.current[0] = el;
-        }}
-        data-stage={0}
-        className="pitch-page relative z-10 min-h-[100svh] flex items-center px-4 sm:px-8"
-      >
-        <div className="mx-auto w-full max-w-6xl pt-28 pb-16">
-          <div className="max-w-3xl">
-            {recipient && (
-              <motion.p
-                initial={{ opacity: 0, y: 8 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="mb-6 inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-4 py-1.5 text-sm backdrop-blur"
-              >
-                <span className="text-white/60">{ui.preparedFor}</span>
-                <span className="font-semibold" style={{ color: GOLD }}>
-                  {recipient}
-                </span>
-              </motion.p>
-            )}
-            <p className="text-xs uppercase tracking-[0.25em] text-white/60">
-              {ui.eyebrow} · {ui.readTime}
+    // 1–3 · Problem, solution, added value
+    ...[p.problem, p.solution, p.value].map((act, i) => (
+      <ActBlock
+        key={`act-${i}`}
+        index={i + 1}
+        kicker={ui.acts[i]}
+        act={act}
+        audience={audience}
+        lang={lang}
+      />
+    )),
+
+    // 4 · Call to action
+    <div key="cta" className="mx-auto w-full max-w-6xl">
+      <div className="max-w-2xl">
+        <Kicker index={4} label={ui.acts[3]} />
+        <h2 className="mt-4 font-display text-3xl leading-tight sm:text-5xl">
+          {p.cta.title}
+        </h2>
+        <p className="mt-5 text-base text-white/80 sm:text-lg">{p.cta.body}</p>
+
+        {audience === "all" ? (
+          <div className="mt-8">
+            <p className="mb-4 text-sm uppercase tracking-widest text-white/60">
+              {ui.doorsTitle}
             </p>
-            <motion.h1
-              key={audience + "h"}
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              className="mt-5 font-display text-4xl leading-[1.05] sm:text-6xl lg:text-[4.25rem]"
-            >
-              {p.hero.title}{" "}
-              <span className="block" style={{ color: GOLD }}>
-                {p.hero.accent}
-              </span>
-            </motion.h1>
-            <p className="mt-6 max-w-xl text-base leading-relaxed text-white/80 sm:text-lg">
-              <CitedText text={p.hero.sub} />
-            </p>
-
-            <AudiencePicker
-              label={ui.audienceLabel}
-              value={audience}
-              onChange={setAudience}
-              labels={
-                Object.fromEntries(
-                  AUDIENCES.map((a) => [a, audiences[a].label]),
-                ) as Record<Audience, string>
-              }
-            />
-
-            <div className="mt-8 flex flex-wrap items-center gap-3 print:hidden">
-              <Link
-                to={to(p.cta.primary.to)}
-                onClick={() =>
-                  track(p.cta.primary.label, "hero", p.cta.primary.to)
-                }
-                className="group inline-flex min-h-12 items-center gap-2 rounded-full px-6 text-sm font-semibold text-[#0D0406] transition hover:brightness-110"
-                style={{ background: GOLD }}
-              >
-                {p.cta.primary.label}
-                <ArrowRight className="h-4 w-4 transition group-hover:translate-x-0.5 rtl:rotate-180" />
-              </Link>
-              <a
-                href="#act-1"
-                className="inline-flex min-h-12 items-center rounded-full border border-white/20 px-6 text-sm text-white/85 hover:bg-white/5"
-              >
-                {ui.scroll}
-              </a>
+            <div className="grid gap-3 sm:grid-cols-2">
+              {AUDIENCES.filter((a) => a !== "all").map((a) => {
+                const door = audiences[a];
+                return (
+                  <div
+                    key={a}
+                    className="rounded-2xl border border-white/10 bg-white/[0.04] p-5 backdrop-blur-md"
+                  >
+                    <p
+                      className="text-sm font-semibold"
+                      style={{ color: GOLD }}
+                    >
+                      {door.label}
+                    </p>
+                    <p className="mt-1 text-sm text-white/75">
+                      {door.cta.title}
+                    </p>
+                    <div className="mt-4 flex flex-wrap gap-2 print:hidden">
+                      <Link
+                        to={to(door.cta.primary.to)}
+                        onClick={() =>
+                          track(
+                            door.cta.primary.label,
+                            `door_${a}`,
+                            door.cta.primary.to,
+                          )
+                        }
+                        className="inline-flex min-h-10 items-center gap-1.5 rounded-full px-4 text-sm font-semibold text-[#0D0406]"
+                        style={{ background: GOLD }}
+                      >
+                        {door.cta.primary.label}
+                        <ArrowRight className="h-3.5 w-3.5 rtl:rotate-180" />
+                      </Link>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setAudience(a);
+                          go(0);
+                        }}
+                        className="inline-flex min-h-10 items-center rounded-full border border-white/20 px-4 text-sm text-white/80 hover:bg-white/5"
+                      >
+                        {ui.audienceLabel} {door.label.toLowerCase()}
+                      </button>
+                    </div>
+                  </div>
+                );
+              })}
             </div>
           </div>
-        </div>
-      </section>
-
-      {/* Acts 1–3 */}
-      {acts.map(({ key, act }, i) => (
-        <section
-          key={key}
-          id={`act-${i + 1}`}
-          ref={(el) => {
-            sections.current[i + 1] = el;
-          }}
-          data-stage={i + 1}
-          className="pitch-page relative z-10 min-h-[100svh] flex items-center px-4 sm:px-8 scroll-mt-16"
-        >
-          <ActBlock
-            index={i + 1}
-            kicker={ui.acts[i]}
-            act={act}
-            audience={audience}
-            lang={lang}
-          />
-        </section>
-      ))}
-
-      {/* Act 4: call to action */}
-      <section
-        id="act-4"
-        ref={(el) => {
-          sections.current[4] = el;
-        }}
-        data-stage={4}
-        className="pitch-page relative z-10 min-h-[100svh] flex items-center px-4 sm:px-8 scroll-mt-16"
-      >
-        <div className="mx-auto w-full max-w-6xl py-24">
-          <div className="max-w-2xl">
-            <Kicker index={4} label={ui.acts[3]} />
-            <h2 className="mt-4 font-display text-3xl leading-tight sm:text-5xl">
-              {p.cta.title}
-            </h2>
-            <p className="mt-5 text-base text-white/80 sm:text-lg">
-              {p.cta.body}
-            </p>
-
-            {audience === "all" ? (
-              <div className="mt-8">
-                <p className="mb-4 text-sm uppercase tracking-widest text-white/60">
-                  {ui.doorsTitle}
-                </p>
-                <div className="grid gap-3 sm:grid-cols-2">
-                  {AUDIENCES.filter((a) => a !== "all").map((a) => {
-                    const door = audiences[a];
-                    return (
-                      <div
-                        key={a}
-                        className="rounded-2xl border border-white/10 bg-white/[0.04] p-5 backdrop-blur-md"
-                      >
-                        <p
-                          className="text-sm font-semibold"
-                          style={{ color: GOLD }}
-                        >
-                          {door.label}
-                        </p>
-                        <p className="mt-1 text-sm text-white/75">
-                          {door.cta.title}
-                        </p>
-                        <div className="mt-4 flex flex-wrap gap-2 print:hidden">
-                          <Link
-                            to={to(door.cta.primary.to)}
-                            onClick={() =>
-                              track(
-                                door.cta.primary.label,
-                                `door_${a}`,
-                                door.cta.primary.to,
-                              )
-                            }
-                            className="inline-flex min-h-10 items-center gap-1.5 rounded-full px-4 text-sm font-semibold text-[#0D0406]"
-                            style={{ background: GOLD }}
-                          >
-                            {door.cta.primary.label}
-                            <ArrowRight className="h-3.5 w-3.5 rtl:rotate-180" />
-                          </Link>
-                          <button
-                            type="button"
-                            onClick={() => {
-                              setAudience(a);
-                              window.scrollTo({ top: 0, behavior: "smooth" });
-                            }}
-                            className="inline-flex min-h-10 items-center rounded-full border border-white/20 px-4 text-sm text-white/80 hover:bg-white/5"
-                          >
-                            {ui.audienceLabel} {door.label.toLowerCase()}
-                          </button>
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-            ) : (
-              <div className="mt-8 flex flex-wrap gap-3 print:hidden">
-                <Link
-                  to={to(p.cta.primary.to)}
-                  onClick={() =>
-                    track(p.cta.primary.label, "cta", p.cta.primary.to)
-                  }
-                  className="group inline-flex min-h-14 items-center gap-2 rounded-full px-8 text-base font-semibold text-[#0D0406] shadow-[0_0_40px_rgba(242,183,5,0.35)] transition hover:brightness-110"
-                  style={{ background: GOLD }}
-                >
-                  {p.cta.primary.label}
-                  <ArrowRight className="h-5 w-5 transition group-hover:translate-x-0.5 rtl:rotate-180" />
-                </Link>
-                <Link
-                  to={to(p.cta.secondary.to)}
-                  onClick={() =>
-                    track(
-                      p.cta.secondary.label,
-                      "cta_secondary",
-                      p.cta.secondary.to,
-                    )
-                  }
-                  className="inline-flex min-h-14 items-center rounded-full border border-white/25 px-8 text-base text-white/90 hover:bg-white/5"
-                >
-                  {p.cta.secondary.label}
-                </Link>
-              </div>
-            )}
-            <p className="mt-5 flex items-center gap-2 text-sm text-white/70">
-              <Check className="h-4 w-4 shrink-0" style={{ color: GOLD }} />
-              {p.cta.reassurance}
-            </p>
-            {/* Printed copies keep the way back in. */}
-            <p className="mt-4 hidden text-sm print:block">
-              {SITE_URL.replace(/^https?:\/\//, "")}
-              {to(p.cta.primary.to)}
-            </p>
+        ) : (
+          <div className="mt-8 flex flex-wrap gap-3 print:hidden">
+            <Link
+              to={to(p.cta.primary.to)}
+              onClick={() =>
+                track(p.cta.primary.label, "cta", p.cta.primary.to)
+              }
+              className="group inline-flex min-h-14 items-center gap-2 rounded-full px-8 text-base font-semibold text-[#0D0406] shadow-[0_0_40px_rgba(242,183,5,0.35)] transition hover:brightness-110"
+              style={{ background: GOLD }}
+            >
+              {p.cta.primary.label}
+              <ArrowRight className="h-5 w-5 transition group-hover:translate-x-0.5 rtl:rotate-180" />
+            </Link>
+            <Link
+              to={to(p.cta.secondary.to)}
+              onClick={() =>
+                track(
+                  p.cta.secondary.label,
+                  "cta_secondary",
+                  p.cta.secondary.to,
+                )
+              }
+              className="inline-flex min-h-14 items-center rounded-full border border-white/25 px-8 text-base text-white/90 hover:bg-white/5"
+            >
+              {p.cta.secondary.label}
+            </Link>
           </div>
-        </div>
-      </section>
+        )}
+        <p className="mt-5 flex items-center gap-2 text-sm text-white/70">
+          <Check className="h-4 w-4 shrink-0" style={{ color: GOLD }} />
+          {p.cta.reassurance}
+        </p>
+        {/* Printed copies keep the way back in. */}
+        <p className="mt-4 hidden text-sm print:block">
+          {SITE_URL.replace(/^https?:\/\//, "")}
+          {to(p.cta.primary.to)}
+        </p>
+      </div>
+    </div>,
 
+    // 5 · Send, media and resources
+    <div key="send" className="mx-auto w-full max-w-6xl space-y-10">
       <SharePanel
         ui={ui.share}
         audience={audience}
-        audienceLabels={
-          Object.fromEntries(
-            AUDIENCES.map((a) => [a, audiences[a].label]),
-          ) as Record<Audience, string>
-        }
+        audienceLabels={audienceLabels}
         path={path}
         onShare={(channel) => track(channel, "share", channel)}
       />
+      <div>
+        <h2 className="font-display text-2xl sm:text-3xl">{ui.resources}</h2>
+        <p className="mt-2 text-white/70">{ui.resourcesSub}</p>
+        <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          {ui.resourceItems.map((r) => (
+            <Link
+              key={r.to}
+              to={to(r.to)}
+              onClick={() => track(r.title, "resources", r.to)}
+              className="group rounded-2xl border border-white/10 bg-white/[0.03] p-5 transition hover:border-white/25 hover:bg-white/[0.06]"
+            >
+              <p className="flex items-center justify-between font-semibold">
+                {r.title}
+                <ArrowRight className="h-4 w-4 opacity-50 transition group-hover:opacity-100 rtl:rotate-180" />
+              </p>
+              <p className="mt-1 text-sm text-white/65">{r.body}</p>
+            </Link>
+          ))}
+        </div>
+      </div>
+    </div>,
 
-      {/* Resources and media */}
-      <section className="relative z-10 px-4 py-20 sm:px-8">
-        <div className="mx-auto max-w-6xl">
-          <h2 className="font-display text-2xl sm:text-3xl">{ui.resources}</h2>
-          <p className="mt-2 text-white/70">{ui.resourcesSub}</p>
-          <div className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-            {ui.resourceItems.map((r) => (
-              <Link
-                key={r.to}
-                to={to(r.to)}
-                onClick={() => track(r.title, "resources", r.to)}
-                className="group rounded-2xl border border-white/10 bg-white/[0.03] p-5 transition hover:border-white/25 hover:bg-white/[0.06]"
+    // 6 · References
+    <div key="refs" className="mx-auto w-full max-w-6xl">
+      <h2 className="font-display text-2xl sm:text-3xl">{ui.references}</h2>
+      <p className="mt-2 text-sm text-white/65">{ui.referencesNote}</p>
+      <ol className="mt-8 space-y-4" dir="ltr">
+        {REFERENCES.map((r) => (
+          <li key={r.id} id={`ref-${r.id}`} className="flex gap-4 text-sm">
+            <span className="font-mono text-white/50">[{r.id}]</span>
+            <span className="text-white/80">
+              {r.authors} ({r.year}). {r.title}. <em>{r.source}</em>.{" "}
+              <a
+                href={r.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1 underline decoration-white/30 underline-offset-2 hover:decoration-current"
+                style={{ color: GOLD }}
               >
-                <p className="flex items-center justify-between font-semibold">
-                  {r.title}
-                  <ArrowRight className="h-4 w-4 opacity-50 transition group-hover:opacity-100 rtl:rotate-180" />
-                </p>
-                <p className="mt-1 text-sm text-white/65">{r.body}</p>
-              </Link>
-            ))}
+                {r.url.replace("https://", "")}
+                <ExternalLink className="h-3 w-3" />
+              </a>
+            </span>
+          </li>
+        ))}
+      </ol>
+    </div>,
+  ];
+
+  return (
+    <CiteContext.Provider value={cite}>
+      <div
+        dir={rtl ? "rtl" : "ltr"}
+        className="pitch relative bg-[#0D0406] text-[#FAFAFA] font-body selection:bg-[hsl(var(--gold-accent))] selection:text-[#0D0406]"
+      >
+        <SEOHead path="/pitch" />
+        <style>{PRINT_CSS}</style>
+
+        <div
+          ref={deck}
+          // Lenis (site-wide smooth scroll) would scroll the page on the
+          // same wheel event that turns the panel.
+          data-lenis-prevent
+          className="pitch-deck relative overflow-hidden"
+          style={{ height }}
+          onTouchStart={onTouchStart}
+          onTouchEnd={onTouchEnd}
+          role="region"
+          aria-roledescription="carousel"
+          aria-label={ui.eyebrow}
+        >
+          {/* Backdrop: decorative, never able to take the page down. */}
+          <div
+            className="pitch-backdrop pointer-events-none absolute inset-0"
+            aria-hidden="true"
+          >
+            <div
+              className="absolute inset-0 transition-[background] duration-1000"
+              style={{ background: GLOW[stage] }}
+            />
+            {webgl && (
+              <ErrorBoundary fallback={null}>
+                <Suspense fallback={null}>
+                  <div className="absolute inset-0 opacity-90 md:translate-x-[18%] rtl:md:-translate-x-[18%]">
+                    <PitchScene stage={stage} />
+                  </div>
+                </Suspense>
+              </ErrorBoundary>
+            )}
+            <div className="absolute inset-0 bg-gradient-to-r from-[#0D0406] via-[#0D0406]/70 to-transparent rtl:bg-gradient-to-l" />
           </div>
-        </div>
-      </section>
 
-      {/* References */}
-      <section id="references" className="relative z-10 px-4 pb-28 sm:px-8">
-        <div className="mx-auto max-w-6xl border-t border-white/10 pt-12">
-          <h2 className="font-display text-2xl sm:text-3xl">{ui.references}</h2>
-          <p className="mt-2 text-sm text-white/65">{ui.referencesNote}</p>
-          <ol className="mt-8 space-y-4" dir="ltr">
-            {REFERENCES.map((r) => (
-              <li
-                key={r.id}
-                id={`ref-${r.id}`}
-                className="flex gap-4 scroll-mt-24 text-sm"
-              >
-                <span className="font-mono text-white/50">[{r.id}]</span>
-                <span className="text-white/80">
-                  {r.authors} ({r.year}). {r.title}. <em>{r.source}</em>.{" "}
-                  <a
-                    href={r.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1 underline decoration-white/30 underline-offset-2 hover:decoration-current"
-                    style={{ color: GOLD }}
-                  >
-                    {r.url.replace("https://", "")}
-                    <ExternalLink className="h-3 w-3" />
-                  </a>
-                </span>
-              </li>
-            ))}
-          </ol>
+          {panels.map((node, i) => (
+            <section
+              key={i}
+              ref={(el) => {
+                slides.current[i] = el;
+              }}
+              aria-roledescription="slide"
+              aria-label={`${i + 1} / ${COUNT} · ${labels[i]}`}
+              aria-hidden={i !== cur}
+              inert={i !== cur}
+              className="pitch-page absolute inset-0 overflow-y-auto overscroll-contain px-4 pb-28 pt-10 transition-[transform,opacity] duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] sm:px-16 lg:px-24"
+              style={{
+                transform: `translateX(${(i - cur) * 100 * dir}%)`,
+                opacity: i === cur ? 1 : 0,
+              }}
+            >
+              <div className="flex min-h-full items-center">{node}</div>
+            </section>
+          ))}
+
+          <DeckControls
+            cur={cur}
+            labels={labels}
+            go={go}
+            prevLabel={ui.deck.prev}
+            nextLabel={ui.deck.next}
+          />
         </div>
-      </section>
+      </div>
+    </CiteContext.Provider>
+  );
+}
+
+/**
+ * Side arrows on large screens, a bottom bar everywhere: previous, a
+ * segmented progress bar (one segment per panel, clickable), next. Left and
+ * right swap meaning in Arabic, like the keyboard.
+ */
+function DeckControls({
+  cur,
+  labels,
+  go,
+  prevLabel,
+  nextLabel,
+}: {
+  cur: number;
+  labels: string[];
+  go: (i: number) => void;
+  prevLabel: string;
+  nextLabel: string;
+}) {
+  const last = labels.length - 1;
+  const round =
+    "items-center justify-center rounded-full border border-white/20 bg-[#0D0406]/60 text-white backdrop-blur transition hover:border-white/50 hover:bg-white/10 disabled:pointer-events-none disabled:opacity-25";
+  return (
+    <div className="print:hidden">
+      <button
+        type="button"
+        onClick={() => go(cur - 1)}
+        disabled={cur === 0}
+        aria-label={prevLabel}
+        className={`${round} absolute start-4 top-1/2 z-30 hidden h-14 w-14 -translate-y-1/2 lg:inline-flex`}
+      >
+        <ChevronLeft className="h-6 w-6 rtl:rotate-180" />
+      </button>
+      <button
+        type="button"
+        onClick={() => go(cur + 1)}
+        disabled={cur === last}
+        aria-label={nextLabel}
+        className={`${round} absolute end-4 top-1/2 z-30 hidden h-14 w-14 -translate-y-1/2 lg:inline-flex`}
+      >
+        <ChevronRight className="h-6 w-6 rtl:rotate-180" />
+      </button>
+
+      <div className="absolute inset-x-0 bottom-0 z-30 bg-gradient-to-t from-[#0D0406] via-[#0D0406]/85 to-transparent px-4 pb-4 pt-10 sm:px-8">
+        <div className="mx-auto flex max-w-6xl items-center gap-3">
+          <button
+            type="button"
+            onClick={() => go(cur - 1)}
+            disabled={cur === 0}
+            aria-label={prevLabel}
+            className={`${round} inline-flex h-11 w-11 shrink-0`}
+          >
+            <ChevronLeft className="h-5 w-5 rtl:rotate-180" />
+          </button>
+          <div className="min-w-0 flex-1">
+            <div className="mb-2 flex items-baseline justify-between gap-3 text-xs">
+              <span className="truncate text-white/80">{labels[cur]}</span>
+              <span className="shrink-0 font-mono text-white/50" dir="ltr">
+                {String(cur + 1).padStart(2, "0")} /{" "}
+                {String(labels.length).padStart(2, "0")}
+              </span>
+            </div>
+            <div className="flex gap-1.5">
+              {labels.map((l, i) => (
+                <button
+                  key={l}
+                  type="button"
+                  onClick={() => go(i)}
+                  aria-label={`${i + 1}. ${l}`}
+                  aria-current={i === cur ? "step" : undefined}
+                  title={l}
+                  className="group flex h-6 flex-1 items-center"
+                >
+                  <span
+                    className="block h-1 w-full rounded-full transition-colors"
+                    style={{
+                      background: i <= cur ? GOLD : "rgba(255,255,255,0.18)",
+                    }}
+                  />
+                </button>
+              ))}
+            </div>
+          </div>
+          <button
+            type="button"
+            onClick={() => go(cur + 1)}
+            disabled={cur === last}
+            aria-label={nextLabel}
+            className={`${round} inline-flex h-11 w-11 shrink-0`}
+            style={
+              cur < last
+                ? {
+                    background: GOLD,
+                    color: "#0D0406",
+                    borderColor: "transparent",
+                  }
+                : undefined
+            }
+          >
+            <ChevronRight className="h-5 w-5 rtl:rotate-180" />
+          </button>
+        </div>
+      </div>
     </div>
   );
 }
@@ -456,7 +673,7 @@ function ActBlock({
   lang: PitchLang;
 }) {
   return (
-    <div className="mx-auto grid w-full max-w-6xl gap-10 py-24 lg:grid-cols-[minmax(0,1fr)_320px] lg:items-center">
+    <div className="mx-auto grid w-full max-w-6xl gap-10 lg:grid-cols-[minmax(0,1fr)_320px] lg:items-center">
       <motion.div
         key={audience}
         initial={{ opacity: 0, y: 24 }}
@@ -541,6 +758,7 @@ function StatCard({ stat, lang }: { stat: Stat; lang: PitchLang }) {
 /** Renders [n] markers as superscript links to the reference list. */
 function CitedText({ text }: { text: Cited }) {
   const parts = useMemo(() => splitCitations(text), [text]);
+  const cite = useContext(CiteContext);
   return (
     <>
       {parts.map((part, i) =>
@@ -552,6 +770,10 @@ function CitedText({ text }: { text: Cited }) {
               <a
                 key={n}
                 href={`#ref-${n}`}
+                onClick={(e) => {
+                  e.preventDefault();
+                  cite(n);
+                }}
                 className="font-mono text-[0.7em] hover:underline"
                 style={{ color: GOLD }}
               >
@@ -610,41 +832,6 @@ function AudiencePicker({
   );
 }
 
-function ProgressRail({ stage, labels }: { stage: number; labels: string[] }) {
-  return (
-    <nav
-      aria-label={labels.join(" · ")}
-      className="pointer-events-auto absolute end-6 top-1/2 hidden -translate-y-1/2 flex-col gap-4 lg:flex"
-    >
-      {labels.map((l, i) => (
-        <a
-          key={l}
-          href={`#act-${i + 1}`}
-          className="group flex items-center justify-end gap-3"
-        >
-          <span
-            className={`text-xs transition ${
-              stage === i + 1
-                ? "text-white"
-                : "text-white/0 group-hover:text-white/60"
-            }`}
-          >
-            {l}
-          </span>
-          <span
-            className="block h-2.5 w-2.5 rounded-full border border-white/40 transition"
-            style={
-              stage >= i + 1
-                ? { background: GOLD, borderColor: "transparent" }
-                : undefined
-            }
-          />
-        </a>
-      ))}
-    </nav>
-  );
-}
-
 function SharePanel({
   ui,
   audience,
@@ -679,8 +866,8 @@ function SharePanel({
     "inline-flex min-h-11 items-center gap-2 rounded-full border border-white/20 px-4 text-sm text-white/90 hover:bg-white/5";
 
   return (
-    <section className="relative z-10 px-4 py-16 sm:px-8 print:hidden">
-      <div className="mx-auto max-w-6xl rounded-3xl border border-white/10 bg-white/[0.04] p-6 backdrop-blur-xl sm:p-10">
+    <section className="print:hidden">
+      <div className="rounded-3xl border border-white/10 bg-white/[0.04] p-6 backdrop-blur-xl sm:p-10">
         <h2 className="font-display text-2xl sm:text-3xl">{ui.title}</h2>
         <p className="mt-2 max-w-2xl text-white/70">{ui.sub}</p>
         <div className="mt-6 grid gap-4 sm:grid-cols-2">
@@ -758,13 +945,14 @@ function SharePanel({
   );
 }
 
-// Printed or saved as PDF: one act per page, light background, no chrome.
+// Printed or saved as PDF: every panel, one per page, light background, no chrome.
 const PRINT_CSS = `
 @media print {
-  header, footer, nav, .pitch-backdrop { display: none !important; }
+  header, footer, nav, .pitch-backdrop, [aria-labelledby="consent-title"] { display: none !important; }
   .pitch { background: #fff !important; color: #111 !important; }
   .pitch * { color: #111 !important; opacity: 1 !important; transform: none !important; box-shadow: none !important; text-shadow: none !important; backdrop-filter: none !important; }
-  .pitch .pitch-page { min-height: auto !important; page-break-after: always; break-after: page; }
+  .pitch .pitch-deck { height: auto !important; overflow: visible !important; }
+  .pitch .pitch-page { position: static !important; overflow: visible !important; padding-bottom: 2rem !important; page-break-after: always; break-after: page; }
   .pitch [class*="bg-white/"] { background: #f6f3ee !important; border-color: #ddd !important; }
 }
 `;

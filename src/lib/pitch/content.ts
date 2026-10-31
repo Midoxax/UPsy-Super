@@ -196,6 +196,14 @@ export interface PitchUi {
     subject: string;
   };
   readTime: string;
+  deck: {
+    start: string;
+    prev: string;
+    next: string;
+    intro: string;
+    send: string;
+    hint: string;
+  };
 }
 
 type Copy = { ui: PitchUi; audiences: Record<Audience, AudiencePitch> };
@@ -262,6 +270,14 @@ const en: Copy = {
       subject: "U.Psy, in four acts",
     },
     readTime: "3 min read",
+    deck: {
+      start: "Start the pitch",
+      prev: "Previous",
+      next: "Next",
+      intro: "Intro",
+      send: "Send and resources",
+      hint: "Use the arrows, your keyboard or swipe",
+    },
   },
   audiences: {
     all: {
@@ -615,6 +631,14 @@ const fr: Copy = {
       subject: "U.Psy, en quatre actes",
     },
     readTime: "3 min de lecture",
+    deck: {
+      start: "Commencer le pitch",
+      prev: "Précédent",
+      next: "Suivant",
+      intro: "Intro",
+      send: "Envoyer et ressources",
+      hint: "Flèches, clavier ou glisser du doigt",
+    },
   },
   audiences: {
     all: {
@@ -969,6 +993,14 @@ const ar: Copy = {
       subject: "U.Psy في أربعة فصول",
     },
     readTime: "قراءة في 3 دقائق",
+    deck: {
+      start: "ابدأ العرض",
+      prev: "السابق",
+      next: "التالي",
+      intro: "مقدمة",
+      send: "الإرسال والموارد",
+      hint: "استعمل الأسهم أو لوحة المفاتيح أو اسحب بإصبعك",
+    },
   },
   audiences: {
     all: {

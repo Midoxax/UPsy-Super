@@ -23,6 +23,7 @@ import {
   Crown,
   Landmark,
   LogOut,
+  Presentation,
 } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { useLocale } from "@/contexts/LocaleContext";
@@ -195,6 +196,12 @@ const Header = () => {
           desc: t("menu.talentHubDesc"),
         },
         {
+          name: t("menu.pitch"),
+          href: "/pitch?for=club",
+          icon: Presentation,
+          desc: t("menu.pitchDesc"),
+        },
+        {
           name: t("menu.applyOrg"),
           href: "/apply/organization",
           icon: Award,
@@ -217,6 +224,13 @@ const Header = () => {
           href: "/founder",
           icon: Award,
           featured: true,
+        },
+        {
+          name: t("menu.pitch"),
+          href: "/pitch",
+          icon: Presentation,
+          featured: true,
+          desc: t("menu.pitchDesc"),
         },
         { name: t("menu.story"), href: "/about" },
         {

@@ -40,6 +40,8 @@ const ar = {
     membership: "الاشتراك",
     membershipDesc: "7 مستويات — من الاكتشاف إلى النخبة",
     founder: "المؤسس",
+    pitch: "العرض",
+    pitchDesc: "U.Psy في أربعة فصول، مع المصادر",
     story: "قصتنا",
     umbrella: "المظلة المغربية",
     psf: "أخصائيون نفسيون بلا حدود",

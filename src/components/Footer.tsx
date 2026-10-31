@@ -48,6 +48,10 @@ const Footer = () => {
         { name: t("header.ethics"), href: "/legal#ethics" },
         { name: t("header.telehealthSecurity"), href: "/legal#telehealth" },
         {
+          name: t("menu.pitch"),
+          href: "/pitch",
+        },
+        {
           name:
             locale === "en" ? "Press" : locale === "ar" ? "الصحافة" : "Presse",
           href: "/press",
