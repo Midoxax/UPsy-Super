@@ -162,7 +162,8 @@ export interface Act {
   title: string;
   body: Cited;
   points: Cited[];
-  stat?: Stat;
+  /** Filled from STAT_PLAN: the first is shown large, the others beside it. */
+  stats?: Stat[];
 }
 
 export interface Cta {
@@ -215,6 +216,17 @@ export interface PitchUi {
     subject: string;
   };
   readTime: string;
+  team: {
+    label: string;
+    title: string;
+    quote: string;
+    name: string;
+    role: string;
+    fields: string[];
+    proofs: { k: string; v: string }[];
+    link: string;
+    photoAlt: string;
+  };
   deck: {
     start: string;
     prev: string;
@@ -289,6 +301,36 @@ const en: Copy = {
       subject: "U.Psy, in four acts",
     },
     readTime: "3 min read",
+    team: {
+      label: "Who's behind it",
+      title: "Built in the field, not in theory.",
+      quote:
+        "Psychology does not lack theories. It lacks applicability under pressure.",
+      name: "Mehdi Felji",
+      role: "Clinical sport psychologist · Founder of U.Psy",
+      fields: [
+        "Elite sport and performance",
+        "Humanitarian and migration settings, with Psychologues Sans Frontières",
+        "Mental health programme coordination",
+      ],
+      proofs: [
+        {
+          k: "5",
+          v: "fields of practice: clinical, sport, organisational, humanitarian, training",
+        },
+        {
+          k: "3",
+          v: "checks before a psychologist goes live: diploma, licence to practise, registration",
+        },
+        { k: "4", v: "languages of care" },
+        {
+          k: "1",
+          v: "longitudinal athlete well-being study, built for ethics review",
+        },
+      ],
+      link: "Read the founder's letter",
+      photoAlt: "Mehdi Felji, founder of U.Psy",
+    },
     deck: {
       start: "Start the pitch",
       prev: "Previous",
@@ -314,11 +356,6 @@ const en: Copy = {
           "40.1% of Moroccans live with a current mental disorder [5]",
           "Stigma is the first barrier to seeking help [3]",
         ],
-        stat: {
-          value: 34,
-          suffix: "%",
-          label: "of elite athletes report anxiety or depression symptoms [1]",
-        },
       },
       solution: {
         title:
@@ -339,13 +376,6 @@ const en: Copy = {
           "Mental strain spotted before it costs an injury or a career [2]",
           "Confidential by default: nothing is shared without consent",
         ],
-        stat: {
-          value: 0.57,
-          decimals: 2,
-          prefix: "g = ",
-          label:
-            "average effect of psychological interventions on sport performance [4]",
-        },
       },
       cta: {
         title: "Your move.",
@@ -371,11 +401,6 @@ const en: Copy = {
           "Mental strain raises injury risk and slows recovery [2]",
           "Stigma is the first reason athletes don't ask for help [3]",
         ],
-        stat: {
-          value: 34,
-          suffix: "%",
-          label: "of elite athletes report anxiety or depression symptoms [1]",
-        },
       },
       solution: {
         title: "A psychologist who speaks sport, and your language.",
@@ -395,13 +420,6 @@ const en: Copy = {
           "You arrive at the big day with a routine, not with hope",
           "You protect your career: sleep, burnout and post-injury strain caught early [2]",
         ],
-        stat: {
-          value: 0.57,
-          decimals: 2,
-          prefix: "g = ",
-          label:
-            "average effect on sport performance, across 35 controlled trials [4]",
-        },
       },
       cta: {
         title: "Know your mental score in two minutes.",
@@ -426,11 +444,6 @@ const en: Copy = {
           "The IOC links mental health symptoms to more injuries and slower recovery [2]",
           "Stigma keeps players from asking for help [3]",
         ],
-        stat: {
-          value: 1,
-          suffix: " in 3",
-          label: "elite athletes reports anxiety or depression symptoms [1]",
-        },
       },
       solution: {
         title: "A mental performance department, without building one.",
@@ -450,13 +463,6 @@ const en: Copy = {
           "Evidence of care for families, sponsors and federations",
           "Data your performance staff can read",
         ],
-        stat: {
-          value: 0.57,
-          decimals: 2,
-          prefix: "g = ",
-          label:
-            "average effect of psychological interventions on performance [4]",
-        },
       },
       cta: {
         title: "Let's look at your squad's mental readiness.",
@@ -484,12 +490,6 @@ const en: Copy = {
           "Depression and anxiety are a leading cause of sickness absence and long-term work incapacity [8]",
           "Left untreated, they cost output, not only health [7]",
         ],
-        stat: {
-          value: 40.1,
-          decimals: 1,
-          suffix: "%",
-          label: "of Moroccans live with a current mental disorder [5]",
-        },
       },
       solution: {
         title: "A confidential psychology benefit, live in weeks.",
@@ -509,12 +509,6 @@ const en: Copy = {
           "Retention: people stay where they are looked after",
           "A visible duty of care for staff, candidates and investors",
         ],
-        stat: {
-          value: 3,
-          suffix: ":1",
-          label:
-            "up to 3 returned in productivity for every 1 invested in treating depression and anxiety [7]",
-        },
       },
       cta: {
         title: "Let's design your teams' programme.",
@@ -542,12 +536,6 @@ const en: Copy = {
           "Stigma and access are the first barriers to care [3]",
           "Athletes need psychologists who understand sport [2]",
         ],
-        stat: {
-          value: 40.1,
-          decimals: 1,
-          suffix: "%",
-          label: "of Moroccans live with a current mental disorder [5]",
-        },
       },
       solution: {
         title: "Your practice, online and accredited.",
@@ -567,11 +555,6 @@ const en: Copy = {
           "Work in your language, from your office or online",
           "Leave whenever you want",
         ],
-        stat: {
-          value: 0,
-          suffix: "%",
-          label: "platform commission for your first three months",
-        },
       },
       cta: {
         title: "Open your accredited profile.",
@@ -602,12 +585,6 @@ const en: Copy = {
           "34% of current elite athletes report anxiety or depression symptoms [1]",
           "Athletes are not protected by their fitness [6]",
         ],
-        stat: {
-          value: 40.1,
-          decimals: 1,
-          suffix: "%",
-          label: "of Moroccans live with a current mental disorder [5]",
-        },
       },
       solution: {
         title:
@@ -628,7 +605,6 @@ const en: Copy = {
           "Research-grade data, collected with consent, under Law 09-08",
           "A team led by a clinical sport psychologist",
         ],
-        stat: { value: 4, label: "languages: Darija, Arabic, French, English" },
       },
       cta: {
         title: "Let's build it together.",
@@ -708,6 +684,36 @@ const fr: Copy = {
       subject: "U.Psy, en quatre actes",
     },
     readTime: "3 min de lecture",
+    team: {
+      label: "Qui est derrière",
+      title: "Construit sur le terrain, pas en théorie.",
+      quote:
+        "La psychologie ne manque pas de théories. Elle manque d'applicabilité sous pression.",
+      name: "Mehdi Felji",
+      role: "Psychologue clinicien du sport · Fondateur de U.Psy",
+      fields: [
+        "Sport de haut niveau et performance",
+        "Contextes humanitaires et migratoires, avec Psychologues Sans Frontières",
+        "Coordination de programmes en santé mentale",
+      ],
+      proofs: [
+        {
+          k: "5",
+          v: "champs de pratique : clinique, sport, organisations, humanitaire, formation",
+        },
+        {
+          k: "3",
+          v: "vérifications avant la mise en ligne d'un psychologue : diplôme, autorisation d'exercice, inscription",
+        },
+        { k: "4", v: "langues de soin" },
+        {
+          k: "1",
+          v: "étude longitudinale sur le bien-être des sportifs, conçue pour un comité d'éthique",
+        },
+      ],
+      link: "Lire le mot du fondateur",
+      photoAlt: "Mehdi Felji, fondateur de U.Psy",
+    },
     deck: {
       start: "Commencer le pitch",
       prev: "Précédent",
@@ -733,12 +739,6 @@ const fr: Copy = {
           "40,1 % des Marocains vivent avec un trouble mental actuel [5]",
           "La stigmatisation est le premier frein à la demande d'aide [3]",
         ],
-        stat: {
-          value: 34,
-          suffix: " %",
-          label:
-            "des sportifs de haut niveau rapportent des symptômes d'anxiété ou de dépression [1]",
-        },
       },
       solution: {
         title:
@@ -759,13 +759,6 @@ const fr: Copy = {
           "La charge mentale repérée avant qu'elle ne coûte une blessure ou une carrière [2]",
           "Confidentiel par défaut : rien n'est partagé sans consentement",
         ],
-        stat: {
-          value: 0.57,
-          decimals: 2,
-          prefix: "g = ",
-          label:
-            "effet moyen des interventions psychologiques sur la performance sportive [4]",
-        },
       },
       cta: {
         title: "À vous de jouer.",
@@ -791,12 +784,6 @@ const fr: Copy = {
           "La charge mentale augmente le risque de blessure et ralentit la récupération [2]",
           "La stigmatisation est la première raison pour laquelle les sportifs ne demandent pas d'aide [3]",
         ],
-        stat: {
-          value: 34,
-          suffix: " %",
-          label:
-            "des sportifs de haut niveau rapportent des symptômes d'anxiété ou de dépression [1]",
-        },
       },
       solution: {
         title: "Un psychologue qui parle sport, et votre langue.",
@@ -816,13 +803,6 @@ const fr: Copy = {
           "Vous arrivez au grand jour avec une routine, pas avec de l'espoir",
           "Vous protégez votre carrière : sommeil, épuisement et suites de blessure repérés tôt [2]",
         ],
-        stat: {
-          value: 0.57,
-          decimals: 2,
-          prefix: "g = ",
-          label:
-            "effet moyen sur la performance sportive, sur 35 essais contrôlés [4]",
-        },
       },
       cta: {
         title: "Connaissez votre score mental en deux minutes.",
@@ -848,12 +828,6 @@ const fr: Copy = {
           "Le CIO relie les symptômes de santé mentale à plus de blessures et à une récupération plus lente [2]",
           "La stigmatisation empêche les joueurs de demander de l'aide [3]",
         ],
-        stat: {
-          value: 1,
-          suffix: " sur 3",
-          label:
-            "sportif de haut niveau rapporte des symptômes d'anxiété ou de dépression [1]",
-        },
       },
       solution: {
         title: "Un pôle performance mentale, sans avoir à le construire.",
@@ -873,13 +847,6 @@ const fr: Copy = {
           "Une protection visible pour les familles, les sponsors et les fédérations",
           "Des données lisibles par votre staff performance",
         ],
-        stat: {
-          value: 0.57,
-          decimals: 2,
-          prefix: "g = ",
-          label:
-            "effet moyen des interventions psychologiques sur la performance [4]",
-        },
       },
       cta: {
         title: "Regardons ensemble la disponibilité mentale de votre effectif.",
@@ -908,12 +875,6 @@ const fr: Copy = {
           "La dépression et l'anxiété sont une cause majeure d'arrêts maladie et d'incapacité de travail longue [8]",
           "Non traitées, elles coûtent de la production, pas seulement de la santé [7]",
         ],
-        stat: {
-          value: 40.1,
-          decimals: 1,
-          suffix: " %",
-          label: "des Marocains vivent avec un trouble mental actuel [5]",
-        },
       },
       solution: {
         title:
@@ -934,12 +895,6 @@ const fr: Copy = {
           "Fidélisation : on reste là où l'on prend soin de nous",
           "Un devoir de protection visible pour les salariés, les candidats et les investisseurs",
         ],
-        stat: {
-          value: 3,
-          suffix: ":1",
-          label:
-            "jusqu'à 3 rendus en productivité pour 1 investi dans le traitement de la dépression et de l'anxiété [7]",
-        },
       },
       cta: {
         title: "Concevons le programme de vos équipes.",
@@ -968,12 +923,6 @@ const fr: Copy = {
           "La stigmatisation et l'accès sont les premiers freins aux soins [3]",
           "Les sportifs ont besoin de psychologues qui comprennent le sport [2]",
         ],
-        stat: {
-          value: 40.1,
-          decimals: 1,
-          suffix: " %",
-          label: "des Marocains vivent avec un trouble mental actuel [5]",
-        },
       },
       solution: {
         title: "Votre cabinet, en ligne et accrédité.",
@@ -993,11 +942,6 @@ const fr: Copy = {
           "Travaillez dans votre langue, au cabinet ou en ligne",
           "Partez quand vous voulez",
         ],
-        stat: {
-          value: 0,
-          suffix: " %",
-          label: "de commission plateforme pendant vos trois premiers mois",
-        },
       },
       cta: {
         title: "Ouvrez votre profil accrédité.",
@@ -1029,12 +973,6 @@ const fr: Copy = {
           "34 % des sportifs de haut niveau en activité rapportent des symptômes d'anxiété ou de dépression [1]",
           "La condition physique ne protège pas les sportifs [6]",
         ],
-        stat: {
-          value: 40.1,
-          decimals: 1,
-          suffix: " %",
-          label: "des Marocains vivent avec un trouble mental actuel [5]",
-        },
       },
       solution: {
         title:
@@ -1055,7 +993,6 @@ const fr: Copy = {
           "Des données de niveau recherche, recueillies avec consentement, sous la loi 09-08",
           "Une équipe dirigée par un psychologue clinicien du sport",
         ],
-        stat: { value: 4, label: "langues : darija, arabe, français, anglais" },
       },
       cta: {
         title: "Construisons-le ensemble.",
@@ -1130,6 +1067,32 @@ const ar: Copy = {
       subject: "U.Psy في أربعة فصول",
     },
     readTime: "قراءة في 3 دقائق",
+    team: {
+      label: "من وراء المشروع",
+      title: "بُني في الميدان، لا في النظرية.",
+      quote: "علم النفس لا تنقصه النظريات. تنقصه القابلية للتطبيق تحت الضغط.",
+      name: "مهدي فلجي",
+      role: "أخصائي نفسي إكلينيكي رياضي · مؤسس U.Psy",
+      fields: [
+        "الرياضة عالية المستوى والأداء",
+        "السياقات الإنسانية والهجرة، مع Psychologues Sans Frontières",
+        "تنسيق برامج الصحة النفسية",
+      ],
+      proofs: [
+        {
+          k: "5",
+          v: "مجالات ممارسة: الإكلينيكي، الرياضة، المؤسسات، العمل الإنساني، التكوين",
+        },
+        {
+          k: "3",
+          v: "عمليات تحقق قبل نشر أي أخصائي: الشهادة، رخصة المزاولة، التسجيل",
+        },
+        { k: "4", v: "لغات للرعاية" },
+        { k: "1", v: "دراسة طولية حول رفاه الرياضيين، معدّة للجنة الأخلاقيات" },
+      ],
+      link: "اقرأ كلمة المؤسس",
+      photoAlt: "مهدي فلجي، مؤسس U.Psy",
+    },
     deck: {
       start: "ابدأ العرض",
       prev: "السابق",
@@ -1155,11 +1118,6 @@ const ar: Copy = {
           "40.1٪ من المغاربة يعانون حاليًا من اضطراب نفسي [5]",
           "الوصم هو العائق الأول أمام طلب المساعدة [3]",
         ],
-        stat: {
-          value: 34,
-          suffix: "٪",
-          label: "من رياضيي النخبة يبلّغون عن أعراض القلق أو الاكتئاب [1]",
-        },
       },
       solution: {
         title: "منصة واحدة للذهن، مصمّمة كقسم للأداء.",
@@ -1179,12 +1137,6 @@ const ar: Copy = {
           "رصد العبء الذهني قبل أن يكلّف إصابة أو مسيرة [2]",
           "سري افتراضيًا: لا شيء يُشارَك دون موافقة",
         ],
-        stat: {
-          value: 0.57,
-          decimals: 2,
-          prefix: "g = ",
-          label: "متوسط أثر التدخلات النفسية على الأداء الرياضي [4]",
-        },
       },
       cta: {
         title: "دورك الآن.",
@@ -1209,11 +1161,6 @@ const ar: Copy = {
           "العبء الذهني يرفع خطر الإصابة ويبطئ التعافي [2]",
           "الوصم هو السبب الأول لعدم طلب الرياضيين للمساعدة [3]",
         ],
-        stat: {
-          value: 34,
-          suffix: "٪",
-          label: "من رياضيي النخبة يبلّغون عن أعراض القلق أو الاكتئاب [1]",
-        },
       },
       solution: {
         title: "أخصائي يفهم الرياضة ويتكلم لغتك.",
@@ -1233,12 +1180,6 @@ const ar: Copy = {
           "تصل إلى اليوم الكبير بروتين، لا بالأمل",
           "تحمي مسيرتك: رصد مبكر لاضطرابات النوم والإنهاك وتبعات الإصابة [2]",
         ],
-        stat: {
-          value: 0.57,
-          decimals: 2,
-          prefix: "g = ",
-          label: "متوسط الأثر على الأداء الرياضي عبر 35 تجربة مضبوطة [4]",
-        },
       },
       cta: {
         title: "اعرف مؤشرك الذهني في دقيقتين.",
@@ -1263,11 +1204,6 @@ const ar: Copy = {
           "تربط اللجنة الأولمبية الدولية أعراض الصحة النفسية بمزيد من الإصابات وتعافٍ أبطأ [2]",
           "الوصم يمنع اللاعبين من طلب المساعدة [3]",
         ],
-        stat: {
-          value: 1,
-          suffix: " من 3",
-          label: "رياضيي النخبة يبلّغ عن أعراض القلق أو الاكتئاب [1]",
-        },
       },
       solution: {
         title: "قسم للأداء الذهني، دون الحاجة إلى بنائه.",
@@ -1287,12 +1223,6 @@ const ar: Copy = {
           "حماية ظاهرة للعائلات والرعاة والجامعات",
           "بيانات يقرؤها طاقم الأداء",
         ],
-        stat: {
-          value: 0.57,
-          decimals: 2,
-          prefix: "g = ",
-          label: "متوسط أثر التدخلات النفسية على الأداء [4]",
-        },
       },
       cta: {
         title: "لننظر معًا في الجاهزية الذهنية لفريقك.",
@@ -1320,12 +1250,6 @@ const ar: Copy = {
           "الاكتئاب والقلق من أبرز أسباب الإجازات المرضية والعجز الطويل عن العمل [8]",
           "دون علاج، يكلّفان الإنتاج وليس الصحة فقط [7]",
         ],
-        stat: {
-          value: 40.1,
-          decimals: 1,
-          suffix: "٪",
-          label: "من المغاربة يعانون حاليًا من اضطراب نفسي [5]",
-        },
       },
       solution: {
         title: "ميزة نفسية سرية، جاهزة في بضعة أسابيع.",
@@ -1345,12 +1269,6 @@ const ar: Copy = {
           "الاحتفاظ بالكفاءات: يبقى الناس حيث يُعتنى بهم",
           "واجب رعاية ظاهر للموظفين والمرشحين والمستثمرين",
         ],
-        stat: {
-          value: 3,
-          suffix: ":1",
-          label:
-            "ما يصل إلى 3 من الإنتاجية مقابل كل 1 يُستثمر في علاج الاكتئاب والقلق [7]",
-        },
       },
       cta: {
         title: "لنصمّم برنامج فرقك.",
@@ -1378,12 +1296,6 @@ const ar: Copy = {
           "الوصم وصعوبة الوصول أول عوائق العلاج [3]",
           "يحتاج الرياضيون إلى أخصائيين يفهمون الرياضة [2]",
         ],
-        stat: {
-          value: 40.1,
-          decimals: 1,
-          suffix: "٪",
-          label: "من المغاربة يعانون حاليًا من اضطراب نفسي [5]",
-        },
       },
       solution: {
         title: "عيادتك، على الإنترنت ومعتمدة.",
@@ -1403,11 +1315,6 @@ const ar: Copy = {
           "اعمل بلغتك، في عيادتك أو عن بعد",
           "تغادر متى شئت",
         ],
-        stat: {
-          value: 0,
-          suffix: "٪",
-          label: "عمولة على المنصة خلال الأشهر الثلاثة الأولى",
-        },
       },
       cta: {
         title: "افتح ملفك المعتمد.",
@@ -1438,12 +1345,6 @@ const ar: Copy = {
           "34٪ من رياضيي النخبة الممارسين يبلّغون عن أعراض القلق أو الاكتئاب [1]",
           "اللياقة البدنية لا تحمي الرياضيين [6]",
         ],
-        stat: {
-          value: 40.1,
-          decimals: 1,
-          suffix: "٪",
-          label: "من المغاربة يعانون حاليًا من اضطراب نفسي [5]",
-        },
       },
       solution: {
         title: "U.Psy: منصة الأداء الذهني في المغرب وإفريقيا.",
@@ -1463,10 +1364,6 @@ const ar: Copy = {
           "بيانات بمستوى البحث العلمي، تُجمع بموافقة وفق القانون 09-08",
           "فريق يقوده أخصائي نفسي إكلينيكي رياضي",
         ],
-        stat: {
-          value: 4,
-          label: "لغات: الدارجة، العربية، الفرنسية، الإنجليزية",
-        },
       },
       cta: {
         title: "لنبنِه معًا.",
@@ -1479,10 +1376,350 @@ const ar: Copy = {
   },
 };
 
+// Every figure the deck shows, per language. Cited ones point at REFERENCES;
+// the uncited ones describe the product as it is today.
+type StatKey =
+  | "athletes34"
+  | "former26"
+  | "alcohol19"
+  | "oneInThree"
+  | "ma401"
+  | "maDep"
+  | "maAnx"
+  | "maN"
+  | "g057"
+  | "g116"
+  | "rct35"
+  | "roi3"
+  | "roi57"
+  | "countries36"
+  | "studies481"
+  | "q12"
+  | "lang4"
+  | "formats2"
+  | "commission0";
+
+const STATS: Record<PitchLang, Record<StatKey, Stat>> = {
+  en: {
+    athletes34: {
+      value: 34,
+      suffix: "%",
+      label:
+        "of current elite athletes report anxiety or depression symptoms [1]",
+    },
+    former26: {
+      value: 26,
+      suffix: "%",
+      label: "of former elite athletes still do [1]",
+    },
+    alcohol19: {
+      value: 19,
+      suffix: "%",
+      label: "of current elite athletes show alcohol misuse [1]",
+    },
+    oneInThree: {
+      value: 1,
+      suffix: " in 3",
+      label: "elite athletes reports anxiety or depression symptoms [1]",
+    },
+    ma401: {
+      value: 40.1,
+      decimals: 1,
+      suffix: "%",
+      label: "of Moroccans live with a current mental disorder [5]",
+    },
+    maDep: {
+      value: 26.5,
+      decimals: 1,
+      suffix: "%",
+      label: "have current major depression [5]",
+    },
+    maAnx: {
+      value: 37,
+      suffix: "%",
+      label: "have at least one anxiety disorder [5]",
+    },
+    maN: {
+      value: 5498,
+      label: "Moroccans interviewed in that national survey [5]",
+    },
+    g057: {
+      value: 0.57,
+      decimals: 2,
+      prefix: "g = ",
+      label:
+        "average effect of psychological interventions on sport performance [4]",
+    },
+    g116: {
+      value: 1.16,
+      decimals: 2,
+      prefix: "g = ",
+      label: "effect measured 1 to 4 weeks after the intervention ended [4]",
+    },
+    rct35: {
+      value: 35,
+      label: "controlled trials and 997 athletes behind that figure [4]",
+    },
+    roi3: {
+      value: 3,
+      suffix: ":1",
+      label:
+        "up to 3 returned in productivity for every 1 invested in treating depression and anxiety [7]",
+    },
+    roi57: {
+      value: 5.7,
+      decimals: 1,
+      suffix: ":1",
+      label: "once health gains are counted [7]",
+    },
+    countries36: { value: 36, label: "countries in that analysis [7]" },
+    studies481: {
+      value: 481,
+      label: "primary studies behind the workplace evidence [8]",
+    },
+    q12: { value: 12, label: "questions in the free score: about two minutes" },
+    lang4: {
+      value: 4,
+      label: "languages of care: Darija, Arabic, French, English",
+    },
+    formats2: { value: 2, label: "formats: video or in person" },
+    commission0: {
+      value: 0,
+      suffix: "%",
+      label: "platform commission for your first three months",
+    },
+  },
+  fr: {
+    athletes34: {
+      value: 34,
+      suffix: " %",
+      label:
+        "des sportifs de haut niveau en activité rapportent des symptômes d'anxiété ou de dépression [1]",
+    },
+    former26: {
+      value: 26,
+      suffix: " %",
+      label: "des anciens sportifs de haut niveau aussi [1]",
+    },
+    alcohol19: {
+      value: 19,
+      suffix: " %",
+      label:
+        "des sportifs de haut niveau en activité ont une consommation d'alcool à risque [1]",
+    },
+    oneInThree: {
+      value: 1,
+      suffix: " sur 3",
+      label:
+        "sportif de haut niveau rapporte des symptômes d'anxiété ou de dépression [1]",
+    },
+    ma401: {
+      value: 40.1,
+      decimals: 1,
+      suffix: " %",
+      label: "des Marocains vivent avec un trouble mental actuel [5]",
+    },
+    maDep: {
+      value: 26.5,
+      decimals: 1,
+      suffix: " %",
+      label: "ont une dépression majeure actuelle [5]",
+    },
+    maAnx: {
+      value: 37,
+      suffix: " %",
+      label: "ont au moins un trouble anxieux [5]",
+    },
+    maN: {
+      value: 5498,
+      label: "Marocains interrogés dans cette enquête nationale [5]",
+    },
+    g057: {
+      value: 0.57,
+      decimals: 2,
+      prefix: "g = ",
+      label:
+        "effet moyen des interventions psychologiques sur la performance sportive [4]",
+    },
+    g116: {
+      value: 1.16,
+      decimals: 2,
+      prefix: "g = ",
+      label: "effet mesuré 1 à 4 semaines après la fin de l'intervention [4]",
+    },
+    rct35: {
+      value: 35,
+      label: "essais contrôlés et 997 sportifs derrière ce chiffre [4]",
+    },
+    roi3: {
+      value: 3,
+      suffix: ":1",
+      label:
+        "jusqu'à 3 rendus en productivité pour 1 investi dans le traitement de la dépression et de l'anxiété [7]",
+    },
+    roi57: {
+      value: 5.7,
+      decimals: 1,
+      suffix: ":1",
+      label: "en comptant les gains de santé [7]",
+    },
+    countries36: { value: 36, label: "pays dans cette analyse [7]" },
+    studies481: {
+      value: 481,
+      label: "études primaires derrière les preuves en entreprise [8]",
+    },
+    q12: {
+      value: 12,
+      label: "questions dans le score gratuit : environ deux minutes",
+    },
+    lang4: {
+      value: 4,
+      label: "langues de soin : darija, arabe, français, anglais",
+    },
+    formats2: { value: 2, label: "formats : visio ou au cabinet" },
+    commission0: {
+      value: 0,
+      suffix: " %",
+      label: "de commission plateforme pendant vos trois premiers mois",
+    },
+  },
+  ar: {
+    athletes34: {
+      value: 34,
+      suffix: "٪",
+      label:
+        "من رياضيي النخبة الممارسين يبلّغون عن أعراض القلق أو الاكتئاب [1]",
+    },
+    former26: {
+      value: 26,
+      suffix: "٪",
+      label: "من رياضيي النخبة السابقين كذلك [1]",
+    },
+    alcohol19: {
+      value: 19,
+      suffix: "٪",
+      label: "من رياضيي النخبة الممارسين لديهم استهلاك كحول مفرط [1]",
+    },
+    oneInThree: {
+      value: 1,
+      suffix: " من 3",
+      label: "رياضيي النخبة يبلّغ عن أعراض القلق أو الاكتئاب [1]",
+    },
+    ma401: {
+      value: 40.1,
+      decimals: 1,
+      suffix: "٪",
+      label: "من المغاربة يعانون حاليًا من اضطراب نفسي [5]",
+    },
+    maDep: {
+      value: 26.5,
+      decimals: 1,
+      suffix: "٪",
+      label: "يعانون حاليًا من اكتئاب جسيم [5]",
+    },
+    maAnx: {
+      value: 37,
+      suffix: "٪",
+      label: "لديهم اضطراب قلق واحد على الأقل [5]",
+    },
+    maN: { value: 5498, label: "مغربيًا شملهم هذا البحث الوطني [5]" },
+    g057: {
+      value: 0.57,
+      decimals: 2,
+      prefix: "g = ",
+      label: "متوسط أثر التدخلات النفسية على الأداء الرياضي [4]",
+    },
+    g116: {
+      value: 1.16,
+      decimals: 2,
+      prefix: "g = ",
+      label: "أثر قيس بعد 1 إلى 4 أسابيع من انتهاء التدخل [4]",
+    },
+    rct35: { value: 35, label: "تجربة مضبوطة و997 رياضيًا وراء هذا الرقم [4]" },
+    roi3: {
+      value: 3,
+      suffix: ":1",
+      label:
+        "ما يصل إلى 3 من الإنتاجية مقابل كل 1 يُستثمر في علاج الاكتئاب والقلق [7]",
+    },
+    roi57: {
+      value: 5.7,
+      decimals: 1,
+      suffix: ":1",
+      label: "عند احتساب المكاسب الصحية [7]",
+    },
+    countries36: { value: 36, label: "دولة في هذا التحليل [7]" },
+    studies481: {
+      value: 481,
+      label: "دراسة أولية وراء الأدلة في بيئة العمل [8]",
+    },
+    q12: { value: 12, label: "سؤالًا في المؤشر المجاني: نحو دقيقتين" },
+    lang4: {
+      value: 4,
+      label: "لغات للرعاية: الدارجة، العربية، الفرنسية، الإنجليزية",
+    },
+    formats2: { value: 2, label: "صيغتان: عن بعد أو في العيادة" },
+    commission0: {
+      value: 0,
+      suffix: "٪",
+      label: "عمولة على المنصة خلال الأشهر الثلاثة الأولى",
+    },
+  },
+};
+
+// Which figures each act shows, per reader: up to three, the first large.
+const STAT_PLAN: Record<
+  Audience,
+  Record<"problem" | "solution" | "value", StatKey[]>
+> = {
+  all: {
+    problem: ["athletes34", "ma401", "maDep"],
+    solution: ["q12", "lang4", "formats2"],
+    value: ["g057", "g116", "rct35"],
+  },
+  athlete: {
+    problem: ["athletes34", "former26", "alcohol19"],
+    solution: ["q12", "lang4", "formats2"],
+    value: ["g057", "g116", "rct35"],
+  },
+  club: {
+    problem: ["oneInThree", "former26", "alcohol19"],
+    solution: ["lang4", "formats2", "q12"],
+    value: ["g057", "rct35", "g116"],
+  },
+  company: {
+    problem: ["ma401", "maDep", "maAnx"],
+    solution: ["lang4", "formats2", "studies481"],
+    value: ["roi3", "roi57", "countries36"],
+  },
+  psychologist: {
+    problem: ["ma401", "maDep", "maAnx"],
+    solution: ["lang4", "formats2", "q12"],
+    value: ["commission0"],
+  },
+  partner: {
+    problem: ["ma401", "athletes34", "maN"],
+    solution: ["lang4", "formats2", "q12"],
+    value: ["g057", "roi3", "roi57"],
+  },
+};
+
 const registry: Record<PitchLang, Copy> = { en, fr, ar };
 
 export function pitchCopy(lang: PitchLang): Copy {
-  return registry[lang];
+  const copy = registry[lang];
+  const audiences = { ...copy.audiences };
+  for (const a of AUDIENCES) {
+    const plan = STAT_PLAN[a];
+    const pick = (keys: StatKey[]) => keys.map((k) => STATS[lang][k]);
+    audiences[a] = {
+      ...audiences[a],
+      problem: { ...audiences[a].problem, stats: pick(plan.problem) },
+      solution: { ...audiences[a].solution, stats: pick(plan.solution) },
+      value: { ...audiences[a].value, stats: pick(plan.value) },
+    };
+  }
+  return { ...copy, audiences };
 }
 
 /** Splits "text [1] more [2,4]" into text and citation parts. */
