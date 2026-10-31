@@ -41,7 +41,7 @@ const fr = {
     membershipDesc: "7 niveaux — Découverte → Élite",
     founder: "Fondateur",
     pitch: "Le pitch",
-    pitchDesc: "U.Psy en quatre actes, sources à l'appui",
+    pitchDesc: "Histoire, preuves, chiffres et sources",
     story: "Notre histoire",
     umbrella: "L'ombrelle marocaine",
     psf: "Psychologues Sans Frontières",

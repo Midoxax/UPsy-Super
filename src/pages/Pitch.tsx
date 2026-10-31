@@ -26,6 +26,7 @@ import {
   Linkedin,
   Mail,
   MessageCircle,
+  Play,
 } from "lucide-react";
 import { toast } from "sonner";
 import mehdiPhoto from "@/assets/mehdi-felji.webp";
@@ -39,6 +40,7 @@ import { trackCTAClick } from "@/lib/analytics/gtm";
 import { canAffordWebGL } from "@/lib/motion/canAffordWebGL";
 import {
   AUDIENCES,
+  FOUNDER_VIDEO,
   REFERENCES,
   cleanRecipient,
   parseAudience,
@@ -108,22 +110,27 @@ export default function Pitch() {
     AUDIENCES.map((a) => [a, audiences[a].label]),
   ) as Record<Audience, string>;
 
-  const labels = [
-    ui.deck.intro,
-    ui.acts[0],
-    ui.acts[1],
-    ui.acts[2],
-    ui.team.label,
-    ui.acts[3],
-    ui.deck.send,
-    ui.references,
+  // The deck, in order. Optional panels (testimonies) appear only when the
+  // copy holds real material for them. scene = the 3D shape behind it.
+  const plan: { id: string; label: string; scene: number }[] = [
+    { id: "intro", label: ui.deck.intro, scene: 0 },
+    { id: "story", label: ui.story.label, scene: 0 },
+    { id: "problem", label: ui.acts[0], scene: 1 },
+    { id: "solution", label: ui.acts[1], scene: 2 },
+    { id: "value", label: ui.acts[2], scene: 3 },
+    { id: "proof", label: ui.proof.label, scene: 2 },
+    { id: "market", label: ui.market.label, scene: 0 },
+    ...(ui.voices.items.length
+      ? [{ id: "voices", label: ui.voices.label, scene: 0 }]
+      : []),
+    { id: "team", label: ui.team.label, scene: 0 },
+    { id: "cta", label: ui.acts[3], scene: 4 },
+    { id: "send", label: ui.deck.send, scene: 4 },
+    { id: "refs", label: ui.references, scene: 0 },
   ];
+  const labels = plan.map((x) => x.label);
   const COUNT = labels.length;
   const REFS = COUNT - 1;
-  // Which 3D shape each panel shows: intro sphere, problem, solution, value,
-  // the calm sphere behind the founder, the portal for the call to action and
-  // "send", the sphere again behind the references.
-  const SCENE = [0, 1, 2, 3, 0, 4, 4, 0];
 
   const [cur, setCur] = useState(0);
   const slides = useRef<(HTMLElement | null)[]>([]);
@@ -237,324 +244,340 @@ export default function Pitch() {
     [go, REFS],
   );
 
-  const stage = SCENE[cur] ?? 0;
+  const stage = plan[cur]?.scene ?? 0;
+  const intro = audiences.all.hero;
   const dir = rtl ? -1 : 1;
 
-  const panels: React.ReactNode[] = [
-    // 0 · Intro
-    <div key="intro" className="mx-auto w-full max-w-6xl">
-      <div className="max-w-3xl">
-        {recipient && (
-          <p className="mb-6 inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-4 py-1.5 text-sm backdrop-blur">
-            <span className="text-white/60">{ui.preparedFor}</span>
-            <span className="font-semibold" style={{ color: GOLD }}>
-              {recipient}
-            </span>
-          </p>
-        )}
-        <p className="text-xs uppercase tracking-[0.25em] text-white/60">
-          {ui.eyebrow} · {ui.readTime}
-        </p>
-        <motion.h1
-          key={audience + "h"}
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="mt-5 font-display text-4xl leading-[1.05] sm:text-5xl lg:text-6xl"
-        >
-          {p.hero.title}{" "}
-          <span className="block" style={{ color: GOLD }}>
-            {p.hero.accent}
-          </span>
-        </motion.h1>
-        <p className="mt-6 max-w-xl text-base leading-relaxed text-white/80 sm:text-lg">
-          <CitedText text={p.hero.sub} />
-        </p>
-        <AudiencePicker
-          label={ui.audienceLabel}
-          value={audience}
-          onChange={setAudience}
-          labels={audienceLabels}
-        />
-        <div className="mt-8 flex flex-wrap items-center gap-3 print:hidden">
-          <button
-            type="button"
-            onClick={() => go(1)}
-            className="group inline-flex min-h-12 items-center gap-2 rounded-full px-6 text-sm font-semibold text-[#0D0406] transition hover:brightness-110"
-            style={{ background: GOLD }}
-          >
-            {ui.deck.start}
-            <ArrowRight className="h-4 w-4 transition group-hover:translate-x-0.5 rtl:rotate-180" />
-          </button>
-          <Link
-            to={to(p.cta.primary.to)}
-            onClick={() => track(p.cta.primary.label, "hero", p.cta.primary.to)}
-            className="inline-flex min-h-12 items-center rounded-full border border-white/20 px-6 text-sm text-white/85 hover:bg-white/5"
-          >
-            {p.cta.primary.label}
-          </Link>
-        </div>
-        <p className="mt-6 text-xs text-white/45 print:hidden">
-          {ui.deck.hint}
-        </p>
-      </div>
-    </div>,
-
-    // 1–3 · Problem, solution, added value
-    ...[p.problem, p.solution, p.value].map((act, i) => (
-      <ActBlock
-        key={`act-${i}`}
-        index={i + 1}
-        kicker={ui.acts[i]}
-        act={act}
-        audience={audience}
-        lang={lang}
-      />
-    )),
-
-    // 4 · Who's behind it
-    <div
-      key="team"
-      className="mx-auto grid w-full max-w-6xl items-center gap-10 lg:grid-cols-[minmax(0,1fr)_380px]"
-    >
-      <div className="order-2 lg:order-1">
-        <p className="text-xs uppercase tracking-[0.25em] text-white/60">
-          {ui.team.label}
-        </p>
-        <h2 className="mt-4 font-display text-3xl leading-tight sm:text-5xl">
-          {ui.team.title}
-        </h2>
-        <blockquote
-          className="mt-6 border-s-2 ps-5 font-display text-xl italic leading-snug text-white/90 sm:text-2xl"
-          style={{ borderColor: GOLD }}
-        >
-          {lang === "en" ? `“${ui.team.quote}”` : `« ${ui.team.quote} »`}
-        </blockquote>
-        <ul className="mt-6 space-y-2">
-          {ui.team.fields.map((f) => (
-            <li
-              key={f}
-              className="flex gap-3 text-sm text-white/80 sm:text-base"
-            >
-              <span
-                className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full"
-                style={{ background: GOLD }}
-              />
-              {f}
-            </li>
-          ))}
-        </ul>
-        <div className="mt-8 grid grid-cols-2 gap-3">
-          {ui.team.proofs.map((pr) => (
-            <div
-              key={pr.v}
-              className="rounded-2xl border border-white/10 bg-white/[0.04] p-4 backdrop-blur-md"
-            >
-              <p
-                className="font-display text-3xl leading-none"
-                style={{ color: GOLD }}
-              >
-                {pr.k}
-              </p>
-              <p className="mt-2 text-xs leading-relaxed text-white/70">
-                {pr.v}
-              </p>
-            </div>
-          ))}
-        </div>
-        <Link
-          to={to("/founder")}
-          onClick={() => track(ui.team.link, "team", "/founder")}
-          className="mt-6 inline-flex items-center gap-2 text-sm underline decoration-white/30 underline-offset-4 hover:decoration-current print:hidden"
-          style={{ color: GOLD }}
-        >
-          {ui.team.link}
-          <ArrowRight className="h-4 w-4 rtl:rotate-180" />
-        </Link>
-      </div>
-      <figure className="relative order-1 mx-auto w-full max-w-[320px] lg:order-2 lg:max-w-none">
-        <div
-          className="absolute -inset-3 rounded-[2rem] opacity-60 blur-2xl"
-          style={{
-            background:
-              "radial-gradient(closest-side, rgba(242,183,5,0.35), transparent)",
-          }}
-          aria-hidden="true"
-        />
-        <img
-          src={mehdiPhoto}
-          alt={ui.team.photoAlt}
-          loading="lazy"
-          decoding="async"
-          className="relative aspect-[4/5] w-full rounded-[1.75rem] object-cover object-top ring-1 ring-white/15"
-        />
-        <figcaption className="absolute inset-x-0 bottom-0 rounded-b-[1.75rem] bg-gradient-to-t from-[#0D0406] via-[#0D0406]/80 to-transparent p-5 pt-16">
-          <p className="font-display text-xl">{ui.team.name}</p>
-          <p className="text-xs text-white/70">{ui.team.role}</p>
-        </figcaption>
-      </figure>
-    </div>,
-
-    // 5 · Call to action
-    <div key="cta" className="mx-auto w-full max-w-6xl">
-      <div className="max-w-2xl">
-        <Kicker index={4} label={ui.acts[3]} />
-        <h2 className="mt-4 font-display text-3xl leading-tight sm:text-5xl">
-          {p.cta.title}
-        </h2>
-        <p className="mt-5 text-base text-white/80 sm:text-lg">{p.cta.body}</p>
-
-        {audience === "all" ? (
-          <div className="mt-8">
-            <p className="mb-4 text-sm uppercase tracking-widest text-white/60">
-              {ui.doorsTitle}
+  const nodes: Record<string, React.ReactNode> = {
+    intro: (
+      // Intro: the same opening for every reader, with the founder on video
+      <div
+        key="intro"
+        className="mx-auto grid w-full max-w-6xl items-center gap-10 lg:grid-cols-[minmax(0,1fr)_280px]"
+      >
+        <div className="max-w-3xl">
+          {recipient && (
+            <p className="mb-6 inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-4 py-1.5 text-sm backdrop-blur">
+              <span className="text-white/60">{ui.preparedFor}</span>
+              <span className="font-semibold" style={{ color: GOLD }}>
+                {recipient}
+              </span>
             </p>
-            <div className="grid gap-3 sm:grid-cols-2">
-              {AUDIENCES.filter((a) => a !== "all").map((a) => {
-                const door = audiences[a];
-                return (
-                  <div
-                    key={a}
-                    className="rounded-2xl border border-white/10 bg-white/[0.04] p-5 backdrop-blur-md"
-                  >
-                    <p
-                      className="text-sm font-semibold"
-                      style={{ color: GOLD }}
-                    >
-                      {door.label}
-                    </p>
-                    <p className="mt-1 text-sm text-white/75">
-                      {door.cta.title}
-                    </p>
-                    <div className="mt-4 flex flex-wrap gap-2 print:hidden">
-                      <Link
-                        to={to(door.cta.primary.to)}
-                        onClick={() =>
-                          track(
-                            door.cta.primary.label,
-                            `door_${a}`,
-                            door.cta.primary.to,
-                          )
-                        }
-                        className="inline-flex min-h-10 items-center gap-1.5 rounded-full px-4 text-sm font-semibold text-[#0D0406]"
-                        style={{ background: GOLD }}
-                      >
-                        {door.cta.primary.label}
-                        <ArrowRight className="h-3.5 w-3.5 rtl:rotate-180" />
-                      </Link>
-                      <button
-                        type="button"
-                        onClick={() => {
-                          setAudience(a);
-                          go(0);
-                        }}
-                        className="inline-flex min-h-10 items-center rounded-full border border-white/20 px-4 text-sm text-white/80 hover:bg-white/5"
-                      >
-                        {ui.audienceLabel} {door.label.toLowerCase()}
-                      </button>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-        ) : (
-          <div className="mt-8 flex flex-wrap gap-3 print:hidden">
+          )}
+          <p className="text-xs uppercase tracking-[0.25em] text-white/60">
+            {ui.eyebrow} · {ui.readTime}
+          </p>
+          <motion.h1
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="mt-5 font-display text-4xl leading-[1.05] sm:text-5xl lg:text-6xl"
+          >
+            {intro.title}{" "}
+            <span className="block" style={{ color: GOLD }}>
+              {intro.accent}
+            </span>
+          </motion.h1>
+          <p className="mt-6 max-w-xl text-base leading-relaxed text-white/80 sm:text-lg">
+            <CitedText text={intro.sub} />
+          </p>
+          <AudiencePicker
+            label={ui.audienceLabel}
+            value={audience}
+            onChange={setAudience}
+            labels={audienceLabels}
+          />
+          <div className="mt-8 flex flex-wrap items-center gap-3 print:hidden">
+            <button
+              type="button"
+              onClick={() => go(1)}
+              className="group inline-flex min-h-12 items-center gap-2 rounded-full px-6 text-sm font-semibold text-[#0D0406] transition hover:brightness-110"
+              style={{ background: GOLD }}
+            >
+              {ui.deck.start}
+              <ArrowRight className="h-4 w-4 transition group-hover:translate-x-0.5 rtl:rotate-180" />
+            </button>
             <Link
               to={to(p.cta.primary.to)}
               onClick={() =>
-                track(p.cta.primary.label, "cta", p.cta.primary.to)
+                track(p.cta.primary.label, "hero", p.cta.primary.to)
               }
-              className="group inline-flex min-h-14 items-center gap-2 rounded-full px-8 text-base font-semibold text-[#0D0406] shadow-[0_0_40px_rgba(242,183,5,0.35)] transition hover:brightness-110"
-              style={{ background: GOLD }}
+              className="inline-flex min-h-12 items-center rounded-full border border-white/20 px-6 text-sm text-white/85 hover:bg-white/5"
             >
               {p.cta.primary.label}
-              <ArrowRight className="h-5 w-5 transition group-hover:translate-x-0.5 rtl:rotate-180" />
-            </Link>
-            <Link
-              to={to(p.cta.secondary.to)}
-              onClick={() =>
-                track(
-                  p.cta.secondary.label,
-                  "cta_secondary",
-                  p.cta.secondary.to,
-                )
-              }
-              className="inline-flex min-h-14 items-center rounded-full border border-white/25 px-8 text-base text-white/90 hover:bg-white/5"
-            >
-              {p.cta.secondary.label}
             </Link>
           </div>
-        )}
-        <p className="mt-5 flex items-center gap-2 text-sm text-white/70">
-          <Check className="h-4 w-4 shrink-0" style={{ color: GOLD }} />
-          {p.cta.reassurance}
-        </p>
-        {/* Printed copies keep the way back in. */}
-        <p className="mt-4 hidden text-sm print:block">
-          {SITE_URL.replace(/^https?:\/\//, "")}
-          {to(p.cta.primary.to)}
-        </p>
+          <p className="mt-6 text-xs text-white/45 print:hidden">
+            {ui.deck.hint}
+          </p>
+        </div>
+        <FounderVideo ui={ui.video} />
       </div>
-    </div>,
+    ),
+    story: <StoryPanel ui={ui.story} />,
+    ...Object.fromEntries(
+      (["problem", "solution", "value"] as const).map((k, i) => [
+        k,
+        <ActBlock
+          key={k}
+          index={i + 1}
+          kicker={ui.acts[i]}
+          act={p[k]}
+          audience={audience}
+          lang={lang}
+        />,
+      ]),
+    ),
+    proof: <ProofPanel ui={ui.proof} />,
+    market: <MarketPanel ui={ui.market} lang={lang} />,
+    voices: <VoicesPanel ui={ui.voices} />,
+    // Who's behind it
+    team: (
+      <div
+        key="team"
+        className="mx-auto grid w-full max-w-6xl items-center gap-10 lg:grid-cols-[minmax(0,1fr)_380px]"
+      >
+        <div className="order-2 lg:order-1">
+          <p className="text-xs uppercase tracking-[0.25em] text-white/60">
+            {ui.team.label}
+          </p>
+          <h2 className="mt-4 font-display text-3xl leading-tight sm:text-5xl">
+            {ui.team.title}
+          </h2>
+          <blockquote
+            className="mt-6 border-s-2 ps-5 font-display text-xl italic leading-snug text-white/90 sm:text-2xl"
+            style={{ borderColor: GOLD }}
+          >
+            {lang === "en" ? `“${ui.team.quote}”` : `« ${ui.team.quote} »`}
+          </blockquote>
+          <ul className="mt-6 space-y-2">
+            {ui.team.fields.map((f) => (
+              <li
+                key={f}
+                className="flex gap-3 text-sm text-white/80 sm:text-base"
+              >
+                <span
+                  className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full"
+                  style={{ background: GOLD }}
+                />
+                {f}
+              </li>
+            ))}
+          </ul>
+          <div className="mt-8 grid grid-cols-2 gap-3">
+            {ui.team.proofs.map((pr) => (
+              <div
+                key={pr.v}
+                className="rounded-2xl border border-white/10 bg-white/[0.04] p-4 backdrop-blur-md"
+              >
+                <p
+                  className="font-display text-3xl leading-none"
+                  style={{ color: GOLD }}
+                >
+                  {pr.k}
+                </p>
+                <p className="mt-2 text-xs leading-relaxed text-white/70">
+                  {pr.v}
+                </p>
+              </div>
+            ))}
+          </div>
+          <Link
+            to={to("/founder")}
+            onClick={() => track(ui.team.link, "team", "/founder")}
+            className="mt-6 inline-flex items-center gap-2 text-sm underline decoration-white/30 underline-offset-4 hover:decoration-current print:hidden"
+            style={{ color: GOLD }}
+          >
+            {ui.team.link}
+            <ArrowRight className="h-4 w-4 rtl:rotate-180" />
+          </Link>
+        </div>
+        <figure className="relative order-1 mx-auto w-full max-w-[320px] lg:order-2 lg:max-w-none">
+          <div
+            className="absolute -inset-3 rounded-[2rem] opacity-60 blur-2xl"
+            style={{
+              background:
+                "radial-gradient(closest-side, rgba(242,183,5,0.35), transparent)",
+            }}
+            aria-hidden="true"
+          />
+          <img
+            src={mehdiPhoto}
+            alt={ui.team.photoAlt}
+            loading="lazy"
+            decoding="async"
+            className="relative aspect-[4/5] w-full rounded-[1.75rem] object-cover object-top ring-1 ring-white/15"
+          />
+          <figcaption className="absolute inset-x-0 bottom-0 rounded-b-[1.75rem] bg-gradient-to-t from-[#0D0406] via-[#0D0406]/80 to-transparent p-5 pt-16">
+            <p className="font-display text-xl">{ui.team.name}</p>
+            <p className="text-xs text-white/70">{ui.team.role}</p>
+          </figcaption>
+        </figure>
+      </div>
+    ),
+    cta: (
+      <div key="cta" className="mx-auto w-full max-w-6xl">
+        <div className="max-w-2xl">
+          <Kicker index={4} label={ui.acts[3]} />
+          <h2 className="mt-4 font-display text-3xl leading-tight sm:text-5xl">
+            {p.cta.title}
+          </h2>
+          <p className="mt-5 text-base text-white/80 sm:text-lg">
+            {p.cta.body}
+          </p>
 
-    // 6 · Send, media and resources
-    <div key="send" className="mx-auto w-full max-w-6xl space-y-10">
-      <SharePanel
-        ui={ui.share}
-        audience={audience}
-        audienceLabels={audienceLabels}
-        path={path}
-        onShare={(channel) => track(channel, "share", channel)}
-      />
-      <div>
-        <h2 className="font-display text-2xl sm:text-3xl">{ui.resources}</h2>
-        <p className="mt-2 text-white/70">{ui.resourcesSub}</p>
-        <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-          {ui.resourceItems.map((r) => (
-            <Link
-              key={r.to}
-              to={to(r.to)}
-              onClick={() => track(r.title, "resources", r.to)}
-              className="group rounded-2xl border border-white/10 bg-white/[0.03] p-5 transition hover:border-white/25 hover:bg-white/[0.06]"
-            >
-              <p className="flex items-center justify-between font-semibold">
-                {r.title}
-                <ArrowRight className="h-4 w-4 opacity-50 transition group-hover:opacity-100 rtl:rotate-180" />
+          {audience === "all" ? (
+            <div className="mt-8">
+              <p className="mb-4 text-sm uppercase tracking-widest text-white/60">
+                {ui.doorsTitle}
               </p>
-              <p className="mt-1 text-sm text-white/65">{r.body}</p>
-            </Link>
-          ))}
+              <div className="grid gap-3 sm:grid-cols-2">
+                {AUDIENCES.filter((a) => a !== "all").map((a) => {
+                  const door = audiences[a];
+                  return (
+                    <div
+                      key={a}
+                      className="rounded-2xl border border-white/10 bg-white/[0.04] p-5 backdrop-blur-md"
+                    >
+                      <p
+                        className="text-sm font-semibold"
+                        style={{ color: GOLD }}
+                      >
+                        {door.label}
+                      </p>
+                      <p className="mt-1 text-sm text-white/75">
+                        {door.cta.title}
+                      </p>
+                      <div className="mt-4 flex flex-wrap gap-2 print:hidden">
+                        <Link
+                          to={to(door.cta.primary.to)}
+                          onClick={() =>
+                            track(
+                              door.cta.primary.label,
+                              `door_${a}`,
+                              door.cta.primary.to,
+                            )
+                          }
+                          className="inline-flex min-h-10 items-center gap-1.5 rounded-full px-4 text-sm font-semibold text-[#0D0406]"
+                          style={{ background: GOLD }}
+                        >
+                          {door.cta.primary.label}
+                          <ArrowRight className="h-3.5 w-3.5 rtl:rotate-180" />
+                        </Link>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setAudience(a);
+                            go(0);
+                          }}
+                          className="inline-flex min-h-10 items-center rounded-full border border-white/20 px-4 text-sm text-white/80 hover:bg-white/5"
+                        >
+                          {ui.audienceLabel} {door.label.toLowerCase()}
+                        </button>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          ) : (
+            <div className="mt-8 flex flex-wrap gap-3 print:hidden">
+              <Link
+                to={to(p.cta.primary.to)}
+                onClick={() =>
+                  track(p.cta.primary.label, "cta", p.cta.primary.to)
+                }
+                className="group inline-flex min-h-14 items-center gap-2 rounded-full px-8 text-base font-semibold text-[#0D0406] shadow-[0_0_40px_rgba(242,183,5,0.35)] transition hover:brightness-110"
+                style={{ background: GOLD }}
+              >
+                {p.cta.primary.label}
+                <ArrowRight className="h-5 w-5 transition group-hover:translate-x-0.5 rtl:rotate-180" />
+              </Link>
+              <Link
+                to={to(p.cta.secondary.to)}
+                onClick={() =>
+                  track(
+                    p.cta.secondary.label,
+                    "cta_secondary",
+                    p.cta.secondary.to,
+                  )
+                }
+                className="inline-flex min-h-14 items-center rounded-full border border-white/25 px-8 text-base text-white/90 hover:bg-white/5"
+              >
+                {p.cta.secondary.label}
+              </Link>
+            </div>
+          )}
+          <p className="mt-5 flex items-center gap-2 text-sm text-white/70">
+            <Check className="h-4 w-4 shrink-0" style={{ color: GOLD }} />
+            {p.cta.reassurance}
+          </p>
+          {/* Printed copies keep the way back in. */}
+          <p className="mt-4 hidden text-sm print:block">
+            {SITE_URL.replace(/^https?:\/\//, "")}
+            {to(p.cta.primary.to)}
+          </p>
         </div>
       </div>
-    </div>,
-
-    // 7 · References
-    <div key="refs" className="mx-auto w-full max-w-6xl">
-      <h2 className="font-display text-2xl sm:text-3xl">{ui.references}</h2>
-      <p className="mt-2 text-sm text-white/65">{ui.referencesNote}</p>
-      <ol className="mt-8 space-y-4" dir="ltr">
-        {REFERENCES.map((r) => (
-          <li key={r.id} id={`ref-${r.id}`} className="flex gap-4 text-sm">
-            <span className="font-mono text-white/50">[{r.id}]</span>
-            <span className="text-white/80">
-              {r.authors} ({r.year}). {r.title}. <em>{r.source}</em>.{" "}
-              <a
-                href={r.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-1 underline decoration-white/30 underline-offset-2 hover:decoration-current"
-                style={{ color: GOLD }}
+    ),
+    send: (
+      <div key="send" className="mx-auto w-full max-w-6xl space-y-10">
+        <SharePanel
+          ui={ui.share}
+          audience={audience}
+          audienceLabels={audienceLabels}
+          path={path}
+          onShare={(channel) => track(channel, "share", channel)}
+        />
+        <div>
+          <h2 className="font-display text-2xl sm:text-3xl">{ui.resources}</h2>
+          <p className="mt-2 text-white/70">{ui.resourcesSub}</p>
+          <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            {ui.resourceItems.map((r) => (
+              <Link
+                key={r.to}
+                to={to(r.to)}
+                onClick={() => track(r.title, "resources", r.to)}
+                className="group rounded-2xl border border-white/10 bg-white/[0.03] p-5 transition hover:border-white/25 hover:bg-white/[0.06]"
               >
-                {r.url.replace("https://", "")}
-                <ExternalLink className="h-3 w-3" />
-              </a>
-            </span>
-          </li>
-        ))}
-      </ol>
-    </div>,
-  ];
+                <p className="flex items-center justify-between font-semibold">
+                  {r.title}
+                  <ArrowRight className="h-4 w-4 opacity-50 transition group-hover:opacity-100 rtl:rotate-180" />
+                </p>
+                <p className="mt-1 text-sm text-white/65">{r.body}</p>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </div>
+    ),
+    refs: (
+      <div key="refs" className="mx-auto w-full max-w-6xl">
+        <h2 className="font-display text-2xl sm:text-3xl">{ui.references}</h2>
+        <p className="mt-2 text-sm text-white/65">{ui.referencesNote}</p>
+        <ol className="mt-8 space-y-4" dir="ltr">
+          {REFERENCES.map((r) => (
+            <li key={r.id} id={`ref-${r.id}`} className="flex gap-4 text-sm">
+              <span className="font-mono text-white/50">[{r.id}]</span>
+              <span className="text-white/80">
+                {r.authors} ({r.year}). {r.title}. <em>{r.source}</em>.{" "}
+                <a
+                  href={r.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1 underline decoration-white/30 underline-offset-2 hover:decoration-current"
+                  style={{ color: GOLD }}
+                >
+                  {r.url.replace("https://", "")}
+                  <ExternalLink className="h-3 w-3" />
+                </a>
+              </span>
+            </li>
+          ))}
+        </ol>
+      </div>
+    ),
+  };
 
   return (
     <CiteContext.Provider value={cite}>
@@ -599,7 +622,7 @@ export default function Pitch() {
             <div className="absolute inset-0 bg-gradient-to-r from-[#0D0406] via-[#0D0406]/70 to-transparent rtl:bg-gradient-to-l" />
           </div>
 
-          {panels.map((node, i) => (
+          {plan.map(({ id }, i) => (
             <section
               key={i}
               ref={(el) => {
@@ -615,7 +638,7 @@ export default function Pitch() {
                 opacity: i === cur ? 1 : 0,
               }}
             >
-              <div className="flex min-h-full items-center">{node}</div>
+              <div className="flex min-h-full items-center">{nodes[id]}</div>
             </section>
           ))}
 
@@ -1071,3 +1094,227 @@ const PRINT_CSS = `
   .pitch [class*="bg-white/"] { background: #f6f3ee !important; border-color: #ddd !important; }
 }
 `;
+
+type PitchUiT = ReturnType<typeof pitchCopy>["ui"];
+
+/**
+ * The founder's Short. Only a poster until the reader asks for it, so the
+ * page loads no YouTube script and sets no cookie (nocookie domain).
+ */
+function FounderVideo({ ui }: { ui: PitchUiT["video"] }) {
+  const [playing, setPlaying] = useState(false);
+  return (
+    <figure className="mx-auto w-full max-w-[280px]">
+      <div className="relative aspect-[9/16] overflow-hidden rounded-[1.75rem] ring-1 ring-white/15 shadow-[0_0_80px_rgba(242,183,5,0.15)]">
+        {playing ? (
+          <iframe
+            src={`https://www.youtube-nocookie.com/embed/${FOUNDER_VIDEO.youtubeId}?autoplay=1&playsinline=1&rel=0`}
+            title={ui.label}
+            allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
+            className="absolute inset-0 h-full w-full"
+          />
+        ) : (
+          <button
+            type="button"
+            onClick={() => setPlaying(true)}
+            aria-label={ui.play}
+            className="group absolute inset-0"
+          >
+            <img
+              src={FOUNDER_VIDEO.poster}
+              alt=""
+              loading="lazy"
+              decoding="async"
+              className="h-full w-full object-cover transition duration-700 group-hover:scale-105"
+            />
+            <span className="absolute inset-0 bg-gradient-to-t from-[#0D0406] via-transparent to-transparent" />
+            <span
+              className="absolute left-1/2 top-1/2 flex h-16 w-16 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full text-[#0D0406] shadow-[0_0_40px_rgba(242,183,5,0.5)] transition group-hover:scale-110 print:hidden"
+              style={{ background: GOLD }}
+            >
+              <Play className="ms-1 h-7 w-7 fill-current" />
+            </span>
+          </button>
+        )}
+      </div>
+      <figcaption className="mt-3 text-center text-xs text-white/70">
+        <span className="block font-semibold text-white/90">{ui.label}</span>
+        {ui.caption}
+      </figcaption>
+    </figure>
+  );
+}
+
+function StoryPanel({ ui }: { ui: PitchUiT["story"] }) {
+  return (
+    <div className="mx-auto grid w-full max-w-6xl items-center gap-10 lg:grid-cols-[minmax(0,1fr)_320px]">
+      <div>
+        <p className="text-xs uppercase tracking-[0.25em] text-white/60">
+          {ui.label}
+        </p>
+        <h2 className="mt-4 font-display text-3xl leading-tight sm:text-5xl">
+          {ui.title}
+        </h2>
+        {ui.paragraphs.map((t) => (
+          <p
+            key={t}
+            className="mt-5 max-w-2xl text-base leading-relaxed text-white/80 sm:text-lg"
+          >
+            {t}
+          </p>
+        ))}
+        <ol className="mt-8 space-y-4 border-s border-white/15 ps-6">
+          {ui.timeline.map((m) => (
+            <li key={m.when} className="relative">
+              <span
+                className="absolute -start-[1.85rem] top-1.5 h-2.5 w-2.5 rounded-full"
+                style={{ background: GOLD }}
+              />
+              <p
+                className="text-xs uppercase tracking-widest"
+                style={{ color: GOLD }}
+              >
+                {m.when}
+              </p>
+              <p className="text-sm text-white/85">{m.what}</p>
+            </li>
+          ))}
+        </ol>
+      </div>
+      <img
+        src={FOUNDER_VIDEO.poster}
+        alt={ui.photoAlt}
+        loading="lazy"
+        decoding="async"
+        className="mx-auto aspect-[4/5] w-full max-w-[320px] rounded-[1.75rem] object-cover object-[50%_30%] ring-1 ring-white/15"
+      />
+    </div>
+  );
+}
+
+function ProofPanel({ ui }: { ui: PitchUiT["proof"] }) {
+  return (
+    <div className="mx-auto w-full max-w-6xl">
+      <p className="text-xs uppercase tracking-[0.25em] text-white/60">
+        {ui.label}
+      </p>
+      <h2 className="mt-4 font-display text-3xl leading-tight sm:text-5xl">
+        {ui.title}
+      </h2>
+      <p className="mt-4 text-white/70">{ui.sub}</p>
+      <div className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+        {ui.items.map((it) => (
+          <div
+            key={it.v}
+            className="rounded-2xl border border-white/10 bg-white/[0.04] p-5 backdrop-blur-md"
+          >
+            <p
+              className="font-display text-3xl leading-none"
+              style={{ color: GOLD }}
+            >
+              {it.k}
+            </p>
+            <p className="mt-3 text-sm leading-relaxed text-white/75">{it.v}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function MarketPanel({
+  ui,
+  lang,
+}: {
+  ui: PitchUiT["market"];
+  lang: PitchLang;
+}) {
+  const sub = "text-sm uppercase tracking-widest text-white/60";
+  return (
+    <div className="mx-auto w-full max-w-6xl">
+      <p className="text-xs uppercase tracking-[0.25em] text-white/60">
+        {ui.label}
+      </p>
+      <h2 className="mt-4 font-display text-3xl leading-tight sm:text-5xl">
+        {ui.title}
+      </h2>
+      <div className="mt-8 grid gap-8 lg:grid-cols-2">
+        <div>
+          <p className={sub}>{ui.marketTitle}</p>
+          <div className="mt-4 grid grid-cols-2 gap-3">
+            {ui.market.map((st) => (
+              <StatCard key={st.label} stat={st} lang={lang} small />
+            ))}
+          </div>
+        </div>
+        <div>
+          <p className={sub}>{ui.modelTitle}</p>
+          <dl className="mt-4 divide-y divide-white/10 rounded-2xl border border-white/10 bg-white/[0.04] backdrop-blur-md">
+            {ui.model.map((m) => (
+              <div key={m.k} className="flex items-baseline gap-4 p-4">
+                <dt
+                  className="w-36 shrink-0 font-display text-lg"
+                  style={{ color: GOLD }}
+                  dir="ltr"
+                >
+                  {m.k}
+                </dt>
+                <dd className="text-sm text-white/75">{m.v}</dd>
+              </div>
+            ))}
+          </dl>
+          <p className="mt-3 text-xs text-white/55">{ui.note}</p>
+        </div>
+      </div>
+      {ui.tests.length > 0 && (
+        <div className="mt-8">
+          <p className={sub}>{ui.testsTitle}</p>
+          <div className="mt-4 grid gap-3 sm:grid-cols-3">
+            {ui.tests.map((t) => (
+              <div
+                key={t.v}
+                className="rounded-2xl border border-white/10 bg-white/[0.04] p-4"
+              >
+                <p className="font-display text-2xl" style={{ color: GOLD }}>
+                  {t.k}
+                </p>
+                <p className="mt-2 text-xs text-white/70">{t.v}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function VoicesPanel({ ui }: { ui: PitchUiT["voices"] }) {
+  return (
+    <div className="mx-auto w-full max-w-6xl">
+      <p className="text-xs uppercase tracking-[0.25em] text-white/60">
+        {ui.label}
+      </p>
+      <h2 className="mt-4 font-display text-3xl leading-tight sm:text-5xl">
+        {ui.title}
+      </h2>
+      <div className="mt-8 grid gap-4 md:grid-cols-3">
+        {ui.items.map((v) => (
+          <figure
+            key={v.who}
+            className="rounded-3xl border border-white/10 bg-white/[0.04] p-6 backdrop-blur-md"
+          >
+            <blockquote className="font-display text-lg italic leading-snug text-white/90">
+              {v.quote}
+            </blockquote>
+            <figcaption className="mt-4 text-sm">
+              <span className="font-semibold" style={{ color: GOLD }}>
+                {v.who}
+              </span>
+              <span className="block text-xs text-white/60">{v.role}</span>
+            </figcaption>
+          </figure>
+        ))}
+      </div>
+    </div>
+  );
+}
