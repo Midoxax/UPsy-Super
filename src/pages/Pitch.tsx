@@ -28,6 +28,7 @@ import {
   MessageCircle,
 } from "lucide-react";
 import { toast } from "sonner";
+import mehdiPhoto from "@/assets/mehdi-felji.webp";
 import { Link, useSearchParams } from "@/lib/router-compat";
 import SEOHead from "@/components/SEOHead";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
@@ -107,12 +108,22 @@ export default function Pitch() {
     AUDIENCES.map((a) => [a, audiences[a].label]),
   ) as Record<Audience, string>;
 
-  const labels = [ui.deck.intro, ...ui.acts, ui.deck.send, ui.references];
+  const labels = [
+    ui.deck.intro,
+    ui.acts[0],
+    ui.acts[1],
+    ui.acts[2],
+    ui.team.label,
+    ui.acts[3],
+    ui.deck.send,
+    ui.references,
+  ];
   const COUNT = labels.length;
   const REFS = COUNT - 1;
-  // Which 3D shape each panel shows: intro sphere, the four acts, then the
-  // portal behind "send" and the calm sphere behind the references.
-  const SCENE = [0, 1, 2, 3, 4, 4, 0];
+  // Which 3D shape each panel shows: intro sphere, problem, solution, value,
+  // the calm sphere behind the founder, the portal for the call to action and
+  // "send", the sphere again behind the references.
+  const SCENE = [0, 1, 2, 3, 0, 4, 4, 0];
 
   const [cur, setCur] = useState(0);
   const slides = useRef<(HTMLElement | null)[]>([]);
@@ -301,7 +312,90 @@ export default function Pitch() {
       />
     )),
 
-    // 4 · Call to action
+    // 4 · Who's behind it
+    <div
+      key="team"
+      className="mx-auto grid w-full max-w-6xl items-center gap-10 lg:grid-cols-[minmax(0,1fr)_380px]"
+    >
+      <div className="order-2 lg:order-1">
+        <p className="text-xs uppercase tracking-[0.25em] text-white/60">
+          {ui.team.label}
+        </p>
+        <h2 className="mt-4 font-display text-3xl leading-tight sm:text-5xl">
+          {ui.team.title}
+        </h2>
+        <blockquote
+          className="mt-6 border-s-2 ps-5 font-display text-xl italic leading-snug text-white/90 sm:text-2xl"
+          style={{ borderColor: GOLD }}
+        >
+          {lang === "en" ? `“${ui.team.quote}”` : `« ${ui.team.quote} »`}
+        </blockquote>
+        <ul className="mt-6 space-y-2">
+          {ui.team.fields.map((f) => (
+            <li
+              key={f}
+              className="flex gap-3 text-sm text-white/80 sm:text-base"
+            >
+              <span
+                className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full"
+                style={{ background: GOLD }}
+              />
+              {f}
+            </li>
+          ))}
+        </ul>
+        <div className="mt-8 grid grid-cols-2 gap-3">
+          {ui.team.proofs.map((pr) => (
+            <div
+              key={pr.v}
+              className="rounded-2xl border border-white/10 bg-white/[0.04] p-4 backdrop-blur-md"
+            >
+              <p
+                className="font-display text-3xl leading-none"
+                style={{ color: GOLD }}
+              >
+                {pr.k}
+              </p>
+              <p className="mt-2 text-xs leading-relaxed text-white/70">
+                {pr.v}
+              </p>
+            </div>
+          ))}
+        </div>
+        <Link
+          to={to("/founder")}
+          onClick={() => track(ui.team.link, "team", "/founder")}
+          className="mt-6 inline-flex items-center gap-2 text-sm underline decoration-white/30 underline-offset-4 hover:decoration-current print:hidden"
+          style={{ color: GOLD }}
+        >
+          {ui.team.link}
+          <ArrowRight className="h-4 w-4 rtl:rotate-180" />
+        </Link>
+      </div>
+      <figure className="relative order-1 mx-auto w-full max-w-[320px] lg:order-2 lg:max-w-none">
+        <div
+          className="absolute -inset-3 rounded-[2rem] opacity-60 blur-2xl"
+          style={{
+            background:
+              "radial-gradient(closest-side, rgba(242,183,5,0.35), transparent)",
+          }}
+          aria-hidden="true"
+        />
+        <img
+          src={mehdiPhoto}
+          alt={ui.team.photoAlt}
+          loading="lazy"
+          decoding="async"
+          className="relative aspect-[4/5] w-full rounded-[1.75rem] object-cover object-top ring-1 ring-white/15"
+        />
+        <figcaption className="absolute inset-x-0 bottom-0 rounded-b-[1.75rem] bg-gradient-to-t from-[#0D0406] via-[#0D0406]/80 to-transparent p-5 pt-16">
+          <p className="font-display text-xl">{ui.team.name}</p>
+          <p className="text-xs text-white/70">{ui.team.role}</p>
+        </figcaption>
+      </figure>
+    </div>,
+
+    // 5 · Call to action
     <div key="cta" className="mx-auto w-full max-w-6xl">
       <div className="max-w-2xl">
         <Kicker index={4} label={ui.acts[3]} />
@@ -404,7 +498,7 @@ export default function Pitch() {
       </div>
     </div>,
 
-    // 5 · Send, media and resources
+    // 6 · Send, media and resources
     <div key="send" className="mx-auto w-full max-w-6xl space-y-10">
       <SharePanel
         ui={ui.share}
@@ -435,7 +529,7 @@ export default function Pitch() {
       </div>
     </div>,
 
-    // 6 · References
+    // 7 · References
     <div key="refs" className="mx-auto w-full max-w-6xl">
       <h2 className="font-display text-2xl sm:text-3xl">{ui.references}</h2>
       <p className="mt-2 text-sm text-white/65">{ui.referencesNote}</p>
@@ -673,7 +767,7 @@ function ActBlock({
   lang: PitchLang;
 }) {
   return (
-    <div className="mx-auto grid w-full max-w-6xl gap-10 lg:grid-cols-[minmax(0,1fr)_320px] lg:items-center">
+    <div className="mx-auto grid w-full max-w-6xl gap-10 lg:grid-cols-[minmax(0,1fr)_360px] lg:items-center">
       <motion.div
         key={audience}
         initial={{ opacity: 0, y: 24 }}
@@ -706,12 +800,31 @@ function ActBlock({
           ))}
         </ul>
       </motion.div>
-      {act.stat && <StatCard stat={act.stat} lang={lang} />}
+      {act.stats?.length ? (
+        <div className="space-y-3">
+          <StatCard stat={act.stats[0]} lang={lang} />
+          {act.stats.length > 1 && (
+            <div className="grid grid-cols-2 gap-3">
+              {act.stats.slice(1).map((st) => (
+                <StatCard key={st.label} stat={st} lang={lang} small />
+              ))}
+            </div>
+          )}
+        </div>
+      ) : null}
     </div>
   );
 }
 
-function StatCard({ stat, lang }: { stat: Stat; lang: PitchLang }) {
+function StatCard({
+  stat,
+  lang,
+  small,
+}: {
+  stat: Stat;
+  lang: PitchLang;
+  small?: boolean;
+}) {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, margin: "-20%" });
   const [shown, setShown] = useState(stat.value);
@@ -734,10 +847,10 @@ function StatCard({ stat, lang }: { stat: Stat; lang: PitchLang }) {
   return (
     <div
       ref={ref}
-      className="rounded-3xl border border-white/10 bg-white/[0.04] p-7 backdrop-blur-xl shadow-[0_0_80px_rgba(242,183,5,0.08)]"
+      className={`rounded-3xl border border-white/10 bg-white/[0.04] backdrop-blur-xl ${small ? "p-4" : "p-7 shadow-[0_0_80px_rgba(242,183,5,0.08)]"}`}
     >
       <p
-        className="font-display text-6xl leading-none sm:text-7xl"
+        className={`font-display leading-none ${small ? "text-3xl" : "text-6xl sm:text-7xl"}`}
         style={{ color: GOLD }}
         dir="ltr"
       >
@@ -748,7 +861,9 @@ function StatCard({ stat, lang }: { stat: Stat; lang: PitchLang }) {
         })}
         {stat.suffix}
       </p>
-      <p className="mt-4 text-sm leading-relaxed text-white/75">
+      <p
+        className={`leading-relaxed text-white/75 ${small ? "mt-2 text-xs" : "mt-4 text-sm"}`}
+      >
         <CitedText text={stat.label} />
       </p>
     </div>
