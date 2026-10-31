@@ -144,7 +144,22 @@ export const REFERENCES: Reference[] = [
     source: "Psychological Medicine 46(4):683–697",
     url: "https://doi.org/10.1017/S0033291715002408",
   },
+  {
+    id: 9,
+    authors: "Haut-Commissariat au Plan (HCP)",
+    year: 2024,
+    title:
+      "Recensement général de la population et de l'habitat 2024 : population légale du Royaume",
+    source: "HCP, Rabat",
+    url: "https://www.hcp.ma/Population-legale-du-Royaume-du-Maroc-repartie-par-regions-provinces-et-prefectures-et-communes-selon-les-resultats-du_a3974.html",
+  },
 ];
+
+/** The founder's Short, embedded on the first panel. */
+export const FOUNDER_VIDEO = {
+  youtubeId: "t6OOSEoseTU",
+  poster: "/pitch/founder-talk.webp",
+};
 
 /** Text with citations: [n] markers are rendered as links to REFERENCES. */
 export type Cited = string;
@@ -216,6 +231,38 @@ export interface PitchUi {
     subject: string;
   };
   readTime: string;
+  video: { label: string; caption: string; play: string };
+  story: {
+    label: string;
+    title: string;
+    paragraphs: string[];
+    timeline: { when: string; what: string }[];
+    photoAlt: string;
+  };
+  proof: {
+    label: string;
+    title: string;
+    sub: string;
+    items: { k: string; v: string }[];
+  };
+  market: {
+    label: string;
+    title: string;
+    marketTitle: string;
+    market: Stat[];
+    modelTitle: string;
+    model: { k: string; v: string }[];
+    note: string;
+    testsTitle: string;
+    /** Real market tests only (pilots, events, sales). Empty: not shown. */
+    tests: { k: string; v: string }[];
+  };
+  voices: {
+    label: string;
+    title: string;
+    /** Real testimonials with written consent only. Empty: panel not shown. */
+    items: { quote: string; who: string; role: string }[];
+  };
   team: {
     label: string;
     title: string;
@@ -241,11 +288,11 @@ type Copy = { ui: PitchUi; audiences: Record<Audience, AudiencePitch> };
 
 const en: Copy = {
   ui: {
-    eyebrow: "U.Psy · The pitch in four acts",
+    eyebrow: "U.Psy · The pitch",
     preparedFor: "Prepared for",
     audienceLabel: "Read as",
     acts: ["The problem", "The solution", "The added value", "Your move"],
-    scroll: "Four acts, three minutes",
+    scroll: "Five minutes",
     doorsTitle: "Which door is yours?",
     references: "References",
     referencesNote:
@@ -300,7 +347,85 @@ const en: Copy = {
         "Three minutes that change how you see the mental side of sport:",
       subject: "U.Psy, in four acts",
     },
-    readTime: "3 min read",
+    readTime: "5 min read",
+    video: {
+      label: "Mehdi Felji, live at a U.Psy session",
+      caption: "Filmed on the ground, not in a studio.",
+      play: "Play the video",
+    },
+    story: {
+      label: "The story",
+      title: "It started where the models break.",
+      paragraphs: [
+        "On the ground, in elite sport, in migration settings, in crises, classic models quickly hit their limits. What works in an office does not always work under urgency, uncertainty or the pressure to perform.",
+        "U.Psy was built in that gap: psychology that is operational, measurable and usable straight away, in the languages people actually speak.",
+      ],
+      timeline: [
+        { when: "March 2026", what: "The platform opens to the public" },
+        { when: "May 2026", what: "First Academy filming" },
+        {
+          when: "October 2026",
+          what: "Longitudinal athlete study and the pitch you are reading",
+        },
+      ],
+      photoAlt: "Mehdi Felji presenting at a U.Psy session",
+    },
+    proof: {
+      label: "Already built",
+      title: "Not a slide. A working platform.",
+      sub: "Everything below is live today on upsy.ma.",
+      items: [
+        {
+          k: "Live",
+          v: "Booking, video sessions, reminders and payment by bank transfer",
+        },
+        {
+          k: "9",
+          v: "Athlete Hub modules: readiness, journal, protocols and more",
+        },
+        { k: "4", v: "languages of care: Darija, Arabic, French, English" },
+        {
+          k: "5",
+          v: "validated questionnaires in the athlete study: WHO-5, PSS-10, ABQ, MTI, sleep",
+        },
+        { k: "Open", v: "observatory of public mental health data" },
+        { k: "Academy", v: "training in sport and performance psychology" },
+      ],
+    },
+    market: {
+      label: "Market and model",
+      title: "A large market with almost no infrastructure.",
+      marketTitle: "The market",
+      market: [
+        { value: 36828330, label: "people in Morocco, 2024 census [9]" },
+        {
+          value: 40.1,
+          decimals: 1,
+          suffix: "%",
+          label: "live with a current mental disorder [5]",
+        },
+      ],
+      modelTitle: "How U.Psy earns",
+      model: [
+        {
+          k: "250–800 MAD",
+          v: "per individual session, as listed on the site",
+        },
+        { k: "≈360–409 MAD", v: "per session in 5- to 20-session packs" },
+        {
+          k: "20% → 8%",
+          v: "platform commission, lower as a specialist moves up a plan",
+        },
+        {
+          k: "B2B",
+          v: "programmes for clubs, federations and companies, priced on proposal",
+        },
+      ],
+      note: "Illustration: a 400 MAD session at 20% commission leaves 80 MAD to the platform.",
+      testsTitle: "Market tests",
+      tests: [],
+    },
+    voices: { label: "Testimonies", title: "In their words.", items: [] },
     team: {
       label: "Who's behind it",
       title: "Built in the field, not in theory.",
@@ -619,7 +744,7 @@ const en: Copy = {
 
 const fr: Copy = {
   ui: {
-    eyebrow: "U.Psy · Le pitch en quatre actes",
+    eyebrow: "U.Psy · Le pitch",
     preparedFor: "Préparé pour",
     audienceLabel: "Lire en tant que",
     acts: [
@@ -628,7 +753,7 @@ const fr: Copy = {
       "La valeur ajoutée",
       "À vous de jouer",
     ],
-    scroll: "Quatre actes, trois minutes",
+    scroll: "Cinq minutes",
     doorsTitle: "Quelle porte est la vôtre ?",
     references: "Références",
     referencesNote:
@@ -683,7 +808,91 @@ const fr: Copy = {
         "Trois minutes qui changent le regard sur le mental dans le sport :",
       subject: "U.Psy, en quatre actes",
     },
-    readTime: "3 min de lecture",
+    readTime: "5 min de lecture",
+    video: {
+      label: "Mehdi Felji, en direct lors d'une séance U.Psy",
+      caption: "Filmé sur le terrain, pas en studio.",
+      play: "Lancer la vidéo",
+    },
+    story: {
+      label: "L'histoire",
+      title: "Tout a commencé là où les modèles cassent.",
+      paragraphs: [
+        "Sur le terrain, dans le sport de haut niveau, dans les contextes migratoires, dans les crises, les modèles classiques atteignent vite leurs limites. Ce qui fonctionne en cabinet ne fonctionne pas toujours dans l'urgence, l'incertitude ou la pression de la performance.",
+        "U.Psy est né dans cet écart : une psychologie opérationnelle, mesurable, utilisable tout de suite, dans les langues que les gens parlent vraiment.",
+      ],
+      timeline: [
+        { when: "Mars 2026", what: "La plateforme ouvre au public" },
+        { when: "Mai 2026", what: "Premier tournage de l'Académie" },
+        {
+          when: "Octobre 2026",
+          what: "Étude longitudinale sur les sportifs, et le pitch que vous lisez",
+        },
+      ],
+      photoAlt: "Mehdi Felji présentant lors d'une séance U.Psy",
+    },
+    proof: {
+      label: "Déjà construit",
+      title: "Pas une diapositive. Une plateforme qui fonctionne.",
+      sub: "Tout ce qui suit est en ligne aujourd'hui sur upsy.ma.",
+      items: [
+        {
+          k: "En ligne",
+          v: "Réservation, visio, rappels et paiement par virement",
+        },
+        {
+          k: "9",
+          v: "modules dans l'Athlete Hub : forme du jour, journal, protocoles…",
+        },
+        { k: "4", v: "langues de soin : darija, arabe, français, anglais" },
+        {
+          k: "5",
+          v: "questionnaires validés dans l'étude sportifs : WHO-5, PSS-10, ABQ, MTI, sommeil",
+        },
+        {
+          k: "Ouvert",
+          v: "observatoire des données publiques de santé mentale",
+        },
+        {
+          k: "Académie",
+          v: "formations en psychologie du sport et de la performance",
+        },
+      ],
+    },
+    market: {
+      label: "Marché et modèle",
+      title: "Un marché immense, presque sans infrastructure.",
+      marketTitle: "Le marché",
+      market: [
+        { value: 36828330, label: "habitants au Maroc, recensement 2024 [9]" },
+        {
+          value: 40.1,
+          decimals: 1,
+          suffix: " %",
+          label: "vivent avec un trouble mental actuel [5]",
+        },
+      ],
+      modelTitle: "Comment U.Psy gagne sa vie",
+      model: [
+        {
+          k: "250–800 MAD",
+          v: "par séance individuelle, prix affichés sur le site",
+        },
+        { k: "≈360–409 MAD", v: "par séance dans les packs de 5 à 20 séances" },
+        {
+          k: "20 % → 8 %",
+          v: "de commission plateforme, en baisse quand le spécialiste monte en formule",
+        },
+        {
+          k: "B2B",
+          v: "programmes pour clubs, fédérations et entreprises, sur devis",
+        },
+      ],
+      note: "Illustration : une séance à 400 MAD à 20 % de commission laisse 80 MAD à la plateforme.",
+      testsTitle: "Tests marché",
+      tests: [],
+    },
+    voices: { label: "Témoignages", title: "Avec leurs mots.", items: [] },
     team: {
       label: "Qui est derrière",
       title: "Construit sur le terrain, pas en théorie.",
@@ -1008,11 +1217,11 @@ const fr: Copy = {
 
 const ar: Copy = {
   ui: {
-    eyebrow: "U.Psy · العرض في أربعة فصول",
+    eyebrow: "U.Psy · العرض",
     preparedFor: "أُعدّ خصيصًا لـ",
     audienceLabel: "اقرأ بصفتك",
     acts: ["المشكلة", "الحل", "القيمة المضافة", "دورك الآن"],
-    scroll: "أربعة فصول، ثلاث دقائق",
+    scroll: "خمس دقائق",
     doorsTitle: "أيّ باب يناسبك؟",
     references: "المراجع",
     referencesNote:
@@ -1066,7 +1275,79 @@ const ar: Copy = {
       message: "ثلاث دقائق تغيّر نظرتك إلى الجانب الذهني في الرياضة:",
       subject: "U.Psy في أربعة فصول",
     },
-    readTime: "قراءة في 3 دقائق",
+    readTime: "قراءة في 5 دقائق",
+    video: {
+      label: "مهدي فلجي مباشرة خلال حصة U.Psy",
+      caption: "صُوّر في الميدان، لا في الأستوديو.",
+      play: "شغّل الفيديو",
+    },
+    story: {
+      label: "الحكاية",
+      title: "بدأ كل شيء حيث تنكسر النماذج.",
+      paragraphs: [
+        "في الميدان، في الرياضة عالية المستوى وسياقات الهجرة والأزمات، تبلغ النماذج الكلاسيكية حدودها بسرعة. ما ينجح في العيادة لا ينجح دائمًا تحت الاستعجال أو عدم اليقين أو ضغط الأداء.",
+        "وُلدت U.Psy في هذه الفجوة: علم نفس عملي، قابل للقياس، يُستعمل فورًا، وباللغات التي يتحدثها الناس فعلًا.",
+      ],
+      timeline: [
+        { when: "مارس 2026", what: "انطلاق المنصة للعموم" },
+        { when: "ماي 2026", what: "أول تصوير للأكاديمية" },
+        {
+          when: "أكتوبر 2026",
+          what: "الدراسة الطولية حول الرياضيين، والعرض الذي تقرؤه",
+        },
+      ],
+      photoAlt: "مهدي فلجي يقدّم خلال حصة U.Psy",
+    },
+    proof: {
+      label: "ما بُني فعلًا",
+      title: "ليست شريحة عرض. منصة تعمل.",
+      sub: "كل ما يلي متاح اليوم على upsy.ma.",
+      items: [
+        {
+          k: "مباشر",
+          v: "الحجز والحصص المرئية والتذكيرات والدفع بالتحويل البنكي",
+        },
+        {
+          k: "9",
+          v: "وحدات في Athlete Hub: الجاهزية، اليوميات، البروتوكولات…",
+        },
+        { k: "4", v: "لغات للرعاية: الدارجة، العربية، الفرنسية، الإنجليزية" },
+        {
+          k: "5",
+          v: "استبيانات محكّمة في دراسة الرياضيين: WHO-5 وPSS-10 وABQ وMTI والنوم",
+        },
+        { k: "مفتوح", v: "مرصد لبيانات الصحة النفسية العامة" },
+        { k: "الأكاديمية", v: "تكوينات في علم النفس الرياضي وعلم نفس الأداء" },
+      ],
+    },
+    market: {
+      label: "السوق والنموذج",
+      title: "سوق هائلة بلا بنية تحتية تقريبًا.",
+      marketTitle: "السوق",
+      market: [
+        { value: 36828330, label: "نسمة في المغرب، إحصاء 2024 [9]" },
+        {
+          value: 40.1,
+          decimals: 1,
+          suffix: "٪",
+          label: "يعانون حاليًا من اضطراب نفسي [5]",
+        },
+      ],
+      modelTitle: "كيف تحقق U.Psy مداخيلها",
+      model: [
+        {
+          k: "250–800 درهم",
+          v: "للحصة الفردية، حسب الأسعار المعروضة على الموقع",
+        },
+        { k: "≈360–409 درهم", v: "للحصة ضمن باقات من 5 إلى 20 حصة" },
+        { k: "20٪ ← 8٪", v: "عمولة المنصة، تنخفض كلما ارتقى المختص في الصيغة" },
+        { k: "B2B", v: "برامج للأندية والجامعات الرياضية والشركات، حسب العرض" },
+      ],
+      note: "مثال: حصة بـ400 درهم بعمولة 20٪ تترك 80 درهمًا للمنصة.",
+      testsTitle: "اختبارات السوق",
+      tests: [],
+    },
+    voices: { label: "شهادات", title: "بكلماتهم.", items: [] },
     team: {
       label: "من وراء المشروع",
       title: "بُني في الميدان، لا في النظرية.",
