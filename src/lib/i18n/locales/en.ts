@@ -37,6 +37,8 @@ const en = {
     membership: "Membership",
     membershipDesc: "7 tiers — Discover → Elite",
     founder: "Founder",
+    pitch: "The pitch",
+    pitchDesc: "U.Psy in four acts, with sources",
     story: "Our story",
     umbrella: "The Moroccan Umbrella",
     psf: "Psychologues Sans Frontières",

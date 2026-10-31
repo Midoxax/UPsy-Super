@@ -70,8 +70,8 @@ export function BreadcrumbWrapper() {
 
   const cleanPath = stripLocalePrefix(location.pathname);
 
-  // Don't show breadcrumbs on home page or 404
-  if (cleanPath === "/" || cleanPath === "/404") {
+  // Not on the home page, the 404, or the pitch deck (full-screen panels).
+  if (cleanPath === "/" || cleanPath === "/404" || cleanPath === "/pitch") {
     return null;
   }
 
