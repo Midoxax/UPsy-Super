@@ -26,7 +26,6 @@ import {
   Linkedin,
   Mail,
   MessageCircle,
-  Play,
 } from "lucide-react";
 import { toast } from "sonner";
 import mehdiPhoto from "@/assets/mehdi-felji.webp";
@@ -40,7 +39,6 @@ import { trackCTAClick } from "@/lib/analytics/gtm";
 import { canAffordWebGL } from "@/lib/motion/canAffordWebGL";
 import {
   AUDIENCES,
-  FOUNDER_VIDEO,
   REFERENCES,
   cleanRecipient,
   parseAudience,
@@ -250,10 +248,10 @@ export default function Pitch() {
 
   const nodes: Record<string, React.ReactNode> = {
     intro: (
-      // Intro: the same opening for every reader, with the founder on video
+      // Intro: the same opening for every reader
       <div
         key="intro"
-        className="mx-auto grid w-full max-w-6xl items-center gap-10 lg:grid-cols-[minmax(0,1fr)_280px]"
+        className="mx-auto grid w-full max-w-6xl items-center gap-10 "
       >
         <div className="max-w-3xl">
           {recipient && (
@@ -311,7 +309,6 @@ export default function Pitch() {
             {ui.deck.hint}
           </p>
         </div>
-        <FounderVideo ui={ui.video} />
       </div>
     ),
     story: <StoryPanel ui={ui.story} />,
@@ -1097,54 +1094,6 @@ const PRINT_CSS = `
 
 type PitchUiT = ReturnType<typeof pitchCopy>["ui"];
 
-/**
- * The founder's Short. Only a poster until the reader asks for it, so the
- * page loads no YouTube script and sets no cookie (nocookie domain).
- */
-function FounderVideo({ ui }: { ui: PitchUiT["video"] }) {
-  const [playing, setPlaying] = useState(false);
-  return (
-    <figure className="mx-auto w-full max-w-[280px]">
-      <div className="relative aspect-[9/16] overflow-hidden rounded-[1.75rem] ring-1 ring-white/15 shadow-[0_0_80px_rgba(242,183,5,0.15)]">
-        {playing ? (
-          <iframe
-            src={`https://www.youtube-nocookie.com/embed/${FOUNDER_VIDEO.youtubeId}?autoplay=1&playsinline=1&rel=0`}
-            title={ui.label}
-            allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
-            className="absolute inset-0 h-full w-full"
-          />
-        ) : (
-          <button
-            type="button"
-            onClick={() => setPlaying(true)}
-            aria-label={ui.play}
-            className="group absolute inset-0"
-          >
-            <img
-              src={FOUNDER_VIDEO.poster}
-              alt=""
-              loading="lazy"
-              decoding="async"
-              className="h-full w-full object-cover transition duration-700 group-hover:scale-105"
-            />
-            <span className="absolute inset-0 bg-gradient-to-t from-[#0D0406] via-transparent to-transparent" />
-            <span
-              className="absolute left-1/2 top-1/2 flex h-16 w-16 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full text-[#0D0406] shadow-[0_0_40px_rgba(242,183,5,0.5)] transition group-hover:scale-110 print:hidden"
-              style={{ background: GOLD }}
-            >
-              <Play className="ms-1 h-7 w-7 fill-current" />
-            </span>
-          </button>
-        )}
-      </div>
-      <figcaption className="mt-3 text-center text-xs text-white/70">
-        <span className="block font-semibold text-white/90">{ui.label}</span>
-        {ui.caption}
-      </figcaption>
-    </figure>
-  );
-}
-
 function StoryPanel({ ui }: { ui: PitchUiT["story"] }) {
   return (
     <div className="mx-auto grid w-full max-w-6xl items-center gap-10 lg:grid-cols-[minmax(0,1fr)_320px]">
@@ -1182,11 +1131,11 @@ function StoryPanel({ ui }: { ui: PitchUiT["story"] }) {
         </ol>
       </div>
       <img
-        src={FOUNDER_VIDEO.poster}
+        src={mehdiPhoto}
         alt={ui.photoAlt}
         loading="lazy"
         decoding="async"
-        className="mx-auto aspect-[4/5] w-full max-w-[320px] rounded-[1.75rem] object-cover object-[50%_30%] ring-1 ring-white/15"
+        className="mx-auto aspect-[4/5] w-full max-w-[320px] rounded-[1.75rem] object-cover object-top ring-1 ring-white/15"
       />
     </div>
   );

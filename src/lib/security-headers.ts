@@ -38,7 +38,7 @@ const CSP = [
   "img-src 'self' data: blob: https:",
   "media-src 'self' blob: https: https://meet.jit.si https://8x8.vc",
   `connect-src ${CONNECT_SRC}`,
-  "frame-src 'self' https://meet.jit.si https://8x8.vc https://www.openstreetmap.org https://www.googletagmanager.com https://www.youtube-nocookie.com",
+  "frame-src 'self' https://meet.jit.si https://8x8.vc https://www.openstreetmap.org https://www.googletagmanager.com",
   "frame-ancestors 'none'",
   "base-uri 'self'",
   "form-action 'self'",
