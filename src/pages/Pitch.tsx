@@ -249,7 +249,7 @@ export default function Pitch() {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="mt-5 font-display text-4xl leading-[1.05] sm:text-6xl lg:text-[4.25rem]"
+          className="mt-5 font-display text-4xl leading-[1.05] sm:text-5xl lg:text-6xl"
         >
           {p.hero.title}{" "}
           <span className="block" style={{ color: GOLD }}>

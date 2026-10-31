@@ -16,6 +16,7 @@ export const AUDIENCES = [
   "all",
   "athlete",
   "club",
+  "company",
   "psychologist",
   "partner",
 ] as const;
@@ -124,6 +125,24 @@ export const REFERENCES: Reference[] = [
     title: "The mental health of elite athletes: a narrative systematic review",
     source: "Sports Medicine 46(9):1333–1353",
     url: "https://doi.org/10.1007/s40279-016-0492-2",
+  },
+  {
+    id: 7,
+    authors: "Chisholm D, Sweeny K, Sheehan P, et al.",
+    year: 2016,
+    title:
+      "Scaling-up treatment of depression and anxiety: a global return on investment analysis",
+    source: "The Lancet Psychiatry 3(5):415–424",
+    url: "https://doi.org/10.1016/S2215-0366(16)30024-4",
+  },
+  {
+    id: 8,
+    authors: "Joyce S, Modini M, Christensen H, et al.",
+    year: 2016,
+    title:
+      "Workplace interventions for common mental disorders: a systematic meta-review",
+    source: "Psychological Medicine 46(4):683–697",
+    url: "https://doi.org/10.1017/S0033291715002408",
   },
 ];
 
@@ -448,6 +467,64 @@ const en: Copy = {
           to: "/for-organizations",
         },
         reassurance: "Start with one team. Scale only if it works.",
+      },
+    },
+    company: {
+      label: "Company or HR",
+      hero: {
+        title: "Your best people are tired.",
+        accent: "It shows in the numbers before it reaches HR.",
+        sub: "Depression and anxiety are a leading cause of sick leave [8]. Across 36 countries, treating them returned up to three times its cost in productivity [7]. U.Psy gives your teams confidential access to psychologists, in their language.",
+      },
+      problem: {
+        title: "Mental strain costs you before anyone says a word.",
+        body: "Absences, presenteeism, turnover, conflict: untreated stress and depression land in your accounts long before they reach HR. Employees rarely raise it at work, for fear of how it will be seen.",
+        points: [
+          "40.1% of Moroccans live with a current mental disorder: your teams included [5]",
+          "Depression and anxiety are a leading cause of sickness absence and long-term work incapacity [8]",
+          "Left untreated, they cost output, not only health [7]",
+        ],
+        stat: {
+          value: 40.1,
+          decimals: 1,
+          suffix: "%",
+          label: "of Moroccans live with a current mental disorder [5]",
+        },
+      },
+      solution: {
+        title: "A confidential psychology benefit, live in weeks.",
+        body: "Employees book a verified psychologist themselves, by video or in person, in Darija, Arabic, French or English. Reporting to the company is aggregated: you never see who consulted or why.",
+        points: [
+          "Confidential sessions with verified psychologists, booked directly by employees",
+          "Stress management workshops built on CBT, the approach with the strongest workplace evidence [8]",
+          "Manager training: spot the signs, start the conversation, refer",
+          "Programmes for teams, executives and high-pressure roles",
+        ],
+      },
+      value: {
+        title: "A return you can put in front of your board.",
+        body: "Across 36 countries, scaling up treatment of depression and anxiety returns 2.3 to 3 times its cost in productivity alone, and up to 5.7 times once health gains are counted [7]. U.Psy brings that treatment to your teams.",
+        points: [
+          "Fewer sick days and less presenteeism",
+          "Retention: people stay where they are looked after",
+          "A visible duty of care for staff, candidates and investors",
+        ],
+        stat: {
+          value: 3,
+          suffix: ":1",
+          label:
+            "up to 3 returned in productivity for every 1 invested in treating depression and anxiety [7]",
+        },
+      },
+      cta: {
+        title: "Let's design your teams' programme.",
+        body: "A short call with our team: your people, your goals, a proposal and a price.",
+        primary: { label: "Book a call", to: "/book-a-call" },
+        secondary: {
+          label: "See the organisations offer",
+          to: "/for-organizations",
+        },
+        reassurance: "Start with one pilot team. Scale only if it works.",
       },
     },
     psychologist: {
@@ -816,6 +893,66 @@ const fr: Copy = {
           "On commence par une équipe. On étend seulement si ça marche.",
       },
     },
+    company: {
+      label: "Entreprise ou RH",
+      hero: {
+        title: "Vos meilleurs éléments sont fatigués.",
+        accent: "Cela se voit dans les chiffres avant d'arriver aux RH.",
+        sub: "La dépression et l'anxiété sont une cause majeure d'arrêts maladie [8]. Dans 36 pays, les traiter a rapporté jusqu'à trois fois leur coût en productivité [7]. U.Psy donne à vos équipes un accès confidentiel à des psychologues, dans leur langue.",
+      },
+      problem: {
+        title: "La charge mentale vous coûte avant que quiconque n'en parle.",
+        body: "Absences, présentéisme, départs, conflits : le stress et la dépression non traités pèsent sur vos comptes bien avant d'arriver aux RH. Les salariés en parlent rarement au travail, par peur du regard des autres.",
+        points: [
+          "40,1 % des Marocains vivent avec un trouble mental actuel : vos équipes aussi [5]",
+          "La dépression et l'anxiété sont une cause majeure d'arrêts maladie et d'incapacité de travail longue [8]",
+          "Non traitées, elles coûtent de la production, pas seulement de la santé [7]",
+        ],
+        stat: {
+          value: 40.1,
+          decimals: 1,
+          suffix: " %",
+          label: "des Marocains vivent avec un trouble mental actuel [5]",
+        },
+      },
+      solution: {
+        title:
+          "Un avantage psychologie confidentiel, opérationnel en quelques semaines.",
+        body: "Vos salariés réservent eux-mêmes un psychologue vérifié, en visio ou au cabinet, en darija, arabe, français ou anglais. Le reporting à l'entreprise est agrégé : vous ne savez jamais qui a consulté ni pourquoi.",
+        points: [
+          "Séances confidentielles avec des psychologues vérifiés, réservées directement par les salariés",
+          "Ateliers de gestion du stress fondés sur les TCC, l'approche la mieux étayée en entreprise [8]",
+          "Formation des managers : repérer, ouvrir la discussion, orienter",
+          "Programmes pour les équipes, les dirigeants et les postes sous pression",
+        ],
+      },
+      value: {
+        title: "Un retour que vous pouvez présenter à votre conseil.",
+        body: "Dans 36 pays, étendre le traitement de la dépression et de l'anxiété rapporte 2,3 à 3 fois son coût en productivité seule, et jusqu'à 5,7 fois en comptant les gains de santé [7]. U.Psy apporte ce traitement à vos équipes.",
+        points: [
+          "Moins d'arrêts maladie et de présentéisme",
+          "Fidélisation : on reste là où l'on prend soin de nous",
+          "Un devoir de protection visible pour les salariés, les candidats et les investisseurs",
+        ],
+        stat: {
+          value: 3,
+          suffix: ":1",
+          label:
+            "jusqu'à 3 rendus en productivité pour 1 investi dans le traitement de la dépression et de l'anxiété [7]",
+        },
+      },
+      cta: {
+        title: "Concevons le programme de vos équipes.",
+        body: "Un court appel avec notre équipe : vos collaborateurs, vos objectifs, une proposition et un prix.",
+        primary: { label: "Réserver un appel", to: "/book-a-call" },
+        secondary: {
+          label: "Voir l'offre organisations",
+          to: "/for-organizations",
+        },
+        reassurance:
+          "On commence par une équipe pilote. On étend seulement si ça marche.",
+      },
+    },
     psychologist: {
       label: "Psychologue",
       hero: {
@@ -1166,6 +1303,64 @@ const ar: Copy = {
           to: "/for-organizations",
         },
         reassurance: "نبدأ بفريق واحد، ولا نتوسع إلا إذا نجحت التجربة.",
+      },
+    },
+    company: {
+      label: "شركة أو موارد بشرية",
+      hero: {
+        title: "أفضل موظفيك متعبون.",
+        accent: "يظهر ذلك في الأرقام قبل أن يصل إلى الموارد البشرية.",
+        sub: "الاكتئاب والقلق من أبرز أسباب الإجازات المرضية [8]. في 36 دولة، عاد علاجهما بما يصل إلى ثلاثة أضعاف كلفته من الإنتاجية [7]. تمنح U.Psy فرقك وصولًا سريًا إلى أخصائيين نفسيين، بلغتهم.",
+      },
+      problem: {
+        title: "العبء الذهني يكلّفك قبل أن يتحدث عنه أحد.",
+        body: "الغياب، الحضور دون إنتاج، المغادرة، النزاعات: الضغط والاكتئاب غير المعالَجين يثقلان حساباتك قبل أن يصلا إلى الموارد البشرية بكثير. ونادرًا ما يتحدث الموظفون عنهما في العمل خوفًا من نظرة الآخرين.",
+        points: [
+          "40.1٪ من المغاربة يعانون حاليًا من اضطراب نفسي، وفرقك منهم [5]",
+          "الاكتئاب والقلق من أبرز أسباب الإجازات المرضية والعجز الطويل عن العمل [8]",
+          "دون علاج، يكلّفان الإنتاج وليس الصحة فقط [7]",
+        ],
+        stat: {
+          value: 40.1,
+          decimals: 1,
+          suffix: "٪",
+          label: "من المغاربة يعانون حاليًا من اضطراب نفسي [5]",
+        },
+      },
+      solution: {
+        title: "ميزة نفسية سرية، جاهزة في بضعة أسابيع.",
+        body: "يحجز موظفوك بأنفسهم أخصائيًا نفسيًا موثوقًا، عن بعد أو في العيادة، بالدارجة أو العربية أو الفرنسية أو الإنجليزية. التقارير الموجهة للشركة إجمالية: لا تعرف أبدًا من استشار ولا لماذا.",
+        points: [
+          "حصص سرية مع أخصائيين موثوقين يحجزها الموظفون مباشرة",
+          "ورشات لتدبير الضغط مبنية على العلاج المعرفي السلوكي، الأكثر إثباتًا في بيئة العمل [8]",
+          "تكوين المديرين: الرصد، فتح الحوار، التوجيه",
+          "برامج للفرق والمسيّرين والمناصب تحت الضغط",
+        ],
+      },
+      value: {
+        title: "عائد يمكنك عرضه على مجلس إدارتك.",
+        body: "في 36 دولة، يعود توسيع علاج الاكتئاب والقلق بما بين 2.3 و3 أضعاف كلفته من الإنتاجية وحدها، وبما يصل إلى 5.7 أضعاف عند احتساب المكاسب الصحية [7]. تجلب U.Psy هذا العلاج إلى فرقك.",
+        points: [
+          "إجازات مرضية أقل وحضور دون إنتاج أقل",
+          "الاحتفاظ بالكفاءات: يبقى الناس حيث يُعتنى بهم",
+          "واجب رعاية ظاهر للموظفين والمرشحين والمستثمرين",
+        ],
+        stat: {
+          value: 3,
+          suffix: ":1",
+          label:
+            "ما يصل إلى 3 من الإنتاجية مقابل كل 1 يُستثمر في علاج الاكتئاب والقلق [7]",
+        },
+      },
+      cta: {
+        title: "لنصمّم برنامج فرقك.",
+        body: "مكالمة قصيرة مع فريقنا: موظفوك، أهدافك، مقترح وثمن.",
+        primary: { label: "احجز مكالمة", to: "/book-a-call" },
+        secondary: {
+          label: "اطّلع على عرض المؤسسات",
+          to: "/for-organizations",
+        },
+        reassurance: "نبدأ بفريق تجريبي واحد، ولا نتوسع إلا إذا نجحت التجربة.",
       },
     },
     psychologist: {
