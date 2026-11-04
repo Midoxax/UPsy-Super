@@ -1,4 +1,4 @@
-import { Suspense, useRef } from "react";
+import { Suspense, useEffect, useRef, type ReactNode } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import {
   Float,
@@ -144,6 +144,32 @@ function OrbitRings() {
   );
 }
 
+/**
+ * Tilts the orb system toward the cursor so the scene reads as a space you
+ * look into, not a flat backdrop. The canvas sits behind the hero copy and
+ * never receives pointer events, so the cursor is read from the window.
+ */
+function PointerParallax({ children }: { children: ReactNode }) {
+  const group = useRef<THREE.Group>(null);
+  const target = useRef({ x: 0, y: 0 });
+  useEffect(() => {
+    const onMove = (e: PointerEvent) => {
+      target.current.x = (e.clientX / window.innerWidth) * 2 - 1;
+      target.current.y = (e.clientY / window.innerHeight) * 2 - 1;
+    };
+    window.addEventListener("pointermove", onMove, { passive: true });
+    return () => window.removeEventListener("pointermove", onMove);
+  }, []);
+  useFrame((_, delta) => {
+    const g = group.current;
+    if (!g) return;
+    const k = Math.min(1, delta * 2.5);
+    g.rotation.y += (target.current.x * 0.35 - g.rotation.y) * k;
+    g.rotation.x += (target.current.y * 0.22 - g.rotation.x) * k;
+  });
+  return <group ref={group}>{children}</group>;
+}
+
 export default function HeroScene() {
   return (
     <Canvas
@@ -167,9 +193,11 @@ export default function HeroScene() {
           speed={0.6}
         />
         <group position={[1.5, 0.1, 0]}>
-          <CoreOrb />
-          <OrbitRings />
-          <OrbitingSatellites />
+          <PointerParallax>
+            <CoreOrb />
+            <OrbitRings />
+            <OrbitingSatellites />
+          </PointerParallax>
         </group>
         {/*
           There was an <Environment preset="night" /> here. `preset` makes drei

@@ -1,5 +1,5 @@
 // src/components/home/HeroSection.tsx — Editorial magazine hero (v7) with 3D orb backdrop
-import { lazy, Suspense, useEffect, useState } from "react";
+import { lazy, Suspense, useEffect, useRef, useState } from "react";
 import { Link } from "@/lib/router-compat";
 import { AnimatePresence, motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
@@ -36,6 +36,7 @@ const HeroSection = () => {
   const { locale } = useLocale();
   const base = getHomeCopy(locale).hero;
   const [showScene, setShowScene] = useState(false);
+  const panel = useRef<HTMLDivElement>(null);
 
   // home_hero_v1: headline / subhead / CTA are under test. The variant is
   // resolved server-side, so this renders identically on SSR and hydration.
@@ -78,6 +79,29 @@ const HeroSection = () => {
     }
     const handle = window.setTimeout(() => setShowScene(true), 1200);
     return () => window.clearTimeout(handle);
+  }, []);
+
+  // The facts panel is a small 3D stage: its cards sit at different depths
+  // and the whole stage turns toward the cursor. Desktop only (the panel is
+  // hidden below lg); static under reduced motion.
+  useEffect(() => {
+    const el = panel.current;
+    if (!el || window.matchMedia("(prefers-reduced-motion: reduce)").matches)
+      return;
+    let frame = 0;
+    const onMove = (e: PointerEvent) => {
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(() => {
+        const x = (e.clientX / window.innerWidth) * 2 - 1;
+        const y = (e.clientY / window.innerHeight) * 2 - 1;
+        el.style.transform = `rotateX(${(-y * 10).toFixed(2)}deg) rotateY(${(x * 14).toFixed(2)}deg)`;
+      });
+    };
+    window.addEventListener("pointermove", onMove, { passive: true });
+    return () => {
+      cancelAnimationFrame(frame);
+      window.removeEventListener("pointermove", onMove);
+    };
   }, []);
 
   return (
@@ -254,35 +278,42 @@ const HeroSection = () => {
           </div>
 
           {/* RIGHT — floating product facts (desktop only) */}
-          <div className="hidden lg:flex lg:col-span-6 relative h-[620px] items-center justify-center">
-            <div className="relative w-[480px] h-[480px]">
+          <div className="hidden lg:flex lg:col-span-6 relative h-[620px] items-center justify-center [perspective:1100px]">
+            <div
+              ref={panel}
+              className="relative w-[480px] h-[480px] [transform-style:preserve-3d] transition-transform duration-500 ease-out"
+              style={{ transform: "rotateX(6deg) rotateY(-10deg)" }}
+            >
               {/* Central core — the free score */}
-              <motion.div
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.8, delay: 0.4 }}
-                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 h-48 rounded-full flex flex-col items-center justify-center text-center border border-[hsl(var(--gold-accent))]/50 z-20 backdrop-blur-md"
-                style={{
-                  background:
-                    "radial-gradient(circle at 30% 30%, hsl(348 60% 20% / 0.9), hsl(348 60% 6% / 0.9) 70%)",
-                  boxShadow: "0 0 100px hsl(45 96% 50% / 0.3)",
-                }}
-              >
-                <span className="font-mono text-6xl text-[#FAFAFA] font-bold tabular-nums tracking-tighter">
-                  12
-                </span>
-                <span className="text-[10px] text-[hsl(var(--gold-accent))] font-black tracking-[0.3em] uppercase mt-1">
-                  {c.scoreLabel}
-                </span>
-                <span className="text-[10px] text-[#FAFAFA]/60 mt-1 px-4">
-                  {c.scoreSub}
-                </span>
-              </motion.div>
+              <Depth z={40}>
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.8, delay: 0.4 }}
+                  className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 h-48 rounded-full flex flex-col items-center justify-center text-center border border-[hsl(var(--gold-accent))]/50 z-20 backdrop-blur-md"
+                  style={{
+                    background:
+                      "radial-gradient(circle at 30% 30%, hsl(348 60% 20% / 0.9), hsl(348 60% 6% / 0.9) 70%)",
+                    boxShadow: "0 0 100px hsl(45 96% 50% / 0.3)",
+                  }}
+                >
+                  <span className="font-mono text-6xl text-[#FAFAFA] font-bold tabular-nums tracking-tighter">
+                    12
+                  </span>
+                  <span className="text-[10px] text-[hsl(var(--gold-accent))] font-black tracking-[0.3em] uppercase mt-1">
+                    {c.scoreLabel}
+                  </span>
+                  <span className="text-[10px] text-[#FAFAFA]/60 mt-1 px-4">
+                    {c.scoreSub}
+                  </span>
+                </motion.div>
+              </Depth>
 
               {/* Card — languages */}
               <MetricCard
                 className="absolute -top-4 left-1/2 -translate-x-1/2 w-56"
                 label={c.langLabel}
+                depth={110}
                 delay={0.6}
                 anim="float-a"
               >
@@ -299,6 +330,7 @@ const HeroSection = () => {
               <MetricCard
                 className="absolute top-1/2 -right-16 -translate-y-1/2 w-44"
                 label={c.formatLabel}
+                depth={150}
                 delay={0.75}
                 anim="float-b"
               >
@@ -314,6 +346,7 @@ const HeroSection = () => {
               <MetricCard
                 className="absolute bottom-0 -left-12 w-48"
                 label={c.privacyLabel}
+                depth={90}
                 delay={0.9}
                 anim="float-c"
               >
@@ -325,11 +358,13 @@ const HeroSection = () => {
                 </div>
               </MetricCard>
 
-              {/* Decorative rotating ring */}
-              <div className="absolute inset-0 border border-[hsl(var(--gold-accent))]/10 rounded-full pointer-events-none animate-[spin_45s_linear_infinite]">
-                <div className="absolute top-0 left-1/2 w-1.5 h-1.5 bg-[hsl(var(--gold-accent))] rounded-full -translate-x-1/2" />
-                <div className="absolute bottom-0 left-1/2 w-1.5 h-1.5 bg-[hsl(var(--gold-accent))] rounded-full -translate-x-1/2" />
-              </div>
+              {/* Decorative rotating ring, set back behind the cards */}
+              <Depth z={-60}>
+                <div className="absolute inset-0 border border-[hsl(var(--gold-accent))]/10 rounded-full pointer-events-none animate-[spin_45s_linear_infinite]">
+                  <div className="absolute top-0 left-1/2 w-1.5 h-1.5 bg-[hsl(var(--gold-accent))] rounded-full -translate-x-1/2" />
+                  <div className="absolute bottom-0 left-1/2 w-1.5 h-1.5 bg-[hsl(var(--gold-accent))] rounded-full -translate-x-1/2" />
+                </div>
+              </Depth>
             </div>
           </div>
         </div>
@@ -368,32 +403,48 @@ const HeroSection = () => {
   );
 };
 
+/** Places its children on a plane `z` px in front of (or behind) the stage. */
+function Depth({ z, children }: { z: number; children: React.ReactNode }) {
+  return (
+    <div
+      className="absolute inset-0 pointer-events-none [transform-style:preserve-3d] [&>*]:pointer-events-auto"
+      style={{ transform: `translateZ(${z}px)` }}
+    >
+      {children}
+    </div>
+  );
+}
+
 function MetricCard({
   children,
   className = "",
   label,
+  depth = 80,
   delay = 0,
   anim,
 }: {
   children: React.ReactNode;
   className?: string;
   label: string;
+  depth?: number;
   delay?: number;
   anim: "float-a" | "float-b" | "float-c";
 }) {
   return (
-    <motion.div
-      initial={{ opacity: 0, scale: 0.92 }}
-      animate={{ opacity: 1, scale: 1 }}
-      transition={{ duration: 0.6, delay }}
-      className={`group p-4 bg-[#0D0406]/60 backdrop-blur-xl border border-white/10 rounded-lg shadow-2xl transition-all duration-300 hover:scale-[1.05] hover:border-[hsl(var(--gold-accent))]/60 hover:shadow-[0_0_30px_hsl(45_96%_50%/0.25)] ${className}`}
-      style={{ animation: `${anim} 5s ease-in-out infinite ${delay}s` }}
-      aria-label={label}
-    >
-      <div className="absolute -top-2 -left-2 w-2 h-2 border-t border-l border-[hsl(var(--gold-accent))]/40" />
-      <div className="absolute -bottom-2 -right-2 w-2 h-2 border-b border-r border-[hsl(var(--gold-accent))]/40" />
-      <div className="relative">{children}</div>
-    </motion.div>
+    <Depth z={depth}>
+      <motion.div
+        initial={{ opacity: 0, scale: 0.92 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.6, delay }}
+        className={`group p-4 bg-[#0D0406]/60 backdrop-blur-xl border border-white/10 rounded-lg shadow-2xl transition-all duration-300 hover:scale-[1.05] hover:border-[hsl(var(--gold-accent))]/60 hover:shadow-[0_0_30px_hsl(45_96%_50%/0.25)] ${className}`}
+        style={{ animation: `${anim} 5s ease-in-out infinite ${delay}s` }}
+        aria-label={label}
+      >
+        <div className="absolute -top-2 -left-2 w-2 h-2 border-t border-l border-[hsl(var(--gold-accent))]/40" />
+        <div className="absolute -bottom-2 -right-2 w-2 h-2 border-b border-r border-[hsl(var(--gold-accent))]/40" />
+        <div className="relative">{children}</div>
+      </motion.div>
+    </Depth>
   );
 }
 

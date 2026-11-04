@@ -23,9 +23,6 @@ const FounderSection = lazy(() => import("@/components/home/FounderSection"));
 const OrganizationsSection = lazy(
   () => import("@/components/home/OrganizationsSection"),
 );
-const HomePricingSection = lazy(
-  () => import("@/components/home/HomePricingSection"),
-);
 const TestimonialsSection = lazy(
   () => import("@/components/home/TestimonialsSection"),
 );
@@ -44,10 +41,9 @@ const SectionFallback = () => (
  *  2. Trust strip
  *  3. Featured psychologists (money section — earlier is better)
  *  4. How it works (3 steps → book)
- *  5. Pricing
- *  6. Testimonials
- *  7. FAQ (kill objections)
- *  8. Final CTA
+ *  5. Testimonials
+ *  6. FAQ (kill objections)
+ *  7. Final CTA
  */
 const homeSequence = [
   { key: "trust", Component: TrustSection },
@@ -55,7 +51,6 @@ const homeSequence = [
   { key: "how-it-works", Component: HowItWorksSection },
   { key: "why-us", Component: WhyUsSection },
   { key: "programs", Component: ProgramsSection },
-  { key: "pricing", Component: HomePricingSection },
   { key: "organizations", Component: OrganizationsSection },
   { key: "testimonials", Component: TestimonialsSection },
   { key: "founder", Component: FounderSection },
@@ -177,7 +172,7 @@ const Index = () => {
                 name: "How much does a session cost?",
                 acceptedAnswer: {
                   "@type": "Answer",
-                  text: "From MAD 600 / EUR 55 / USD 60 for a single 50-min session. Packs of 4 save ~8%. Ongoing monthly care from MAD 2,400.",
+                  text: "Each psychologist sets their own fee, usually between 250 and 800 MAD for a single session. You see the exact price on their profile before you book, and packs of 5 to 20 sessions lower the price per session.",
                 },
               },
               {

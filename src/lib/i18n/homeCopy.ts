@@ -29,25 +29,6 @@ type HeroCopy = {
   tickerItems: string[];
 };
 
-type PricingTier = {
-  name: string;
-  price: string;
-  cadence: string;
-  tagline: string;
-  bullets: string[];
-  cta: string;
-};
-
-type PricingCopy = {
-  eyebrow: string;
-  title: string;
-  subtitle: string;
-  badge: string;
-  tiers: [PricingTier, PricingTier, PricingTier];
-  footnote: string;
-  footnoteLink: string;
-};
-
 type FAQItem = { q: string; a: string };
 type FAQCopy = {
   eyebrow: string;
@@ -63,7 +44,6 @@ type SEOCopy = { title: string; description: string };
 
 type HomeCopy = {
   hero: HeroCopy;
-  pricing: PricingCopy;
   faq: FAQCopy;
   featured: FeaturedCopy;
   seo: SEOCopy;
@@ -108,56 +88,6 @@ const en: HomeCopy = {
       "Confidential · Law 09-08",
     ],
   },
-  pricing: {
-    eyebrow: "Transparent pricing",
-    title: "One clear price. No surprises.",
-    subtitle:
-      "Every session is 50 minutes with an accredited psychologist. Video or in-person, in Arabic, French, or English.",
-    badge: "Most chosen",
-    tiers: [
-      {
-        name: "Single session",
-        price: "MAD 600",
-        cadence: "one 50-min session",
-        tagline: "Try it before you commit.",
-        bullets: [
-          "50-minute session, video or in-person",
-          "Choose your psychologist",
-          "Free rebook if not the right fit",
-        ],
-        cta: "Book a session",
-      },
-      {
-        name: "Focus pack",
-        price: "MAD 2,200",
-        cadence: "4 sessions · save 8%",
-        tagline: "Best for a specific issue: anxiety, sleep, transitions.",
-        bullets: [
-          "4 × 50-min sessions with the same psychologist",
-          "Structured protocol (CBT / EMDR / Schema)",
-          "Progress tracking + between-session tools",
-          "Free rebook guarantee",
-        ],
-        cta: "Start the pack",
-      },
-      {
-        name: "Ongoing care",
-        price: "MAD 2,400",
-        cadence: "per month",
-        tagline: "Weekly sessions plus digital care between them.",
-        bullets: [
-          "4 sessions / month with your psychologist",
-          "Nour AI companion between sessions",
-          "Journaling + mood tracking",
-          "Cancel anytime",
-        ],
-        cta: "Start ongoing care",
-      },
-    ],
-    footnote:
-      "Prices are illustrative. Final price is shown on each psychologist's profile.",
-    footnoteLink: "See full pricing details",
-  },
   faq: {
     eyebrow: "Straight answers",
     titleBefore: "The things people ",
@@ -194,7 +124,7 @@ const en: HomeCopy = {
       },
       {
         q: "How much does a session cost?",
-        a: "From MAD 600 / EUR 55 / USD 60 for a single 50-min session. Packs of 4 save ~8%. Ongoing monthly care from MAD 2,400. The exact price is on each psychologist's profile — displayed in your local currency.",
+        a: "Each psychologist sets their own fee, usually between 250 and 800 MAD for a single session. You see the exact price on their profile before you book, and packs of 5 to 20 sessions lower the price per session.",
       },
       {
         q: "Is it confidential? What about my employer or insurance?",
@@ -283,57 +213,6 @@ const fr: HomeCopy = {
       "Confidentiel · loi 09-08",
     ],
   },
-  pricing: {
-    eyebrow: "Tarifs transparents",
-    title: "Un prix clair. Aucune surprise.",
-    subtitle:
-      "Chaque séance dure 50 minutes avec un psychologue accrédité. En visio ou en cabinet, en arabe, français ou anglais.",
-    badge: "Le plus choisi",
-    tiers: [
-      {
-        name: "Séance unique",
-        price: "600 MAD",
-        cadence: "une séance de 50 min",
-        tagline: "Essayez avant de vous engager.",
-        bullets: [
-          "Séance de 50 minutes, visio ou cabinet",
-          "Choisissez votre psychologue",
-          "Nouvelle séance offerte si ça ne colle pas",
-        ],
-        cta: "Réserver une séance",
-      },
-      {
-        name: "Pack Focus",
-        price: "2 200 MAD",
-        cadence: "4 séances · -8 %",
-        tagline:
-          "Idéal pour une problématique ciblée : anxiété, sommeil, transitions.",
-        bullets: [
-          "4 séances de 50 min avec le même psychologue",
-          "Protocole structuré (TCC / EMDR / Schémas)",
-          "Suivi de progression + outils entre les séances",
-          "Garantie nouvelle séance offerte",
-        ],
-        cta: "Démarrer le pack",
-      },
-      {
-        name: "Suivi continu",
-        price: "2 400 MAD",
-        cadence: "par mois",
-        tagline: "Séances hebdomadaires + accompagnement digital entre chaque.",
-        bullets: [
-          "4 séances / mois avec votre psychologue",
-          "Compagnon IA Nour entre les séances",
-          "Journal + suivi de l'humeur",
-          "Résiliable à tout moment",
-        ],
-        cta: "Commencer le suivi",
-      },
-    ],
-    footnote:
-      "Tarifs indicatifs. Le prix définitif est indiqué sur le profil de chaque psychologue.",
-    footnoteLink: "Voir tous les tarifs",
-  },
   faq: {
     eyebrow: "Réponses directes",
     titleBefore: "Ce que les gens demandent ",
@@ -370,7 +249,7 @@ const fr: HomeCopy = {
       },
       {
         q: "Combien coûte une séance ?",
-        a: "À partir de 600 MAD / 55 EUR / 60 USD pour une séance individuelle de 50 min. Les packs de 4 offrent ~8 % de remise. Suivi mensuel à partir de 2 400 MAD. Le prix exact est affiché sur chaque profil — dans votre devise locale.",
+        a: "Chaque psychologue fixe son tarif, en général entre 250 et 800 MAD la séance individuelle. Le prix exact est affiché sur son profil avant la réservation, et les packs de 5 à 20 séances réduisent le prix par séance.",
       },
       {
         q: "Est-ce confidentiel ? Et vis-à-vis de mon employeur ou de mon assurance ?",
@@ -456,55 +335,6 @@ const ar: HomeCopy = {
       "سري · القانون 09-08",
     ],
   },
-  pricing: {
-    eyebrow: "تسعير شفّاف",
-    title: "سعر واحد واضح. بلا مفاجآت.",
-    subtitle:
-      "كل جلسة ٥٠ دقيقة مع أخصائي نفسي معتمَد. عبر الفيديو أو حضورياً، بالعربية أو الفرنسية أو الإنجليزية.",
-    badge: "الأكثر اختياراً",
-    tiers: [
-      {
-        name: "جلسة واحدة",
-        price: "٦٠٠ درهم",
-        cadence: "جلسة واحدة ٥٠ دقيقة",
-        tagline: "جرّب قبل أن تلتزم.",
-        bullets: [
-          "جلسة ٥٠ دقيقة، فيديو أو حضورياً",
-          "اختر أخصّائيك النفسي",
-          "إعادة حجز مجانية إن لم يكن الملاءم",
-        ],
-        cta: "احجز جلسة",
-      },
-      {
-        name: "حزمة التركيز",
-        price: "٢٬٢٠٠ درهم",
-        cadence: "٤ جلسات · وفّر ٨٪",
-        tagline: "الأنسب لموضوع محدَّد: القلق، النوم، مراحل الانتقال.",
-        bullets: [
-          "٤ جلسات × ٥٠ دقيقة مع نفس الأخصّائي",
-          "بروتوكول منظّم (CBT / EMDR / سكيما)",
-          "تتبّع للتقدّم + أدوات بين الجلسات",
-          "ضمان إعادة حجز مجانية",
-        ],
-        cta: "ابدأ الحزمة",
-      },
-      {
-        name: "متابعة مستمرّة",
-        price: "٢٬٤٠٠ درهم",
-        cadence: "شهرياً",
-        tagline: "جلسات أسبوعية ومرافقة رقمية بينها.",
-        bullets: [
-          "٤ جلسات / شهر مع أخصّائيك",
-          "مرافقة نور بالذكاء الاصطناعي بين الجلسات",
-          "دفتر يوميات + تتبّع المزاج",
-          "يمكن الإلغاء في أي وقت",
-        ],
-        cta: "ابدأ المتابعة",
-      },
-    ],
-    footnote: "الأسعار إرشادية. السعر النهائي يظهر على صفحة كل أخصائي.",
-    footnoteLink: "اطّلع على كل التفاصيل",
-  },
   faq: {
     eyebrow: "أجوبة مباشرة",
     titleBefore: "ما يسأله الناس ",
@@ -541,7 +371,7 @@ const ar: HomeCopy = {
       },
       {
         q: "كم تكلفة الجلسة؟",
-        a: "من ٦٠٠ درهم / ٥٥ يورو / ٦٠ دولار للجلسة الفردية ٥٠ دقيقة. حزم ٤ جلسات توفّر ~٨٪. متابعة شهرية من ٢٬٤٠٠ درهم. السعر الدقيق على صفحة كل أخصّائي — بعملتك المحلية.",
+        a: "يحدّد كل أخصائي نفسي أتعابه، عادةً بين 250 و800 درهم للجلسة الفردية. ترى السعر الدقيق على صفحته قبل الحجز، وتخفّض باقات من 5 إلى 20 جلسة سعر الجلسة الواحدة.",
       },
       {
         q: "هل هي سريّة؟ ماذا عن ربّ العمل أو التأمين؟",
