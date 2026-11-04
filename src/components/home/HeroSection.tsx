@@ -1,9 +1,9 @@
 // src/components/home/HeroSection.tsx — Editorial magazine hero (v7) with 3D orb backdrop
 import { lazy, Suspense, useEffect, useState } from "react";
 import { Link } from "@/lib/router-compat";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Check } from "lucide-react";
 import { MagneticButton } from "@/lib/motion";
 import { useLocale } from "@/contexts/LocaleContext";
 import { getHomeCopy } from "@/lib/i18n/homeCopy";
@@ -20,19 +20,9 @@ import { trackCTAClick } from "@/lib/analytics/gtm";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { canAffordWebGL } from "@/lib/motion/canAffordWebGL";
 
-/**
- * Spread-merge helper: a variant that omits a field must inherit the control's
- * value, but a plain spread would overwrite it with `undefined`.
- */
 function withSearch(path: string, search?: Record<string, string>): string {
   if (!search || Object.keys(search).length === 0) return path;
   return `${path}?${new URLSearchParams(search).toString()}`;
-}
-
-function stripUndefined<T extends object>(obj: T): Partial<T> {
-  return Object.fromEntries(
-    Object.entries(obj).filter(([, value]) => value !== undefined),
-  ) as Partial<T>;
 }
 
 const HeroScene = lazy(() => import("@/components/three/HeroScene"));
@@ -53,13 +43,10 @@ const HeroSection = () => {
   useExperimentExposure(HOME_HERO_EXPERIMENT.id, variant);
   const v = getHeroVariantCopy(variant, locale);
 
-  const {
-    ctaPrimary: vPrimary,
-    ctaSecondary: vSecondary,
-    ctaFootnote,
-    ...vText
-  } = v;
-  const c = { ...base, ...stripUndefined(vText) };
+  // The headline, tagline and body are the same for every variant: they carry
+  // the search terms the page ranks on. Variants only change the buttons.
+  const { ctaPrimary: vPrimary, ctaSecondary: vSecondary, ctaFootnote } = v;
+  const c = base;
 
   const primaryTo = withSearch(vPrimary?.to ?? "/free-score", vPrimary?.search);
   const secondaryTo = withSearch(
@@ -195,13 +182,9 @@ const HeroSection = () => {
               transition={{ duration: 0.8, delay: 0.1 }}
               className="space-y-5"
             >
-              <h1 className="font-display font-semibold leading-[0.9] tracking-tight text-[clamp(2.75rem,7.5vw,6rem)] text-[#FAFAFA]">
-                {c.headlineLine1}
-                <br />
-                <span className="relative italic font-bold text-gold-gradient">
-                  {c.headlineLine2}
-                  <span className="absolute -bottom-2 left-0 w-full h-1 bg-[hsl(var(--gold-accent))]/20" />
-                </span>
+              <h1 className="font-display font-semibold leading-[0.95] tracking-tight text-[clamp(2.4rem,6vw,4.75rem)] text-[#FAFAFA]">
+                {c.headlineLine1} <br />
+                <RotatingLine phrases={c.rotating} />
               </h1>
               <p className="font-display italic text-xl md:text-2xl text-[#FAFAFA]/80">
                 {c.tagline}
@@ -253,16 +236,21 @@ const HeroSection = () => {
                 </Link>
               </Button>
             </motion.div>
-            {ctaFootnote ? (
-              <motion.p
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.6, delay: 0.65 }}
-                className="text-xs tracking-wide text-[#FAFAFA]/70 font-body"
-              >
-                {ctaFootnote}
-              </motion.p>
-            ) : null}
+            <motion.ul
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.6, delay: 0.65 }}
+              className="flex flex-wrap gap-x-5 gap-y-2 text-xs tracking-wide text-[#FAFAFA]/75 font-body"
+            >
+              {[...(ctaFootnote ? [ctaFootnote] : []), ...c.closing].map(
+                (t) => (
+                  <li key={t} className="flex items-center gap-2">
+                    <Check className="h-3.5 w-3.5 text-[hsl(var(--gold-accent))]" />
+                    {t}
+                  </li>
+                ),
+              )}
+            </motion.ul>
           </div>
 
           {/* RIGHT — floating metrics dashboard (desktop only) */}
@@ -429,3 +417,57 @@ function MetricCard({
 }
 
 export default HeroSection;
+
+/**
+ * The headline's second line cycles through what people come for. The
+ * server renders the first phrase, so the H1 search engines read is one
+ * sentence ("Votre psychologue au Maroc, en ligne ou au cabinet."). All
+ * phrases share one grid cell, so the tallest sets the height and nothing
+ * below jumps. Static with reduced motion.
+ */
+function RotatingLine({ phrases }: { phrases: string[] }) {
+  const [i, setI] = useState(0);
+  useEffect(() => {
+    if (prefersReducedMotionNow() || phrases.length < 2) return;
+    const id = window.setInterval(
+      () => setI((n) => (n + 1) % phrases.length),
+      2800,
+    );
+    return () => window.clearInterval(id);
+  }, [phrases.length]);
+
+  return (
+    <span className="relative inline-grid italic font-bold text-gold-gradient">
+      {/* Size reservers: the text lives in CSS (attr), not in the page, so
+          the headline reads as one sentence to search engines. */}
+      {phrases.map((p) => (
+        <span
+          key={p}
+          aria-hidden="true"
+          data-text={p}
+          className="col-start-1 row-start-1 invisible before:content-[attr(data-text)]"
+        />
+      ))}
+      <AnimatePresence initial={false}>
+        <motion.span
+          key={phrases[i]}
+          initial={{ opacity: 0, y: "0.35em" }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: "-0.35em" }}
+          transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
+          className="col-start-1 row-start-1"
+          aria-live="off"
+        >
+          {phrases[i]}
+        </motion.span>
+      </AnimatePresence>
+    </span>
+  );
+}
+
+function prefersReducedMotionNow() {
+  return (
+    typeof window !== "undefined" &&
+    window.matchMedia?.("(prefers-reduced-motion: reduce)").matches
+  );
+}

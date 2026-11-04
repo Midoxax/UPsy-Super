@@ -8,7 +8,11 @@ type HeroCopy = {
   eyebrow: string;
   headlineLine1: string;
   headlineLine2: string;
+  /** Rotating second line of the headline; the first is the one search engines see. */
+  rotating: string[];
   tagline: string;
+  /** Reassurance under the buttons. */
+  closing: string[];
   body: string;
   ctaPrimary: string;
   ctaSecondary: string;
@@ -66,12 +70,25 @@ type HomeCopy = {
 
 const en: HomeCopy = {
   hero: {
-    eyebrow: "The Architecture of Dominance",
-    headlineLine1: "Are You Operating",
-    headlineLine2: "At Your Ceiling?",
-    tagline: "The 2ms difference between good and elite.",
-    body: "Why do the world's most capable leaders and athletes fail at the finish line? U.Psy replaces clinical guesswork with neuro-performance infrastructure — designed for high-stakes decision cycles.",
-    ctaPrimary: "COMMENCE ASSESSMENT",
+    eyebrow: "Verified psychologists · Video or in person",
+    headlineLine1: "Your psychologist in Morocco,",
+    headlineLine2: "online or in person.",
+    rotating: [
+      "online or in person.",
+      "for anxiety and stress.",
+      "to beat burnout.",
+      "for athletes' performance.",
+      "for your teams.",
+      "in Darija, Arabic, French or English.",
+    ],
+    tagline: "Psychology built for performance under pressure.",
+    body: "Find a verified psychologist and book online: anxiety, depression, stress, burnout, mental preparation for sport. Video sessions anywhere in Morocco and abroad, or in person. Clear fees, fully confidential.",
+    closing: [
+      "Free score in 2 minutes",
+      "No commitment",
+      "Confidential · Law 09-08",
+    ],
+    ctaPrimary: "TAKE THE FREE SCORE",
     ctaSecondary: "MATCH WITH A SPECIALIST",
     syncIndex: "Sync Index",
     adrenalineBuffer: "Adrenaline Buffer",
@@ -232,12 +249,25 @@ const en: HomeCopy = {
 
 const fr: HomeCopy = {
   hero: {
-    eyebrow: "L'architecture de la maîtrise",
-    headlineLine1: "Opérez-vous",
-    headlineLine2: "à votre plafond ?",
-    tagline: "Les 2 ms qui séparent le bon de l'élite.",
-    body: "Pourquoi les leaders et athlètes les plus capables du monde échouent-ils sur la ligne d'arrivée ? U.Psy remplace l'à-peu-près clinique par une infrastructure de neuro-performance — pensée pour les cycles de décision à fort enjeu.",
-    ctaPrimary: "COMMENCER L'ÉVALUATION",
+    eyebrow: "Psychologues vérifiés · Visio ou cabinet",
+    headlineLine1: "Votre psychologue au Maroc,",
+    headlineLine2: "en ligne ou au cabinet.",
+    rotating: [
+      "en ligne ou au cabinet.",
+      "pour l'anxiété et le stress.",
+      "contre le burn-out.",
+      "pour la performance des sportifs.",
+      "pour vos équipes.",
+      "en darija, arabe, français ou anglais.",
+    ],
+    tagline: "La psychologie conçue pour la performance sous pression.",
+    body: "Trouvez un psychologue vérifié et réservez en ligne : anxiété, dépression, stress, burn-out, préparation mentale du sportif. Séances en visio partout au Maroc et à l'étranger, ou au cabinet. Tarifs affichés, confidentialité totale.",
+    closing: [
+      "Score gratuit en 2 minutes",
+      "Sans engagement",
+      "Confidentiel · loi 09-08",
+    ],
+    ctaPrimary: "FAIRE LE SCORE GRATUIT",
     ctaSecondary: "TROUVER UN SPÉCIALISTE",
     syncIndex: "Indice de sync.",
     adrenalineBuffer: "Réserve d'adrénaline",
@@ -400,12 +430,21 @@ const fr: HomeCopy = {
 
 const ar: HomeCopy = {
   hero: {
-    eyebrow: "هندسة التفوّق",
-    headlineLine1: "هل تعمل",
-    headlineLine2: "في أقصى إمكاناتك؟",
-    tagline: "فرق ٢ ميلي‑ثانية بين الجيّد والنخبة.",
-    body: "لماذا يخفق أكثر القادة والرياضيين قدرةً عند خط النهاية؟ يوپسي تستبدل التخمين السريري ببنية تحتية للأداء العصبي — مصمَّمة لدورات القرار عالية المخاطر.",
-    ctaPrimary: "ابدأ التقييم",
+    eyebrow: "أخصائيون نفسيون موثوقون · عن بعد أو في العيادة",
+    headlineLine1: "أخصائيك النفسي في المغرب،",
+    headlineLine2: "عن بعد أو في العيادة.",
+    rotating: [
+      "عن بعد أو في العيادة.",
+      "للقلق والضغط النفسي.",
+      "لتجاوز الاحتراق المهني.",
+      "لأداء الرياضيين.",
+      "لفرق عملك.",
+      "بالدارجة والعربية والفرنسية والإنجليزية.",
+    ],
+    tagline: "علم نفس مصمَّم للأداء تحت الضغط.",
+    body: "اعثر على أخصائي نفسي موثوق واحجز عبر الإنترنت: القلق، الاكتئاب، الضغط، الاحتراق المهني، التحضير الذهني للرياضيين. حصص عن بعد في كل المغرب وخارجه، أو في العيادة. أسعار واضحة وسرية تامة.",
+    closing: ["مؤشر مجاني في دقيقتين", "دون التزام", "سري · القانون 09-08"],
+    ctaPrimary: "اجتز المؤشر المجاني",
     ctaSecondary: "طابقني مع مختصّ",
     syncIndex: "مؤشر التزامن",
     adrenalineBuffer: "احتياطي الأدرينالين",
