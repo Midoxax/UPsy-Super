@@ -66,7 +66,6 @@ export { SupportTab } from "./components/dashboard/SupportTab";
 export { default as TodaysStateCard } from "./components/dashboard/TodaysStateCard";
 export { UpgradePromptCard } from "./components/dashboard/UpgradePromptCard";
 export { default as HomeFAQSection } from "./components/home/HomeFAQSection";
-export { default as HomePricingSection } from "./components/home/HomePricingSection";
 export { TierGate } from "./components/membership/TierGate";
 export { QuestCard } from "./components/progression/QuestCard";
 export { SkillTreeMap } from "./components/progression/SkillTreeMap";
