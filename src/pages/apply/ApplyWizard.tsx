@@ -31,6 +31,22 @@ import DataPrivacyNotice from "@/components/DataPrivacyNotice";
 
 type App = any;
 
+// Shown to applicants: never the internal enum values.
+const LEVEL_LABEL: Record<string, string> = {
+  provisional: "Provisoire",
+  verified: "Vérifié",
+  accredited: "Accrédité",
+};
+const STATUS_LABEL: Record<string, string> = {
+  pending: "En cours d'examen",
+  approved: "Approuvé",
+  rejected: "Refusé",
+};
+const SUBMITTED = {
+  title: "Dossier soumis : en cours d'examen",
+  body: "Notre équipe étudie votre dossier sous 48 h et vous écrit dès qu'une décision est prise. Vous pouvez encore compléter ou corriger vos informations ci-dessous.",
+};
+
 const APPLICANT_EDITABLE_FIELDS = [
   "full_name",
   "email",
@@ -266,9 +282,13 @@ const ApplyWizard = () => {
       } else {
         toast({
           title: "Dossier soumis",
-          description: `Niveau suggéré : ${data?.suggestedLevel}. Un admin va finaliser votre validation.`,
+          description: `Niveau suggéré : ${LEVEL_LABEL[data?.suggestedLevel] ?? data?.suggestedLevel}. Notre équipe va finaliser votre validation.`,
         });
-        navigate("/dashboard");
+        // Stay here: the patient dashboard says nothing about the
+        // application. The banner below confirms it is under review.
+        await qc.invalidateQueries({ queryKey: ["my-application"] });
+        setStep(0);
+        window.scrollTo({ top: 0, behavior: "smooth" });
       }
     } catch (e: any) {
       toast({
@@ -334,6 +354,16 @@ const ApplyWizard = () => {
           </span>
         </div>
       </div>
+
+      {app?.status === "pending" && app?.auto_check_status === "passed" && (
+        <div
+          role="status"
+          className="mb-6 rounded-lg border border-primary/30 bg-primary/5 p-4"
+        >
+          <p className="font-semibold text-foreground">{SUBMITTED.title}</p>
+          <p className="mt-1 text-sm text-muted-foreground">{SUBMITTED.body}</p>
+        </div>
+      )}
 
       {/* Step nav */}
       <div className="flex flex-wrap gap-1.5 mb-6">
@@ -811,11 +841,12 @@ const ApplyWizard = () => {
                       : "outline"
                 }
               >
-                {app.status}
+                {STATUS_LABEL[app.status] ?? app.status}
               </Badge>
               {app.suggested_level && (
                 <Badge variant="secondary">
-                  Niveau suggéré : {app.suggested_level}
+                  Niveau suggéré :{" "}
+                  {LEVEL_LABEL[app.suggested_level] ?? app.suggested_level}
                 </Badge>
               )}
             </div>

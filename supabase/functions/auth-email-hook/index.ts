@@ -241,8 +241,13 @@ async function handleWebhook(req: Request): Promise<Response> {
     );
   }
 
+  // GoTrue sends site_url as its own external URL, which already ends in
+  // /auth/v1. Appending /auth/v1 again produced .../auth/v1/auth/v1/verify,
+  // which answers 401 "No API key": every confirmation, password reset,
+  // magic link and invite link was dead. Normalise to the bare origin first.
+  const authBase = `${email_data.site_url.replace(/\/+$/, "").replace(/\/auth\/v1$/, "")}/auth/v1`;
   const confirmationUrl =
-    `${email_data.site_url}/auth/v1/verify?token=${email_data.token_hash}` +
+    `${authBase}/verify?token=${email_data.token_hash}` +
     `&type=${encodeURIComponent(email_data.email_action_type)}` +
     `&redirect_to=${encodeURIComponent(email_data.redirect_to ?? "")}`;
 
