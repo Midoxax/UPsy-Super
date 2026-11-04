@@ -6,40 +6,169 @@ import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { Badge } from "@/components/ui/badge";
 import SEOHead from "@/components/SEOHead";
+import { useLocale } from "@/contexts/LocaleContext";
 import {
   useMembershipPlans,
   useCurrentTier,
   type MembershipPlan,
 } from "@/hooks/useMembership";
 
-const FEATURE_LABELS: Record<string, string> = {
-  community_read: "Community read access",
-  lessons_per_month: "Lessons / month",
-  ai_messages_per_day: "AI messages / day",
-  mood_log: "Mood & energy log",
-  full_library: "Full lesson library",
-  cohorts: "Cohort access",
-  certificate_prep: "Certification prep",
-  athlete_hub: "Athlete Hub",
-  protocols: "Performance protocols",
-  ai_coach: "AI performance coach",
-  readiness_analytics: "Readiness analytics",
-  team_dashboard: "Team dashboard (athletes)",
-  session_feedback: "Session feedback tools",
-  pro_community: "Practitioners community",
-  ce_credits: "CE credits",
-  supervision_groups: "Supervision groups",
-  custom_pricing: "Custom pricing",
-  multi_seat: "Multi-seat workspace",
-  branded_portal: "Branded portal",
-  pulse: "Org pulse surveys",
-  sso: "SAML SSO",
-  mentor_matching: "Mentor matching",
-  mastermind: "Private mastermind",
-  white_glove_ai: "White-glove AI",
-  all_features: "Every feature, always",
-  scholarship: "Funds Student scholarships",
+const COPY = {
+  en: {
+    seoTitle: "Membership — U.Psy Performance Psychology System",
+    seoDescription:
+      "Choose your tier: Discover, Student, Athlete, Coach, Practitioner, Organization, or Elite. Unlock community, protocols, AI coaching, certifications and more.",
+    badge: "Performance Psychology System",
+    title: "One platform. Seven ways to grow.",
+    sub: "From a free entry point to elite mastermind access, every tier opens a new layer of the U.Psy ecosystem — community, learning, performance protocols, certifications, and AI guidance.",
+    monthly: "Monthly",
+    annual: "Annual",
+    save: "Save 20%",
+    scholarTitle: "Elite tier funds Student scholarships",
+    scholarBody:
+      "Each Elite membership covers one free Student seat for a young practitioner who otherwise could not afford access. Prestige with purpose.",
+    scholarCta: "Learn about scholarships",
+    perYear: "/year",
+    perMonth: "/month",
+    mostPremium: "Most premium",
+    current: "Current",
+    custom: "Custom",
+    currentPlan: "Current plan",
+    talkSales: "Talk to sales",
+    getStarted: "Get started",
+    features: {
+      community_read: "Community read access",
+      lessons_per_month: "Lessons / month",
+      ai_messages_per_day: "AI messages / day",
+      mood_log: "Mood & energy log",
+      full_library: "Full lesson library",
+      cohorts: "Cohort access",
+      certificate_prep: "Certification prep",
+      athlete_hub: "Athlete Hub",
+      protocols: "Performance protocols",
+      ai_coach: "AI performance coach",
+      readiness_analytics: "Readiness analytics",
+      team_dashboard: "Team dashboard (athletes)",
+      session_feedback: "Session feedback tools",
+      pro_community: "Practitioners community",
+      ce_credits: "CE credits",
+      supervision_groups: "Supervision groups",
+      custom_pricing: "Custom pricing",
+      multi_seat: "Multi-seat workspace",
+      branded_portal: "Branded portal",
+      pulse: "Org pulse surveys",
+      sso: "SAML SSO",
+      mentor_matching: "Mentor matching",
+      mastermind: "Private mastermind",
+      white_glove_ai: "White-glove AI",
+      all_features: "Every feature, always",
+      scholarship: "Funds Student scholarships",
+    } as Record<string, string>,
+  },
+  fr: {
+    seoTitle: "Adhésion : le système de psychologie de la performance U.Psy",
+    seoDescription:
+      "Choisissez votre formule : Découverte, Étudiant, Sportif, Coach, Praticien, Organisation ou Élite. Accédez à la communauté, aux protocoles, au coaching IA, aux certifications et plus.",
+    badge: "Système de psychologie de la performance",
+    title: "Une plateforme. Sept façons de progresser.",
+    sub: "D'un accès gratuit jusqu'au mastermind Élite, chaque formule ouvre une nouvelle couche de l'écosystème U.Psy : communauté, formation, protocoles de performance, certifications et accompagnement IA.",
+    monthly: "Mensuel",
+    annual: "Annuel",
+    save: "-20 %",
+    scholarTitle: "La formule Élite finance des bourses étudiantes",
+    scholarBody:
+      "Chaque adhésion Élite offre une place Étudiant gratuite à un jeune praticien qui n'aurait pas les moyens d'y accéder. Le prestige avec du sens.",
+    scholarCta: "En savoir plus sur les bourses",
+    perYear: "/an",
+    perMonth: "/mois",
+    mostPremium: "La plus complète",
+    current: "Actuelle",
+    custom: "Sur devis",
+    currentPlan: "Formule actuelle",
+    talkSales: "Parler à l'équipe",
+    getStarted: "Commencer",
+    features: {
+      community_read: "Accès en lecture à la communauté",
+      lessons_per_month: "Leçons / mois",
+      ai_messages_per_day: "Messages IA / jour",
+      mood_log: "Journal d'humeur et d'énergie",
+      full_library: "Bibliothèque complète de leçons",
+      cohorts: "Accès aux cohortes",
+      certificate_prep: "Préparation aux certifications",
+      athlete_hub: "Athlete Hub",
+      protocols: "Protocoles de performance",
+      ai_coach: "Coach IA de performance",
+      readiness_analytics: "Analyse de la forme du jour",
+      team_dashboard: "Tableau de bord d'équipe (sportifs)",
+      session_feedback: "Outils de retour de séance",
+      pro_community: "Communauté de praticiens",
+      ce_credits: "Crédits de formation continue",
+      supervision_groups: "Groupes de supervision",
+      custom_pricing: "Tarification sur mesure",
+      multi_seat: "Espace multi-utilisateurs",
+      branded_portal: "Portail à vos couleurs",
+      pulse: "Baromètres d'organisation",
+      sso: "Authentification unique SAML",
+      mentor_matching: "Mise en relation avec un mentor",
+      mastermind: "Mastermind privé",
+      white_glove_ai: "IA en accompagnement premium",
+      all_features: "Toutes les fonctionnalités, toujours",
+      scholarship: "Finance des bourses étudiantes",
+    } as Record<string, string>,
+  },
+  ar: {
+    seoTitle: "العضوية: نظام علم نفس الأداء U.Psy",
+    seoDescription:
+      "اختر باقتك: اكتشاف، طالب، رياضي، مدرب، ممارس، مؤسسة أو نخبة. افتح المجتمع، البروتوكولات، التدريب بالذكاء الاصطناعي، الشهادات والمزيد.",
+    badge: "نظام علم نفس الأداء",
+    title: "منصة واحدة. سبع طرق للتطور.",
+    sub: "من نقطة دخول مجانية إلى مجموعة النخبة، تفتح كل باقة طبقة جديدة من منظومة U.Psy: المجتمع، التعلم، بروتوكولات الأداء، الشهادات ومرافقة الذكاء الاصطناعي.",
+    monthly: "شهري",
+    annual: "سنوي",
+    save: "وفّر 20٪",
+    scholarTitle: "باقة النخبة تموّل منحاً للطلبة",
+    scholarBody:
+      "كل عضوية نخبة تمنح مقعد طالب مجانياً لممارس شاب لا يستطيع تحمل كلفة الولوج. مكانة ذات معنى.",
+    scholarCta: "اعرف المزيد عن المنح",
+    perYear: "/سنة",
+    perMonth: "/شهر",
+    mostPremium: "الأكثر تميزاً",
+    current: "الحالية",
+    custom: "حسب الطلب",
+    currentPlan: "الباقة الحالية",
+    talkSales: "تحدث مع الفريق",
+    getStarted: "ابدأ",
+    features: {
+      community_read: "قراءة محتوى المجتمع",
+      lessons_per_month: "دروس / شهر",
+      ai_messages_per_day: "رسائل الذكاء الاصطناعي / يوم",
+      mood_log: "سجل المزاج والطاقة",
+      full_library: "مكتبة الدروس كاملة",
+      cohorts: "الولوج إلى المجموعات",
+      certificate_prep: "التحضير للشهادات",
+      athlete_hub: "Athlete Hub",
+      protocols: "بروتوكولات الأداء",
+      ai_coach: "مدرب أداء بالذكاء الاصطناعي",
+      readiness_analytics: "تحليل الجاهزية",
+      team_dashboard: "لوحة قيادة الفريق (الرياضيون)",
+      session_feedback: "أدوات تقييم الجلسات",
+      pro_community: "مجتمع الممارسين",
+      ce_credits: "ساعات التكوين المستمر",
+      supervision_groups: "مجموعات الإشراف",
+      custom_pricing: "تسعير حسب الطلب",
+      multi_seat: "فضاء متعدد المستخدمين",
+      branded_portal: "بوابة بهويتك",
+      pulse: "استطلاعات المؤسسة",
+      sso: "تسجيل دخول موحد SAML",
+      mentor_matching: "ربط بمرشد",
+      mastermind: "مجموعة نخبة خاصة",
+      white_glove_ai: "ذكاء اصطناعي بمرافقة متميزة",
+      all_features: "كل الميزات، دائماً",
+      scholarship: "يموّل منحاً للطلبة",
+    } as Record<string, string>,
+  },
 };
+type Copy = (typeof COPY)["en"];
 
 const renderFeatureValue = (v: unknown) => {
   if (v === true) return null;
@@ -62,13 +191,15 @@ const Membership = () => {
   const [annual, setAnnual] = useState(false);
   const { data: plans, isLoading } = useMembershipPlans();
   const { tier: currentTier } = useCurrentTier();
+  const { locale } = useLocale();
+  const c = COPY[locale === "ar" ? "ar" : locale === "en" ? "en" : "fr"];
 
   return (
     <main className="min-h-screen">
       <SEOHead
         path="/membership"
-        title="Membership — U.Psy Performance Psychology System"
-        description="Choose your tier: Discover, Student, Athlete, Coach, Practitioner, Organization, or Elite. Unlock community, protocols, AI coaching, certifications and more."
+        title={c.seoTitle}
+        description={c.seoDescription}
       />
 
       {/* Hero */}
@@ -76,30 +207,24 @@ const Membership = () => {
         <div className="container-custom text-center max-w-3xl">
           <Badge variant="secondary" className="mb-4">
             <Sparkles className="h-3 w-3 mr-1.5" />
-            Performance Psychology System
+            {c.badge}
           </Badge>
-          <h1 className="text-h1 font-bold mb-4">
-            One platform. Seven ways to grow.
-          </h1>
-          <p className="text-lg text-muted-foreground mb-8">
-            From a free entry point to elite mastermind access, every tier opens
-            a new layer of the U.Psy ecosystem — community, learning,
-            performance protocols, certifications, and AI guidance.
-          </p>
+          <h1 className="text-h1 font-bold mb-4">{c.title}</h1>
+          <p className="text-lg text-muted-foreground mb-8">{c.sub}</p>
           <div className="inline-flex items-center gap-3 rounded-u-md border border-border/50 bg-card/60 px-4 py-2 backdrop-blur">
             <span
               className={!annual ? "font-semibold" : "text-muted-foreground"}
             >
-              Monthly
+              {c.monthly}
             </span>
             <Switch checked={annual} onCheckedChange={setAnnual} />
             <span
               className={annual ? "font-semibold" : "text-muted-foreground"}
             >
-              Annual
+              {c.annual}
             </span>
             <Badge variant="outline" className="ml-1">
-              Save 20%
+              {c.save}
             </Badge>
           </div>
         </div>
@@ -122,6 +247,7 @@ const Membership = () => {
                   plan={plan}
                   annual={annual}
                   isCurrent={currentTier === plan.tier}
+                  c={c}
                 />
               ))}
             </div>
@@ -138,17 +264,11 @@ const Membership = () => {
                 <Crown className="h-8 w-8 text-primary" />
               </div>
               <div className="flex-1">
-                <h3 className="text-h3 font-semibold mb-2">
-                  Elite tier funds Student scholarships
-                </h3>
-                <p className="text-muted-foreground">
-                  Each Elite membership covers one free Student seat for a young
-                  practitioner who otherwise could not afford access. Prestige
-                  with purpose.
-                </p>
+                <h3 className="text-h3 font-semibold mb-2">{c.scholarTitle}</h3>
+                <p className="text-muted-foreground">{c.scholarBody}</p>
               </div>
               <Button asChild size="lg">
-                <Link to="/contact">Learn about scholarships</Link>
+                <Link to="/contact">{c.scholarCta}</Link>
               </Button>
             </div>
           </Card>
@@ -162,15 +282,17 @@ const PlanCard = ({
   plan,
   annual,
   isCurrent,
+  c,
 }: {
   plan: MembershipPlan;
   annual: boolean;
   isCurrent: boolean;
+  c: Copy;
 }) => {
   const isOrg = plan.tier === "organization";
   const isElite = plan.tier === "elite";
   const price = annual ? plan.price_annual_mad : plan.price_monthly_mad;
-  const cycle = annual ? "/year" : "/month";
+  const cycle = annual ? c.perYear : c.perMonth;
 
   return (
     <Card
@@ -180,12 +302,12 @@ const PlanCard = ({
     >
       {isElite && (
         <div className="absolute top-0 right-0 bg-gradient-to-l from-amber-500 to-yellow-500 text-background text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-bl-u-sm">
-          Most premium
+          {c.mostPremium}
         </div>
       )}
       {isCurrent && (
         <Badge variant="secondary" className="absolute top-4 left-4">
-          Current
+          {c.current}
         </Badge>
       )}
 
@@ -196,7 +318,7 @@ const PlanCard = ({
 
       <div className="mb-6">
         {isOrg ? (
-          <div className="text-3xl font-bold">Custom</div>
+          <div className="text-3xl font-bold">{c.custom}</div>
         ) : (
           <div className="flex items-baseline gap-1">
             <span className="text-4xl font-bold">{price}</span>
@@ -207,7 +329,7 @@ const PlanCard = ({
 
       <ul className="space-y-2.5 flex-1 mb-6">
         {Object.entries(plan.features).map(([key, val]) => {
-          const label = FEATURE_LABELS[key] ?? key.replace(/_/g, " ");
+          const label = c.features[key] ?? key.replace(/_/g, " ");
           return (
             <li key={key} className="flex items-start gap-2 text-sm">
               <Check className="h-4 w-4 text-primary mt-0.5 shrink-0" />
@@ -227,7 +349,7 @@ const PlanCard = ({
         disabled={isCurrent}
       >
         <Link to={isOrg ? "/contact" : "/auth"}>
-          {isCurrent ? "Current plan" : isOrg ? "Talk to sales" : "Get started"}
+          {isCurrent ? c.currentPlan : isOrg ? c.talkSales : c.getStarted}
         </Link>
       </Button>
     </Card>

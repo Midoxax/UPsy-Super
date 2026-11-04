@@ -4,6 +4,7 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import SEOHead from "@/components/SEOHead";
+import { useLocale } from "@/contexts/LocaleContext";
 import { useSpaces } from "@/hooks/useCommunity";
 import {
   useCurrentTier,
@@ -12,24 +13,82 @@ import {
   type MembershipTier,
 } from "@/hooks/useMembership";
 
-const TYPE_LABEL: Record<string, string> = {
-  topic: "Topic",
-  cohort: "Cohort",
-  region: "Region",
-  ama: "AMA",
-  private: "Private",
+const COPY = {
+  en: {
+    seoTitle: "Training Center — Community, Learning & Certifications | U.Psy",
+    seoDescription:
+      "Premium learning, peer cohorts, expert AMAs, and certification pathways. Join the U.Psy Training Center.",
+    badge: "Training Center",
+    title: "Learn, connect, become.",
+    sub: "Topic communities, cohort-based learning, and expert AMAs — engineered for depth, not noise. No vanity metrics. No infinite scroll. Just people growing together.",
+    schools: "Explore the 11 schools & academies",
+    spaces: "Spaces",
+    yourTier: "Your tier:",
+    unlock: "Unlock",
+    enter: "Enter",
+    types: {
+      topic: "Topic",
+      cohort: "Cohort",
+      region: "Region",
+      ama: "AMA",
+      private: "Private",
+    } as Record<string, string>,
+  },
+  fr: {
+    seoTitle:
+      "Centre de formation : communauté, cours et certifications | U.Psy",
+    seoDescription:
+      "Formations, cohortes entre pairs, sessions de questions avec des experts et parcours de certification. Rejoignez le Centre de formation U.Psy.",
+    badge: "Centre de formation",
+    title: "Apprendre, échanger, progresser.",
+    sub: "Des communautés thématiques, des formations en cohorte et des sessions de questions avec des experts, pensées pour la profondeur, pas le bruit. Pas de métriques de vanité, pas de défilement infini : des personnes qui progressent ensemble.",
+    schools: "Découvrir les 11 écoles et académies",
+    spaces: "Espaces",
+    yourTier: "Votre formule :",
+    unlock: "Débloquer",
+    enter: "Entrer",
+    types: {
+      topic: "Thème",
+      cohort: "Cohorte",
+      region: "Région",
+      ama: "Questions-réponses",
+      private: "Privé",
+    } as Record<string, string>,
+  },
+  ar: {
+    seoTitle: "مركز التكوين: المجتمع، الدورات والشهادات | U.Psy",
+    seoDescription:
+      "تكوين متميز، مجموعات من الأقران، جلسات أسئلة مع الخبراء ومسارات للشهادات. انضم إلى مركز التكوين U.Psy.",
+    badge: "مركز التكوين",
+    title: "تعلّم، تواصل، تطوّر.",
+    sub: "مجتمعات موضوعاتية، تكوين ضمن مجموعات، وجلسات أسئلة مع الخبراء، مصممة للعمق لا للضجيج. بلا مؤشرات زائفة ولا تمرير لا نهائي: أشخاص يتطورون معاً.",
+    schools: "اكتشف المدارس والأكاديميات الـ11",
+    spaces: "الفضاءات",
+    yourTier: "باقتك:",
+    unlock: "افتح",
+    enter: "ادخل",
+    types: {
+      topic: "موضوع",
+      cohort: "مجموعة",
+      region: "جهة",
+      ama: "أسئلة وأجوبة",
+      private: "خاص",
+    } as Record<string, string>,
+  },
 };
 
 const CenterHome = () => {
   const { data: spaces, isLoading } = useSpaces();
   const { tier: owned } = useCurrentTier();
+  const { locale } = useLocale();
+  const c = COPY[locale === "ar" ? "ar" : locale === "en" ? "en" : "fr"];
 
   return (
     <main className="min-h-screen">
       <SEOHead
         path="/center"
-        title="Training Center — Community, Learning & Certifications | U.Psy"
-        description="Premium learning, peer cohorts, expert AMAs, and certification pathways. Join the U.Psy Training Center."
+        title={c.seoTitle}
+        description={c.seoDescription}
       />
 
       {/* Hero */}
@@ -37,20 +96,15 @@ const CenterHome = () => {
         <div className="container-custom max-w-4xl">
           <Badge variant="secondary" className="mb-4">
             <Sparkles className="h-3 w-3 mr-1.5" />
-            Training Center
+            {c.badge}
           </Badge>
-          <h1 className="text-h1 font-bold mb-4">Learn, connect, become.</h1>
-          <p className="text-lg text-muted-foreground mb-6">
-            Topic communities, cohort-based learning, and expert AMAs —
-            engineered for depth, not noise. No vanity metrics. No infinite
-            scroll. Just people growing together.
-          </p>
+          <h1 className="text-h1 font-bold mb-4">{c.title}</h1>
+          <p className="text-lg text-muted-foreground mb-6">{c.sub}</p>
           <Link
             to="/center/schools"
             className="inline-flex min-h-10 items-center gap-1.5 text-sm font-medium text-primary hover:underline"
           >
-            Explore the 11 schools & academies{" "}
-            <ArrowRight className="h-3.5 w-3.5" />
+            {c.schools} <ArrowRight className="h-3.5 w-3.5 rtl:rotate-180" />
           </Link>
         </div>
       </section>
@@ -59,9 +113,9 @@ const CenterHome = () => {
       <section className="pb-20">
         <div className="container-custom">
           <div className="flex items-end justify-between mb-6">
-            <h2 className="text-h2 font-semibold">Spaces</h2>
+            <h2 className="text-h2 font-semibold">{c.spaces}</h2>
             <p className="text-sm text-muted-foreground">
-              Your tier:{" "}
+              {c.yourTier}{" "}
               <span className="font-semibold text-foreground">
                 {TIER_LABEL[owned]}
               </span>
@@ -90,7 +144,7 @@ const CenterHome = () => {
                       <div className="text-3xl">{space.icon ?? "✦"}</div>
                       <div className="flex items-center gap-1.5">
                         <Badge variant="outline" className="text-[10px]">
-                          {TYPE_LABEL[space.type]}
+                          {c.types[space.type] ?? space.type}
                         </Badge>
                         {locked && (
                           <Badge variant="secondary" className="text-[10px]">
@@ -128,7 +182,7 @@ const CenterHome = () => {
                             locked ? "/membership" : `/center/c/${space.slug}`
                           }
                         >
-                          {locked ? "Unlock" : "Enter"}
+                          {locked ? c.unlock : c.enter}
                           <ArrowRight className="ml-1 h-3.5 w-3.5" />
                         </Link>
                       </Button>
