@@ -1,30 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "@/lib/router-compat";
 import { Button } from "@/components/ui/button";
-import {
-  Menu,
-  X,
-  User,
-  ChevronDown,
-  Umbrella,
-  Heart,
-  Award,
-  HeartPulse,
-  GraduationCap,
-  Activity,
-  Building2,
-  Users,
-  Sparkles,
-  BookOpen,
-  Brain,
-  Trophy,
-  Stethoscope,
-  Compass,
-  Crown,
-  Landmark,
-  LogOut,
-  Presentation,
-} from "lucide-react";
+import { Menu, X, User, ChevronDown, LogOut, ArrowRight } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { useLocale } from "@/contexts/LocaleContext";
 import { addLocalePrefix, stripLocalePrefix } from "@/lib/i18n/utils";
@@ -34,18 +11,26 @@ import ThemeToggle from "@/components/ThemeToggle";
 import NotificationBell from "@/components/NotificationBell";
 import InstallAppButton from "@/components/pwa/InstallAppButton";
 import ViewAsSwitcher from "@/components/ViewAsSwitcher";
+import { buildNav, type NavSection } from "@/components/nav/siteNav";
 
 const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [openDropdown, setOpenDropdown] = useState<string | null>(null);
+  const [openSection, setOpenSection] = useState<string | null>(null);
   const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
   const { user, signOut } = useAuth();
   const { locale, t } = useLocale();
   const navigate = useNavigate();
+  const nav = buildNav(t);
+  const to = (href: string) => addLocalePrefix(href, locale);
+
+  const closeMenu = () => {
+    setIsMobileMenuOpen(false);
+    setOpenSection(null);
+  };
 
   const handleSignOut = async () => {
-    setIsMobileMenuOpen(false);
+    closeMenu();
     await signOut();
     navigate(addLocalePrefix("/auth", locale));
   };
@@ -58,6 +43,24 @@ const Header = () => {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  // Any navigation closes the menu.
+  useEffect(() => {
+    closeMenu();
+  }, [location.pathname]);
+
+  // Open menu: lock the page behind it, close on Escape.
+  useEffect(() => {
+    if (!isMobileMenuOpen) return;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && closeMenu();
+    window.addEventListener("keydown", onKey);
+    return () => {
+      document.body.style.overflow = prev;
+      window.removeEventListener("keydown", onKey);
+    };
+  }, [isMobileMenuOpen]);
+
   // Build a redirect-aware /auth path so post-login returns to current page.
   const authHref = (() => {
     const path = location.pathname + location.search;
@@ -69,195 +72,25 @@ const Header = () => {
     return safe ? `${base}?redirect=${encodeURIComponent(safe)}` : base;
   })();
 
-  // U.Psy 2.0 IA — 5 top-level pillars
-  type NavDropdownItem = {
-    name: string;
-    href: string;
-    icon?: React.ComponentType<any>;
-    featured?: boolean;
-    desc?: string;
-  };
-  const navigation: {
-    name: string;
-    href: string;
-    icon?: React.ComponentType<any>;
-    dropdown?: NavDropdownItem[];
-  }[] = [
-    {
-      name: t("menu.care"),
-      href: "/psychologists",
-      icon: HeartPulse,
-      dropdown: [
-        {
-          name: t("menu.findPsych"),
-          href: "/psychologists",
-          icon: Stethoscope,
-          desc: t("menu.findPsychDesc"),
-        },
-        {
-          name: t("menu.getMatched"),
-          href: "/get-matched",
-          icon: Compass,
-          desc: t("menu.getMatchedDesc"),
-        },
-        {
-          name: t("menu.selfAssessment"),
-          href: "/assessment-lab",
-          icon: Brain,
-          desc: t("menu.selfAssessmentDesc"),
-        },
-        { name: t("menu.programs"), href: "/services", icon: BookOpen },
-      ],
-    },
-    {
-      name: t("menu.training"),
-      href: "/center",
-      icon: GraduationCap,
-      dropdown: [
-        {
-          name: t("menu.communities"),
-          href: "/center",
-          icon: Users,
-          featured: true,
-          desc: t("menu.communitiesDesc"),
-        },
-        {
-          name: t("menu.schools"),
-          href: "/center/schools",
-          icon: Landmark,
-          desc: t("menu.schoolsDesc"),
-        },
-        {
-          name: t("menu.courses"),
-          href: "/learn",
-          icon: BookOpen,
-          desc: t("menu.coursesDesc"),
-        },
-        {
-          name: t("menu.certifications"),
-          href: "/learn?tab=certifications",
-          icon: Award,
-          desc: t("menu.certificationsDesc"),
-        },
-        {
-          name: t("menu.mentors"),
-          href: "/psychologists?type=mentor",
-          icon: Sparkles,
-          desc: t("menu.mentorsDesc"),
-        },
-      ],
-    },
-    {
-      name: t("menu.athleteHub"),
-      href: "/athlete-hub",
-      icon: Activity,
-      dropdown: [
-        {
-          name: t("menu.dashboard"),
-          href: "/athlete-hub",
-          icon: Trophy,
-          featured: true,
-          desc: t("menu.dashboardDesc"),
-        },
-        {
-          name: t("menu.aiCoach"),
-          href: "/ai-assistant",
-          icon: Sparkles,
-          desc: t("menu.aiCoachDesc"),
-        },
-        {
-          name: t("menu.forAthletes"),
-          href: "/for-athletes",
-          icon: Activity,
-          desc: t("menu.forAthletesDesc"),
-        },
-      ],
-    },
-    {
-      name: t("menu.organizations"),
-      href: "/for-organizations",
-      icon: Building2,
-      dropdown: [
-        {
-          name: t("menu.teams"),
-          href: "/for-organizations",
-          icon: Building2,
-          desc: t("menu.teamsDesc"),
-        },
-        {
-          name: t("menu.consulting"),
-          href: "/services/consulting-for-organizations",
-          icon: Stethoscope,
-        },
-        {
-          name: t("menu.talentHub"),
-          href: "/talent-innovation-hub",
-          icon: Brain,
-          desc: t("menu.talentHubDesc"),
-        },
-        {
-          name: t("menu.pitch"),
-          href: "/pitch?for=company",
-          icon: Presentation,
-          desc: t("menu.pitchDesc"),
-        },
-        {
-          name: t("menu.applyOrg"),
-          href: "/apply/organization",
-          icon: Award,
-        },
-      ],
-    },
-    {
-      name: t("menu.about"),
-      href: "/about",
-      dropdown: [
-        {
-          name: t("menu.membership"),
-          href: "/membership",
-          icon: Crown,
-          featured: true,
-          desc: t("menu.membershipDesc"),
-        },
-        {
-          name: t("menu.founder"),
-          href: "/founder",
-          icon: Award,
-          featured: true,
-        },
-        {
-          name: t("menu.pitch"),
-          href: "/pitch",
-          icon: Presentation,
-          featured: true,
-          desc: t("menu.pitchDesc"),
-        },
-        { name: t("menu.story"), href: "/about" },
-        {
-          name: t("menu.umbrella"),
-          href: "/moroccan-umbrella",
-          icon: Umbrella,
-        },
-        { name: t("menu.psf"), href: "/psf", icon: Heart },
-        { name: t("menu.blog"), href: "/blog", icon: BookOpen },
-        { name: t("nav.contact"), href: "/contact" },
-        { name: t("menu.applyAccreditation"), href: "/apply" },
-        { name: t("menu.specialistPricing"), href: "/pricing-specialists" },
-      ],
-    },
-  ];
-
   const isActive = (href: string) => {
     const strippedPath = stripLocalePrefix(location.pathname);
-    if (href === "/" && strippedPath === "/") return true;
-    if (href !== "/" && strippedPath.startsWith(href)) return true;
-    return false;
+    const bare = href.split("?")[0];
+    if (bare === "/") return strippedPath === "/";
+    return strippedPath === bare || strippedPath.startsWith(bare + "/");
+  };
+  const sectionActive = (s: NavSection) =>
+    isActive(s.href) || s.items.some((i) => isActive(i.href));
+
+  const toggleMenu = () => {
+    if (isMobileMenuOpen) return closeMenu();
+    // Open on the section the visitor is in, so they see where they are.
+    setOpenSection(nav.sections.find(sectionActive)?.id ?? null);
+    setIsMobileMenuOpen(true);
   };
 
   return (
     <header
       className={`sticky top-0 z-50 transition-[background-color,backdrop-filter,box-shadow,border-color] duration-300 ${
-        // Open mobile menu: solid, so the list reads over the page behind it.
         isMobileMenuOpen
           ? "bg-background border-b border-border shadow-lg"
           : scrolled
@@ -271,7 +104,7 @@ const Header = () => {
           <Link
             to="/"
             aria-label={t("menu.homeAria")}
-            className="flex items-center min-w-0 focus:outline-hidden focus:ring-2 focus:ring-ring rounded-md"
+            className="flex items-center shrink-0 focus:outline-hidden focus:ring-2 focus:ring-ring rounded-md"
           >
             <UpsyLogo
               decorative
@@ -281,87 +114,73 @@ const Header = () => {
 
           {/* Desktop Navigation */}
           <nav
-            className="hidden lg:flex items-center gap-1"
+            className="hidden xl:flex items-center gap-0.5 2xl:gap-1"
             aria-label={t("menu.primaryNav")}
           >
-            {navigation.map((item) => (
-              <div key={item.name} className="relative group">
+            {nav.sections.map((section) => (
+              <div key={section.id} className="relative group">
                 <Link
-                  to={addLocalePrefix(item.href, locale)}
-                  aria-current={isActive(item.href) ? "page" : undefined}
-                  className={`flex items-center gap-1 px-3 py-2 text-sm font-medium rounded-lg transition-colors ${
-                    isActive(item.href)
-                      ? "text-primary bg-primary/8"
+                  to={to(section.href)}
+                  aria-current={sectionActive(section) ? "page" : undefined}
+                  className={`flex items-center gap-1 px-2 2xl:px-3 py-2 text-sm font-medium rounded-lg transition-colors whitespace-nowrap ${
+                    sectionActive(section)
+                      ? "text-foreground bg-primary/15"
                       : "text-foreground/70 hover:text-foreground hover:bg-muted/50"
                   }`}
                 >
-                  {item.name}
-                  {item.dropdown && (
-                    <ChevronDown className="h-3.5 w-3.5 transition-transform group-hover:rotate-180" />
-                  )}
+                  {section.label}
+                  <ChevronDown className="hidden 2xl:block h-3.5 w-3.5 transition-transform group-hover:rotate-180" />
                 </Link>
-                {item.dropdown && (
-                  <div
-                    className={`absolute top-full left-0 mt-2 ${item.dropdown.some((d) => d.desc) ? "w-80" : "w-60"} opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50`}
-                  >
-                    <div className="glass-effect rounded-xl border border-border/50 py-1.5 shadow-lg">
-                      {item.dropdown.map((subItem) => (
-                        <Link
-                          key={subItem.name}
-                          to={addLocalePrefix(subItem.href, locale)}
-                          aria-current={
-                            isActive(subItem.href) ? "page" : undefined
-                          }
-                          className={`flex items-start gap-3 px-4 py-2.5 text-sm transition-colors ${
-                            subItem.featured
-                              ? "text-primary font-semibold bg-primary/5 hover:bg-primary/10"
-                              : "text-foreground/80 hover:text-primary hover:bg-primary/5"
-                          }`}
-                        >
-                          {subItem.icon && (
-                            <subItem.icon className="h-4 w-4 shrink-0 mt-0.5" />
+                <div className="absolute top-full start-0 mt-2 w-80 opacity-0 invisible group-hover:opacity-100 group-hover:visible group-focus-within:opacity-100 group-focus-within:visible transition-all duration-200 z-50">
+                  <div className="rounded-xl border border-border bg-background py-1.5 shadow-xl">
+                    <p className="px-4 pt-2 pb-1 text-xs text-muted-foreground">
+                      {section.intro}
+                    </p>
+                    {section.items.map((item) => (
+                      <Link
+                        key={item.href + item.label}
+                        to={to(item.href)}
+                        aria-current={isActive(item.href) ? "page" : undefined}
+                        className="flex items-start gap-3 px-4 py-2.5 text-sm text-foreground/80 hover:text-primary hover:bg-primary/5 transition-colors"
+                      >
+                        {item.icon && (
+                          <item.icon className="h-4 w-4 shrink-0 mt-0.5" />
+                        )}
+                        <div className="flex-1 min-w-0">
+                          <span className="block truncate">{item.label}</span>
+                          {item.desc && (
+                            <span className="block text-xs text-muted-foreground mt-0.5 leading-snug">
+                              {item.desc}
+                            </span>
                           )}
-                          <div className="flex-1 min-w-0">
-                            <div className="flex items-center gap-2">
-                              <span className="truncate">{subItem.name}</span>
-                              {subItem.featured && (
-                                <span className="ml-auto text-[9px] font-bold uppercase tracking-wider bg-primary/10 text-primary px-1.5 py-0.5 rounded-full">
-                                  New
-                                </span>
-                              )}
-                            </div>
-                            {subItem.desc && (
-                              <p className="text-xs text-muted-foreground mt-0.5 leading-snug">
-                                {subItem.desc}
-                              </p>
-                            )}
-                          </div>
-                        </Link>
-                      ))}
-                    </div>
+                        </div>
+                      </Link>
+                    ))}
                   </div>
-                )}
+                </div>
               </div>
             ))}
           </nav>
 
           {/* Desktop CTAs */}
-          <div className="hidden lg:flex items-center gap-2">
-            <ThemeToggle />
+          <div className="hidden xl:flex items-center gap-1.5 2xl:gap-2 shrink-0">
+            <span className="hidden 2xl:inline-flex">
+              <ThemeToggle />
+            </span>
             <LanguageSwitcher className="mr-1" />
             <InstallAppButton
               variant="ghost"
               size="sm"
               label=""
               aria-label={t("menu.installApp")}
-              className="hidden lg:inline-flex"
+              className="hidden 2xl:inline-flex"
             />
             {user && <ViewAsSwitcher />}
             {user && <NotificationBell />}
             {user ? (
               <>
                 <Button variant="primary" size="sm" asChild>
-                  <Link to={addLocalePrefix("/my-space", locale)}>
+                  <Link to={to("/my-space")}>
                     <User className="mr-2 h-4 w-4" />
                     {t("nav.mySpace")}
                   </Link>
@@ -380,12 +199,17 @@ const Header = () => {
               <>
                 <Link
                   to={authHref}
-                  className="text-sm text-foreground/70 hover:text-foreground transition-colors px-3 py-2"
+                  className="text-sm text-foreground/70 hover:text-foreground transition-colors px-2 py-2 whitespace-nowrap"
                 >
                   {t("nav.login")}
                 </Link>
-                <Button variant="primary" size="sm" asChild>
-                  <Link to={addLocalePrefix("/psychologists", locale)}>
+                <Button
+                  variant="primary"
+                  size="sm"
+                  asChild
+                  className="whitespace-nowrap"
+                >
+                  <Link to={to("/psychologists")}>
                     {t("nav.findPsychologist")}
                   </Link>
                 </Button>
@@ -394,171 +218,204 @@ const Header = () => {
           </div>
 
           {/* Mobile Menu Button */}
-          <div className="flex items-center gap-1 lg:hidden">
+          <div className="flex items-center gap-1 xl:hidden">
             {user && <NotificationBell />}
             <button
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="lg:hidden p-2 text-foreground hover:text-muted-foreground transition-colors rounded-lg hover:bg-muted/50"
+              onClick={toggleMenu}
+              className="flex items-center gap-2 ps-3 pe-2 py-2 text-sm font-medium text-foreground rounded-full border border-border/60 hover:bg-muted/50 transition-colors"
               aria-label={t("menu.toggleMenu")}
+              aria-expanded={isMobileMenuOpen}
+              aria-controls="mobile-menu"
             >
-              {isMobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
+              <span>{nav.menuTitle}</span>
+              {isMobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
             </button>
           </div>
         </div>
+      </div>
 
-        {/* Mobile Menu */}
-        {isMobileMenuOpen && (
-          <div className="lg:hidden py-4 border-t border-border/30 max-h-[calc(100vh-4rem)] overflow-y-auto animate-in slide-in-from-top-2 duration-200">
-            <nav
-              className="flex flex-col gap-1"
-              aria-label={t("menu.mobileNav")}
-            >
-              {navigation.map((item) => (
-                <div key={item.name}>
-                  <button
-                    onClick={() => {
-                      if (item.dropdown) {
-                        setOpenDropdown(
-                          openDropdown === item.name ? null : item.name,
-                        );
-                      } else {
-                        setIsMobileMenuOpen(false);
-                        setOpenDropdown(null);
-                      }
-                    }}
-                    aria-current={
-                      !item.dropdown && isActive(item.href) ? "page" : undefined
-                    }
-                    className={`flex items-center justify-between w-full text-sm font-medium transition-colors rounded-lg px-3 py-2.5 ${
-                      isActive(item.href)
-                        ? "text-primary bg-primary/8"
-                        : "text-foreground hover:bg-muted/60"
+      {/* Mobile Menu */}
+      {isMobileMenuOpen && (
+        <div
+          id="mobile-menu"
+          className="xl:hidden h-[calc(100dvh-4rem)] lg:h-[calc(100dvh-5rem)] overflow-y-auto overscroll-contain bg-background border-t border-border/40 animate-in fade-in slide-in-from-top-2 duration-200"
+          data-lenis-prevent
+        >
+          <nav
+            className="container-custom flex flex-col gap-5 py-5"
+            aria-label={t("menu.mobileNav")}
+          >
+            {/* The two things most visitors came for */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+              <Button variant="primary" size="lg" asChild className="w-full">
+                <Link to={to(nav.primaryCta.href)} onClick={closeMenu}>
+                  {nav.primaryCta.label}
+                  <ArrowRight className="ms-2 h-4 w-4 rtl:rotate-180" />
+                </Link>
+              </Button>
+              <Button
+                variant="outline"
+                size="lg"
+                asChild
+                className="w-full text-foreground"
+              >
+                <Link to={to(nav.secondaryCta.href)} onClick={closeMenu}>
+                  {nav.secondaryCta.label}
+                </Link>
+              </Button>
+            </div>
+
+            {/* Sections */}
+            <ul className="flex flex-col gap-2">
+              {nav.sections.map((section) => {
+                const open = openSection === section.id;
+                const active = sectionActive(section);
+                return (
+                  <li
+                    key={section.id}
+                    className={`rounded-2xl border transition-colors ${
+                      open
+                        ? "border-primary/30 bg-primary/[0.03]"
+                        : "border-border/60"
                     }`}
                   >
-                    {!item.dropdown ? (
-                      <Link
-                        to={addLocalePrefix(item.href, locale)}
-                        aria-current={isActive(item.href) ? "page" : undefined}
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          setIsMobileMenuOpen(false);
-                          setOpenDropdown(null);
-                        }}
-                        className="flex-1 text-left"
+                    <button
+                      type="button"
+                      onClick={() => setOpenSection(open ? null : section.id)}
+                      aria-expanded={open}
+                      aria-controls={`mobile-section-${section.id}`}
+                      className="flex w-full items-center gap-3 px-4 py-3 text-start"
+                    >
+                      <span
+                        className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl ${
+                          active || open
+                            ? "bg-primary text-primary-foreground"
+                            : "bg-muted text-foreground/80"
+                        }`}
                       >
-                        {item.name}
-                      </Link>
-                    ) : (
-                      <span>{item.name}</span>
-                    )}
-                    {item.dropdown && (
+                        <section.icon className="h-5 w-5" />
+                      </span>
+                      <span className="flex-1 min-w-0">
+                        <span className="block text-base font-semibold text-foreground">
+                          {section.label}
+                        </span>
+                        <span className="block text-xs text-muted-foreground truncate">
+                          {section.intro}
+                        </span>
+                      </span>
                       <ChevronDown
-                        className={`w-4 h-4 transition-transform duration-200 ${openDropdown === item.name ? "rotate-180" : ""}`}
+                        className={`h-5 w-5 shrink-0 text-muted-foreground transition-transform duration-200 ${open ? "rotate-180" : ""}`}
                       />
+                    </button>
+                    {open && (
+                      <ul
+                        id={`mobile-section-${section.id}`}
+                        className="grid grid-cols-1 sm:grid-cols-2 gap-1 px-2 pb-3 animate-in fade-in slide-in-from-top-1 duration-200"
+                      >
+                        {section.items.map((item) => {
+                          const here = isActive(item.href);
+                          return (
+                            <li key={item.href + item.label}>
+                              <Link
+                                to={to(item.href)}
+                                onClick={closeMenu}
+                                aria-current={here ? "page" : undefined}
+                                className={`flex items-start gap-3 rounded-xl px-3 py-2.5 transition-colors ${
+                                  here
+                                    ? "bg-primary/15 text-foreground font-semibold"
+                                    : "text-foreground hover:bg-muted/60"
+                                }`}
+                              >
+                                {item.icon && (
+                                  <item.icon className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
+                                )}
+                                <span className="min-w-0">
+                                  <span className="block text-sm font-medium">
+                                    {item.label}
+                                  </span>
+                                  {item.desc && (
+                                    <span className="block text-xs text-muted-foreground leading-snug">
+                                      {item.desc}
+                                    </span>
+                                  )}
+                                </span>
+                              </Link>
+                            </li>
+                          );
+                        })}
+                      </ul>
                     )}
-                  </button>
-                  {item.dropdown && openDropdown === item.name && (
-                    <div className="ml-3 pl-3 border-l-2 border-primary/20 space-y-1 mt-1 mb-2 animate-in slide-in-from-top-1 duration-200">
-                      {item.dropdown.map((subItem) => (
-                        <Link
-                          key={subItem.name}
-                          to={addLocalePrefix(subItem.href, locale)}
-                          aria-current={
-                            isActive(subItem.href) ? "page" : undefined
-                          }
-                          onClick={() => {
-                            setIsMobileMenuOpen(false);
-                            setOpenDropdown(null);
-                          }}
-                          className={`flex items-center gap-2 text-sm py-2 px-3 rounded-lg transition-colors ${
-                            subItem.featured
-                              ? "text-primary font-semibold bg-primary/5 hover:bg-primary/10"
-                              : "text-foreground/85 hover:text-primary hover:bg-primary/5"
-                          }`}
-                        >
-                          {subItem.icon && (
-                            <subItem.icon className="h-4 w-4 shrink-0" />
-                          )}
-                          {subItem.name}
-                          {subItem.featured && (
-                            <span className="ml-auto text-[10px] font-bold uppercase tracking-wider bg-primary/10 text-primary px-1.5 py-0.5 rounded-full">
-                              New
-                            </span>
-                          )}
-                        </Link>
-                      ))}
-                    </div>
-                  )}
-                </div>
+                  </li>
+                );
+              })}
+            </ul>
+
+            {/* Quick links */}
+            <div className="flex flex-wrap gap-2">
+              {nav.quickLinks.map((q) => (
+                <Link
+                  key={q.href}
+                  to={to(q.href)}
+                  onClick={closeMenu}
+                  className="inline-flex items-center gap-1.5 rounded-full border border-border/60 px-3 py-1.5 text-sm text-foreground/85 hover:bg-muted/60"
+                >
+                  {q.icon && <q.icon className="h-3.5 w-3.5" />}
+                  {q.label}
+                </Link>
               ))}
-              <div className="flex flex-col gap-3 pt-4 mt-3 border-t border-border/30">
-                <div className="flex items-center gap-3 px-3">
-                  <ThemeToggle />
-                  <LanguageSwitcher />
-                </div>
-                <div className="px-3">
-                  <InstallAppButton
-                    variant="outline"
-                    size="sm"
-                    className="w-full"
-                    label="Install U.Psy app"
-                  />
-                </div>
-                {user ? (
-                  <div className="flex flex-col gap-2 px-3">
-                    <ViewAsSwitcher
-                      onChoose={() => setIsMobileMenuOpen(false)}
-                    />
-                    <Button variant="primary" size="sm" asChild>
-                      <Link
-                        to={addLocalePrefix("/my-space", locale)}
-                        onClick={() => setIsMobileMenuOpen(false)}
-                      >
-                        <User className="mr-2 h-4 w-4" />
-                        {t("nav.mySpace")}
-                      </Link>
-                    </Button>
-                    <Button variant="outline" size="sm" onClick={handleSignOut}>
-                      <LogOut className="mr-2 h-4 w-4" />
-                      {t("nav.logout")}
-                    </Button>
-                  </div>
-                ) : (
-                  <div className="flex gap-2 px-3">
-                    <Button
-                      variant="secondary"
-                      size="sm"
-                      asChild
-                      // Gold text on ivory is unreadable; keep the gold border.
-                      className="flex-1 text-foreground hover:text-foreground"
-                    >
-                      <Link
-                        to={authHref}
-                        onClick={() => setIsMobileMenuOpen(false)}
-                      >
-                        {t("nav.login")}
-                      </Link>
-                    </Button>
-                    <Button
-                      variant="primary"
-                      size="sm"
-                      asChild
-                      className="flex-1"
-                    >
-                      <Link
-                        to={addLocalePrefix("/psychologists", locale)}
-                        onClick={() => setIsMobileMenuOpen(false)}
-                      >
-                        {t("nav.findPsychologist")}
-                      </Link>
-                    </Button>
-                  </div>
-                )}
+            </div>
+
+            {/* Preferences */}
+            <div className="rounded-2xl border border-border/60 p-4 space-y-3">
+              <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                {nav.settings}
+              </p>
+              <div className="flex items-center gap-3">
+                <ThemeToggle />
+                <LanguageSwitcher />
               </div>
-            </nav>
-          </div>
-        )}
-      </div>
+              <InstallAppButton
+                variant="outline"
+                size="sm"
+                className="w-full"
+                label={t("menu.installApp")}
+              />
+            </div>
+
+            {/* Account */}
+            {user ? (
+              <div className="flex flex-col gap-2">
+                <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                  {nav.account}
+                </p>
+                <ViewAsSwitcher onChoose={closeMenu} />
+                <Button variant="primary" size="sm" asChild>
+                  <Link to={to("/my-space")} onClick={closeMenu}>
+                    <User className="mr-2 h-4 w-4" />
+                    {t("nav.mySpace")}
+                  </Link>
+                </Button>
+                <Button variant="outline" size="sm" onClick={handleSignOut}>
+                  <LogOut className="mr-2 h-4 w-4" />
+                  {t("nav.logout")}
+                </Button>
+              </div>
+            ) : (
+              <Button
+                variant="outline"
+                size="lg"
+                asChild
+                className="w-full text-foreground"
+              >
+                <Link to={authHref} onClick={closeMenu}>
+                  <User className="mr-2 h-4 w-4" />
+                  {t("nav.login")}
+                </Link>
+              </Button>
+            )}
+          </nav>
+        </div>
+      )}
     </header>
   );
 };

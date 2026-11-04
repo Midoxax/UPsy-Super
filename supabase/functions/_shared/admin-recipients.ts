@@ -23,13 +23,15 @@ export async function adminRecipients(): Promise<string[]> {
       .eq("role", "admin");
     const ids = (roles ?? []).map((r: { user_id: string }) => r.user_id);
     if (ids.length === 0) return [];
-    const { data: users } = await admin
-      .schema("auth")
-      .from("users")
-      .select("email")
-      .in("id", ids);
-    return (users ?? [])
-      .map((u: { email: string | null }) => u.email)
+    // The auth schema is not exposed through PostgREST, so
+    // .schema("auth").from("users") always failed and this returned [],
+    // silently dropping every admin alert. The Auth admin API is the
+    // supported way to read a user's email with the service role.
+    const users = await Promise.all(
+      ids.map((id: string) => admin.auth.admin.getUserById(id)),
+    );
+    return users
+      .map((r) => r.data.user?.email ?? null)
       .filter((e: string | null): e is string => !!e);
   } catch (e) {
     console.warn("[admin-recipients] lookup failed", e);
