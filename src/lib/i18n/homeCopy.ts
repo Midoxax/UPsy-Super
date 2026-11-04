@@ -16,13 +16,14 @@ type HeroCopy = {
   body: string;
   ctaPrimary: string;
   ctaSecondary: string;
-  syncIndex: string;
-  adrenalineBuffer: string;
-  adrenalineActive: string;
-  decisionLatency: string;
-  decisionDelta: string;
-  cognitiveLoad: string;
-  cognitiveLow: string;
+  scoreLabel: string;
+  scoreSub: string;
+  langLabel: string;
+  langSub: string;
+  formatLabel: string;
+  formatValue: string;
+  privacyLabel: string;
+  privacyValue: string;
   performanceTiers: string;
   tiers: string[];
   tickerItems: string[];
@@ -90,25 +91,21 @@ const en: HomeCopy = {
     ],
     ctaPrimary: "TAKE THE FREE SCORE",
     ctaSecondary: "MATCH WITH A SPECIALIST",
-    syncIndex: "Sync Index",
-    adrenalineBuffer: "Adrenaline Buffer",
-    adrenalineActive: "ACTIVE",
-    decisionLatency: "Decision Latency",
-    decisionDelta: "-12% · Optimal Range",
-    cognitiveLoad: "Cognitive Load",
-    cognitiveLow: "LOW",
-    performanceTiers: "Performance Tiers",
-    tiers: [
-      "Series A Founders",
-      "Special Ops Teams",
-      "F1 Strategists",
-      "Chess Grandmasters",
-    ],
+    scoreLabel: "Questions",
+    scoreSub: "Free score · 2 min",
+    langLabel: "Languages",
+    langSub: "Darija · Arabic · French · English",
+    formatLabel: "Format",
+    formatValue: "Video or in person",
+    privacyLabel: "Confidential",
+    privacyValue: "Law 09-08",
+    performanceTiers: "Built for",
+    tiers: ["Individuals", "Athletes", "Clubs & federations", "Companies"],
     tickerItems: [
-      "Neural Status: Synchronized",
-      "System Load: 12.4%",
-      "Signal Latency: 0.02ms",
-      "Neural Status: Synchronized",
+      "Verified psychologists",
+      "Video or in person",
+      "Four languages",
+      "Confidential · Law 09-08",
     ],
   },
   pricing: {
@@ -269,25 +266,21 @@ const fr: HomeCopy = {
     ],
     ctaPrimary: "FAIRE LE SCORE GRATUIT",
     ctaSecondary: "TROUVER UN SPÉCIALISTE",
-    syncIndex: "Indice de sync.",
-    adrenalineBuffer: "Réserve d'adrénaline",
-    adrenalineActive: "ACTIVE",
-    decisionLatency: "Latence de décision",
-    decisionDelta: "-12 % · Zone optimale",
-    cognitiveLoad: "Charge cognitive",
-    cognitiveLow: "FAIBLE",
-    performanceTiers: "Niveaux de performance",
-    tiers: [
-      "Fondateurs Series A",
-      "Forces spéciales",
-      "Stratèges F1",
-      "Grands maîtres d'échecs",
-    ],
+    scoreLabel: "Questions",
+    scoreSub: "Score gratuit · 2 min",
+    langLabel: "Langues",
+    langSub: "Darija · arabe · français · anglais",
+    formatLabel: "Format",
+    formatValue: "Visio ou cabinet",
+    privacyLabel: "Confidentiel",
+    privacyValue: "Loi 09-08",
+    performanceTiers: "Pour qui",
+    tiers: ["Particuliers", "Sportifs", "Clubs et fédérations", "Entreprises"],
     tickerItems: [
-      "État neuronal : synchronisé",
-      "Charge système : 12,4 %",
-      "Latence signal : 0,02 ms",
-      "État neuronal : synchronisé",
+      "Psychologues vérifiés",
+      "Visio ou cabinet",
+      "Quatre langues",
+      "Confidentiel · loi 09-08",
     ],
   },
   pricing: {
@@ -446,25 +439,21 @@ const ar: HomeCopy = {
     closing: ["مؤشر مجاني في دقيقتين", "دون التزام", "سري · القانون 09-08"],
     ctaPrimary: "اجتز المؤشر المجاني",
     ctaSecondary: "طابقني مع مختصّ",
-    syncIndex: "مؤشر التزامن",
-    adrenalineBuffer: "احتياطي الأدرينالين",
-    adrenalineActive: "نشِط",
-    decisionLatency: "زمن اتخاذ القرار",
-    decisionDelta: "-١٢٪ · النطاق الأمثل",
-    cognitiveLoad: "الحمل المعرفي",
-    cognitiveLow: "منخفض",
-    performanceTiers: "مستويات الأداء",
-    tiers: [
-      "مؤسّسو Series A",
-      "فرق عمليات خاصة",
-      "استراتيجيّو F1",
-      "أساطين الشطرنج",
-    ],
+    scoreLabel: "أسئلة",
+    scoreSub: "مؤشر مجاني · دقيقتان",
+    langLabel: "لغات",
+    langSub: "الدارجة · العربية · الفرنسية · الإنجليزية",
+    formatLabel: "الصيغة",
+    formatValue: "عن بعد أو في العيادة",
+    privacyLabel: "سري",
+    privacyValue: "القانون 09.08",
+    performanceTiers: "لمن",
+    tiers: ["الأفراد", "الرياضيون", "الأندية والجامعات", "الشركات"],
     tickerItems: [
-      "الحالة العصبية: متزامنة",
-      "حِمل النظام: ١٢٫٤٪",
-      "زمن الإشارة: ٠٫٠٢ ميلي‑ثانية",
-      "الحالة العصبية: متزامنة",
+      "أخصائيون نفسيون موثَّقون",
+      "عن بعد أو في العيادة",
+      "أربع لغات",
+      "سري · القانون 09-08",
     ],
   },
   pricing: {

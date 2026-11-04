@@ -1925,7 +1925,7 @@ const en = {
         desc: "Not a therapy directory. A complete operational platform that measures, identifies, trains, and applies psychological skills under pressure.",
       },
       accreditation: {
-        title: "5-Tier Clinical Accreditation",
+        title: "Verified before going live",
         desc: "Every specialist is verified through a multi-stage clinical accreditation. No self-declared credentials, no marketplace inflation.",
       },
       morocco: {

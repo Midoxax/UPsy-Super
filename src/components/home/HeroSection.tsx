@@ -253,94 +253,75 @@ const HeroSection = () => {
             </motion.ul>
           </div>
 
-          {/* RIGHT — floating metrics dashboard (desktop only) */}
+          {/* RIGHT — floating product facts (desktop only) */}
           <div className="hidden lg:flex lg:col-span-6 relative h-[620px] items-center justify-center">
             <div className="relative w-[480px] h-[480px]">
-              {/* Central Sync Index core */}
+              {/* Central core — the free score */}
               <motion.div
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.8, delay: 0.4 }}
-                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 h-48 rounded-full flex flex-col items-center justify-center border border-[hsl(var(--gold-accent))]/50 z-20 backdrop-blur-md"
+                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 h-48 rounded-full flex flex-col items-center justify-center text-center border border-[hsl(var(--gold-accent))]/50 z-20 backdrop-blur-md"
                 style={{
                   background:
                     "radial-gradient(circle at 30% 30%, hsl(348 60% 20% / 0.9), hsl(348 60% 6% / 0.9) 70%)",
                   boxShadow: "0 0 100px hsl(45 96% 50% / 0.3)",
                 }}
               >
-                <span className="font-mono text-5xl text-[#FAFAFA] font-bold tabular-nums tracking-tighter">
-                  98.4
+                <span className="font-mono text-6xl text-[#FAFAFA] font-bold tabular-nums tracking-tighter">
+                  12
                 </span>
                 <span className="text-[10px] text-[hsl(var(--gold-accent))] font-black tracking-[0.3em] uppercase mt-1">
-                  {c.syncIndex}
+                  {c.scoreLabel}
                 </span>
-                <div className="absolute -top-3 -left-3 text-[hsl(var(--gold-accent))] text-xs font-mono opacity-60">
-                  +
-                </div>
-                <div className="absolute -bottom-3 -right-3 text-[hsl(var(--gold-accent))] text-xs font-mono opacity-60">
-                  +
-                </div>
+                <span className="text-[10px] text-[#FAFAFA]/60 mt-1 px-4">
+                  {c.scoreSub}
+                </span>
               </motion.div>
 
-              {/* Card — Adrenaline Buffer */}
+              {/* Card — languages */}
               <MetricCard
-                className="absolute -top-4 left-1/2 -translate-x-1/2 w-52"
-                label={c.adrenalineBuffer}
+                className="absolute -top-4 left-1/2 -translate-x-1/2 w-56"
+                label={c.langLabel}
                 delay={0.6}
                 anim="float-a"
               >
-                <div className="flex justify-between items-start mb-2">
-                  <span className="text-[8px] font-mono text-[hsl(var(--gold-accent))] uppercase tracking-wider">
-                    {c.adrenalineBuffer}
-                  </span>
-                  <span className="w-2 h-2 rounded-full bg-[hsl(var(--gold-accent))] animate-ping" />
-                </div>
-                <div className="text-xl font-bold text-white font-mono">
-                  {c.adrenalineActive}
-                </div>
-                <div className="w-full bg-white/10 h-1 mt-2 rounded-full overflow-hidden">
-                  <div className="bg-[hsl(var(--gold-accent))] h-full w-[88%]" />
+                <span className="text-[8px] font-mono text-[hsl(var(--gold-accent))] uppercase tracking-wider block mb-1">
+                  {c.langLabel}
+                </span>
+                <div className="text-2xl font-bold text-white font-mono">4</div>
+                <div className="text-[10px] text-[#FAFAFA]/60 mt-1">
+                  {c.langSub}
                 </div>
               </MetricCard>
 
-              {/* Card — Decision Latency */}
+              {/* Card — format */}
               <MetricCard
                 className="absolute top-1/2 -right-16 -translate-y-1/2 w-44"
-                label={c.decisionLatency}
+                label={c.formatLabel}
                 delay={0.75}
                 anim="float-b"
               >
                 <span className="text-[8px] font-mono text-[#FAFAFA]/50 uppercase tracking-wider block mb-1">
-                  {c.decisionLatency}
+                  {c.formatLabel}
                 </span>
-                <div className="text-2xl font-bold text-white font-mono tabular-nums">
-                  140
-                  <span className="text-xs text-[hsl(var(--gold-accent))] ml-0.5">
-                    ms
-                  </span>
-                </div>
-                <div className="text-[9px] text-emerald-400 font-bold mt-1 uppercase">
-                  {c.decisionDelta}
+                <div className="text-base font-bold text-white leading-tight">
+                  {c.formatValue}
                 </div>
               </MetricCard>
 
-              {/* Card — Cognitive Load */}
+              {/* Card — confidentiality */}
               <MetricCard
-                className="absolute bottom-0 -left-12 w-52"
-                label={c.cognitiveLoad}
+                className="absolute bottom-0 -left-12 w-48"
+                label={c.privacyLabel}
                 delay={0.9}
                 anim="float-c"
               >
                 <span className="text-[8px] font-mono text-[#FAFAFA]/50 uppercase tracking-wider block mb-1">
-                  {c.cognitiveLoad}
+                  {c.privacyLabel}
                 </span>
-                <div className="flex items-end gap-1">
-                  <div className="w-3 h-6 bg-[hsl(var(--gold-accent))]" />
-                  <div className="w-3 h-4 bg-[hsl(var(--gold-accent))]/40" />
-                  <div className="w-3 h-2 bg-[hsl(var(--gold-accent))]/20" />
-                  <span className="ml-3 text-xl font-bold text-white font-mono">
-                    {c.cognitiveLow}
-                  </span>
+                <div className="text-xl font-bold text-white" dir="auto">
+                  {c.privacyValue}
                 </div>
               </MetricCard>
 
