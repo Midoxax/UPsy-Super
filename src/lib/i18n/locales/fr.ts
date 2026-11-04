@@ -55,6 +55,10 @@ const fr = {
     mobileNav: "Navigation mobile",
   },
   nav: {
+    campaigns: "Campagnes",
+    joinSpecialist: "Rejoindre le réseau",
+    specialistPricing: "Tarifs spécialistes",
+    pitch: "Le pitch",
     home: "Accueil",
     services: "Services",
     forOrganizations: "Institutionnel",

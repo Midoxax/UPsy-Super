@@ -52,6 +52,10 @@ const en = {
     mobileNav: "Mobile",
   },
   nav: {
+    campaigns: "Campaigns",
+    joinSpecialist: "Join as a specialist",
+    specialistPricing: "Specialist pricing",
+    pitch: "The pitch",
     home: "Home",
     services: "Services",
     forOrganizations: "For Organizations",
