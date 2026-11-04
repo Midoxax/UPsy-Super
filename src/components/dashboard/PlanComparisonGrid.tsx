@@ -8,6 +8,7 @@ import {
   type SpecialistPlan,
 } from "@/hooks/useSpecialistPlan";
 import { cn } from "@/lib/utils";
+import { useLocale } from "@/contexts/LocaleContext";
 
 interface Props {
   currentPlanId?: string;
@@ -17,20 +18,108 @@ interface Props {
   variant?: "grid" | "marketing";
 }
 
-const FEATURE_ROWS: Array<{ key: string; label: string }> = [
-  { key: "search_boost", label: "Search ranking boost" },
-  { key: "featured_rail", label: "Featured on homepage" },
-  { key: "gallery", label: "Photo gallery" },
-  { key: "video_intro", label: "Video introduction" },
-  { key: "custom_slug", label: "Custom booking link" },
-  { key: "branded_invoice", label: "Branded invoices" },
-  { key: "analytics_basic", label: "Basic analytics" },
-  { key: "analytics_advanced", label: "Advanced analytics" },
-  { key: "ai_session_summary", label: "AI session summaries" },
-  { key: "ai_clinical_assistant", label: "Nour clinical assistant" },
-  { key: "smart_scheduling", label: "Smart scheduling" },
-  { key: "priority_support", label: "Priority support" },
-];
+const FEATURE_KEYS = [
+  "search_boost",
+  "featured_rail",
+  "gallery",
+  "video_intro",
+  "custom_slug",
+  "branded_invoice",
+  "analytics_basic",
+  "analytics_advanced",
+  "ai_session_summary",
+  "ai_clinical_assistant",
+  "smart_scheduling",
+  "priority_support",
+] as const;
+
+// Plan names and taglines live in the database in English; the copy shown
+// to specialists follows the site language.
+const COPY = {
+  en: {
+    features: {
+      search_boost: "Search ranking boost",
+      featured_rail: "Featured on homepage",
+      gallery: "Photo gallery",
+      video_intro: "Video introduction",
+      custom_slug: "Custom booking link",
+      branded_invoice: "Branded invoices",
+      analytics_basic: "Basic analytics",
+      analytics_advanced: "Advanced analytics",
+      ai_session_summary: "AI session summaries",
+      ai_clinical_assistant: "Nour clinical assistant",
+      smart_scheduling: "Smart scheduling",
+      priority_support: "Priority support",
+    },
+    taglines: {} as Record<string, string>,
+    free: "Free",
+    month: " / month",
+    commission: (n: string) => `Platform commission: ${n}% per session`,
+    current: "Current plan",
+    popular: "Most popular",
+    currentBadge: "Current",
+    downgrade: "Downgrade to Free",
+    upgrade: (name: string) => `Upgrade to ${name}`,
+  },
+  fr: {
+    features: {
+      search_boost: "Mise en avant dans la recherche",
+      featured_rail: "Présence sur la page d'accueil",
+      gallery: "Galerie photos",
+      video_intro: "Vidéo de présentation",
+      custom_slug: "Lien de réservation personnalisé",
+      branded_invoice: "Factures à votre nom",
+      analytics_basic: "Statistiques de base",
+      analytics_advanced: "Statistiques avancées",
+      ai_session_summary: "Synthèses de séance par IA",
+      ai_clinical_assistant: "Assistant clinique Nour",
+      smart_scheduling: "Agenda intelligent",
+      priority_support: "Support prioritaire",
+    },
+    taglines: {
+      free: "Soyez référencé et recevez vos premiers patients",
+      pro: "Pour développer une patientèle régulière",
+      elite: "Meilleure visibilité, statistiques et suite IA complètes",
+    } as Record<string, string>,
+    free: "Gratuit",
+    month: " / mois",
+    commission: (n: string) => `Commission plateforme : ${n} % par séance`,
+    current: "Formule actuelle",
+    popular: "La plus choisie",
+    currentBadge: "Actuelle",
+    downgrade: "Revenir à la formule gratuite",
+    upgrade: (name: string) => `Passer à ${name}`,
+  },
+  ar: {
+    features: {
+      search_boost: "إبراز في نتائج البحث",
+      featured_rail: "الظهور في الصفحة الرئيسية",
+      gallery: "معرض صور",
+      video_intro: "فيديو تعريفي",
+      custom_slug: "رابط حجز خاص",
+      branded_invoice: "فواتير باسمك",
+      analytics_basic: "إحصائيات أساسية",
+      analytics_advanced: "إحصائيات متقدمة",
+      ai_session_summary: "ملخصات الحصص بالذكاء الاصطناعي",
+      ai_clinical_assistant: "المساعد الإكلينيكي نور",
+      smart_scheduling: "جدولة ذكية",
+      priority_support: "دعم ذو أولوية",
+    },
+    taglines: {
+      free: "احصل على ملف واستقبل أول المرضى",
+      pro: "لبناء قاعدة مرضى منتظمة",
+      elite: "أفضل ظهور وإحصائيات وأدوات ذكاء اصطناعي كاملة",
+    } as Record<string, string>,
+    free: "مجاني",
+    month: " / شهريًا",
+    commission: (n: string) => `عمولة المنصة: ${n}٪ عن كل حصة`,
+    current: "الصيغة الحالية",
+    popular: "الأكثر اختيارًا",
+    currentBadge: "الحالية",
+    downgrade: "العودة إلى الصيغة المجانية",
+    upgrade: (name: string) => `الانتقال إلى ${name}`,
+  },
+};
 
 const renderValue = (plan: SpecialistPlan, key: string) => {
   const v = plan.features?.[key];
@@ -54,6 +143,8 @@ export const PlanComparisonGrid = ({
   ctaLabel,
   variant = "grid",
 }: Props) => {
+  const { locale } = useLocale();
+  const c = COPY[locale === "ar" ? "ar" : locale === "en" ? "en" : "fr"];
   // Marketing/public page hides commission_rate (business-sensitive) via the public view.
   const authed = useAllPlans();
   const publicPlans = useAllPlansPublic();
@@ -83,7 +174,7 @@ export const PlanComparisonGrid = ({
               <div className="absolute -top-3 left-1/2 -translate-x-1/2">
                 <Badge className="gap-1 bg-primary text-primary-foreground">
                   <Sparkles className="h-3 w-3" />
-                  Most popular
+                  {c.popular}
                 </Badge>
               </div>
             )}
@@ -96,13 +187,13 @@ export const PlanComparisonGrid = ({
                     variant="secondary"
                     className="bg-primary/10 text-primary"
                   >
-                    Current
+                    {c.currentBadge}
                   </Badge>
                 )}
               </div>
               {plan.tagline && (
                 <p className="mt-1 text-sm text-muted-foreground">
-                  {plan.tagline}
+                  {c.taglines[plan.id] ?? plan.tagline}
                 </p>
               )}
             </div>
@@ -110,28 +201,29 @@ export const PlanComparisonGrid = ({
             <div className="mb-4">
               <span className="text-3xl font-bold">
                 {plan.monthly_price_mad === 0
-                  ? "Free"
+                  ? c.free
                   : `${plan.monthly_price_mad} MAD`}
               </span>
               {plan.monthly_price_mad > 0 && (
-                <span className="text-sm text-muted-foreground"> / month</span>
+                <span className="text-sm text-muted-foreground">{c.month}</span>
               )}
               {typeof plan.commission_rate === "number" && (
                 <p className="mt-1 text-xs text-muted-foreground">
-                  Platform commission: {(plan.commission_rate * 100).toFixed(0)}
-                  % per session
+                  {c.commission((plan.commission_rate * 100).toFixed(0))}
                 </p>
               )}
             </div>
 
             <ul className="mb-6 space-y-2 text-sm">
-              {FEATURE_ROWS.map((row) => (
+              {FEATURE_KEYS.map((key) => (
                 <li
-                  key={row.key}
+                  key={key}
                   className="flex items-center justify-between gap-3"
                 >
-                  <span className="text-muted-foreground">{row.label}</span>
-                  {renderValue(plan, row.key)}
+                  <span className="text-muted-foreground">
+                    {c.features[key]}
+                  </span>
+                  {renderValue(plan, key)}
                 </li>
               ))}
             </ul>
@@ -145,11 +237,11 @@ export const PlanComparisonGrid = ({
                   onClick={() => onSelectPlan(plan)}
                 >
                   {isCurrent
-                    ? "Current plan"
+                    ? c.current
                     : (ctaLabel?.(plan) ??
                       (plan.monthly_price_mad === 0
-                        ? "Downgrade to Free"
-                        : `Upgrade to ${plan.name}`))}
+                        ? c.downgrade
+                        : c.upgrade(plan.name)))}
                 </Button>
               )}
             </div>

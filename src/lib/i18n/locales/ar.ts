@@ -55,6 +55,10 @@ const ar = {
     mobileNav: "التنقل على الهاتف",
   },
   nav: {
+    campaigns: "الحملات",
+    joinSpecialist: "الانضمام كمختص",
+    specialistPricing: "أسعار المختصين",
+    pitch: "العرض",
     home: "الرئيسية",
     services: "الخدمات",
     forOrganizations: "للمؤسسات",

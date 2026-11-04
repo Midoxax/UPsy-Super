@@ -20,6 +20,8 @@ const CONNECT_SRC = [
   "https://*.i.posthog.com",
   "https://www.googletagmanager.com",
   "https://*.google-analytics.com",
+  // Cloudflare Web Analytics, injected by the Cloudflare edge.
+  "https://cloudflareinsights.com",
   // Address suggestions (OpenStreetMap data). Map tiles are img-src https:.
   "https://photon.komoot.io",
   "https://o4511311085633536.ingest.de.sentry.io",
@@ -32,7 +34,7 @@ const CONNECT_SRC = [
 // scripts, and removing it needs per-request nonces.
 const CSP = [
   "default-src 'self'",
-  "script-src 'self' 'unsafe-inline' https://meet.jit.si https://8x8.vc https://*.posthog.com https://www.googletagmanager.com",
+  "script-src 'self' 'unsafe-inline' https://meet.jit.si https://8x8.vc https://*.posthog.com https://www.googletagmanager.com https://static.cloudflareinsights.com",
   "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
   "font-src 'self' data: https://fonts.gstatic.com",
   "img-src 'self' data: blob: https:",

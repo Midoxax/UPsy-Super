@@ -61,6 +61,17 @@ const breadcrumbConfig: Record<
   "/legal": { key: "legal", icon: FileText, color: "text-u-gray-400" },
   "/auth": { key: "login", icon: LogIn, color: "text-u-gray-400" },
   "/my-space": { key: "mySpace", icon: LayoutDashboard, color: "text-u-gold" },
+  "/campaigns": { key: "campaigns", icon: Sparkles, color: "text-u-gray-400" },
+  "/campaigns/join-specialist": {
+    key: "joinSpecialist",
+    icon: Award,
+    color: "text-u-teal",
+  },
+  "/pricing-specialists": {
+    key: "specialistPricing",
+    icon: Award,
+    color: "text-u-gold",
+  },
 };
 
 export function BreadcrumbWrapper() {
