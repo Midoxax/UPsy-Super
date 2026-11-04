@@ -85,7 +85,7 @@ const WhyUs = () => {
         name: "Are U.Psy psychologists verified?",
         acceptedAnswer: {
           "@type": "Answer",
-          text: "Yes — every specialist passes a 5-tier accreditation reviewing identity, license, training, supervision, and ethics before being listed.",
+          text: "Yes — our team reviews every specialist's identity, licence and training before their profile goes live.",
         },
       },
       {

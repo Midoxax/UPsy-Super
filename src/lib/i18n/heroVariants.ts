@@ -59,7 +59,7 @@ const VARIANTS: VariantTable = {
       eyebrow: "Accredited psychologists · Video worldwide",
       headlineLine1: "Talk to someone",
       headlineLine2: "who actually helps.",
-      tagline: "Matched in 48 hours. Free rebook if the fit is wrong.",
+      tagline: "Book online in minutes. Free rebook if the fit is wrong.",
       body: "Answer a few questions and we match you with an accredited psychologist who fits your language, schedule and what you're working through. Video anywhere in the world, or in person in select cities.",
       ctaPrimary: { label: "FIND MY PSYCHOLOGIST", to: "/psychologists" },
       ctaSecondary: { label: "TAKE THE 3-MIN ASSESSMENT", to: "/free-score" },
@@ -70,7 +70,7 @@ const VARIANTS: VariantTable = {
       headlineLine1: "Parlez à quelqu'un",
       headlineLine2: "qui vous aide vraiment.",
       tagline:
-        "Mise en relation en 48 heures. Nouvelle séance offerte si le courant ne passe pas.",
+        "Réservation en ligne en quelques minutes. Nouvelle séance offerte si le courant ne passe pas.",
       body: "Répondez à quelques questions et nous vous mettons en relation avec un psychologue accrédité adapté à votre langue, à vos horaires et à ce que vous traversez. En visio partout dans le monde, ou en présentiel dans certaines villes.",
       ctaPrimary: { label: "TROUVER MON PSYCHOLOGUE", to: "/psychologists" },
       ctaSecondary: { label: "FAIRE LE TEST DE 3 MIN", to: "/free-score" },
@@ -81,7 +81,7 @@ const VARIANTS: VariantTable = {
       headlineLine1: "تحدّث إلى شخص",
       headlineLine2: "يساعدك فعلاً.",
       tagline:
-        "مطابقة خلال 48 ساعة. جلسة بديلة مجاناً إن لم يكن الاختيار مناسباً.",
+        "حجز عبر الإنترنت في دقائق. جلسة بديلة مجاناً إن لم يكن الاختيار مناسباً.",
       body: "أجب عن بضعة أسئلة وسنطابقك مع أخصائي نفسي معتمد يناسب لغتك وجدولك وما تمرّ به. جلسات مرئية من أي مكان، أو حضورياً في مدن مختارة.",
       ctaPrimary: { label: "ابحث عن أخصائيي", to: "/psychologists" },
       ctaSecondary: { label: "ابدأ التقييم في 3 دقائق", to: "/free-score" },
@@ -93,7 +93,7 @@ const VARIANTS: VariantTable = {
       eyebrow: "Launch offer · WELCOME20",
       headlineLine1: "Your first session,",
       headlineLine2: "20% off.",
-      tagline: "Matched in 48 hours. Free rebook if the fit is wrong.",
+      tagline: "Book online in minutes. Free rebook if the fit is wrong.",
       body: "Start with an accredited psychologist for 20% less. Video anywhere in the world, or in person in select cities — in French, English, Arabic or Darija.",
       ctaPrimary: {
         label: "CLAIM WELCOME20",
@@ -108,7 +108,7 @@ const VARIANTS: VariantTable = {
       headlineLine1: "Votre première séance,",
       headlineLine2: "-20 %.",
       tagline:
-        "Mise en relation en 48 heures. Nouvelle séance offerte si le courant ne passe pas.",
+        "Réservation en ligne en quelques minutes. Nouvelle séance offerte si le courant ne passe pas.",
       body: "Commencez avec un psychologue accrédité à -20 %. En visio partout dans le monde, ou en présentiel dans certaines villes — en français, anglais, arabe ou darija.",
       ctaPrimary: {
         label: "OBTENIR WELCOME20",
@@ -123,7 +123,7 @@ const VARIANTS: VariantTable = {
       headlineLine1: "جلستك الأولى",
       headlineLine2: "بخصم 20٪.",
       tagline:
-        "مطابقة خلال 48 ساعة. جلسة بديلة مجاناً إن لم يكن الاختيار مناسباً.",
+        "حجز عبر الإنترنت في دقائق. جلسة بديلة مجاناً إن لم يكن الاختيار مناسباً.",
       body: "ابدأ مع أخصائي نفسي معتمد بخصم 20٪. جلسات مرئية من أي مكان، أو حضورياً في مدن مختارة — بالفرنسية أو الإنجليزية أو العربية أو الدارجة.",
       ctaPrimary: {
         label: "احصل على WELCOME20",

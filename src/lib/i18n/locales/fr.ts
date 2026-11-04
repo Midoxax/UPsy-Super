@@ -1951,7 +1951,7 @@ const fr = {
         desc: "Pas un annuaire. Une plateforme opérationnelle complète qui mesure, identifie, entraîne et applique les compétences psychologiques sous pression.",
       },
       accreditation: {
-        title: "Accréditation clinique en 5 niveaux",
+        title: "Vérifiés avant publication",
         desc: "Chaque spécialiste est vérifié via une accréditation clinique en plusieurs étapes. Aucun titre auto-déclaré, aucune inflation de marketplace.",
       },
       morocco: {

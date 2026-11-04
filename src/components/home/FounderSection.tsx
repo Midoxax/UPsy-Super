@@ -73,7 +73,7 @@ const FounderSection = () => {
                       label: t("founder.proof3") || "Accredited Network",
                       detail:
                         t("founder.proof3Detail") ||
-                        "5-tier specialist vetting",
+                        "Every profile reviewed before going live",
                     },
                   ].map((item, i) => (
                     <div
