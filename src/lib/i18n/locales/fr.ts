@@ -55,6 +55,7 @@ const fr = {
     mobileNav: "Navigation mobile",
   },
   nav: {
+    forAthletes: "Pour les sportifs",
     campaigns: "Campagnes",
     joinSpecialist: "Rejoindre le réseau",
     specialistPricing: "Tarifs spécialistes",

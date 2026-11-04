@@ -52,6 +52,7 @@ const en = {
     mobileNav: "Mobile",
   },
   nav: {
+    forAthletes: "For athletes",
     campaigns: "Campaigns",
     joinSpecialist: "Join as a specialist",
     specialistPricing: "Specialist pricing",

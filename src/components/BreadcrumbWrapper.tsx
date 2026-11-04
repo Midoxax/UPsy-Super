@@ -67,6 +67,12 @@ const breadcrumbConfig: Record<
     icon: Award,
     color: "text-u-teal",
   },
+  "/for-athletes": { key: "forAthletes", icon: Award, color: "text-u-gold" },
+  "/for-organizations": {
+    key: "forOrganizations",
+    icon: Award,
+    color: "text-u-teal",
+  },
   "/pricing-specialists": {
     key: "specialistPricing",
     icon: Award,
