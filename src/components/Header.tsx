@@ -11,7 +11,7 @@ import ThemeToggle from "@/components/ThemeToggle";
 import NotificationBell from "@/components/NotificationBell";
 import InstallAppButton from "@/components/pwa/InstallAppButton";
 import ViewAsSwitcher from "@/components/ViewAsSwitcher";
-import { getNav, type NavSection } from "@/components/nav/siteNav";
+import { buildNav, type NavSection } from "@/components/nav/siteNav";
 
 const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -21,7 +21,7 @@ const Header = () => {
   const { user, signOut } = useAuth();
   const { locale, t } = useLocale();
   const navigate = useNavigate();
-  const nav = getNav(locale);
+  const nav = buildNav(t);
   const to = (href: string) => addLocalePrefix(href, locale);
 
   const closeMenu = () => {
