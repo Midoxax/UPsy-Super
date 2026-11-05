@@ -1,12 +1,6 @@
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 
-/** Roles that must sign in with a second factor (TOTP) to use the platform. */
-export const MFA_ROLES = ["admin", "psychologist"] as const;
-
-export const needsMfa = (roles: readonly string[]) =>
-  roles.some((r) => (MFA_ROLES as readonly string[]).includes(r));
-
 /**
  * "ok" when the account needs no second factor or this session already used
  * one (assurance level aal2); "needed" when a specialist or admin is signed

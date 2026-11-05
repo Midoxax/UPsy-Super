@@ -36,18 +36,14 @@ const locationState = vi.hoisted(() => ({
 
 vi.mock("@/contexts/AuthContext", () => ({ useAuth: () => authState }));
 vi.mock("@/hooks/useUserRole", () => ({ useUserRole: () => roleState }));
-vi.mock("@/hooks/useMfaGate", async (orig) => {
-  const real = await orig<typeof import("@/hooks/useMfaGate")>();
-  return {
-    ...real,
-    useMfaGate: (required: boolean, ready: boolean) =>
-      !ready
-        ? "checking"
-        : !required || mfaState.level === "aal2"
-          ? "ok"
-          : "needed",
-  };
-});
+vi.mock("@/hooks/useMfaGate", () => ({
+  useMfaGate: (required: boolean, ready: boolean) =>
+    !ready
+      ? "checking"
+      : !required || mfaState.level === "aal2"
+        ? "ok"
+        : "needed",
+}));
 vi.mock("@/lib/router-compat", () => ({
   // Rendering the target makes the redirect observable and, unlike a spy,
   // also proves the guard stopped rendering its children.

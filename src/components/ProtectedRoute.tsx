@@ -2,7 +2,8 @@ import { useRef } from "react";
 import { Navigate, useLocation } from "@/lib/router-compat";
 import { useAuth } from "@/contexts/AuthContext";
 import { useUserRole } from "@/hooks/useUserRole";
-import { needsMfa, useMfaGate } from "@/hooks/useMfaGate";
+import { useMfaGate } from "@/hooks/useMfaGate";
+import { needsMfa } from "@/lib/auth/mfa";
 import type { Database } from "@/integrations/supabase/types";
 
 type AppRole = Database["public"]["Enums"]["app_role"];
