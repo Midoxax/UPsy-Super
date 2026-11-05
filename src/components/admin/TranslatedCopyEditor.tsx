@@ -16,8 +16,10 @@ import { supabase } from "@/integrations/supabase/client";
 import {
   BookOpen,
   Crown,
+  Library,
   Loader2,
   Save,
+  Tags,
   Users,
   type LucideIcon,
 } from "lucide-react";
@@ -31,7 +33,12 @@ import {
 type Row = Record<string, string | number | boolean | null>;
 
 interface Config {
-  table: "membership_plans" | "community_spaces" | "courses";
+  table:
+    | "membership_plans"
+    | "community_spaces"
+    | "courses"
+    | "resources"
+    | "resource_topics";
   /** Stamp `updated_at` on save (the table has the column). */
   stamp?: boolean;
   /** Column that identifies a row in the update. */
@@ -39,7 +46,7 @@ interface Config {
   /** Column shown as the row's label. */
   label: string;
   /** Boolean column; false shows the row as hidden. */
-  visible: string;
+  visible?: string;
   order: string;
   /** English column names; `_fr` and `_ar` siblings are edited alongside. */
   fields: { column: string; label: string; multiline?: boolean }[];
@@ -61,6 +68,7 @@ const TEXT = {
   saved: "Saved",
   failed: "Could not save",
   required: "The English %s is required",
+  filter: "Filter…",
 };
 
 function TranslatedCopyEditor(cfg: Config) {
@@ -68,6 +76,7 @@ function TranslatedCopyEditor(cfg: Config) {
   const qc = useQueryClient();
   const [drafts, setDrafts] = useState<Record<string, Row>>({});
   const [saving, setSaving] = useState<string | null>(null);
+  const [filter, setFilter] = useState("");
   const columns = cfg.fields.flatMap((f) =>
     LANGS.map((l) => f.column + l.suffix),
   );
@@ -77,7 +86,9 @@ function TranslatedCopyEditor(cfg: Config) {
     queryKey,
     queryFn: async () => {
       const cols = [
-        ...new Set([cfg.idColumn, cfg.label, cfg.visible, ...columns]),
+        ...new Set(
+          [cfg.idColumn, cfg.label, cfg.visible, ...columns].filter(Boolean),
+        ),
       ];
       const { data, error } = await supabase
         .from(cfg.table)
@@ -147,59 +158,80 @@ function TranslatedCopyEditor(cfg: Config) {
         {isLoading ? (
           <Loader2 className="h-5 w-5 animate-spin text-muted-foreground" />
         ) : (
-          rows.map((row) => {
-            const id = String(row[cfg.idColumn]);
-            const d = drafts[id];
-            if (!d) return null;
-            return (
-              <div
-                key={id}
-                className="rounded-lg border border-border p-4 space-y-3"
-              >
-                <div className="flex items-center justify-between gap-3">
-                  <p className="font-mono text-xs uppercase tracking-wider text-muted-foreground">
-                    {String(row[cfg.label])}
-                    {!row[cfg.visible] && ` · ${TEXT.hidden}`}
-                  </p>
-                  <Button
-                    size="sm"
-                    onClick={() => save(id)}
-                    disabled={saving === id}
+          <>
+            {rows.length > 10 && (
+              <Input
+                placeholder={TEXT.filter}
+                value={filter}
+                onChange={(e) => setFilter(e.target.value)}
+              />
+            )}
+            {rows
+              .filter((row) =>
+                [cfg.label, ...columns].some((c) =>
+                  String(row[c] ?? "")
+                    .toLowerCase()
+                    .includes(filter.toLowerCase()),
+                ),
+              )
+              .map((row) => {
+                const id = String(row[cfg.idColumn]);
+                const d = drafts[id];
+                if (!d) return null;
+                return (
+                  <div
+                    key={id}
+                    className="rounded-lg border border-border p-4 space-y-3"
                   >
-                    {saving === id ? (
-                      <Loader2 className="me-2 h-4 w-4 animate-spin" />
-                    ) : (
-                      <Save className="me-2 h-4 w-4" />
-                    )}
-                    {TEXT.save}
-                  </Button>
-                </div>
-                <div className="grid gap-3 md:grid-cols-3">
-                  {LANGS.map((l) => (
-                    <div key={l.lang} className="space-y-2">
-                      {cfg.fields.map((f) => {
-                        const column = f.column + l.suffix;
-                        const Field = f.multiline ? Textarea : Input;
-                        return (
-                          <div key={column} className="space-y-2">
-                            <Label className="text-xs text-muted-foreground">
-                              {`${f.label} · ${l.lang}`}
-                            </Label>
-                            <Field
-                              dir={l.dir}
-                              rows={f.multiline ? 3 : undefined}
-                              value={String(d[column] ?? "")}
-                              onChange={(e) => set(id, column, e.target.value)}
-                            />
-                          </div>
-                        );
-                      })}
+                    <div className="flex items-center justify-between gap-3">
+                      <p className="font-mono text-xs uppercase tracking-wider text-muted-foreground">
+                        {String(row[cfg.label])}
+                        {cfg.visible &&
+                          !row[cfg.visible] &&
+                          ` · ${TEXT.hidden}`}
+                      </p>
+                      <Button
+                        size="sm"
+                        onClick={() => save(id)}
+                        disabled={saving === id}
+                      >
+                        {saving === id ? (
+                          <Loader2 className="me-2 h-4 w-4 animate-spin" />
+                        ) : (
+                          <Save className="me-2 h-4 w-4" />
+                        )}
+                        {TEXT.save}
+                      </Button>
                     </div>
-                  ))}
-                </div>
-              </div>
-            );
-          })
+                    <div className="grid gap-3 md:grid-cols-3">
+                      {LANGS.map((l) => (
+                        <div key={l.lang} className="space-y-2">
+                          {cfg.fields.map((f) => {
+                            const column = f.column + l.suffix;
+                            const Field = f.multiline ? Textarea : Input;
+                            return (
+                              <div key={column} className="space-y-2">
+                                <Label className="text-xs text-muted-foreground">
+                                  {`${f.label} · ${l.lang}`}
+                                </Label>
+                                <Field
+                                  dir={l.dir}
+                                  rows={f.multiline ? 3 : undefined}
+                                  value={String(d[column] ?? "")}
+                                  onChange={(e) =>
+                                    set(id, column, e.target.value)
+                                  }
+                                />
+                              </div>
+                            );
+                          })}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                );
+              })}
+          </>
         )}
       </CardContent>
     </Card>
@@ -265,6 +297,37 @@ const COURSES: Config = {
     "Shown on Learn, the course pages and dashboards in each language. Leave French or Arabic empty to show the English.",
 };
 
+const RESOURCES: Config = {
+  table: "resources",
+  stamp: true,
+  idColumn: "slug",
+  label: "slug",
+  visible: "is_published",
+  order: "title",
+  fields: [
+    { column: "title", label: "Title" },
+    { column: "summary", label: "Summary", multiline: true },
+  ],
+  invalidate: [["resources"]],
+  icon: Library,
+  title: "Resources: titles and summaries",
+  description:
+    "Shown in the resource library in each language. Leave French or Arabic empty to show the English.",
+};
+
+const TOPICS: Config = {
+  table: "resource_topics",
+  idColumn: "slug",
+  label: "slug",
+  order: "sort_order",
+  fields: [{ column: "name", label: "Name" }],
+  invalidate: [["resource-topics"]],
+  icon: Tags,
+  title: "Resource topics: names",
+  description:
+    "Topic filters in the resource library. Leave French or Arabic empty to show the English.",
+};
+
 export const MembershipPlanCopyEditor = () => (
   <TranslatedCopyEditor {...PLANS} />
 );
@@ -272,3 +335,7 @@ export const CommunitySpaceCopyEditor = () => (
   <TranslatedCopyEditor {...SPACES} />
 );
 export const CourseCopyEditor = () => <TranslatedCopyEditor {...COURSES} />;
+export const ResourceCopyEditor = () => <TranslatedCopyEditor {...RESOURCES} />;
+export const ResourceTopicCopyEditor = () => (
+  <TranslatedCopyEditor {...TOPICS} />
+);

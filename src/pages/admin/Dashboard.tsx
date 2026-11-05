@@ -67,6 +67,8 @@ import {
   MembershipPlanCopyEditor,
   CommunitySpaceCopyEditor,
   CourseCopyEditor,
+  ResourceCopyEditor,
+  ResourceTopicCopyEditor,
 } from "@/components/admin/TranslatedCopyEditor";
 import PricingControl from "@/components/admin/PricingControl";
 import TransactionsTab from "@/components/admin/TransactionsTab";
@@ -924,6 +926,8 @@ const AdminDashboard = () => {
               <MembershipPlanCopyEditor />
               <CommunitySpaceCopyEditor />
               <CourseCopyEditor />
+              <ResourceTopicCopyEditor />
+              <ResourceCopyEditor />
               <AnamnesisCopyEditor />
               <TranslationManager />
             </div>
