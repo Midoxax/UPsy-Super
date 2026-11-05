@@ -156,10 +156,26 @@ function useCopy() {
   return COPY[locale === "ar" ? "ar" : locale === "en" ? "en" : "fr"];
 }
 
+/** Localised field with fallback: Arabic → French → English. */
+function useLocalized() {
+  const { locale } = useLocale();
+  return (row: object, field: string): string => {
+    const pick = (k: string) =>
+      (row as Record<string, unknown>)[k] as string | null | undefined;
+    if (locale === "ar")
+      return pick(`${field}_ar`) || pick(`${field}_fr`) || pick(field) || "";
+    if (locale === "fr") return pick(`${field}_fr`) || pick(field) || "";
+    return pick(field) || pick(`${field}_fr`) || "";
+  };
+}
+
 const ResourceCard = ({ resource }: { resource: Resource }) => {
   const Icon = FORMAT_ICONS[resource.format] ?? FileText;
   const track = useTrackResource();
   const c = useCopy();
+  const loc = useLocalized();
+  const title = loc(resource, "title");
+  const summary = loc(resource, "summary");
 
   const handleClick = () => {
     track.mutate({ resource_id: resource.id, action: "view" });
@@ -181,11 +197,11 @@ const ResourceCard = ({ resource }: { resource: Resource }) => {
           </span>
         </div>
         <h3 className="font-semibold text-foreground mb-3 leading-snug min-h-[3rem]">
-          {resource.title}
+          {title}
         </h3>
-        {resource.summary && (
+        {summary && (
           <p className="text-sm text-muted-foreground line-clamp-2 mb-3">
-            {resource.summary}
+            {summary}
           </p>
         )}
         <div className="flex items-center justify-between text-sm text-muted-foreground">
@@ -226,6 +242,7 @@ const ResourceCard = ({ resource }: { resource: Resource }) => {
 
 const Resources = () => {
   const c = useCopy();
+  const loc = useLocalized();
   const [search, setSearch] = useState("");
   const [topic, setTopic] = useState<string | null>(null);
   const [format, setFormat] = useState<string | null>(null);
@@ -348,7 +365,7 @@ const Resources = () => {
                   )}
                 >
                   {tp.icon && <span>{tp.icon}</span>}
-                  {tp.name}
+                  {loc(tp, "name")}
                 </button>
               ))}
             </div>

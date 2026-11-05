@@ -19,6 +19,7 @@ import {
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 import SEOHead from "@/components/SEOHead";
+import { useLocale } from "@/contexts/LocaleContext";
 import {
   useAcademyAccess,
   useStartAcademyCheckout,
@@ -30,10 +31,95 @@ const PATH_STYLE: Record<string, string> = {
   "clinical-cpd": "bg-purple-500/10 text-purple-600 border-purple-500/20",
 };
 
-const sectionTitle: Record<string, string> = {
-  "mental-health": "Mental Health & Wellbeing",
-  performance: "Performance Psychology",
-  "clinical-cpd": "Clinical CPD",
+const COPY = {
+  en: {
+    paths: {
+      "mental-health": "Mental Health & Wellbeing",
+      performance: "Performance Psychology",
+      "clinical-cpd": "Clinical CPD",
+    } as Record<string, string>,
+    welcome: "Welcome to the Academy — every premium course is now unlocked.",
+    seoTitle: "U.Psy Academy — Learn from the clinicians of the U.Psy network",
+    seoDescription:
+      "An all-access academy of structured courses on mental health, resilience, and performance psychology — taught by named U.Psy clinicians.",
+    academy: "U.Psy Academy",
+    title: "Learn directly from the clinicians of the U.Psy network.",
+    sub: "Structured, evidence-based courses on mental health, resilience, and performance psychology — taught by named U.Psy experts, not anonymous slides.",
+    hasAccess: "You have Academy all-access",
+    join: "Join the Academy",
+    browseFree: "Browse free lessons",
+    professors: "Meet your professors",
+    course: "course",
+    courses: "courses",
+    empty: "No published courses yet — check back soon.",
+    locked: "Academy",
+    completed: "Completed",
+    complete: "% complete",
+    stripTitle: "One membership. Every course.",
+    stripSub:
+      "Academy all-access unlocks every premium course and every future release, taught by named U.Psy clinicians — cancel anytime.",
+    monthly: "Monthly",
+    yearly: "Yearly — best value",
+  },
+  fr: {
+    paths: {
+      "mental-health": "Santé mentale et bien-être",
+      performance: "Psychologie de la performance",
+      "clinical-cpd": "Formation clinique continue",
+    } as Record<string, string>,
+    welcome:
+      "Bienvenue dans l'Académie : tous les cours premium sont débloqués.",
+    seoTitle: "Académie U.Psy : apprendre avec les cliniciens du réseau U.Psy",
+    seoDescription:
+      "Une académie en accès illimité : des cours structurés sur la santé mentale, la résilience et la psychologie de la performance, donnés par des cliniciens U.Psy identifiés.",
+    academy: "Académie U.Psy",
+    title: "Apprenez directement avec les cliniciens du réseau U.Psy.",
+    sub: "Des cours structurés et fondés sur les preuves, sur la santé mentale, la résilience et la psychologie de la performance, donnés par des experts U.Psy identifiés, pas par des diapositives anonymes.",
+    hasAccess: "Vous avez l'accès illimité à l'Académie",
+    join: "Rejoindre l'Académie",
+    browseFree: "Voir les leçons gratuites",
+    professors: "Vos enseignants",
+    course: "cours",
+    courses: "cours",
+    empty: "Aucun cours publié pour l'instant : revenez bientôt.",
+    locked: "Académie",
+    completed: "Terminé",
+    complete: " % terminé",
+    stripTitle: "Une adhésion. Tous les cours.",
+    stripSub:
+      "L'accès illimité à l'Académie débloque tous les cours premium et toutes les nouveautés, donnés par des cliniciens U.Psy identifiés. Résiliable à tout moment.",
+    monthly: "Mensuel",
+    yearly: "Annuel : le meilleur tarif",
+  },
+  ar: {
+    paths: {
+      "mental-health": "الصحة النفسية والرفاه",
+      performance: "علم نفس الأداء",
+      "clinical-cpd": "التكوين السريري المستمر",
+    } as Record<string, string>,
+    welcome: "مرحباً بك في الأكاديمية: كل الدورات المتميزة أصبحت متاحة.",
+    seoTitle: "أكاديمية U.Psy: تعلّم مع أطباء شبكة U.Psy",
+    seoDescription:
+      "أكاديمية بولوج كامل: دورات منظمة في الصحة النفسية والمرونة وعلم نفس الأداء، يقدمها مختصون معروفون من U.Psy.",
+    academy: "أكاديمية U.Psy",
+    title: "تعلّم مباشرة مع مختصي شبكة U.Psy.",
+    sub: "دورات منظمة قائمة على الأدلة في الصحة النفسية والمرونة وعلم نفس الأداء، يقدمها خبراء معروفون من U.Psy، لا شرائح مجهولة.",
+    hasAccess: "لديك ولوج كامل إلى الأكاديمية",
+    join: "انضم إلى الأكاديمية",
+    browseFree: "تصفح الدروس المجانية",
+    professors: "تعرّف على أساتذتك",
+    course: "دورة",
+    courses: "دورات",
+    empty: "لا توجد دورات منشورة بعد: عد قريباً.",
+    locked: "الأكاديمية",
+    completed: "مكتمل",
+    complete: "٪ مكتمل",
+    stripTitle: "عضوية واحدة. كل الدورات.",
+    stripSub:
+      "يفتح الولوج الكامل للأكاديمية كل الدورات المتميزة وكل الإصدارات القادمة، يقدمها مختصون معروفون من U.Psy. يمكن الإلغاء في أي وقت.",
+    monthly: "شهري",
+    yearly: "سنوي: أفضل سعر",
+  },
 };
 
 function initials(name: string) {
@@ -50,13 +136,13 @@ export default function Learn() {
   const { hasAccess } = useAcademyAccess();
   const startCheckout = useStartAcademyCheckout();
   const [searchParams, setSearchParams] = useSearchParams();
+  const { locale } = useLocale();
+  const t = COPY[locale === "ar" ? "ar" : locale === "en" ? "en" : "fr"];
 
   useEffect(() => {
     const academyParam = searchParams.get("academy");
     if (academyParam === "success") {
-      toast.success(
-        "Welcome to the Academy — every premium course is now unlocked.",
-      );
+      toast.success(t.welcome);
       setSearchParams(
         (prev) => {
           prev.delete("academy");
@@ -135,8 +221,8 @@ export default function Learn() {
     <>
       <SEOHead
         path="/learn"
-        title="U.Psy Academy — Learn from Morocco's Leading Clinicians"
-        description="An all-access academy of structured courses on mental health, resilience, and performance psychology — taught by named U.Psy clinicians."
+        title={t.seoTitle}
+        description={t.seoDescription}
       />
 
       {/* Hero — dark, editorial, professor-forward */}
@@ -148,22 +234,16 @@ export default function Learn() {
             className="border-white/20 text-white/80 bg-white/5"
           >
             <GraduationCap className="h-3.5 w-3.5 mr-1.5" />{" "}
-            {withLogo("U.Psy Academy", "h-[1.2em] mr-1")}
+            {withLogo(t.academy, "h-[1.2em] mx-1")}
           </Badge>
           <h1 className="font-display text-4xl md:text-6xl leading-[1.05] tracking-tight max-w-3xl">
-            Learn directly from the clinicians who shape mental performance in
-            Morocco.
+            {t.title}
           </h1>
-          <p className="text-white/70 max-w-xl text-lg">
-            Structured, evidence-based courses on mental health, resilience, and
-            performance psychology — taught by named U.Psy experts, not
-            anonymous slides.
-          </p>
+          <p className="text-white/70 max-w-xl text-lg">{t.sub}</p>
           <div className="flex flex-wrap items-center gap-3 pt-2">
             {hasAccess ? (
               <Badge className="bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 px-4 py-2 text-sm">
-                <Sparkles className="h-4 w-4 mr-1.5" /> You have Academy
-                all-access
+                <Sparkles className="h-4 w-4 me-1.5" /> {t.hasAccess}
               </Badge>
             ) : (
               <Button
@@ -177,7 +257,7 @@ export default function Learn() {
                 ) : (
                   <Lock className="h-4 w-4 mr-2" />
                 )}
-                Join the Academy
+                {t.join}
               </Button>
             )}
             <a href="#courses">
@@ -186,7 +266,7 @@ export default function Learn() {
                 variant="outline"
                 className="border-white/30 text-white hover:bg-white/10 hover:text-white"
               >
-                Browse free lessons
+                {t.browseFree}
               </Button>
             </a>
           </div>
@@ -198,7 +278,7 @@ export default function Learn() {
         <section className="border-b border-border bg-surface/40">
           <div className="container-custom py-14 space-y-6">
             <h2 className="text-2xl md:text-3xl font-display">
-              Meet your professors
+              {t.professors}
             </h2>
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
               {instructors.map((ins) => (
@@ -223,7 +303,8 @@ export default function Learn() {
                       </p>
                     )}
                     <p className="text-[11px] text-muted-foreground mt-0.5">
-                      {ins.courseCount} course{ins.courseCount > 1 ? "s" : ""}
+                      {ins.courseCount}{" "}
+                      {ins.courseCount > 1 ? t.courses : t.course}
                     </p>
                   </div>
                 </Link>
@@ -241,16 +322,12 @@ export default function Learn() {
         ) : courses.length === 0 ? (
           <div className="text-center py-20 border border-dashed rounded-2xl">
             <BookOpen className="h-10 w-10 mx-auto text-muted-foreground mb-3" />
-            <p className="text-muted-foreground">
-              No published courses yet — check back soon.
-            </p>
+            <p className="text-muted-foreground">{t.empty}</p>
           </div>
         ) : (
           Object.entries(grouped).map(([path, items]) => (
             <section key={path} className="space-y-4">
-              <h2 className="text-2xl font-display">
-                {sectionTitle[path] ?? path}
-              </h2>
+              <h2 className="text-2xl font-display">{t.paths[path] ?? path}</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
                 {items.map((c: any) => {
                   const enr: any = enrollmentByCourse.get(c.id);
@@ -277,7 +354,7 @@ export default function Learn() {
                         )}
                         {locked && (
                           <div className="absolute top-2 right-2 rounded-full bg-black/70 text-white text-[10px] px-2 py-1 flex items-center gap-1">
-                            <Lock className="h-3 w-3" /> Academy
+                            <Lock className="h-3 w-3" /> {t.locked}
                           </div>
                         )}
                         {c.instructor_name && (
@@ -304,7 +381,7 @@ export default function Learn() {
                               PATH_STYLE[c.learning_path] ?? "",
                             )}
                           >
-                            {c.learning_path}
+                            {t.paths[c.learning_path] ?? c.learning_path}
                           </Badge>
                           <span className="text-[11px] text-muted-foreground flex items-center gap-1">
                             <Clock className="h-3 w-3" />{" "}
@@ -322,8 +399,8 @@ export default function Learn() {
                             <Progress value={progress} className="h-1.5" />
                             <p className="text-[10px] text-muted-foreground">
                               {enr.completed_at
-                                ? "Completed"
-                                : `${progress}% complete`}
+                                ? t.completed
+                                : `${progress}${t.complete}`}
                             </p>
                           </div>
                         )}
@@ -342,12 +419,9 @@ export default function Learn() {
         <section className="bg-[#0b0c10] text-white">
           <div className="container-custom py-16 text-center space-y-5">
             <h2 className="font-display text-3xl md:text-4xl">
-              One membership. Every course.
+              {t.stripTitle}
             </h2>
-            <p className="text-white/70 max-w-xl mx-auto">
-              Academy all-access unlocks every premium course and every future
-              release, taught by named U.Psy clinicians — cancel anytime.
-            </p>
+            <p className="text-white/70 max-w-xl mx-auto">{t.stripSub}</p>
             <div className="flex justify-center gap-3 flex-wrap pt-2">
               <Button
                 size="lg"
@@ -355,7 +429,7 @@ export default function Learn() {
                 onClick={() => startCheckout.mutate("monthly")}
                 disabled={startCheckout.isPending}
               >
-                Monthly
+                {t.monthly}
               </Button>
               <Button
                 size="lg"
@@ -364,7 +438,7 @@ export default function Learn() {
                 onClick={() => startCheckout.mutate("yearly")}
                 disabled={startCheckout.isPending}
               >
-                Yearly — best value
+                {t.yearly}
               </Button>
             </div>
           </div>
