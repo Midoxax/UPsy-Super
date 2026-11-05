@@ -193,38 +193,43 @@ function TranslatedCopyEditor(cfg: Config) {
   );
 }
 
-export const MembershipPlanCopyEditor = () => (
-  <TranslatedCopyEditor
-    table="membership_plans"
-    idColumn="tier"
-    label="tier"
-    visible="is_active"
-    order="sort_order"
-    fields={[
-      { column: "name", label: "Name" },
-      { column: "tagline", label: "Tagline" },
-    ]}
-    invalidate={[["membership-plans"]]}
-    icon={Crown}
-    title="Membership plans: names and taglines"
-    description="Shown on the membership page in each language. Leave French or Arabic empty to show the English."
-  />
-);
+const PLANS: Config = {
+  table: "membership_plans",
+  idColumn: "tier",
+  label: "tier",
+  visible: "is_active",
+  order: "sort_order",
+  fields: [
+    { column: "name", label: "Name" },
+    { column: "tagline", label: "Tagline" },
+  ],
+  invalidate: [["membership-plans"]],
+  icon: Crown,
+  title: "Membership plans: names and taglines",
+  description:
+    "Shown on the membership page in each language. Leave French or Arabic empty to show the English.",
+};
 
+const SPACES: Config = {
+  table: "community_spaces",
+  idColumn: "slug",
+  label: "slug",
+  visible: "is_published",
+  order: "name",
+  fields: [
+    { column: "name", label: "Name" },
+    { column: "description", label: "Description", multiline: true },
+  ],
+  invalidate: [["community-spaces"], ["community-space"]],
+  icon: Users,
+  title: "Community spaces: names and descriptions",
+  description:
+    "Shown in the Training Center in each language. Leave French or Arabic empty to show the English.",
+};
+
+export const MembershipPlanCopyEditor = () => (
+  <TranslatedCopyEditor {...PLANS} />
+);
 export const CommunitySpaceCopyEditor = () => (
-  <TranslatedCopyEditor
-    table="community_spaces"
-    idColumn="slug"
-    label="slug"
-    visible="is_published"
-    order="name"
-    fields={[
-      { column: "name", label: "Name" },
-      { column: "description", label: "Description", multiline: true },
-    ]}
-    invalidate={[["community-spaces"], ["community-space"]]}
-    icon={Users}
-    title="Community spaces: names and descriptions"
-    description="Shown in the Training Center in each language. Leave French or Arabic empty to show the English."
-  />
+  <TranslatedCopyEditor {...SPACES} />
 );
