@@ -45,6 +45,11 @@ SELECT pg_temp.expect((SELECT count(*) FROM public.sessions) = 0, 'admin cannot 
 SELECT pg_temp.expect((SELECT count(*) FROM public.crisis_alerts) = 1, 'admin still sees crisis alerts');
 SELECT pg_temp.expect((SELECT sum(total) FROM public.admin_session_counts()) = 1, 'admin overview still counts sessions');
 
+DO $$ BEGIN
+  PERFORM public.admin_break_glass_read('session_notes', '00000000-0000-0000-0000-00000000000c', 'client asked for a copy by email');
+  RAISE EXCEPTION 'FAILED: break-glass without MFA';
+EXCEPTION WHEN insufficient_privilege THEN RAISE NOTICE 'ok: break-glass refused without MFA'; END $$;
+SELECT set_config('request.jwt.claims', '{"aal":"aal2"}', true);
 -- Break-glass: refused without a real reason or for unknown tables.
 DO $$ BEGIN
   PERFORM public.admin_break_glass_read('session_notes', '00000000-0000-0000-0000-00000000000c', 'short');
