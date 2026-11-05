@@ -82,4 +82,15 @@ SELECT pg_temp.expect((SELECT s.status FROM public.sessions s JOIN public.bookin
   'a confirmed booking becomes a session the specialist can write notes on');
 SELECT pg_temp.expect(NOT EXISTS (SELECT 1 FROM public.sessions s JOIN public.bookings b ON b.id = s.id
   WHERE b.patient_id = '00000000-0000-0000-0000-0000000005b2'), 'unconfirmed requests are not sessions');
+-- An unpublished specialist cannot be booked.
+UPDATE public.psychologist_profiles SET is_published = false WHERE id = '00000000-0000-0000-0000-0000000005a1';
+SELECT set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-0000000005b2', true);
+SET LOCAL ROLE authenticated;
+DO $$ BEGIN
+  INSERT INTO public.bookings (psychologist_id, patient_id, scheduled_at, duration_minutes, session_type, amount_mad)
+    VALUES ('00000000-0000-0000-0000-0000000005a1', '00000000-0000-0000-0000-0000000005b2', pg_temp.at('11:00'), 60, 'video', 600);
+  RAISE EXCEPTION 'FAILED: booked an unpublished specialist';
+EXCEPTION WHEN insufficient_privilege THEN RAISE NOTICE 'ok: unpublished specialist cannot be booked'; END $$;
+RESET ROLE;
+
 ROLLBACK;
