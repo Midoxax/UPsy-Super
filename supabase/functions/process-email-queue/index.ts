@@ -98,24 +98,6 @@ function getRetryAfterSeconds(error: unknown): number {
   return 60;
 }
 
-function parseJwtClaims(token: string): Record<string, unknown> | null {
-  const parts = token.split(".");
-  if (parts.length < 2) {
-    return null;
-  }
-
-  try {
-    const payload = parts[1]
-      .replaceAll("-", "+")
-      .replaceAll("_", "/")
-      .padEnd(Math.ceil(parts[1].length / 4) * 4, "=");
-
-    return JSON.parse(atob(payload)) as Record<string, unknown>;
-  } catch {
-    return null;
-  }
-}
-
 // Move a message to the dead letter queue and log the reason.
 async function moveToDlq(
   supabase: SupabaseClient,
@@ -175,9 +157,10 @@ Deno.serve(async (req) => {
   // the gate.
   const token = authHeader.slice("Bearer ".length).trim();
   const supabase = createClient(supabaseUrl, supabaseServiceKey);
-  const claims = parseJwtClaims(token);
+  // The token itself must match: decoding an unsigned JWT and trusting its
+  // "role" claim would let anyone forge one.
   const { data: vaultOk } =
-    claims?.role === "service_role"
+    token === supabaseServiceKey
       ? { data: true }
       : await supabase.rpc("cron_secret_ok", {
           p_name: "email_queue_service_role_key",
