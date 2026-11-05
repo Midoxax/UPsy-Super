@@ -7,7 +7,7 @@ const MfaSetup = lazy(() => import("@/pages/MfaSetup"));
 
 export const Route = createFileRoute("/$locale/auth/mfa-setup")({
   component: () => (
-    <ProtectedRoute>
+    <ProtectedRoute allowWithoutMfa>
       <PageTransition>
         <MfaSetup />
       </PageTransition>
