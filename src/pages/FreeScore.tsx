@@ -558,7 +558,9 @@ export default function FreeScore() {
       <div className="min-h-screen bg-background flex items-center justify-center px-4 py-12">
         <Card className="max-w-xl w-full glass-card">
           <CardHeader>
-            <CardTitle as="h1" className="font-display text-2xl">{t.title}</CardTitle>
+            <CardTitle as="h1" className="font-display text-2xl">
+              {t.title}
+            </CardTitle>
             <p className="text-sm text-muted-foreground">{t.subtitle}</p>
             <Progress value={progress} className="h-2 mt-3" />
           </CardHeader>

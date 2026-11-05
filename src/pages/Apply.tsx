@@ -45,7 +45,9 @@ const Apply = () => {
             <ShieldCheck className="h-4 w-4 text-primary" />
             <span>Devenir psychologue partenaire</span>
           </div>
-          <CardTitle as="h1" className="text-3xl">Rejoignez U.Psy</CardTitle>
+          <CardTitle as="h1" className="text-3xl">
+            Rejoignez U.Psy
+          </CardTitle>
           <CardDescription>
             Pour soumettre votre dossier d'accréditation en toute sécurité
             (téléversement de pièces, historique, signature), vous devez d'abord
