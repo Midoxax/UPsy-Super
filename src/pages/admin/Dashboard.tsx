@@ -66,6 +66,7 @@ import AnamnesisCopyEditor from "@/components/admin/AnamnesisCopyEditor";
 import {
   MembershipPlanCopyEditor,
   CommunitySpaceCopyEditor,
+  CourseCopyEditor,
 } from "@/components/admin/TranslatedCopyEditor";
 import PricingControl from "@/components/admin/PricingControl";
 import TransactionsTab from "@/components/admin/TransactionsTab";
@@ -922,6 +923,7 @@ const AdminDashboard = () => {
             <div className="space-y-6">
               <MembershipPlanCopyEditor />
               <CommunitySpaceCopyEditor />
+              <CourseCopyEditor />
               <AnamnesisCopyEditor />
               <TranslationManager />
             </div>

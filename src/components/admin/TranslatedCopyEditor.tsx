@@ -13,7 +13,14 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
-import { Crown, Loader2, Save, Users, type LucideIcon } from "lucide-react";
+import {
+  BookOpen,
+  Crown,
+  Loader2,
+  Save,
+  Users,
+  type LucideIcon,
+} from "lucide-react";
 
 /**
  * Admin editor for database copy kept in English, French and Arabic sibling
@@ -24,7 +31,9 @@ import { Crown, Loader2, Save, Users, type LucideIcon } from "lucide-react";
 type Row = Record<string, string | number | boolean | null>;
 
 interface Config {
-  table: "membership_plans" | "community_spaces";
+  table: "membership_plans" | "community_spaces" | "courses";
+  /** Stamp `updated_at` on save (the table has the column). */
+  stamp?: boolean;
   /** Column that identifies a row in the update. */
   idColumn: string;
   /** Column shown as the row's label. */
@@ -104,7 +113,11 @@ function TranslatedCopyEditor(cfg: Config) {
     );
     const { error } = await supabase
       .from(cfg.table)
-      .update({ ...patch, updated_at: new Date().toISOString() } as never)
+      .update(
+        (cfg.stamp
+          ? { ...patch, updated_at: new Date().toISOString() }
+          : patch) as never,
+      )
       .eq(cfg.idColumn, id as never);
     setSaving(null);
     if (error) {
@@ -203,6 +216,7 @@ const PLANS: Config = {
     { column: "name", label: "Name" },
     { column: "tagline", label: "Tagline" },
   ],
+  stamp: true,
   invalidate: [["membership-plans"]],
   icon: Crown,
   title: "Membership plans: names and taglines",
@@ -220,11 +234,35 @@ const SPACES: Config = {
     { column: "name", label: "Name" },
     { column: "description", label: "Description", multiline: true },
   ],
+  stamp: true,
   invalidate: [["community-spaces"], ["community-space"]],
   icon: Users,
   title: "Community spaces: names and descriptions",
   description:
     "Shown in the Training Center in each language. Leave French or Arabic empty to show the English.",
+};
+
+const COURSES: Config = {
+  table: "courses",
+  idColumn: "slug",
+  label: "slug",
+  visible: "is_published",
+  order: "title",
+  fields: [
+    { column: "title", label: "Title" },
+    { column: "description", label: "Description", multiline: true },
+  ],
+  invalidate: [
+    ["admin-courses"],
+    ["public-courses"],
+    ["homepage-courses"],
+    ["learn-course"],
+    ["continue-learning"],
+  ],
+  icon: BookOpen,
+  title: "Courses: titles and descriptions",
+  description:
+    "Shown on Learn, the course pages and dashboards in each language. Leave French or Arabic empty to show the English.",
 };
 
 export const MembershipPlanCopyEditor = () => (
@@ -233,3 +271,4 @@ export const MembershipPlanCopyEditor = () => (
 export const CommunitySpaceCopyEditor = () => (
   <TranslatedCopyEditor {...SPACES} />
 );
+export const CourseCopyEditor = () => <TranslatedCopyEditor {...COURSES} />;

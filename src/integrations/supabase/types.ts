@@ -1966,10 +1966,10 @@ export type Database = {
           slug: string;
           thumbnail_url?: string | null;
           title: string;
-          title_ar: string | null;
-          title_fr: string | null;
-          description_ar: string | null;
-          description_fr: string | null;
+          title_ar?: string | null;
+          title_fr?: string | null;
+          description_ar?: string | null;
+          description_fr?: string | null;
         };
         Update: {
           category?: string;
