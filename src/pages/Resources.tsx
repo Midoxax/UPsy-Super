@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useLocale } from "@/contexts/LocaleContext";
+import { useLocalizedField } from "@/lib/i18n/localizedField";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Link } from "@/lib/router-compat";
@@ -156,24 +157,11 @@ function useCopy() {
   return COPY[locale === "ar" ? "ar" : locale === "en" ? "en" : "fr"];
 }
 
-/** Localised field with fallback: Arabic → French → English. */
-function useLocalized() {
-  const { locale } = useLocale();
-  return (row: object, field: string): string => {
-    const pick = (k: string) =>
-      (row as Record<string, unknown>)[k] as string | null | undefined;
-    if (locale === "ar")
-      return pick(`${field}_ar`) || pick(`${field}_fr`) || pick(field) || "";
-    if (locale === "fr") return pick(`${field}_fr`) || pick(field) || "";
-    return pick(field) || pick(`${field}_fr`) || "";
-  };
-}
-
 const ResourceCard = ({ resource }: { resource: Resource }) => {
   const Icon = FORMAT_ICONS[resource.format] ?? FileText;
   const track = useTrackResource();
   const c = useCopy();
-  const loc = useLocalized();
+  const loc = useLocalizedField();
   const title = loc(resource, "title");
   const summary = loc(resource, "summary");
 
@@ -242,7 +230,7 @@ const ResourceCard = ({ resource }: { resource: Resource }) => {
 
 const Resources = () => {
   const c = useCopy();
-  const loc = useLocalized();
+  const loc = useLocalizedField();
   const [search, setSearch] = useState("");
   const [topic, setTopic] = useState<string | null>(null);
   const [format, setFormat] = useState<string | null>(null);

@@ -6,9 +6,11 @@ import ScrollReveal from "@/components/ScrollReveal";
 import StaggerContainer, { StaggerItem } from "@/components/StaggerContainer";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { useLocalizedField } from "@/lib/i18n/localizedField";
 import FloatingDecorations from "./FloatingDecorations";
 
 const LearningSection = () => {
+  const loc = useLocalizedField();
   const { t } = useLocale();
 
   const { data: courses } = useQuery({
@@ -16,7 +18,9 @@ const LearningSection = () => {
     queryFn: async () => {
       const { data } = await supabase
         .from("courses")
-        .select("id, title, category, duration_hours, difficulty_level")
+        .select(
+          "id, title, title_fr, title_ar, category, duration_hours, difficulty_level",
+        )
         .eq("is_published", true)
         .limit(4);
       return data;
@@ -26,7 +30,7 @@ const LearningSection = () => {
   const displayCourses =
     courses && courses.length > 0
       ? courses.map((c) => ({
-          title: c.title,
+          title: loc(c, "title"),
           duration: c.duration_hours ? `${c.duration_hours}h` : "Self-paced",
           level: c.difficulty_level || "All Levels",
           category: c.category,

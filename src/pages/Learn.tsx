@@ -24,6 +24,7 @@ import {
   useAcademyAccess,
   useStartAcademyCheckout,
 } from "@/hooks/useAcademyAccess";
+import { useLocalizedField } from "@/lib/i18n/localizedField";
 
 const PATH_STYLE: Record<string, string> = {
   "mental-health": "bg-blue-500/10 text-blue-600 border-blue-500/20",
@@ -137,6 +138,7 @@ export default function Learn() {
   const startCheckout = useStartAcademyCheckout();
   const [searchParams, setSearchParams] = useSearchParams();
   const { locale } = useLocale();
+  const loc = useLocalizedField();
   const t = COPY[locale === "ar" ? "ar" : locale === "en" ? "en" : "fr"];
 
   useEffect(() => {
@@ -343,7 +345,7 @@ export default function Learn() {
                         {c.thumbnail_url ? (
                           <img
                             src={c.thumbnail_url}
-                            alt={c.title}
+                            alt={loc(c, "title")}
                             className="w-full h-40 object-cover"
                             loading="lazy"
                           />
@@ -389,10 +391,10 @@ export default function Learn() {
                           </span>
                         </div>
                         <h3 className="font-semibold group-hover:text-primary transition-colors">
-                          {c.title}
+                          {loc(c, "title")}
                         </h3>
                         <p className="text-xs text-muted-foreground line-clamp-2">
-                          {c.description}
+                          {loc(c, "description")}
                         </p>
                         {enr && (
                           <div className="pt-2 space-y-1">

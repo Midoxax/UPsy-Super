@@ -14,6 +14,7 @@ import {
   useAcademyAccess,
   useStartAcademyCheckout,
 } from "@/hooks/useAcademyAccess";
+import { useLocalizedField } from "@/lib/i18n/localizedField";
 
 function initials(name: string) {
   return name
@@ -29,6 +30,7 @@ export default function LearnCourse() {
   const { user } = useAuth();
   const qc = useQueryClient();
   const [activeIdx, setActiveIdx] = useState(0);
+  const loc = useLocalizedField();
   const { hasAccess } = useAcademyAccess();
   const startCheckout = useStartAcademyCheckout();
 
@@ -122,8 +124,8 @@ export default function LearnCourse() {
     <>
       <SEOHead
         path={`/learn/${slug}`}
-        title={`${course.title} | U.Psy Academy`}
-        description={course.description ?? undefined}
+        title={`${loc(course, "title")} | U.Psy Academy`}
+        description={loc(course, "description") || undefined}
       />
 
       {course.instructor_name && (
@@ -146,7 +148,7 @@ export default function LearnCourse() {
                 {course.learning_path}
               </Badge>
               <h1 className="text-2xl md:text-3xl font-display">
-                {course.title}
+                {loc(course, "title")}
               </h1>
               <p className="text-sm text-white/70">
                 Taught by{" "}
@@ -176,12 +178,12 @@ export default function LearnCourse() {
                   {course.learning_path}
                 </Badge>
                 <h1 className="text-xl font-display font-semibold">
-                  {course.title}
+                  {loc(course, "title")}
                 </h1>
               </div>
             )}
             <p className="text-xs text-muted-foreground">
-              {course.description}
+              {loc(course, "description")}
             </p>
             {user && (
               <div className="space-y-1">

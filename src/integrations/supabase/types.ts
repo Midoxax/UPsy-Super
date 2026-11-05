@@ -1929,6 +1929,10 @@ export type Database = {
           slug: string;
           thumbnail_url: string | null;
           title: string;
+          title_ar: string | null;
+          title_fr: string | null;
+          description_ar: string | null;
+          description_fr: string | null;
         };
         Insert: {
           category?: string;
@@ -1950,6 +1954,10 @@ export type Database = {
           slug: string;
           thumbnail_url?: string | null;
           title: string;
+          title_ar: string | null;
+          title_fr: string | null;
+          description_ar: string | null;
+          description_fr: string | null;
         };
         Update: {
           category?: string;
@@ -1971,6 +1979,10 @@ export type Database = {
           slug?: string;
           thumbnail_url?: string | null;
           title?: string;
+          title_ar?: string | null;
+          title_fr?: string | null;
+          description_ar?: string | null;
+          description_fr?: string | null;
         };
         Relationships: [];
       };
@@ -3597,6 +3609,10 @@ export type Database = {
           stripe_price_annual: string | null;
           stripe_price_monthly: string | null;
           tagline: string | null;
+          tagline_ar: string | null;
+          tagline_fr: string | null;
+          name_ar: string | null;
+          name_fr: string | null;
           tier: Database["public"]["Enums"]["membership_tier"];
           updated_at: string;
         };
@@ -3611,6 +3627,10 @@ export type Database = {
           stripe_price_annual?: string | null;
           stripe_price_monthly?: string | null;
           tagline?: string | null;
+          tagline_ar?: string | null;
+          tagline_fr?: string | null;
+          name_ar?: string | null;
+          name_fr?: string | null;
           tier: Database["public"]["Enums"]["membership_tier"];
           updated_at?: string;
         };
@@ -3625,6 +3645,10 @@ export type Database = {
           stripe_price_annual?: string | null;
           stripe_price_monthly?: string | null;
           tagline?: string | null;
+          tagline_ar?: string | null;
+          tagline_fr?: string | null;
+          name_ar?: string | null;
+          name_fr?: string | null;
           tier?: Database["public"]["Enums"]["membership_tier"];
           updated_at?: string;
         };

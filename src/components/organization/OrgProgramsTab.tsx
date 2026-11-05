@@ -12,8 +12,10 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { BookOpen, Plus, Users, Clock, CheckCircle2 } from "lucide-react";
+import { useLocalizedField } from "@/lib/i18n/localizedField";
 
 const OrgProgramsTab = () => {
+  const loc = useLocalizedField();
   const { data: courses } = useQuery({
     queryKey: ["org-courses"],
     queryFn: async () => {
@@ -140,7 +142,9 @@ const OrgProgramsTab = () => {
                   className="flex items-center justify-between p-3 rounded-lg border border-border/50 hover:bg-muted/20 transition-colors"
                 >
                   <div className="flex-1">
-                    <p className="font-medium text-sm">{course.title}</p>
+                    <p className="font-medium text-sm">
+                      {loc(course, "title")}
+                    </p>
                     <div className="flex items-center gap-3 mt-1">
                       <Badge variant="secondary" className="text-xs">
                         {course.category}

@@ -12,6 +12,7 @@ import {
   useCurrentTier,
   type MembershipPlan,
 } from "@/hooks/useMembership";
+import { useLocalizedField } from "@/lib/i18n/localizedField";
 
 const COPY = {
   en: {
@@ -290,6 +291,7 @@ const PlanCard = ({
   c: Copy;
 }) => {
   const isOrg = plan.tier === "organization";
+  const loc = useLocalizedField();
   const isElite = plan.tier === "elite";
   const price = annual ? plan.price_annual_mad : plan.price_monthly_mad;
   const cycle = annual ? c.perYear : c.perMonth;
@@ -312,8 +314,10 @@ const PlanCard = ({
       )}
 
       <div className="mt-6 mb-4">
-        <h3 className="text-2xl font-bold">{plan.name}</h3>
-        <p className="text-sm text-muted-foreground mt-1">{plan.tagline}</p>
+        <h3 className="text-2xl font-bold">{loc(plan, "name")}</h3>
+        <p className="text-sm text-muted-foreground mt-1">
+          {loc(plan, "tagline")}
+        </p>
       </div>
 
       <div className="mb-6">
