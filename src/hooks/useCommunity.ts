@@ -8,6 +8,10 @@ export interface CommunitySpace {
   slug: string;
   name: string;
   description: string | null;
+  name_fr?: string | null;
+  name_ar?: string | null;
+  description_fr?: string | null;
+  description_ar?: string | null;
   type: "topic" | "cohort" | "region" | "ama" | "private";
   tier_required: MembershipTier;
   icon: string | null;

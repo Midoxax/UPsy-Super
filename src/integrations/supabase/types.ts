@@ -1631,6 +1631,10 @@ export type Database = {
           created_at: string;
           created_by: string | null;
           description: string | null;
+          description_ar: string | null;
+          description_fr: string | null;
+          name_ar: string | null;
+          name_fr: string | null;
           icon: string | null;
           id: string;
           is_published: boolean;
@@ -1647,6 +1651,10 @@ export type Database = {
           created_at?: string;
           created_by?: string | null;
           description?: string | null;
+          description_ar?: string | null;
+          description_fr?: string | null;
+          name_ar?: string | null;
+          name_fr?: string | null;
           icon?: string | null;
           id?: string;
           is_published?: boolean;
@@ -1663,6 +1671,10 @@ export type Database = {
           created_at?: string;
           created_by?: string | null;
           description?: string | null;
+          description_ar?: string | null;
+          description_fr?: string | null;
+          name_ar?: string | null;
+          name_fr?: string | null;
           icon?: string | null;
           id?: string;
           is_published?: boolean;

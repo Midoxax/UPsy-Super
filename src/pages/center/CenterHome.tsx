@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import SEOHead from "@/components/SEOHead";
 import { useLocale } from "@/contexts/LocaleContext";
 import { useSpaces } from "@/hooks/useCommunity";
+import { useLocalizedField } from "@/lib/i18n/localizedField";
 import {
   useCurrentTier,
   hasTier,
@@ -81,6 +82,7 @@ const CenterHome = () => {
   const { data: spaces, isLoading } = useSpaces();
   const { tier: owned } = useCurrentTier();
   const { locale } = useLocale();
+  const loc = useLocalizedField();
   const c = COPY[locale === "ar" ? "ar" : locale === "en" ? "en" : "fr"];
 
   return (
@@ -155,10 +157,10 @@ const CenterHome = () => {
                       </div>
                     </div>
                     <h3 className="text-lg font-semibold mb-1.5">
-                      {space.name}
+                      {loc(space, "name")}
                     </h3>
                     <p className="text-sm text-muted-foreground flex-1 line-clamp-3">
-                      {space.description}
+                      {loc(space, "description")}
                     </p>
                     <div className="flex items-center justify-between mt-4 pt-4 border-t border-border/40">
                       <div className="flex items-center gap-3 text-xs text-muted-foreground">

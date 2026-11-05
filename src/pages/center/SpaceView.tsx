@@ -8,6 +8,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { toast } from "@/hooks/use-toast";
 import SEOHead from "@/components/SEOHead";
+import { useLocalizedField } from "@/lib/i18n/localizedField";
 import { TierGate } from "@/components/membership/TierGate";
 import { useAuth } from "@/contexts/AuthContext";
 import {
@@ -31,6 +32,7 @@ const SpaceView = () => {
   const createPost = useCreatePost(space?.id ?? "");
   const react = useReactToPost();
   const [draft, setDraft] = useState("");
+  const loc = useLocalizedField();
 
   if (!slug) return <Navigate to="/center" replace />;
   if (isLoading) {
@@ -72,8 +74,8 @@ const SpaceView = () => {
       <main className="min-h-screen">
         <SEOHead
           path={`/center/c/${space.slug}`}
-          title={`${space.name} — Training Center | U.Psy`}
-          description={space.description ?? undefined}
+          title={`${loc(space, "name")} — Training Center | U.Psy`}
+          description={loc(space, "description") || undefined}
         />
 
         {/* Header */}
@@ -97,9 +99,9 @@ const SpaceView = () => {
                     {space.member_count} members
                   </span>
                 </div>
-                <h1 className="text-h2 font-bold">{space.name}</h1>
+                <h1 className="text-h2 font-bold">{loc(space, "name")}</h1>
                 <p className="text-muted-foreground mt-1">
-                  {space.description}
+                  {loc(space, "description")}
                 </p>
               </div>
               {!isMember && user && (

@@ -63,7 +63,10 @@ import UsersPanel from "@/components/admin/UsersPanel";
 import MonitoringPanel from "@/components/admin/MonitoringPanel";
 import TranslationManager from "@/components/admin/TranslationManager";
 import AnamnesisCopyEditor from "@/components/admin/AnamnesisCopyEditor";
-import MembershipPlanCopyEditor from "@/components/admin/MembershipPlanCopyEditor";
+import {
+  MembershipPlanCopyEditor,
+  CommunitySpaceCopyEditor,
+} from "@/components/admin/TranslatedCopyEditor";
 import PricingControl from "@/components/admin/PricingControl";
 import TransactionsTab from "@/components/admin/TransactionsTab";
 import OrgApplicationsManager from "@/components/admin/OrgApplicationsManager";
@@ -918,6 +921,7 @@ const AdminDashboard = () => {
           <TabsContent value="translations">
             <div className="space-y-6">
               <MembershipPlanCopyEditor />
+              <CommunitySpaceCopyEditor />
               <AnamnesisCopyEditor />
               <TranslationManager />
             </div>
