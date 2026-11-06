@@ -37,6 +37,7 @@ import {
   Video,
   Building2,
 } from "lucide-react";
+import { photoUrl } from "@/lib/images/photoUrl";
 
 const DAY_LABELS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
@@ -253,11 +254,12 @@ const PsychologistProfile = () => {
             <div className="relative shrink-0 group">
               {psychologist.photo_url ? (
                 <img
-                  src={psychologist.photo_url}
+                  src={photoUrl(psychologist.photo_url, 208)}
                   alt={psychologist.full_name}
                   className="w-44 h-44 sm:w-52 sm:h-52 rounded-3xl object-cover shadow-2xl transition-transform group-hover:scale-[1.02]"
                   style={{ border: "4px solid hsl(var(--primary) / 0.15)" }}
-                  loading="lazy"
+                  loading="eager"
+                  fetchPriority="high"
                 />
               ) : (
                 <div

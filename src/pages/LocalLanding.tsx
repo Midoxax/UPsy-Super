@@ -13,6 +13,7 @@ import {
   type Country,
 } from "@/content/seo/places";
 import type { LocalPsychologist } from "@/lib/seo/localPsychologists";
+import { photoUrl } from "@/lib/images/photoUrl";
 
 type Lang = "en" | "fr" | "ar";
 
@@ -295,7 +296,7 @@ function Cards({
           >
             {p.photo_url ? (
               <img
-                src={p.photo_url}
+                src={photoUrl(p.photo_url, 56)}
                 alt=""
                 loading="lazy"
                 className="w-14 h-14 rounded-full object-cover shrink-0"

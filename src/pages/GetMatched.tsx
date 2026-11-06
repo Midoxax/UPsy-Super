@@ -42,6 +42,7 @@ import {
   trackFunnelCompleted,
   trackFunnelFailed,
 } from "@/lib/analytics/funnel";
+import { photoUrl } from "@/lib/images/photoUrl";
 
 interface AssessmentAnswers {
   feeling: string;
@@ -630,7 +631,7 @@ const GetMatched = () => {
               >
                 {psychologist.photo_url ? (
                   <img
-                    src={psychologist.photo_url}
+                    src={photoUrl(psychologist.photo_url, 96)}
                     alt={psychologist.full_name}
                     className="w-full h-full object-cover"
                     loading="lazy"

@@ -12,6 +12,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { MapPin, Award, Globe, Calendar } from "lucide-react";
+import { photoUrl } from "@/lib/images/photoUrl";
 
 interface MatchResultsProps {
   matches: PsychologistProfile[];
@@ -47,7 +48,7 @@ const MatchResults = ({ matches, onClose }: MatchResultsProps) => {
               <div className="flex items-start gap-4">
                 <Avatar className="h-16 w-16">
                   <AvatarImage
-                    src={psychologist.photo_url || undefined}
+                    src={photoUrl(psychologist.photo_url, 64)}
                     alt={psychologist.full_name}
                   />
                   <AvatarFallback>

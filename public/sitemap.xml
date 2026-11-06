@@ -6,26 +6,26 @@
     <priority>1.0</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://upsy.ma/" />
     <xhtml:link rel="alternate" hreflang="en" href="https://upsy.ma/" />
-    <xhtml:link rel="alternate" hreflang="fr" href="https://upsy.ma/fr/" />
-    <xhtml:link rel="alternate" hreflang="ar" href="https://upsy.ma/ar/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://upsy.ma/fr" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://upsy.ma/ar" />
   </url>
   <url>
-    <loc>https://upsy.ma/fr/</loc>
+    <loc>https://upsy.ma/fr</loc>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://upsy.ma/" />
     <xhtml:link rel="alternate" hreflang="en" href="https://upsy.ma/" />
-    <xhtml:link rel="alternate" hreflang="fr" href="https://upsy.ma/fr/" />
-    <xhtml:link rel="alternate" hreflang="ar" href="https://upsy.ma/ar/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://upsy.ma/fr" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://upsy.ma/ar" />
   </url>
   <url>
-    <loc>https://upsy.ma/ar/</loc>
+    <loc>https://upsy.ma/ar</loc>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://upsy.ma/" />
     <xhtml:link rel="alternate" hreflang="en" href="https://upsy.ma/" />
-    <xhtml:link rel="alternate" hreflang="fr" href="https://upsy.ma/fr/" />
-    <xhtml:link rel="alternate" hreflang="ar" href="https://upsy.ma/ar/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://upsy.ma/fr" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://upsy.ma/ar" />
   </url>
   <url>
     <loc>https://upsy.ma/about</loc>

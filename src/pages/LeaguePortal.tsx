@@ -29,6 +29,7 @@ import {
   SheetDescription,
 } from "@/components/ui/sheet";
 import { ExportCsvButton } from "@/components/admin/ExportCsvButton";
+import { photoUrl } from "@/lib/images/photoUrl";
 
 type FileRow =
   Database["public"]["Functions"]["league_applications"]["Returns"][number];
@@ -373,7 +374,7 @@ export default function LeaguePortal() {
                 <div className="flex items-start gap-3">
                   {r.photo_url ? (
                     <img
-                      src={r.photo_url}
+                      src={photoUrl(r.photo_url, 48)}
                       alt=""
                       className="w-12 h-12 rounded-full object-cover shrink-0"
                     />

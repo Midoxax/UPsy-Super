@@ -170,9 +170,11 @@ function PointerParallax({ children }: { children: ReactNode }) {
   return <group ref={group}>{children}</group>;
 }
 
-export default function HeroScene() {
+export default function HeroScene({ active = true }: { active?: boolean }) {
   return (
     <Canvas
+      // Stops drawing while the hero is off screen or the tab is hidden.
+      frameloop={active ? "always" : "never"}
       dpr={[1, 1.5]}
       camera={{ position: [0, 0, 7.2], fov: 42 }}
       gl={{ antialias: true, alpha: true, powerPreference: "high-performance" }}

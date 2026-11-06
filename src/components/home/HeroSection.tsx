@@ -65,6 +65,25 @@ const HeroSection = () => {
       destination,
     });
 
+  // Render the scene only while the hero is on screen and the tab visible.
+  const [sceneActive, setSceneActive] = useState(true);
+  const heroRef = useRef<HTMLElement>(null);
+  useEffect(() => {
+    if (!showScene || !heroRef.current) return;
+    let onScreen = true;
+    const update = () => setSceneActive(onScreen && !document.hidden);
+    const io = new IntersectionObserver(([e]) => {
+      onScreen = e.isIntersecting;
+      update();
+    });
+    io.observe(heroRef.current);
+    document.addEventListener("visibilitychange", update);
+    return () => {
+      io.disconnect();
+      document.removeEventListener("visibilitychange", update);
+    };
+  }, [showScene]);
+
   useEffect(() => {
     if (!canAffordWebGL()) return;
 
@@ -105,7 +124,10 @@ const HeroSection = () => {
   }, []);
 
   return (
-    <section className="relative min-h-[100vh] flex items-center overflow-hidden bg-[#0D0406] text-[#FAFAFA] font-body selection:bg-[hsl(var(--gold-accent))] selection:text-[#0D0406]">
+    <section
+      ref={heroRef}
+      className="relative min-h-[100vh] flex items-center overflow-hidden bg-[#0D0406] text-[#FAFAFA] font-body selection:bg-[hsl(var(--gold-accent))] selection:text-[#0D0406]"
+    >
       {/* --- Layer 1: existing 3D orb + starfield backdrop --- */}
       <div className="absolute inset-0" aria-hidden="true">
         {showScene && (
@@ -121,7 +143,7 @@ const HeroSection = () => {
             */}
             <ErrorBoundary fallback={null}>
               <Suspense fallback={null}>
-                <HeroScene />
+                <HeroScene active={sceneActive} />
               </Suspense>
             </ErrorBoundary>
           </div>
