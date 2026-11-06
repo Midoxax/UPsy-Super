@@ -113,7 +113,7 @@ const HeroSection = () => {
       frame = requestAnimationFrame(() => {
         const x = (e.clientX / window.innerWidth) * 2 - 1;
         const y = (e.clientY / window.innerHeight) * 2 - 1;
-        el.style.transform = `rotateX(${(-y * 10).toFixed(2)}deg) rotateY(${(x * 14).toFixed(2)}deg)`;
+        el.style.transform = `rotateX(${(-y * 4).toFixed(2)}deg) rotateY(${(x * 6).toFixed(2)}deg)`;
       });
     };
     window.addEventListener("pointermove", onMove, { passive: true });
@@ -126,7 +126,7 @@ const HeroSection = () => {
   return (
     <section
       ref={heroRef}
-      className="relative min-h-[100vh] flex items-center overflow-hidden bg-[#0D0406] text-[#FAFAFA] font-body selection:bg-[hsl(var(--gold-accent))] selection:text-[#0D0406]"
+      className="relative min-h-[100svh] flex items-center overflow-hidden bg-[#0D0406] text-[#FAFAFA] font-body selection:bg-[hsl(var(--gold-accent))] selection:text-[#0D0406]"
     >
       {/* --- Layer 1: existing 3D orb + starfield backdrop --- */}
       <div className="absolute inset-0" aria-hidden="true">
@@ -182,17 +182,6 @@ const HeroSection = () => {
         <rect width="100%" height="100%" fill="url(#hero-grid)" />
       </svg>
 
-      {/* --- Layer 3: scanlines --- */}
-      <div
-        aria-hidden="true"
-        className="absolute inset-0 z-[5] pointer-events-none"
-        style={{
-          background:
-            "linear-gradient(to bottom, transparent 50%, rgba(242,183,5,0.03) 50%)",
-          backgroundSize: "100% 4px",
-        }}
-      />
-
       {/* --- Left vertical ticker (desktop) --- */}
       <div className="absolute left-4 top-0 bottom-0 w-8 hidden xl:flex flex-col overflow-hidden opacity-20 pointer-events-none border-x border-[hsl(var(--gold-accent))]/10 z-10">
         <div className="flex flex-col gap-8 py-4 animate-[ticker-vertical_22s_linear_infinite]">
@@ -208,10 +197,10 @@ const HeroSection = () => {
       </div>
 
       {/* --- Layer 4: content grid --- */}
-      <div className="container-custom relative z-10 pt-10 pb-28 md:py-28">
+      <div className="container-custom relative z-10 pt-10 pb-14 md:py-28">
         <div className="grid lg:grid-cols-12 gap-12 items-center">
           {/* LEFT — editorial headline column */}
-          <div className="lg:col-span-6 space-y-6 md:space-y-8">
+          <div className="lg:col-span-7 space-y-6 md:space-y-8">
             <motion.div
               initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
@@ -228,7 +217,7 @@ const HeroSection = () => {
               transition={{ duration: 0.8, delay: 0.1 }}
               className="space-y-5"
             >
-              <h1 className="font-display font-semibold leading-[0.95] tracking-tight text-[clamp(2.4rem,6vw,4.75rem)] text-[#FAFAFA]">
+              <h1 className="font-display font-semibold leading-[0.95] tracking-tight text-[clamp(2.4rem,5.4vw,4.5rem)] text-[#FAFAFA]">
                 {c.headlineLine1} <br />
                 <RotatingLine phrases={c.rotating} />
               </h1>
@@ -300,11 +289,11 @@ const HeroSection = () => {
           </div>
 
           {/* RIGHT — floating product facts (desktop only) */}
-          <div className="hidden lg:flex lg:col-span-6 relative h-[620px] items-center justify-center [perspective:1100px]">
+          <div className="hidden lg:flex lg:col-span-5 relative h-[620px] items-center justify-center [perspective:1100px]">
             <div
               ref={panel}
               className="relative w-[480px] h-[480px] [transform-style:preserve-3d] transition-transform duration-500 ease-out"
-              style={{ transform: "rotateX(6deg) rotateY(-10deg)" }}
+              style={{ transform: "rotateX(0deg) rotateY(0deg)" }}
             >
               {/* Central core — the free score */}
               <Depth z={40}>
@@ -312,13 +301,22 @@ const HeroSection = () => {
                   initial={{ opacity: 0, scale: 0.9 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ duration: 0.8, delay: 0.4 }}
-                  className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 h-48 rounded-full flex flex-col items-center justify-center text-center border border-[hsl(var(--gold-accent))]/50 z-20 backdrop-blur-md"
+                  className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 h-48 rounded-full flex flex-col items-center justify-center text-center border border-[hsl(var(--gold-accent))]/50 z-20"
                   style={{
                     background:
                       "radial-gradient(circle at 30% 30%, hsl(348 60% 20% / 0.9), hsl(348 60% 6% / 0.9) 70%)",
-                    boxShadow: "0 0 100px hsl(45 96% 50% / 0.3)",
                   }}
                 >
+                  {/* Round glow. A box-shadow here is clipped to a square
+                      inside the 3D stage, so the halo is its own gradient. */}
+                  <span
+                    aria-hidden="true"
+                    className="pointer-events-none absolute -inset-24 -z-10 rounded-full"
+                    style={{
+                      background:
+                        "radial-gradient(circle closest-side, transparent 49%, hsl(45 96% 50% / 0.24) 50%, hsl(45 96% 50% / 0.07) 72%, transparent 100%)",
+                    }}
+                  />
                   <span className="font-mono text-6xl text-[#FAFAFA] font-bold tabular-nums tracking-tighter">
                     12
                   </span>
@@ -393,7 +391,7 @@ const HeroSection = () => {
       </div>
 
       {/* --- Bottom trust bar --- */}
-      <div className="absolute bottom-0 left-0 w-full border-t border-white/5 py-6 bg-[#0D0406]/80 backdrop-blur-sm z-10">
+      <div className="absolute bottom-0 left-0 w-full border-t border-white/5 py-6 bg-[#0D0406]/80 backdrop-blur-sm z-10 hidden md:block">
         <div className="container-custom flex flex-col md:flex-row justify-between items-center gap-4">
           <div className="text-[10px] text-[#FAFAFA]/40 uppercase tracking-[0.4em] font-black">
             {c.performanceTiers}
@@ -491,7 +489,7 @@ function RotatingLine({ phrases }: { phrases: string[] }) {
   }, [phrases.length]);
 
   return (
-    <span className="relative inline-grid italic font-bold text-gold-gradient">
+    <span className="relative inline-grid italic font-bold">
       {/* Size reservers: the text lives in CSS (attr), not in the page, so
           the headline reads as one sentence to search engines. */}
       {phrases.map((p) => (
@@ -499,17 +497,29 @@ function RotatingLine({ phrases }: { phrases: string[] }) {
           key={p}
           aria-hidden="true"
           data-text={p}
-          className="col-start-1 row-start-1 invisible before:content-[attr(data-text)]"
+          className="col-start-1 row-start-1 invisible text-gold-gradient before:content-[attr(data-text)]"
         />
       ))}
-      <AnimatePresence initial={false}>
+      {/* mode="wait": the old phrase leaves before the new one enters, so two
+          phrases never overlap (they did when one wrapped to two lines). */}
+      <AnimatePresence initial={false} mode="wait">
         <motion.span
           key={phrases[i]}
-          initial={{ opacity: 0, y: "0.35em" }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: "-0.35em" }}
-          transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
-          className="col-start-1 row-start-1"
+          initial={{ opacity: 0, y: "0.3em" }}
+          animate={{
+            opacity: 1,
+            y: 0,
+            transition: { duration: 0.4, ease: [0.16, 1, 0.3, 1] },
+          }}
+          exit={{
+            opacity: 0,
+            y: "-0.3em",
+            transition: { duration: 0.22, ease: "easeIn" },
+          }}
+          // The gradient is clipped to this span's own text. On the parent it
+          // painted nothing while the phrase moved (a transformed child gets
+          // its own layer), so each new phrase was invisible mid-transition.
+          className="col-start-1 row-start-1 text-gold-gradient"
           aria-live="off"
         >
           {phrases[i]}

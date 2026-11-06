@@ -2,6 +2,7 @@ import React, { Component, ErrorInfo, ReactNode } from "react";
 import { Button } from "@/components/ui/button";
 import { AlertTriangle } from "lucide-react";
 import { captureException } from "@/lib/analytics/sentry";
+import { isChunkLoadError, reloadOnce } from "@/lib/staleReload";
 
 interface Props {
   children: ReactNode;
@@ -24,6 +25,9 @@ export class ErrorBoundary extends Component<Props, State> {
   }
 
   public componentDidCatch(error: Error, errorInfo: ErrorInfo) {
+    // A deploy removed a file this tab still needed: reload into the new
+    // version instead of showing an error the visitor can do nothing about.
+    if (isChunkLoadError(error) && reloadOnce("chunk-error")) return;
     console.error("ErrorBoundary caught an error:", error, errorInfo);
     captureException(error, { componentStack: errorInfo.componentStack });
   }

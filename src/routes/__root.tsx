@@ -36,6 +36,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import PageTransition from "@/components/PageTransition";
 import ScrollToTop from "@/components/ScrollToTop";
 import { AuthProvider } from "@/contexts/AuthContext";
+import { reloadOnce } from "@/lib/staleReload";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { LocaleProvider } from "@/contexts/LocaleContext";
 import { ThemeProvider } from "@/contexts/ThemeContext";
@@ -384,13 +385,12 @@ function RootComponent() {
   // then requests a chunk that no longer exists and silently gets stuck —
   // no error UI, the click just does nothing. Vite fires "vite:preloadError"
   // for exactly this case; the fix is the same one users already reach for
-  // manually (a full reload), done automatically, once, per session.
+  // manually (a full reload), done automatically — at most once a minute,
+  // so it keeps working after the second deploy of the day (see reloadOnce).
   useEffect(() => {
-    const RELOAD_GUARD_KEY = "upsy:stale-chunk-reload";
-    const handlePreloadError = () => {
-      if (sessionStorage.getItem(RELOAD_GUARD_KEY)) return;
-      sessionStorage.setItem(RELOAD_GUARD_KEY, "1");
-      window.location.reload();
+    const handlePreloadError = (e: Event) => {
+      // Reloading now; don't also let the failed import surface as an error.
+      if (reloadOnce("stale-chunk")) e.preventDefault();
     };
     window.addEventListener("vite:preloadError", handlePreloadError);
     return () =>
@@ -406,7 +406,6 @@ function RootComponent() {
   // still in flight this long after it started, the page is stuck; reload.
   const router = useRouter();
   useEffect(() => {
-    const STUCK_RELOAD_GUARD_KEY = "upsy:stuck-nav-reload";
     const STUCK_THRESHOLD_MS = 8000;
     let pendingSince: number | null = null;
     const id = window.setInterval(() => {
@@ -420,9 +419,7 @@ function RootComponent() {
         return;
       }
       if (Date.now() - pendingSince < STUCK_THRESHOLD_MS) return;
-      if (sessionStorage.getItem(STUCK_RELOAD_GUARD_KEY)) return;
-      sessionStorage.setItem(STUCK_RELOAD_GUARD_KEY, "1");
-      window.location.reload();
+      reloadOnce("stuck-nav");
     }, 500);
     return () => window.clearInterval(id);
   }, [router]);
