@@ -1,5 +1,11 @@
-import { Locale, normalizeLocale, shellHtml } from "./i18n.ts";
-import { escapeHtml } from "../../html.ts";
+import { Locale, normalizeLocale } from "./i18n.ts";
+import {
+  callout,
+  escapeHtml,
+  p as para,
+  renderEmail,
+  toText,
+} from "../../email/layout.ts";
 
 interface RejectionParams {
   locale: unknown;
@@ -49,25 +55,27 @@ const COPY = {
 export function buildRejectionEmail(p: RejectionParams): {
   subject: string;
   html: string;
+  text: string;
 } {
   const locale: Locale = normalizeLocale(p.locale);
   const c = COPY[locale];
-  const feedback = p.reason
-    ? `<p style="background:#FAF7F2;padding:12px 16px;border-${locale === "ar" ? "right" : "left"}:3px solid #6B1F2A;border-radius:4px;"><strong>${c.feedbackLabel}:</strong> ${escapeHtml(p.reason)}</p>`
-    : "";
-
-  const body = `
-    <h1 style="margin:0 0 16px;font-size:22px;color:#6B1F2A;">${c.greeting(escapeHtml(p.fullName))}</h1>
-    <p>${c.intro}</p>
-    <p>${c.decline}</p>
-    ${feedback}
-    <p>${c.encourage}</p>
-    <p>${c.questions}</p>
-    <p style="margin-top:24px;">${c.closing}</p>
-  `;
-
-  return {
-    subject: c.subject,
-    html: shellHtml({ locale, title: c.subject, body }),
-  };
+  const body =
+    para(c.intro, locale) +
+    para(c.decline, locale) +
+    (p.reason
+      ? callout(
+          `<strong>${escapeHtml(c.feedbackLabel)}</strong><br>${escapeHtml(p.reason)}`,
+          locale,
+        )
+      : "") +
+    para(c.encourage, locale) +
+    para(c.questions, locale) +
+    para(c.closing, locale);
+  const html = renderEmail({
+    locale,
+    preheader: c.intro,
+    title: c.greeting(p.fullName),
+    body,
+  });
+  return { subject: c.subject, html, text: toText(html) };
 }

@@ -1,3 +1,5 @@
+import { proposalEmail } from "../_shared/email/invites.ts";
+import { normaliseLocale } from "../_shared/email/layout.ts";
 // Edge function: psychologist proposes a session to a client.
 // Creates a booking with status='proposed', generates a token,
 // and sends a branded email with Accept / Decline links.
@@ -14,6 +16,8 @@ const corsHeaders = {
 };
 
 interface Body {
+  /** Language of the email to the client (fr by default). */
+  locale?: string;
   client_email: string;
   client_name?: string;
   scheduled_at: string;
@@ -226,56 +230,21 @@ Deno.serve(async (req) => {
 
     const psyName = psyProfile?.full_name ?? "Your psychologist";
 
-    const escapeHtml = (s: string) =>
-      String(s ?? "")
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#39;");
-
     // Build response URLs from a server-side trusted origin (never trust client headers in emails)
     const origin = SITE_URL;
     const acceptUrl = `${origin}/booking/respond/${proposalToken}?action=accept`;
     const declineUrl = `${origin}/booking/respond/${proposalToken}?action=decline`;
 
-    const dateStr = new Date(body.scheduled_at).toLocaleString("fr-FR", {
-      timeZone: "Africa/Casablanca",
-      weekday: "long",
-      day: "numeric",
-      month: "long",
-      year: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
+    const mail = proposalEmail({
+      locale: normaliseLocale(body.locale),
+      specialist: psyName,
+      start: new Date(body.scheduled_at),
+      durationMin: body.duration_minutes,
+      sessionType: body.session_type,
+      notes: body.notes,
+      acceptUrl,
+      declineUrl,
     });
-
-    const html = `<!DOCTYPE html>
-<html><head><meta charset="utf-8"></head>
-<body style="margin:0;padding:0;background:#ffffff;font-family:Arial,sans-serif;color:#1a1a1a;">
-  <div style="max-width:560px;margin:0 auto;padding:32px 24px;">
-    <div style="text-align:center;margin-bottom:24px;">
-      <img src="https://upsy.ma/brand/upsy-wordmark.png" alt="U.Psy" width="140" style="display:block;height:auto;border:0" />
-    </div>
-    <h2 style="color:#1a1a1a;margin:0 0 16px;">Session invitation from ${escapeHtml(psyName)}</h2>
-    <p style="color:#444;line-height:1.6;margin:0 0 20px;">
-      ${escapeHtml(psyName)} has proposed a session with you. Please confirm or decline below.
-    </p>
-    <div style="background:#FAF7F5;border-left:4px solid #6B1F2A;padding:16px;margin:20px 0;border-radius:4px;">
-      <p style="margin:0 0 6px;"><strong>When:</strong> ${dateStr}</p>
-      <p style="margin:0 0 6px;"><strong>Duration:</strong> ${body.duration_minutes} minutes</p>
-      <p style="margin:0;"><strong>Type:</strong> ${escapeHtml(body.session_type.replace("_", " "))}</p>
-      ${body.notes ? `<p style="margin:12px 0 0;font-style:italic;color:#666;">"${escapeHtml(body.notes)}"</p>` : ""}
-    </div>
-    <div style="text-align:center;margin:28px 0;">
-      <a href="${acceptUrl}" style="display:inline-block;background:#6B1F2A;color:#ffffff;padding:12px 28px;border-radius:8px;text-decoration:none;font-weight:600;margin:0 6px;">Accept</a>
-      <a href="${declineUrl}" style="display:inline-block;background:#ffffff;color:#6B1F2A;border:1px solid #6B1F2A;padding:12px 28px;border-radius:8px;text-decoration:none;font-weight:600;margin:0 6px;">Decline</a>
-    </div>
-    <p style="color:#888;font-size:12px;line-height:1.5;text-align:center;margin-top:32px;">
-      This invitation expires in 72 hours.<br/>
-      Conformément à la loi 09-08, vos données personnelles sont protégées.
-    </p>
-  </div>
-</body></html>`;
 
     // Send via Resend (already configured in project secrets)
     const RESEND_API_KEY = Deno.env.get("RESEND_API_KEY");
@@ -290,8 +259,9 @@ Deno.serve(async (req) => {
           body: JSON.stringify({
             from: sender(),
             to: [email],
-            subject: `Session invitation from ${psyName.replace(/[\r\n<>]/g, " ")}`,
-            html,
+            subject: mail.subject,
+            html: mail.html,
+            text: mail.text,
           }),
         });
         if (!resp.ok) {

@@ -3,8 +3,6 @@
 // only goes to confirmed addresses. The answer is the same whatever the
 // address's state, so the endpoint cannot be used to probe the list, and a
 // confirmation is sent at most once a day per address.
-import * as React from "npm:react@18.3.1";
-import { renderAsync } from "npm:@react-email/components@0.0.22";
 import { createClient } from "npm:@supabase/supabase-js@2";
 import { corsHeaders } from "npm:@supabase/supabase-js@2/cors";
 import { SITE_URL } from "../_shared/site.ts";
@@ -13,10 +11,10 @@ import {
   unsubscribeTokenFor,
 } from "../_shared/marketing-mail.ts";
 import {
-  Confirm,
   confirmSubject,
   type Lang,
-} from "../_shared/newsletter/templates.tsx";
+  renderConfirm,
+} from "../_shared/newsletter/templates.ts";
 
 const reply = (body: unknown, status = 200) =>
   new Response(JSON.stringify(body), {
@@ -89,15 +87,15 @@ Deno.serve(async (req) => {
     const tok = await unsubscribeTokenFor(db, email);
     if (tok) {
       const prefix = lang === "en" ? "" : `/${lang}`;
-      const el = React.createElement(Confirm, {
+      const mail = renderConfirm({
         lang,
         confirmUrl: `${SITE_URL}${prefix}/newsletter/confirm?token=${sub.confirm_token}`,
       });
       await queueMarketingEmail(db, {
         to: email,
         subject: confirmSubject(lang),
-        html: await renderAsync(el),
-        text: await renderAsync(el, { plainText: true }),
+        html: mail.html,
+        text: mail.text,
         label: "newsletter-confirm",
         idempotencyKey: `newsletter-confirm:${sub.id}:${new Date().toISOString().slice(0, 10)}`,
         unsubscribeToken: tok,

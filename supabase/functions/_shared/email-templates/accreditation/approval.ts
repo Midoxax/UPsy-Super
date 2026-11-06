@@ -1,5 +1,14 @@
-import { Locale, normalizeLocale, shellHtml } from "./i18n.ts";
-import { escapeHtml } from "../../html.ts";
+import { Locale, normalizeLocale } from "./i18n.ts";
+import {
+  button,
+  callout,
+  details,
+  escapeHtml,
+  p as para,
+  renderEmail,
+  subheading,
+  toText,
+} from "../../email/layout.ts";
 
 interface ApprovalParams {
   locale: unknown;
@@ -89,40 +98,52 @@ const COPY = {
 export function buildApprovalEmail(p: ApprovalParams): {
   subject: string;
   html: string;
+  text: string;
 } {
   const locale: Locale = normalizeLocale(p.locale);
   const c = COPY[locale];
-  const email = escapeHtml(p.email);
   const useSetupLink = p.isNewUser && !!p.setupUrl;
   const credsBlock = useSetupLink
-    ? `<p>${c.setupNew(email)}</p>`
+    ? para(c.setupNew(p.email), locale)
     : p.isNewUser
-      ? `<p>${c.credsNew}</p>
-       <table role="presentation" cellpadding="8" style="background:#FAF7F2;border-radius:8px;margin:8px 0;">
-         <tr><td style="color:#6B7280;font-size:13px;">${c.emailLabel}</td><td style="font-weight:600;">${email}</td></tr>
-         <tr><td style="color:#6B7280;font-size:13px;">${c.passLabel}</td><td style="font-weight:600;font-family:monospace;">${escapeHtml(p.tempPassword)}</td></tr>
-       </table>
-       <p>${c.changeOnLogin}</p>`
-      : `<p>${c.credsExisting(email)}</p>`;
+      ? para(c.credsNew, locale) +
+        details(
+          [
+            [c.emailLabel, p.email],
+            [c.passLabel, p.tempPassword ?? ""],
+          ],
+          locale,
+        ) +
+        callout(escapeHtml(c.changeOnLogin), locale, "action")
+      : para(c.credsExisting(p.email), locale);
   const ctaUrl = useSetupLink ? p.setupUrl! : p.loginUrl;
   const ctaLabel = useSetupLink ? c.setupCta : c.cta;
+  const steps = c.steps
+    .map(
+      (s, i) =>
+        `<tr><td style="width:34px;vertical-align:top;padding:6px 0;"><span style="display:inline-block;width:24px;height:24px;line-height:24px;border-radius:12px;background:#FFF4D1;color:#6D0F22;font-weight:700;font-size:13px;text-align:center;font-family:Arial,sans-serif;">${i + 1}</span></td><td style="padding:6px 0;font-family:Arial,sans-serif;font-size:15px;line-height:1.5;color:#3B3631;">${escapeHtml(s)}</td></tr>`,
+    )
+    .join("");
 
-  const stepsList = c.steps.map((s) => `<li>${s}</li>`).join("");
+  const body =
+    para(c.intro, locale) +
+    credsBlock +
+    button(ctaLabel, ctaUrl, locale) +
+    subheading(c.nextHeading, locale) +
+    `<table role="presentation" cellpadding="0" cellspacing="0" border="0" style="margin:0 0 20px;" dir="${locale === "ar" ? "rtl" : "ltr"}">${steps}</table>` +
+    para(c.closing, locale);
 
-  const body = `
-    <h1 style="margin:0 0 16px;font-size:22px;color:#6B1F2A;">${c.greeting(escapeHtml(p.fullName))}</h1>
-    <p>${c.intro}</p>
-    ${credsBlock}
-    <p style="margin:24px 0;">
-      <a href="${escapeHtml(ctaUrl)}" style="display:inline-block;background:#6B1F2A;color:#fff;padding:12px 24px;border-radius:8px;text-decoration:none;font-weight:600;">${ctaLabel}</a>
-    </p>
-    <h3 style="color:#6B1F2A;font-size:16px;margin:24px 0 8px;">${c.nextHeading}</h3>
-    <ol style="padding-${locale === "ar" ? "right" : "left"}:20px;margin:0;">${stepsList}</ol>
-    <p style="margin-top:24px;color:#6B7280;">${c.closing}</p>
-  `;
-
-  return {
-    subject: c.subject,
-    html: shellHtml({ locale, title: c.subject, body }),
-  };
+  const html = renderEmail({
+    locale,
+    preheader: c.intro,
+    eyebrow:
+      locale === "fr"
+        ? "Dossier approuvé"
+        : locale === "ar"
+          ? "تمت الموافقة"
+          : "Application approved",
+    title: c.greeting(p.fullName),
+    body,
+  });
+  return { subject: c.subject, html, text: toText(html) };
 }

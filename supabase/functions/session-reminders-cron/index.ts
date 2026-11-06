@@ -4,6 +4,8 @@
 // Recipients: client always; specialist only at the 1h wave.
 // Dedupe: booking_reminders_sent (booking_id, reminder_type, recipient_role, channel).
 
+import { reminderEmail } from "../_shared/email/reminder.ts";
+import { normaliseLocale } from "../_shared/email/layout.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.45.0";
 import { sender } from "../_shared/sender.ts";
 import { SITE_URL } from "../_shared/site.ts";
@@ -62,58 +64,12 @@ function formatDate(iso: string, locale = "fr-FR") {
   });
 }
 
-function emailHtml(p: {
-  joinUrl: string;
-  whenLabel: string;
-  durationMin: number;
-  wave: Wave;
-  greeting: string;
-  isSpecialist: boolean;
-  /** Client's unpaid session: link to pay ahead (24h reminder only). */
-  payUrl?: string;
-}) {
-  const headline =
-    p.wave === "5min"
-      ? "Your session starts in a few minutes"
-      : p.wave === "1h"
-        ? "Your session starts in 1 hour"
-        : "Reminder: your session is tomorrow";
-  return `<!DOCTYPE html><html><head><meta charset="utf-8"></head>
-<body style="margin:0;padding:0;background:#ffffff;font-family:Arial,sans-serif;color:#1a1a1a;">
-  <div style="max-width:560px;margin:0 auto;padding:32px 24px;">
-    <div style="text-align:center;margin-bottom:24px;">
-      <img src="https://upsy.ma/brand/upsy-wordmark.png" alt="U.Psy" width="140" style="display:block;height:auto;border:0" />
-    </div>
-    <h2 style="color:#1a1a1a;margin:0 0 16px;">${headline}</h2>
-    <p style="color:#444;line-height:1.6;margin:0 0 20px;">${p.greeting}</p>
-    <div style="background:#FAF7F5;border-left:4px solid #6B1F2A;padding:16px;margin:20px 0;border-radius:4px;">
-      <p style="margin:0 0 6px;"><strong>When:</strong> ${p.whenLabel}</p>
-      <p style="margin:0;"><strong>Duration:</strong> ${p.durationMin} minutes</p>
-    </div>
-    ${
-      p.payUrl
-        ? `<p style="color:#444;line-height:1.6;margin:0 0 12px;">Not paid yet? Pay ahead by bank transfer, CashPlus or Wafacash and upload your receipt: <a href="${p.payUrl}" style="color:#6B1F2A;font-weight:600">pay and secure my session</a>.</p>`
-        : ""
-    }
-    <div style="text-align:center;margin:28px 0;">
-      <a href="${p.joinUrl}" style="display:inline-block;background:#6B1F2A;color:#ffffff;padding:14px 36px;border-radius:8px;text-decoration:none;font-weight:600;font-size:16px;">${p.isSpecialist ? "Open consultation room" : "Join the session"}</a>
-    </div>
-    <p style="color:#666;font-size:13px;text-align:center;margin:16px 0 0;word-break:break-all;">
-      Or paste this link in your browser:<br/>
-      <a href="${p.joinUrl}" style="color:#6B1F2A;">${p.joinUrl}</a>
-    </p>
-    <p style="color:#888;font-size:12px;line-height:1.5;text-align:center;margin-top:32px;">
-      Conformément à la loi 09-08, vos données personnelles sont protégées.
-    </p>
-  </div>
-</body></html>`;
-}
-
 async function sendEmail(opts: {
   apiKey: string;
   to: string;
   subject: string;
   html: string;
+  text?: string;
 }): Promise<boolean> {
   try {
     const resp = await fetch("https://api.resend.com/emails", {
@@ -127,6 +83,7 @@ async function sendEmail(opts: {
         to: [opts.to],
         subject: opts.subject,
         html: opts.html,
+        ...(opts.text ? { text: opts.text } : {}),
       }),
     });
     if (!resp.ok)
@@ -282,25 +239,26 @@ Deno.serve(async (req) => {
       : `${origin}/my-space?tab=sessions`;
     const whenLabel = formatDate(b.scheduled_at);
 
-    // Look up emails (specialist email comes from auth.users)
-    const { data: psyAuth } = await admin
-      .schema("auth")
-      .from("users")
-      .select("email")
-      .eq("id", b.psychologist_id)
-      .maybeSingle();
-    const psyEmail = (psyAuth as any)?.email ?? null;
-
-    let clientEmail = b.patient_email;
-    if (!clientEmail && b.patient_id) {
-      const { data: cAuth } = await admin
-        .schema("auth")
-        .from("users")
-        .select("email")
-        .eq("id", b.patient_id)
-        .maybeSingle();
-      clientEmail = (cAuth as any)?.email ?? null;
-    }
+    // Emails and languages come from the auth accounts. (A
+    // .schema("auth") query is refused through the API, which left every
+    // reminder email unsent: only in-app reminders ever went out.)
+    const psyUser = (await admin.auth.admin.getUserById(b.psychologist_id)).data
+      .user;
+    const clientUser = b.patient_id
+      ? (await admin.auth.admin.getUserById(b.patient_id)).data.user
+      : null;
+    const psyEmail = psyUser?.email ?? null;
+    const clientEmail = b.patient_email ?? clientUser?.email ?? null;
+    const psyLocale = normaliseLocale(psyUser?.user_metadata?.locale);
+    const clientLocale = normaliseLocale(clientUser?.user_metadata?.locale);
+    const { data: clientProfile } = b.patient_id
+      ? await admin
+          .from("profiles")
+          .select("full_name")
+          .eq("id", b.patient_id)
+          .maybeSingle()
+      : { data: null };
+    const clientName = clientProfile?.full_name ?? "Client";
 
     const { data: psyProfile } = await admin
       .from("psychologist_profiles")
@@ -323,10 +281,6 @@ Deno.serve(async (req) => {
         .eq("reminder_type", wave)
         .eq("recipient_role", role);
       const sentChannels = new Set((existing ?? []).map((r: any) => r.channel));
-
-      const greeting = isSpecialist
-        ? `Reminder: an upcoming session is on your calendar.`
-        : `Reminder: your session with ${psyName} is coming up.`;
 
       // 1) In-app notification
       if (
@@ -368,30 +322,27 @@ Deno.serve(async (req) => {
         recipientEmail &&
         RESEND_API_KEY
       ) {
-        const subject =
-          wave === "5min"
-            ? `Starting now — ${psyName}`
-            : wave === "1h"
-              ? `In 1 hour — session with ${psyName}`
-              : `Tomorrow — session with ${psyName}`;
+        const mail = reminderEmail({
+          wave,
+          locale: isSpecialist ? psyLocale : clientLocale,
+          isSpecialist,
+          otherName: isSpecialist ? clientName : psyName,
+          start: new Date(b.scheduled_at),
+          durationMin: b.duration_minutes ?? 50,
+          joinUrl,
+          payUrl:
+            !isSpecialist &&
+            wave === "24h" &&
+            !["paid", "comp"].includes(b.payment_status ?? "")
+              ? `https://upsy.ma/dashboard/client?tab=billing&pay=${b.id}`
+              : undefined,
+        });
         const ok = await sendEmail({
           apiKey: RESEND_API_KEY,
           to: recipientEmail,
-          subject,
-          html: emailHtml({
-            joinUrl,
-            whenLabel,
-            durationMin: b.duration_minutes,
-            wave,
-            greeting,
-            isSpecialist,
-            payUrl:
-              !isSpecialist &&
-              wave === "24h" &&
-              !["paid", "comp"].includes(b.payment_status ?? "")
-                ? `https://upsy.ma/dashboard/client?tab=billing&pay=${b.id}`
-                : undefined,
-          }),
+          subject: mail.subject,
+          html: mail.html,
+          text: mail.text,
         });
         if (ok) {
           await admin.from("booking_reminders_sent").insert({

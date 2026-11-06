@@ -1,9 +1,8 @@
-import type { ComponentType } from "npm:react@18.3.1";
-import { template as quizResultsTemplate } from "./quiz-results.tsx";
+import { template as quizResultsTemplate } from "./quiz-results.ts";
 
 export interface TemplateEntry {
-  component: ComponentType<any>;
-  subject: string | ((data: any) => string);
+  /** Builds the subject, HTML and plain text from the template data. */
+  render: (data: any) => { subject: string; html: string; text: string };
   displayName?: string;
   previewData?: Record<string, any>;
   to?: string;

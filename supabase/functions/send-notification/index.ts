@@ -1,6 +1,14 @@
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.45.0";
 import { sender } from "../_shared/sender.ts";
-import { escapeHtml } from "../_shared/html.ts";
+import {
+  button,
+  escapeHtml,
+  type Locale,
+  normaliseLocale,
+  renderEmail,
+  rich,
+  toText,
+} from "../_shared/email/layout.ts";
 import { SITE_URL } from "../_shared/site.ts";
 
 const corsHeaders = {
@@ -47,22 +55,30 @@ function absoluteUrl(actionUrl?: string): string | undefined {
   return /^https?:\/\//i.test(actionUrl) ? actionUrl : undefined;
 }
 
-function brandedEmail(title: string, body: string, actionUrl?: string) {
+const OPEN_LABEL: Record<Locale, string> = {
+  fr: "Ouvrir dans U.Psy",
+  en: "Open in U.Psy",
+  ar: "فتح في U.Psy",
+};
+
+function brandedEmail(
+  title: string,
+  body: string,
+  actionUrl: string | undefined,
+  locale: Locale,
+) {
   const href = absoluteUrl(actionUrl);
-  const cta = href
-    ? `<a href="${escapeHtml(href)}" style="display:inline-block;margin-top:20px;padding:12px 24px;background:#6B1F2A;color:#fff;text-decoration:none;border-radius:12px;font-family:Inter,sans-serif;font-weight:600">Open in U.Psy</a>`
-    : "";
-  return `<!doctype html>
-<html><body style="margin:0;padding:32px;background:#F7F3F0;font-family:Inter,Arial,sans-serif;color:#2a1a1d">
-  <div style="max-width:560px;margin:0 auto;background:#fff;border-radius:20px;padding:32px;border:1px solid #e9dfd8">
-    <div style="font-family:'Outfit',sans-serif;color:#6B1F2A;font-weight:700;font-size:14px;letter-spacing:2px;margin-bottom:8px">U.PSY</div>
-    <h1 style="font-family:'Outfit',sans-serif;font-size:22px;margin:0 0 12px;color:#2a1a1d">${escapeHtml(title)}</h1>
-    <p style="font-size:15px;line-height:1.6;color:#5a4a4d;white-space:pre-wrap">${escapeHtml(body)}</p>
-    ${cta}
-    <hr style="border:none;border-top:1px solid #f0e6df;margin:32px 0 16px" />
-    <p style="font-size:12px;color:#a09590;margin:0">U.Psy — Performance Psychology System</p>
-  </div>
-</body></html>`;
+  const paragraphs = body
+    .split(/\n{2,}/)
+    .filter((t) => t.trim())
+    .map((t) => rich(escapeHtml(t).replace(/\n/g, "<br>"), locale))
+    .join("");
+  return renderEmail({
+    locale,
+    preheader: body.split("\n")[0].slice(0, 120) || title,
+    title,
+    body: paragraphs + (href ? button(OPEN_LABEL[locale], href, locale) : ""),
+  });
 }
 
 async function sendEmail(to: string, subject: string, html: string) {
@@ -78,6 +94,7 @@ async function sendEmail(to: string, subject: string, html: string) {
       to: [to],
       subject,
       html,
+      text: toText(html),
     }),
   });
   if (!res.ok) {
@@ -167,7 +184,13 @@ Deno.serve(async (req) => {
         const { data: userRes } = await admin.auth.admin.getUserById(user_id);
         const email = userRes?.user?.email;
         if (email) {
-          const html = brandedEmail(title, messageBody ?? "", action_url);
+          const locale = normaliseLocale(userRes?.user?.user_metadata?.locale);
+          const html = brandedEmail(
+            title,
+            messageBody ?? "",
+            action_url,
+            locale,
+          );
           emailResult = await sendEmail(email, title, html);
         }
       }

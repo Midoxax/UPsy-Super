@@ -7,8 +7,6 @@
 //     emails the admins a preview, and sends it on the 1st in batches.
 // Called by pg_cron with a Vault secret, or by an admin from the dashboard
 // with an action: run | publish_post | preview | send_test | status.
-import * as React from "npm:react@18.3.1";
-import { renderAsync } from "npm:@react-email/components@0.0.22";
 import { createClient, type SupabaseClient } from "npm:@supabase/supabase-js@2";
 import { corsHeaders } from "npm:@supabase/supabase-js@2/cors";
 import { SITE_URL } from "../_shared/site.ts";
@@ -17,11 +15,11 @@ import {
   unsubscribeTokenFor,
 } from "../_shared/marketing-mail.ts";
 import {
-  Digest,
   digestSubject,
   type DigestItem,
   type Lang,
-} from "../_shared/newsletter/templates.tsx";
+  renderDigest as renderDigestEmail,
+} from "../_shared/newsletter/templates.ts";
 import {
   caption,
   configured,
@@ -235,18 +233,14 @@ async function renderDigest(
   lang: Lang,
   unsubscribeUrl: string,
 ) {
-  const el = React.createElement(Digest, {
+  const mail = renderDigestEmail({
     lang,
     intro: lang === "en" ? issue.intro_en : issue.intro_fr,
     items: digestItems(issue.items, lang),
     siteUrl: SITE_URL,
     unsubscribeUrl,
   });
-  return {
-    subject: digestSubject(lang, issue.period),
-    html: await renderAsync(el),
-    text: await renderAsync(el, { plainText: true }),
-  };
+  return { subject: digestSubject(lang, issue.period), ...mail };
 }
 
 async function adminEmails(db: SupabaseClient): Promise<string[]> {

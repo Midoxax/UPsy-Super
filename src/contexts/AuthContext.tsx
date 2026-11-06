@@ -193,6 +193,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
           full_name: fullName,
           // Copied to the CRM contact by crm_link_profile_to_contact.
           first_touch: getFirstTouch(),
+          // Language of later sign-in emails (auth-email-hook).
+          locale: getLocaleFromPath(window.location.pathname),
         },
       },
     });
