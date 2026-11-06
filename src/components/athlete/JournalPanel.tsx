@@ -6,6 +6,8 @@ import { Badge } from "@/components/ui/badge";
 import { BookOpen, Sparkles, Loader2, Wand2 } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
 import type { JournalEntry } from "@/hooks/useAthleteHub";
+import { useAiConsent, aiConsentErrorCode } from "@/hooks/useAiConsent";
+import AiConsentDialog from "@/components/ai/AiConsentDialog";
 
 interface Props {
   entries: JournalEntry[];
@@ -35,12 +37,23 @@ export default function JournalPanel({ entries, onAdd, onSynthesize }: Props) {
   const [mood, setMood] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
   const [synthesizingId, setSynthesizingId] = useState<string | null>(null);
+  // AI reflection needs explicit consent first (Law 09-08, art. 44).
+  const aiConsent = useAiConsent();
+  const [consentFor, setConsentFor] = useState<string | null>(null);
 
-  const synthesize = async (id: string) => {
+  const synthesize = async (id: string, justConsented = false) => {
     if (!onSynthesize) return;
+    if (!justConsented && !aiConsent.isLoading && !aiConsent.hasConsent) {
+      setConsentFor(id);
+      return;
+    }
     setSynthesizingId(id);
     const res = await onSynthesize(id);
     setSynthesizingId(null);
+    if (res.error && (await aiConsentErrorCode(res.error))) {
+      setConsentFor(id);
+      return;
+    }
     if (res.error) {
       toast({
         title: c.reflectionFailed,
@@ -76,6 +89,15 @@ export default function JournalPanel({ entries, onAdd, onSynthesize }: Props) {
 
   return (
     <div className="glass-card p-6 space-y-5">
+      <AiConsentDialog
+        open={consentFor !== null}
+        onOpenChange={(o) => !o && setConsentFor(null)}
+        onAgreed={() => {
+          const id = consentFor;
+          setConsentFor(null);
+          if (id) void synthesize(id, true);
+        }}
+      />
       <div className="flex items-center gap-2">
         <BookOpen className="w-5 h-5 text-primary" />
         <h3 className="text-h3">{c.journal}</h3>

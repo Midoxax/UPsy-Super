@@ -1,6 +1,7 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 import { aiErrorResponse, aiJson } from "../_shared/ai.ts";
+import { hasAiConsent, consentMissing } from "../_shared/ai-consent.ts";
 
 const REFLECTION_SCHEMA = {
   type: "object",
@@ -53,6 +54,9 @@ serve(async (req) => {
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
+
+    if (!(await hasAiConsent(user.id)))
+      return consentMissing("self", corsHeaders);
 
     const { entry_id } = await req.json();
     if (!entry_id || typeof entry_id !== "string") {

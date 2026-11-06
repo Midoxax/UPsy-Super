@@ -96,9 +96,10 @@ const en: LegalDoc = {
           </li>
           <li>
             <strong>Safety:</strong> some messages are screened automatically
-            for signs of crisis so that emergency resources can be shown to you
-            (section 4). This rests on your consent and on protecting your vital
-            interests.
+            for signs of crisis so that emergency resources can be shown to you.
+            This is a keyword check run on our own servers: the text is not sent
+            to an AI model and is not stored. It rests on your consent and on
+            protecting your vital interests.
           </li>
           <li>
             <strong>Payments, invoicing and accounting:</strong> our contract
@@ -123,15 +124,23 @@ const en: LegalDoc = {
         <>
           <p>
             Some features use AI models: the AI assistant, journal summaries,
-            session summaries, the preparation briefs specialists can generate
-            before a session, and crisis screening. To produce a result, the
-            text that feature needs (for example your journal entry or your
-            message) is sent to an AI model and the answer is sent back.
+            session summaries, and the preparation briefs specialists can
+            generate before a session. To produce a result, the text that
+            feature needs (for example your journal entry, your message, or your
+            specialist&apos;s notes about you) is sent to an AI model and the
+            answer is sent back.
           </p>
           <p>
-            These requests go through the Lovable AI gateway to models from
-            Google (Gemini) and OpenAI. We send only the data the feature needs
-            and do not sell it.
+            These requests go to AI providers in the United States: Anthropic
+            (Claude), or Google (Gemini) and OpenAI through the Lovable AI
+            gateway. We send only the data the feature needs and do not sell it.
+          </p>
+          <p>
+            <strong>Your consent comes first.</strong> No AI feature uses your
+            data until you have agreed to it, separately, the first time. That
+            includes the tools your specialist uses on your notes. You can
+            withdraw your consent at any time under My data &amp; privacy in
+            your dashboard; U.Psy works fully without these features.
           </p>
           <p>
             AI output is a support tool, not a diagnosis or treatment decision.
@@ -457,9 +466,10 @@ const fr: LegalDoc = {
           <li>
             <strong>Sécurité des personnes :</strong> certains messages sont
             analysés automatiquement pour repérer des signes de crise afin de
-            vous proposer des ressources d'urgence (section 4). Ce traitement
-            repose sur votre consentement et sur la protection de vos intérêts
-            vitaux.
+            vous proposer des ressources d'urgence. Il s'agit d'une recherche de
+            mots-clés effectuée sur nos propres serveurs : le texte n'est ni
+            envoyé à un modèle d'IA ni conservé. Ce traitement repose sur votre
+            consentement et sur la protection de vos intérêts vitaux.
           </li>
           <li>
             <strong>Paiements, facturation et comptabilité :</strong> notre
@@ -486,17 +496,26 @@ const fr: LegalDoc = {
         <>
           <p>
             Certaines fonctionnalités utilisent des modèles d'IA : l'assistant
-            IA, les synthèses de journal, les résumés de séance, les notes de
-            préparation que les spécialistes peuvent générer avant une séance,
-            et le repérage des situations de crise. Pour produire un résultat,
-            le texte nécessaire à la fonctionnalité (par exemple votre entrée de
-            journal ou votre message) est envoyé à un modèle d'IA, qui renvoie
-            sa réponse.
+            IA, les synthèses de journal, les résumés de séance et les notes de
+            préparation que les spécialistes peuvent générer avant une séance.
+            Pour produire un résultat, le texte nécessaire à la fonctionnalité
+            (par exemple votre entrée de journal, votre message ou les notes de
+            votre spécialiste à votre sujet) est envoyé à un modèle d'IA, qui
+            renvoie sa réponse.
           </p>
           <p>
-            Ces requêtes passent par la passerelle IA de Lovable vers des
-            modèles de Google (Gemini) et d'OpenAI. Nous n'envoyons que les
-            données nécessaires à la fonctionnalité et ne les vendons pas.
+            Ces requêtes sont adressées à des fournisseurs d'IA aux États-Unis :
+            Anthropic (Claude), ou Google (Gemini) et OpenAI via la passerelle
+            IA de Lovable. Nous n'envoyons que les données nécessaires à la
+            fonctionnalité et ne les vendons pas.
+          </p>
+          <p>
+            <strong>Votre consentement d'abord.</strong> Aucune fonction d'IA
+            n'utilise vos données avant que vous l'ayez accepté, séparément, la
+            première fois. Cela vaut aussi pour les outils que votre spécialiste
+            utilise sur vos notes. Vous pouvez retirer votre consentement à tout
+            moment dans Mes données et confidentialité ; U.Psy fonctionne
+            entièrement sans ces fonctions.
           </p>
           <p>
             Les résultats de l'IA sont une aide, pas un diagnostic ni une

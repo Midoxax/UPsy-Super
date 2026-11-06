@@ -1,6 +1,7 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 import { aiErrorResponse, aiJson } from "../_shared/ai.ts";
+import { hasAiConsent, consentMissing } from "../_shared/ai-consent.ts";
 
 const SUMMARY_SCHEMA = {
   type: "object",
@@ -90,8 +91,33 @@ serve(async (req) => {
       });
     }
 
-    const { notes } = await req.json();
-    if (!notes || typeof notes !== "string" || notes.trim().length < 10) {
+    // The note is read with the caller's own token, so row-level security
+    // limits it to the specialist's own notes; its session names the client
+    // whose consent decides.
+    const { note_id } = await req.json();
+    if (!note_id || typeof note_id !== "string") {
+      return new Response(JSON.stringify({ error: "note_id required" }), {
+        status: 400,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+    const { data: note } = await supabase
+      .from("session_notes")
+      .select("content, session:sessions(client_id)")
+      .eq("id", note_id)
+      .maybeSingle();
+    const clientId = (note?.session as { client_id?: string } | null)
+      ?.client_id;
+    if (!note || !clientId) {
+      return new Response(JSON.stringify({ error: "Not found" }), {
+        status: 404,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+    if (!(await hasAiConsent(clientId)))
+      return consentMissing("client", corsHeaders);
+    const notes = String(note.content ?? "");
+    if (notes.trim().length < 10) {
       return new Response(JSON.stringify({ error: "Notes too short" }), {
         status: 400,
         headers: { ...corsHeaders, "Content-Type": "application/json" },

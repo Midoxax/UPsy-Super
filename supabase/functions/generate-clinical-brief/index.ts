@@ -1,6 +1,7 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 import { aiErrorResponse, aiModel, aiText } from "../_shared/ai.ts";
+import { hasAiConsent, consentMissing } from "../_shared/ai-consent.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -67,6 +68,8 @@ serve(async (req) => {
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
+    if (!(await hasAiConsent(intake.client_id)))
+      return consentMissing("client", corsHeaders);
     const { data: profile } = await supabase
       .from("profiles")
       .select("full_name")

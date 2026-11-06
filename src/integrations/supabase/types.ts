@@ -5195,6 +5195,8 @@ export type Database = {
       };
       privacy_preferences: {
         Row: {
+          ai_consent_at: string | null;
+          ai_consent_version: string | null;
           created_at: string;
           marketing_opt_out: boolean;
           processing_restricted: boolean;
@@ -5204,6 +5206,8 @@ export type Database = {
           user_id: string;
         };
         Insert: {
+          ai_consent_at?: string | null;
+          ai_consent_version?: string | null;
           created_at?: string;
           marketing_opt_out?: boolean;
           processing_restricted?: boolean;
@@ -5213,6 +5217,8 @@ export type Database = {
           user_id: string;
         };
         Update: {
+          ai_consent_at?: string | null;
+          ai_consent_version?: string | null;
           created_at?: string;
           marketing_opt_out?: boolean;
           processing_restricted?: boolean;

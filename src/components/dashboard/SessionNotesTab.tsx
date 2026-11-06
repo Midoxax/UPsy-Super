@@ -288,7 +288,7 @@ const SessionNotesTab = () => {
                   </span>
                 </div>
                 <div className="flex items-center gap-1">
-                  <AISummaryButton notes={note.content} />
+                  <AISummaryButton noteId={note.id} notes={note.content} />
                   <Button
                     variant="ghost"
                     size="sm"

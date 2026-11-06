@@ -1,65 +1,19 @@
 // Crisis screening edge function.
-// Uses lightweight CSSRS-style keyword screening + Lovable AI classifier
-// to estimate risk level. NEVER stores user content.
+// Keyword screening only (FR/EN/AR/Darija), run here: the text never leaves
+// our infrastructure and is never stored. An AI classifier used to refine
+// the result, but it sent health-related text to a US provider, which
+// Law 09-08 treats as a transfer of sensitive data; keywords alone keep the
+// screen local and always answer.
 
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.45.0";
 import { createLogger } from "../_shared/logger.ts";
-import {
-  keywordScreen,
-  resolveRisk,
-  type RiskLevel,
-} from "../_shared/crisis-screening.ts";
+import { keywordScreen } from "../_shared/crisis-screening.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Headers":
     "authorization, x-client-info, apikey, content-type",
 };
-
-async function aiClassify(text: string): Promise<RiskLevel | null> {
-  const apiKey = Deno.env.get("LOVABLE_API_KEY");
-  if (!apiKey) return null;
-
-  try {
-    const res = await fetch(
-      "https://ai.gateway.lovable.dev/v1/chat/completions",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${apiKey}`,
-        },
-        body: JSON.stringify({
-          model: "google/gemini-2.5-flash-lite",
-          messages: [
-            {
-              role: "system",
-              content:
-                "You are a clinical risk classifier. Respond with EXACTLY one word: 'high', 'moderate', or 'low'. " +
-                "high = explicit suicidal ideation, intent or plan, or active self-harm. " +
-                "moderate = hopelessness, worthlessness, passive death wish without intent. " +
-                "low = sadness, stress, normal distress without ideation.",
-            },
-            { role: "user", content: text.slice(0, 2000) },
-          ],
-          temperature: 0,
-          max_tokens: 4,
-        }),
-      },
-    );
-    if (!res.ok) return null;
-    const json = await res.json();
-    const out = (json.choices?.[0]?.message?.content || "")
-      .toLowerCase()
-      .trim();
-    if (out.startsWith("high")) return "high";
-    if (out.startsWith("moderate")) return "moderate";
-    if (out.startsWith("low")) return "low";
-    return null;
-  } catch {
-    return null;
-  }
-}
 
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS")
@@ -124,37 +78,14 @@ Deno.serve(async (req) => {
       });
     }
 
-    const kw = keywordScreen(text);
-    // Short-circuit: keyword 'high' is always high.
-    if (kw === "high") {
-      log.warn("high risk via keyword match");
-      return new Response(
-        JSON.stringify({ risk_level: "high", source: "keyword" }),
-        {
-          headers: { ...corsHeaders, "Content-Type": "application/json" },
-        },
-      );
-    }
-
-    const ai = await aiClassify(text);
-    const finalRisk = resolveRisk(ai, kw);
-    const source = ai === null ? "keyword_only" : "blended";
-    if (finalRisk === "unavailable") {
-      log.warn("AI classifier unavailable; refusing to report low risk");
-      return new Response(
-        JSON.stringify({ risk_level: "unavailable", source: "keyword_only" }),
-        {
-          status: 503,
-          headers: { ...corsHeaders, "Content-Type": "application/json" },
-        },
-      );
-    }
-
-    if (finalRisk !== "low")
-      log.info("risk detected", { level: finalRisk, source });
-    return new Response(JSON.stringify({ risk_level: finalRisk, source }), {
-      headers: { ...corsHeaders, "Content-Type": "application/json" },
-    });
+    const risk = keywordScreen(text);
+    if (risk !== "low") log.info("risk detected", { level: risk });
+    return new Response(
+      JSON.stringify({ risk_level: risk, source: "keyword" }),
+      {
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      },
+    );
   } catch (e) {
     log.error("unhandled error", e);
     return new Response(
