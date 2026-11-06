@@ -16,6 +16,7 @@ import {
 import { Link } from "@/lib/router-compat";
 import { useLocale } from "@/contexts/LocaleContext";
 import { addLocalePrefix } from "@/lib/i18n/utils";
+import { photoUrl } from "@/lib/images/photoUrl";
 
 interface PsychologistCardProps {
   psychologist: PsychologistProfile;
@@ -55,7 +56,7 @@ export const PsychologistCard = ({ psychologist }: PsychologistCardProps) => {
       >
         {psychologist.photo_url ? (
           <img
-            src={psychologist.photo_url}
+            src={photoUrl(psychologist.photo_url, 360)}
             alt={psychologist.full_name}
             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
             loading="lazy"

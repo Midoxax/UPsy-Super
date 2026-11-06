@@ -15,6 +15,7 @@ import ScrollReveal from "@/components/ScrollReveal";
 import StaggerContainer, { StaggerItem } from "@/components/StaggerContainer";
 import { useQuery } from "@tanstack/react-query";
 import { getFeaturedPsychologists } from "@/services/psychologistsService";
+import { photoUrl } from "@/lib/images/photoUrl";
 
 // t() in this project returns the key when a translation is missing.
 // This helper falls back to the provided default in that case.
@@ -180,7 +181,7 @@ const FeaturedPsychologistsSection = () => {
                         <div className="w-16 h-16 rounded-2xl overflow-hidden bg-primary/10 border border-border">
                           {psych.photo_url ? (
                             <img
-                              src={psych.photo_url}
+                              src={photoUrl(psych.photo_url, 64)}
                               alt={psych.full_name}
                               className="w-full h-full object-cover"
                               width={64}

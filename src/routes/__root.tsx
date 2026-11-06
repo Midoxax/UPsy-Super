@@ -341,7 +341,13 @@ const AppShell = () => {
       <Header />
       <ScrollToTop />
       <BreadcrumbWrapper />
-      <main id="main-content" tabIndex={-1} className="flex-1 outline-hidden">
+      <main
+        id="main-content"
+        tabIndex={-1}
+        // At least one screen tall: while a page loads, the footer would
+        // otherwise sit at the top and then jump (CLS 0.93 on /psychologists).
+        className="flex-1 min-h-[100svh] outline-hidden"
+      >
         <SEOHead path={location.pathname} />
         <Suspense fallback={<LazyFallback />}>
           <Outlet />
