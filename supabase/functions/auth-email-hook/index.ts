@@ -1,14 +1,8 @@
-import * as React from "npm:react@18.3.1";
-import { renderAsync } from "npm:@react-email/components@0.0.22";
 import { Webhook } from "npm:standardwebhooks@1.0.0";
 import { createClient } from "npm:@supabase/supabase-js@2";
-import { SignupEmail } from "../_shared/email-templates/signup.tsx";
-import { InviteEmail } from "../_shared/email-templates/invite.tsx";
-import { MagicLinkEmail } from "../_shared/email-templates/magic-link.tsx";
-import { RecoveryEmail } from "../_shared/email-templates/recovery.tsx";
-import { EmailChangeEmail } from "../_shared/email-templates/email-change.tsx";
-import { ReauthenticationEmail } from "../_shared/email-templates/reauthentication.tsx";
 import { sender } from "../_shared/sender.ts";
+import { authEmail, isAuthEmailType } from "../_shared/email/auth.ts";
+import { localeFromUrl, normaliseLocale } from "../_shared/email/layout.ts";
 import { SITE_URL } from "../_shared/site.ts";
 
 const corsHeaders = {
@@ -17,68 +11,10 @@ const corsHeaders = {
     "authorization, x-client-info, apikey, content-type, webhook-id, webhook-timestamp, webhook-signature",
 };
 
-const EMAIL_SUBJECTS: Record<string, string> = {
-  signup: "Confirm your email",
-  invite: "You've been invited",
-  magiclink: "Your login link",
-  recovery: "Reset your password",
-  email_change: "Confirm your new email",
-  reauthentication: "Your verification code",
-};
-
-// Template mapping
-const EMAIL_TEMPLATES: Record<string, React.ComponentType<any>> = {
-  signup: SignupEmail,
-  invite: InviteEmail,
-  magiclink: MagicLinkEmail,
-  recovery: RecoveryEmail,
-  email_change: EmailChangeEmail,
-  reauthentication: ReauthenticationEmail,
-};
-
 // Configuration
-const SITE_NAME = "U.Psy";
 const SENDER_DOMAIN = "notify.upsy.ma";
 const ROOT_DOMAIN = "upsy.ma";
 const FROM_DOMAIN = "upsy.ma"; // Domain shown in From address (may be root or sender subdomain)
-
-// Sample data for preview mode ONLY (not used in actual email sending).
-// URLs are baked in at scaffold time from the project's real data.
-// The sample email uses a fixed placeholder (RFC 6761 .test TLD) so the Go backend
-// can always find-and-replace it with the actual recipient when sending test emails,
-// even if the project's domain has changed since the template was scaffolded.
-const SAMPLE_PROJECT_URL = "https://upsy.ma";
-const SAMPLE_EMAIL = "user@example.test";
-const SAMPLE_DATA: Record<string, object> = {
-  signup: {
-    siteName: SITE_NAME,
-    siteUrl: SAMPLE_PROJECT_URL,
-    recipient: SAMPLE_EMAIL,
-    confirmationUrl: SAMPLE_PROJECT_URL,
-  },
-  magiclink: {
-    siteName: SITE_NAME,
-    confirmationUrl: SAMPLE_PROJECT_URL,
-  },
-  recovery: {
-    siteName: SITE_NAME,
-    confirmationUrl: SAMPLE_PROJECT_URL,
-  },
-  invite: {
-    siteName: SITE_NAME,
-    siteUrl: SAMPLE_PROJECT_URL,
-    confirmationUrl: SAMPLE_PROJECT_URL,
-  },
-  email_change: {
-    siteName: SITE_NAME,
-    email: SAMPLE_EMAIL,
-    newEmail: SAMPLE_EMAIL,
-    confirmationUrl: SAMPLE_PROJECT_URL,
-  },
-  reauthentication: {
-    token: "123456",
-  },
-};
 
 // Preview endpoint handler - returns rendered HTML without sending email
 async function handlePreview(req: Request): Promise<Response> {
@@ -115,9 +51,7 @@ async function handlePreview(req: Request): Promise<Response> {
     );
   }
 
-  const EmailTemplate = EMAIL_TEMPLATES[type];
-
-  if (!EmailTemplate) {
+  if (!isAuthEmailType(type)) {
     return new Response(
       JSON.stringify({ error: `Unknown email type: ${type}` }),
       {
@@ -127,10 +61,11 @@ async function handlePreview(req: Request): Promise<Response> {
     );
   }
 
-  const sampleData = SAMPLE_DATA[type] || {};
-  const html = await renderAsync(
-    React.createElement(EmailTemplate, sampleData),
-  );
+  const { html } = authEmail(type, "fr", {
+    confirmationUrl: SITE_URL,
+    token: "123456",
+    newEmail: "user@example.test",
+  });
 
   return new Response(html, {
     status: 200,
@@ -144,7 +79,11 @@ async function handlePreview(req: Request): Promise<Response> {
 // Payload shape sent by Supabase's native "Send Email" auth hook.
 // https://supabase.com/docs/guides/auth/auth-hooks/send-email-hook
 interface SendEmailHookPayload {
-  user: { email: string; new_email?: string };
+  user: {
+    email: string;
+    new_email?: string;
+    user_metadata?: { locale?: string };
+  };
   email_data: {
     token: string;
     token_hash: string;
@@ -229,8 +168,7 @@ async function handleWebhook(req: Request): Promise<Response> {
   const emailType = email_data.email_action_type;
   console.log("Received auth event", { emailType, email: user.email, run_id });
 
-  const EmailTemplate = EMAIL_TEMPLATES[emailType];
-  if (!EmailTemplate) {
+  if (!isAuthEmailType(emailType)) {
     console.error("Unknown email type", { emailType, run_id });
     return new Response(
       JSON.stringify({ error: `Unknown email type: ${emailType}` }),
@@ -251,27 +189,16 @@ async function handleWebhook(req: Request): Promise<Response> {
     `&type=${encodeURIComponent(email_data.email_action_type)}` +
     `&redirect_to=${encodeURIComponent(email_data.redirect_to ?? "")}`;
 
-  // Build template props from the hook payload
-  const templateProps = {
-    siteName: SITE_NAME,
-    siteUrl: SITE_URL,
-    recipient: user.email,
+  // Language: the one saved at signup, else the site section the person was
+  // on when they asked (the redirect carries /fr or /ar), else English.
+  const locale = user.user_metadata?.locale
+    ? normaliseLocale(user.user_metadata.locale)
+    : localeFromUrl(email_data.redirect_to);
+  const { subject, html, text } = authEmail(emailType, locale, {
     confirmationUrl,
     token: email_data.token,
-    email: user.email,
     newEmail: user.new_email,
-  };
-
-  // Render React Email to HTML and plain text
-  const html = await renderAsync(
-    React.createElement(EmailTemplate, templateProps),
-  );
-  const text = await renderAsync(
-    React.createElement(EmailTemplate, templateProps),
-    {
-      plainText: true,
-    },
-  );
+  });
 
   // Enqueue email for async processing by the dispatcher (process-email-queue).
   const supabase = createClient(
@@ -297,7 +224,7 @@ async function handleWebhook(req: Request): Promise<Response> {
       to: user.email,
       from: sender("auth"),
       sender_domain: SENDER_DOMAIN,
-      subject: EMAIL_SUBJECTS[emailType] || "Notification",
+      subject,
       html,
       text,
       purpose: "transactional",

@@ -1,0 +1,70 @@
+# Deploys the Supabase edge functions when main changes them, so production
+# runs exactly what was reviewed and merged. Until now functions were
+# deployed by hand, one by one, and could drift from the repository.
+#
+# Needs one repository secret: SUPABASE_ACCESS_TOKEN (Supabase dashboard →
+# Account → Access tokens). Without it the job explains and stops, so the
+# rest of CI is unaffected. Per-function settings such as verify_jwt come
+# from supabase/config.toml.
+name: Deploy edge functions
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "supabase/functions/**"
+      - "supabase/config.toml"
+  workflow_dispatch:
+
+# Read-only token: the job only checks out code; deploys use the Supabase
+# token, not GitHub's.
+permissions:
+  contents: read
+
+concurrency:
+  group: deploy-functions
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+      PROJECT_REF: skxxvgjjdshcopybokdt
+    steps:
+      - name: Check for the access token
+        id: token
+        run: |
+          if [ -z "${SUPABASE_ACCESS_TOKEN}" ]; then
+            echo "::warning::SUPABASE_ACCESS_TOKEN is not set; edge functions were not deployed. Add it under Settings → Secrets and variables → Actions."
+            echo "ok=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "ok=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - uses: actions/checkout@v4
+        if: steps.token.outputs.ok == 'true'
+
+      - uses: supabase/setup-cli@v1
+        if: steps.token.outputs.ok == 'true'
+        with:
+          version: latest
+
+      - name: Deploy the functions
+        if: steps.token.outputs.ok == 'true'
+        # Not live yet, so not deployed as a side effect: the Academy Stripe
+        # checkout and webhook (the webhook also needs verify_jwt = false in
+        # config.toml and its signing secret before it can go live).
+        env:
+          SKIP: "academy-stripe-webhook create-academy-checkout"
+        run: |
+          set -euo pipefail
+          for dir in supabase/functions/*/; do
+            name="$(basename "$dir")"
+            [[ "$name" == _* ]] && continue
+            [[ " $SKIP " == *" $name "* ]] && { echo "skip $name"; continue; }
+            echo "::group::$name"
+            supabase functions deploy "$name" --project-ref "$PROJECT_REF" --use-api
+            echo "::endgroup::"
+          done

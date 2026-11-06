@@ -1,5 +1,3 @@
-import * as React from "npm:react@18.3.1";
-import { renderAsync } from "npm:@react-email/components@0.0.22";
 import { createClient } from "npm:@supabase/supabase-js@2";
 import { corsHeaders } from "npm:@supabase/supabase-js@2/cors";
 import { TEMPLATES } from "../_shared/transactional-email-templates/registry.ts";
@@ -349,20 +347,11 @@ Deno.serve(async (req) => {
     );
   }
 
-  // 4. Render React Email template to HTML and plain text
-  const html = await renderAsync(
-    React.createElement(template.component, templateData),
-  );
-  const plainText = await renderAsync(
-    React.createElement(template.component, templateData),
-    { plainText: true },
-  );
-
-  // Resolve subject — supports static string or dynamic function
-  const resolvedSubject =
-    typeof template.subject === "function"
-      ? template.subject(templateData)
-      : template.subject;
+  // 4. Render the template (shared U.Psy layout) to HTML and plain text
+  const rendered = template.render(templateData);
+  const html = rendered.html;
+  const plainText = rendered.text;
+  const resolvedSubject = rendered.subject;
 
   // 5. Enqueue the pre-rendered email for async processing by the dispatcher.
   // The dispatcher (process-email-queue) handles sending, retries, and rate-limit backoff.

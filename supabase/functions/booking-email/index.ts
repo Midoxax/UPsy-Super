@@ -9,6 +9,11 @@ import { createClient } from "https://esm.sh/@supabase/supabase-js@2.45.0";
 import { sender } from "../_shared/sender.ts";
 import { icsCalendar } from "../_shared/ics.ts";
 import { SITE_URL } from "../_shared/site.ts";
+import {
+  bookingEmail,
+  type BookingMailKind,
+} from "../_shared/email/booking.ts";
+import { normaliseLocale } from "../_shared/email/layout.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -83,25 +88,23 @@ Deno.serve(async (req) => {
           ? sb.auth.admin.getUserById(b.patient_id)
           : Promise.resolve(null),
       ]);
-    const psyName = psy?.full_name ?? "your specialist";
-    const clientName = client?.full_name ?? "A client";
+    const psyName = psy?.full_name ?? "U.Psy";
+    const clientName = client?.full_name ?? "Client";
     const psyEmail = psyAuth.data.user?.email;
     const clientEmail = clientAuth?.data.user?.email ?? b.patient_email;
+    // Each person reads the email in the language they signed up in.
+    const psyLocale = normaliseLocale(psyAuth.data.user?.user_metadata?.locale);
+    const clientLocale = normaliseLocale(
+      clientAuth?.data.user?.user_metadata?.locale,
+    );
 
     const start = new Date(b.scheduled_at);
-    const when = start.toLocaleString("en-GB", {
-      timeZone: "Africa/Casablanca",
-      weekday: "long",
-      day: "numeric",
-      month: "long",
-      hour: "2-digit",
-      minute: "2-digit",
-    });
     const online = b.session_type !== "in_person";
     const joinUrl = `${ORIGIN}/session/${b.id}`;
+    const paid = b.payment_status === "paid" || b.payment_status === "comp";
     const where = online
-      ? `Online. Join from ${joinUrl} (opens 10 minutes before).`
-      : `In person${psy?.city ? `, ${psy.city}` : ""}. Your specialist will confirm the address.`;
+      ? `Online: ${joinUrl}`
+      : `In person${psy?.city ? `, ${psy.city}` : ""}`;
     const invite = (summary: string) =>
       icsCalendar([
         {
@@ -113,64 +116,81 @@ Deno.serve(async (req) => {
           url: online ? joinUrl : undefined,
         },
       ]);
+    const ctx = {
+      start,
+      durationMin: b.duration_minutes ?? 50,
+      online,
+      city: psy?.city,
+      specialistName: psyName,
+      clientName,
+      paid,
+      reason: b.decline_reason,
+      joinUrl,
+    };
+    const compose = (
+      kind: BookingMailKind,
+      to: string | null | undefined,
+      locale: ReturnType<typeof normaliseLocale>,
+      ctaUrl: string,
+      ics?: string,
+    ) => ({ to, ics, ...bookingEmail(kind, locale, { ...ctx, ctaUrl }) });
 
     const mails: Array<{
       to?: string | null;
       subject: string;
-      body: string;
-      cta: string;
-      label?: string;
+      html: string;
+      text: string;
       ics?: string;
     }> = [];
     if (b.status === "pending") {
-      mails.push({
-        to: psyEmail,
-        subject: "New session request",
-        body: `${clientName} asked for a ${b.duration_minutes}-minute ${online ? "online" : "in-person"} session on ${when} (Morocco time). Confirm or decline it in your dashboard.`,
-        cta: `${ORIGIN}/dashboard/specialist`,
-      });
-    } else if (b.status === "confirmed") {
       mails.push(
-        {
-          to: clientEmail,
-          subject: `Session confirmed with ${psyName}`,
-          // Paying ahead (transfer, CashPlus, Wafacash) secures the slot and
-          // is what the button leads to; paying at the session stays allowed.
-          body: `Your session with ${psyName} on ${when} (Morocco time) is confirmed.\n\n${where}\n\n${
-            b.payment_status === "paid" || b.payment_status === "comp"
-              ? "Your session is already paid."
-              : "Secure it now: pay by bank transfer, CashPlus or Wafacash and upload your receipt (button below). You can still pay at the session if you prefer."
-          }\n\nThe calendar invite is attached. ${online ? `Join link: ${joinUrl}` : ""}`,
-          cta:
-            b.payment_status === "paid" || b.payment_status === "comp"
-              ? online
-                ? joinUrl
-                : `${ORIGIN}/dashboard/client`
-              : `${ORIGIN}/dashboard/client?tab=billing&pay=${b.id}`,
-          label:
-            b.payment_status === "paid" || b.payment_status === "comp"
-              ? undefined
-              : "Pay and secure my session",
-          ics: invite(`Session with ${psyName} — U.Psy`),
-        },
-        {
-          to: psyEmail,
-          subject: "Session confirmed",
-          body: `Your session with ${clientName} on ${when} (Morocco time) is confirmed. The calendar invite is attached.`,
-          cta: `${ORIGIN}/dashboard/specialist`,
-          ics: invite("U.Psy session"),
-        },
+        compose(
+          "request_to_specialist",
+          psyEmail,
+          psyLocale,
+          `${ORIGIN}/dashboard/specialist`,
+        ),
+      );
+    } else if (b.status === "confirmed") {
+      // Paying ahead (transfer, CashPlus, Wafacash) secures the slot and is
+      // what the button leads to; paying at the session stays allowed.
+      mails.push(
+        compose(
+          "confirmed_to_client",
+          clientEmail,
+          clientLocale,
+          paid
+            ? online
+              ? joinUrl
+              : `${ORIGIN}/dashboard/client`
+            : `${ORIGIN}/dashboard/client?tab=billing&pay=${b.id}`,
+          invite(`Session · ${psyName} · U.Psy`),
+        ),
+        compose(
+          "confirmed_to_specialist",
+          psyEmail,
+          psyLocale,
+          `${ORIGIN}/dashboard/specialist`,
+          invite(`U.Psy · ${clientName}`),
+        ),
       );
     } else {
       const byClient = user.id === b.patient_id;
-      mails.push({
-        to: byClient ? psyEmail : clientEmail,
-        subject: "Session cancelled",
-        body: `The session on ${when} (Morocco time) was cancelled${byClient ? ` by ${clientName}` : ` by ${psyName}`}.${b.decline_reason ? `\n\nReason: ${b.decline_reason}` : ""}`,
-        cta: byClient
-          ? `${ORIGIN}/dashboard/specialist`
-          : `${ORIGIN}/psychologists`,
-      });
+      mails.push(
+        byClient
+          ? compose(
+              "cancelled_to_specialist",
+              psyEmail,
+              psyLocale,
+              `${ORIGIN}/dashboard/specialist`,
+            )
+          : compose(
+              "cancelled_to_client",
+              clientEmail,
+              clientLocale,
+              `${ORIGIN}/psychologists`,
+            ),
+      );
     }
 
     const key = Deno.env.get("RESEND_API_KEY");
@@ -187,7 +207,8 @@ Deno.serve(async (req) => {
           from: sender(),
           to: [m.to],
           subject: m.subject,
-          html: html(m.subject, m.body, m.cta, m.label),
+          html: m.html,
+          text: m.text,
           ...(m.ics
             ? {
                 attachments: [
@@ -216,27 +237,6 @@ Deno.serve(async (req) => {
     return json({ error: "Could not send the email" }, 500);
   }
 });
-
-const esc = (s: string) =>
-  s
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;");
-
-function html(title: string, body: string, cta: string, label = "Open U.Psy") {
-  return `<!doctype html>
-<html><body style="margin:0;padding:32px;background:#F7F3F0;font-family:Inter,Arial,sans-serif;color:#2a1a1d">
-  <div style="max-width:560px;margin:0 auto;background:#fff;border-radius:20px;padding:32px;border:1px solid #e9dfd8">
-    <div style="margin-bottom:12px"><img src="https://upsy.ma/brand/upsy-wordmark.png" alt="U.Psy" width="140" style="display:block;height:auto;border:0" /></div>
-    <h1 style="font-size:22px;margin:0 0 12px">${esc(title)}</h1>
-    <p style="font-size:15px;line-height:1.6;color:#5a4a4d;white-space:pre-wrap">${esc(body)}</p>
-    <a href="${esc(cta)}" style="display:inline-block;margin-top:20px;padding:12px 24px;background:#6B1F2A;color:#fff;text-decoration:none;border-radius:12px;font-weight:600">${esc(label)}</a>
-    <hr style="border:none;border-top:1px solid #f0e6df;margin:32px 0 16px" />
-    <p style="font-size:12px;color:#a09590;margin:0">U.Psy · +212 668-594699 · upsy.ma</p>
-  </div>
-</body></html>`;
-}
 
 function json(body: unknown, status = 200) {
   return new Response(JSON.stringify(body), {

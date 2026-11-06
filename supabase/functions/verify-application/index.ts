@@ -2,8 +2,15 @@ import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 import { z } from "https://deno.land/x/zod@v3.22.4/mod.ts";
 import { sender } from "../_shared/sender.ts";
+import {
+  button,
+  details,
+  divider,
+  p,
+  renderEmail,
+  toText,
+} from "../_shared/email/layout.ts";
 import { SITE_URL } from "../_shared/site.ts";
-import { escapeHtml } from "../_shared/html.ts";
 import { adminRecipients } from "../_shared/admin-recipients.ts";
 
 const corsHeaders = {
@@ -299,21 +306,17 @@ async function sendMail(
       Authorization: `Bearer ${key}`,
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ from: sender(), to, subject, html }),
+    body: JSON.stringify({
+      from: sender(),
+      to,
+      subject,
+      html,
+      text: toText(html),
+    }),
   });
   if (!resp.ok)
     console.warn("[verify-application] send failed", await resp.text());
   return resp.ok;
-}
-
-function shell(body: string): string {
-  return `<!doctype html>
-<html><body style="margin:0;padding:32px;background:#F7F3F0;font-family:Inter,Arial,sans-serif;color:#2a1a1d">
-  <div style="max-width:560px;margin:0 auto;background:#fff;border-radius:20px;padding:32px;border:1px solid #e9dfd8;font-size:15px;line-height:1.6">
-    <div style="margin-bottom:12px"><img src="https://upsy.ma/brand/upsy-wordmark.png" alt="U.Psy" width="140" style="display:block;height:auto;border:0" /></div>
-    ${body}
-  </div>
-</body></html>`;
 }
 
 async function notifySubmission(
@@ -330,20 +333,37 @@ async function notifySubmission(
     console.warn("[verify-application] RESEND_API_KEY not set; no email");
     return;
   }
-  const name = escapeHtml(app.full_name ?? "");
 
   if (app.email) {
     await sendMail(
       key,
       [app.email],
-      "U.Psy — Dossier reçu / Application received",
-      shell(`
-    <h1 style="font-size:20px;margin:0 0 12px">Bonjour ${name},</h1>
-    <p>Nous avons bien reçu votre dossier de candidature. Notre équipe va l'examiner et vous recevrez un email dès qu'une décision sera prise.</p>
-    <hr style="border:none;border-top:1px solid #f0e6df;margin:24px 0" />
-    <h1 style="font-size:20px;margin:0 0 12px">Hello ${name},</h1>
-    <p>We have received your application. Our team will review it and email you as soon as a decision is made.</p>
-    <p style="margin-top:24px;color:#a09590;font-size:13px">L'équipe U.Psy / The U.Psy team</p>`),
+      "Dossier reçu · Application received · U.Psy",
+      renderEmail({
+        locale: "fr",
+        preheader:
+          "Votre dossier est entre de bonnes mains. Your application is in.",
+        eyebrow: "Candidature spécialiste",
+        title: `Merci, ${app.full_name ?? ""}`.trim(),
+        body:
+          p(
+            "Nous avons bien reçu votre dossier. Notre équipe vérifie vos diplômes et votre inscription, puis vous écrit dès qu'une décision est prise.",
+            "fr",
+          ) +
+          details(
+            [
+              ["Étape 1", "Dossier reçu"],
+              ["Étape 2", "Vérification par l'équipe"],
+              ["Étape 3", "Décision par e-mail"],
+            ],
+            "fr",
+          ) +
+          divider() +
+          p(
+            "We have received your application. Our team checks your degrees and registration, then emails you as soon as a decision is made.",
+            "en",
+          ),
+      }),
     );
   }
 
@@ -353,14 +373,24 @@ async function notifySubmission(
     await sendMail(
       key,
       admins,
-      `New psychologist application: ${(app.full_name ?? "").slice(0, 80)}`,
-      shell(`
-    <h1 style="font-size:20px;margin:0 0 12px">New application submitted</h1>
-    <p><strong>Name:</strong> ${name}<br/>
-    <strong>Email:</strong> ${escapeHtml(app.email ?? "")}<br/>
-    <strong>City:</strong> ${escapeHtml(app.city ?? "")}<br/>
-    <strong>Suggested level:</strong> ${escapeHtml(suggestedLevel)}</p>
-    <a href="${escapeHtml(reviewUrl)}" style="display:inline-block;margin-top:12px;padding:12px 24px;background:#6B1F2A;color:#fff;text-decoration:none;border-radius:12px;font-weight:600">Review applications</a>`),
+      `Nouvelle candidature spécialiste · ${(app.full_name ?? "").slice(0, 80)}`,
+      renderEmail({
+        locale: "fr",
+        preheader: `${app.full_name ?? ""} attend votre vérification.`,
+        eyebrow: "Admin · Candidature",
+        title: "Nouvelle candidature à vérifier",
+        body:
+          details(
+            [
+              ["Nom", app.full_name ?? ""],
+              ["E-mail", app.email ?? ""],
+              ["Ville", app.city ?? ""],
+              ["Niveau suggéré", suggestedLevel],
+            ],
+            "fr",
+          ) + button("Vérifier les candidatures", reviewUrl, "fr"),
+        footerNote: "Alerte envoyée aux administrateurs U.Psy.",
+      }),
     );
   } else {
     console.warn("[verify-application] no admin recipient for the alert");

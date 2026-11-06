@@ -1,3 +1,5 @@
+import { meetingLinkEmail } from "../_shared/email/invites.ts";
+import { normaliseLocale } from "../_shared/email/layout.ts";
 // Edge function: psychologist sends a confirmed video meeting invitation
 // to a client. Creates a booking with status='confirmed' (auto-generates
 // video_room_id via trigger) and emails the client a single "Join session" link.
@@ -13,6 +15,8 @@ const corsHeaders = {
 };
 
 interface Body {
+  /** Language of the email to the client (fr by default). */
+  locale?: string;
   client_email: string;
   client_name?: string;
   client_phone?: string;
@@ -180,14 +184,6 @@ Deno.serve(async (req) => {
       .maybeSingle();
     const psyName = psyProfile?.full_name ?? "Your psychologist";
 
-    const escapeHtml = (s: string) =>
-      String(s ?? "")
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#39;");
-
     const origin = Deno.env.get("SITE_URL") ?? "https://upsy.ma";
     const joinUrl = `${origin}/session/${booking.id}`;
 
@@ -204,36 +200,15 @@ Deno.serve(async (req) => {
           minute: "2-digit",
         });
 
-    const html = `<!DOCTYPE html>
-<html><head><meta charset="utf-8"></head>
-<body style="margin:0;padding:0;background:#ffffff;font-family:Arial,sans-serif;color:#1a1a1a;">
-  <div style="max-width:560px;margin:0 auto;padding:32px 24px;">
-    <div style="text-align:center;margin-bottom:24px;">
-      <img src="https://upsy.ma/brand/upsy-wordmark.png" alt="U.Psy" width="140" style="display:block;height:auto;border:0" />
-    </div>
-    <h2 style="color:#1a1a1a;margin:0 0 16px;">${escapeHtml(psyName)} is inviting you to a video session</h2>
-    <p style="color:#444;line-height:1.6;margin:0 0 20px;">
-      Click the button below to join the secure video room. No account required.
-    </p>
-    <div style="background:#FAF7F5;border-left:4px solid #6B1F2A;padding:16px;margin:20px 0;border-radius:4px;">
-      <p style="margin:0 0 6px;"><strong>When:</strong> ${dateStr}</p>
-      <p style="margin:0;"><strong>Duration:</strong> ${body.duration_minutes} minutes</p>
-      ${body.notes ? `<p style="margin:12px 0 0;font-style:italic;color:#666;">"${escapeHtml(body.notes)}"</p>` : ""}
-    </div>
-    <div style="text-align:center;margin:28px 0;">
-      <a href="${joinUrl}" style="display:inline-block;background:#6B1F2A;color:#ffffff;padding:14px 36px;border-radius:8px;text-decoration:none;font-weight:600;font-size:16px;">Join the session</a>
-    </div>
-    <p style="color:#666;font-size:13px;text-align:center;margin:16px 0 0;word-break:break-all;">
-      Or paste this link in your browser:<br/>
-      <a href="${joinUrl}" style="color:#6B1F2A;">${joinUrl}</a>
-    </p>
-    <p style="color:#888;font-size:12px;line-height:1.5;text-align:center;margin-top:32px;">
-      The link stays active until the session ends.<br/>
-      Need help? Reply to this email.<br/>
-      Conformément à la loi 09-08, vos données personnelles sont protégées.
-    </p>
-  </div>
-</body></html>`;
+    const mail = meetingLinkEmail({
+      locale: normaliseLocale(body.locale),
+      specialist: psyName,
+      start: new Date(startMs),
+      isNow,
+      durationMin: body.duration_minutes,
+      notes: body.notes,
+      joinUrl,
+    });
 
     // Persist phone on booking for downstream WhatsApp reminders
     if (body.client_phone) {
@@ -292,8 +267,9 @@ Deno.serve(async (req) => {
           body: JSON.stringify({
             from: sender(),
             to: [email],
-            subject: `Video session with ${psyName.replace(/[\r\n<>]/g, " ")} — Join link`,
-            html,
+            subject: mail.subject,
+            html: mail.html,
+            text: mail.text,
             attachments: [
               {
                 filename: "session.ics",

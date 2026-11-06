@@ -1,3 +1,4 @@
+import { proposalResponseEmail } from "../_shared/email/invites.ts";
 // Sends an email to the psychologist (and an optional confirmation to the
 // patient) whenever a proposed session is accepted or declined.
 // Best-effort — never throws back to the caller if email delivery fails.
@@ -17,14 +18,6 @@ interface Body {
   action: "accept" | "decline";
   reason?: string | null;
 }
-
-const escape = (s: string) =>
-  s
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#39;");
 
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS")
@@ -140,14 +133,6 @@ Deno.serve(async (req) => {
     }
 
     const startsAt = new Date(booking.scheduled_at);
-    const whenStr = startsAt.toLocaleString("en-US", {
-      weekday: "long",
-      month: "short",
-      day: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
-      timeZone: "Africa/Casablanca",
-    });
     const psyName = psy?.full_name ?? "Your specialist";
     const patientName = patientProfile?.full_name ?? "Your client";
     const reason = body.reason?.trim() || booking.decline_reason || "";
@@ -156,48 +141,31 @@ Deno.serve(async (req) => {
     const joinUrl = `${baseUrl}/session/${booking.id}`;
 
     const accepted = body.action === "accept";
-    const subjectPsy = accepted
-      ? `${patientName} accepted your session — ${whenStr}`
-      : `${patientName} declined your session — ${whenStr}`;
-    const subjectPatient = accepted
-      ? `Your session with ${psyName} is confirmed — ${whenStr}`
-      : `You declined the session with ${psyName} — ${whenStr}`;
-
-    const psyHtml = `
-      <div style="font-family:Inter,Arial,sans-serif;max-width:560px;margin:0 auto;color:#1a1a1a">
-        <h2 style="color:#6B1F2A;margin:0 0 12px">${escape(subjectPsy)}</h2>
-        <p style="margin:0 0 12px"><strong>When:</strong> ${escape(whenStr)} (Casablanca)</p>
-        <p style="margin:0 0 12px"><strong>Type:</strong> ${escape(
-          booking.session_type.replace("_", " "),
-        )} · ${booking.duration_minutes} min</p>
-        ${
-          accepted
-            ? `<p style="margin:0 0 16px">The room is now open. Join securely:</p>
-               <p><a href="${joinUrl}" style="background:#6B1F2A;color:#fff;padding:10px 18px;border-radius:8px;text-decoration:none;display:inline-block">Join session</a></p>`
-            : reason
-              ? `<p style="margin:0 0 12px"><strong>Reason given:</strong> ${escape(reason)}</p>`
-              : `<p style="margin:0 0 12px;color:#666">No reason was provided.</p>`
-        }
-        <hr style="border:none;border-top:1px solid #eee;margin:24px 0">
-        <p style="font-size:12px;color:#888">U.Psy · upsy.ma</p>
-      </div>`;
-
-    const patientHtml = `
-      <div style="font-family:Inter,Arial,sans-serif;max-width:560px;margin:0 auto;color:#1a1a1a">
-        <h2 style="color:#6B1F2A;margin:0 0 12px">${escape(subjectPatient)}</h2>
-        <p style="margin:0 0 12px"><strong>When:</strong> ${escape(whenStr)} (Casablanca)</p>
-        <p style="margin:0 0 12px"><strong>Type:</strong> ${escape(
-          booking.session_type.replace("_", " "),
-        )} · ${booking.duration_minutes} min</p>
-        ${
-          accepted
-            ? `<p style="margin:0 0 16px">Save the link — the room opens 10 minutes before the start time:</p>
-               <p><a href="${joinUrl}" style="background:#6B1F2A;color:#fff;padding:10px 18px;border-radius:8px;text-decoration:none;display:inline-block">Open session</a></p>`
-            : `<p style="margin:0 0 12px">We've let your specialist know.</p>`
-        }
-        <hr style="border:none;border-top:1px solid #eee;margin:24px 0">
-        <p style="font-size:12px;color:#888">Conformément à la loi 09-08, vos données personnelles sont protégées.</p>
-      </div>`;
+    const common = {
+      locale: "fr" as const,
+      accepted,
+      specialist: psyName,
+      client: patientName,
+      start: startsAt,
+      durationMin: booking.duration_minutes,
+      sessionType: booking.session_type,
+      reason,
+      joinUrl,
+    };
+    const psyMail = proposalResponseEmail({
+      ...common,
+      to: "specialist",
+      fallbackUrl: `${baseUrl}/dashboard/specialist`,
+    });
+    const patientMail = proposalResponseEmail({
+      ...common,
+      to: "client",
+      fallbackUrl: `${baseUrl}/psychologists`,
+    });
+    const subjectPsy = psyMail.subject;
+    const subjectPatient = patientMail.subject;
+    const psyHtml = psyMail.html;
+    const patientHtml = patientMail.html;
 
     let psyEmailSent = false;
     let patientEmailSent = false;
