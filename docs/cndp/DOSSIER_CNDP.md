@@ -17,7 +17,7 @@ U.Psy traite des **données de santé** (dossiers cliniques, anamnèses,
 questionnaires psychologiques, notes de séance). Ce sont des données sensibles :
 la loi 09-08 (art. 12 et 21) impose une **autorisation préalable**, pas une
 simple déclaration. Deux autres critères d'autorisation s'appliquent : la copie
-de la CIN des spécialistes (justificatif d'agrément) et le dépistage de crise.
+de la CIN des spécialistes (justificatif d'agrément).
 
 | #   | Formulaire                                            | Objet                                                           | Délai CNDP                  |
 | --- | ----------------------------------------------------- | --------------------------------------------------------------- | --------------------------- |
@@ -298,21 +298,23 @@ dans la salle. Finalité : téléconsultation.
 
 ### Annexe A — Autres destinataires (à joindre)
 
-| Destinataire                         | Pays                 | Données                                                                                                                       | Finalité                                    | Base                                    |
-| ------------------------------------ | -------------------- | ----------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------- | --------------------------------------- |
-| PostHog                              | UE (Allemagne)       | Navigation pseudonyme                                                                                                         | Mesure d'audience, si consentement          | Pays adéquat + consentement             |
-| Sentry (Functional Software Inc.)    | États-Unis           | Rapports d'erreur techniques, filtrés                                                                                         | Correction des pannes                       | Contrat (DPA)                           |
-| Meta (WhatsApp)                      | États-Unis / Irlande | Téléphone, date du rendez-vous                                                                                                | Rappels, si option activée                  | Consentement exprès                     |
-| Lovable AI Gateway → Google (Gemini) | États-Unis           | **Texte saisi lors du dépistage de crise, non conservé**, plus textes de traduction et de rédaction sans données personnelles | Dépistage du risque suicidaire ; traduction | Consentement + intérêt vital            |
-| OpenAI                               | États-Unis           | Contenus éditoriaux, sans données de patients ⚠️ à confirmer                                                                  | Rédaction assistée                          | Sans objet si aucune donnée personnelle |
-| Google (Tag Manager, Maps, Sign-In)  | États-Unis           | Navigation (si consentement), connexion avec Google                                                                           | Mesure, carte, authentification             | Consentement                            |
-| Apple (Sign in with Apple)           | États-Unis           | Nom, email                                                                                                                    | Authentification                            | Consentement                            |
+| Destinataire                                                                                                       | Pays                 | Données                                                                                                                                                                                                                          | Finalité                                                                    | Base                                                   |
+| ------------------------------------------------------------------------------------------------------------------ | -------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------- | ------------------------------------------------------ |
+| PostHog                                                                                                            | UE (Allemagne)       | Navigation pseudonyme                                                                                                                                                                                                            | Mesure d'audience, si consentement                                          | Pays adéquat + consentement                            |
+| Sentry (Functional Software Inc.)                                                                                  | États-Unis           | Rapports d'erreur techniques, filtrés                                                                                                                                                                                            | Correction des pannes                                                       | Contrat (DPA)                                          |
+| Meta (WhatsApp)                                                                                                    | États-Unis / Irlande | Téléphone, date du rendez-vous                                                                                                                                                                                                   | Rappels, si option activée                                                  | Consentement exprès                                    |
+| Anthropic (Claude) — ou, à défaut, passerelle Lovable → Google (Gemini) / OpenAI ⚠️ confirmer le fournisseur actif | États-Unis           | **Données de santé** : entrées de journal, notes et résumés de séance, notes de préparation, messages à l'assistant IA ; uniquement à l'usage de ces fonctions, non utilisées pour entraîner les modèles ⚠️ vérifier dans le DPA | Synthèses de journal, résumés de séance, notes de préparation, assistant IA | Consentement exprès (art. 44) + clauses contractuelles |
+| Google (Tag Manager, Maps, Sign-In)                                                                                | États-Unis           | Navigation (si consentement), connexion avec Google                                                                                                                                                                              | Mesure, carte, authentification                                             | Consentement                                           |
+| Apple (Sign in with Apple)                                                                                         | États-Unis           | Nom, email                                                                                                                                                                                                                       | Authentification                                                            | Consentement                                           |
 
-> ⚠️ **Point sensible : le dépistage de crise.** C'est le seul flux où un texte
-> lié à la santé quitte vers les États-Unis (Google via Lovable). Il faut soit
-> l'assumer et le déclarer (fait ci-dessus), soit le limiter au filtrage par
-> mots-clés, qui reste local. La CNDP peut poser la question : décidez avant de
-> déposer.
+> ⚠️ **Point sensible : les fonctions d'IA.** Les synthèses de journal, les
+> résumés de séance, les notes de préparation et l'assistant envoient du texte
+> lié à la santé vers les États-Unis. C'est le flux que la CNDP examinera de plus
+> près. Pour le défendre : consentement exprès et distinct avant la première
+> utilisation, contrat sans réutilisation des données, et possibilité d'utiliser
+> la plateforme sans ces fonctions. Le dépistage de crise, lui, est une recherche
+> de mots-clés effectuée sur nos serveurs : le texte ne quitte pas
+> l'infrastructure et n'est pas conservé.
 
 ---
 
@@ -356,7 +358,7 @@ dans la salle. Finalité : téléconsultation.
    seul traitement aux finalités multiples. La CNDP peut demander de séparer la
    newsletter (déclaration F211) et la mesure d'audience. Accepter si elle le
    demande.
-3. **Dépistage par IA** : garder ou limiter (voir l'annexe A).
+3. **Fonctions d'IA** : vérifier qu'un consentement distinct est demandé avant la première utilisation, et confirmer le fournisseur actif (voir l'annexe A).
 4. **Mention du récépissé.** Une fois l'autorisation obtenue, ajouter dans la
    politique de confidentialité : « Traitement autorisé par la CNDP sous le n° … ».
    Je peux le faire dès réception du numéro.

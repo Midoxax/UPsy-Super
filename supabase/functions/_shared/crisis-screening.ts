@@ -1,20 +1,41 @@
 export type RiskLevel = "low" | "moderate" | "high";
-export type ScreeningResult = RiskLevel | "unavailable";
 
+// Matching ignores case and diacritics (accents, Arabic harakat and hamza
+// seats), so "désespéré", "desespere" and "أنتحر"/"انتحر" all match.
+// Keywords are the only screen, so they lean towards recall: a false alarm
+// shows emergency resources once per session; a miss shows nothing.
 export const HIGH_RISK_KEYWORDS = [
+  // English
   "suicide",
+  "suicidal",
   "kill myself",
   "end my life",
+  "take my life",
   "want to die",
+  "better off dead",
   "self harm",
   "self-harm",
+  "hurt myself",
+  "cut myself",
+  // French
   "me suicider",
   "me tuer",
   "en finir",
   "mourir",
+  "me faire du mal",
+  "me scarifier",
   "automutilation",
+  "plus envie de vivre",
+  // Arabic
   "أنتحر",
+  "انتحار",
   "أقتل نفسي",
+  "أريد أن أموت",
+  // Darija (Arabic script and Latin)
+  "بغيت نموت",
+  "نقتل راسي",
+  "bghit nmout",
+  "nqtel rasi",
 ];
 
 export const MODERATE_KEYWORDS = [
@@ -25,31 +46,21 @@ export const MODERATE_KEYWORDS = [
   "sans espoir",
   "fardeau",
   "désespéré",
+  "ma vie n'a pas de sens",
+  "disparaître",
+  "لا أمل",
+  "يائس",
 ];
 
+const fold = (s: string) =>
+  s.toLowerCase().normalize("NFD").replace(/\p{M}/gu, "");
+
+const HIGH = HIGH_RISK_KEYWORDS.map(fold);
+const MODERATE = MODERATE_KEYWORDS.map(fold);
+
 export function keywordScreen(text: string): RiskLevel {
-  const lower = text.toLowerCase();
-  if (HIGH_RISK_KEYWORDS.some((k) => lower.includes(k))) return "high";
-  if (MODERATE_KEYWORDS.some((k) => lower.includes(k))) return "moderate";
+  const t = fold(text);
+  if (HIGH.some((k) => t.includes(k))) return "high";
+  if (MODERATE.some((k) => t.includes(k))) return "moderate";
   return "low";
-}
-
-export function mergeRisk(ai: RiskLevel, keyword: RiskLevel): RiskLevel {
-  const order: Record<RiskLevel, number> = { low: 0, moderate: 1, high: 2 };
-  return order[ai] >= order[keyword] ? ai : keyword;
-}
-
-/**
- * Final screening result from the keyword screen and the AI classifier.
- *
- * `ai` is null when the classifier could not answer (no key, HTTP error,
- * network failure, unrecognised output). Never report "low" on that basis:
- * a keyword hit still stands, and otherwise the result is "unavailable".
- */
-export function resolveRisk(
-  ai: RiskLevel | null,
-  keyword: RiskLevel,
-): ScreeningResult {
-  if (ai === null) return keyword === "low" ? "unavailable" : keyword;
-  return mergeRisk(ai, keyword);
 }
