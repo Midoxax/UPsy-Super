@@ -58,7 +58,7 @@ jobs:
       - name: Install the SDK, Chromium and ffmpeg
         if: steps.key.outputs.present == 'true'
         run: |
-          bun add --no-save @anthropic-ai/sdk playwright
+          bun add --no-save @anthropic-ai/sdk playwright@1.64.1 playwright-core@1.64.1
           npx playwright install --with-deps chromium
           sudo apt-get install -y ffmpeg >/dev/null
 
