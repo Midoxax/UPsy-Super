@@ -15,6 +15,9 @@ import {
   Brain,
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { useLocale } from "@/contexts/LocaleContext";
+import { aiConsentErrorCode } from "@/hooks/useAiConsent";
+import { CLIENT_AI_CONSENT_MISSING } from "@/components/ai/aiConsentCopy";
 
 interface IntakeRow {
   id: string;
@@ -62,6 +65,7 @@ const severityColor = (s: string | null) => {
 const ClinicalBriefsTab = () => {
   const { user } = useAuth();
   const { toast } = useToast();
+  const { locale } = useLocale();
   const [intakes, setIntakes] = useState<IntakeRow[]>([]);
   const [briefs, setBriefs] = useState<Record<string, ClinicalBrief>>({});
   const [loading, setLoading] = useState(true);
@@ -112,6 +116,14 @@ const ClinicalBriefsTab = () => {
           body: { intake_form_id: intakeId },
         },
       );
+      if (error && (await aiConsentErrorCode(error))) {
+        const m =
+          CLIENT_AI_CONSENT_MISSING[
+            locale as keyof typeof CLIENT_AI_CONSENT_MISSING
+          ] ?? CLIENT_AI_CONSENT_MISSING.en;
+        toast({ title: m.title, description: m.body });
+        return;
+      }
       if (error) throw error;
       if (data?.error) throw new Error(data.error);
       // The function stores the brief server-side; reload to show it.

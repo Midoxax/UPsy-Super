@@ -31,6 +31,8 @@ import { cn } from "@/lib/utils";
 import { NourEmergence, Pulse } from "@/lib/motion";
 import { SocialAuthButtons } from "@/components/auth/SocialAuthButtons";
 import { useCrisisScreening } from "@/hooks/useCrisisScreening";
+import { useAiConsent } from "@/hooks/useAiConsent";
+import AiConsentDialog from "@/components/ai/AiConsentDialog";
 
 type Msg = { role: "user" | "assistant"; content: string; id: string };
 
@@ -331,6 +333,12 @@ const AIAssistant = () => {
     screen: screenCrisis,
   } = useCrisisScreening();
 
+  // AI processing needs explicit consent first (Law 09-08, art. 44). The
+  // message waits here while the consent dialog is open.
+  const aiConsent = useAiConsent();
+  const [consentOpen, setConsentOpen] = useState(false);
+  const pendingRef = useRef<string | null>(null);
+
   const endRef = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -352,8 +360,18 @@ const AIAssistant = () => {
   }, [messages, isLoading]);
 
   const sendMessage = useCallback(
-    async (text: string) => {
+    async (text: string, justConsented = false) => {
       if (!text.trim() || isLoading) return;
+      if (
+        user &&
+        !justConsented &&
+        !aiConsent.isLoading &&
+        !aiConsent.hasConsent
+      ) {
+        pendingRef.current = text;
+        setConsentOpen(true);
+        return;
+      }
 
       const userMsg: Msg = { role: "user", content: text.trim(), id: uuidv4() };
       setMessages((prev) => [...prev, userMsg]);
@@ -393,6 +411,14 @@ const AIAssistant = () => {
           body: JSON.stringify(payload),
         });
 
+        if (resp.status === 403) {
+          // Consent withdrawn elsewhere: ask again, keep the message.
+          setMessages((prev) => prev.filter((m) => m.id !== userMsg.id));
+          pendingRef.current = userMsg.content;
+          setConsentOpen(true);
+          setIsLoading(false);
+          return;
+        }
         if (resp.status === 429) {
           toast({
             title: "Too many messages",
@@ -474,6 +500,9 @@ const AIAssistant = () => {
       personality,
       userProfile?.name,
       screenCrisis,
+      user,
+      aiConsent.isLoading,
+      aiConsent.hasConsent,
     ],
   );
 
@@ -493,6 +522,15 @@ const AIAssistant = () => {
 
   return (
     <div className="min-h-[calc(100vh-4rem)] bg-background flex flex-col">
+      <AiConsentDialog
+        open={consentOpen}
+        onOpenChange={setConsentOpen}
+        onAgreed={() => {
+          const text = pendingRef.current;
+          pendingRef.current = null;
+          if (text) void sendMessage(text, true);
+        }}
+      />
       {/* Header */}
       <div className="border-b border-border bg-background/80 backdrop-blur-xl sticky top-16 z-30">
         <div className="container-custom h-14 flex items-center justify-between">

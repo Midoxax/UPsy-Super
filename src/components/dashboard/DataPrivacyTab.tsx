@@ -39,6 +39,8 @@ import {
 import ConnectedAccountsCard from "@/components/auth/ConnectedAccountsCard";
 import { collectMyData, downloadJson } from "@/lib/compliance/dataExport";
 import { COMPANY } from "@/content/legal/company";
+import { useAiConsent } from "@/hooks/useAiConsent";
+import AiConsentDialog from "@/components/ai/AiConsentDialog";
 
 type RequestType = "rectification" | "restriction" | "objection";
 
@@ -51,6 +53,15 @@ const COPY = {
     exportDesc:
       "Everything stored about you, as one JSON file: account, health records, bookings, payments, messages.",
     exportBtn: "Download",
+    aiTitle: "AI features",
+    aiOn: "On since",
+    aiOff:
+      "Off. Journal reflections, session summaries, specialist briefs and the AI assistant do not use your data.",
+    aiDesc:
+      "When on, these features send the text they need, including health information, to our AI provider in the United States.",
+    aiEnable: "Turn on",
+    aiWithdraw: "Withdraw consent",
+    aiWithdrawn: "Consent withdrawn. AI features no longer use your data.",
     exportDone: "Your file has been downloaded.",
     otherTitle: "Another request",
     otherDesc:
@@ -101,6 +112,16 @@ const COPY = {
     exportDesc:
       "Tout ce que nous conservons à ton sujet, dans un fichier JSON : compte, dossiers de santé, réservations, paiements, messages.",
     exportBtn: "Télécharger",
+    aiTitle: "Fonctions d'IA",
+    aiOn: "Activées depuis le",
+    aiOff:
+      "Désactivées. Les réflexions du journal, les résumés de séance, les notes de préparation et l'assistant IA n'utilisent pas tes données.",
+    aiDesc:
+      "Une fois activées, ces fonctions envoient le texte nécessaire, y compris des informations de santé, à notre fournisseur d'IA aux États-Unis.",
+    aiEnable: "Activer",
+    aiWithdraw: "Retirer mon consentement",
+    aiWithdrawn:
+      "Consentement retiré. Les fonctions d'IA n'utilisent plus tes données.",
     exportDone: "Ton fichier a été téléchargé.",
     otherTitle: "Autre demande",
     otherDesc:
@@ -152,6 +173,16 @@ const COPY = {
     exportDesc:
       "كل ما نحتفظ به عنك في ملف JSON واحد: الحساب والسجلات الصحية والحجوزات والمدفوعات والرسائل.",
     exportBtn: "تنزيل",
+    aiTitle: "ميزات الذكاء الاصطناعي",
+    aiOn: "مفعّلة منذ",
+    aiOff:
+      "معطّلة. لا تستخدم تأملات اليوميات وملخصات الجلسات وملاحظات التحضير والمساعد الذكي بياناتك.",
+    aiDesc:
+      "عند التفعيل، ترسل هذه الميزات النص اللازم، بما فيه معلومات صحية، إلى مزوّد الذكاء الاصطناعي لدينا في الولايات المتحدة.",
+    aiEnable: "تفعيل",
+    aiWithdraw: "سحب الموافقة",
+    aiWithdrawn:
+      "تم سحب الموافقة. لم تعد ميزات الذكاء الاصطناعي تستخدم بياناتك.",
     exportDone: "تم تنزيل ملفك.",
     otherTitle: "طلب آخر",
     otherDesc:
@@ -206,6 +237,8 @@ const DataPrivacyTab = () => {
   const [sending, setSending] = useState(false);
   const [requestType, setRequestType] = useState<RequestType | "">("");
   const [details, setDetails] = useState("");
+  const aiConsent = useAiConsent();
+  const [aiDialog, setAiDialog] = useState(false);
 
   const requests = useQuery({
     queryKey: ["my-data-requests", user?.id],
@@ -337,6 +370,46 @@ const DataPrivacyTab = () => {
               )}
               {c.exportBtn}
             </Button>
+          </div>
+
+          <Separator />
+
+          {/* AI consent (Law 09-08, art. 44): see it, give it, withdraw it */}
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+            <div>
+              <p className="text-sm font-medium">{c.aiTitle}</p>
+              <p className="text-xs text-muted-foreground">
+                {aiConsent.consentedAt
+                  ? `${c.aiOn} ${new Date(aiConsent.consentedAt).toLocaleDateString(locale)}. ${c.aiDesc}`
+                  : c.aiOff}
+              </p>
+            </div>
+            {aiConsent.hasConsent ? (
+              <Button
+                size="sm"
+                variant="outline"
+                onClick={async () => {
+                  const { error } = await aiConsent.withdraw();
+                  toast(
+                    error
+                      ? { title: c.error, variant: "destructive" }
+                      : { title: c.aiWithdrawn },
+                  );
+                }}
+              >
+                {c.aiWithdraw}
+              </Button>
+            ) : (
+              <Button
+                size="sm"
+                variant="outline"
+                onClick={() => setAiDialog(true)}
+                disabled={aiConsent.isLoading}
+              >
+                {c.aiEnable}
+              </Button>
+            )}
+            <AiConsentDialog open={aiDialog} onOpenChange={setAiDialog} />
           </div>
 
           <Separator />

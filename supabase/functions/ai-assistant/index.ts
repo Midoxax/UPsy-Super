@@ -2,6 +2,7 @@ import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 import { createLogger } from "../_shared/logger.ts";
 import { aiErrorResponse, aiStream } from "../_shared/ai.ts";
+import { hasAiConsent, consentMissing } from "../_shared/ai-consent.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -119,6 +120,9 @@ serve(async (req) => {
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
+
+    if (!(await hasAiConsent(user.id)))
+      return consentMissing("self", corsHeaders);
 
     // Per-user + per-IP throttling (ad-hoc DB-backed limiter; backend has no
     // shared rate-limit primitive yet).

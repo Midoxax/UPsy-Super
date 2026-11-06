@@ -121,7 +121,7 @@
   "src/components/ui/pagination.tsx": 3,
   "src/components/ui/sidebar.tsx": 3,
   "src/content/legal/notice.tsx": 19,
-  "src/content/legal/privacy.tsx": 90,
+  "src/content/legal/privacy.tsx": 94,
   "src/content/legal/terms.tsx": 50,
   "src/ops/OpsLayout.tsx": 3,
   "src/ops/components/director/QuickPrompt.tsx": 1,

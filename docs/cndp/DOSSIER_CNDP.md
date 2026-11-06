@@ -175,6 +175,11 @@ biométriques, infractions.
   acceptation. Newsletter en double opt-in (email de confirmation).
 - Rappels WhatsApp : option désactivée par défaut, activée par l'utilisateur.
 - Étude de recherche (Athlete Hub) : consentement spécifique, révocable.
+- Fonctions d'IA (synthèses de journal, résumés de séance, notes de préparation,
+  assistant) : consentement exprès et distinct avant la première utilisation,
+  vérifié côté serveur à chaque appel. Pour les outils du spécialiste, c'est le
+  consentement du client qui compte. Retrait à tout moment dans l'espace
+  personnel ; chaque accord et chaque retrait est inscrit au journal d'audit.
 
 ### XI. Droits des personnes
 
@@ -358,7 +363,8 @@ dans la salle. Finalité : téléconsultation.
    seul traitement aux finalités multiples. La CNDP peut demander de séparer la
    newsletter (déclaration F211) et la mesure d'audience. Accepter si elle le
    demande.
-3. **Fonctions d'IA** : vérifier qu'un consentement distinct est demandé avant la première utilisation, et confirmer le fournisseur actif (voir l'annexe A).
+3. **Fonctions d'IA** : confirmer le fournisseur actif (voir l'annexe A). Le
+   consentement distinct avant la première utilisation est en place.
 4. **Mention du récépissé.** Une fois l'autorisation obtenue, ajouter dans la
    politique de confidentialité : « Traitement autorisé par la CNDP sous le n° … ».
    Je peux le faire dès réception du numéro.

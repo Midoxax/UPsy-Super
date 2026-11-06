@@ -12,6 +12,9 @@ import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { useHasFeature } from "@/hooks/useSpecialistPlan";
 import { Link } from "@/lib/router-compat";
+import { useLocale } from "@/contexts/LocaleContext";
+import { aiConsentErrorCode } from "@/hooks/useAiConsent";
+import { CLIENT_AI_CONSENT_MISSING } from "@/components/ai/aiConsentCopy";
 
 interface SummaryResult {
   summary: string;
@@ -22,7 +25,14 @@ interface SummaryResult {
   risk_flags: string[];
 }
 
-const AISummaryButton = ({ notes }: { notes: string }) => {
+const AISummaryButton = ({
+  noteId,
+  notes,
+}: {
+  noteId: string;
+  notes: string;
+}) => {
+  const { locale } = useLocale();
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<SummaryResult | null>(null);
@@ -48,9 +58,18 @@ const AISummaryButton = ({ notes }: { notes: string }) => {
       const { data, error } = await supabase.functions.invoke(
         "session-summary",
         {
-          body: { notes },
+          body: { note_id: noteId },
         },
       );
+      if (error && (await aiConsentErrorCode(error))) {
+        const m =
+          CLIENT_AI_CONSENT_MISSING[
+            locale as keyof typeof CLIENT_AI_CONSENT_MISSING
+          ] ?? CLIENT_AI_CONSENT_MISSING.en;
+        toast.error(m.title, { description: m.body });
+        setOpen(false);
+        return;
+      }
       if (error) throw error;
       if (data?.error) throw new Error(data.error);
       setResult(data);
