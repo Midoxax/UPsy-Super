@@ -16,6 +16,11 @@ on:
       - "supabase/config.toml"
   workflow_dispatch:
 
+# Read-only token: the job only checks out code; deploys use the Supabase
+# token, not GitHub's.
+permissions:
+  contents: read
+
 concurrency:
   group: deploy-functions
   cancel-in-progress: false
