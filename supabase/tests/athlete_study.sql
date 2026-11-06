@@ -9,7 +9,7 @@ BEGIN IF NOT coalesce(_ok, false) THEN RAISE EXCEPTION 'FAILED: %', _what; END I
 CREATE FUNCTION pg_temp.as_user(_id uuid) RETURNS void LANGUAGE plpgsql AS $$
 BEGIN
   PERFORM set_config('request.jwt.claim.sub', _id::text, true);
-  PERFORM set_config('request.jwt.claims', json_build_object('sub', _id, 'role', 'authenticated')::text, true);
+  PERFORM set_config('request.jwt.claims', json_build_object('sub', _id, 'role', 'authenticated', 'aal', 'aal2')::text, true);
 END $$;
 
 INSERT INTO auth.users (id, email) VALUES

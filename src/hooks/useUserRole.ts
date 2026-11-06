@@ -76,6 +76,8 @@ export const useUserRole = () => {
 
   return {
     roles: effective,
+    /** The account's own roles, ignoring the admin "view as" preview. */
+    realRoles: roles,
     primaryRole,
     isAdmin: effective.includes("admin"),
     isPsychologist: effective.includes("psychologist"),

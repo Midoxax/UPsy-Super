@@ -4,12 +4,14 @@ import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
 import { Progress } from "@/components/ui/progress";
 import { BookOpen, ArrowRight, PlayCircle } from "lucide-react";
+import { useLocalizedField } from "@/lib/i18n/localizedField";
 
 export default function ContinueLearningCard({
   path,
 }: {
   path?: "mental-health" | "performance" | "clinical-cpd";
 }) {
+  const loc = useLocalizedField();
   const { user } = useAuth();
   const { data } = useQuery({
     queryKey: ["continue-learning", user?.id, path],
@@ -61,7 +63,7 @@ export default function ContinueLearningCard({
           <p className="text-[10px] uppercase tracking-wider text-muted-foreground">
             Continue learning
           </p>
-          <p className="font-semibold text-sm">{c.title}</p>
+          <p className="font-semibold text-sm">{loc(c, "title")}</p>
         </div>
         <ArrowRight className="h-4 w-4 text-muted-foreground group-hover:text-primary transition-colors" />
       </div>

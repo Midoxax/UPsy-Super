@@ -9,7 +9,7 @@ const en: LegalDoc = {
   seoTitle: "Privacy Policy — UPSY",
   description:
     "How UPSY collects, uses, stores and protects personal and health data, under Moroccan Law 09-08 and the GDPR.",
-  updated: "21 October 2026",
+  updated: "5 November 2026",
   updatedLabel: "Last updated",
   contentsLabel: "Contents",
   intro: (
@@ -184,7 +184,8 @@ const en: LegalDoc = {
         <>
           <ul>
             <li>
-              Supabase: database, sign-in, file storage and server functions.
+              Supabase: database, sign-in, file storage and server functions,
+              hosted in London, United Kingdom.
             </li>
             <li>Cloudflare: website hosting and delivery.</li>
             <li>
@@ -197,7 +198,11 @@ const en: LegalDoc = {
               Our bank, CashPlus and Wafacash: receiving session payments you
               send by transfer.
             </li>
-            <li>Jitsi Meet: video sessions.</li>
+            <li>Jitsi as a Service by 8x8: video sessions.</li>
+            <li>
+              Meta (WhatsApp): session reminders, only if you give a phone
+              number and accept WhatsApp reminders.
+            </li>
             <li>PostHog: anonymised usage statistics, hosted in the EU.</li>
             <li>
               Sentry: error reports, with personal details removed before
@@ -206,11 +211,11 @@ const en: LegalDoc = {
             <li>Google: Tag Manager, Maps and Sign-In; Apple: Sign-In.</li>
           </ul>
           <p>
-            These providers are located outside Morocco, mainly in the European
-            Union and the United States. Transfers are made under the conditions
-            of Law 09-08 and subject to the authorisations of the CNDP, whose
-            declaration procedure is in progress, and under contractual
-            safeguards with each provider.
+            These providers are located outside Morocco, mainly in the United
+            Kingdom, the European Union and the United States. Transfers are
+            made under the conditions of Law 09-08 and subject to the
+            authorisations of the CNDP, whose declaration procedure is in
+            progress, and under contractual safeguards with each provider.
           </p>
         </>
       ),
@@ -358,7 +363,7 @@ const fr: LegalDoc = {
   seoTitle: "Politique de confidentialité — UPSY",
   description:
     "Comment UPSY collecte, utilise, conserve et protège les données personnelles et de santé, conformément à la loi marocaine 09-08 et au RGPD.",
-  updated: "21 octobre 2026",
+  updated: "5 novembre 2026",
   updatedLabel: "Dernière mise à jour",
   contentsLabel: "Sommaire",
   intro: (
@@ -553,7 +558,7 @@ const fr: LegalDoc = {
           <ul>
             <li>
               Supabase : base de données, connexion, stockage de fichiers et
-              fonctions serveur.
+              fonctions serveur, hébergés à Londres (Royaume-Uni).
             </li>
             <li>Cloudflare : hébergement et diffusion du site.</li>
             <li>
@@ -566,7 +571,11 @@ const fr: LegalDoc = {
               Notre banque, CashPlus et Wafacash : réception des paiements de
               séances que vous effectuez par virement.
             </li>
-            <li>Jitsi Meet : séances vidéo.</li>
+            <li>Jitsi as a Service par 8x8 : séances vidéo.</li>
+            <li>
+              Meta (WhatsApp) : rappels de séance, seulement si vous donnez un
+              numéro et acceptez les rappels WhatsApp.
+            </li>
             <li>
               PostHog : statistiques d'utilisation anonymisées, hébergées dans
               l'Union européenne.
@@ -580,12 +589,12 @@ const fr: LegalDoc = {
             </li>
           </ul>
           <p>
-            Ces prestataires sont situés hors du Maroc, principalement dans
-            l'Union européenne et aux États-Unis. Les transferts sont effectués
-            dans les conditions prévues par la loi 09-08, sous réserve des
-            autorisations de la CNDP, dont la procédure de déclaration est en
-            cours, et avec des garanties contractuelles auprès de chaque
-            prestataire.
+            Ces prestataires sont situés hors du Maroc, principalement au
+            Royaume-Uni, dans l'Union européenne et aux États-Unis. Les
+            transferts sont effectués dans les conditions prévues par la loi
+            09-08, sous réserve des autorisations de la CNDP, dont la procédure
+            de déclaration est en cours, et avec des garanties contractuelles
+            auprès de chaque prestataire.
           </p>
         </>
       ),

@@ -321,7 +321,10 @@ const Auth = () => {
           <div className="flex justify-center mb-4">
             <Brain className="w-12 h-12 text-primary" />
           </div>
-          <CardTitle className="font-display text-3xl md:text-4xl font-normal tracking-tight">
+          <CardTitle
+            as="h1"
+            className="font-display text-3xl md:text-4xl font-normal tracking-tight"
+          >
             {t("auth.portalTitle")}
           </CardTitle>
           <CardDescription className="font-sans text-base">

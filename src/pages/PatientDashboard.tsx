@@ -62,6 +62,7 @@ import LeaderboardCard from "@/components/dashboard/LeaderboardCard";
 import { useAwardXp } from "@/hooks/useGamification";
 import { useNudges } from "@/hooks/useNudges";
 import { useCrisisScreening } from "@/hooks/useCrisisScreening";
+import { useLocalizedField } from "@/lib/i18n/localizedField";
 import { SocialAuthButtons } from "@/components/auth/SocialAuthButtons";
 
 interface MoodEntry {
@@ -74,6 +75,7 @@ interface MoodEntry {
 }
 
 const PatientDashboard = () => {
+  const loc = useLocalizedField();
   const { user } = useAuth();
   const { toast } = useToast();
   const { t } = useLocale();
@@ -129,7 +131,9 @@ const PatientDashboard = () => {
         .limit(5),
       supabase
         .from("course_enrollments")
-        .select("*, course:courses(title, category, duration_hours)")
+        .select(
+          "*, course:courses(title, title_fr, title_ar, category, duration_hours)",
+        )
         .eq("user_id", user!.id)
         .order("created_at", { ascending: false })
         .limit(5),
@@ -642,7 +646,7 @@ const PatientDashboard = () => {
                         <div key={e.id} className="p-3 rounded-xl bg-muted/20">
                           <div className="flex items-center justify-between mb-2">
                             <p className="text-sm font-medium text-foreground">
-                              {e.course?.title}
+                              {loc(e.course, "title")}
                             </p>
                             <span className="text-xs text-primary font-medium">
                               {Math.round(e.progress_percent || 0)}%

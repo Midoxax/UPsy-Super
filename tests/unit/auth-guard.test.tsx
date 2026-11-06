@@ -23,9 +23,12 @@ import { ProtectedRoute } from "@/components/ProtectedRoute";
 const authState = vi.hoisted(() => ({ user: null as unknown, loading: false }));
 const roleState = vi.hoisted(() => ({
   roles: [] as string[],
+  realRoles: [] as string[],
   isAdmin: false,
   loading: false,
 }));
+// The session's sign-in level, as the MFA gate would read it from Supabase.
+const mfaState = vi.hoisted(() => ({ level: "aal1" as "aal1" | "aal2" }));
 const locationState = vi.hoisted(() => ({
   pathname: "/dashboard/specialist",
   search: "",
@@ -33,6 +36,14 @@ const locationState = vi.hoisted(() => ({
 
 vi.mock("@/contexts/AuthContext", () => ({ useAuth: () => authState }));
 vi.mock("@/hooks/useUserRole", () => ({ useUserRole: () => roleState }));
+vi.mock("@/hooks/useMfaGate", () => ({
+  useMfaGate: (required: boolean, ready: boolean) =>
+    !ready
+      ? "checking"
+      : !required || mfaState.level === "aal2"
+        ? "ok"
+        : "needed",
+}));
 vi.mock("@/lib/router-compat", () => ({
   // Rendering the target makes the redirect observable and, unlike a spy,
   // also proves the guard stopped rendering its children.
@@ -41,11 +52,15 @@ vi.mock("@/lib/router-compat", () => ({
   useNavigate: () => vi.fn(),
 }));
 
-function renderGuard(role?: string | string[], at = "/dashboard/specialist") {
+function renderGuard(
+  role?: string | string[],
+  at = "/dashboard/specialist",
+  allowWithoutMfa = false,
+) {
   locationState.pathname = at;
   locationState.search = "";
   return render(
-    <ProtectedRoute role={role as never}>
+    <ProtectedRoute role={role as never} allowWithoutMfa={allowWithoutMfa}>
       <div>PROTECTED CONTENT</div>
     </ProtectedRoute>,
   );
@@ -61,8 +76,10 @@ beforeEach(() => {
   authState.user = null;
   authState.loading = false;
   roleState.roles = [];
+  roleState.realRoles = [];
   roleState.isAdmin = false;
   roleState.loading = false;
+  mfaState.level = "aal1";
 });
 
 describe("unauthenticated access", () => {
@@ -91,7 +108,8 @@ describe("authenticated access", () => {
 
   it("admits a user holding the required role", () => {
     authState.user = { id: "u1" };
-    roleState.roles = ["psychologist"];
+    roleState.roles = roleState.realRoles = ["psychologist"];
+    mfaState.level = "aal2";
     renderGuard("psychologist");
     expect(shows("PROTECTED CONTENT")).toBe(true);
   });
@@ -109,6 +127,8 @@ describe("authenticated access", () => {
     authState.user = { id: "admin" };
     roleState.isAdmin = true;
     roleState.roles = [];
+    roleState.realRoles = ["admin"];
+    mfaState.level = "aal2";
     renderGuard("psychologist");
     expect(shows("PROTECTED CONTENT")).toBe(true);
   });
@@ -168,5 +188,55 @@ describe("post-login redirect", () => {
     renderGuard(undefined, "/auth");
     // Guard must not send /auth -> /auth?redirect=/auth.
     expect(navigatedTo()).toBe("/auth");
+  });
+});
+
+describe("mandatory second factor for specialists and admins", () => {
+  it("sends a specialist signed in with a password only to MFA setup", () => {
+    authState.user = { id: "psy" };
+    roleState.roles = roleState.realRoles = ["psychologist"];
+    renderGuard("psychologist", "/dashboard/specialist");
+    expect(shows("PROTECTED CONTENT")).toBe(false);
+    expect(navigatedTo()).toBe(
+      `/auth/mfa-setup?redirect=${encodeURIComponent("/dashboard/specialist")}`,
+    );
+  });
+
+  it("sends an admin signed in with a password only to MFA setup", () => {
+    authState.user = { id: "admin" };
+    roleState.isAdmin = true;
+    roleState.realRoles = ["admin"];
+    renderGuard(undefined, "/dashboard");
+    expect(navigatedTo()).toMatch(/^\/auth\/mfa-setup/);
+  });
+
+  it("admits a specialist whose session used the second factor", () => {
+    authState.user = { id: "psy" };
+    roleState.roles = roleState.realRoles = ["psychologist"];
+    mfaState.level = "aal2";
+    renderGuard("psychologist");
+    expect(shows("PROTECTED CONTENT")).toBe(true);
+  });
+
+  it("asks nothing of clients", () => {
+    authState.user = { id: "client" };
+    roleState.roles = roleState.realRoles = ["patient"];
+    renderGuard(undefined, "/dashboard/client");
+    expect(shows("PROTECTED CONTENT")).toBe(true);
+  });
+
+  it("checks the real roles, not the admin 'view as' preview", () => {
+    authState.user = { id: "admin" };
+    roleState.roles = ["patient"];
+    roleState.realRoles = ["admin"];
+    renderGuard(undefined, "/dashboard/client");
+    expect(navigatedTo()).toMatch(/^\/auth\/mfa-setup/);
+  });
+
+  it("lets the MFA setup page itself render without looping", () => {
+    authState.user = { id: "psy" };
+    roleState.realRoles = ["psychologist"];
+    renderGuard(undefined, "/auth/mfa-setup", true);
+    expect(shows("PROTECTED CONTENT")).toBe(true);
   });
 });

@@ -1,10 +1,13 @@
-import { Navigate } from "@/lib/router-compat";
+import { Navigate, useLocation } from "@/lib/router-compat";
 import { useAdminAuth } from "@/hooks/useAdminAuth";
+import { useMfaGate } from "@/hooks/useMfaGate";
 
 export const AdminRoute = ({ children }: { children: React.ReactNode }) => {
   const { isAdmin, loading } = useAdminAuth();
+  const location = useLocation();
+  const mfa = useMfaGate(isAdmin, !loading);
 
-  if (loading) {
+  if (loading || (isAdmin && mfa === "checking")) {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center">
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
@@ -14,6 +17,16 @@ export const AdminRoute = ({ children }: { children: React.ReactNode }) => {
 
   if (!isAdmin) {
     return <Navigate to="/" replace />;
+  }
+
+  if (mfa === "needed") {
+    const back = location.pathname + location.search;
+    return (
+      <Navigate
+        to={`/auth/mfa-setup?redirect=${encodeURIComponent(back)}`}
+        replace
+      />
+    );
   }
 
   return <>{children}</>;

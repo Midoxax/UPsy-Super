@@ -2,6 +2,8 @@ import { useRef } from "react";
 import { Navigate, useLocation } from "@/lib/router-compat";
 import { useAuth } from "@/contexts/AuthContext";
 import { useUserRole } from "@/hooks/useUserRole";
+import { useMfaGate } from "@/hooks/useMfaGate";
+import { needsMfa } from "@/lib/auth/mfa";
 import type { Database } from "@/integrations/supabase/types";
 
 type AppRole = Database["public"]["Enums"]["app_role"];
@@ -10,11 +12,17 @@ interface ProtectedRouteProps {
   children: React.ReactNode;
   /** Optional role gate. Admins always pass. */
   role?: AppRole | AppRole[];
+  /** Only for the MFA setup page itself, which must not redirect to itself. */
+  allowWithoutMfa?: boolean;
 }
 
-export const ProtectedRoute = ({ children, role }: ProtectedRouteProps) => {
+export const ProtectedRoute = ({
+  children,
+  role,
+  allowWithoutMfa,
+}: ProtectedRouteProps) => {
   const { user, loading: authLoading } = useAuth();
-  const { roles, isAdmin, loading: roleLoading } = useUserRole();
+  const { roles, realRoles, isAdmin, loading: roleLoading } = useUserRole();
   const location = useLocation();
   // The login target computed on the first unauthenticated render. While the
   // /auth chunk loads, this guard keeps rendering with the new location
@@ -22,7 +30,11 @@ export const ProtectedRoute = ({ children, role }: ProtectedRouteProps) => {
   // bare /auth and lose where the user was going.
   const loginTarget = useRef<string | null>(null);
 
-  const loading = authLoading || (role ? roleLoading : false);
+  const mfa = useMfaGate(
+    !allowWithoutMfa && !!user && needsMfa(realRoles),
+    !authLoading && !roleLoading,
+  );
+  const loading = authLoading || (user && (roleLoading || mfa === "checking"));
 
   if (loading) {
     return (
@@ -43,6 +55,16 @@ export const ProtectedRoute = ({ children, role }: ProtectedRouteProps) => {
     return <Navigate to={loginTarget.current} replace />;
   }
   loginTarget.current = null;
+
+  if (mfa === "needed") {
+    const back = location.pathname + location.search;
+    return (
+      <Navigate
+        to={`/auth/mfa-setup?redirect=${encodeURIComponent(back)}`}
+        replace
+      />
+    );
+  }
 
   if (role) {
     const required = Array.isArray(role) ? role : [role];

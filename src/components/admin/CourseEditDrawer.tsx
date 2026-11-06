@@ -32,9 +32,32 @@ interface Props {
   onClose: () => void;
 }
 
+// French and Arabic versions shown to visitors in those languages; an empty
+// field falls back to the English one.
+const TRANSLATIONS = [
+  { key: "title_fr", label: "Title — French", dir: "ltr", multiline: false },
+  { key: "title_ar", label: "Title — Arabic", dir: "rtl", multiline: false },
+  {
+    key: "description_fr",
+    label: "Description — French",
+    dir: "ltr",
+    multiline: true,
+  },
+  {
+    key: "description_ar",
+    label: "Description — Arabic",
+    dir: "rtl",
+    multiline: true,
+  },
+] as const;
+
 const EMPTY = {
   title: "",
   description: "",
+  title_fr: "",
+  title_ar: "",
+  description_fr: "",
+  description_ar: "",
   category: "general",
   difficulty_level: "beginner",
   duration_hours: 1,
@@ -89,6 +112,31 @@ export default function CourseEditDrawer({ course, open, onClose }: Props) {
                 setForm({ ...form, description: e.target.value })
               }
             />
+          </div>
+          <div className="grid gap-3 sm:grid-cols-2">
+            {TRANSLATIONS.map((t) => (
+              <div key={t.key} className="space-y-2">
+                <Label>{t.label}</Label>
+                {t.multiline ? (
+                  <Textarea
+                    rows={3}
+                    dir={t.dir}
+                    value={form[t.key] ?? ""}
+                    onChange={(e) =>
+                      setForm({ ...form, [t.key]: e.target.value || null })
+                    }
+                  />
+                ) : (
+                  <Input
+                    dir={t.dir}
+                    value={form[t.key] ?? ""}
+                    onChange={(e) =>
+                      setForm({ ...form, [t.key]: e.target.value || null })
+                    }
+                  />
+                )}
+              </div>
+            ))}
           </div>
 
           <div className="grid grid-cols-2 gap-3">

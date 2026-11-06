@@ -22,6 +22,7 @@ BEGIN IF NOT coalesce(_ok, false) THEN RAISE EXCEPTION 'FAILED: %', _what; END I
 GRANT EXECUTE ON FUNCTION pg_temp.expect(boolean, text) TO authenticated;
 
 SELECT set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-0000000001a0', true);
+SELECT set_config('request.jwt.claims', '{"aal":"aal2"}', true);
 SET LOCAL ROLE authenticated;
 
 -- Activity view: dates only, no scores.

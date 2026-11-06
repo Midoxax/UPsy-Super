@@ -7,8 +7,10 @@ export interface Resource {
   slug: string;
   title: string;
   title_fr: string | null;
+  title_ar: string | null;
   summary: string | null;
   summary_fr: string | null;
+  summary_ar: string | null;
   format: "article" | "guide" | "worksheet" | "video" | "audio" | "toolkit";
   category: string | null;
   topic_slug: string | null;
@@ -27,6 +29,7 @@ export interface Topic {
   slug: string;
   name: string;
   name_fr: string | null;
+  name_ar: string | null;
   icon: string | null;
 }
 
@@ -46,7 +49,13 @@ export const useResources = (filters?: {
         .order("created_at", { ascending: false });
       if (filters?.topic) q = q.eq("topic_slug", filters.topic);
       if (filters?.format) q = q.eq("format", filters.format);
-      if (filters?.search) q = q.ilike("title", `%${filters.search}%`);
+      if (filters?.search) {
+        // Search every language, so a French or Arabic query finds the item.
+        const term = filters.search.replace(/[%,()]/g, " ").trim();
+        q = q.or(
+          `title.ilike.%${term}%,title_fr.ilike.%${term}%,title_ar.ilike.%${term}%`,
+        );
+      }
       const { data, error } = await q;
       if (error) throw error;
       return (data ?? []) as Resource[];
