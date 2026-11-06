@@ -65,6 +65,7 @@ jobs:
             [[ "$name" == _* ]] && continue
             [[ " $SKIP " == *" $name "* ]] && { echo "skip $name"; continue; }
             echo "::group::$name"
-            supabase functions deploy "$name" --project-ref "$PROJECT_REF" --use-api
+            # --yes: the CLI asks for confirmation and cannot in CI.
+            supabase functions deploy "$name" --project-ref "$PROJECT_REF" --use-api --yes
             echo "::endgroup::"
           done
