@@ -96,7 +96,7 @@ jobs:
       - name: Install browser
         run: |
           bun install --frozen-lockfile
-          bun add --no-save playwright @axe-core/playwright
+          bun add --no-save playwright@1.64.1 playwright-core@1.64.1 @axe-core/playwright@4.14.0
           bunx playwright install --with-deps chromium
 
       - name: Accessibility audit against production
