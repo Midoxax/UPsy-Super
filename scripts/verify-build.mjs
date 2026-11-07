@@ -227,7 +227,7 @@ if (workerMib > LIMIT_MIB) {
 } else if (pct >= WARN_PCT) {
   warn(
     `Worker bundle is ${workerMib.toFixed(2)} MiB gzipped, ${pct.toFixed(0)}% of the ${LIMIT_MIB} MiB limit. ` +
-      `Largest contributors are client-only: @react-three/drei, @sentry/*, jspdf + canvg + html2canvas, recharts.`,
+      `Run \`find .output/server -name '*.mjs' -size +200k\` to see the largest files; browser-only modules can be stubbed for the server in vite.config.ts (CLIENT_ONLY).`,
   );
 }
 

@@ -15,7 +15,6 @@ import { useAnamnesis } from "@/hooks/useAnamnesis";
 import AnamnesisDrawer from "@/components/anamnesis/AnamnesisDrawer";
 import { useNavigate } from "@/lib/router-compat";
 import { useLocale } from "@/contexts/LocaleContext";
-import jsPDF from "jspdf";
 import { supabase } from "@/integrations/supabase/client";
 
 const STEP_KEYS = [
@@ -107,6 +106,8 @@ const AnamnesisCard = () => {
       branding.pdf_signature_label || "Therapist signature";
     const logoUrl = branding.pdf_logo_url;
 
+    // Loaded on click (see AnamnesisDrawer).
+    const { default: jsPDF } = await import("jspdf");
     const doc = new jsPDF();
     const margin = 15;
     let y = 20;
