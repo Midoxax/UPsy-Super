@@ -30,7 +30,6 @@ import { useAnamnesis, type AnamnesisSection } from "@/hooks/useAnamnesis";
 import { useScrollResetOnOpen } from "@/hooks/useScrollResetOnOpen";
 import { useToast } from "@/hooks/use-toast";
 import { useLocale } from "@/contexts/LocaleContext";
-import jsPDF from "jspdf";
 
 interface Props {
   open: boolean;
@@ -194,8 +193,11 @@ const AnamnesisDrawer = ({
     toast({ title: t("anamnesis.reviewed") });
   };
 
-  const handleDownloadPdf = () => {
+  const handleDownloadPdf = async () => {
     if (!data) return;
+    // Loaded on click: jsPDF (with html2canvas and canvg) is ~1 MB that most
+    // visits never need, and it kept the server bundle near its size limit.
+    const { default: jsPDF } = await import("jspdf");
     const doc = new jsPDF();
     const margin = 15;
     let y = 20;

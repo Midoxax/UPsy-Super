@@ -14,7 +14,6 @@ import {
   Loader2,
 } from "lucide-react";
 import { format } from "date-fns";
-import jsPDF from "jspdf";
 
 interface Certificate {
   id: string;
@@ -53,7 +52,9 @@ const TYPE_CONFIG: Record<
   },
 };
 
-function generatePDF(cert: Certificate) {
+async function generatePDF(cert: Certificate) {
+  // Loaded on click (see AnamnesisDrawer).
+  const { default: jsPDF } = await import("jspdf");
   const pdf = new jsPDF({ orientation: "landscape", unit: "mm", format: "a4" });
   const w = pdf.internal.pageSize.getWidth();
   const h = pdf.internal.pageSize.getHeight();
@@ -269,7 +270,7 @@ const CertificatesTab = () => {
                 variant="secondary"
                 size="sm"
                 className="w-full"
-                onClick={() => generatePDF(cert)}
+                onClick={() => void generatePDF(cert)}
               >
                 <Download className="h-4 w-4 mr-1" />
                 Download PDF
