@@ -9,6 +9,15 @@
 let posthogInstance: any = null;
 let initialized = false;
 
+// Events and properties recorded before PostHog is ready (it loads only after
+// the visitor accepts analytics, often a few seconds into the visit). They are
+// sent once it starts, and dropped if it never does, so nothing leaves the
+// browser without consent. The hero experiment's exposure fires on first
+// render, before any consent click, and would otherwise be lost every time.
+const MAX_PENDING = 50;
+const pendingEvents: Array<[string, Record<string, unknown>]> = [];
+const pendingProps: Record<string, unknown> = {};
+
 const PII_KEYS = new Set([
   "email",
   "phone",
@@ -48,11 +57,17 @@ export async function initPostHog(): Promise<void> {
       persistence: "memory", // cookie-less
       disable_session_recording: true,
       autocapture: false,
-      capture_pageview: true,
+      // The app changes pages client-side; `true` records only the landing
+      // page, so a visit home -> profile -> booking looked like one page.
+      capture_pageview: "history_change",
       ip: false, // anonymize IP
       property_blacklist: ["$ip", "$geoip_city_name", "$geoip_postal_code"],
     });
     initialized = true;
+    if (Object.keys(pendingProps).length)
+      posthogInstance.register(pendingProps);
+    for (const [name, props] of pendingEvents.splice(0))
+      posthogInstance.capture(name, props);
   } catch (e) {
     if (import.meta.env.DEV) console.warn("[posthog] init failed", e);
   }
@@ -68,8 +83,28 @@ export function captureEvent(
   name: string,
   properties: Record<string, unknown> = {},
 ): void {
-  if (!initialized || !posthogInstance) return;
-  posthogInstance.capture(name, scrub(properties));
+  if (typeof window === "undefined") return; // server render: never buffer
+  const clean = scrub(properties);
+  if (!initialized || !posthogInstance) {
+    if (pendingEvents.length < MAX_PENDING) pendingEvents.push([name, clean]);
+    return;
+  }
+  posthogInstance.capture(name, clean);
+}
+
+/**
+ * Attach properties to every later event of this visit (PostHog "super
+ * properties"), e.g. the experiment variant a visitor saw, so a booking made
+ * three pages later can still be credited to that variant.
+ */
+export function registerProperties(properties: Record<string, unknown>): void {
+  if (typeof window === "undefined") return;
+  const clean = scrub(properties);
+  if (!initialized || !posthogInstance) {
+    Object.assign(pendingProps, clean);
+    return;
+  }
+  posthogInstance.register(clean);
 }
 
 export function identifyAnonymous(distinctId: string): void {
