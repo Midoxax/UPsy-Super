@@ -457,6 +457,8 @@ export type Database = {
       assessments: {
         Row: {
           category: string;
+          code: string | null;
+          is_validated: boolean;
           created_at: string | null;
           description: string | null;
           estimated_minutes: number;
@@ -467,6 +469,8 @@ export type Database = {
         };
         Insert: {
           category?: string;
+          code?: string | null;
+          is_validated?: boolean;
           created_at?: string | null;
           description?: string | null;
           estimated_minutes?: number;
@@ -477,6 +481,8 @@ export type Database = {
         };
         Update: {
           category?: string;
+          code?: string | null;
+          is_validated?: boolean;
           created_at?: string | null;
           description?: string | null;
           estimated_minutes?: number;
