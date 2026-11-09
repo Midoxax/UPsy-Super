@@ -7,8 +7,7 @@
 <meta property="og:description" content="Le pont entre le besoin et un psychologue vérifié.">
 <meta property="og:image" content="/pitch-ibda3/logo-full.webp">
 <link rel="icon" href="/favicon.png">
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&display=swap"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&display=swap"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Saira+Stencil+One&display=swap">
+<style>@font-face{font-family:'Fraunces';src:url(fonts/fraunces-latin-400-italic.woff2) format('woff2');font-weight:400;font-style:italic;font-display:block}@font-face{font-family:'Fraunces';src:url(fonts/fraunces-latin-600-italic.woff2) format('woff2');font-weight:500 900;font-style:italic;font-display:block}@font-face{font-family:'Fraunces';src:url(fonts/fraunces-latin-600-normal.woff2) format('woff2');font-weight:400 600;font-style:normal;font-display:block}@font-face{font-family:'Fraunces';src:url(fonts/fraunces-latin-700-normal.woff2) format('woff2');font-weight:700;font-style:normal;font-display:block}@font-face{font-family:'Fraunces';src:url(fonts/fraunces-latin-800-normal.woff2) format('woff2');font-weight:800 900;font-style:normal;font-display:block}@font-face{font-family:'DM Sans';src:url(fonts/dm-sans-latin-400-normal.woff2) format('woff2');font-weight:400 500;font-style:normal;font-display:block}@font-face{font-family:'DM Sans';src:url(fonts/dm-sans-latin-600-normal.woff2) format('woff2');font-weight:600;font-style:normal;font-display:block}@font-face{font-family:'DM Sans';src:url(fonts/dm-sans-latin-700-normal.woff2) format('woff2');font-weight:700 900;font-style:normal;font-display:block}@font-face{font-family:'Caveat';src:url(fonts/caveat-latin-500-normal.woff2) format('woff2');font-weight:400 600;font-style:normal;font-display:block}@font-face{font-family:'Caveat';src:url(fonts/caveat-latin-700-normal.woff2) format('woff2');font-weight:700 900;font-style:normal;font-display:block}@font-face{font-family:'Saira Stencil One';src:url(fonts/saira-stencil-one-latin-400-normal.woff2) format('woff2');font-weight:400 900;font-style:normal;font-display:block}</style>
 <style>
 html,body{margin:0;height:100%;background:#09050C;overflow:hidden;font-family:'DM Sans',Arial,sans-serif}
 #stage{position:absolute;left:50%;top:50%;width:1920px;height:1080px;transform-origin:0 0}
@@ -26,6 +25,10 @@ html,body{margin:0;height:100%;background:#09050C;overflow:hidden;font-family:'D
 #ui button:hover{background:rgba(245,168,0,.25)}
 #hint{position:fixed;left:16px;bottom:14px;font:13px 'DM Sans',Arial,sans-serif;color:#9B9288;z-index:6;transition:opacity 1s}
 @media (max-width:700px){#hint{display:none}}
+#black{position:fixed;inset:0;background:#000;z-index:20;display:none}
+body.idle,body.idle *{cursor:none!important}
+body.idle #ui,body.idle #hint{opacity:0;pointer-events:none}
+#ui,#hint{transition:opacity .4s}
 #rot{display:none;position:fixed;top:18px;left:0;right:0;text-align:center;font:14px 'DM Sans',Arial,sans-serif;color:#CFC6B8;z-index:6}
 @media (orientation:portrait) and (max-width:700px){#rot{display:block}}
 </style></head><body>
@@ -233,11 +236,12 @@ html,body{margin:0;height:100%;background:#09050C;overflow:hidden;font-family:'D
 
 </div>
 <div id="bar"></div>
+<div id="black"></div>
 <div id="rot">Tournez votre téléphone pour voir le pitch en grand ↻</div>
-<div id="hint">← → ou espace pour avancer · F plein écran</div>
+<div id="hint">← → ou espace · F plein écran · B écran noir</div>
 <div id="ui"><button id="prev" aria-label="Précédent">←</button><span id="num"></span><button id="next" aria-label="Suivant">→</button><button id="fs" aria-label="Plein écran">⛶</button></div>
 <script>
-var __cur=null,__reset={},__wait={};
+var __cur=null,__reset={},__wait={};var NOTES=[],TITLES=["Couverture", "Que voyez-vous ?", "Trois murs", "Mesurer le besoin", "Kintsugi : réparer le lien avec de l’or.", "Ils vont jusqu’au bout.", "Le vivier, formé à la source.", "Anatomie d’une séance à 300 MAD", "D’abord les racines. Puis la pousse.", "1,1 M MAD", "Qui construit le pont ?"];
 function __raf(id,cb){return window.requestAnimationFrame(function(t){if(__cur===id)cb(t);else __wait[id]=cb})}
 </script>
 <script>
@@ -425,9 +429,11 @@ function fit(){var k=Math.min(innerWidth/1920,innerHeight/1080);stage.style.tran
 function show(n,atEnd){if(n<0||n>=S.length)return;S.forEach(function(s,j){s.classList.toggle('on',j===n)});i=n;var b=builds(S[n]);step=atEnd?b.length:0;b.forEach(function(e,k){e.classList.toggle('hid',k>=step)});
 var id=S[n].id.slice(2);__cur=id;if(__reset[id])__reset[id]();var w=__wait[id];if(w){__wait[id]=null;window.requestAnimationFrame(w)}
 document.getElementById('num').textContent=(n+1)+' / '+S.length;document.getElementById('bar').style.width=((n+1)/S.length*100)+'%';try{history.replaceState(null,'','#'+(n+1))}catch(e){}}
-function next(){var b=builds(S[i]);if(step<b.length){b[step].classList.remove('hid');step++}else show(i+1)}
-function prev(){var b=builds(S[i]);if(step>0){step--;b[step].classList.add('hid')}else show(i-1,true)}
-document.addEventListener('keydown',function(e){if(['ArrowRight','ArrowDown','PageDown',' ','Enter'].indexOf(e.key)>=0){e.preventDefault();next()}else if(['ArrowLeft','ArrowUp','PageUp','Backspace'].indexOf(e.key)>=0){e.preventDefault();prev()}else if(e.key==='f'||e.key==='F')fs();else if(e.key==='Home')show(0);else if(e.key==='End')show(S.length-1,true)});
+var T0=null,P=null;function upd(){if(window.__pres)window.__pres()}
+function next(){if(T0===null&&i===0)T0=Date.now();var b=builds(S[i]);if(step<b.length){b[step].classList.remove('hid');step++}else show(i+1);upd()}
+function prev(){var b=builds(S[i]);if(step>0){step--;b[step].classList.add('hid')}else show(i-1,true);upd()}
+function onKey(e){if(['ArrowRight','ArrowDown','PageDown',' ','Enter'].indexOf(e.key)>=0){e.preventDefault();next()}else if(['ArrowLeft','ArrowUp','PageUp','Backspace'].indexOf(e.key)>=0){e.preventDefault();prev()}else if(e.key==='f'||e.key==='F')fs();else if(e.key==='b'||e.key==='B'||e.key==='.'){var k=document.getElementById('black');k.style.display=k.style.display==='block'?'none':'block'}else if(e.key==='F5'){e.preventDefault();fs()}else if((e.key==='p'||e.key==='P')&&NOTES.length)pres();else if(e.key==='Home')show(0);else if(e.key==='End')show(S.length-1,true);upd()}
+document.addEventListener('keydown',onKey);
 document.getElementById('next').onclick=next;document.getElementById('prev').onclick=prev;
 function fs(){if(!document.fullscreenElement)document.documentElement.requestFullscreen&&document.documentElement.requestFullscreen();else document.exitFullscreen()}
 document.getElementById('fs').onclick=fs;
@@ -436,6 +442,18 @@ var tx=null;document.addEventListener('touchstart',function(e){tx=e.touches[0].c
 addEventListener('resize',fit);fit();
 var h=parseInt(location.hash.slice(1));show(h>0&&h<=S.length?h-1:0);
 setTimeout(function(){document.getElementById('hint').style.opacity=0},6000);
+var it;function wake(){document.body.classList.remove('idle');clearTimeout(it);it=setTimeout(function(){document.body.classList.add('idle')},2500)}addEventListener('mousemove',wake);wake();
+var wl=null;function lock(){try{if(navigator.wakeLock&&!wl)navigator.wakeLock.request('screen').then(function(l){wl=l;l.addEventListener('release',function(){wl=null})}).catch(function(){})}catch(e){}}addEventListener('keydown',lock);addEventListener('click',lock);document.addEventListener('visibilitychange',function(){if(!document.hidden)lock()});
+function fmt(ms){var s=Math.max(0,Math.floor(ms/1000));return Math.floor(s/60)+':'+('0'+s%60).slice(-2)}
+function pres(){P=window.open('','upsy-presenter','width=1200,height=780');if(!P)return;var d=P.document;d.open();d.write('<!doctype html><html><head><meta charset="utf-8"><title>Présentateur — U.Psy</title><style>body{margin:0;background:#130B18;color:#EFE3C8;font-family:Arial,sans-serif;padding:28px;box-sizing:border-box;height:100vh;display:flex;flex-direction:column;gap:18px}#top{display:flex;justify-content:space-between;align-items:baseline}#clk{font-size:84px;font-weight:700;font-variant-numeric:tabular-nums}#tg{font-size:22px;color:#CFC6B8}#pos{font-size:22px;color:#F5A800}#notes{flex:1;overflow:auto;font-size:30px;line-height:1.45;background:#1F1320;border-radius:12px;padding:24px}#nx{font-size:22px;color:#CFC6B8}button{font-size:20px;padding:12px 20px;margin-right:8px;background:#2A1A2A;color:#EFE3C8;border:1px solid #5A3A4A;border-radius:10px;cursor:pointer}</style></head><body><div id="top"><div><div id="pos"></div><div id="tg"></div></div><div id="clk">0:00</div></div><div id="notes"></div><div id="nx"></div><div><button id="b1">◀ Précédent</button><button id="b2">Suivant ▶</button><button id="b3">Remettre le chrono à zéro</button><button id="b4">Écran noir</button></div></body></html>');d.close();
+d.getElementById('b1').onclick=prev;d.getElementById('b2').onclick=next;d.getElementById('b3').onclick=function(){T0=null;upd()};d.getElementById('b4').onclick=function(){onKey({key:'b',preventDefault:function(){}})};d.addEventListener('keydown',onKey);upd()}
+window.__pres=function(){if(!P||P.closed)return;var d=P.document,b=builds(S[i]),el=T0===null?0:Date.now()-T0,m=(NOTES[i]||'').match(/(\d):(\d\d)\s*[–-]\s*(\d):(\d\d)/);
+d.getElementById('pos').textContent='Slide '+(i+1)+' / '+S.length+' — '+TITLES[i]+(b.length?' · clic '+step+' / '+b.length:'');
+var c=d.getElementById('clk');c.textContent=fmt(el);c.style.color=el>180000?'#FF5A5A':el>150000?'#F5A800':'#EFE3C8';
+var tg='Objectif total : 3:00';if(m){var end=(+m[3]*60+ +m[4])*1000,diff=el-end;tg+=' · finir cette slide à '+m[3]+':'+m[4]+(T0===null?'':(diff>0?' · en retard de '+fmt(diff):' · reste '+fmt(-diff)))}d.getElementById('tg').textContent=tg;
+d.getElementById('notes').textContent=NOTES[i]||'';
+d.getElementById('nx').textContent=step<b.length?'Prochain clic : élément '+(step+1)+' sur '+b.length+' de cette slide':(i+1<S.length?'Ensuite : '+TITLES[i+1]:'Fin du pitch');};
+setInterval(upd,250);
 })();
 </script>
 </body></html>
