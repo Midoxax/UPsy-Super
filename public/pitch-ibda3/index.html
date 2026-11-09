@@ -1,0 +1,441 @@
+<!doctype html>
+<html lang="fr"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>U.Psy — Pitch en 3 minutes</title>
+<meta name="description" content="U.Psy (UPsy.ma) : le pont entre le besoin et un psychologue vérifié. Pitch IBDA3 LAB 6.0.">
+<meta property="og:title" content="U.Psy — Pitch en 3 minutes">
+<meta property="og:description" content="Le pont entre le besoin et un psychologue vérifié.">
+<meta property="og:image" content="/pitch-ibda3/logo-full.webp">
+<link rel="icon" href="/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&display=swap"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&display=swap"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Saira+Stencil+One&display=swap">
+<style>
+html,body{margin:0;height:100%;background:#09050C;overflow:hidden;font-family:'DM Sans',Arial,sans-serif}
+#stage{position:absolute;left:50%;top:50%;width:1920px;height:1080px;transform-origin:0 0}
+.slide{position:absolute;inset:0;width:1920px;height:1080px;box-sizing:border-box;overflow:hidden;opacity:0;visibility:hidden;transition:opacity .6s ease,visibility 0s .6s}
+.slide.on{opacity:1;visibility:visible;transition:opacity .6s ease}
+.slide *{margin:0;box-sizing:border-box}
+.slide .fx canvas{display:block;width:100%;height:100%}
+[data-build-in]{transition:opacity .6s ease,transform .6s ease}
+[data-build-in].hid{opacity:0}
+[data-build-in^="rise"].hid{transform:translateY(40px)}
+[data-build-in^="pop"].hid{transform:scale(.85)}
+#bar{position:fixed;left:0;bottom:0;height:4px;background:#F5A800;transition:width .4s ease;z-index:5}
+#ui{position:fixed;right:16px;bottom:14px;display:flex;gap:8px;align-items:center;z-index:6;font:14px 'DM Sans',Arial,sans-serif;color:#CFC6B8}
+#ui button{background:rgba(255,255,255,.08);color:#EFE3C8;border:1px solid rgba(255,255,255,.18);border-radius:8px;padding:8px 12px;font:inherit;cursor:pointer}
+#ui button:hover{background:rgba(245,168,0,.25)}
+#hint{position:fixed;left:16px;bottom:14px;font:13px 'DM Sans',Arial,sans-serif;color:#9B9288;z-index:6;transition:opacity 1s}
+@media (max-width:700px){#hint{display:none}}
+#rot{display:none;position:fixed;top:18px;left:0;right:0;text-align:center;font:14px 'DM Sans',Arial,sans-serif;color:#CFC6B8;z-index:6}
+@media (orientation:portrait) and (max-width:700px){#rot{display:block}}
+</style></head><body>
+<div id="stage">
+<section class="slide" id="s-cover" data-transition="fade" style="background:#130B18; color:#EFE3C8; font-family:'DM Sans', Arial, sans-serif; padding:128px">
+<div class="fx" style="position:absolute; left:0px; top:0px; width:1920px; height:1080px"><canvas id="c-cover" width="1920" height="1080"></canvas></div>
+<img src="logo-full.webp" alt="Logo u·psy" style="position:absolute; left:510px; top:20px; width:900px; height:900px; object-fit:contain">
+<p style="position:absolute; left:128px; top:72px; width:900px; font-size:24px; letter-spacing:6px; text-transform:uppercase; font-weight:600; color:#F5A800">IBDA3 LAB 6.0 · Trois minutes</p>
+<div style="position:absolute; left:128px; top:890px; width:1664px; display:flex; justify-content:space-between; align-items:flex-end">
+<div style="display:flex; flex-direction:column; gap:6px">
+<p style="font-family:'Fraunces', Georgia, serif; font-size:44px; font-weight:700; color:#EFE3C8">Mehdi Felji</p>
+<p style="font-size:26px; color:#CFC6B8">Psychologue clinicien et du sport · fondateur</p>
+</div>
+<p style="font-family:'Fraunces', Georgia, serif; font-style:italic; font-size:48px; color:#F5A800">Construire un pont.</p>
+</div>
+
+</section>
+
+<section class="slide" id="s-rorschach" data-transition="fade" style="background:#F2EBDD; color:#17101A; font-family:'DM Sans', Arial, sans-serif; padding:128px">
+<div class="fx" style="position:absolute; left:0px; top:0px; width:1920px; height:1080px"><canvas id="c-rorschach" width="1920" height="1080"></canvas></div>
+<p style="position:absolute; left:128px; top:76px; width:800px; font-family:'Caveat', cursive; font-size:40px; color:#7A5434">Acte I · Attention — Planche I</p>
+<h2 style="position:absolute; left:128px; top:140px; width:420px; font-family:'Fraunces', Georgia, serif; font-style:italic; font-weight:600; font-size:64px; line-height:1.05; color:#17101A">Que voyez-vous ?</h2>
+<p data-build-in="pop 1" style="position:absolute; left:460px; top:395px; width:1000px; text-align:center; font-family:'Fraunces', Georgia, serif; font-weight:800; font-size:200px; line-height:1; color:#F5A800">48,9 %</p>
+<p data-build-in="rise 2" style="position:absolute; left:128px; top:905px; width:1664px; text-align:center; font-family:'Fraunces', Georgia, serif; font-style:italic; font-size:44px; line-height:1.15; color:#17101A">Près d’une personne sur deux, au Maroc, vit avec un trouble psychique.</p>
+<p style="position:absolute; right:128px; bottom:40px; width:600px; text-align:right; font-size:24px; color:#7A5434">Source : CESE</p>
+<img src="logo-badge.webp" alt="Logo u·psy" style="position:absolute; right:128px; top:56px; width:210px; height:102px; object-fit:contain">
+
+</section>
+
+<section class="slide" id="s-walls" data-transition="push" style="background:#8E8983; color:#16110F; font-family:'DM Sans', Arial, sans-serif; padding:128px">
+<div class="fx" style="position:absolute; left:0px; top:0px; width:1920px; height:1080px"><canvas id="c-walls" width="1920" height="1080"></canvas></div>
+<p style="position:absolute; left:128px; top:76px; width:800px; font-family:'Caveat', cursive; font-size:40px; color:#16110F">Acte I · Attention — trois murs</p>
+<p style="position:absolute; left:128px; top:160px; width:1200px; font-family:'Saira Stencil One', Impact, sans-serif; font-size:110px; line-height:1; color:#16110F">QUI CONSULTER ?</p>
+<p style="position:absolute; left:128px; top:350px; width:1200px; font-family:'Saira Stencil One', Impact, sans-serif; font-size:110px; line-height:1; color:#16110F">ET LE JUGEMENT ?</p>
+<p style="position:absolute; left:128px; top:540px; width:1200px; font-family:'Saira Stencil One', Impact, sans-serif; font-size:110px; line-height:1; color:#16110F">COMBIEN ? QUAND ?</p>
+<p data-build-in="fade 1" style="position:absolute; left:1340px; top:170px; width:452px; font-family:'Caveat', cursive; font-size:38px; line-height:1.1; color:#16110F">aucun repère pour trouver un psy vérifié</p>
+<p data-build-in="fade 2" style="position:absolute; left:1340px; top:360px; width:452px; font-family:'Caveat', cursive; font-size:38px; line-height:1.1; color:#16110F">consulter = « être faible »</p>
+<p data-build-in="fade 3" style="position:absolute; left:1340px; top:550px; width:452px; font-family:'Caveat', cursive; font-size:38px; line-height:1.1; color:#16110F">prix flous, attente, aucun suivi entre les séances</p>
+<div data-build-in="pop 4" style="position:absolute; left:128px; top:790px; width:1240px; background:#EFE6D2; padding:26px 40px; box-sizing:border-box">
+<p style="font-family:'Fraunces', Georgia, serif; font-weight:800; font-size:44px; line-height:1.1; color:#16110F">Le problème n’est pas la demande. <span style="color:#8A1238">C’est l’accès.</span></p>
+</div>
+<img src="logo-badge.webp" alt="Logo u·psy" style="position:absolute; right:128px; top:56px; width:210px; height:102px; object-fit:contain">
+
+</section>
+
+<section class="slide" id="s-vitruve" data-transition="fade" style="background:#EFE3C8; color:#2B1A12; font-family:'DM Sans', Arial, sans-serif; padding:128px">
+<div class="fx" style="position:absolute; left:0px; top:0px; width:1920px; height:1080px"><canvas id="c-vitruve" width="1920" height="1080"></canvas></div>
+<p style="position:absolute; left:128px; top:76px; width:800px; font-family:'Caveat', cursive; font-size:40px; color:#7A5434">Acte II · Intérêt — studio del bisogno</p>
+<h2 style="position:absolute; left:128px; top:130px; width:860px; font-family:'Fraunces', Georgia, serif; font-style:italic; font-weight:600; font-size:76px; line-height:1.05; color:#2B1A12">Mesurer le besoin</h2>
+<div data-build-in="rise 1" style="position:absolute; left:128px; top:300px; width:780px; display:flex; flex-direction:column; gap:4px">
+<p style="font-family:'Fraunces', Georgia, serif; font-weight:800; font-size:64px; line-height:1; color:#2B1A12">I. 11,3 M</p>
+<p style="font-family:'Caveat', cursive; font-size:34px; line-height:1.1; color:#5A3A24">tous ceux qui en ont besoin : 23,1 M de citadins × 48,9 %</p>
+</div>
+<div data-build-in="rise 2" style="position:absolute; left:128px; top:480px; width:780px; display:flex; flex-direction:column; gap:4px">
+<p style="font-family:'Fraunces', Georgia, serif; font-weight:800; font-size:64px; line-height:1; color:#2B1A12">II. 150 000</p>
+<p style="font-family:'Caveat', cursive; font-size:34px; line-height:1.1; color:#5A3A24">ceux que nous pouvons servir : actifs de 25 à 40 ans, Casablanca–Rabat</p>
+</div>
+<div data-build-in="rise 3" style="position:absolute; left:128px; top:660px; width:780px; display:flex; flex-direction:column; gap:4px">
+<p style="font-family:'Fraunces', Georgia, serif; font-weight:800; font-size:64px; line-height:1; color:#8A1238">III. 3 847</p>
+<p style="font-family:'Caveat', cursive; font-size:34px; line-height:1.1; color:#5A3A24">notre objectif à l’année 3 : 10 771 séances, 35 clubs, 2,6 % du marché accessible</p>
+</div>
+<p style="position:absolute; left:128px; bottom:64px; width:1400px; font-size:24px; color:#7A5434">Sources : HCP 2024 ; CESE ; estimation U.Psy (II, à consolider) ; modèle financier U.Psy v3, scénario réaliste.</p>
+<img src="logo-badge.webp" alt="Logo u·psy" style="position:absolute; right:128px; top:56px; width:210px; height:102px; object-fit:contain">
+
+</section>
+
+<section class="slide" id="s-kintsugi" data-transition="fade" style="background:#130B18; color:#EFE3C8; font-family:'DM Sans', Arial, sans-serif; padding:128px">
+<div class="fx" style="position:absolute; left:0px; top:0px; width:1920px; height:1080px"><canvas id="c-kintsugi" width="1920" height="1080"></canvas></div>
+<p style="position:absolute; left:128px; top:76px; width:900px; font-family:'Caveat', cursive; font-size:40px; color:#F5A800">Acte II · Intérêt — la solution</p>
+<h2 style="position:absolute; left:128px; top:128px; width:1400px; font-family:'Fraunces', Georgia, serif; font-style:italic; font-weight:600; font-size:60px; line-height:1.05; color:#EFE3C8">Kintsugi : réparer le lien avec de l’or.</h2>
+<p style="position:absolute; left:300px; top:572px; width:240px; font-family:'Caveat', cursive; font-size:44px; color:#EFE3C8">le besoin</p>
+<p style="position:absolute; left:700px; top:572px; width:250px; font-family:'Caveat', cursive; font-size:44px; color:#EFE3C8">le psy vérifié</p>
+<div style="position:absolute; left:1110px; top:357px; width:682px">
+<p style="font-family:'Fraunces', Georgia, serif; font-size:40px; font-weight:700; line-height:1.1; color:#EFE3C8"><span style="color:#F5A800">1 ·</span> S’évaluer</p>
+<p style="font-size:26px; color:#CFC6B8">6 instruments psychométriques validés</p>
+</div>
+<div style="position:absolute; left:1110px; top:492px; width:682px">
+<p style="font-family:'Fraunces', Georgia, serif; font-size:40px; font-weight:700; line-height:1.1; color:#EFE3C8"><span style="color:#F5A800">2 ·</span> Être orienté</p>
+<p style="font-size:26px; color:#CFC6B8">vers un psychologue vérifié</p>
+</div>
+<div style="position:absolute; left:1110px; top:622px; width:682px">
+<p style="font-family:'Fraunces', Georgia, serif; font-size:40px; font-weight:700; line-height:1.1; color:#EFE3C8"><span style="color:#F5A800">3 ·</span> Consulter</p>
+<p style="font-size:26px; color:#CFC6B8">en visio, à un prix clair</p>
+</div>
+<div style="position:absolute; left:1110px; top:762px; width:682px">
+<p style="font-family:'Fraunces', Georgia, serif; font-size:40px; font-weight:700; line-height:1.1; color:#EFE3C8"><span style="color:#F5A800">4 ·</span> Progresser</p>
+<p style="font-size:26px; color:#CFC6B8">suivi entre les séances</p>
+</div>
+<p data-build-in="pop 1" style="position:absolute; left:1110px; top:880px; width:682px; font-size:28px; font-weight:600; color:#F5A800">+ Nour, compagnon IA · français, arabe, darija</p>
+<img src="logo-badge.webp" alt="Logo u·psy" style="position:absolute; right:128px; top:56px; width:210px; height:102px; object-fit:contain">
+
+</section>
+
+<section class="slide" id="s-proof" data-transition="fade" style="background:#EFE3C8; color:#1A1014; font-family:'DM Sans', Arial, sans-serif; padding:128px">
+<div class="fx" style="position:absolute; left:0px; top:0px; width:1920px; height:1080px"><canvas id="c-proof" width="1920" height="1080"></canvas></div>
+<p style="position:absolute; left:128px; top:76px; width:800px; font-family:'Caveat', cursive; font-size:40px; color:#7A5434">Acte III · Désir — la preuve</p>
+<h2 style="position:absolute; left:128px; top:290px; width:760px; font-family:'Fraunces', Georgia, serif; font-style:italic; font-weight:600; font-size:100px; line-height:1.05; color:#1A1014">Ils vont jusqu’au bout.</h2>
+<p style="position:absolute; left:128px; top:560px; width:700px; font-size:34px; line-height:1.3; color:#4A3426">de complétion du parcours lors du pilote U.Psy.</p>
+<p data-build-in="fade 1" style="position:absolute; left:128px; top:690px; width:720px; font-family:'Caveat', cursive; font-size:38px; line-height:1.15; color:#7A5434">Un ensō n’est jamais tout à fait fermé : il nous reste 15 % à gagner.</p>
+<p style="position:absolute; left:1080px; top:440px; width:600px; text-align:center; font-family:'Fraunces', Georgia, serif; font-weight:800; font-size:170px; line-height:1; color:#8A1238">85 %</p>
+<p style="position:absolute; left:1080px; top:625px; width:600px; text-align:center; font-family:'Caveat', cursive; font-size:40px; color:#4A3426">pilote</p>
+<p style="position:absolute; left:128px; bottom:64px; width:1400px; font-size:24px; color:#7A5434">Source : pilote U.Psy — effectif et définition de la « complétion » disponibles sur demande.</p>
+<img src="logo-badge.webp" alt="Logo u·psy" style="position:absolute; right:128px; top:56px; width:210px; height:102px; object-fit:contain">
+
+</section>
+
+<section class="slide" id="s-edge" data-transition="fade" style="background:#0B0710; color:#EFE3C8; font-family:'DM Sans', Arial, sans-serif; padding:128px">
+<div class="fx" style="position:absolute; left:0px; top:0px; width:1920px; height:1080px"><canvas id="c-edge" width="1920" height="1080"></canvas></div>
+<p style="position:absolute; left:128px; top:76px; width:900px; font-family:'Caveat', cursive; font-size:40px; color:#F5A800">Acte III · Désir — l’avantage</p>
+<h2 style="position:absolute; left:128px; top:128px; width:1300px; font-family:'Fraunces', Georgia, serif; font-style:italic; font-weight:600; font-size:72px; line-height:1.05; color:#EFE3C8">Le vivier, formé à la source.</h2>
+<p style="position:absolute; left:160px; top:790px; width:320px; font-family:'Caveat', cursive; font-size:34px; line-height:1.1; color:#EFE3C8">2 universités · Casablanca</p>
+<p style="position:absolute; left:575px; top:625px; width:200px; font-family:'Caveat', cursive; font-size:34px; color:#F5A800">ateliers</p>
+<p style="position:absolute; left:790px; top:750px; width:420px; font-family:'Caveat', cursive; font-size:34px; line-height:1.1; color:#EFE3C8">10 psychologues actifs à 12 mois</p>
+<div data-build-in="rise 1" style="position:absolute; left:1300px; top:330px; width:492px; border-left:4px solid #F5A800; padding-left:40px; box-sizing:border-box; display:flex; flex-direction:column; gap:12px">
+<p style="font-family:'Fraunces', Georgia, serif; font-weight:800; font-size:180px; line-height:1; color:#F5A800">255</p>
+<p style="font-size:30px; line-height:1.3; color:#EFE3C8">MAD reversés au psychologue sur chaque séance à 300 MAD.</p>
+<p style="font-family:'Caveat', cursive; font-size:38px; color:#F5A800">soit 85 % de la séance</p>
+</div>
+<p style="position:absolute; left:128px; bottom:64px; width:1400px; font-size:24px; color:#9B9288">Source : modèle financier U.Psy v3 (25/09/2026) ; réseau étudiant en psychologie.</p>
+<img src="logo-badge.webp" alt="Logo u·psy" style="position:absolute; right:128px; top:56px; width:210px; height:102px; object-fit:contain">
+
+</section>
+
+<section class="slide" id="s-anatomy" data-transition="fade" style="background:#EFE3C8; color:#2B1A12; font-family:'DM Sans', Arial, sans-serif; padding:128px">
+<div class="fx" style="position:absolute; left:0px; top:0px; width:1920px; height:1080px"><canvas id="c-anatomy" width="1920" height="1080"></canvas></div>
+<p style="position:absolute; left:128px; top:76px; width:900px; font-family:'Caveat', cursive; font-size:40px; color:#7A5434">Acte III · Désir — studio di una seduta</p>
+<h2 style="position:absolute; left:128px; top:128px; width:1400px; font-family:'Fraunces', Georgia, serif; font-style:italic; font-weight:600; font-size:72px; line-height:1.05; color:#2B1A12">Anatomie d’une séance à 300 MAD</h2>
+<p style="position:absolute; left:1080px; top:300px; width:712px; font-family:'Caveat', cursive; font-size:42px; line-height:1.1; color:#8A1238">33 MAD · marge U.Psy (11 %)</p>
+<p style="position:absolute; left:1080px; top:380px; width:712px; font-family:'Caveat', cursive; font-size:38px; line-height:1.1; color:#2B1A12">9 MAD · paiement (3 %)</p>
+<p style="position:absolute; left:1080px; top:450px; width:712px; font-family:'Caveat', cursive; font-size:38px; line-height:1.1; color:#2B1A12">3 MAD · visio (1 %)</p>
+<p style="position:absolute; left:1080px; top:520px; width:712px; font-family:'Caveat', cursive; font-size:42px; line-height:1.1; color:#2B1A12">255 MAD · au psychologue (85 %)</p>
+<div data-build-in="rise 1" style="position:absolute; left:1080px; top:650px; width:712px; display:flex; gap:26px">
+<div style="width:220px; border-top:2px solid #7A5434; padding-top:14px; display:flex; flex-direction:column; gap:6px"><p style="font-family:'Fraunces', Georgia, serif; font-weight:800; font-size:60px; line-height:1; color:#8A1238">86 MAD</p><p style="font-size:24px; line-height:1.25; color:#4A3426">de contribution par abonné et par mois</p></div>
+<div style="width:220px; border-top:2px solid #7A5434; padding-top:14px; display:flex; flex-direction:column; gap:6px"><p style="font-family:'Fraunces', Georgia, serif; font-weight:800; font-size:60px; line-height:1; color:#8A1238">8,0×</p><p style="font-size:24px; line-height:1.25; color:#4A3426">LTV / CAC (1 711 pour 215 MAD)</p></div>
+<div style="width:220px; border-top:2px solid #7A5434; padding-top:14px; display:flex; flex-direction:column; gap:6px"><p style="font-family:'Fraunces', Georgia, serif; font-weight:800; font-size:60px; line-height:1; color:#8A1238">862</p><p style="font-size:24px; line-height:1.25; color:#4A3426">abonnés payants au seuil</p></div>
+</div>
+<p style="position:absolute; left:128px; bottom:64px; width:1400px; font-size:24px; color:#7A5434">Source : modèle financier U.Psy v3 (25/09/2026), scénario réaliste.</p>
+<img src="logo-badge.webp" alt="Logo u·psy" style="position:absolute; right:128px; top:56px; width:210px; height:102px; object-fit:contain">
+
+</section>
+
+<section class="slide" id="s-growth" data-transition="fade" style="background:#F3EDE1; color:#1C1814; font-family:'DM Sans', Arial, sans-serif; padding:128px">
+<div class="fx" style="position:absolute; left:0px; top:0px; width:1920px; height:1080px"><canvas id="c-growth" width="1920" height="1080"></canvas></div>
+<p style="position:absolute; left:128px; top:76px; width:900px; font-family:'Caveat', cursive; font-size:40px; color:#7A5434">Acte III · Désir — trois ans</p>
+<h2 style="position:absolute; left:128px; top:128px; width:820px; font-family:'Fraunces', Georgia, serif; font-style:italic; font-weight:600; font-size:72px; line-height:1.05; color:#1C1814">D’abord les racines. Puis la pousse.</h2>
+<p style="position:absolute; left:128px; top:300px; width:700px; font-size:28px; color:#5A4A3A">Chiffre d’affaires annuel en MAD, scénario réaliste</p>
+<p style="position:absolute; left:370px; top:538px; width:300px; text-align:center; font-family:'Fraunces', Georgia, serif; font-weight:800; font-size:56px; line-height:1; color:#1C1814">0,76 M</p>
+<p style="position:absolute; left:810px; top:340px; width:300px; text-align:center; font-family:'Fraunces', Georgia, serif; font-weight:800; font-size:56px; line-height:1; color:#1C1814">3,21 M</p>
+<p style="position:absolute; left:1250px; top:40px; width:300px; text-align:center; font-family:'Fraunces', Georgia, serif; font-weight:800; font-size:56px; line-height:1; color:#1C1814">6,92 M</p>
+<div style="position:absolute; left:320px; top:790px; width:400px; display:flex; flex-direction:column; align-items:center; gap:8px">
+<div style="display:flex; align-items:center; gap:14px"><p style="font-family:'Fraunces', Georgia, serif; font-size:32px; font-weight:700">A1 · 2027</p><p style="background:#B3261E; color:#F3EDE1; font-size:24px; font-weight:700; padding:4px 12px">net −614 k</p></div>
+<p style="font-family:'Caveat', cursive; font-size:32px; color:#4A3A2C">6 clubs · 1 114 séances</p>
+</div>
+<div style="position:absolute; left:760px; top:790px; width:400px; display:flex; flex-direction:column; align-items:center; gap:8px">
+<div style="display:flex; align-items:center; gap:14px"><p style="font-family:'Fraunces', Georgia, serif; font-size:32px; font-weight:700">A2</p><p style="background:#B3261E; color:#F3EDE1; font-size:24px; font-weight:700; padding:4px 12px">net +327 k</p></div>
+<p style="font-family:'Caveat', cursive; font-size:32px; color:#4A3A2C">18 clubs · 4 856 séances</p>
+</div>
+<div style="position:absolute; left:1200px; top:790px; width:400px; display:flex; flex-direction:column; align-items:center; gap:8px">
+<div style="display:flex; align-items:center; gap:14px"><p style="font-family:'Fraunces', Georgia, serif; font-size:32px; font-weight:700">A3</p><p style="background:#B3261E; color:#F3EDE1; font-size:24px; font-weight:700; padding:4px 12px">net +1,34 M</p></div>
+<p style="font-family:'Caveat', cursive; font-size:32px; color:#4A3A2C">35 clubs · 10 771 séances</p>
+</div>
+<p style="position:absolute; left:128px; bottom:64px; width:1400px; font-size:24px; color:#7A5434">Source : modèle financier U.Psy v3 (25/09/2026), scénario réaliste. Les sceaux indiquent le résultat net.</p>
+<img src="logo-badge.webp" alt="Logo u·psy" style="position:absolute; right:128px; top:56px; width:210px; height:102px; object-fit:contain">
+
+</section>
+
+<section class="slide" id="s-ask" data-transition="push" style="background:#130B18; color:#EFE3C8; font-family:'DM Sans', Arial, sans-serif; padding:128px">
+<p style="position:absolute; left:128px; top:76px; width:900px; font-family:'Caveat', cursive; font-size:40px; color:#F5A800">Acte IV · Action</p>
+<h2 style="position:absolute; left:128px; top:130px; width:1400px; font-family:'Fraunces', Georgia, serif; font-weight:800; font-size:190px; line-height:1; color:#F5A800">1,1 M MAD</h2>
+<p style="position:absolute; left:128px; top:340px; width:1400px; font-family:'Fraunces', Georgia, serif; font-style:italic; font-size:44px; color:#EFE3C8">pour poser la première pierre du pont.</p>
+<div data-build-in="rise 1" style="position:absolute; left:128px; top:440px; width:1664px">
+<p style="font-size:24px; letter-spacing:4px; text-transform:uppercase; font-weight:700; color:#9B9288">Emplois</p>
+<div style="display:flex; height:84px; margin-top:8px; font-size:24px; font-weight:700; line-height:1.15">
+<div style="flex:538; background:#8A1238; color:#EFE3C8; padding:12px 18px; box-sizing:border-box">538 k · pertes de l’année 1</div>
+<div style="flex:320; background:#3A1B2C; color:#EFE3C8; padding:12px 18px; box-sizing:border-box">320 k · équipement et tech</div>
+<div style="flex:202; background:#F5A800; color:#130B18; padding:12px 18px; box-sizing:border-box">202 k · sécurité</div>
+<div style="flex:40; background:#EFE3C8; color:#130B18; padding:12px 6px; box-sizing:border-box">40 k</div>
+</div>
+</div>
+<div data-build-in="rise 2" style="position:absolute; left:128px; top:580px; width:1664px">
+<p style="font-size:24px; letter-spacing:4px; text-transform:uppercase; font-weight:700; color:#9B9288">Ressources</p>
+<div style="display:flex; height:84px; margin-top:8px; font-size:24px; font-weight:700; line-height:1.15">
+<div style="flex:450; background:#3A1B2C; color:#EFE3C8; padding:12px 18px; box-sizing:border-box">450 k · apport des associés</div>
+<div style="flex:550; background:#8A1238; color:#EFE3C8; padding:12px 18px; box-sizing:border-box">550 k · dette (Damane Intelak + Start-TPE)</div>
+<div style="flex:100; background:#F5A800; color:#130B18; padding:12px 8px; box-sizing:border-box">100 k · subv.</div>
+</div>
+</div>
+<div data-build-in="rise 3" style="position:absolute; left:128px; top:740px; width:1664px; display:flex; gap:32px">
+<div style="width:533px; border-top:3px solid #F5A800; padding-top:16px"><p style="font-family:'Fraunces', Georgia, serif; font-size:32px; font-weight:700">Clubs et institutions pilotes</p><p style="font-size:24px; color:#CFC6B8; margin-top:6px">6 clubs actifs à la fin de l’année 1</p></div>
+<div style="width:533px; border-top:3px solid #F5A800; padding-top:16px"><p style="font-family:'Fraunces', Georgia, serif; font-size:32px; font-weight:700">Partenaires cliniques</p><p style="font-size:24px; color:#CFC6B8; margin-top:6px">10 psychologues actifs à 12 mois</p></div>
+<div style="width:533px; border-top:3px solid #F5A800; padding-top:16px"><p style="font-family:'Fraunces', Georgia, serif; font-size:32px; font-weight:700">Financeurs</p><p style="font-size:24px; color:#CFC6B8; margin-top:6px">550 k de dette à valider · 100 k de subventions</p></div>
+</div>
+<p style="position:absolute; left:128px; bottom:64px; width:1400px; font-size:24px; color:#9B9288">Source : modèle financier U.Psy v3. Dette à valider avec la banque ; subventions non acquises.</p>
+<img src="logo-badge.webp" alt="Logo u·psy" style="position:absolute; right:128px; top:56px; width:210px; height:102px; object-fit:contain">
+
+</section>
+
+<section class="slide" id="s-close" data-transition="fade" style="background:#130B18; color:#EFE3C8; font-family:'DM Sans', Arial, sans-serif; padding:128px">
+<div class="fx" style="position:absolute; left:0px; top:0px; width:1920px; height:1080px"><canvas id="c-close" width="1920" height="1080"></canvas></div>
+<img src="logo-full.webp" alt="Logo u·psy" style="position:absolute; left:640px; top:90px; width:640px; height:640px; object-fit:contain">
+<h1 data-build-in="rise 1" style="position:absolute; left:128px; top:745px; width:1664px; text-align:center; font-family:'Fraunces', Georgia, serif; font-style:italic; font-weight:600; font-size:104px; line-height:1.05; color:#EFE3C8">Qui construit le <span style="color:#F5A800">pont ?</span></h1>
+<p style="position:absolute; left:128px; bottom:64px; width:1664px; text-align:center; font-size:28px; color:#CFC6B8">contact@upsy.ma · UPsy.ma · @upsy.ma</p>
+
+</section>
+
+</div>
+<div id="bar"></div>
+<div id="rot">Tournez votre téléphone pour voir le pitch en grand ↻</div>
+<div id="hint">← → ou espace pour avancer · F plein écran</div>
+<div id="ui"><button id="prev" aria-label="Précédent">←</button><span id="num"></span><button id="next" aria-label="Suivant">→</button><button id="fs" aria-label="Plein écran">⛶</button></div>
+<script>
+var __cur=null,__reset={},__wait={};
+function __raf(id,cb){return window.requestAnimationFrame(function(t){if(__cur===id)cb(t);else __wait[id]=cb})}
+</script>
+<script>
+(function(){var requestAnimationFrame=function(cb){return __raf('cover',cb)};var setInterval=function(cb,ms){return window.setInterval(function(){if(__cur==='cover')cb()},ms)};
+var c=document.getElementById('c-cover'),x=c.getContext('2d'),S=11;
+function R(){S=S*16807%2147483647;return S/2147483647}
+var cx=960,cy=470,K=[];
+function grow(px,py,a,n,d){var p=[[px,py]];for(var i=0;i<n;i++){a+=(R()-.5)*.8;var st=16+R()*24;px+=Math.cos(a)*st;py+=Math.sin(a)*st;if(Math.hypot(px-cx,py-cy)<370||px<-20||px>1940||py<-20||py>1100)break;p.push([px,py]);if(d<2&&R()<.1)grow(px,py,a+(R()<.5?1:-1)*(.5+R()*.7),Math.floor(n*.35),d+1)}K.push(p)}
+[[0,120],[0,620],[0,1000],[480,1080],[1300,1080],[1920,860],[1920,300],[1500,0],[700,0],[1920,1040],[0,380]].forEach(function(s){grow(s[0],s[1],Math.atan2(cy-s[1],cx-s[0]),60,0)});
+var T0=Date.now();__reset['cover']=function(){T0=Date.now()};
+function f(){var t=((Date.now()-T0)%12000)/1000;x.fillStyle='#130B18';x.fillRect(0,0,1920,1080);
+var p=Math.min(1,t/4),A=t>11?1-(t-11):1;p=1-Math.pow(1-p,2);x.globalAlpha=A;x.lineJoin='round';x.lineCap='round';
+K.forEach(function(k){var n=Math.floor(k.length*p);if(n<2)return;x.beginPath();x.moveTo(k[0][0],k[0][1]);for(var i=1;i<n;i++)x.lineTo(k[i][0],k[i][1]);
+x.shadowColor='#F5A800';x.shadowBlur=14;x.strokeStyle='rgba(245,168,0,.7)';x.lineWidth=3;x.stroke();x.shadowBlur=0;x.strokeStyle='rgba(255,228,160,.9)';x.lineWidth=1;x.stroke()});
+x.globalAlpha=1;requestAnimationFrame(f)}f();
+})();
+(function(){var requestAnimationFrame=function(cb){return __raf('rorschach',cb)};var setInterval=function(cb,ms){return window.setInterval(function(){if(__cur==='rorschach')cb()},ms)};
+var S=5;function R(){S=S*16807%2147483647;return S/2147483647}
+function paper(b,W,H,base,edge,st){b.fillStyle=base;b.fillRect(0,0,W,H);var g=b.createRadialGradient(W/2,H/2,H*.35,W/2,H/2,W*.62);g.addColorStop(0,'rgba(0,0,0,0)');g.addColorStop(1,edge);b.fillStyle=g;b.fillRect(0,0,W,H);for(var i=0;i<16;i++){var sx=R()*W,sy=R()*H,sr=40+R()*180,s=b.createRadialGradient(sx,sy,0,sx,sy,sr);s.addColorStop(0,'rgba('+st+',.07)');s.addColorStop(1,'rgba('+st+',0)');b.fillStyle=s;b.fillRect(sx-sr,sy-sr,sr*2,sr*2)}b.lineWidth=1;b.strokeStyle='rgba('+st+',.07)';for(i=0;i<1100;i++){var fx=R()*W,fy=R()*H,a=R()*6.28,l=3+R()*12;b.beginPath();b.moveTo(fx,fy);b.lineTo(fx+Math.cos(a)*l,fy+Math.sin(a)*l);b.stroke()}}
+var c=document.getElementById('c-rorschach'),x=c.getContext('2d'),bg=document.createElement('canvas');bg.width=1920;bg.height=1080;paper(bg.getContext('2d'),1920,1080,'#F2EBDD','rgba(150,115,70,.22)','122,84,52');
+var gw=130,gh=210,sc=3.7,ox=960-gw*sc,oy=110,off=document.createElement('canvas');off.width=gw*2;off.height=gh;var o=off.getContext('2d'),id=o.createImageData(gw*2,gh),D=id.data,N=new Float32Array(gw*gh);
+for(var i=0;i<gw*gh;i++)N[i]=(R()-.5)*.2;
+var B=[[0,38,20,2,6,.6,.8,0],[0,105,30,2,5,.5,.7,1],[30,105,28,5,5,.7,.6,2],[62,108,22,8,7,.8,.5,3],[0,172,22,2,6,.5,.9,4],[42,58,18,8,9,.9,.6,5],[72,36,12,10,8,.7,1,6],[92,92,13,10,10,1,.8,7],[46,168,17,8,8,.6,.7,8],[82,158,12,10,9,.9,.6,9],[112,66,8,8,10,1.1,.9,10],[104,190,7,8,6,.8,1.2,11],[122,128,5,5,8,1.2,.7,12],[58,12,5,6,4,.9,1.1,13],[20,200,6,4,3,.7,.9,14]];
+var T0=Date.now();__reset['rorschach']=function(){T0=Date.now()};
+function f(){var t=(Date.now()-T0)/1000*.35,P=[],k;for(k=0;k<B.length;k++){var q=B[k];P.push([Math.abs(q[0]+q[3]*Math.sin(t*q[5]+q[7])),q[1]+q[4]*Math.sin(t*q[6]+q[7]*1.7),q[2]*q[2]])}
+for(var y=0;y<gh;y++)for(var xx=0;xx<gw;xx++){var s=N[y*gw+xx];for(k=0;k<P.length;k++){var dx=xx-P[k][0],dy=y-P[k][1];s+=P[k][2]/(dx*dx+dy*dy+1)}
+var a=s<.92?0:s>1.08?1:(s-.92)/.16,v=Math.min(1,Math.max(0,(s-1)/3));
+var i1=(y*gw*2+gw+xx)*4,i2=(y*gw*2+gw-1-xx)*4;D[i1]=D[i2]=70-52*v;D[i1+1]=D[i2+1]=60-46*v;D[i1+2]=D[i2+2]=66-46*v;D[i1+3]=D[i2+3]=a*240}
+o.putImageData(id,0,0);x.drawImage(bg,0,0);x.imageSmoothingEnabled=true;x.filter='blur(1.2px)';x.drawImage(off,ox,oy,gw*2*sc,gh*sc);x.filter='none'}
+setInterval(f,60);f();
+})();
+(function(){var requestAnimationFrame=function(cb){return __raf('walls',cb)};var setInterval=function(cb,ms){return window.setInterval(function(){if(__cur==='walls')cb()},ms)};
+var S=3;function R(){S=S*16807%2147483647;return S/2147483647}
+var c=document.getElementById('c-walls'),x=c.getContext('2d'),bg=document.createElement('canvas');bg.width=1920;bg.height=1080;var b=bg.getContext('2d'),i;
+b.fillStyle='#8E8983';b.fillRect(0,0,1920,1080);
+for(i=0;i<34;i++){var sx=R()*1920,sy=R()*1080,sr=80+R()*260,g=b.createRadialGradient(sx,sy,0,sx,sy,sr),d=R()<.6;g.addColorStop(0,d?'rgba(40,34,30,.14)':'rgba(255,255,255,.10)');g.addColorStop(1,'rgba(0,0,0,0)');b.fillStyle=g;b.fillRect(sx-sr,sy-sr,2*sr,2*sr)}
+for(i=0;i<70000;i++){b.fillStyle=R()<.5?'rgba(30,26,22,'+(R()*.18)+')':'rgba(255,255,255,'+(R()*.14)+')';b.fillRect(R()*1920,R()*1080,1+R()*1.5,1+R()*1.5)}
+b.strokeStyle='rgba(20,16,14,.22)';b.lineWidth=2;[480,960,1440].forEach(function(px){b.beginPath();b.moveTo(px,0);b.lineTo(px,1080);b.stroke()});b.beginPath();b.moveTo(0,540);b.lineTo(1920,540);b.stroke();
+for(var gx=240;gx<1920;gx+=480)for(var gy=135;gy<1080;gy+=270){b.beginPath();b.arc(gx,gy,8,0,6.283);b.fillStyle='rgba(25,20,18,.45)';b.fill();b.strokeStyle='rgba(255,255,255,.12)';b.lineWidth=2;b.stroke()}
+var L=[[160,1035],[350,1091],[540,1159]];
+L.forEach(function(l){for(var j=0;j<420;j++){b.fillStyle='rgba(22,17,15,'+(R()*.35)+')';b.beginPath();b.arc(128+R()*(l[1]-128),l[0]-14+R()*140,.5+R()*1.8,0,6.283);b.fill()}});
+var Dr=[];L.forEach(function(l,li){for(var j=0;j<8;j++)Dr.push({li:li,x:150+R()*(l[1]-170),y:l[0]+92,w:2.5+R()*3.5,m:25+R()*95,d:R()*.8})});
+var T0=Date.now();__reset['walls']=function(){T0=Date.now()};
+function f(){var t=((Date.now()-T0)%12000)/1000;x.drawImage(bg,0,0);var A=t>11.2?1-(t-11.2)/.8:1;
+Dr.forEach(function(d){var s=1+d.li*1.2+d.d,p=Math.min(1,Math.max(0,(t-s)/2.5));if(p<=0)return;p=1-Math.pow(1-p,3);var h=d.m*p;x.fillStyle='rgba(22,17,15,'+(.9*A)+')';x.fillRect(d.x-d.w/2,d.y,d.w,h);x.beginPath();x.arc(d.x,d.y+h,d.w*.75,0,6.283);x.fill()});
+requestAnimationFrame(f)}f();
+})();
+(function(){var requestAnimationFrame=function(cb){return __raf('vitruve',cb)};var setInterval=function(cb,ms){return window.setInterval(function(){if(__cur==='vitruve')cb()},ms)};
+var S=9;function R(){S=S*16807%2147483647;return S/2147483647}
+function paper(b,W,H,base,edge,st){b.fillStyle=base;b.fillRect(0,0,W,H);var g=b.createRadialGradient(W/2,H/2,H*.35,W/2,H/2,W*.62);g.addColorStop(0,'rgba(0,0,0,0)');g.addColorStop(1,edge);b.fillStyle=g;b.fillRect(0,0,W,H);for(var i=0;i<16;i++){var sx=R()*W,sy=R()*H,sr=40+R()*180,s=b.createRadialGradient(sx,sy,0,sx,sy,sr);s.addColorStop(0,'rgba('+st+',.07)');s.addColorStop(1,'rgba('+st+',0)');b.fillStyle=s;b.fillRect(sx-sr,sy-sr,sr*2,sr*2)}b.lineWidth=1;b.strokeStyle='rgba('+st+',.07)';for(i=0;i<1100;i++){var fx=R()*W,fy=R()*H,a=R()*6.28,l=3+R()*12;b.beginPath();b.moveTo(fx,fy);b.lineTo(fx+Math.cos(a)*l,fy+Math.sin(a)*l);b.stroke()}}
+var c=document.getElementById('c-vitruve'),x=c.getContext('2d'),bg=document.createElement('canvas');bg.width=1920;bg.height=1080;var b=bg.getContext('2d');paper(b,1920,1080,'#EFE3C8','rgba(120,85,45,.28)','122,84,52');
+function mir(t,px,py,sz,al){b.save();b.translate(px,py);b.scale(-1,1);b.font='italic '+sz+'px Georgia, serif';b.fillStyle='rgba(122,84,52,'+al+')';b.fillText(t,0,0);b.restore()}
+mir('ogni cerchio contiene il successivo',1700,190,26,.22);mir('la mente cerca un ponte',880,880,30,.2);mir('misura il bisogno, poi costruisci',1890,965,22,.16);mir('una persona su due',1890,1005,22,.16);
+function cl(v){return v<0?0:v>1?1:v}function ph(t,a,b){return cl((t-a)/(b-a))}
+function sk(cx,cy,r,p,seed){if(p<=0)return;var s=seed;function q(){s=s*16807%2147483647;return s/2147483647}
+for(var k=0;k<3;k++){var dx=(q()-.5)*7,dy=(q()-.5)*7,dr=(q()-.5)*7,a0=q()*6.283,ex=1.03+q()*.05,n=Math.max(2,Math.round(140*p*ex));x.beginPath();for(var i=0;i<=n;i++){var a=a0+6.2832*i/140,rr=r+dr+Math.sin(a*3+k)*1.6,px=cx+dx+Math.cos(a)*rr,py=cy+dy+Math.sin(a)*rr;i?x.lineTo(px,py):x.moveTo(px,py)}x.lineWidth=k?1:1.9;x.strokeStyle=k?'rgba(43,26,18,.4)':'rgba(43,26,18,.82)';x.stroke()}}
+function ln(x1,y1,x2,y2,p,seed){if(p<=0)return;var s=seed;function q(){s=s*16807%2147483647;return s/2147483647}for(var k=0;k<2;k++){var o=(q()-.5)*4;x.beginPath();x.moveTo(x1+o,y1-o);x.lineTo(x1+(x2-x1)*p+o,y1+(y2-y1)*p+o);x.lineWidth=k?1:1.6;x.strokeStyle=k?'rgba(43,26,18,.4)':'rgba(43,26,18,.75)';x.stroke()}}
+var cx=1360,Ld=[[910,332,340,560],[910,512,210,690],[910,692,85,815]];var T0=Date.now();__reset['vitruve']=function(){T0=Date.now()};
+function f(){var t=((Date.now()-T0)%14000)/1000;x.globalAlpha=1;x.drawImage(bg,0,0);x.globalAlpha=t>13.2?1-(t-13.2)/.8:1;
+x.setLineDash([5,9]);ln(cx,170,cx,950,ph(t,0,1.2),11);x.setLineDash([]);
+sk(cx,560,340,ph(t,.3,2.6),101);var s=ph(t,2.6,4);ln(985,220,1735,220,s,21);ln(1700,185,1700,935,s,22);ln(1735,900,985,900,s,23);ln(1020,935,1020,185,s,24);
+sk(cx,690,210,ph(t,4,5.8),202);sk(cx,815,85,ph(t,5.8,7.2),303);
+var h=ph(t,7.2,8.4);if(h>0){x.save();x.beginPath();x.arc(cx,815,83,0,6.2832);x.clip();x.strokeStyle='rgba(164,68,42,.75)';x.lineWidth=1.5;var n=Math.floor(26*h);for(var i=0;i<n;i++){var o=-95+i*7.5;x.beginPath();x.moveTo(cx+o-90,905);x.lineTo(cx+o+90,725);x.stroke()}x.restore()}
+x.font='italic 36px Georgia, serif';x.textAlign='center';
+[['I',268,2.3],['II',530,5.5],['III',722,7]].forEach(function(r){x.fillStyle='rgba(43,26,18,'+(.85*ph(t,r[2],r[2]+.5))+')';x.fillText(r[0],cx,r[1])});
+Ld.forEach(function(l,i){var p=ph(t,8.4+i*.5,9+i*.5);if(p<=0)return;var dx=l[0]-cx,dy=l[1]-l[3],d=Math.hypot(dx,dy),ex=cx+l[2]*dx/d,ey=l[3]+l[2]*dy/d;x.setLineDash([3,6]);x.strokeStyle='rgba(43,26,18,.7)';x.lineWidth=1.4;x.beginPath();x.moveTo(l[0],l[1]);x.lineTo(l[0]+(ex-l[0])*p,l[1]+(ey-l[1])*p);x.stroke();x.setLineDash([]);if(p>=1){x.fillStyle='rgba(43,26,18,.85)';x.beginPath();x.arc(ex,ey,4,0,6.2832);x.fill()}});
+x.globalAlpha=1;requestAnimationFrame(f)}f();
+})();
+(function(){var requestAnimationFrame=function(cb){return __raf('kintsugi',cb)};var setInterval=function(cb,ms){return window.setInterval(function(){if(__cur==='kintsugi')cb()},ms)};
+var S=13;function R(){S=S*16807%2147483647;return S/2147483647}
+var c=document.getElementById('c-kintsugi'),x=c.getContext('2d'),pl=document.createElement('canvas');pl.width=1920;pl.height=1080;var b=pl.getContext('2d'),i;
+b.save();b.shadowColor='rgba(0,0,0,.65)';b.shadowBlur=70;b.shadowOffsetY=24;b.beginPath();b.arc(620,600,340,0,6.2832);var g=b.createRadialGradient(540,500,20,620,600,360);g.addColorStop(0,'#A8264E');g.addColorStop(.55,'#6A1230');g.addColorStop(1,'#2C0A18');b.fillStyle=g;b.fill();b.restore();
+var g2=b.createRadialGradient(620,620,40,620,600,230);g2.addColorStop(0,'rgba(0,0,0,.05)');g2.addColorStop(1,'rgba(0,0,0,.22)');b.beginPath();b.arc(620,600,225,0,6.2832);b.fillStyle=g2;b.fill();b.strokeStyle='rgba(255,230,220,.09)';b.lineWidth=3;b.stroke();
+b.beginPath();b.arc(620,600,336,0,6.2832);b.strokeStyle='rgba(255,220,210,.16)';b.lineWidth=4;b.stroke();
+b.beginPath();b.arc(620,600,322,3.5,4.5);b.strokeStyle='rgba(255,240,235,.32)';b.lineWidth=7;b.lineCap='round';b.stroke();
+for(i=0;i<500;i++){var a=R()*6.2832,rr=Math.sqrt(R())*330;b.fillStyle='rgba(255,255,255,'+(R()*.07)+')';b.fillRect(620+Math.cos(a)*rr,600+Math.sin(a)*rr,1.5,1.5)}
+var P=[[600,250],[640,320],[595,385],[650,450],[610,520],[575,585],[640,650],[600,720],[655,790],[610,860],[630,950]],NI=[2,4,6,8],V=[[3,[[690,470],[735,498]]],[5,[[540,600],[505,640]]],[7,[[560,742],[522,770]]]];
+var LEN=[0];for(i=1;i<P.length;i++)LEN.push(LEN[i-1]+Math.hypot(P[i][0]-P[i-1][0],P[i][1]-P[i-1][1]));
+function cl(v){return v<0?0:v>1?1:v}function ph(t,a,b){return cl((t-a)/(b-a))}function ez(v){return v<.5?2*v*v:1-Math.pow(-2*v+2,2)/2}
+function half(sd,gp){x.save();x.translate(sd*gp,0);x.beginPath();x.moveTo(sd<0?240:1000,230);for(var i=0;i<P.length;i++)x.lineTo(P[i][0],P[i][1]);x.lineTo(sd<0?240:1000,980);x.closePath();x.clip();x.drawImage(pl,0,0);x.restore()}
+function gold(w){x.shadowColor='#F5A800';x.shadowBlur=22;x.strokeStyle='#E8A10A';x.lineWidth=w;x.stroke();x.shadowBlur=0;x.strokeStyle='#FFE6A3';x.lineWidth=w*.32;x.stroke()}
+var T0=Date.now();__reset['kintsugi']=function(){T0=Date.now()};
+function f(){var t=((Date.now()-T0)%15000)/1000;x.globalAlpha=1;x.fillStyle='#130B18';x.fillRect(0,0,1920,1080);
+var gp=t<.6?44:t<2.2?44*(1-ez((t-.6)/1.6)):t>14?44*ez(t-14):0;half(-1,gp);half(1,gp);
+x.globalAlpha=t>14?1-(t-14):1;x.lineJoin='round';x.lineCap='round';
+var sp=ez(ph(t,2.2,5.2));if(sp>0){var d=sp*LEN[LEN.length-1];x.beginPath();x.moveTo(P[0][0],P[0][1]);for(var i=1;i<P.length;i++){if(LEN[i]<=d)x.lineTo(P[i][0],P[i][1]);else{var k=(d-LEN[i-1])/(LEN[i]-LEN[i-1]);x.lineTo(P[i-1][0]+(P[i][0]-P[i-1][0])*k,P[i-1][1]+(P[i][1]-P[i-1][1])*k);break}}gold(7)}
+V.forEach(function(v){var p=ph(t,5,6);if(p<=0)return;var s=P[v[0]],a=v[1][0],e=v[1][1];x.beginPath();x.moveTo(s[0],s[1]);if(p<.5)x.lineTo(s[0]+(a[0]-s[0])*p*2,s[1]+(a[1]-s[1])*p*2);else{x.lineTo(a[0],a[1]);x.lineTo(a[0]+(e[0]-a[0])*(p-.5)*2,a[1]+(e[1]-a[1])*(p-.5)*2)}gold(3)});
+NI.forEach(function(n,i){var p=ph(t,5.2+i*.5,5.6+i*.5);if(p<=0)return;var q=P[n];x.beginPath();x.arc(q[0],q[1],11*p,0,6.2832);x.fillStyle='#F5A800';x.shadowColor='#F5A800';x.shadowBlur=20;x.fill();x.shadowBlur=0;x.beginPath();x.arc(q[0],q[1],20*p,0,6.2832);x.strokeStyle='rgba(245,168,0,.5)';x.lineWidth=2;x.stroke();
+var lp=ph(t,5.5+i*.5,6.2+i*.5);if(lp>0){x.beginPath();x.moveTo(q[0]+22,q[1]);x.lineTo(q[0]+22+(1090-q[0]-22)*lp,q[1]);x.strokeStyle='rgba(245,168,0,.7)';x.lineWidth=2;x.stroke()}});
+x.globalAlpha=1;requestAnimationFrame(f)}f();
+})();
+(function(){var requestAnimationFrame=function(cb){return __raf('proof',cb)};var setInterval=function(cb,ms){return window.setInterval(function(){if(__cur==='proof')cb()},ms)};
+var S=19;function R(){S=S*16807%2147483647;return S/2147483647}
+function paper(b,W,H,base,edge,st){b.fillStyle=base;b.fillRect(0,0,W,H);var g=b.createRadialGradient(W/2,H/2,H*.35,W/2,H/2,W*.62);g.addColorStop(0,'rgba(0,0,0,0)');g.addColorStop(1,edge);b.fillStyle=g;b.fillRect(0,0,W,H);for(var i=0;i<16;i++){var sx=R()*W,sy=R()*H,sr=40+R()*180,s=b.createRadialGradient(sx,sy,0,sx,sy,sr);s.addColorStop(0,'rgba('+st+',.07)');s.addColorStop(1,'rgba('+st+',0)');b.fillStyle=s;b.fillRect(sx-sr,sy-sr,sr*2,sr*2)}b.lineWidth=1;b.strokeStyle='rgba('+st+',.07)';for(i=0;i<1100;i++){var fx=R()*W,fy=R()*H,a=R()*6.28,l=3+R()*12;b.beginPath();b.moveTo(fx,fy);b.lineTo(fx+Math.cos(a)*l,fy+Math.sin(a)*l);b.stroke()}}
+var c=document.getElementById('c-proof'),x=c.getContext('2d'),bg=document.createElement('canvas');bg.width=1920;bg.height=1080;paper(bg.getContext('2d'),1920,1080,'#EFE3C8','rgba(120,85,45,.25)','122,84,52');
+var cx=1380,cy=540,R0=300,B=20,NS=260,a0=2.2,SW=.85*6.2832,rv=new Float32Array(B*NS),i;for(i=0;i<B*NS;i++)rv[i]=R();
+function ph(t,a,b){var v=(t-a)/(b-a);return v<0?0:v>1?1:v}
+var T0=Date.now();__reset['proof']=function(){T0=Date.now()};
+function f(){var t=((Date.now()-T0)%10000)/1000;x.globalAlpha=1;x.drawImage(bg,0,0);x.globalAlpha=t>9.2?1-(t-9.2)/.8:1;var p=ph(t,.3,3.2);p=1-Math.pow(1-p,2);var n=Math.floor(NS*p);
+if(n>1){x.lineCap='round';x.lineJoin='round';x.strokeStyle='rgba(26,16,20,.8)';x.lineWidth=5;
+for(var i=0;i<B;i++){var od=i/(B-1)*2-1;x.beginPath();var pen=0;for(var j=0;j<=n;j++){var u=j/NS,w=u<.06?36+u*300:54*(1-.62*(u-.06)/.94),a=a0+SW*u,rr=R0+6*Math.sin(u*9)+(u>.9?(u-.9)*90:0)+od*w/2,px=cx+Math.cos(a)*rr,py=cy+Math.sin(a)*rr,dry=.02+u*u*.75*(.25+Math.abs(od));if(rv[i*NS+j]>dry){pen?x.lineTo(px,py):x.moveTo(px,py);pen=1}else pen=0}x.stroke()}
+x.beginPath();x.arc(cx+Math.cos(a0)*R0,cy+Math.sin(a0)*R0,22,0,6.2832);x.fillStyle='rgba(26,16,20,.85)';x.fill()}
+x.globalAlpha=1;requestAnimationFrame(f)}f();
+})();
+(function(){var requestAnimationFrame=function(cb){return __raf('edge',cb)};var setInterval=function(cb,ms){return window.setInterval(function(){if(__cur==='edge')cb()},ms)};
+var S=17;function R(){S=S*16807%2147483647;return S/2147483647}
+var c=document.getElementById('c-edge'),x=c.getContext('2d'),bg=document.createElement('canvas');bg.width=1920;bg.height=1080;var b=bg.getContext('2d'),i;
+b.fillStyle='#0B0710';b.fillRect(0,0,1920,1080);[[950,580,560,'rgba(138,18,56,.22)'],[300,600,320,'rgba(245,168,0,.05)'],[1500,300,420,'rgba(90,30,70,.18)']].forEach(function(n){var g=b.createRadialGradient(n[0],n[1],0,n[0],n[1],n[2]);g.addColorStop(0,n[3]);g.addColorStop(1,'rgba(0,0,0,0)');b.fillStyle=g;b.fillRect(0,0,1920,1080)});
+var ST=[];for(i=0;i<260;i++)ST.push([R()*1920,R()*1080,.4+R()*1.3,R()*6.28,.5+R()*1.5]);
+var U=[[300,430],[300,730]],A=[640,580],C=[[860,420],[960,380],[1060,430],[1110,530],[1060,640],[960,700],[860,660],[820,550],[940,520],[1010,580]],E=[[0,1],[1,2],[2,3],[3,4],[4,5],[5,6],[6,7],[7,0],[7,8],[8,9],[9,3],[8,1]];
+function arr(k){return .5+k*.9+2.4}
+function q(p0,p1,c1,t){var u=1-t;return [u*u*p0[0]+2*u*t*c1[0]+t*t*p1[0],u*u*p0[1]+2*u*t*c1[1]+t*t*p1[1]]}
+function star(px,py,r,col,sp,al){x.globalAlpha=al;x.fillStyle=col;x.shadowColor=col;x.shadowBlur=r*3;x.beginPath();x.arc(px,py,r,0,6.2832);x.fill();x.shadowBlur=0;if(sp){x.strokeStyle=col;x.lineWidth=1.2;x.beginPath();x.moveTo(px-sp,py);x.lineTo(px+sp,py);x.moveTo(px,py-sp);x.lineTo(px,py+sp);x.stroke()}x.globalAlpha=1}
+var T0=Date.now();__reset['edge']=function(){T0=Date.now()};
+function f(){var now=(Date.now()-T0)/1000,t=now%16;x.drawImage(bg,0,0);var F=t>15?1-(t-15):1;
+ST.forEach(function(s){star(s[0],s[1],s[2],'#EFE3C8',0,.25+.45*(.5+.5*Math.sin(now*s[4]+s[3])))});
+x.setLineDash([4,10]);x.strokeStyle='rgba(239,227,200,.14)';x.lineWidth=1.2;x.beginPath();x.moveTo(U[0][0],U[0][1]);x.lineTo(A[0],A[1]);x.moveTo(U[1][0],U[1][1]);x.lineTo(A[0],A[1]);x.lineTo(800,580);x.stroke();x.setLineDash([]);
+U.forEach(function(u){star(u[0],u[1],7,'#EFE3C8',22,1)});
+x.beginPath();x.arc(A[0],A[1],26,0,6.2832);x.strokeStyle='#F5A800';x.lineWidth=3;x.shadowColor='#F5A800';x.shadowBlur=14;x.stroke();x.shadowBlur=0;star(A[0],A[1],4,'#F5A800',0,1);
+E.forEach(function(e){var ta=Math.max(arr(e[0]),arr(e[1]));if(t<ta)return;var al=Math.min(1,(t-ta)/.6)*F;x.strokeStyle='rgba(245,168,0,'+(.55*al)+')';x.lineWidth=1.6;x.beginPath();x.moveTo(C[e[0]][0],C[e[0]][1]);x.lineTo(C[e[1]][0],C[e[1]][1]);x.stroke()});
+for(var k=0;k<10;k++){var s=.5+k*.9,a=arr(k);if(t>=a)star(C[k][0],C[k][1],5,'#F5A800',14,F);else{star(C[k][0],C[k][1],2,'#EFE3C8',0,.3);if(t>s){var u=(t-s)/2.4,src=U[k%2],p=u<.45?q(src,A,[470,src[1]<580?440:720],u/.45):q(A,C[k],[(A[0]+C[k][0])/2,A[1]-140+k*25],(u-.45)/.55);star(p[0],p[1],5,'#FFD46B',0,1)}}}
+requestAnimationFrame(f)}f();
+})();
+(function(){var requestAnimationFrame=function(cb){return __raf('anatomy',cb)};var setInterval=function(cb,ms){return window.setInterval(function(){if(__cur==='anatomy')cb()},ms)};
+var S=29;function R(){S=S*16807%2147483647;return S/2147483647}
+function paper(b,W,H,base,edge,st){b.fillStyle=base;b.fillRect(0,0,W,H);var g=b.createRadialGradient(W/2,H/2,H*.35,W/2,H/2,W*.62);g.addColorStop(0,'rgba(0,0,0,0)');g.addColorStop(1,edge);b.fillStyle=g;b.fillRect(0,0,W,H);for(var i=0;i<16;i++){var sx=R()*W,sy=R()*H,sr=40+R()*180,s=b.createRadialGradient(sx,sy,0,sx,sy,sr);s.addColorStop(0,'rgba('+st+',.07)');s.addColorStop(1,'rgba('+st+',0)');b.fillStyle=s;b.fillRect(sx-sr,sy-sr,sr*2,sr*2)}b.lineWidth=1;b.strokeStyle='rgba('+st+',.07)';for(i=0;i<1100;i++){var fx=R()*W,fy=R()*H,a=R()*6.28,l=3+R()*12;b.beginPath();b.moveTo(fx,fy);b.lineTo(fx+Math.cos(a)*l,fy+Math.sin(a)*l);b.stroke()}}
+var c=document.getElementById('c-anatomy'),x=c.getContext('2d'),bg=document.createElement('canvas');bg.width=1920;bg.height=1080;var b=bg.getContext('2d');paper(b,1920,1080,'#EFE3C8','rgba(120,85,45,.28)','122,84,52');
+function mir(t,px,py,sz,al){b.save();b.translate(px,py);b.scale(-1,1);b.font='italic '+sz+'px Georgia, serif';b.fillStyle='rgba(122,84,52,'+al+')';b.fillText(t,0,0);b.restore()}
+mir('studio di una seduta',560,280,28,.2);mir('ogni parte ha il suo peso',1000,960,26,.18);mir('il terapeuta prima di tutto',560,960,24,.16);
+function cl(v){return v<0?0:v>1?1:v}function ph(t,a,b){return cl((t-a)/(b-a))}function ez(v){return v<.5?2*v*v:1-Math.pow(-2*v+2,2)/2}
+var cx=620,cy=600,r=280,dg=Math.PI/180,mb=-70.2*dg;
+function skA(ox,oy,a0,sw,p,seed){if(p<=0)return;var s=seed;function q(){s=s*16807%2147483647;return s/2147483647}for(var k=0;k<2;k++){var dx=(q()-.5)*5,dy=(q()-.5)*5,dr=(q()-.5)*5,n=Math.max(2,Math.round(120*p));x.beginPath();for(var i=0;i<=n;i++){var a=a0+sw*i/120,rr=r+dr+Math.sin(a*4+k)*1.4,px=ox+dx+Math.cos(a)*rr,py=oy+dy+Math.sin(a)*rr;i?x.lineTo(px,py):x.moveTo(px,py)}x.lineWidth=k?1:1.9;x.strokeStyle=k?'rgba(43,26,18,.4)':'rgba(43,26,18,.85)';x.stroke()}}
+function rad(ox,oy,a,p){if(p<=0)return;x.beginPath();x.moveTo(ox,oy);x.lineTo(ox+Math.cos(a)*r*p,oy+Math.sin(a)*r*p);x.lineWidth=1.6;x.strokeStyle='rgba(43,26,18,.8)';x.stroke()}
+function wedge(ox,oy,a0,a1){x.beginPath();x.moveTo(ox,oy);x.arc(ox,oy,r,a0,a1);x.closePath()}
+function hatch(ang,sp,cnt,col,lw){x.strokeStyle=col;x.lineWidth=lw;var ca=Math.cos(ang),sa=Math.sin(ang);for(var i=0;i<cnt;i++){var o=-340+i*sp;x.beginPath();x.moveTo(cx-ca*360-sa*o,cy-sa*360+ca*o);x.lineTo(cx+ca*360-sa*o,cy+sa*360+ca*o);x.stroke()}}
+var LD=[[324],[404,-45],[474,-37.8],[544,15]];var T0=Date.now();__reset['anatomy']=function(){T0=Date.now()};
+function f(){var t=((Date.now()-T0)%14000)/1000;x.globalAlpha=1;x.drawImage(bg,0,0);x.globalAlpha=t>13.2?1-(t-13.2)/.8:1;
+var e=46*ez(ph(t,5,6)),mx=cx+Math.cos(mb)*e,my=cy+Math.sin(mb)*e,h1=ph(t,3,4.2),h2=ph(t,4,5),rp=ph(t,2,3);
+x.save();wedge(cx,cy,-36*dg,270*dg);x.clip();if(h1>0)hatch(45*dg,9,Math.floor(80*h1),'rgba(43,26,18,.32)',1.1);if(h2>0)hatch(-45*dg,9,Math.floor(80*h2),'rgba(43,26,18,.2)',1);x.restore();
+x.save();wedge(cx,cy,-50.4*dg,-36*dg);x.clip();if(h1>0)hatch(90*dg,6,Math.floor(120*h1),'rgba(43,26,18,.3)',1);x.restore();
+skA(cx,cy,-50.4*dg,320.4*dg,ph(t,0,2),71);rad(cx,cy,-90*dg,rp);rad(cx,cy,-50.4*dg,rp);rad(cx,cy,-39.6*dg,rp);rad(cx,cy,-36*dg,rp);
+var mp=ph(t,0,2);if(mp>0){x.save();wedge(mx,my,-90*dg,-50.4*dg);x.fillStyle='rgba(245,168,0,'+(.4*ph(t,4.5,5.5))+')';x.fill();x.clip();if(h1>0)hatch(30*dg,7,Math.floor(100*h1),'rgba(164,68,42,.6)',1.2);x.restore();skA(mx,my,-90*dg,39.6*dg,mp,91);rad(mx,my,-90*dg,rp);rad(mx,my,-50.4*dg,rp)}
+x.font='italic 24px Georgia, serif';x.textAlign='center';x.fillStyle='rgba(43,26,18,'+(.75*ph(t,6,6.6))+')';x.fillText('306°',cx+Math.cos(117*dg)*150,cy+Math.sin(117*dg)*150);x.fillText('39,6°',mx+Math.cos(mb)*170,my+Math.sin(mb)*170);
+LD.forEach(function(l,i){var p=ph(t,6.2+i*.5,6.8+i*.5);if(p<=0)return;var sx,sy;if(i==0){sx=mx+Math.cos(mb)*(r+6);sy=my+Math.sin(mb)*(r+6)}else{sx=cx+Math.cos(l[1]*dg)*(r+6);sy=cy+Math.sin(l[1]*dg)*(r+6)}x.strokeStyle='rgba(43,26,18,.65)';x.lineWidth=1.3;x.beginPath();x.moveTo(sx,sy);x.lineTo(sx+(1065-sx)*p,sy+(l[0]-sy)*p);x.stroke();x.beginPath();x.arc(sx,sy,3.5,0,6.2832);x.fillStyle='rgba(43,26,18,.85)';x.fill()});
+x.globalAlpha=1;requestAnimationFrame(f)}f();
+})();
+(function(){var requestAnimationFrame=function(cb){return __raf('growth',cb)};var setInterval=function(cb,ms){return window.setInterval(function(){if(__cur==='growth')cb()},ms)};
+var S=23;function R(){S=S*16807%2147483647;return S/2147483647}
+function paper(b,W,H,base,edge,st){b.fillStyle=base;b.fillRect(0,0,W,H);var g=b.createRadialGradient(W/2,H/2,H*.35,W/2,H/2,W*.62);g.addColorStop(0,'rgba(0,0,0,0)');g.addColorStop(1,edge);b.fillStyle=g;b.fillRect(0,0,W,H);for(var i=0;i<16;i++){var sx=R()*W,sy=R()*H,sr=40+R()*180,s=b.createRadialGradient(sx,sy,0,sx,sy,sr);s.addColorStop(0,'rgba('+st+',.05)');s.addColorStop(1,'rgba('+st+',0)');b.fillStyle=s;b.fillRect(sx-sr,sy-sr,sr*2,sr*2)}b.lineWidth=1;b.strokeStyle='rgba('+st+',.06)';for(i=0;i<1400;i++){var fx=R()*W,fy=R()*H,a=R()*6.28,l=3+R()*16;b.beginPath();b.moveTo(fx,fy);b.lineTo(fx+Math.cos(a)*l,fy+Math.sin(a)*l);b.stroke()}}
+var c=document.getElementById('c-growth'),x=c.getContext('2d'),bg=document.createElement('canvas');bg.width=1920;bg.height=1080;var b=bg.getContext('2d'),i,j;paper(b,1920,1080,'#F3EDE1','rgba(110,90,60,.18)','90,70,45');
+var G=700;for(i=0;i<60;i++){b.strokeStyle='rgba(40,34,28,'+(.03+R()*.05)+')';b.lineWidth=1+R()*4;b.beginPath();b.moveTo(200+R()*60,G+(R()-.5)*10);b.lineTo(1720-R()*60,G+(R()-.5)*10);b.stroke()}
+var STK=[[520,62,16],[960,260,20],[1400,560,26]],WIN=[[2.5,3.2],[3.2,5],[5,8]],RT=[],LV=[];
+STK.forEach(function(s,k){for(i=0;i<5;i++){var p=[[s[0]+(R()-.5)*s[2],G+4]],a=Math.PI/2+(R()-.5)*1.4,n=5+Math.floor(R()*5);for(j=0;j<n;j++){a+=(R()-.5)*.6;var l=p[p.length-1];p.push([l[0]+Math.cos(a)*10,Math.min(G+80,l[1]+Math.abs(Math.sin(a))*10)])}RT.push({p:p,w:1.5+R()*2})}
+var top=G-s[1],cnt=[2,4,6][k];for(i=0;i<cnt;i++){var side=i%2?1:-1;LV.push({x:s[0],y:top+30+R()*Math.min(s[1]*.6,200),a:-Math.PI/2+side*(.9+R()*.4),l:k?70+R()*70:40+R()*25})}});
+function cl(v){return v<0?0:v>1?1:v}function ph(t,a,b){return cl((t-a)/(b-a))}function ez(v){return v<.5?2*v*v:1-Math.pow(-2*v+2,2)/2}
+function leaf(px,py,a,l,al){x.save();x.translate(px,py);x.rotate(a);x.beginPath();x.moveTo(0,0);x.quadraticCurveTo(l*.45,-l*.17,l,0);x.quadraticCurveTo(l*.45,l*.17,0,0);x.fillStyle='rgba(30,26,22,'+(.85*al)+')';x.fill();x.restore()}
+var T0=Date.now();__reset['growth']=function(){T0=Date.now()};
+function f(){var t=((Date.now()-T0)%14000)/1000;x.globalAlpha=1;x.drawImage(bg,0,0);x.globalAlpha=t>13.2?1-(t-13.2)/.8:1;
+var rp=ph(t,1,2.5);RT.forEach(function(r){var n=Math.floor(r.p.length*rp);if(n<2)return;x.beginPath();x.moveTo(r.p[0][0],r.p[0][1]);for(var i=1;i<n;i++)x.lineTo(r.p[i][0],r.p[i][1]);x.strokeStyle='rgba(40,34,28,.55)';x.lineWidth=r.w;x.lineCap='round';x.stroke()});
+STK.forEach(function(s,k){var h=s[1]*ez(ph(t,WIN[k][0],WIN[k][1]));if(h<=0)return;var w=s[2],g=x.createLinearGradient(s[0]-w/2,0,s[0]+w/2,0);g.addColorStop(0,'#1C1814');g.addColorStop(.45,'#4A433C');g.addColorStop(1,'#1C1814');x.fillStyle=g;
+for(var y=0;y<h;y+=64){var sh=Math.min(60,h-y);x.globalAlpha=(t>13.2?1-(t-13.2)/.8:1)*.92;x.fillRect(s[0]-w/2,G-y-sh,w,sh);if(sh>=60){x.fillStyle='#14110E';x.beginPath();x.ellipse(s[0],G-y-62,w*.75,3.5,0,0,6.2832);x.fill();x.fillStyle=g}}});
+var lp=ph(t,8,9.5);if(lp>0)LV.forEach(function(v){leaf(v.x,v.y,v.a,v.l,lp)});
+x.globalAlpha=1;requestAnimationFrame(f)}f();
+})();
+(function(){var requestAnimationFrame=function(cb){return __raf('close',cb)};var setInterval=function(cb,ms){return window.setInterval(function(){if(__cur==='close')cb()},ms)};
+var S=31;function R(){S=S*16807%2147483647;return S/2147483647}
+var c=document.getElementById('c-close'),x=c.getContext('2d');
+var gw=130,gh=210,sc=3.4,ox=960-gw*sc,oy=70,off=document.createElement('canvas');off.width=gw*2;off.height=gh;var o=off.getContext('2d'),id=o.createImageData(gw*2,gh),D=id.data,N=new Float32Array(gw*gh);
+for(var i=0;i<gw*gh;i++)N[i]=(R()-.5)*.2;
+var B=[[0,38,20,2,6,.6,.8,0],[0,105,30,2,5,.5,.7,1],[30,105,28,5,5,.7,.6,2],[62,108,22,8,7,.8,.5,3],[0,172,22,2,6,.5,.9,4],[42,58,18,8,9,.9,.6,5],[72,36,12,10,8,.7,1,6],[92,92,13,10,10,1,.8,7],[46,168,17,8,8,.6,.7,8],[82,158,12,10,9,.9,.6,9],[112,66,8,8,10,1.1,.9,10],[104,190,7,8,6,.8,1.2,11],[122,128,5,5,8,1.2,.7,12],[58,12,5,6,4,.9,1.1,13],[20,200,6,4,3,.7,.9,14]];
+var T0=Date.now();__reset['close']=function(){T0=Date.now()};
+function f(){var t=(Date.now()-T0)/1000*.3,P=[],k;for(k=0;k<B.length;k++){var q=B[k];P.push([Math.abs(q[0]+q[3]*Math.sin(t*q[5]+q[7])),q[1]+q[4]*Math.sin(t*q[6]+q[7]*1.7),q[2]*q[2]])}
+for(var y=0;y<gh;y++)for(var xx=0;xx<gw;xx++){var s=N[y*gw+xx];for(k=0;k<P.length;k++){var dx=xx-P[k][0],dy=y-P[k][1];s+=P[k][2]/(dx*dx+dy*dy+1)}
+var a=s<.92?0:s>1.08?1:(s-.92)/.16,v=Math.min(1,Math.max(0,(s-1)/3));
+var i1=(y*gw*2+gw+xx)*4,i2=(y*gw*2+gw-1-xx)*4;D[i1]=D[i2]=245-60*v;D[i1+1]=D[i2+1]=168-80*v;D[i1+2]=D[i2+2]=20;D[i1+3]=D[i2+3]=a*110}
+o.putImageData(id,0,0);x.fillStyle='#130B18';x.fillRect(0,0,1920,1080);x.imageSmoothingEnabled=true;x.filter='blur(1.5px)';x.drawImage(off,ox,oy,gw*2*sc,gh*sc);x.filter='none'}
+setInterval(f,60);f();
+})();
+</script>
+<script>
+(function(){
+var S=[].slice.call(document.querySelectorAll('.slide')),stage=document.getElementById('stage'),i=0,step=0;
+function builds(s){return [].slice.call(s.querySelectorAll('[data-build-in]')).sort(function(a,b){return (parseInt(a.getAttribute('data-build-in').split(' ')[1])||0)-(parseInt(b.getAttribute('data-build-in').split(' ')[1])||0)})}
+function fit(){var k=Math.min(innerWidth/1920,innerHeight/1080);stage.style.transform='scale('+k+') translate(-50%,-50%)';stage.style.transformOrigin='0 0';stage.style.left='50%';stage.style.top='50%';stage.style.transform='translate(-50%,-50%) scale('+k+')';stage.style.transformOrigin='50% 50%'}
+function show(n,atEnd){if(n<0||n>=S.length)return;S.forEach(function(s,j){s.classList.toggle('on',j===n)});i=n;var b=builds(S[n]);step=atEnd?b.length:0;b.forEach(function(e,k){e.classList.toggle('hid',k>=step)});
+var id=S[n].id.slice(2);__cur=id;if(__reset[id])__reset[id]();var w=__wait[id];if(w){__wait[id]=null;window.requestAnimationFrame(w)}
+document.getElementById('num').textContent=(n+1)+' / '+S.length;document.getElementById('bar').style.width=((n+1)/S.length*100)+'%';try{history.replaceState(null,'','#'+(n+1))}catch(e){}}
+function next(){var b=builds(S[i]);if(step<b.length){b[step].classList.remove('hid');step++}else show(i+1)}
+function prev(){var b=builds(S[i]);if(step>0){step--;b[step].classList.add('hid')}else show(i-1,true)}
+document.addEventListener('keydown',function(e){if(['ArrowRight','ArrowDown','PageDown',' ','Enter'].indexOf(e.key)>=0){e.preventDefault();next()}else if(['ArrowLeft','ArrowUp','PageUp','Backspace'].indexOf(e.key)>=0){e.preventDefault();prev()}else if(e.key==='f'||e.key==='F')fs();else if(e.key==='Home')show(0);else if(e.key==='End')show(S.length-1,true)});
+document.getElementById('next').onclick=next;document.getElementById('prev').onclick=prev;
+function fs(){if(!document.fullscreenElement)document.documentElement.requestFullscreen&&document.documentElement.requestFullscreen();else document.exitFullscreen()}
+document.getElementById('fs').onclick=fs;
+stage.addEventListener('click',function(e){(e.clientX<innerWidth/3?prev:next)()});
+var tx=null;document.addEventListener('touchstart',function(e){tx=e.touches[0].clientX},{passive:true});document.addEventListener('touchend',function(e){if(tx===null)return;var d=e.changedTouches[0].clientX-tx;if(Math.abs(d)>40)(d<0?next:prev)();tx=null});
+addEventListener('resize',fit);fit();
+var h=parseInt(location.hash.slice(1));show(h>0&&h<=S.length?h-1:0);
+setTimeout(function(){document.getElementById('hint').style.opacity=0},6000);
+})();
+</script>
+</body></html>
