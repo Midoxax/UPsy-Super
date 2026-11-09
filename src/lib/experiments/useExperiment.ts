@@ -2,6 +2,7 @@ import { useEffect, useRef } from "react";
 import { useRouterState } from "@tanstack/react-router";
 
 import { pushDataLayer } from "@/lib/analytics/gtm";
+import { captureEvent, registerProperties } from "@/lib/analytics/posthog";
 import {
   controlAssignments,
   type ExperimentAssignments,
@@ -52,6 +53,13 @@ export function useExperimentExposure(
 
     pushDataLayer({
       event: "experiment_view",
+      experiment_id: experimentId,
+      experiment_variant: variant,
+    });
+    // Every later event in the visit carries the variant, so PostHog can
+    // compare variants on bookings, not just on clicks.
+    registerProperties({ [`exp_${experimentId}`]: variant });
+    captureEvent("experiment_view", {
       experiment_id: experimentId,
       experiment_variant: variant,
     });

@@ -11,7 +11,7 @@ import { User, Session } from "@supabase/supabase-js";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { setSentryUser } from "@/lib/analytics/sentry";
-import { identifyAnonymous } from "@/lib/analytics/posthog";
+import { captureEvent, identifyAnonymous } from "@/lib/analytics/posthog";
 import { useAdminPreview } from "@/components/admin/AdminPreviewProvider";
 import { addLocalePrefix, getLocaleFromPath } from "@/lib/i18n/utils";
 
@@ -198,6 +198,14 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         },
       },
     });
+
+    // Top of the account funnel. Structural facts only: no email, no name.
+    if (!error)
+      captureEvent("signup_completed", {
+        method: "email",
+        locale: getLocaleFromPath(window.location.pathname),
+        has_redirect: !!redirectAfter,
+      });
 
     return { error };
   };
