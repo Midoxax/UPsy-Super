@@ -7,6 +7,8 @@
  * to load for any reason (blocked, offline, etc.).
  */
 
+import { captureEvent } from "./posthog";
+
 export interface GTMEvent {
   event: string;
   [key: string]: unknown;
@@ -38,13 +40,16 @@ export function trackCTAClick(
   pagePath: string,
   extra: Record<string, unknown> = {},
 ): void {
-  pushDataLayer({
-    event: "cta_click",
+  const props = {
     cta_label: label,
     cta_location: location,
     page_path: pagePath,
     ...extra,
-  });
+  };
+  pushDataLayer({ event: "cta_click", ...props });
+  // Also to PostHog, where the booking funnel lives: a click only in GTM
+  // cannot be lined up against the bookings that follow it.
+  captureEvent("cta_click", props);
 }
 
 /**
