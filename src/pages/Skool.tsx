@@ -65,13 +65,6 @@ const Skool = () => {
     },
   ];
 
-  const stats = [
-    { value: "2,500+", label: t("skoolPage.communityMembers") },
-    { value: "150+", label: t("skoolPage.expertSessions") },
-    { value: "40+", label: t("skoolPage.countriesRepresented") },
-    { value: "98%", label: t("skoolPage.satisfactionRate") },
-  ];
-
   return (
     <main className="min-h-screen bg-background">
       <SEOHead
@@ -111,24 +104,6 @@ const Skool = () => {
               </Link>
             </p>
           </ScrollReveal>
-        </div>
-      </section>
-
-      {/* Stats Band */}
-      <section className="border-y border-border bg-card/50 py-10">
-        <div className="container-custom">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-            {stats.map((stat) => (
-              <div key={stat.label} className="text-center">
-                <div className="text-3xl font-bold text-primary mb-1">
-                  {stat.value}
-                </div>
-                <div className="text-sm text-muted-foreground">
-                  {stat.label}
-                </div>
-              </div>
-            ))}
-          </div>
         </div>
       </section>
 

@@ -137,7 +137,7 @@ const en = {
     ourStory: "Our Story",
     applyAccreditation: "Apply for Accreditation",
     skoolCommunity: "Skool Community",
-    findPsychologistValue: "Browse 50+ verified specialists",
+    findPsychologistValue: "Browse verified specialists",
     getMatchedValue: "AI finds your perfect fit in 3 min",
     servicesValue: "Individual + sport + clinical packages",
     forOrganizationsValue: "Team workshops, EAP, athlete performance",
@@ -354,7 +354,7 @@ const en = {
       "You are hiring a specialist. Ask: how do you work, what does progress look like, when would you refer me elsewhere. If you don't feel safe, curious or respected, it's not the right fit.",
     guide4Title: "Give it 3 sessions, then decide",
     guide4Body:
-      "Rapport is real data. If after three sessions you don't feel movement or a working alliance, book someone else. On U.Psy the first rebooking is free: that's our guarantee.",
+      "Rapport is real data. If after three sessions you don't feel movement or a working alliance, book someone else.",
     nearMe: "Near me",
     locating: "Locating…",
     viewList: "List",
@@ -454,7 +454,8 @@ const en = {
     verifyEmailDesc:
       "We sent a verification link to your email. Please confirm before signing in.",
     errorInvalidEmailFormat: "Enter a valid email address",
-    agreeToTerms: "I agree to the {terms} and {privacy}",
+    agreeToTerms:
+      "I agree to the {terms} and {privacy}, and I am 18 or older (or have a parent or guardian's consent).",
     termsOfService: "Terms of Service",
     privacyPolicy: "Privacy Policy",
     errorTermsRequired:
@@ -533,7 +534,7 @@ const en = {
     feeLabel: "Fee:",
     noSlotsThisDay: "No available slots on this day. Try another date.",
     notReservedNotice:
-      "Pick your time, then create your account. The slot isn't reserved until your request is sent. Free rebook if it's not the right fit.",
+      "Pick your time, then create your account. The slot isn't reserved until your request is sent.",
     sendRequest: "Send request",
     continueToBook: "Continue to book",
     createAccountToContinue: "Create an account to continue",

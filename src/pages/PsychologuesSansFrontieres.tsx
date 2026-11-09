@@ -53,25 +53,6 @@ const PSF_PILLARS = [
   },
 ];
 
-const PSF_STATS = [
-  {
-    value: "500+",
-    labelKey: "psf.statSessions",
-    fallback: "Free Sessions Delivered",
-  },
-  { value: "12", labelKey: "psf.statRegions", fallback: "Regions Covered" },
-  {
-    value: "50+",
-    labelKey: "psf.statVolunteers",
-    fallback: "Volunteer Psychologists",
-  },
-  {
-    value: "3,000+",
-    labelKey: "psf.statBeneficiaries",
-    fallback: "Beneficiaries Reached",
-  },
-];
-
 const PSF_PROGRAMS = [
   {
     title: "Crisis Response",
@@ -199,39 +180,6 @@ const PsychologuesSansFrontieres = () => {
       </section>
 
       <MaroonDivider />
-
-      {/* Impact Stats */}
-      <section className="section-spacing liquid-bg">
-        <div className="container-custom">
-          <ScrollReveal>
-            <div className="glass-card p-10 md:p-14">
-              <div className="text-center mb-12">
-                <h2 className="text-h2 mb-4">
-                  {safeT("psf.impactTitle", "Our Impact So Far")}
-                </h2>
-                <p className="text-body text-muted-foreground">
-                  {safeT(
-                    "psf.impactDesc",
-                    "Every number represents a life touched, a community strengthened.",
-                  )}
-                </p>
-              </div>
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-                {PSF_STATS.map((stat, i) => (
-                  <div key={i} className="text-center">
-                    <div className="text-3xl md:text-4xl font-bold text-secondary mb-2">
-                      {stat.value}
-                    </div>
-                    <div className="text-sm text-muted-foreground">
-                      {safeT(stat.labelKey, stat.fallback)}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </ScrollReveal>
-        </div>
-      </section>
 
       <MaroonDivider />
 

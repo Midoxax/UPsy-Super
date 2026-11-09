@@ -23,9 +23,6 @@ const FounderSection = lazy(() => import("@/components/home/FounderSection"));
 const OrganizationsSection = lazy(
   () => import("@/components/home/OrganizationsSection"),
 );
-const TestimonialsSection = lazy(
-  () => import("@/components/home/TestimonialsSection"),
-);
 const HomeFAQSection = lazy(() => import("@/components/home/HomeFAQSection"));
 const FinalCTASection = lazy(() => import("@/components/home/FinalCTASection"));
 
@@ -41,7 +38,8 @@ const SectionFallback = () => (
  *  2. Trust strip
  *  3. Featured psychologists (money section — earlier is better)
  *  4. How it works (3 steps → book)
- *  5. Testimonials
+ *  5. Founder (a real person, instead of testimonials: there are no real
+ *     client reviews to show yet, and invented ones are misleading advertising)
  *  6. FAQ (kill objections)
  *  7. Final CTA
  */
@@ -52,7 +50,6 @@ const homeSequence = [
   { key: "why-us", Component: WhyUsSection },
   { key: "programs", Component: ProgramsSection },
   { key: "organizations", Component: OrganizationsSection },
-  { key: "testimonials", Component: TestimonialsSection },
   { key: "founder", Component: FounderSection },
   { key: "faq", Component: HomeFAQSection },
   { key: "final-cta", Component: FinalCTASection },

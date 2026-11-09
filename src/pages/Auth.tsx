@@ -672,7 +672,7 @@ const Auth = () => {
                       >
                         {t("auth.agreeToTerms").split("{terms}")[0]}
                         <Link
-                          to="/terms"
+                          to={addLocalePrefix("/terms", locale)}
                           target="_blank"
                           className="text-primary hover:underline"
                         >
@@ -684,7 +684,7 @@ const Auth = () => {
                             ?.split("{privacy}")[0]
                         }
                         <Link
-                          to="/privacy"
+                          to={addLocalePrefix("/privacy", locale)}
                           target="_blank"
                           className="text-primary hover:underline"
                         >

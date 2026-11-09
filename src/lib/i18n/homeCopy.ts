@@ -120,7 +120,7 @@ const en: HomeCopy = {
       },
       {
         q: "What if I don't click with my psychologist?",
-        a: "You get a free rebook with a different psychologist — no questions asked. The first session is about finding the right person, not paying twice to try again.",
+        a: "Tell us, or simply book someone else: you are never tied to one psychologist. The fit between you matters as much as the method, and changing is normal.",
       },
       {
         q: "How much does a session cost?",
@@ -132,7 +132,7 @@ const en: HomeCopy = {
       },
       {
         q: "In what language are sessions held?",
-        a: "Arabic (Darija & Modern Standard), French, English — and Spanish, Portuguese, or Italian with select specialists. Filter by language when choosing your psychologist.",
+        a: "Darija, Modern Standard Arabic, French and English, depending on the psychologist. Each profile lists the languages they work in.",
       },
       {
         q: "Video or in-person?",
@@ -152,25 +152,23 @@ const en: HomeCopy = {
     "featured.eyebrow": "Accredited psychologists",
     "featured.titleConversion": "Book with someone who fits — this week.",
     "featured.subtitleConversion":
-      "Every psychologist is accredited, vetted, and available for a 50-min session. Free rebook if it's not the right fit.",
-    "featured.slot.today": "Today, 6:30 PM",
-    "featured.slot.tomorrowMorning": "Tomorrow, 9:00 AM",
-    "featured.slot.tomorrowAfternoon": "Tomorrow, 3:00 PM",
-    "featured.slot.thisWeek": "This week, Thu 5:00 PM",
-    "featured.availableToday": "Available today",
+      "Every psychologist is licensed and verified by U.Psy before their profile goes live. Fees and times are on each profile.",
     "featured.videoOrInPerson": "Video or in-person",
     "featured.nextAvailable": "Next available",
     "featured.session50": "50-min session",
     "featured.bookNow": "Book a slot",
     "featured.viewProfile": "View profile",
-    "featured.guarantee": "Free rebook if not the right fit",
-    "featured.viewAllConversion": "Browse all 50+ psychologists",
+    "featured.viewAllConversion": "Browse all psychologists",
+    "featured.offersVideo": "Offers video sessions",
+    "featured.newOnUpsy": "New on U.Psy",
+    "featured.feesOnProfile": "Fees on the profile",
+    "featured.verified": "Diploma and identity checked by U.Psy",
   },
   seo: {
     title:
       "U.Psy — Book an accredited psychologist. Worldwide, in any timezone.",
     description:
-      "Book a 50-min session with an accredited psychologist — video anywhere in the world, or in-person in select cities. Arabic, French, English, Spanish or Portuguese. Free rebook if not the right fit.",
+      "Book a 50-min session with an accredited psychologist — video anywhere in the world, or in-person in select cities. In Darija, Arabic, French or English.",
   },
 };
 
@@ -245,7 +243,7 @@ const fr: HomeCopy = {
       },
       {
         q: "Et si le courant ne passe pas avec mon psychologue ?",
-        a: "Vous bénéficiez d'une nouvelle séance gratuite avec un autre psychologue — sans justification. La première séance sert à trouver la bonne personne, pas à payer deux fois pour réessayer.",
+        a: "Dites-le-nous, ou réservez simplement avec quelqu'un d'autre : vous n'êtes jamais lié à un seul psychologue. L'accord entre vous compte autant que la méthode, et changer est normal.",
       },
       {
         q: "Combien coûte une séance ?",
@@ -257,7 +255,7 @@ const fr: HomeCopy = {
       },
       {
         q: "Dans quelle langue se déroulent les séances ?",
-        a: "Arabe (Darija et arabe standard), français, anglais — et espagnol, portugais ou italien avec certains spécialistes. Filtrez par langue au moment du choix.",
+        a: "Darija, arabe standard, français et anglais, selon le psychologue. Chaque profil indique ses langues de travail.",
       },
       {
         q: "En visio ou en cabinet ?",
@@ -278,25 +276,23 @@ const fr: HomeCopy = {
     "featured.titleConversion":
       "Réservez avec quelqu'un qui vous correspond — cette semaine.",
     "featured.subtitleConversion":
-      "Chaque psychologue est accrédité, vérifié et disponible pour une séance de 50 min. Nouvelle séance offerte si ça ne colle pas.",
-    "featured.slot.today": "Aujourd'hui, 18h30",
-    "featured.slot.tomorrowMorning": "Demain, 9h00",
-    "featured.slot.tomorrowAfternoon": "Demain, 15h00",
-    "featured.slot.thisWeek": "Cette semaine, jeu. 17h00",
-    "featured.availableToday": "Disponible aujourd'hui",
+      "Chaque psychologue est diplômé et vérifié par U.Psy avant la mise en ligne de son profil. Tarifs et créneaux sur chaque profil.",
     "featured.videoOrInPerson": "Visio ou cabinet",
     "featured.nextAvailable": "Prochain créneau",
     "featured.session50": "séance de 50 min",
     "featured.bookNow": "Réserver un créneau",
     "featured.viewProfile": "Voir le profil",
-    "featured.guarantee": "Nouvelle séance offerte si ça ne colle pas",
-    "featured.viewAllConversion": "Voir tous les psychologues (50+)",
+    "featured.viewAllConversion": "Voir tous les psychologues",
+    "featured.offersVideo": "Propose des séances en visio",
+    "featured.newOnUpsy": "Nouveau sur U.Psy",
+    "featured.feesOnProfile": "Tarifs sur le profil",
+    "featured.verified": "Diplôme et identité vérifiés par U.Psy",
   },
   seo: {
     title:
       "U.Psy — Réservez un psychologue accrédité. Partout, sur tous fuseaux.",
     description:
-      "Réservez une séance de 50 min avec un psychologue accrédité — en visio partout dans le monde ou en cabinet dans certaines villes. Arabe, français, anglais, espagnol, portugais. Nouvelle séance offerte si ça ne colle pas.",
+      "Réservez une séance de 50 min avec un psychologue accrédité — en visio partout dans le monde ou en cabinet dans certaines villes. En darija, arabe, français ou anglais.",
   },
 };
 
@@ -367,7 +363,7 @@ const ar: HomeCopy = {
       },
       {
         q: "ماذا لو لم أتناغم مع أخصّائيي؟",
-        a: "تحصل على إعادة حجز مجانية مع أخصّائي آخر — دون أسئلة. الجلسة الأولى للعثور على الشخص المناسب لا للدفع مرتين.",
+        a: "أخبرنا أو احجز ببساطة مع أخصّائي آخر: لست مرتبطاً بأخصّائي واحد. التوافق بينكما مهم بقدر المنهج، والتغيير أمر طبيعي.",
       },
       {
         q: "كم تكلفة الجلسة؟",
@@ -379,7 +375,7 @@ const ar: HomeCopy = {
       },
       {
         q: "بأي لغة تُعقد الجلسات؟",
-        a: "العربية (الدارجة والفصحى)، الفرنسية، الإنجليزية — والإسبانية والبرتغالية والإيطالية مع بعض الأخصّائيين. صفِّ حسب اللغة عند الاختيار.",
+        a: "الدارجة والعربية الفصحى والفرنسية والإنجليزية، حسب الأخصّائي. يذكر كل ملف لغات العمل.",
       },
       {
         q: "فيديو أم حضورياً؟",
@@ -399,24 +395,22 @@ const ar: HomeCopy = {
     "featured.eyebrow": "أخصّائيون نفسيون معتمَدون",
     "featured.titleConversion": "احجز مع من يناسبك — هذا الأسبوع.",
     "featured.subtitleConversion":
-      "كل أخصّائي معتمَد ومدقَّق ومتاح لجلسة ٥٠ دقيقة. إعادة حجز مجانية إن لم يكن الملاءم.",
-    "featured.slot.today": "اليوم، ٦:٣٠ مساءً",
-    "featured.slot.tomorrowMorning": "غداً، ٩:٠٠ صباحاً",
-    "featured.slot.tomorrowAfternoon": "غداً، ٣:٠٠ مساءً",
-    "featured.slot.thisWeek": "هذا الأسبوع، الخميس ٥:٠٠ مساءً",
-    "featured.availableToday": "متاح اليوم",
+      "تتحقّق U.Psy من شهادة كل أخصّائي وهويته قبل نشر ملفه. الأسعار والمواعيد في كل ملف.",
     "featured.videoOrInPerson": "فيديو أو حضورياً",
     "featured.nextAvailable": "أقرب موعد",
     "featured.session50": "جلسة ٥٠ دقيقة",
     "featured.bookNow": "احجز موعداً",
     "featured.viewProfile": "عرض الملف",
-    "featured.guarantee": "إعادة حجز مجانية إن لم يكن الملاءم",
-    "featured.viewAllConversion": "تصفّح كل الأخصّائيين (+٥٠)",
+    "featured.viewAllConversion": "تصفّح كل الأخصّائيين",
+    "featured.offersVideo": "يقدّم جلسات عبر الفيديو",
+    "featured.newOnUpsy": "جديد على U.Psy",
+    "featured.feesOnProfile": "الأسعار في الملف",
+    "featured.verified": "الشهادة والهوية متحقَّق منهما من U.Psy",
   },
   seo: {
     title: "يوپسي — احجز أخصّائي نفسي معتمَد. حول العالم، في أي منطقة زمنية.",
     description:
-      "احجز جلسة ٥٠ دقيقة مع أخصّائي نفسي معتمَد — فيديو حول العالم أو حضورياً في مدن مختارة. عربية، فرنسية، إنجليزية، إسبانية أو برتغالية. إعادة حجز مجانية إن لم يكن الملاءم.",
+      "احجز جلسة ٥٠ دقيقة مع أخصّائي نفسي معتمَد — فيديو حول العالم أو حضورياً في مدن مختارة. بالدارجة أو العربية أو الفرنسية أو الإنجليزية.",
   },
 };
 

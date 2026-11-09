@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { supabase } from "@/integrations/supabase/client";
 import { useLocale } from "@/contexts/LocaleContext";
+import PrivacyNotice from "@/components/legal/PrivacyNotice";
 
 const COPY = {
   en: {
@@ -73,30 +74,40 @@ export default function NewsletterSignup({
           {c.done}
         </p>
       ) : (
-        <form onSubmit={submit} className="flex flex-col sm:flex-row gap-2">
-          <Input
-            type="email"
-            required
-            autoComplete="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder={c.placeholder}
-            aria-label={c.placeholder}
-            maxLength={254}
+        <>
+          <form onSubmit={submit} className="flex flex-col sm:flex-row gap-2">
+            <Input
+              type="email"
+              required
+              autoComplete="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder={c.placeholder}
+              aria-label={c.placeholder}
+              maxLength={254}
+            />
+            <Button
+              type="submit"
+              variant="primary"
+              disabled={state === "busy"}
+              className="shrink-0"
+            >
+              {state === "busy" ? (
+                <Loader2 className="w-4 h-4 animate-spin" />
+              ) : (
+                c.cta
+              )}
+            </Button>
+          </form>
+          <PrivacyNotice
+            className="mt-2"
+            purpose={{
+              en: "Monthly newsletter, unsubscribe in one click. ",
+              fr: "Lettre mensuelle, désabonnement en un clic. ",
+              ar: "نشرة شهرية، وإلغاء الاشتراك بنقرة واحدة. ",
+            }}
           />
-          <Button
-            type="submit"
-            variant="primary"
-            disabled={state === "busy"}
-            className="shrink-0"
-          >
-            {state === "busy" ? (
-              <Loader2 className="w-4 h-4 animate-spin" />
-            ) : (
-              c.cta
-            )}
-          </Button>
-        </form>
+        </>
       )}
       {state === "error" && (
         <p className="text-sm text-destructive" role="alert">

@@ -23,7 +23,7 @@ const ber = {
     ourStory: "ⵜⴰⵎⴽⵓⵏⵜ ⵏⵏⵖ",
     applyAccreditation: "ⵙⵙⵓⵜⵔ ⴰⵙⵖⵣⵏ",
     skoolCommunity: "ⵜⴰⵎⵙⵎⵓⵏⵜ Skool",
-    findPsychologistValue: "ⵙⵙⵏ 50+ ⵉⵎⵙⵏⴼⵍⵙⴰⵏⵏ ⵉⵜⵜⵡⴰⵙⵖⵣⵏⵏ",
+    findPsychologistValue: "ⵙⵙⵏ ⵉⵎⵙⵏⴼⵍⵙⴰⵏⵏ ⵉⵜⵜⵡⴰⵙⵖⵣⵏⵏ",
     getMatchedValue: "AI ⴰⴷ ⴰⴽ ⵉⴷ ⵢⴰⴼ ⴰⵎⵙⴰⵙⴰ ⴳ 3 ⵜⵓⵙⴷⵉⴷⵉⵏ",
     servicesValue: "ⵜⵉⵏⴰⴼⵓⵜⵉⵏ ⵜⵉⵎⵥⵍⴰⵢⵉⵏ + ⵜⴰⴷⴷⴰⵍⵜ + ⴽⵍⵉⵏⵉⴽ",
     forOrganizationsValue: "ⵉⵙⵎⵓⵜⵜⴰⴳ ⵏ ⵜⵔⴰⴱⴱⵓⵜ, EAP, ⵜⵉⵣⵎⵔⵜ",

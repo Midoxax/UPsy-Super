@@ -23,6 +23,7 @@ import { z } from "zod";
 import SEOHead from "@/components/SEOHead";
 import SocialLinks from "@/components/SocialLinks";
 import { COMPANY } from "@/content/legal/company";
+import PrivacyNotice from "@/components/legal/PrivacyNotice";
 
 const contactSchema = z.object({
   name: z.string().trim().min(1, "Name is required").max(100),
@@ -213,6 +214,7 @@ const Contact = () => {
                         t("contact.form.submitButton")
                       )}
                     </Button>
+                    <PrivacyNotice />
                   </form>
                 </CardContent>
               </Card>

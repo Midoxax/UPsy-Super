@@ -140,7 +140,7 @@ const fr = {
     ourStory: "Notre histoire",
     applyAccreditation: "Demander l'accréditation",
     skoolCommunity: "Communauté Skool",
-    findPsychologistValue: "Parcourir plus de 50 spécialistes vérifiés",
+    findPsychologistValue: "Parcourir les spécialistes vérifiés",
     getMatchedValue: "L'IA trouve votre correspondance parfaite en 3 min",
     servicesValue: "Forfaits individuels + sport + clinique",
     forOrganizationsValue: "Ateliers d'équipe, PAE, performance sportive",
@@ -361,7 +361,7 @@ const fr = {
       "Vous recrutez un spécialiste. Demandez : comment travaillez-vous, à quoi ressemblent les progrès, quand m'orienteriez-vous ailleurs ? Si vous ne vous sentez pas en sécurité, curieux ou respecté, ce n'est pas la bonne personne.",
     guide4Title: "Donnez-vous 3 séances, puis décidez",
     guide4Body:
-      "L'alliance est une vraie donnée. Si après trois séances vous ne sentez ni avancée ni alliance de travail, réservez quelqu'un d'autre. Sur U.Psy, la première nouvelle réservation est offerte : c'est notre garantie.",
+      "L'alliance est une vraie donnée. Si après trois séances vous ne sentez ni avancée ni alliance de travail, réservez quelqu'un d'autre.",
     nearMe: "Près de moi",
     locating: "Localisation…",
     viewList: "Liste",
@@ -465,7 +465,8 @@ const fr = {
     verifyEmailDesc:
       "Nous avons envoyé un lien de vérification à votre e-mail. Veuillez confirmer avant de vous connecter.",
     errorInvalidEmailFormat: "Entrez une adresse e-mail valide",
-    agreeToTerms: "J'accepte les {terms} et la {privacy}",
+    agreeToTerms:
+      "J'accepte les {terms} et la {privacy}, et j'ai 18 ans ou plus (ou l'accord d'un parent ou tuteur).",
     termsOfService: "conditions d'utilisation",
     privacyPolicy: "politique de confidentialité",
     errorTermsRequired:
@@ -546,7 +547,7 @@ const fr = {
     noSlotsThisDay:
       "Aucun créneau disponible ce jour-là. Essayez une autre date.",
     notReservedNotice:
-      "Choisissez votre créneau, puis créez votre compte. Le créneau n'est réservé qu'une fois votre demande envoyée. Changement gratuit si ce n'est pas le bon choix.",
+      "Choisissez votre créneau, puis créez votre compte. Le créneau n'est réservé qu'une fois votre demande envoyée.",
     sendRequest: "Envoyer la demande",
     continueToBook: "Continuer la réservation",
     createAccountToContinue: "Créer un compte pour continuer",
