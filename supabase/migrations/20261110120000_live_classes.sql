@@ -144,7 +144,8 @@ CREATE POLICY live_rec_delete ON public.live_class_recordings FOR DELETE TO auth
 
 GRANT SELECT ON public.live_classes TO anon;
 GRANT SELECT, INSERT, UPDATE, DELETE ON public.live_classes TO authenticated;
-GRANT SELECT ON public.live_class_registrations, public.live_class_attendance TO authenticated;
+GRANT SELECT ON public.live_class_registrations TO authenticated;
+GRANT SELECT ON public.live_class_attendance TO authenticated;
 GRANT SELECT, UPDATE, DELETE ON public.live_class_recordings TO authenticated;
 
 -- Host and room are fixed once created, except by an admin.
