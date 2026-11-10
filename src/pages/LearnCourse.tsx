@@ -15,6 +15,60 @@ import {
   useStartAcademyCheckout,
 } from "@/hooks/useAcademyAccess";
 import { useLocalizedField } from "@/lib/i18n/localizedField";
+import { useLocale } from "@/contexts/LocaleContext";
+import { addLocalePrefix } from "@/lib/i18n/utils";
+import LessonMarkdown from "@/components/academy/LessonMarkdown";
+
+const COPY = {
+  en: {
+    done: "🎉 Course completed!",
+    all: "All courses",
+    complete: "complete",
+    locked: "Academy course",
+    lockedBody: "{t.lockedBody}",
+    join: "Join the Academy",
+    empty: "{t.empty}",
+    lessonLocked: "{t.lessonLocked}",
+    unlock: "Unlock with Academy",
+    prev: "Previous",
+    next: "Next",
+    mark: "Mark complete",
+    unmark: "Mark incomplete",
+    min: "min",
+  },
+  fr: {
+    done: "🎉 Cours terminé !",
+    all: "Tous les cours",
+    complete: "terminé",
+    locked: "Cours de l'Académie",
+    lockedBody: "Rejoignez l'Académie pour débloquer tous les modules.",
+    join: "Rejoindre l'Académie",
+    empty: "Ce cours n'a pas encore de module.",
+    lessonLocked: "Cette leçon fait partie de l'accès complet à l'Académie.",
+    unlock: "Débloquer avec l'Académie",
+    prev: "Précédent",
+    next: "Suivant",
+    mark: "Marquer comme terminé",
+    unmark: "Marquer comme non terminé",
+    min: "min",
+  },
+  ar: {
+    done: "🎉 أكملت الدورة!",
+    all: "كل الدورات",
+    complete: "مكتمل",
+    locked: "دورة الأكاديمية",
+    lockedBody: "انضم إلى الأكاديمية لفتح جميع الوحدات.",
+    join: "انضم إلى الأكاديمية",
+    empty: "لا توجد وحدات في هذه الدورة بعد.",
+    lessonLocked: "هذا الدرس ضمن الاشتراك الكامل في الأكاديمية.",
+    unlock: "افتح مع الأكاديمية",
+    prev: "السابق",
+    next: "التالي",
+    mark: "تحديد كمكتمل",
+    unmark: "إلغاء الإكمال",
+    min: "د",
+  },
+} as const;
 
 function initials(name: string) {
   return name
@@ -31,6 +85,8 @@ export default function LearnCourse() {
   const qc = useQueryClient();
   const [activeIdx, setActiveIdx] = useState(0);
   const loc = useLocalizedField();
+  const { locale } = useLocale();
+  const t = COPY[locale === "ar" ? "ar" : locale === "en" ? "en" : "fr"];
   const { hasAccess } = useAcademyAccess();
   const startCheckout = useStartAcademyCheckout();
 
@@ -116,7 +172,7 @@ export default function LearnCourse() {
       })
       .eq("id", enrollment.id);
     if (error) return toast.error(error.message);
-    if (isDone) toast.success("🎉 Course completed!");
+    if (isDone) toast.success(t.done);
     qc.invalidateQueries({ queryKey: ["learn-course", slug] });
   };
 
@@ -164,10 +220,10 @@ export default function LearnCourse() {
 
       <main className="container-custom py-8 md:py-12">
         <Link
-          to="/learn"
+          to={addLocalePrefix("/learn", locale)}
           className="text-xs text-muted-foreground hover:text-primary inline-flex items-center gap-1 mb-4"
         >
-          <ArrowLeft className="h-3 w-3" /> All courses
+          <ArrowLeft className="h-3 w-3" /> {t.all}
         </Link>
 
         <div className="grid grid-cols-1 lg:grid-cols-[280px_1fr] gap-6">
@@ -189,14 +245,14 @@ export default function LearnCourse() {
               <div className="space-y-1">
                 <Progress value={progress} className="h-1.5" />
                 <p className="text-[11px] text-muted-foreground">
-                  {progress}% complete
+                  {progress}% {t.complete}
                 </p>
               </div>
             )}
             {isCourseLocked && (
               <div className="rounded-xl border border-primary/30 bg-primary/5 p-3 space-y-2">
                 <p className="text-xs font-medium flex items-center gap-1.5">
-                  <Lock className="h-3.5 w-3.5" /> Academy course
+                  <Lock className="h-3.5 w-3.5" /> {t.locked}
                 </p>
                 <p className="text-[11px] text-muted-foreground">
                   Join Academy all-access to unlock every module.
@@ -210,7 +266,7 @@ export default function LearnCourse() {
                   {startCheckout.isPending ? (
                     <Loader2 className="h-3.5 w-3.5 mr-1.5 animate-spin" />
                   ) : null}
-                  Join the Academy
+                  {t.join}
                 </Button>
               </div>
             )}
@@ -237,7 +293,7 @@ export default function LearnCourse() {
                     <span
                       className={`flex-1 ${moduleLocked ? "text-muted-foreground" : ""}`}
                     >
-                      {i + 1}. {m.title}
+                      {i + 1}. {loc(m, "title")}
                     </span>
                   </button>
                 );
@@ -254,7 +310,9 @@ export default function LearnCourse() {
               <div className="flex flex-col items-center justify-center text-center gap-4 py-16">
                 <Lock className="h-10 w-10 text-primary/50" />
                 <div>
-                  <h2 className="text-xl font-display">{active.title}</h2>
+                  <h2 className="text-xl font-display">
+                    {loc(active, "title")}
+                  </h2>
                   <p className="text-sm text-muted-foreground mt-1">
                     This lesson is part of Academy all-access.
                   </p>
@@ -266,26 +324,31 @@ export default function LearnCourse() {
                   {startCheckout.isPending ? (
                     <Loader2 className="h-4 w-4 mr-2 animate-spin" />
                   ) : null}
-                  Unlock with Academy
+                  {t.unlock}
                 </Button>
               </div>
             ) : (
               <>
-                <h2 className="text-2xl font-display">{active.title}</h2>
+                <h2 className="text-2xl font-display">
+                  {loc(active, "title")}
+                </h2>
+                {active.duration_minutes ? (
+                  <p className="text-xs text-muted-foreground">
+                    {active.duration_minutes} {t.min}
+                  </p>
+                ) : null}
                 {active.video_url && (
                   <div className="aspect-video rounded-xl overflow-hidden bg-black">
                     <iframe
                       src={active.video_url}
-                      title={active.title}
+                      title={loc(active, "title")}
                       className="w-full h-full"
                       allowFullScreen
                     />
                   </div>
                 )}
-                {active.content && (
-                  <div className="prose prose-sm dark:prose-invert max-w-none whitespace-pre-wrap">
-                    {active.content}
-                  </div>
+                {loc(active, "content") && (
+                  <LessonMarkdown>{loc(active, "content")}</LessonMarkdown>
                 )}
                 {user && enrollment && (
                   <div className="flex justify-between pt-4 border-t">
@@ -295,12 +358,10 @@ export default function LearnCourse() {
                       onClick={() => setActiveIdx(Math.max(0, activeIdx - 1))}
                       disabled={activeIdx === 0}
                     >
-                      Previous
+                      {t.prev}
                     </Button>
                     <Button size="sm" onClick={() => toggleComplete(active.id)}>
-                      {completed.has(active.id)
-                        ? "Mark incomplete"
-                        : "Mark complete"}
+                      {completed.has(active.id) ? t.unmark : t.mark}
                     </Button>
                     <Button
                       variant="outline"
@@ -312,7 +373,7 @@ export default function LearnCourse() {
                       }
                       disabled={activeIdx >= modules.length - 1}
                     >
-                      Next
+                      {t.next}
                     </Button>
                   </div>
                 )}

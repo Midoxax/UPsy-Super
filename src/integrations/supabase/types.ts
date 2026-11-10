@@ -1843,6 +1843,7 @@ export type Database = {
       course_modules: {
         Row: {
           content: string | null;
+          content_fr: string | null;
           course_id: string;
           created_at: string | null;
           duration_minutes: number | null;
@@ -1850,10 +1851,13 @@ export type Database = {
           is_free_preview: boolean;
           order_index: number;
           title: string;
+          title_ar: string | null;
+          title_fr: string | null;
           video_url: string | null;
         };
         Insert: {
           content?: string | null;
+          content_fr?: string | null;
           course_id: string;
           created_at?: string | null;
           duration_minutes?: number | null;
@@ -1861,10 +1865,13 @@ export type Database = {
           is_free_preview?: boolean;
           order_index?: number;
           title: string;
+          title_ar?: string | null;
+          title_fr?: string | null;
           video_url?: string | null;
         };
         Update: {
           content?: string | null;
+          content_fr?: string | null;
           course_id?: string;
           created_at?: string | null;
           duration_minutes?: number | null;
@@ -1872,6 +1879,8 @@ export type Database = {
           is_free_preview?: boolean;
           order_index?: number;
           title?: string;
+          title_ar?: string | null;
+          title_fr?: string | null;
           video_url?: string | null;
         };
         Relationships: [
