@@ -16,6 +16,7 @@ import { toast } from "sonner";
 import { ArrowLeft, Download, Loader2, Plus, Users, Film } from "lucide-react";
 import { formatWhen } from "@/lib/live/liveCopy";
 import { useCanHost } from "@/lib/live/useCanHost";
+import { useManageCopy } from "@/lib/live/manageCopy";
 import type { Tables, TablesInsert } from "@/integrations/supabase/types";
 
 type LiveClass = Tables<"live_classes">;
@@ -41,13 +42,13 @@ const AUDIENCES = [
 ];
 
 /**
- * Host workspace (French interface: hosts are U.Psy's psychologists and
- * admins). Create and publish classes, see who registered and attended,
+ * Host workspace for U.Psy's psychologists and admins. Create and publish classes, see who registered and attended,
  * export the roster, and classify recordings before publishing them.
  */
 export default function LiveClassManage() {
   const { user, loading } = useAuth();
   const { locale } = useLocale();
+  const t = useManageCopy();
   const { data: canHost, isLoading } = useCanHost();
   const [editing, setEditing] = useState<LiveClass | "new" | null>(null);
   const [open, setOpen] = useState<string | null>(null);
@@ -76,23 +77,18 @@ export default function LiveClassManage() {
 
   return (
     <>
-      <SEOHead
-        path="/learn/live/manage"
-        title="Gérer les cours en direct | U.Psy"
-      />
+      <SEOHead path="/learn/live/manage" title={t.pageTitle} />
       <main className="container-custom py-8 md:py-12 space-y-6">
         <Link
           to={addLocalePrefix("/learn/live", locale)}
           className="text-xs text-muted-foreground hover:text-primary inline-flex items-center gap-1"
         >
-          <ArrowLeft className="h-3 w-3" /> Cours en direct
+          <ArrowLeft className="h-3 w-3" /> {t.back}
         </Link>
         <div className="flex flex-wrap items-center justify-between gap-3">
-          <h1 className="text-2xl md:text-3xl font-display">
-            Mes cours en direct
-          </h1>
+          <h1 className="text-2xl md:text-3xl font-display">{t.heading}</h1>
           <Button onClick={() => setEditing("new")}>
-            <Plus className="me-2 h-4 w-4" /> Nouveau cours
+            <Plus className="me-2 h-4 w-4" /> {t.newClass}
           </Button>
         </div>
 
@@ -104,7 +100,7 @@ export default function LiveClassManage() {
         )}
 
         {classes.length === 0 ? (
-          <p className="text-muted-foreground">Aucun cours pour l'instant.</p>
+          <p className="text-muted-foreground">{t.empty}</p>
         ) : (
           <ul className="space-y-3">
             {classes.map((c) => (
@@ -116,18 +112,21 @@ export default function LiveClassManage() {
                   <div className="space-y-1">
                     <p className="font-semibold">{c.title_fr || c.title}</p>
                     <p className="text-sm text-muted-foreground">
-                      {formatWhen(c.starts_at, "fr")} · {c.duration_minutes} min
-                      {c.capacity ? ` · ${c.capacity} places` : ""}
+                      {formatWhen(c.starts_at, locale)} · {c.duration_minutes}{" "}
+                      min
+                      {c.capacity ? ` · ${c.capacity} ${t.places}` : ""}
                     </p>
                     <div className="flex flex-wrap gap-1.5">
                       <Badge variant={c.is_published ? "default" : "outline"}>
-                        {c.is_published ? "Publié" : "Brouillon"}
+                        {c.is_published ? t.published : t.draft}
                       </Badge>
                       {c.status !== "scheduled" && (
-                        <Badge variant="outline">{c.status}</Badge>
+                        <Badge variant="outline">
+                          {c.status === "ended" ? t.ended : t.cancelled}
+                        </Badge>
                       )}
                       <Badge variant="outline">
-                        {c.recording_enabled ? "Enregistré" : "Non enregistré"}
+                        {c.recording_enabled ? t.recorded : t.notRecorded}
                       </Badge>
                     </div>
                   </div>
@@ -137,19 +136,18 @@ export default function LiveClassManage() {
                       variant="outline"
                       onClick={() => setEditing(c)}
                     >
-                      Modifier
+                      {t.edit}
                     </Button>
                     <Button
                       size="sm"
                       variant={open === c.id ? "default" : "outline"}
                       onClick={() => setOpen(open === c.id ? null : c.id)}
                     >
-                      <Users className="me-2 h-4 w-4" /> Participants et
-                      enregistrements
+                      <Users className="me-2 h-4 w-4" /> {t.roster}
                     </Button>
                     <Button size="sm" asChild>
                       <Link to={addLocalePrefix(`/learn/live/${c.id}`, locale)}>
-                        Ouvrir la salle
+                        {t.openRoom}
                       </Link>
                     </Button>
                   </div>
@@ -183,6 +181,7 @@ function ClassForm({
   onDone: () => void;
 }) {
   const { user } = useAuth();
+  const t = useManageCopy();
   const qc = useQueryClient();
   const [busy, setBusy] = useState(false);
   const [f, setF] = useState({
@@ -215,8 +214,7 @@ function ClassForm({
   });
 
   const save = async () => {
-    if (!f.title_fr.trim() || !f.starts_at)
-      return toast.error("Titre et date requis.");
+    if (!f.title_fr.trim() || !f.starts_at) return toast.error(t.required);
     setBusy(true);
     const row: TablesInsert<"live_classes"> = {
       title: f.title.trim() || f.title_fr.trim(),
@@ -239,7 +237,7 @@ function ClassForm({
       : await supabase.from("live_classes").insert(row);
     setBusy(false);
     if (error) return toast.error(error.message);
-    toast.success("Cours enregistré.");
+    toast.success(t.saved);
     qc.invalidateQueries({ queryKey: ["live-manage"] });
     qc.invalidateQueries({ queryKey: ["live-classes"] });
     onDone();
@@ -247,51 +245,49 @@ function ClassForm({
 
   return (
     <section className="rounded-2xl border border-primary/30 bg-primary/5 p-5 space-y-4">
-      <h2 className="font-semibold">
-        {initial ? "Modifier le cours" : "Nouveau cours"}
-      </h2>
+      <h2 className="font-semibold">{initial ? t.editClass : t.newClass}</h2>
       <div className="grid gap-4 md:grid-cols-2">
-        <Field label="Titre (français) *">
+        <Field label={t.fTitleFr}>
           <Input
             value={f.title_fr}
             onChange={(e) => set("title_fr", e.target.value)}
           />
         </Field>
-        <Field label="Title (English)">
+        <Field label={t.fTitleEn}>
           <Input
             value={f.title}
             onChange={(e) => set("title", e.target.value)}
           />
         </Field>
-        <Field label="العنوان (عربية)">
+        <Field label={t.fTitleAr}>
           <Input
             dir="rtl"
             value={f.title_ar}
             onChange={(e) => set("title_ar", e.target.value)}
           />
         </Field>
-        <Field label="Date et heure *">
+        <Field label={t.fWhen}>
           <Input
             type="datetime-local"
             value={f.starts_at}
             onChange={(e) => set("starts_at", e.target.value)}
           />
         </Field>
-        <Field label="Description (français)">
+        <Field label={t.fDescFr}>
           <Textarea
             rows={3}
             value={f.description_fr}
             onChange={(e) => set("description_fr", e.target.value)}
           />
         </Field>
-        <Field label="Description (English)">
+        <Field label={t.fDescEn}>
           <Textarea
             rows={3}
             value={f.description}
             onChange={(e) => set("description", e.target.value)}
           />
         </Field>
-        <Field label="Durée (minutes)">
+        <Field label={t.fDuration}>
           <Input
             type="number"
             min={15}
@@ -300,7 +296,7 @@ function ClassForm({
             onChange={(e) => set("duration_minutes", Number(e.target.value))}
           />
         </Field>
-        <Field label="Places (vide = illimité)">
+        <Field label={t.fCapacity}>
           <Input
             type="number"
             min={1}
@@ -313,7 +309,7 @@ function ClassForm({
             }
           />
         </Field>
-        <Field label="Langue du cours">
+        <Field label={t.fLanguage}>
           <select
             className="h-10 w-full rounded-md border border-input bg-background px-3 text-sm"
             value={f.language}
@@ -324,13 +320,13 @@ function ClassForm({
             <option value="en">English</option>
           </select>
         </Field>
-        <Field label="Cours de l'Académie associé">
+        <Field label={t.fCourse}>
           <select
             className="h-10 w-full rounded-md border border-input bg-background px-3 text-sm"
             value={f.course_id}
             onChange={(e) => set("course_id", e.target.value)}
           >
-            <option value="">Aucun</option>
+            <option value="">{t.none}</option>
             {courses.map((c) => (
               <option key={c.id} value={c.id}>
                 {c.title_fr || c.title}
@@ -339,15 +335,15 @@ function ClassForm({
           </select>
         </Field>
         {initial && (
-          <Field label="Statut">
+          <Field label={t.fStatus}>
             <select
               className="h-10 w-full rounded-md border border-input bg-background px-3 text-sm"
               value={f.status}
               onChange={(e) => set("status", e.target.value)}
             >
-              <option value="scheduled">Programmé</option>
-              <option value="ended">Terminé</option>
-              <option value="cancelled">Annulé</option>
+              <option value="scheduled">{t.scheduled}</option>
+              <option value="ended">{t.ended}</option>
+              <option value="cancelled">{t.cancelled}</option>
             </select>
           </Field>
         )}
@@ -358,27 +354,23 @@ function ClassForm({
             checked={f.recording_enabled}
             onCheckedChange={(v) => set("recording_enabled", v)}
           />
-          <span>
-            Cours enregistrable (contenu éducatif uniquement). Les participants
-            doivent accepter l'enregistrement à l'inscription. Ne jamais activer
-            pour une séance clinique ou un groupe thérapeutique.
-          </span>
+          <span>{t.recordable}</span>
         </label>
         <label className="flex items-center gap-3 text-sm">
           <Switch
             checked={f.is_published}
             onCheckedChange={(v) => set("is_published", v)}
           />
-          <span>Publié (visible et ouvert aux inscriptions)</span>
+          <span>{t.publishedHint}</span>
         </label>
       </div>
       <div className="flex gap-2">
         <Button onClick={save} disabled={busy}>
           {busy && <Loader2 className="me-2 h-4 w-4 animate-spin" />}
-          Enregistrer
+          {t.save}
         </Button>
         <Button variant="ghost" onClick={onDone}>
-          Annuler
+          {t.cancel}
         </Button>
       </div>
     </section>
@@ -401,6 +393,7 @@ function Field({
 }
 
 function Roster({ c }: { c: LiveClass }) {
+  const t = useManageCopy();
   const { data = [], isLoading } = useQuery({
     queryKey: ["live-roster", c.id],
     queryFn: async () => {
@@ -417,14 +410,7 @@ function Roster({ c }: { c: LiveClass }) {
   const exportCsv = () => {
     const esc = (v: unknown) => `"${String(v ?? "").replace(/"/g, '""')}"`;
     const rows = [
-      [
-        "Nom",
-        "Email",
-        "Inscrit le",
-        "Annulé le",
-        "Consentement enregistrement",
-        "Minutes présentes",
-      ],
+      t.csvHeaders,
       ...data.map((r) => [
         r.full_name,
         r.email,
@@ -451,7 +437,7 @@ function Roster({ c }: { c: LiveClass }) {
     <div className="space-y-3">
       <div className="flex items-center justify-between gap-2">
         <h3 className="font-semibold">
-          Participants ({active.length} inscrits, {attended} présents)
+          {t.participants(active.length, attended)}
         </h3>
         <Button
           size="sm"
@@ -465,15 +451,15 @@ function Roster({ c }: { c: LiveClass }) {
       {isLoading ? (
         <Loader2 className="h-4 w-4 animate-spin" />
       ) : data.length === 0 ? (
-        <p className="text-sm text-muted-foreground">Aucune inscription.</p>
+        <p className="text-sm text-muted-foreground">{t.noRegistrations}</p>
       ) : (
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
               <tr className="text-start text-xs text-muted-foreground">
-                <th className="py-1 text-start">Nom</th>
-                <th className="py-1 text-start">Email</th>
-                <th className="py-1 text-end">Présence</th>
+                <th className="py-1 text-start">{t.name}</th>
+                <th className="py-1 text-start">{t.email}</th>
+                <th className="py-1 text-end">{t.attendance}</th>
               </tr>
             </thead>
             <tbody>
@@ -485,7 +471,9 @@ function Roster({ c }: { c: LiveClass }) {
                   <td className="py-1">{r.full_name || "—"}</td>
                   <td className="py-1">{r.email}</td>
                   <td className="py-1 text-end">
-                    {r.cancelled_at ? "annulé" : `${r.minutes_attended} min`}
+                    {r.cancelled_at
+                      ? t.cancelledShort
+                      : `${r.minutes_attended} min`}
                   </td>
                 </tr>
               ))}
@@ -493,15 +481,13 @@ function Roster({ c }: { c: LiveClass }) {
           </table>
         </div>
       )}
-      <p className="text-[11px] text-muted-foreground">
-        Données personnelles : à utiliser uniquement pour l'organisation du
-        cours (loi 09-08).
-      </p>
+      <p className="text-[11px] text-muted-foreground">{t.privacy}</p>
     </div>
   );
 }
 
 function Recordings({ c }: { c: LiveClass }) {
+  const t = useManageCopy();
   const { data = [], isLoading } = useQuery({
     queryKey: ["live-recs", c.id],
     queryFn: async () =>
@@ -516,19 +502,14 @@ function Recordings({ c }: { c: LiveClass }) {
   return (
     <div className="space-y-3">
       <h3 className="font-semibold inline-flex items-center gap-2">
-        <Film className="h-4 w-4" /> Enregistrements
+        <Film className="h-4 w-4" /> {t.recordings}
       </h3>
       {!c.recording_enabled ? (
-        <p className="text-sm text-muted-foreground">
-          Ce cours n'est pas enregistrable.
-        </p>
+        <p className="text-sm text-muted-foreground">{t.notRecordable}</p>
       ) : isLoading ? (
         <Loader2 className="h-4 w-4 animate-spin" />
       ) : data.length === 0 ? (
-        <p className="text-sm text-muted-foreground">
-          Lancez l'enregistrement depuis la salle ; il apparaît ici quelques
-          minutes après la fin du cours.
-        </p>
+        <p className="text-sm text-muted-foreground">{t.recordingHint}</p>
       ) : (
         data.map((r) => <RecordingForm key={r.id} r={r} />)
       )}
@@ -537,6 +518,10 @@ function Recordings({ c }: { c: LiveClass }) {
 }
 
 function RecordingForm({ r }: { r: Recording }) {
+  const t = useManageCopy();
+  const { locale } = useLocale();
+  const dateTag =
+    locale === "ar" ? "ar-MA" : locale === "en" ? "en-GB" : "fr-FR";
   const qc = useQueryClient();
   const [busy, setBusy] = useState(false);
   const [f, setF] = useState({
@@ -574,7 +559,7 @@ function RecordingForm({ r }: { r: Recording }) {
       .eq("id", r.id);
     setBusy(false);
     if (error) return toast.error(error.message);
-    toast.success("Enregistrement classé.");
+    toast.success(t.classified);
     qc.invalidateQueries({ queryKey: ["live-recs", r.class_id] });
   };
 
@@ -591,14 +576,18 @@ function RecordingForm({ r }: { r: Recording }) {
           }
         >
           {r.status === "stored"
-            ? "Stocké"
+            ? t.stored
             : r.status === "failed"
-              ? "Échec de copie"
-              : "En cours de copie"}
+              ? t.failed
+              : t.copying}
         </Badge>
-        {r.size_bytes ? <span>{Math.round(r.size_bytes / 1e6)} Mo</span> : null}
+        {r.size_bytes ? (
+          <span>
+            {Math.round(r.size_bytes / 1e6)} {t.mb}
+          </span>
+        ) : null}
         <span className="text-muted-foreground">
-          {new Date(r.created_at).toLocaleString("fr-FR")}
+          {new Date(r.created_at).toLocaleString(dateTag)}
         </span>
       </div>
       {r.status === "failed" && (
@@ -616,28 +605,28 @@ function RecordingForm({ r }: { r: Recording }) {
                   rel="noopener noreferrer"
                   className="underline"
                 >
-                  télécharger l'original
+                  {t.downloadOriginal}
                 </a>{" "}
-                (lien valable jusqu'au{" "}
-                {new Date(r.source_expires_at).toLocaleString("fr-FR")})
+                ({t.linkUntil}{" "}
+                {new Date(r.source_expires_at).toLocaleString(dateTag)})
               </>
             )}
         </p>
       )}
       <div className="grid gap-3 sm:grid-cols-2">
-        <Field label="Titre (français)">
+        <Field label={t.rTitleFr}>
           <Input
             value={f.title_fr}
             onChange={(e) => set("title_fr", e.target.value)}
           />
         </Field>
-        <Field label="Title (English)">
+        <Field label={t.rTitleEn}>
           <Input
             value={f.title}
             onChange={(e) => set("title", e.target.value)}
           />
         </Field>
-        <Field label="Catégorie">
+        <Field label={t.category}>
           <select
             className="h-10 w-full rounded-md border border-input bg-background px-3 text-sm"
             value={f.category}
@@ -651,7 +640,7 @@ function RecordingForm({ r }: { r: Recording }) {
             ))}
           </select>
         </Field>
-        <Field label="Public">
+        <Field label={t.audience}>
           <select
             className="h-10 w-full rounded-md border border-input bg-background px-3 text-sm"
             value={f.audience}
@@ -665,17 +654,17 @@ function RecordingForm({ r }: { r: Recording }) {
             ))}
           </select>
         </Field>
-        <Field label="Thème">
+        <Field label={t.topic}>
           <Input
             value={f.topic}
             onChange={(e) => set("topic", e.target.value)}
           />
         </Field>
-        <Field label="Mots-clés (séparés par des virgules)">
+        <Field label={t.tags}>
           <Input value={f.tags} onChange={(e) => set("tags", e.target.value)} />
         </Field>
       </div>
-      <Field label="Résumé (français)">
+      <Field label={t.summaryFr}>
         <Textarea
           rows={2}
           value={f.summary_fr}
@@ -688,11 +677,11 @@ function RecordingForm({ r }: { r: Recording }) {
           onCheckedChange={(v) => set("is_published", v)}
           disabled={r.status !== "stored"}
         />
-        <span>Publier pour les participants inscrits</span>
+        <span>{t.publishRec}</span>
       </label>
       <Button size="sm" onClick={save} disabled={busy}>
         {busy && <Loader2 className="me-2 h-4 w-4 animate-spin" />}
-        Enregistrer le classement
+        {t.saveClass}
       </Button>
     </div>
   );
