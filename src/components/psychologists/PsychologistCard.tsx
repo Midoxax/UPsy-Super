@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 import { Link } from "@/lib/router-compat";
 import { useLocale } from "@/contexts/LocaleContext";
+import { getHomeCopy } from "@/lib/i18n/homeCopy";
 import { addLocalePrefix } from "@/lib/i18n/utils";
 import { photoUrl } from "@/lib/images/photoUrl";
 
@@ -212,7 +213,7 @@ export const PsychologistCard = ({ psychologist }: PsychologistCardProps) => {
 
         <div className="flex items-center gap-1.5 text-[11px] text-u-gray-400 mb-4">
           <ShieldCheck className="w-3 h-3 text-emerald-400/80" />
-          <span>Free rebook if not the right fit</span>
+          <span>{getHomeCopy(locale).featured["featured.verified"]}</span>
         </div>
 
         <div className="mt-auto flex gap-2">

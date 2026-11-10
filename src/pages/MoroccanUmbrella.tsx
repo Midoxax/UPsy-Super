@@ -32,13 +32,6 @@ const MoroccanUmbrella = () => {
     },
   ];
 
-  const stats = [
-    { value: "300+", label: t("moroccanUmbrellaPage.registeredPsychologists") },
-    { value: "12", label: t("moroccanUmbrellaPage.regionsCovered") },
-    { value: "50+", label: t("moroccanUmbrellaPage.partnerInstitutions") },
-    { value: "25", label: t("moroccanUmbrellaPage.trainingPrograms") },
-  ];
-
   return (
     <main className="min-h-screen bg-background">
       <SEOHead
@@ -110,36 +103,6 @@ const MoroccanUmbrella = () => {
               </ScrollReveal>
             ))}
           </div>
-        </div>
-      </section>
-
-      {/* Impact Stats */}
-      <section className="section-spacing liquid-bg">
-        <div className="container-custom">
-          <ScrollReveal>
-            <div className="glass-card p-10 md:p-14">
-              <div className="text-center mb-12">
-                <h2 className="text-h2 mb-4">
-                  {t("moroccanUmbrellaPage.growingNetwork")}
-                </h2>
-                <p className="text-body text-muted-foreground">
-                  {t("moroccanUmbrellaPage.growingNetworkDesc")}
-                </p>
-              </div>
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-                {stats.map((stat, index) => (
-                  <div key={index} className="text-center">
-                    <div className="text-3xl md:text-4xl font-bold text-primary mb-2">
-                      {stat.value}
-                    </div>
-                    <div className="text-sm text-muted-foreground">
-                      {stat.label}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </ScrollReveal>
         </div>
       </section>
 

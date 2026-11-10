@@ -4,6 +4,7 @@ import { useLocalizedField } from "@/lib/i18n/localizedField";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Link } from "@/lib/router-compat";
+import { addLocalePrefix } from "@/lib/i18n/utils";
 import {
   BookOpen,
   FileText,
@@ -161,6 +162,7 @@ const ResourceCard = ({ resource }: { resource: Resource }) => {
   const Icon = FORMAT_ICONS[resource.format] ?? FileText;
   const track = useTrackResource();
   const c = useCopy();
+  const { locale } = useLocale();
   const loc = useLocalizedField();
   const title = loc(resource, "title");
   const summary = loc(resource, "summary");
@@ -222,7 +224,7 @@ const ResourceCard = ({ resource }: { resource: Resource }) => {
       {inner}
     </a>
   ) : (
-    <Link to={href} onClick={handleClick}>
+    <Link to={addLocalePrefix(href, locale)} onClick={handleClick}>
       {inner}
     </Link>
   );

@@ -22,6 +22,7 @@ import {
 } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
 import { Building2, Loader2, CheckCircle2, ShieldCheck } from "lucide-react";
+import PrivacyNotice from "@/components/legal/PrivacyNotice";
 
 /**
  * /apply/organization
@@ -305,6 +306,7 @@ const ApplyOrganization = () => {
                 "Envoyer ma demande"
               )}
             </Button>
+            <PrivacyNotice />
           </form>
         </CardContent>
       </Card>

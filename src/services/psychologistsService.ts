@@ -152,9 +152,19 @@ export const getFeaturedPsychologists = async (limit = 4) => {
     .in("id", ids);
   if (e2) throw e2;
   const order = new Map(ids.map((id, i) => [id, i]));
-  return (rows ?? []).sort(
-    (a, b) => (order.get(a.id) ?? 0) - (order.get(b.id) ?? 0),
-  );
+  // Real social proof and availability from the ranking, never invented.
+  const ranked = new Map((data ?? []).map((r) => [r.id, r]));
+  return (rows ?? [])
+    .map((row) => {
+      const r = ranked.get(row.id);
+      return {
+        ...row,
+        rating_avg: r?.rating_avg ?? null,
+        rating_count: r?.rating_count ?? 0,
+        next_available: r?.next_available ?? null,
+      };
+    })
+    .sort((a, b) => (order.get(a.id) ?? 0) - (order.get(b.id) ?? 0));
 };
 
 export const fetchSpecialties = async () => {

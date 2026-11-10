@@ -100,9 +100,9 @@ export const CITIES: City[] = [
     lng: -5.834,
     near: ["Tétouan", "Assilah", "M'diq"],
     intro: {
-      fr: "À Tanger et dans le Nord, consultez un psychologue en français, en arabe, en espagnol ou en anglais. U.Psy affiche les langues, les tarifs en dirhams et les prochaines disponibilités de chaque praticien, au cabinet ou en ligne.",
-      en: "In Tangier and the North, see a psychologist in French, Arabic, Spanish or English. U.Psy shows each practitioner's languages, fees in dirhams and next openings, in the office or online.",
-      ar: "في طنجة والشمال، استشر أخصائياً نفسياً بالفرنسية أو العربية أو الإسبانية أو الإنجليزية. يعرض U.Psy لغات كل أخصائي وأسعاره بالدرهم ومواعيده القادمة.",
+      fr: "À Tanger et dans le Nord, consultez un psychologue en darija, en arabe, en français ou en anglais. U.Psy affiche les langues, les tarifs en dirhams et les prochaines disponibilités de chaque praticien, au cabinet ou en ligne.",
+      en: "In Tangier and the North, see a psychologist in Darija, Arabic, French or English. U.Psy shows each practitioner's languages, fees in dirhams and next openings, in the office or online.",
+      ar: "في طنجة والشمال، استشر أخصائياً نفسياً بالدارجة أو العربية أو الفرنسية أو الإنجليزية. يعرض U.Psy لغات كل أخصائي وأسعاره بالدرهم ومواعيده القادمة.",
     },
   },
   {

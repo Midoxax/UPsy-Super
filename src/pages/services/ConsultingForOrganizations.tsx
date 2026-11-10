@@ -36,25 +36,21 @@ const ConsultingForOrganizations = () => {
       title: "Reduce Burnout",
       description:
         "Evidence-based interventions to restore energy and resilience",
-      stat: "42% reduction in emotional exhaustion scores",
     },
     {
       icon: Users,
       title: "Improve Retention",
       description: "Keep your top talent engaged and committed long-term",
-      stat: "28% decrease in voluntary turnover",
     },
     {
       icon: Trophy,
       title: "Perform Under Pressure",
       description: "Build psychological skills for high-stakes moments",
-      stat: "34% improvement in clutch performance",
     },
     {
       icon: TrendingUp,
       title: "Healthy Culture",
       description: "Foster psychological safety and collective well-being",
-      stat: "56% increase in team psychological safety",
     },
   ];
 
@@ -217,12 +213,9 @@ const ConsultingForOrganizations = () => {
                   <CardTitle className="text-h3">{prop.title}</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-body text-muted-foreground mb-4">
+                  <p className="text-body text-muted-foreground">
                     {prop.description}
                   </p>
-                  <div className="text-small font-semibold theme-accent">
-                    {prop.stat}
-                  </div>
                 </CardContent>
               </Card>
             ))}
@@ -310,82 +303,6 @@ const ConsultingForOrganizations = () => {
               </Card>
             ))}
           </div>
-        </div>
-      </section>
-
-      {/* Case Study Block */}
-      <section className="section-spacing">
-        <div className="container-custom">
-          <Card className="glass-effect max-w-5xl mx-auto overflow-hidden">
-            <CardHeader className="bg-accent/5 border-b border-accent/10">
-              <div className="flex items-center gap-4 mb-4">
-                <div className="w-16 h-16 rounded-lg bg-accent/10 flex items-center justify-center">
-                  <Building2 className="w-8 h-8 theme-accent" />
-                </div>
-                <div>
-                  <Badge variant="outline" className="mb-2">
-                    Case Study
-                  </Badge>
-                  <CardTitle className="text-h3">
-                    European Professional Football Club
-                  </CardTitle>
-                </div>
-              </div>
-            </CardHeader>
-            <CardContent className="p-8">
-              <div className="grid md:grid-cols-3 gap-8">
-                <div>
-                  <h4 className="font-semibold text-foreground mb-3 text-lg">
-                    Problem
-                  </h4>
-                  <p className="text-body text-muted-foreground">
-                    High-pressure environment leading to performance anxiety,
-                    squad fragmentation, and inconsistent results in critical
-                    matches.
-                  </p>
-                </div>
-                <div>
-                  <h4 className="font-semibold text-foreground mb-3 text-lg">
-                    Intervention
-                  </h4>
-                  <p className="text-body text-muted-foreground">
-                    12-week Sport-Elite program: mental skills workshops,
-                    pre-match routines, psychological safety protocols, 1:1
-                    sessions with key players.
-                  </p>
-                </div>
-                <div>
-                  <h4 className="font-semibold text-foreground mb-3 text-lg">
-                    KPI Lift
-                  </h4>
-                  <div className="space-y-3">
-                    <div>
-                      <div className="text-small text-muted-foreground mb-1">
-                        Win rate in decisive matches
-                      </div>
-                      <div className="flex items-center gap-3">
-                        <span className="text-body line-through opacity-50">
-                          38%
-                        </span>
-                        <span className="text-h3 theme-accent">→ 64%</span>
-                      </div>
-                    </div>
-                    <div>
-                      <div className="text-small text-muted-foreground mb-1">
-                        Team cohesion index
-                      </div>
-                      <div className="flex items-center gap-3">
-                        <span className="text-body line-through opacity-50">
-                          6.2/10
-                        </span>
-                        <span className="text-h3 theme-accent">→ 8.7/10</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
         </div>
       </section>
 

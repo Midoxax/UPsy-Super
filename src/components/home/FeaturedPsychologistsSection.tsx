@@ -32,34 +32,14 @@ const useSafeT = () => {
 /**
  * Conversion-focused card:
  * - Face + online-status dot (trust)
- * - Rating + review count (social proof)
+ * - Rating + review count, only when real reviews exist (social proof)
  * - Location · session type (fit)
  * - Languages (fit)
- * - Next available slot (urgency / friction removal)
+ * - Next available slot, only when the specialist has published one
  * - Price up front (no surprises)
  * - Single primary CTA "Book — MAD X" + ghost "View profile"
- * - Site-wide rebook guarantee microcopy
+ * - Verification note (what U.Psy actually checked)
  */
-
-// Deterministic "next available" chip from an id so it doesn't flicker on re-render.
-const nextSlotLabel = (
-  id: string,
-  tf: (k: string, f: string) => string,
-): string => {
-  const seed = Array.from(id).reduce((a, c) => a + c.charCodeAt(0), 0);
-  const options = [
-    tf("featured.slot.today", "Today, 6:30 PM"),
-    tf("featured.slot.tomorrowMorning", "Tomorrow, 9:00 AM"),
-    tf("featured.slot.tomorrowAfternoon", "Tomorrow, 3:00 PM"),
-    tf("featured.slot.thisWeek", "This week, Thu 5:00 PM"),
-  ];
-  return options[seed % options.length];
-};
-
-const reviewCount = (id: string): number => {
-  const seed = Array.from(id).reduce((a, c) => a + c.charCodeAt(0), 0);
-  return 40 + (seed % 180);
-};
 
 const FeaturedPsychologistsSection = () => {
   const tf = useSafeT();
@@ -70,68 +50,10 @@ const FeaturedPsychologistsSection = () => {
     queryFn: () => getFeaturedPsychologists(3),
   });
 
-  const displayPsychologists =
-    psychologists && psychologists.length > 0
-      ? psychologists
-      : [
-          {
-            id: "1",
-            full_name: "Sarah Ahmed",
-            city: "Casablanca",
-            hourly_rate_mad: 600,
-            slug: "sarah-ahmed",
-            photo_url: null,
-            offers_online: true,
-            offers_in_person: true,
-            bio: "Anxiety · CBT",
-            psychologist_specialties: [
-              { specialties: { name: "Anxiety" } },
-              { specialties: { name: "CBT" } },
-            ],
-            psychologist_languages: [
-              { languages: { name: "Arabic" } },
-              { languages: { name: "French" } },
-            ],
-          },
-          {
-            id: "2",
-            full_name: "Karim Benali",
-            city: "Rabat",
-            hourly_rate_mad: 700,
-            slug: "karim-benali",
-            photo_url: null,
-            offers_online: true,
-            offers_in_person: false,
-            bio: "Burnout · Schema",
-            psychologist_specialties: [
-              { specialties: { name: "Burnout" } },
-              { specialties: { name: "Schema" } },
-            ],
-            psychologist_languages: [
-              { languages: { name: "French" } },
-              { languages: { name: "English" } },
-            ],
-          },
-          {
-            id: "3",
-            full_name: "Amina Tazi",
-            city: "Marrakech",
-            hourly_rate_mad: 550,
-            slug: "amina-tazi",
-            photo_url: null,
-            offers_online: true,
-            offers_in_person: true,
-            bio: "Couples · EMDR",
-            psychologist_specialties: [
-              { specialties: { name: "Couples" } },
-              { specialties: { name: "EMDR" } },
-            ],
-            psychologist_languages: [
-              { languages: { name: "Arabic" } },
-              { languages: { name: "English" } },
-            ],
-          },
-        ];
+  // Only real, published specialists. No placeholder profiles: a visitor
+  // who books a made-up person is a broken promise.
+  const displayPsychologists = psychologists ?? [];
+  if (displayPsychologists.length === 0) return null;
 
   return (
     <section className="section-spacing relative">
@@ -150,7 +72,7 @@ const FeaturedPsychologistsSection = () => {
             <p className="text-body text-muted-foreground">
               {tf(
                 "featured.subtitleConversion",
-                "Every psychologist is licensed, verified, and available for a 50-min session. Choose your slot in under two minutes.",
+                "Every psychologist is licensed and verified by U.Psy before their profile goes live. Choose a time in under two minutes.",
               )}
             </p>
           </div>
@@ -168,9 +90,25 @@ const FeaturedPsychologistsSection = () => {
                   ?.map((l: any) => l.languages?.name)
                   .filter(Boolean)
                   .join(" · ") || "";
-              const price = psych.hourly_rate_mad ?? 600;
-              const slot = nextSlotLabel(psych.id, tf);
-              const reviews = reviewCount(psych.id);
+              const price: number | null = psych.hourly_rate_mad ?? null;
+              const rating: number | null = psych.rating_avg ?? null;
+              const reviews: number = psych.rating_count ?? 0;
+              const slot: string | null = psych.next_available
+                ? new Intl.DateTimeFormat(
+                    locale === "ar"
+                      ? "ar-MA"
+                      : locale === "fr"
+                        ? "fr-MA"
+                        : "en-GB",
+                    {
+                      weekday: "short",
+                      day: "numeric",
+                      month: "short",
+                      hour: "2-digit",
+                      minute: "2-digit",
+                    },
+                  ).format(new Date(psych.next_available))
+                : null;
 
               return (
                 <StaggerItem key={psych.id}>
@@ -203,8 +141,8 @@ const FeaturedPsychologistsSection = () => {
                             role="img"
                             className="absolute -bottom-1 -right-1 w-4 h-4 rounded-full bg-emerald-500 border-2 border-card"
                             aria-label={tf(
-                              "featured.availableToday",
-                              "Available today",
+                              "featured.offersVideo",
+                              "Offers video sessions",
                             )}
                           />
                         )}
@@ -217,15 +155,21 @@ const FeaturedPsychologistsSection = () => {
                         <p className="text-sm text-muted-foreground truncate">
                           {specialty}
                         </p>
-                        <div className="flex items-center gap-1.5 mt-1.5">
-                          <Star className="w-3.5 h-3.5 fill-primary text-primary" />
-                          <span className="text-sm font-medium text-foreground font-mono tabular-nums">
-                            4.9
-                          </span>
-                          <span className="text-xs text-muted-foreground">
-                            ({reviews})
-                          </span>
-                        </div>
+                        {rating !== null && reviews > 0 ? (
+                          <div className="flex items-center gap-1.5 mt-1.5">
+                            <Star className="w-3.5 h-3.5 fill-primary text-primary" />
+                            <span className="text-sm font-medium text-foreground font-mono tabular-nums">
+                              {rating.toFixed(1)}
+                            </span>
+                            <span className="text-xs text-muted-foreground">
+                              ({reviews})
+                            </span>
+                          </div>
+                        ) : (
+                          <p className="mt-1.5 text-xs text-muted-foreground">
+                            {tf("featured.newOnUpsy", "New on U.Psy")}
+                          </p>
+                        )}
                       </div>
                     </div>
 
@@ -248,29 +192,42 @@ const FeaturedPsychologistsSection = () => {
                       )}
                     </div>
 
-                    {/* Next slot — the conversion hook */}
-                    <div className="mx-5 mb-4 rounded-xl bg-primary/5 border border-primary/15 px-3 py-2.5 flex items-center gap-2">
-                      <Clock className="w-4 h-4 text-primary shrink-0" />
-                      <div className="min-w-0">
-                        <p className="text-[10px] uppercase tracking-wider text-muted-foreground font-medium">
-                          {tf("featured.nextAvailable", "Next available")}
-                        </p>
-                        <p className="text-sm font-medium text-foreground truncate">
-                          {slot}
-                        </p>
+                    {/* Next slot: only a real one the specialist published */}
+                    {slot && (
+                      <div className="mx-5 mb-4 rounded-xl bg-primary/5 border border-primary/15 px-3 py-2.5 flex items-center gap-2">
+                        <Clock className="w-4 h-4 text-primary shrink-0" />
+                        <div className="min-w-0">
+                          <p className="text-[10px] uppercase tracking-wider text-muted-foreground font-medium">
+                            {tf("featured.nextAvailable", "Next available")}
+                          </p>
+                          <p className="text-sm font-medium text-foreground truncate">
+                            {slot}
+                          </p>
+                        </div>
                       </div>
-                    </div>
+                    )}
 
                     {/* Price + CTAs */}
                     <div className="mt-auto p-5 pt-0">
                       <div className="flex items-baseline justify-between mb-3">
                         <div>
-                          <span className="font-mono tabular-nums text-2xl font-semibold text-foreground">
-                            MAD {price}
-                          </span>
-                          <span className="text-xs text-muted-foreground ml-1.5">
-                            / {tf("featured.session50", "50-min session")}
-                          </span>
+                          {price !== null ? (
+                            <>
+                              <span className="font-mono tabular-nums text-2xl font-semibold text-foreground">
+                                MAD {price}
+                              </span>
+                              <span className="text-xs text-muted-foreground ml-1.5">
+                                / {tf("featured.session50", "50-min session")}
+                              </span>
+                            </>
+                          ) : (
+                            <span className="text-sm text-muted-foreground">
+                              {tf(
+                                "featured.feesOnProfile",
+                                "Fees on the profile",
+                              )}
+                            </span>
+                          )}
                         </div>
                       </div>
 
@@ -307,8 +264,8 @@ const FeaturedPsychologistsSection = () => {
                       <p className="mt-3 flex items-center gap-1.5 text-[11px] text-muted-foreground">
                         <ShieldCheck className="w-3 h-3 text-primary" />
                         {tf(
-                          "featured.guarantee",
-                          "Free rebook if not the right fit",
+                          "featured.verified",
+                          "Diploma and identity checked by U.Psy",
                         )}
                       </p>
                     </div>
@@ -325,7 +282,7 @@ const FeaturedPsychologistsSection = () => {
               to="/psychologists"
               className="inline-flex items-center gap-2"
             >
-              {tf("featured.viewAllConversion", "Browse all 50+ psychologists")}{" "}
+              {tf("featured.viewAllConversion", "Browse all psychologists")}{" "}
               <ArrowRight className="w-4 h-4" />
             </Link>
           </Button>
