@@ -37,3 +37,6 @@ verify_jwt = false
 
 [functions.ops-task-watcher]
 verify_jwt = false
+
+[functions.jaas-webhook]
+verify_jwt = false

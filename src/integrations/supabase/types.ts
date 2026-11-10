@@ -1843,6 +1843,7 @@ export type Database = {
       course_modules: {
         Row: {
           content: string | null;
+          content_fr: string | null;
           course_id: string;
           created_at: string | null;
           duration_minutes: number | null;
@@ -1850,10 +1851,13 @@ export type Database = {
           is_free_preview: boolean;
           order_index: number;
           title: string;
+          title_ar: string | null;
+          title_fr: string | null;
           video_url: string | null;
         };
         Insert: {
           content?: string | null;
+          content_fr?: string | null;
           course_id: string;
           created_at?: string | null;
           duration_minutes?: number | null;
@@ -1861,10 +1865,13 @@ export type Database = {
           is_free_preview?: boolean;
           order_index?: number;
           title: string;
+          title_ar?: string | null;
+          title_fr?: string | null;
           video_url?: string | null;
         };
         Update: {
           content?: string | null;
+          content_fr?: string | null;
           course_id?: string;
           created_at?: string | null;
           duration_minutes?: number | null;
@@ -1872,6 +1879,8 @@ export type Database = {
           is_free_preview?: boolean;
           order_index?: number;
           title?: string;
+          title_ar?: string | null;
+          title_fr?: string | null;
           video_url?: string | null;
         };
         Relationships: [
@@ -3614,6 +3623,230 @@ export type Database = {
           version?: string;
         };
         Relationships: [];
+      };
+      live_class_attendance: {
+        Row: {
+          class_id: string;
+          id: string;
+          joined_at: string;
+          last_seen_at: string;
+          user_id: string;
+        };
+        Insert: {
+          class_id: string;
+          id?: string;
+          joined_at?: string;
+          last_seen_at?: string;
+          user_id: string;
+        };
+        Update: {
+          class_id?: string;
+          id?: string;
+          joined_at?: string;
+          last_seen_at?: string;
+          user_id?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "live_class_attendance_class_id_fkey";
+            columns: ["class_id"];
+            isOneToOne: false;
+            referencedRelation: "live_classes";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
+      live_class_recordings: {
+        Row: {
+          audience: string | null;
+          category: string | null;
+          class_id: string;
+          created_at: string;
+          error: string | null;
+          id: string;
+          is_published: boolean;
+          language: string | null;
+          size_bytes: number | null;
+          source_expires_at: string | null;
+          source_key: string | null;
+          source_link: string | null;
+          status: string;
+          storage_path: string | null;
+          summary: string | null;
+          summary_fr: string | null;
+          tags: string[];
+          title: string | null;
+          title_ar: string | null;
+          title_fr: string | null;
+          topic: string | null;
+          updated_at: string;
+        };
+        Insert: {
+          audience?: string | null;
+          category?: string | null;
+          class_id: string;
+          created_at?: string;
+          error?: string | null;
+          id?: string;
+          is_published?: boolean;
+          language?: string | null;
+          size_bytes?: number | null;
+          source_expires_at?: string | null;
+          source_key?: string | null;
+          source_link?: string | null;
+          status?: string;
+          storage_path?: string | null;
+          summary?: string | null;
+          summary_fr?: string | null;
+          tags?: string[];
+          title?: string | null;
+          title_ar?: string | null;
+          title_fr?: string | null;
+          topic?: string | null;
+          updated_at?: string;
+        };
+        Update: {
+          audience?: string | null;
+          category?: string | null;
+          class_id?: string;
+          created_at?: string;
+          error?: string | null;
+          id?: string;
+          is_published?: boolean;
+          language?: string | null;
+          size_bytes?: number | null;
+          source_expires_at?: string | null;
+          source_key?: string | null;
+          source_link?: string | null;
+          status?: string;
+          storage_path?: string | null;
+          summary?: string | null;
+          summary_fr?: string | null;
+          tags?: string[];
+          title?: string | null;
+          title_ar?: string | null;
+          title_fr?: string | null;
+          topic?: string | null;
+          updated_at?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "live_class_recordings_class_id_fkey";
+            columns: ["class_id"];
+            isOneToOne: false;
+            referencedRelation: "live_classes";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
+      live_class_registrations: {
+        Row: {
+          cancelled_at: string | null;
+          class_id: string;
+          id: string;
+          recording_consent_at: string | null;
+          registered_at: string;
+          user_id: string;
+        };
+        Insert: {
+          cancelled_at?: string | null;
+          class_id: string;
+          id?: string;
+          recording_consent_at?: string | null;
+          registered_at?: string;
+          user_id: string;
+        };
+        Update: {
+          cancelled_at?: string | null;
+          class_id?: string;
+          id?: string;
+          recording_consent_at?: string | null;
+          registered_at?: string;
+          user_id?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "live_class_registrations_class_id_fkey";
+            columns: ["class_id"];
+            isOneToOne: false;
+            referencedRelation: "live_classes";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
+      live_classes: {
+        Row: {
+          capacity: number | null;
+          course_id: string | null;
+          created_at: string;
+          description: string | null;
+          description_ar: string | null;
+          description_fr: string | null;
+          duration_minutes: number;
+          host_id: string;
+          id: string;
+          is_published: boolean;
+          language: string;
+          recording_enabled: boolean;
+          room_name: string;
+          starts_at: string;
+          status: string;
+          title: string;
+          title_ar: string | null;
+          title_fr: string | null;
+          updated_at: string;
+        };
+        Insert: {
+          capacity?: number | null;
+          course_id?: string | null;
+          created_at?: string;
+          description?: string | null;
+          description_ar?: string | null;
+          description_fr?: string | null;
+          duration_minutes?: number;
+          host_id: string;
+          id?: string;
+          is_published?: boolean;
+          language?: string;
+          recording_enabled?: boolean;
+          room_name?: string;
+          starts_at: string;
+          status?: string;
+          title: string;
+          title_ar?: string | null;
+          title_fr?: string | null;
+          updated_at?: string;
+        };
+        Update: {
+          capacity?: number | null;
+          course_id?: string | null;
+          created_at?: string;
+          description?: string | null;
+          description_ar?: string | null;
+          description_fr?: string | null;
+          duration_minutes?: number;
+          host_id?: string;
+          id?: string;
+          is_published?: boolean;
+          language?: string;
+          recording_enabled?: boolean;
+          room_name?: string;
+          starts_at?: string;
+          status?: string;
+          title?: string;
+          title_ar?: string | null;
+          title_fr?: string | null;
+          updated_at?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "live_classes_course_id_fkey";
+            columns: ["course_id"];
+            isOneToOne: false;
+            referencedRelation: "courses";
+            referencedColumns: ["id"];
+          },
+        ];
       };
       membership_plans: {
         Row: {
@@ -7528,6 +7761,29 @@ export type Database = {
       };
     };
     Functions: {
+      register_live_class: {
+        Args: { _class: string; _recording_consent?: boolean };
+        Returns: string;
+      };
+      cancel_live_registration: {
+        Args: { _class: string };
+        Returns: undefined;
+      };
+      live_class_seats: { Args: { _class: string }; Returns: number };
+      can_host_live_classes: { Args: { _uid: string }; Returns: boolean };
+      live_class_roster: {
+        Args: { _class: string };
+        Returns: {
+          user_id: string;
+          full_name: string | null;
+          email: string;
+          registered_at: string;
+          cancelled_at: string | null;
+          recording_consent_at: string | null;
+          minutes_attended: number;
+          first_joined_at: string | null;
+        }[];
+      };
       psychologist_rating: {
         Args: { p_psychologist: string };
         Returns: { avg_rating: number; n: number }[];
