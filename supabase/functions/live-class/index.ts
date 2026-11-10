@@ -13,7 +13,10 @@
 //
 // Secrets: JAAS_APP_ID, JAAS_KEY_ID, JAAS_PRIVATE_KEY (as jaas-token).
 // Without them the page falls back to a public Jitsi room, not recorded.
-import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+import {
+  createClient,
+  type SupabaseClient,
+} from "https://esm.sh/@supabase/supabase-js@2";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -57,9 +60,7 @@ Deno.serve(async (req) => {
   }
 });
 
-// The untyped client, as in the other functions.
-// deno-lint-ignore no-explicit-any
-type Admin = any;
+type Admin = SupabaseClient;
 type User = {
   id: string;
   email?: string;
@@ -171,8 +172,11 @@ async function heartbeat(admin: Admin, userId: string, attendanceId: unknown) {
     .eq("id", attendanceId)
     .maybeSingle();
   if (!a || a.user_id !== userId) return json({ error: "Not found" }, 404);
-  // deno-lint-ignore no-explicit-any
-  const c = (a as any).live_classes;
+  const c = (
+    a as unknown as {
+      live_classes: { starts_at: string; duration_minutes: number };
+    }
+  ).live_classes;
   const cap =
     new Date(c.starts_at).getTime() + (c.duration_minutes * 60 + LATE_S) * 1000;
   const at = new Date(Math.min(Date.now(), cap)).toISOString();

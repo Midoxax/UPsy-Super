@@ -9,7 +9,22 @@
 //
 // Authentication: the webhook URL configured in the JaaS console carries a
 // secret, ?token=<JAAS_WEBHOOK_TOKEN>. Requests without it are rejected.
-import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+import {
+  createClient,
+  type SupabaseClient,
+} from "https://esm.sh/@supabase/supabase-js@2";
+
+/** The fields this function reads from a JaaS webhook. */
+interface JaasEvent {
+  eventType?: string;
+  idempotencyKey?: string;
+  sessionId?: string;
+  fqn?: string;
+  preAuthenticatedLink?: string;
+  data?: { preAuthenticatedLink?: string; fqn?: string };
+}
+
+type EdgeRuntimeLike = { waitUntil?: (p: Promise<unknown>) => void };
 
 Deno.serve(async (req) => {
   if (req.method !== "POST")
@@ -20,8 +35,7 @@ Deno.serve(async (req) => {
   if (!expected || !safeEqual(given, expected))
     return new Response("Unauthorized", { status: 401 });
 
-  // deno-lint-ignore no-explicit-any
-  let event: any;
+  let event: JaasEvent;
   try {
     event = await req.json();
   } catch {
@@ -84,8 +98,7 @@ Deno.serve(async (req) => {
 
   const copy = copyRecording(admin, url, serviceKey, rec.id, c.id, link);
   // Answer JaaS quickly; keep copying in the background where supported.
-  // deno-lint-ignore no-explicit-any
-  const rt = (globalThis as any).EdgeRuntime;
+  const rt = (globalThis as { EdgeRuntime?: EdgeRuntimeLike }).EdgeRuntime;
   if (rt?.waitUntil) {
     rt.waitUntil(copy);
     return new Response("accepted", { status: 202 });
@@ -95,8 +108,7 @@ Deno.serve(async (req) => {
 });
 
 async function copyRecording(
-  // deno-lint-ignore no-explicit-any
-  admin: any,
+  admin: SupabaseClient,
   url: string,
   serviceKey: string,
   recordingId: string,
@@ -110,7 +122,8 @@ async function copyRecording(
     const ext = type.includes("webm") ? "webm" : "mp4";
     const path = `${classId}/${recordingId}.${ext}`;
     // Stream straight into storage, so large files never sit in memory.
-    const up = await fetch(`${url}/storage/v1/object/live-recordings/${path}`, {
+    // `duplex` is required by fetch for a streamed request body.
+    const init: RequestInit & { duplex: "half" } = {
       method: "POST",
       headers: {
         Authorization: `Bearer ${serviceKey}`,
@@ -119,9 +132,12 @@ async function copyRecording(
         "x-upsert": "true",
       },
       body: src.body,
-      // @ts-ignore Deno needs this for a streamed request body.
       duplex: "half",
-    });
+    };
+    const up = await fetch(
+      `${url}/storage/v1/object/live-recordings/${path}`,
+      init,
+    );
     if (!up.ok) throw new Error(`upload ${up.status} ${await up.text()}`);
     const size = Number(src.headers.get("content-length")) || null;
     await admin
