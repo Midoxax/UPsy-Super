@@ -25,6 +25,8 @@ import {
   useStartAcademyCheckout,
 } from "@/hooks/useAcademyAccess";
 import { useLocalizedField } from "@/lib/i18n/localizedField";
+import { addLocalePrefix } from "@/lib/i18n/utils";
+import { Radio } from "lucide-react";
 
 const PATH_STYLE: Record<string, string> = {
   "mental-health": "bg-blue-500/10 text-blue-600 border-blue-500/20",
@@ -271,6 +273,20 @@ export default function Learn() {
                 {t.browseFree}
               </Button>
             </a>
+            <Link to={addLocalePrefix("/learn/live", locale)}>
+              <Button
+                size="lg"
+                variant="outline"
+                className="border-white/30 text-white hover:bg-white/10 hover:text-white"
+              >
+                <Radio className="h-4 w-4 me-2" />
+                {locale === "ar"
+                  ? "الدروس المباشرة"
+                  : locale === "en"
+                    ? "Live classes"
+                    : "Cours en direct"}
+              </Button>
+            </Link>
           </div>
         </div>
       </section>
