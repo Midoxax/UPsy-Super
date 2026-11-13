@@ -78,10 +78,10 @@ homepage hero instead of the generic orb.
 
 ## Open items found while building (owner decisions, not done here)
 
-- The results screen labels a total below 35 as **"At risk / À risque /
-  في خطر"**. The self-score is a 12-item marketing questionnaire, not a
-  validated instrument; a risk label on it is a clinical claim. Suggest a
-  descriptive band name instead.
+- **Done in this branch:** the lowest band was labelled "At risk / À risque /
+  في خطر". The self-score is a 12-item questionnaire, not a validated
+  instrument, so a risk label on it was a clinical claim. It now reads
+  "Under heavy load / Sous forte charge / تحت ضغط شديد".
 - `free_score_completed` sends the four pillar scores to PostHog and the data
   layer. Check that against hard rule 7 ("clinical data … never to
   analytics") and decide whether the free score counts as clinical data.

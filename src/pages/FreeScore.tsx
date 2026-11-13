@@ -432,7 +432,13 @@ export default function FreeScore() {
           ? { en: "Balanced", fr: "Équilibré", ar: "متوازن" }
           : score >= 35
             ? { en: "Strained", fr: "Tendu", ar: "متوتر" }
-            : { en: "At risk", fr: "À risque", ar: "في خطر" };
+            : // Describes load, not danger: this is a 12-item self-check, not a
+              // validated instrument, so it must not hand out a risk label.
+              {
+                en: "Under heavy load",
+                fr: "Sous forte charge",
+                ar: "تحت ضغط شديد",
+              };
     return (
       <>
         <SEOHead
