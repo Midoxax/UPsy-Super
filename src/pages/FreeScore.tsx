@@ -13,6 +13,7 @@ import { toast } from "sonner";
 import { captureEvent } from "@/lib/analytics/posthog";
 import { pushDataLayer } from "@/lib/analytics/gtm";
 import { Link } from "@/lib/router-compat";
+import { ProfileFigure } from "@/components/profile/ProfileFigure";
 
 type Pillar = "focus" | "regulation" | "recovery" | "meaning";
 
@@ -456,6 +457,23 @@ export default function FreeScore() {
                 </p>
                 <Progress value={score} className="h-3" />
               </div>
+
+              <ProfileFigure
+                scores={pillarScores}
+                labels={{
+                  focus: pillarLabels.focus[lang],
+                  regulation: pillarLabels.regulation[lang],
+                  recovery: pillarLabels.recovery[lang],
+                  meaning: pillarLabels.meaning[lang],
+                }}
+                caption={
+                  lang === "fr"
+                    ? "Votre profil"
+                    : lang === "ar"
+                      ? "ملفك الشخصي"
+                      : "Your profile"
+                }
+              />
 
               <div className="space-y-3">
                 <h3 className="font-display text-lg">
