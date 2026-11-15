@@ -12,7 +12,7 @@ is sent before that or without it. Persistence is in memory (no cookies), so a
 | `$pageview`                            | every page, including in-app navigation                      | `$current_url`                                                   |
 | `experiment_view`                      | the home hero renders                                        | `experiment_id`, `experiment_variant`                            |
 | `cta_click`                            | a tracked button is clicked (hero, etc.)                     | `cta_label`, `cta_location`, `destination`                       |
-| `free_score_completed`                 | the free score is finished                                   | pillar scores                                                    |
+| `free_score_completed`                 | the free score is finished                                   | `band` only; never answers, scores or pillars                    |
 | `signup_completed`                     | an email sign-up succeeds                                    | `method`, `locale`                                               |
 | `booking.step_viewed`                  | each step of the booking modal: `slot`, `confirm`, `success` | `step`, `step_index`, `is_authenticated`, `price_bucket`         |
 | `booking.completed` / `booking.failed` | booking made / refused                                       | `reason_code` on failure (`not_authenticated`, `request_failed`) |
