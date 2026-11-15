@@ -108,7 +108,28 @@ jobs:
       - name: Translation coverage
         run: npx tsx scripts/i18n/audit.ts
 
+      # Behavioural coverage. Every other gate checks the shape of the output;
+      # these assert what the code actually does — i18n fallback resolution,
+      # theme resolution, and route authorization. Each suite is mutation-
+      # verified: breaking the implementation fails a test.
+      - name: Unit tests
+        run: bun run test
+
+      # Blocking. The pre-existing backlog (424 `no-explicit-any` and one
+      # `prefer-const`) is recorded in eslint-suppressions.json, so anything
+      # new fails while old code is cleaned up as it is touched. After removing
+      # suppressed problems, `bun run lint:prune` shrinks the baseline.
+      - name: Lint
+        run: bun run lint
+
       # The other half of the backend.
+      #
+      # Runs after the tests and lint on purpose. `--node-modules-dir=auto`
+      # makes Deno resolve package.json itself, ignoring bun.lock, and write
+      # what it finds into node_modules. Anything that ran after it was using
+      # whatever versions were newest that day: on 13 Nov 2026 a new Prettier
+      # release turned lint red on files nobody had touched. Everything that
+      # must run on the locked dependencies now runs first.
       #
       # tsconfig.json includes only `src`, so `tsc` never sees
       # supabase/functions — 33 Deno functions, including every one that sends
@@ -145,20 +166,6 @@ jobs:
             fi
           done
           deno check --node-modules-dir=auto "${shared[@]}" supabase/functions/_shared/*.ts
-
-      # Behavioural coverage. Every other gate checks the shape of the output;
-      # these assert what the code actually does — i18n fallback resolution,
-      # theme resolution, and route authorization. Each suite is mutation-
-      # verified: breaking the implementation fails a test.
-      - name: Unit tests
-        run: bun run test
-
-      # Blocking. The pre-existing backlog (424 `no-explicit-any` and one
-      # `prefer-const`) is recorded in eslint-suppressions.json, so anything
-      # new fails while old code is cleaned up as it is touched. After removing
-      # suppressed problems, `bun run lint:prune` shrinks the baseline.
-      - name: Lint
-        run: bun run lint
 
       # Blocks on high/critical advisories only. Moderate and low are reported
       # by the same command without failing, because transitive dev-only
