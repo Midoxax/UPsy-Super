@@ -10,8 +10,12 @@ import { Progress } from "@/components/ui/progress";
 import { useLocale } from "@/contexts/LocaleContext";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
-import { captureEvent } from "@/lib/analytics/posthog";
-import { pushDataLayer } from "@/lib/analytics/gtm";
+import {
+  trackQuizAnswer,
+  trackQuizStart,
+  trackQuizSubmit,
+  trackResultClick,
+} from "@/lib/analytics/freeScore";
 import { Link } from "@/lib/router-compat";
 import { ProfileFigure } from "@/components/profile/ProfileFigure";
 
@@ -160,13 +164,7 @@ export default function FreeScore() {
 
   // Fire quiz_start once on mount.
   useEffect(() => {
-    pushDataLayer({
-      event: "quiz_start",
-      quiz_id: "mental_performance_score",
-      total_questions: total,
-      locale: lang,
-      page_path: "/free-score",
-    });
+    trackQuizStart(total, lang);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -308,22 +306,9 @@ export default function FreeScore() {
         } as never,
       });
 
-      captureEvent("free_score_completed", { score: computed, ...pillars });
-      pushDataLayer({
-        event: "quiz_submit",
-        quiz_id: "mental_performance_score",
-        score_total: computed,
-        focus: pillars.focus,
-        regulation: pillars.regulation,
-        recovery: pillars.recovery,
-        meaning: pillars.meaning,
-        weakest_pillar: (Object.entries(pillars) as [Pillar, number][]).sort(
-          (a, b) => a[1] - b[1],
-        )[0][0],
-        consent_marketing: consent,
-        locale: lang,
-        page_path: "/free-score",
-      });
+      // Answers and pillar scores stay in our own database (above). Only
+      // completion and the overall band go to analytics; see freeScore.ts.
+      trackQuizSubmit(computed, consent, lang);
       setScore(computed);
       setPillarScores(pillars);
 
@@ -493,12 +478,7 @@ export default function FreeScore() {
                   <Link
                     key={p}
                     to={matchHref(p)}
-                    onClick={() =>
-                      captureEvent("free_score_pillar_click", {
-                        pillar: p,
-                        score: pillarScores[p],
-                      })
-                    }
+                    onClick={() => trackResultClick("pillar", score)}
                     className="block space-y-1 rounded-md px-2 py-1 -mx-2 hover:bg-muted/40 transition-colors focus:outline-hidden focus:ring-2 focus:ring-primary/40"
                   >
                     <div className="flex justify-between text-sm items-center">
@@ -547,12 +527,7 @@ export default function FreeScore() {
                 <Button asChild size="lg">
                   <Link
                     to={matchHref(weakest[0])}
-                    onClick={() =>
-                      captureEvent("free_score_cta_match", {
-                        pillar: weakest[0],
-                        score,
-                      })
-                    }
+                    onClick={() => trackResultClick("match", score)}
                   >
                     {ctaMatchLabel}
                   </Link>
@@ -605,17 +580,7 @@ export default function FreeScore() {
                       }
                       onClick={() => {
                         setAnswers({ ...answers, [QUESTIONS[step].key]: v });
-                        pushDataLayer({
-                          event: "quiz_answer",
-                          quiz_id: "mental_performance_score",
-                          question_key: QUESTIONS[step].key,
-                          question_pillar: QUESTIONS[step].pillar,
-                          question_index: step + 1,
-                          total_questions: total,
-                          value: v,
-                          locale: lang,
-                          page_path: "/free-score",
-                        });
+                        trackQuizAnswer(step + 1, total, lang);
                         setTimeout(() => setStep(step + 1), 200);
                       }}
                     >

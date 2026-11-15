@@ -82,6 +82,8 @@ homepage hero instead of the generic orb.
   في خطر". The self-score is a 12-item questionnaire, not a validated
   instrument, so a risk label on it was a clinical claim. It now reads
   "Under heavy load / Sous forte charge / تحت ضغط شديد".
-- `free_score_completed` sends the four pillar scores to PostHog and the data
-  layer. Check that against hard rule 7 ("clinical data … never to
-  analytics") and decide whether the free score counts as clinical data.
+- **Done (separate pull request):** the self-score used to send every
+  answer, the four pillar scores and the weakest pillar to the tag manager,
+  and the scores to PostHog. It now sends progress, completion and, to
+  PostHog only, the overall band. `src/lib/analytics/freeScore.ts` is the
+  single place these events are shaped and a test holds the rule.
