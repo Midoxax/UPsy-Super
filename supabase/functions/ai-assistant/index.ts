@@ -192,7 +192,11 @@ serve(async (req) => {
       .join("\n\n");
     let body: ReadableStream<Uint8Array>;
     try {
-      body = await aiStream({ system: dynamicSystem, messages });
+      body = await aiStream({
+        tier: "fast",
+        system: dynamicSystem,
+        messages,
+      });
     } catch (e) {
       return aiErrorResponse(e, corsHeaders);
     }

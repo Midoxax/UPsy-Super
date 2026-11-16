@@ -127,6 +127,7 @@ serve(async (req) => {
     let summary: Record<string, unknown>;
     try {
       summary = await aiJson<Record<string, unknown>>({
+        tier: "deep",
         system: SYSTEM_PROMPT,
         messages: [{ role: "user", content: notes.slice(0, 8000) }],
         schema: SUMMARY_SCHEMA,
