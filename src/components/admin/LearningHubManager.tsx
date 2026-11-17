@@ -12,6 +12,7 @@ import {
   RefreshCw,
 } from "lucide-react";
 import CourseEditDrawer from "./CourseEditDrawer";
+import SeriesToCourse from "./SeriesToCourse";
 import { cn } from "@/lib/utils";
 
 const PATH_STYLE: Record<string, string> = {
@@ -79,6 +80,13 @@ export default function LearningHubManager() {
           <Plus className="h-4 w-4 mr-1" /> New course
         </Button>
       </div>
+
+      <SeriesToCourse
+        onCreated={(created) => {
+          setEditing(created);
+          setOpen(true);
+        }}
+      />
 
       {isLoading ? (
         <div className="flex flex-col items-center gap-3 py-16">

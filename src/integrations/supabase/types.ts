@@ -1850,6 +1850,7 @@ export type Database = {
           id: string;
           is_free_preview: boolean;
           order_index: number;
+          recording_id: string | null;
           title: string;
           title_ar: string | null;
           title_fr: string | null;
@@ -1864,6 +1865,7 @@ export type Database = {
           id?: string;
           is_free_preview?: boolean;
           order_index?: number;
+          recording_id?: string | null;
           title: string;
           title_ar?: string | null;
           title_fr?: string | null;
@@ -1878,6 +1880,7 @@ export type Database = {
           id?: string;
           is_free_preview?: boolean;
           order_index?: number;
+          recording_id?: string | null;
           title?: string;
           title_ar?: string | null;
           title_fr?: string | null;
@@ -1889,6 +1892,13 @@ export type Database = {
             columns: ["course_id"];
             isOneToOne: false;
             referencedRelation: "courses";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "course_modules_recording_id_fkey";
+            columns: ["recording_id"];
+            isOneToOne: false;
+            referencedRelation: "live_class_recordings";
             referencedColumns: ["id"];
           },
         ];
@@ -7871,6 +7881,10 @@ export type Database = {
       };
     };
     Functions: {
+      course_from_live_series: {
+        Args: { _series: string };
+        Returns: string;
+      };
       reorder_live_series: {
         Args: { _series: string; _item_ids: string[] };
         Returns: undefined;

@@ -1,4 +1,8 @@
 import { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { toast } from "sonner";
+import { supabase } from "@/integrations/supabase/client";
+import { useModuleStudioCopy } from "@/lib/academy/moduleStudioCopy";
 import {
   useAdminCourseModules,
   useSaveModule,
@@ -8,13 +12,49 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
-import { Loader2, Plus, Trash2, ArrowUp, ArrowDown } from "lucide-react";
+import {
+  Loader2,
+  Plus,
+  Trash2,
+  ArrowUp,
+  ArrowDown,
+  Sparkles,
+} from "lucide-react";
+
+type Draft = {
+  title_fr: string;
+  title_en: string;
+  content_fr: string;
+  content_en: string;
+  minutes: number;
+  review_notes: string[];
+};
+
+/** Stored class recordings an admin can attach to a module. */
+function useStoredRecordings() {
+  return useQuery({
+    queryKey: ["admin-stored-recordings"],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("live_class_recordings")
+        .select("id, title, title_fr, created_at")
+        .eq("status", "stored")
+        .order("created_at", { ascending: false });
+      if (error) throw error;
+      return data ?? [];
+    },
+  });
+}
 
 export default function ModuleListEditor({ courseId }: { courseId: string }) {
   const { data: modules = [], isLoading } = useAdminCourseModules(courseId);
   const save = useSaveModule();
   const del = useDeleteModule();
   const [drafts, setDrafts] = useState<Record<string, any>>({});
+  const { data: recordings = [] } = useStoredRecordings();
+  const c = useModuleStudioCopy();
+  const patch = (id: string, fields: Record<string, unknown>) =>
+    setDrafts((d) => ({ ...d, [id]: { ...d[id], ...fields } }));
 
   if (isLoading) return <Loader2 className="h-5 w-5 animate-spin" />;
 
@@ -99,6 +139,32 @@ export default function ModuleListEditor({ courseId }: { courseId: string }) {
                   }
                 />
               </div>
+              <Input
+                placeholder={c.titleFr}
+                value={m.title_fr ?? ""}
+                onChange={(e) => patch(m.id, { title_fr: e.target.value })}
+              />
+              <select
+                aria-label={c.recording}
+                className="w-full h-9 rounded-md border bg-background px-2 text-sm"
+                value={m.recording_id ?? ""}
+                onChange={(e) =>
+                  patch(m.id, { recording_id: e.target.value || null })
+                }
+              >
+                <option value="">{`${c.recording} : ${c.noRecording}`}</option>
+                {recordings.map((r) => (
+                  <option key={r.id} value={r.id}>
+                    {`${r.title_fr || r.title || r.id.slice(0, 8)} · ${new Date(r.created_at).toLocaleDateString()}`}
+                  </option>
+                ))}
+              </select>
+              <Textarea
+                rows={4}
+                placeholder={c.contentFr}
+                value={m.content_fr ?? ""}
+                onChange={(e) => patch(m.id, { content_fr: e.target.value })}
+              />
               <Textarea
                 rows={2}
                 placeholder="Content / notes"
@@ -110,6 +176,7 @@ export default function ModuleListEditor({ courseId }: { courseId: string }) {
                   })
                 }
               />
+              <AiDraft moduleId={m.id} onDraft={(d) => patch(m.id, d)} />
               <div className="flex items-center justify-between">
                 <label className="flex items-center gap-2 text-xs text-muted-foreground">
                   <Switch
@@ -157,6 +224,78 @@ export default function ModuleListEditor({ courseId }: { courseId: string }) {
       >
         <Plus className="h-4 w-4 mr-1" /> Add module
       </Button>
+    </div>
+  );
+}
+
+/** Fable drafts the lesson; the result goes into the form, not the database. */
+function AiDraft({
+  moduleId,
+  onDraft,
+}: {
+  moduleId: string;
+  onDraft: (fields: Record<string, unknown>) => void;
+}) {
+  const c = useModuleStudioCopy();
+  const [open, setOpen] = useState(false);
+  const [notes, setNotes] = useState("");
+  const [busy, setBusy] = useState(false);
+  const [review, setReview] = useState<string[]>([]);
+
+  const run = async () => {
+    setBusy(true);
+    const { data, error } = await supabase.functions.invoke<Draft>(
+      "academy-draft-module",
+      { body: { module_id: moduleId, notes } },
+    );
+    setBusy(false);
+    if (error || !data) {
+      toast.error(error?.message ?? "AI error");
+      return;
+    }
+    onDraft({
+      title_fr: data.title_fr,
+      title: data.title_en,
+      content_fr: data.content_fr,
+      content: data.content_en,
+      duration_minutes: data.minutes,
+    });
+    setReview(data.review_notes);
+    toast.success(c.drafted);
+  };
+
+  if (!open)
+    return (
+      <Button size="sm" variant="outline" onClick={() => setOpen(true)}>
+        <Sparkles className="h-3.5 w-3.5 mr-1" /> {c.draft}
+      </Button>
+    );
+  return (
+    <div className="rounded-md border border-dashed p-2 space-y-2">
+      <Textarea
+        rows={3}
+        placeholder={c.notes}
+        value={notes}
+        onChange={(e) => setNotes(e.target.value)}
+      />
+      <Button size="sm" onClick={run} disabled={busy}>
+        {busy ? (
+          <Loader2 className="h-3.5 w-3.5 mr-1 animate-spin" />
+        ) : (
+          <Sparkles className="h-3.5 w-3.5 mr-1" />
+        )}
+        {busy ? c.drafting : c.draft}
+      </Button>
+      {review.length > 0 && (
+        <div className="text-xs text-muted-foreground">
+          <p className="font-medium">{c.review}</p>
+          <ul className="list-disc ps-4">
+            {review.map((r) => (
+              <li key={r}>{r}</li>
+            ))}
+          </ul>
+        </div>
+      )}
     </div>
   );
 }
