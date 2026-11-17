@@ -212,9 +212,15 @@ import { Route as LocaleCenterCSlugRouteImport } from './routes/$locale/center/c
 import { Route as LocaleLearnLiveIndexRouteImport } from './routes/$locale/learn/live/index'
 import { Route as LocaleLearnLiveIdRouteImport } from './routes/$locale/learn/live/$id'
 import { Route as LocaleLearnLiveManageRouteImport } from './routes/$locale/learn/live/manage'
+import { Route as LearnLiveManageSeriesRouteImport } from './routes/learn/live/manage/series'
+import { Route as LearnLiveSeriesIndexRouteImport } from './routes/learn/live/series/index'
+import { Route as LearnLiveSeriesIdRouteImport } from './routes/learn/live/series/$id'
 import { Route as OpsWorkspaceEventsIndexRouteImport } from './routes/ops/$workspace/events/index'
 import { Route as OpsWorkspaceEventsEventIdRouteImport } from './routes/ops/$workspace/events/$eventId'
 import { Route as OpsWorkspaceEventsNewRouteImport } from './routes/ops/$workspace/events/new'
+import { Route as LocaleLearnLiveManageSeriesRouteImport } from './routes/$locale/learn/live/manage/series'
+import { Route as LocaleLearnLiveSeriesIndexRouteImport } from './routes/$locale/learn/live/series/index'
+import { Route as LocaleLearnLiveSeriesIdRouteImport } from './routes/$locale/learn/live/series/$id'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -1261,6 +1267,21 @@ const LocaleLearnLiveManageRoute = LocaleLearnLiveManageRouteImport.update({
   path: '/$locale/learn/live/manage',
   getParentRoute: () => rootRouteImport,
 } as any)
+const LearnLiveManageSeriesRoute = LearnLiveManageSeriesRouteImport.update({
+  id: '/series',
+  path: '/series',
+  getParentRoute: () => LearnLiveManageRoute,
+} as any)
+const LearnLiveSeriesIndexRoute = LearnLiveSeriesIndexRouteImport.update({
+  id: '/learn/live/series/',
+  path: '/learn/live/series/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LearnLiveSeriesIdRoute = LearnLiveSeriesIdRouteImport.update({
+  id: '/learn/live/series/$id',
+  path: '/learn/live/series/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const OpsWorkspaceEventsIndexRoute = OpsWorkspaceEventsIndexRouteImport.update({
   id: '/events/',
   path: '/events/',
@@ -1276,6 +1297,23 @@ const OpsWorkspaceEventsNewRoute = OpsWorkspaceEventsNewRouteImport.update({
   id: '/events/new',
   path: '/events/new',
   getParentRoute: () => OpsWorkspaceRoute,
+} as any)
+const LocaleLearnLiveManageSeriesRoute =
+  LocaleLearnLiveManageSeriesRouteImport.update({
+    id: '/series',
+    path: '/series',
+    getParentRoute: () => LocaleLearnLiveManageRoute,
+  } as any)
+const LocaleLearnLiveSeriesIndexRoute =
+  LocaleLearnLiveSeriesIndexRouteImport.update({
+    id: '/$locale/learn/live/series/',
+    path: '/$locale/learn/live/series/',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const LocaleLearnLiveSeriesIdRoute = LocaleLearnLiveSeriesIdRouteImport.update({
+  id: '/$locale/learn/live/series/$id',
+  path: '/$locale/learn/live/series/$id',
+  getParentRoute: () => rootRouteImport,
 } as any)
 
 export interface FileRoutesByFullPath {
@@ -1459,7 +1497,7 @@ export interface FileRoutesByFullPath {
   '/booking/respond/$token': typeof BookingRespondTokenRoute
   '/center/c/$slug': typeof CenterCSlugRoute
   '/learn/live/$id': typeof LearnLiveIdRoute
-  '/learn/live/manage': typeof LearnLiveManageRoute
+  '/learn/live/manage': typeof LearnLiveManageRouteWithChildren
   '/ops/$workspace/command': typeof OpsWorkspaceCommandRoute
   '/ops/$workspace/director': typeof OpsWorkspaceDirectorRoute
   '/ops/$workspace/tasks': typeof OpsWorkspaceTasksRoute
@@ -1480,11 +1518,17 @@ export interface FileRoutesByFullPath {
   '/$locale/booking/respond/$token': typeof LocaleBookingRespondTokenRoute
   '/$locale/center/c/$slug': typeof LocaleCenterCSlugRoute
   '/$locale/learn/live/$id': typeof LocaleLearnLiveIdRoute
-  '/$locale/learn/live/manage': typeof LocaleLearnLiveManageRoute
+  '/$locale/learn/live/manage': typeof LocaleLearnLiveManageRouteWithChildren
+  '/learn/live/manage/series': typeof LearnLiveManageSeriesRoute
+  '/learn/live/series/$id': typeof LearnLiveSeriesIdRoute
   '/ops/$workspace/events/$eventId': typeof OpsWorkspaceEventsEventIdRoute
   '/ops/$workspace/events/new': typeof OpsWorkspaceEventsNewRoute
   '/$locale/learn/live/': typeof LocaleLearnLiveIndexRoute
+  '/learn/live/series/': typeof LearnLiveSeriesIndexRoute
   '/ops/$workspace/events/': typeof OpsWorkspaceEventsIndexRoute
+  '/$locale/learn/live/manage/series': typeof LocaleLearnLiveManageSeriesRoute
+  '/$locale/learn/live/series/$id': typeof LocaleLearnLiveSeriesIdRoute
+  '/$locale/learn/live/series/': typeof LocaleLearnLiveSeriesIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -1666,7 +1710,7 @@ export interface FileRoutesByTo {
   '/booking/respond/$token': typeof BookingRespondTokenRoute
   '/center/c/$slug': typeof CenterCSlugRoute
   '/learn/live/$id': typeof LearnLiveIdRoute
-  '/learn/live/manage': typeof LearnLiveManageRoute
+  '/learn/live/manage': typeof LearnLiveManageRouteWithChildren
   '/ops/$workspace/command': typeof OpsWorkspaceCommandRoute
   '/ops/$workspace/director': typeof OpsWorkspaceDirectorRoute
   '/ops/$workspace/tasks': typeof OpsWorkspaceTasksRoute
@@ -1687,11 +1731,17 @@ export interface FileRoutesByTo {
   '/$locale/booking/respond/$token': typeof LocaleBookingRespondTokenRoute
   '/$locale/center/c/$slug': typeof LocaleCenterCSlugRoute
   '/$locale/learn/live/$id': typeof LocaleLearnLiveIdRoute
-  '/$locale/learn/live/manage': typeof LocaleLearnLiveManageRoute
+  '/$locale/learn/live/manage': typeof LocaleLearnLiveManageRouteWithChildren
+  '/learn/live/manage/series': typeof LearnLiveManageSeriesRoute
+  '/learn/live/series/$id': typeof LearnLiveSeriesIdRoute
   '/ops/$workspace/events/$eventId': typeof OpsWorkspaceEventsEventIdRoute
   '/ops/$workspace/events/new': typeof OpsWorkspaceEventsNewRoute
   '/$locale/learn/live': typeof LocaleLearnLiveIndexRoute
+  '/learn/live/series': typeof LearnLiveSeriesIndexRoute
   '/ops/$workspace/events': typeof OpsWorkspaceEventsIndexRoute
+  '/$locale/learn/live/manage/series': typeof LocaleLearnLiveManageSeriesRoute
+  '/$locale/learn/live/series/$id': typeof LocaleLearnLiveSeriesIdRoute
+  '/$locale/learn/live/series': typeof LocaleLearnLiveSeriesIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -1875,7 +1925,7 @@ export interface FileRoutesById {
   '/booking/respond/$token': typeof BookingRespondTokenRoute
   '/center/c/$slug': typeof CenterCSlugRoute
   '/learn/live/$id': typeof LearnLiveIdRoute
-  '/learn/live/manage': typeof LearnLiveManageRoute
+  '/learn/live/manage': typeof LearnLiveManageRouteWithChildren
   '/ops/$workspace/command': typeof OpsWorkspaceCommandRoute
   '/ops/$workspace/director': typeof OpsWorkspaceDirectorRoute
   '/ops/$workspace/tasks': typeof OpsWorkspaceTasksRoute
@@ -1896,11 +1946,17 @@ export interface FileRoutesById {
   '/$locale/booking/respond/$token': typeof LocaleBookingRespondTokenRoute
   '/$locale/center/c/$slug': typeof LocaleCenterCSlugRoute
   '/$locale/learn/live/$id': typeof LocaleLearnLiveIdRoute
-  '/$locale/learn/live/manage': typeof LocaleLearnLiveManageRoute
+  '/$locale/learn/live/manage': typeof LocaleLearnLiveManageRouteWithChildren
+  '/learn/live/manage/series': typeof LearnLiveManageSeriesRoute
+  '/learn/live/series/$id': typeof LearnLiveSeriesIdRoute
   '/ops/$workspace/events/$eventId': typeof OpsWorkspaceEventsEventIdRoute
   '/ops/$workspace/events/new': typeof OpsWorkspaceEventsNewRoute
   '/$locale/learn/live/': typeof LocaleLearnLiveIndexRoute
+  '/learn/live/series/': typeof LearnLiveSeriesIndexRoute
   '/ops/$workspace/events/': typeof OpsWorkspaceEventsIndexRoute
+  '/$locale/learn/live/manage/series': typeof LocaleLearnLiveManageSeriesRoute
+  '/$locale/learn/live/series/$id': typeof LocaleLearnLiveSeriesIdRoute
+  '/$locale/learn/live/series/': typeof LocaleLearnLiveSeriesIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -2107,10 +2163,16 @@ export interface FileRouteTypes {
     | '/$locale/center/c/$slug'
     | '/$locale/learn/live/$id'
     | '/$locale/learn/live/manage'
+    | '/learn/live/manage/series'
+    | '/learn/live/series/$id'
     | '/ops/$workspace/events/$eventId'
     | '/ops/$workspace/events/new'
     | '/$locale/learn/live/'
+    | '/learn/live/series/'
     | '/ops/$workspace/events/'
+    | '/$locale/learn/live/manage/series'
+    | '/$locale/learn/live/series/$id'
+    | '/$locale/learn/live/series/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -2314,10 +2376,16 @@ export interface FileRouteTypes {
     | '/$locale/center/c/$slug'
     | '/$locale/learn/live/$id'
     | '/$locale/learn/live/manage'
+    | '/learn/live/manage/series'
+    | '/learn/live/series/$id'
     | '/ops/$workspace/events/$eventId'
     | '/ops/$workspace/events/new'
     | '/$locale/learn/live'
+    | '/learn/live/series'
     | '/ops/$workspace/events'
+    | '/$locale/learn/live/manage/series'
+    | '/$locale/learn/live/series/$id'
+    | '/$locale/learn/live/series'
   id:
     | '__root__'
     | '/'
@@ -2522,10 +2590,16 @@ export interface FileRouteTypes {
     | '/$locale/center/c/$slug'
     | '/$locale/learn/live/$id'
     | '/$locale/learn/live/manage'
+    | '/learn/live/manage/series'
+    | '/learn/live/series/$id'
     | '/ops/$workspace/events/$eventId'
     | '/ops/$workspace/events/new'
     | '/$locale/learn/live/'
+    | '/learn/live/series/'
     | '/ops/$workspace/events/'
+    | '/$locale/learn/live/manage/series'
+    | '/$locale/learn/live/series/$id'
+    | '/$locale/learn/live/series/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -2709,7 +2783,7 @@ export interface RootRouteChildren {
   BookingRespondTokenRoute: typeof BookingRespondTokenRoute
   CenterCSlugRoute: typeof CenterCSlugRoute
   LearnLiveIdRoute: typeof LearnLiveIdRoute
-  LearnLiveManageRoute: typeof LearnLiveManageRoute
+  LearnLiveManageRoute: typeof LearnLiveManageRouteWithChildren
   LocaleAdminIndexRoute: typeof LocaleAdminIndexRoute
   LocaleApplyIndexRoute: typeof LocaleApplyIndexRoute
   LocaleAuthIndexRoute: typeof LocaleAuthIndexRoute
@@ -2726,8 +2800,12 @@ export interface RootRouteChildren {
   LocaleBookingRespondTokenRoute: typeof LocaleBookingRespondTokenRoute
   LocaleCenterCSlugRoute: typeof LocaleCenterCSlugRoute
   LocaleLearnLiveIdRoute: typeof LocaleLearnLiveIdRoute
-  LocaleLearnLiveManageRoute: typeof LocaleLearnLiveManageRoute
+  LocaleLearnLiveManageRoute: typeof LocaleLearnLiveManageRouteWithChildren
+  LearnLiveSeriesIdRoute: typeof LearnLiveSeriesIdRoute
   LocaleLearnLiveIndexRoute: typeof LocaleLearnLiveIndexRoute
+  LearnLiveSeriesIndexRoute: typeof LearnLiveSeriesIndexRoute
+  LocaleLearnLiveSeriesIdRoute: typeof LocaleLearnLiveSeriesIdRoute
+  LocaleLearnLiveSeriesIndexRoute: typeof LocaleLearnLiveSeriesIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -4153,6 +4231,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LocaleLearnLiveManageRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/learn/live/manage/series': {
+      id: '/learn/live/manage/series'
+      path: '/series'
+      fullPath: '/learn/live/manage/series'
+      preLoaderRoute: typeof LearnLiveManageSeriesRouteImport
+      parentRoute: typeof LearnLiveManageRoute
+    }
+    '/learn/live/series/': {
+      id: '/learn/live/series/'
+      path: '/learn/live/series'
+      fullPath: '/learn/live/series/'
+      preLoaderRoute: typeof LearnLiveSeriesIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/learn/live/series/$id': {
+      id: '/learn/live/series/$id'
+      path: '/learn/live/series/$id'
+      fullPath: '/learn/live/series/$id'
+      preLoaderRoute: typeof LearnLiveSeriesIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/ops/$workspace/events/': {
       id: '/ops/$workspace/events/'
       path: '/events'
@@ -4173,6 +4272,27 @@ declare module '@tanstack/react-router' {
       fullPath: '/ops/$workspace/events/new'
       preLoaderRoute: typeof OpsWorkspaceEventsNewRouteImport
       parentRoute: typeof OpsWorkspaceRoute
+    }
+    '/$locale/learn/live/manage/series': {
+      id: '/$locale/learn/live/manage/series'
+      path: '/series'
+      fullPath: '/$locale/learn/live/manage/series'
+      preLoaderRoute: typeof LocaleLearnLiveManageSeriesRouteImport
+      parentRoute: typeof LocaleLearnLiveManageRoute
+    }
+    '/$locale/learn/live/series/': {
+      id: '/$locale/learn/live/series/'
+      path: '/$locale/learn/live/series'
+      fullPath: '/$locale/learn/live/series/'
+      preLoaderRoute: typeof LocaleLearnLiveSeriesIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/$locale/learn/live/series/$id': {
+      id: '/$locale/learn/live/series/$id'
+      path: '/$locale/learn/live/series/$id'
+      fullPath: '/$locale/learn/live/series/$id'
+      preLoaderRoute: typeof LocaleLearnLiveSeriesIdRouteImport
+      parentRoute: typeof rootRouteImport
     }
   }
 }
@@ -4200,6 +4320,31 @@ const OpsWorkspaceRouteChildren: OpsWorkspaceRouteChildren = {
 const OpsWorkspaceRouteWithChildren = OpsWorkspaceRoute._addFileChildren(
   OpsWorkspaceRouteChildren,
 )
+
+interface LearnLiveManageRouteChildren {
+  LearnLiveManageSeriesRoute: typeof LearnLiveManageSeriesRoute
+}
+
+const LearnLiveManageRouteChildren: LearnLiveManageRouteChildren = {
+  LearnLiveManageSeriesRoute: LearnLiveManageSeriesRoute,
+}
+
+const LearnLiveManageRouteWithChildren = LearnLiveManageRoute._addFileChildren(
+  LearnLiveManageRouteChildren,
+)
+
+interface LocaleLearnLiveManageRouteChildren {
+  LocaleLearnLiveManageSeriesRoute: typeof LocaleLearnLiveManageSeriesRoute
+}
+
+const LocaleLearnLiveManageRouteChildren: LocaleLearnLiveManageRouteChildren = {
+  LocaleLearnLiveManageSeriesRoute: LocaleLearnLiveManageSeriesRoute,
+}
+
+const LocaleLearnLiveManageRouteWithChildren =
+  LocaleLearnLiveManageRoute._addFileChildren(
+    LocaleLearnLiveManageRouteChildren,
+  )
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
@@ -4386,7 +4531,7 @@ const rootRouteChildren: RootRouteChildren = {
   BookingRespondTokenRoute: BookingRespondTokenRoute,
   CenterCSlugRoute: CenterCSlugRoute,
   LearnLiveIdRoute: LearnLiveIdRoute,
-  LearnLiveManageRoute: LearnLiveManageRoute,
+  LearnLiveManageRoute: LearnLiveManageRouteWithChildren,
   LocaleAdminIndexRoute: LocaleAdminIndexRoute,
   LocaleApplyIndexRoute: LocaleApplyIndexRoute,
   LocaleAuthIndexRoute: LocaleAuthIndexRoute,
@@ -4403,8 +4548,12 @@ const rootRouteChildren: RootRouteChildren = {
   LocaleBookingRespondTokenRoute: LocaleBookingRespondTokenRoute,
   LocaleCenterCSlugRoute: LocaleCenterCSlugRoute,
   LocaleLearnLiveIdRoute: LocaleLearnLiveIdRoute,
-  LocaleLearnLiveManageRoute: LocaleLearnLiveManageRoute,
+  LocaleLearnLiveManageRoute: LocaleLearnLiveManageRouteWithChildren,
+  LearnLiveSeriesIdRoute: LearnLiveSeriesIdRoute,
   LocaleLearnLiveIndexRoute: LocaleLearnLiveIndexRoute,
+  LearnLiveSeriesIndexRoute: LearnLiveSeriesIndexRoute,
+  LocaleLearnLiveSeriesIdRoute: LocaleLearnLiveSeriesIdRoute,
+  LocaleLearnLiveSeriesIndexRoute: LocaleLearnLiveSeriesIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

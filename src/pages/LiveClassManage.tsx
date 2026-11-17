@@ -13,7 +13,15 @@ import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
 import SEOHead from "@/components/SEOHead";
 import { toast } from "sonner";
-import { ArrowLeft, Download, Loader2, Plus, Users, Film } from "lucide-react";
+import {
+  ArrowLeft,
+  Download,
+  Film,
+  ListVideo,
+  Loader2,
+  Plus,
+  Users,
+} from "lucide-react";
 import { formatWhen } from "@/lib/live/liveCopy";
 import { useCanHost } from "@/lib/live/useCanHost";
 import { useManageCopy } from "@/lib/live/manageCopy";
@@ -87,9 +95,16 @@ export default function LiveClassManage() {
         </Link>
         <div className="flex flex-wrap items-center justify-between gap-3">
           <h1 className="text-2xl md:text-3xl font-display">{t.heading}</h1>
-          <Button onClick={() => setEditing("new")}>
-            <Plus className="me-2 h-4 w-4" /> {t.newClass}
-          </Button>
+          <div className="flex flex-wrap gap-2">
+            <Button asChild variant="outline">
+              <Link to={addLocalePrefix("/learn/live/manage/series", locale)}>
+                <ListVideo className="me-2 h-4 w-4" /> {t.series}
+              </Link>
+            </Button>
+            <Button onClick={() => setEditing("new")}>
+              <Plus className="me-2 h-4 w-4" /> {t.newClass}
+            </Button>
+          </div>
         </div>
 
         {editing && (
