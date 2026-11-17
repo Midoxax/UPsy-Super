@@ -106,6 +106,7 @@ serve(async (req) => {
     let briefMarkdown: string;
     try {
       briefMarkdown = await aiText({
+        tier: "deep",
         system: SYSTEM_PROMPT,
         messages: [{ role: "user", content: JSON.stringify(briefInput) }],
         effort: "medium",
@@ -130,7 +131,7 @@ serve(async (req) => {
         red_flags: redFlags,
         key_history_points: [],
         treatment_suggestions: [],
-        ai_model: aiModel(),
+        ai_model: aiModel("deep"),
         generation_tokens_used: tokensUsed,
       },
       { onConflict: "intake_form_id" },

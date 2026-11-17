@@ -114,6 +114,7 @@ Deno.serve(async (req) => {
     let protocol: Protocol;
     try {
       protocol = await aiJson<Protocol>({
+        tier: "deep",
         system: systemPrompt,
         messages: [{ role: "user", content: userPrompt }],
         schema: PROTOCOL_SCHEMA,

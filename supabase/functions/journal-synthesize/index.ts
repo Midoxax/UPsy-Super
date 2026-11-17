@@ -89,6 +89,7 @@ serve(async (req) => {
     let parsed: { summary?: string; themes?: string[] } = {};
     try {
       parsed = await aiJson<{ summary: string; themes: string[] }>({
+        tier: "deep",
         system: SYSTEM,
         messages: [{ role: "user", content: userMsg }],
         schema: REFLECTION_SCHEMA,

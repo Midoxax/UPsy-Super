@@ -10,7 +10,14 @@ import { Badge } from "@/components/ui/badge";
 import { Checkbox } from "@/components/ui/checkbox";
 import SEOHead from "@/components/SEOHead";
 import { toast } from "sonner";
-import { CalendarClock, Clock, Loader2, Settings, Video } from "lucide-react";
+import {
+  CalendarClock,
+  Clock,
+  ListVideo,
+  Loader2,
+  Settings,
+  Video,
+} from "lucide-react";
 import { formatWhen, registerError, useLiveCopy } from "@/lib/live/liveCopy";
 import type { Tables } from "@/integrations/supabase/types";
 import { useCanHost } from "@/lib/live/useCanHost";
@@ -79,13 +86,20 @@ export default function LiveClasses() {
         <header className="space-y-3 max-w-2xl">
           <h1 className="text-display font-display">{t.title}</h1>
           <p className="text-muted-foreground">{t.subtitle}</p>
-          {canHost && (
+          <div className="flex flex-wrap gap-2">
             <Button asChild variant="outline" size="sm">
-              <Link to={addLocalePrefix("/learn/live/manage", locale)}>
-                <Settings className="me-2 h-4 w-4" /> {t.manage}
+              <Link to={addLocalePrefix("/learn/live/series", locale)}>
+                <ListVideo className="me-2 h-4 w-4" /> {t.replays}
               </Link>
             </Button>
-          )}
+            {canHost && (
+              <Button asChild variant="outline" size="sm">
+                <Link to={addLocalePrefix("/learn/live/manage", locale)}>
+                  <Settings className="me-2 h-4 w-4" /> {t.manage}
+                </Link>
+              </Button>
+            )}
+          </div>
         </header>
 
         <section className="space-y-4">

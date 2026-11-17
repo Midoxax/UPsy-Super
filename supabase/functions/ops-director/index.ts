@@ -46,6 +46,7 @@ Deno.serve(async (req) => {
     let reply: string;
     try {
       reply = await aiText({
+        tier: "deep",
         system: systemPrompt,
         messages: (messages as ChatMessage[]).slice(-30),
       });

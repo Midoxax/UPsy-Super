@@ -3848,6 +3848,116 @@ export type Database = {
           },
         ];
       };
+      live_series: {
+        Row: {
+          audience: string | null;
+          category: string | null;
+          course_id: string | null;
+          created_at: string;
+          description: string | null;
+          description_ar: string | null;
+          description_fr: string | null;
+          host_id: string;
+          id: string;
+          is_published: boolean;
+          language: string;
+          tags: string[];
+          title: string;
+          title_ar: string | null;
+          title_fr: string | null;
+          updated_at: string;
+        };
+        Insert: {
+          audience?: string | null;
+          category?: string | null;
+          course_id?: string | null;
+          created_at?: string;
+          description?: string | null;
+          description_ar?: string | null;
+          description_fr?: string | null;
+          host_id: string;
+          id?: string;
+          is_published?: boolean;
+          language?: string;
+          tags?: string[];
+          title: string;
+          title_ar?: string | null;
+          title_fr?: string | null;
+          updated_at?: string;
+        };
+        Update: {
+          audience?: string | null;
+          category?: string | null;
+          course_id?: string | null;
+          created_at?: string;
+          description?: string | null;
+          description_ar?: string | null;
+          description_fr?: string | null;
+          host_id?: string;
+          id?: string;
+          is_published?: boolean;
+          language?: string;
+          tags?: string[];
+          title?: string;
+          title_ar?: string | null;
+          title_fr?: string | null;
+          updated_at?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "live_series_course_id_fkey";
+            columns: ["course_id"];
+            isOneToOne: false;
+            referencedRelation: "courses";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
+      live_series_items: {
+        Row: {
+          created_at: string;
+          id: string;
+          label: string | null;
+          label_fr: string | null;
+          position: number;
+          recording_id: string;
+          series_id: string;
+        };
+        Insert: {
+          created_at?: string;
+          id?: string;
+          label?: string | null;
+          label_fr?: string | null;
+          position?: number;
+          recording_id: string;
+          series_id: string;
+        };
+        Update: {
+          created_at?: string;
+          id?: string;
+          label?: string | null;
+          label_fr?: string | null;
+          position?: number;
+          recording_id?: string;
+          series_id?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "live_series_items_recording_id_fkey";
+            columns: ["recording_id"];
+            isOneToOne: false;
+            referencedRelation: "live_class_recordings";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "live_series_items_series_id_fkey";
+            columns: ["series_id"];
+            isOneToOne: false;
+            referencedRelation: "live_series";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
       membership_plans: {
         Row: {
           created_at: string;
@@ -7761,6 +7871,14 @@ export type Database = {
       };
     };
     Functions: {
+      reorder_live_series: {
+        Args: { _series: string; _item_ids: string[] };
+        Returns: undefined;
+      };
+      recording_in_published_series: {
+        Args: { _recording: string };
+        Returns: boolean;
+      };
       register_live_class: {
         Args: { _class: string; _recording_consent?: boolean };
         Returns: string;

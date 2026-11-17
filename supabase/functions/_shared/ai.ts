@@ -4,6 +4,12 @@
 // the Lovable AI gateway (LOVABLE_API_KEY) the functions were first built
 // on. Neither set: AiError 503, which callers turn into "not configured".
 //
+// Each call names a tier. "deep" is for work a professional reads and that
+// runs a few times a day (clinical briefs, session summaries, protocols):
+// Fable, the most capable model, at medium effort. "fast" is for the patient
+// chat and anything frequent: Opus at low effort. The tier picks the model
+// and the default effort; a caller can still set `effort`.
+//
 //   aiText   one answer as text
 //   aiJson   one answer validated against a JSON schema
 //   aiStream a chat answer as OpenAI-style server-sent events
@@ -11,7 +17,12 @@
 //            the shape the app's chat client already reads.
 import Anthropic from "npm:@anthropic-ai/sdk@0.133.0";
 
-const MODEL = "claude-opus-5-5";
+export type Tier = "deep" | "fast";
+const MODELS: Record<Tier, string> = {
+  deep: "claude-fable-5-2",
+  fast: "claude-opus-5-5",
+};
+const DEFAULT_EFFORT: Record<Tier, Effort> = { deep: "medium", fast: "low" };
 const GATEWAY = "https://ai.gateway.lovable.dev/v1/chat/completions";
 const GATEWAY_MODEL = "google/gemini-2.5-flash";
 // Routes a declined request to another model instead of failing it.
@@ -23,6 +34,11 @@ const FALLBACK = {
 export type ChatMessage = { role: "user" | "assistant"; content: string };
 type Effort = "low" | "medium" | "high";
 
+/** The Claude model a tier uses (what `aiModel` reports when Claude answers). */
+export const modelFor = (tier: Tier) => MODELS[tier];
+export const effortFor = (tier: Tier, effort?: Effort): Effort =>
+  effort ?? DEFAULT_EFFORT[tier];
+
 export class AiError extends Error {
   constructor(
     public status: number,
@@ -32,9 +48,9 @@ export class AiError extends Error {
   }
 }
 
-/** The model that answers, for audit columns. */
-export const aiModel = () =>
-  Deno.env.get("ANTHROPIC_API_KEY") ? MODEL : GATEWAY_MODEL;
+/** The model that answers a tier, for audit columns. */
+export const aiModel = (tier: Tier = "fast") =>
+  Deno.env.get("ANTHROPIC_API_KEY") ? MODELS[tier] : GATEWAY_MODEL;
 
 export const aiConfigured = () =>
   !!(Deno.env.get("ANTHROPIC_API_KEY") || Deno.env.get("LOVABLE_API_KEY"));
@@ -93,6 +109,7 @@ async function gateway(body: Record<string, unknown>): Promise<Response> {
 }
 
 export async function aiText(o: {
+  tier: Tier;
   system: string;
   messages: ChatMessage[];
   maxTokens?: number;
@@ -108,9 +125,9 @@ export async function aiText(o: {
   try {
     const msg = await client.beta.messages.create({
       ...FALLBACK,
-      model: MODEL,
+      model: MODELS[o.tier],
       max_tokens: o.maxTokens ?? 8000,
-      output_config: { effort: o.effort ?? "low" },
+      output_config: { effort: effortFor(o.tier, o.effort) },
       system: o.system,
       messages: tidy(o.messages),
     } as never);
@@ -125,6 +142,7 @@ export async function aiText(o: {
 }
 
 export async function aiJson<T>(o: {
+  tier: Tier;
   system: string;
   messages: ChatMessage[];
   /** JSON Schema: every object needs additionalProperties: false. */
@@ -150,10 +168,10 @@ export async function aiJson<T>(o: {
     try {
       const msg = await client.beta.messages.create({
         ...FALLBACK,
-        model: MODEL,
+        model: MODELS[o.tier],
         max_tokens: o.maxTokens ?? 16000,
         output_config: {
-          effort: o.effort ?? "medium",
+          effort: effortFor(o.tier, o.effort),
           format: { type: "json_schema", schema: o.schema },
         },
         system: o.system,
@@ -178,9 +196,11 @@ export async function aiJson<T>(o: {
 }
 
 export async function aiStream(o: {
+  tier: Tier;
   system: string;
   messages: ChatMessage[];
   maxTokens?: number;
+  effort?: Effort;
 }): Promise<ReadableStream<Uint8Array>> {
   const client = claude();
   if (!client) {
@@ -194,9 +214,9 @@ export async function aiStream(o: {
   const sse = (data: string) => enc.encode(`data: ${data}\n\n`);
   const stream = client.beta.messages.stream({
     ...FALLBACK,
-    model: MODEL,
+    model: MODELS[o.tier],
     max_tokens: o.maxTokens ?? 8000,
-    output_config: { effort: "low" },
+    output_config: { effort: effortFor(o.tier, o.effort) },
     system: o.system,
     messages: tidy(o.messages),
   } as never);
