@@ -3,6 +3,8 @@
 //   { action: "join", class_id }            → room config + attendance id
 //   { action: "heartbeat", attendance_id }  → keeps attendance current
 //   { action: "recording_url", recording_id } → 1-hour signed URL
+//   { action: "module_recording_url", module_id } → the same, for a recording
+//     used as an Academy course module
 //
 // Only the host, admins and registered participants can join, from 10
 // minutes before the start (30 for the host) until 15 minutes after the end.
@@ -53,6 +55,13 @@ Deno.serve(async (req) => {
       return await heartbeat(admin, user.id, body.attendance_id);
     if (action === "recording_url")
       return await recordingUrl(userClient, admin, body.recording_id);
+    if (action === "module_recording_url")
+      return await moduleRecordingUrl(
+        userClient,
+        admin,
+        user.id,
+        body.module_id,
+      );
     return json({ error: "Unknown action" }, 400);
   } catch (e) {
     console.error("live-class", e);
@@ -200,6 +209,48 @@ async function recordingUrl(
     .from("live_class_recordings")
     .select("id, storage_path, status")
     .eq("id", recordingId)
+    .maybeSingle();
+  if (!r || r.status !== "stored" || !r.storage_path)
+    return json({ error: "Not available" }, 404);
+  const { data, error } = await admin.storage
+    .from("live-recordings")
+    .createSignedUrl(r.storage_path, 60 * 60);
+  if (error || !data) return json({ error: "Not available" }, 500);
+  return json({ url: data.signedUrl });
+}
+
+// A course module's recording: whoever can read the module (row-level
+// security covers published, paid and enrolled) may watch it, except that an
+// Academy course needs Academy access unless the module is a free preview.
+async function moduleRecordingUrl(
+  userClient: Admin,
+  admin: Admin,
+  userId: string,
+  moduleId: unknown,
+) {
+  if (typeof moduleId !== "string")
+    return json({ error: "Missing module_id" }, 400);
+  const { data: m } = await userClient
+    .from("course_modules")
+    .select("id, recording_id, is_free_preview, courses(is_academy_premium)")
+    .eq("id", moduleId)
+    .maybeSingle();
+  if (!m?.recording_id) return json({ error: "Not available" }, 404);
+  const course = (
+    m as unknown as { courses: { is_academy_premium: boolean } | null }
+  ).courses;
+  if (course?.is_academy_premium && !m.is_free_preview) {
+    const [{ data: member }, { data: isAdmin }] = await Promise.all([
+      admin.rpc("has_all_access", { _user_id: userId }),
+      admin.rpc("has_role", { _user_id: userId, _role: "admin" }),
+    ]);
+    if (member !== true && isAdmin !== true)
+      return json({ error: "Academy access required" }, 403);
+  }
+  const { data: r } = await admin
+    .from("live_class_recordings")
+    .select("storage_path, status")
+    .eq("id", m.recording_id)
     .maybeSingle();
   if (!r || r.status !== "stored" || !r.storage_path)
     return json({ error: "Not available" }, 404);

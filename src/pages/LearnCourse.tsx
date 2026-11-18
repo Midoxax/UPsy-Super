@@ -18,6 +18,7 @@ import { useLocalizedField } from "@/lib/i18n/localizedField";
 import { useLocale } from "@/contexts/LocaleContext";
 import { addLocalePrefix } from "@/lib/i18n/utils";
 import LessonMarkdown from "@/components/academy/LessonMarkdown";
+import ModuleRecording from "@/components/academy/ModuleRecording";
 
 const COPY = {
   en: {
@@ -337,7 +338,10 @@ export default function LearnCourse() {
                     {active.duration_minutes} {t.min}
                   </p>
                 ) : null}
-                {active.video_url && (
+                {active.recording_id && (
+                  <ModuleRecording moduleId={active.id} />
+                )}
+                {!active.recording_id && active.video_url && (
                   <div className="aspect-video rounded-xl overflow-hidden bg-black">
                     <iframe
                       src={active.video_url}
