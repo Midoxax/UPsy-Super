@@ -15,7 +15,7 @@ const navigate = vi.hoisted(() => vi.fn());
 
 vi.mock("@tanstack/react-router", () => ({
   useNavigate: () => navigate,
-  useLocation: vi.fn(),
+  useLocation: () => ({ pathname: "/" }),
   useParams: vi.fn(),
   useSearch: vi.fn(),
   useRouter: vi.fn(),

@@ -29,6 +29,11 @@ export const ProtectedRoute = ({
   // (/auth?redirect=...); recomputing then would replace the target with a
   // bare /auth and lose where the user was going.
   const loginTarget = useRef<string | null>(null);
+  // Same for the two-step setup target: while that redirect loads, this
+  // guard re-renders with the new location; building the target from it
+  // again (".../mfa-setup?redirect=.../mfa-setup?redirect=...") made a new
+  // redirect each render, without end.
+  const mfaTarget = useRef<string | null>(null);
 
   const mfa = useMfaGate(
     !allowWithoutMfa && !!user && needsMfa(realRoles),
@@ -57,14 +62,13 @@ export const ProtectedRoute = ({
   loginTarget.current = null;
 
   if (mfa === "needed") {
-    const back = location.pathname + location.search;
-    return (
-      <Navigate
-        to={`/auth/mfa-setup?redirect=${encodeURIComponent(back)}`}
-        replace
-      />
-    );
+    if (mfaTarget.current === null) {
+      const back = location.pathname + location.search;
+      mfaTarget.current = `/auth/mfa-setup?redirect=${encodeURIComponent(back)}`;
+    }
+    return <Navigate to={mfaTarget.current} replace />;
   }
+  mfaTarget.current = null;
 
   if (role) {
     const required = Array.isArray(role) ? role : [role];
