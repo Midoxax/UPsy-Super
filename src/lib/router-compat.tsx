@@ -20,6 +20,7 @@ import {
   type ComponentProps,
   type ReactNode,
 } from "react";
+import { addLocalePrefix, getLocaleFromPath } from "@/lib/i18n/utils";
 
 // ---------- shared URL parsing ----------
 
@@ -190,6 +191,21 @@ export const Link = forwardRef<HTMLAnchorElement, LinkProps>(function Link(
 
 // ---------- Navigate ----------
 
+/**
+ * A redirect to an unprefixed path ("/auth/mfa-setup", "/admin") from a page
+ * in another language keeps that language: "/fr/my-space" → "/fr/auth/...".
+ * Without this, LocaleContext rewrites the unprefixed target to the prefixed
+ * one while the first redirect is still loading; the guard that issued it
+ * re-renders and redirects again, and the two loop until the tab runs out of
+ * memory (every specialist and admin without two-step sign-in hit this).
+ */
+export function localizeRedirect(to: string, currentPathname: string): string {
+  if (!to.startsWith("/") || to.startsWith("//")) return to;
+  const current = getLocaleFromPath(currentPathname);
+  if (current === "en" || getLocaleFromPath(to) !== "en") return to;
+  return addLocalePrefix(to, current);
+}
+
 export function Navigate({
   to,
   replace,
@@ -207,8 +223,10 @@ export function Navigate({
   // Memoizing the element keeps the same props object until the target
   // changes. `state` is left out of the key on purpose: call sites build it
   // inline, and it only matters for the first navigation to a target.
+  const { pathname: currentPathname } = tsLocation();
+  const target = localizeRedirect(to, currentPathname);
   return useMemo(() => {
-    const { pathname, search, hash } = parseTo(to);
+    const { pathname, search, hash } = parseTo(target);
     return (
       <TSNavigate
         to={pathname as never}
@@ -219,7 +237,7 @@ export function Navigate({
       />
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [to, replace]);
+  }, [target, replace]);
 }
 
 // ---------- Outlet ----------

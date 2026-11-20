@@ -67,6 +67,13 @@ SELECT pg_temp.expect((SELECT count(*) = 2 FROM public.live_class_recordings), '
 SELECT set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-00000000b004', true);
 SELECT pg_temp.expect((SELECT count(*) = 1 FROM public.live_series), 'a visitor sees the series listing');
 SELECT pg_temp.expect((SELECT count(*) = 0 FROM public.live_class_recordings), 'but not its recordings without all-access');
+-- Logged out: the published series lists with its items, no error.
+RESET ROLE;
+GRANT EXECUTE ON FUNCTION pg_temp.expect(boolean, text) TO anon;
+SET LOCAL ROLE anon;
+SELECT set_config('request.jwt.claim.sub', '', true);
+SELECT pg_temp.expect((SELECT count(*) = 2 FROM public.live_series_items), 'logged-out visitors list published items');
+SET LOCAL ROLE authenticated;
 SELECT set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-00000000b002', true);
 DO $$ BEGIN
   PERFORM public.reorder_live_series('00000000-0000-0000-0000-000000005e01',
