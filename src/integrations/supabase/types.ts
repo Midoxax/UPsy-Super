@@ -4661,6 +4661,7 @@ export type Database = {
           inapp_all: boolean;
           updated_at: string;
           user_id: string;
+          email_league: boolean;
         };
         Insert: {
           created_at?: string;
@@ -4671,6 +4672,7 @@ export type Database = {
           inapp_all?: boolean;
           updated_at?: string;
           user_id: string;
+          email_league?: boolean;
         };
         Update: {
           created_at?: string;
@@ -4681,6 +4683,7 @@ export type Database = {
           inapp_all?: boolean;
           updated_at?: string;
           user_id?: string;
+          email_league?: boolean;
         };
         Relationships: [];
       };
@@ -4695,6 +4698,9 @@ export type Database = {
           title: string;
           type: string;
           user_id: string;
+          email_status: string | null;
+          email_attempts: number;
+          emailed_at: string | null;
         };
         Insert: {
           action_url?: string | null;
@@ -4706,6 +4712,9 @@ export type Database = {
           title: string;
           type: string;
           user_id: string;
+          email_status?: string | null;
+          email_attempts?: number;
+          emailed_at?: string | null;
         };
         Update: {
           action_url?: string | null;
@@ -4717,6 +4726,9 @@ export type Database = {
           title?: string;
           type?: string;
           user_id?: string;
+          email_status?: string | null;
+          email_attempts?: number;
+          emailed_at?: string | null;
         };
         Relationships: [];
       };

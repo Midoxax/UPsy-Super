@@ -184,6 +184,8 @@ export interface EmailOptions {
   unsubscribeUrl?: string;
   /** Replaces the default "why you receive this" line. */
   footerNote?: string;
+  /** Co-branding: "lsspm" shows the League's logo beside U.Psy's. */
+  partner?: "lsspm";
 }
 
 export function renderEmail(o: EmailOptions): string {
@@ -214,7 +216,11 @@ export function renderEmail(o: EmailOptions): string {
 <tr><td align="center" style="padding:32px 12px 40px;">
   <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="max-width:600px;" dir="${dir}">
     <tr><td style="padding:0 6px 18px;text-align:${a};">
-      <a href="${SITE}${locale === "fr" ? "/fr" : locale === "ar" ? "/ar" : ""}" style="text-decoration:none;font-family:${BRAND.serif};font-size:26px;font-weight:700;color:${BRAND.maroon};letter-spacing:-0.3px;" dir="ltr">U<span style="color:${BRAND.gold};">.</span>Psy</a>
+      <a href="${SITE}${locale === "fr" ? "/fr" : locale === "ar" ? "/ar" : ""}" style="text-decoration:none;font-family:${BRAND.serif};font-size:26px;font-weight:700;color:${BRAND.maroon};letter-spacing:-0.3px;" dir="ltr"><img src="${SITE}/brand/upsy-wordmark.png" width="92" height="45" alt="U.Psy" style="display:inline-block;border:0;height:45px;width:92px;vertical-align:middle;font-family:${BRAND.serif};font-size:26px;font-weight:700;color:${BRAND.maroon};"></a>${
+        o.partner === "lsspm"
+          ? `<span style="display:inline-block;width:14px;"></span><img src="${SITE}/brand/lsspm-logo.png" width="44" height="44" alt="LSSPM" style="display:inline-block;border:0;height:44px;width:44px;vertical-align:middle;font-family:${font};font-size:13px;font-weight:700;color:${BRAND.maroon};">`
+          : ""
+      }
     </td></tr>
     <tr><td bgcolor="${BRAND.card}" style="background:${BRAND.card};border:1px solid ${BRAND.line};border-radius:18px;overflow:hidden;">
       <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">

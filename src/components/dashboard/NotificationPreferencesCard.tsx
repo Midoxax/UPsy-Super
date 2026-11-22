@@ -5,8 +5,11 @@ import { useToast } from "@/hooks/use-toast";
 import { Bell, Mail, Smartphone, Loader2 } from "lucide-react";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
+import { useLocale } from "@/contexts/LocaleContext";
+import LsspmLogo from "@/components/league/LsspmLogo";
 
 type Prefs = {
+  email_league: boolean;
   email_bookings: boolean;
   email_reminders: boolean;
   email_payments: boolean;
@@ -15,6 +18,7 @@ type Prefs = {
 };
 
 const DEFAULT_PREFS: Prefs = {
+  email_league: true,
   email_bookings: true,
   email_reminders: true,
   email_payments: true,
@@ -60,8 +64,26 @@ const PREF_ROWS: {
   },
 ];
 
+const LEAGUE_ROW = {
+  fr: {
+    label: "E-mails LSSPM",
+    desc: "Adhésion, paiements, passeport, entretiens et commandes de publications",
+  },
+  en: {
+    label: "LSSPM emails",
+    desc: "Membership, payments, passport, interviews and publication orders",
+  },
+  ar: {
+    label: "رسائل الرابطة",
+    desc: "العضوية، الأداءات، جواز السفر المهني، المقابلات وطلبات المنشورات",
+  },
+};
+
 export default function NotificationPreferencesCard() {
   const { user } = useAuth();
+  const { locale } = useLocale();
+  const league =
+    LEAGUE_ROW[locale === "ar" ? "ar" : locale === "en" ? "en" : "fr"];
   const { toast } = useToast();
   const [prefs, setPrefs] = useState<Prefs>(DEFAULT_PREFS);
   const [loading, setLoading] = useState(true);
@@ -83,6 +105,7 @@ export default function NotificationPreferencesCard() {
         .maybeSingle();
       if (data) {
         setPrefs({
+          email_league: data.email_league,
           email_bookings: data.email_bookings,
           email_reminders: data.email_reminders,
           email_payments: data.email_payments,
@@ -191,6 +214,20 @@ export default function NotificationPreferencesCard() {
       </div>
 
       <div className="space-y-4">
+        <div className="flex items-center justify-between gap-4">
+          <div className="flex items-start gap-3">
+            <LsspmLogo className="w-5 h-5 shrink-0" />
+            <div>
+              <Label className="text-sm font-medium">{league.label}</Label>
+              <p className="text-xs text-muted-foreground">{league.desc}</p>
+            </div>
+          </div>
+          <Switch
+            checked={prefs.email_league}
+            onCheckedChange={() => toggle("email_league")}
+            disabled={saving}
+          />
+        </div>
         {PREF_ROWS.map(({ key, label, desc, icon: Icon }) => (
           <div key={key} className="flex items-center justify-between gap-4">
             <div className="flex items-start gap-3">
