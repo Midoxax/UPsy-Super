@@ -37,7 +37,7 @@ export default function Trainings() {
           to={addLocalePrefix("/learn", locale)}
           className="text-xs text-muted-foreground hover:text-primary inline-flex items-center gap-1"
         >
-          <ArrowLeft className="h-3 w-3" /> U.Psy Academy
+          <ArrowLeft className="h-3 w-3" /> {t.academy}
         </Link>
         <header className="space-y-3 max-w-2xl">
           <h1 className="text-display font-display">{t.title}</h1>

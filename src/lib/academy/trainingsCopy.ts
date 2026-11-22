@@ -1,6 +1,7 @@
 import { useLocale } from "@/contexts/LocaleContext";
 
 const fr = {
+  academy: "U.Psy Académie",
   nav: "Formations",
   title: "Formations certifiantes",
   subtitle:
@@ -55,6 +56,7 @@ type Copy = typeof fr;
 
 const en: Copy = {
   ...fr,
+  academy: "U.Psy Academy",
   nav: "Trainings",
   title: "Certified trainings",
   subtitle:
@@ -106,6 +108,7 @@ const en: Copy = {
 
 const ar: Copy = {
   ...fr,
+  academy: "أكاديمية U.Psy",
   nav: "التكوينات",
   title: "تكوينات بشهادة",
   subtitle: "مسارات تجمع عدة دورات من الأكاديمية وتنتهي بشهادة.",
