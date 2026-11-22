@@ -8223,7 +8223,12 @@ export type Database = {
         }[];
       };
       league_record_payment: {
-        Args: { _membership: string; _method: string; _amount: number; _reference: string };
+        Args: {
+          _membership: string;
+          _method: string;
+          _amount: number;
+          _reference: string;
+        };
         Returns: string;
       };
       league_review_payment: {
