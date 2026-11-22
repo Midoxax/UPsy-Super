@@ -118,7 +118,7 @@ const WhyUs = () => {
               transition={{ duration: 0.6 }}
               className="inline-block px-4 py-1.5 rounded-full border border-secondary/40 bg-secondary/5 text-secondary text-xs font-semibold tracking-[0.2em] uppercase mb-6"
             >
-              {t("whyUs.eyebrow") || "Why U.Psy"}
+              {withLogo(t("whyUs.eyebrow") || "Why U.Psy", "h-[1.6em] mx-1")}
             </motion.div>
             <motion.h1
               initial={{ opacity: 0, y: 16 }}

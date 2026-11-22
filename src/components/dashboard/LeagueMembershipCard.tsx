@@ -8,7 +8,7 @@ import { Input } from "@/components/ui/input";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
 import { useLeagueMembership } from "@/hooks/useLeagueMembership";
-import { useMembershipCopy } from "@/lib/league/membershipCopy";
+import { LEAGUE_NAME, useMembershipCopy } from "@/lib/league/membershipCopy";
 import LsspmLogo from "@/components/league/LsspmLogo";
 
 const MAX_BYTES = 5 * 1024 * 1024;
@@ -107,12 +107,15 @@ export default function LeagueMembershipCard() {
   const s = offer?.settings;
 
   return (
-    <Card className="p-5 space-y-3">
-      <div className="flex items-center gap-3">
-        <LsspmLogo className="h-12 w-12 shrink-0" />
-        <h3 className="font-semibold text-foreground">
-          {active ? t.member : t.title}
-        </h3>
+    <Card className="p-5 space-y-3 border-primary/20 bg-gradient-to-r from-sky-50 to-emerald-50 dark:from-sky-950/30 dark:to-emerald-950/30">
+      <div className="flex items-center gap-4">
+        <LsspmLogo className="h-14 w-14 shrink-0" />
+        <div className="min-w-0">
+          <h3 className="font-semibold text-foreground">
+            {active ? t.member : t.title}
+          </h3>
+          <p className="text-xs text-muted-foreground">{LEAGUE_NAME}</p>
+        </div>
       </div>
 
       {active && (

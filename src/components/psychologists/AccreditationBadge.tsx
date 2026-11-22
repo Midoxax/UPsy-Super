@@ -1,5 +1,6 @@
 import { Shield, Award, Star, Crown, Gem } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { withLogo } from "@/components/UpsyLogo";
 
 const TIERS = {
   basic: {
@@ -141,7 +142,7 @@ export const AccreditationBadge = ({
       <div className="flex items-center gap-4 text-xs text-muted-foreground">
         <span>Tier {t.level} of 5</span>
         <span>•</span>
-        <span>U.Psy Certified</span>
+        <span>{withLogo("U.Psy Certified", "h-[1.2em] me-0.5")}</span>
       </div>
     </div>
   );

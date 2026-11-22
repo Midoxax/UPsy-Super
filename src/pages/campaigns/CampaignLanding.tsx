@@ -219,7 +219,7 @@ const CampaignLanding = ({ config }: { config: CampaignConfig }) => {
             >
               {withLogo(config.headline, "h-[0.85em] mx-1")}{" "}
               <span className="italic accent-italic text-primary">
-                {config.headlineAccent}
+                {withLogo(config.headlineAccent, "h-[0.85em] mx-1")}
               </span>
             </motion.h1>
 
@@ -230,7 +230,7 @@ const CampaignLanding = ({ config }: { config: CampaignConfig }) => {
             <div className="mt-8 inline-flex items-center gap-3 rounded-2xl border-2 border-primary/40 bg-primary/8 px-5 py-3">
               <div className="h-2 w-2 rounded-full bg-primary motion-breathe" />
               <span className="font-mono text-sm tracking-tight text-foreground">
-                {config.offerLabel}
+                {withLogo(config.offerLabel, "h-[1.2em] mx-0.5")}
               </span>
             </div>
 
@@ -241,7 +241,7 @@ const CampaignLanding = ({ config }: { config: CampaignConfig }) => {
                   className="flex items-start gap-3 text-foreground/80"
                 >
                   <Check className="h-5 w-5 text-primary shrink-0 mt-0.5" />
-                  <span>{b}</span>
+                  <span>{withLogo(b, "h-[1.1em] mx-0.5")}</span>
                 </li>
               ))}
             </ul>

@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "@/lib/router-compat";
+import { withLogo } from "@/components/UpsyLogo";
 import { supabase } from "@/integrations/supabase/client";
 import SEOHead from "@/components/SEOHead";
 import { Button } from "@/components/ui/button";
@@ -95,7 +96,7 @@ export default function PassportPublic() {
                 )}
                 {data.league && (
                   <p className="text-sm">
-                    {t.pubMember(data.league.member_number)}
+                    {withLogo(t.pubMember(data.league.member_number))}
                   </p>
                 )}
               </div>
@@ -146,7 +147,7 @@ export default function PassportPublic() {
                         {e.status === "validated" && e.validated_at && (
                           <p className="text-xs text-emerald-700 dark:text-emerald-400 flex items-center gap-1">
                             <BadgeCheck className="h-3.5 w-3.5" />
-                            {t.pubValidated(date(e.validated_at))}
+                            {withLogo(t.pubValidated(date(e.validated_at)))}
                           </p>
                         )}
                       </li>

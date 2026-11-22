@@ -1,4 +1,5 @@
 import wordmark from "@/assets/upsy-wordmark.webp";
+import lsspm from "@/assets/lsspm-logo.webp";
 import { cn } from "@/lib/utils";
 
 /**
@@ -27,12 +28,38 @@ export default function UpsyLogo({
   );
 }
 
-/** Short brand text with every "U.Psy" shown as the wordmark, e.g. a badge
- *  "LSSPM × U.Psy" or a heading "Install the U.Psy app". Not for long
- *  paragraphs, where the plain name reads better. */
-export function withLogo(text: string, className?: string) {
-  const parts = text.split("U.Psy");
-  return parts.flatMap((p, i) =>
-    i === 0 ? [p] : [<UpsyLogo key={i} className={className} />, p],
+/** The LSSPM emblem followed by its name, for inline use in short text. */
+export function LsspmMark({ className }: { className?: string }) {
+  return (
+    <span className="inline-flex items-center gap-[0.25em] whitespace-nowrap align-[-0.2em]">
+      <img
+        src={lsspm}
+        alt=""
+        width={256}
+        height={256}
+        className={cn("inline-block h-[1.35em] w-auto", className)}
+        draggable={false}
+      />
+      LSSPM
+    </span>
   );
+}
+
+/** Short brand text with every "U.Psy" shown as the wordmark and every
+ *  "LSSPM" with the League's emblem, e.g. a badge "LSSPM × U.Psy" or a
+ *  heading "Install the U.Psy app". Not for long paragraphs, where the plain
+ *  names read better. `className` sizes the U.Psy wordmark. */
+export function withLogo(text: string, className?: string) {
+  return text
+    .split(/(U\.Psy|LSSPM)/)
+    .filter(Boolean)
+    .map((p, i) =>
+      p === "U.Psy" ? (
+        <UpsyLogo key={i} className={className} />
+      ) : p === "LSSPM" ? (
+        <LsspmMark key={i} />
+      ) : (
+        p
+      ),
+    );
 }
