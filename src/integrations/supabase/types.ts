@@ -1221,6 +1221,267 @@ export type Database = {
         };
         Relationships: [];
       };
+      league_divisions: {
+        Row: {
+          id: string;
+          code: string;
+          label_fr: string;
+          label_en: string | null;
+          label_ar: string | null;
+          description_fr: string | null;
+          evaluates: boolean;
+          is_active: boolean;
+          position: number;
+        };
+        Insert: {
+          id?: string;
+          code: string;
+          label_fr: string;
+          label_en?: string | null;
+          label_ar?: string | null;
+          description_fr?: string | null;
+          evaluates?: boolean;
+          is_active?: boolean;
+          position?: number;
+        };
+        Update: {
+          id?: string;
+          code?: string;
+          label_fr?: string;
+          label_en?: string | null;
+          label_ar?: string | null;
+          description_fr?: string | null;
+          evaluates?: boolean;
+          is_active?: boolean;
+          position?: number;
+        };
+        Relationships: [];
+      };
+      league_division_leads: {
+        Row: {
+          division_id: string;
+          user_id: string;
+        };
+        Insert: {
+          division_id: string;
+          user_id: string;
+        };
+        Update: {
+          division_id?: string;
+          user_id?: string;
+        };
+        Relationships: [];
+      };
+      league_member_profiles: {
+        Row: {
+          user_id: string;
+          division_ids: string[];
+          project: string | null;
+          contribution_offer: string | null;
+          hours_per_month: number | null;
+          updated_at: string;
+        };
+        Insert: {
+          user_id?: string;
+          division_ids?: string[];
+          project?: string | null;
+          contribution_offer?: string | null;
+          hours_per_month?: number | null;
+          updated_at?: string;
+        };
+        Update: {
+          user_id?: string;
+          division_ids?: string[];
+          project?: string | null;
+          contribution_offer?: string | null;
+          hours_per_month?: number | null;
+          updated_at?: string;
+        };
+        Relationships: [];
+      };
+      league_commitments: {
+        Row: {
+          id: string;
+          user_id: string;
+          doc: string;
+          version: string;
+          signer_name: string;
+          accepted_at: string;
+          legalized_path: string | null;
+          status: string;
+          review_note: string | null;
+          reviewed_by: string | null;
+          reviewed_at: string | null;
+        };
+        Insert: {
+          id?: string;
+          user_id: string;
+          doc: string;
+          version: string;
+          signer_name: string;
+          accepted_at?: string;
+          legalized_path?: string | null;
+          status?: string;
+          review_note?: string | null;
+          reviewed_by?: string | null;
+          reviewed_at?: string | null;
+        };
+        Update: {
+          id?: string;
+          user_id?: string;
+          doc?: string;
+          version?: string;
+          signer_name?: string;
+          accepted_at?: string;
+          legalized_path?: string | null;
+          status?: string;
+          review_note?: string | null;
+          reviewed_by?: string | null;
+          reviewed_at?: string | null;
+        };
+        Relationships: [];
+      };
+      league_contributions: {
+        Row: {
+          id: string;
+          user_id: string;
+          division_id: string | null;
+          kind: string;
+          title: string;
+          details: string | null;
+          happened_on: string;
+          evidence_url: string | null;
+          status: string;
+          points: number | null;
+          review_note: string | null;
+          reviewed_by: string | null;
+          reviewed_at: string | null;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          user_id?: string;
+          division_id?: string | null;
+          kind: string;
+          title: string;
+          details?: string | null;
+          happened_on: string;
+          evidence_url?: string | null;
+          status?: string;
+          points?: number | null;
+          review_note?: string | null;
+          reviewed_by?: string | null;
+          reviewed_at?: string | null;
+          created_at?: string;
+        };
+        Update: {
+          id?: string;
+          user_id?: string;
+          division_id?: string | null;
+          kind?: string;
+          title?: string;
+          details?: string | null;
+          happened_on?: string;
+          evidence_url?: string | null;
+          status?: string;
+          points?: number | null;
+          review_note?: string | null;
+          reviewed_by?: string | null;
+          reviewed_at?: string | null;
+          created_at?: string;
+        };
+        Relationships: [];
+      };
+      league_evaluations: {
+        Row: {
+          id: string;
+          user_id: string;
+          evaluator_id: string;
+          division_id: string | null;
+          period: string;
+          engagement: number;
+          quality: number;
+          collaboration: number;
+          reliability: number;
+          comment: string | null;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          user_id: string;
+          evaluator_id?: string;
+          division_id?: string | null;
+          period: string;
+          engagement: number;
+          quality: number;
+          collaboration: number;
+          reliability: number;
+          comment?: string | null;
+          created_at?: string;
+        };
+        Update: {
+          id?: string;
+          user_id?: string;
+          evaluator_id?: string;
+          division_id?: string | null;
+          period?: string;
+          engagement?: number;
+          quality?: number;
+          collaboration?: number;
+          reliability?: number;
+          comment?: string | null;
+          created_at?: string;
+        };
+        Relationships: [];
+      };
+      league_discipline: {
+        Row: {
+          id: string;
+          user_id: string;
+          level: string;
+          facts: string;
+          opened_by: string;
+          opened_at: string;
+          defence_due: string;
+          defence: string | null;
+          defence_at: string | null;
+          status: string;
+          decision: string | null;
+          decided_at: string | null;
+          decided_by: string | null;
+        };
+        Insert: {
+          id?: string;
+          user_id: string;
+          level: string;
+          facts: string;
+          opened_by: string;
+          opened_at?: string;
+          defence_due: string;
+          defence?: string | null;
+          defence_at?: string | null;
+          status?: string;
+          decision?: string | null;
+          decided_at?: string | null;
+          decided_by?: string | null;
+        };
+        Update: {
+          id?: string;
+          user_id?: string;
+          level?: string;
+          facts?: string;
+          opened_by?: string;
+          opened_at?: string;
+          defence_due?: string;
+          defence?: string | null;
+          defence_at?: string | null;
+          status?: string;
+          decision?: string | null;
+          decided_at?: string | null;
+          decided_by?: string | null;
+        };
+        Relationships: [];
+      };
       league_reviews: {
         Row: {
           application_id: string;
@@ -8784,6 +9045,81 @@ export type Database = {
           _proof_path: string;
         };
         Returns: undefined;
+      };
+      league_accept: {
+        Args: { _doc: string; _version: string; _signer_name: string };
+        Returns: string;
+      };
+      league_submit_legalized: {
+        Args: { _commitment: string; _path: string };
+        Returns: undefined;
+      };
+      league_review_commitment: {
+        Args: { _commitment: string; _ok: boolean; _note: string };
+        Returns: undefined;
+      };
+      league_review_contribution: {
+        Args: {
+          _contribution: string;
+          _ok: boolean;
+          _points?: number;
+          _note?: string;
+        };
+        Returns: undefined;
+      };
+      league_scoreboard: {
+        Args: { _year: number };
+        Returns: {
+          user_id: string;
+          full_name: string;
+          member_number: string;
+          divisions: string[];
+          points: number;
+          contributions: number;
+          rating: number;
+          score: number;
+          last_activity: string;
+          open_procedures: number;
+        }[];
+      };
+      league_my_standing: {
+        Args: never;
+        Returns: {
+          points: number;
+          contributions: number;
+          rating: number;
+          score: number;
+          rank: number;
+          members: number;
+        }[];
+      };
+      league_inactive_members: {
+        Args: never;
+        Returns: {
+          user_id: string;
+          full_name: string;
+          email: string;
+          member_number: string;
+          last_activity: string;
+          member_since: string;
+          open_procedures: number;
+        }[];
+      };
+      league_discipline_open: {
+        Args: { _user: string; _level: string; _facts: string };
+        Returns: string;
+      };
+      league_discipline_defend: {
+        Args: { _case: string; _defence: string };
+        Returns: undefined;
+      };
+      league_discipline_decide: {
+        Args: { _case: string; _decision: string; _withdraw?: boolean };
+        Returns: undefined;
+      };
+      is_league_evaluator: {
+        Args: { _uid: string };
+        Returns: boolean;
       };
       issue_training_certificate: {
         Args: { _training: string };

@@ -28,6 +28,7 @@ import { Route as GetMatchedRouteImport } from './routes/get-matched'
 import { Route as InstallRouteImport } from './routes/install'
 import { Route as LeagueRouteImport } from './routes/league'
 import { Route as LegalRouteImport } from './routes/legal'
+import { Route as LsspmRouteImport } from './routes/lsspm'
 import { Route as MembershipRouteImport } from './routes/membership'
 import { Route as MentalPerformanceRouteImport } from './routes/mental-performance'
 import { Route as MentalToughnessAthletesRouteImport } from './routes/mental-toughness-athletes'
@@ -68,6 +69,7 @@ import { Route as LocaleGetMatchedRouteImport } from './routes/$locale/get-match
 import { Route as LocaleInstallRouteImport } from './routes/$locale/install'
 import { Route as LocaleLeagueRouteImport } from './routes/$locale/league'
 import { Route as LocaleLegalRouteImport } from './routes/$locale/legal'
+import { Route as LocaleLsspmRouteImport } from './routes/$locale/lsspm'
 import { Route as LocaleMembershipRouteImport } from './routes/$locale/membership'
 import { Route as LocaleMentalPerformanceRouteImport } from './routes/$locale/mental-performance'
 import { Route as LocaleMentalToughnessAthletesRouteImport } from './routes/$locale/mental-toughness-athletes'
@@ -329,6 +331,11 @@ const LegalRoute = LegalRouteImport.update({
   path: '/legal',
   getParentRoute: () => rootRouteImport,
 } as any)
+const LsspmRoute = LsspmRouteImport.update({
+  id: '/lsspm',
+  path: '/lsspm',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const MembershipRoute = MembershipRouteImport.update({
   id: '/membership',
   path: '/membership',
@@ -527,6 +534,11 @@ const LocaleLeagueRoute = LocaleLeagueRouteImport.update({
 const LocaleLegalRoute = LocaleLegalRouteImport.update({
   id: '/$locale/legal',
   path: '/$locale/legal',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LocaleLsspmRoute = LocaleLsspmRouteImport.update({
+  id: '/$locale/lsspm',
+  path: '/$locale/lsspm',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LocaleMembershipRoute = LocaleMembershipRouteImport.update({
@@ -1410,6 +1422,7 @@ export interface FileRoutesByFullPath {
   '/install': typeof InstallRoute
   '/league': typeof LeagueRoute
   '/legal': typeof LegalRoute
+  '/lsspm': typeof LsspmRoute
   '/membership': typeof MembershipRoute
   '/mental-performance': typeof MentalPerformanceRoute
   '/mental-toughness-athletes': typeof MentalToughnessAthletesRoute
@@ -1449,6 +1462,7 @@ export interface FileRoutesByFullPath {
   '/$locale/install': typeof LocaleInstallRoute
   '/$locale/league': typeof LocaleLeagueRoute
   '/$locale/legal': typeof LocaleLegalRoute
+  '/$locale/lsspm': typeof LocaleLsspmRoute
   '/$locale/membership': typeof LocaleMembershipRoute
   '/$locale/mental-performance': typeof LocaleMentalPerformanceRoute
   '/$locale/mental-toughness-athletes': typeof LocaleMentalToughnessAthletesRoute
@@ -1636,6 +1650,7 @@ export interface FileRoutesByTo {
   '/install': typeof InstallRoute
   '/league': typeof LeagueRoute
   '/legal': typeof LegalRoute
+  '/lsspm': typeof LsspmRoute
   '/membership': typeof MembershipRoute
   '/mental-performance': typeof MentalPerformanceRoute
   '/mental-toughness-athletes': typeof MentalToughnessAthletesRoute
@@ -1675,6 +1690,7 @@ export interface FileRoutesByTo {
   '/$locale/install': typeof LocaleInstallRoute
   '/$locale/league': typeof LocaleLeagueRoute
   '/$locale/legal': typeof LocaleLegalRoute
+  '/$locale/lsspm': typeof LocaleLsspmRoute
   '/$locale/membership': typeof LocaleMembershipRoute
   '/$locale/mental-performance': typeof LocaleMentalPerformanceRoute
   '/$locale/mental-toughness-athletes': typeof LocaleMentalToughnessAthletesRoute
@@ -1862,6 +1878,7 @@ export interface FileRoutesById {
   '/install': typeof InstallRoute
   '/league': typeof LeagueRoute
   '/legal': typeof LegalRoute
+  '/lsspm': typeof LsspmRoute
   '/membership': typeof MembershipRoute
   '/mental-performance': typeof MentalPerformanceRoute
   '/mental-toughness-athletes': typeof MentalToughnessAthletesRoute
@@ -1901,6 +1918,7 @@ export interface FileRoutesById {
   '/$locale/install': typeof LocaleInstallRoute
   '/$locale/league': typeof LocaleLeagueRoute
   '/$locale/legal': typeof LocaleLegalRoute
+  '/$locale/lsspm': typeof LocaleLsspmRoute
   '/$locale/membership': typeof LocaleMembershipRoute
   '/$locale/mental-performance': typeof LocaleMentalPerformanceRoute
   '/$locale/mental-toughness-athletes': typeof LocaleMentalToughnessAthletesRoute
@@ -2090,6 +2108,7 @@ export interface FileRouteTypes {
     | '/install'
     | '/league'
     | '/legal'
+    | '/lsspm'
     | '/membership'
     | '/mental-performance'
     | '/mental-toughness-athletes'
@@ -2129,6 +2148,7 @@ export interface FileRouteTypes {
     | '/$locale/install'
     | '/$locale/league'
     | '/$locale/legal'
+    | '/$locale/lsspm'
     | '/$locale/membership'
     | '/$locale/mental-performance'
     | '/$locale/mental-toughness-athletes'
@@ -2316,6 +2336,7 @@ export interface FileRouteTypes {
     | '/install'
     | '/league'
     | '/legal'
+    | '/lsspm'
     | '/membership'
     | '/mental-performance'
     | '/mental-toughness-athletes'
@@ -2355,6 +2376,7 @@ export interface FileRouteTypes {
     | '/$locale/install'
     | '/$locale/league'
     | '/$locale/legal'
+    | '/$locale/lsspm'
     | '/$locale/membership'
     | '/$locale/mental-performance'
     | '/$locale/mental-toughness-athletes'
@@ -2541,6 +2563,7 @@ export interface FileRouteTypes {
     | '/install'
     | '/league'
     | '/legal'
+    | '/lsspm'
     | '/membership'
     | '/mental-performance'
     | '/mental-toughness-athletes'
@@ -2580,6 +2603,7 @@ export interface FileRouteTypes {
     | '/$locale/install'
     | '/$locale/league'
     | '/$locale/legal'
+    | '/$locale/lsspm'
     | '/$locale/membership'
     | '/$locale/mental-performance'
     | '/$locale/mental-toughness-athletes'
@@ -2768,6 +2792,7 @@ export interface RootRouteChildren {
   InstallRoute: typeof InstallRoute
   LeagueRoute: typeof LeagueRoute
   LegalRoute: typeof LegalRoute
+  LsspmRoute: typeof LsspmRoute
   MembershipRoute: typeof MembershipRoute
   MentalPerformanceRoute: typeof MentalPerformanceRoute
   MentalToughnessAthletesRoute: typeof MentalToughnessAthletesRoute
@@ -2807,6 +2832,7 @@ export interface RootRouteChildren {
   LocaleInstallRoute: typeof LocaleInstallRoute
   LocaleLeagueRoute: typeof LocaleLeagueRoute
   LocaleLegalRoute: typeof LocaleLegalRoute
+  LocaleLsspmRoute: typeof LocaleLsspmRoute
   LocaleMembershipRoute: typeof LocaleMembershipRoute
   LocaleMentalPerformanceRoute: typeof LocaleMentalPerformanceRoute
   LocaleMentalToughnessAthletesRoute: typeof LocaleMentalToughnessAthletesRoute
@@ -3101,6 +3127,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LegalRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/lsspm': {
+      id: '/lsspm'
+      path: '/lsspm'
+      fullPath: '/lsspm'
+      preLoaderRoute: typeof LsspmRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/membership': {
       id: '/membership'
       path: '/membership'
@@ -3379,6 +3412,13 @@ declare module '@tanstack/react-router' {
       path: '/$locale/legal'
       fullPath: '/$locale/legal'
       preLoaderRoute: typeof LocaleLegalRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/$locale/lsspm': {
+      id: '/$locale/lsspm'
+      path: '/$locale/lsspm'
+      fullPath: '/$locale/lsspm'
+      preLoaderRoute: typeof LocaleLsspmRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/$locale/membership': {
@@ -4608,6 +4648,7 @@ const rootRouteChildren: RootRouteChildren = {
   InstallRoute: InstallRoute,
   LeagueRoute: LeagueRoute,
   LegalRoute: LegalRoute,
+  LsspmRoute: LsspmRoute,
   MembershipRoute: MembershipRoute,
   MentalPerformanceRoute: MentalPerformanceRoute,
   MentalToughnessAthletesRoute: MentalToughnessAthletesRoute,
@@ -4647,6 +4688,7 @@ const rootRouteChildren: RootRouteChildren = {
   LocaleInstallRoute: LocaleInstallRoute,
   LocaleLeagueRoute: LocaleLeagueRoute,
   LocaleLegalRoute: LocaleLegalRoute,
+  LocaleLsspmRoute: LocaleLsspmRoute,
   LocaleMembershipRoute: LocaleMembershipRoute,
   LocaleMentalPerformanceRoute: LocaleMentalPerformanceRoute,
   LocaleMentalToughnessAthletesRoute: LocaleMentalToughnessAthletesRoute,
