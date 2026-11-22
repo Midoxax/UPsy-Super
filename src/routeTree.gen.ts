@@ -134,6 +134,7 @@ import { Route as NewsletterConfirmRouteImport } from './routes/newsletter/confi
 import { Route as OpsIndexRouteImport } from './routes/ops/index'
 import { Route as OpsWorkspaceRouteImport } from './routes/ops/$workspace'
 import { Route as OpsPreviewRouteImport } from './routes/ops/preview'
+import { Route as PassportTokenRouteImport } from './routes/passport/$token'
 import { Route as PsychologistsIndexRouteImport } from './routes/psychologists/index'
 import { Route as PsychologistsIdRouteImport } from './routes/psychologists/$id'
 import { Route as PsychologueEnLigneIndexRouteImport } from './routes/psychologue-en-ligne/index'
@@ -183,6 +184,7 @@ import { Route as LocaleInviteCodeRouteImport } from './routes/$locale/invite/$c
 import { Route as LocaleLearnIndexRouteImport } from './routes/$locale/learn/index'
 import { Route as LocaleLearnSlugRouteImport } from './routes/$locale/learn/$slug'
 import { Route as LocaleNewsletterConfirmRouteImport } from './routes/$locale/newsletter/confirm'
+import { Route as LocalePassportTokenRouteImport } from './routes/$locale/passport/$token'
 import { Route as LocalePsychologistsIndexRouteImport } from './routes/$locale/psychologists/index'
 import { Route as LocalePsychologistsIdRouteImport } from './routes/$locale/psychologists/$id'
 import { Route as LocalePsychologueEnLigneIndexRouteImport } from './routes/$locale/psychologue-en-ligne/index'
@@ -860,6 +862,11 @@ const OpsPreviewRoute = OpsPreviewRouteImport.update({
   path: '/ops/preview',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PassportTokenRoute = PassportTokenRouteImport.update({
+  id: '/passport/$token',
+  path: '/passport/$token',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PsychologistsIndexRoute = PsychologistsIndexRouteImport.update({
   id: '/psychologists/',
   path: '/psychologists/',
@@ -1119,6 +1126,11 @@ const LocaleLearnSlugRoute = LocaleLearnSlugRouteImport.update({
 const LocaleNewsletterConfirmRoute = LocaleNewsletterConfirmRouteImport.update({
   id: '/$locale/newsletter/confirm',
   path: '/$locale/newsletter/confirm',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LocalePassportTokenRoute = LocalePassportTokenRouteImport.update({
+  id: '/$locale/passport/$token',
+  path: '/$locale/passport/$token',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LocalePsychologistsIndexRoute =
@@ -1458,6 +1470,7 @@ export interface FileRoutesByFullPath {
   '/newsletter/confirm': typeof NewsletterConfirmRoute
   '/ops/$workspace': typeof OpsWorkspaceRouteWithChildren
   '/ops/preview': typeof OpsPreviewRoute
+  '/passport/$token': typeof PassportTokenRoute
   '/psychologists/$id': typeof PsychologistsIdRoute
   '/psychologue-en-ligne/$country': typeof PsychologueEnLigneCountryRoute
   '/psychologue/$city': typeof PsychologueCityRoute
@@ -1509,6 +1522,7 @@ export interface FileRoutesByFullPath {
   '/$locale/invite/$code': typeof LocaleInviteCodeRoute
   '/$locale/learn/$slug': typeof LocaleLearnSlugRoute
   '/$locale/newsletter/confirm': typeof LocaleNewsletterConfirmRoute
+  '/$locale/passport/$token': typeof LocalePassportTokenRoute
   '/$locale/psychologists/$id': typeof LocalePsychologistsIdRoute
   '/$locale/psychologue-en-ligne/$country': typeof LocalePsychologueEnLigneCountryRoute
   '/$locale/psychologue/$city': typeof LocalePsychologueCityRoute
@@ -1675,6 +1689,7 @@ export interface FileRoutesByTo {
   '/learn/$slug': typeof LearnSlugRoute
   '/newsletter/confirm': typeof NewsletterConfirmRoute
   '/ops/preview': typeof OpsPreviewRoute
+  '/passport/$token': typeof PassportTokenRoute
   '/psychologists/$id': typeof PsychologistsIdRoute
   '/psychologue-en-ligne/$country': typeof PsychologueEnLigneCountryRoute
   '/psychologue/$city': typeof PsychologueCityRoute
@@ -1726,6 +1741,7 @@ export interface FileRoutesByTo {
   '/$locale/invite/$code': typeof LocaleInviteCodeRoute
   '/$locale/learn/$slug': typeof LocaleLearnSlugRoute
   '/$locale/newsletter/confirm': typeof LocaleNewsletterConfirmRoute
+  '/$locale/passport/$token': typeof LocalePassportTokenRoute
   '/$locale/psychologists/$id': typeof LocalePsychologistsIdRoute
   '/$locale/psychologue-en-ligne/$country': typeof LocalePsychologueEnLigneCountryRoute
   '/$locale/psychologue/$city': typeof LocalePsychologueCityRoute
@@ -1894,6 +1910,7 @@ export interface FileRoutesById {
   '/newsletter/confirm': typeof NewsletterConfirmRoute
   '/ops/$workspace': typeof OpsWorkspaceRouteWithChildren
   '/ops/preview': typeof OpsPreviewRoute
+  '/passport/$token': typeof PassportTokenRoute
   '/psychologists/$id': typeof PsychologistsIdRoute
   '/psychologue-en-ligne/$country': typeof PsychologueEnLigneCountryRoute
   '/psychologue/$city': typeof PsychologueCityRoute
@@ -1945,6 +1962,7 @@ export interface FileRoutesById {
   '/$locale/invite/$code': typeof LocaleInviteCodeRoute
   '/$locale/learn/$slug': typeof LocaleLearnSlugRoute
   '/$locale/newsletter/confirm': typeof LocaleNewsletterConfirmRoute
+  '/$locale/passport/$token': typeof LocalePassportTokenRoute
   '/$locale/psychologists/$id': typeof LocalePsychologistsIdRoute
   '/$locale/psychologue-en-ligne/$country': typeof LocalePsychologueEnLigneCountryRoute
   '/$locale/psychologue/$city': typeof LocalePsychologueCityRoute
@@ -2114,6 +2132,7 @@ export interface FileRouteTypes {
     | '/newsletter/confirm'
     | '/ops/$workspace'
     | '/ops/preview'
+    | '/passport/$token'
     | '/psychologists/$id'
     | '/psychologue-en-ligne/$country'
     | '/psychologue/$city'
@@ -2165,6 +2184,7 @@ export interface FileRouteTypes {
     | '/$locale/invite/$code'
     | '/$locale/learn/$slug'
     | '/$locale/newsletter/confirm'
+    | '/$locale/passport/$token'
     | '/$locale/psychologists/$id'
     | '/$locale/psychologue-en-ligne/$country'
     | '/$locale/psychologue/$city'
@@ -2331,6 +2351,7 @@ export interface FileRouteTypes {
     | '/learn/$slug'
     | '/newsletter/confirm'
     | '/ops/preview'
+    | '/passport/$token'
     | '/psychologists/$id'
     | '/psychologue-en-ligne/$country'
     | '/psychologue/$city'
@@ -2382,6 +2403,7 @@ export interface FileRouteTypes {
     | '/$locale/invite/$code'
     | '/$locale/learn/$slug'
     | '/$locale/newsletter/confirm'
+    | '/$locale/passport/$token'
     | '/$locale/psychologists/$id'
     | '/$locale/psychologue-en-ligne/$country'
     | '/$locale/psychologue/$city'
@@ -2549,6 +2571,7 @@ export interface FileRouteTypes {
     | '/newsletter/confirm'
     | '/ops/$workspace'
     | '/ops/preview'
+    | '/passport/$token'
     | '/psychologists/$id'
     | '/psychologue-en-ligne/$country'
     | '/psychologue/$city'
@@ -2600,6 +2623,7 @@ export interface FileRouteTypes {
     | '/$locale/invite/$code'
     | '/$locale/learn/$slug'
     | '/$locale/newsletter/confirm'
+    | '/$locale/passport/$token'
     | '/$locale/psychologists/$id'
     | '/$locale/psychologue-en-ligne/$country'
     | '/$locale/psychologue/$city'
@@ -2768,6 +2792,7 @@ export interface RootRouteChildren {
   NewsletterConfirmRoute: typeof NewsletterConfirmRoute
   OpsWorkspaceRoute: typeof OpsWorkspaceRouteWithChildren
   OpsPreviewRoute: typeof OpsPreviewRoute
+  PassportTokenRoute: typeof PassportTokenRoute
   PsychologistsIdRoute: typeof PsychologistsIdRoute
   PsychologueEnLigneCountryRoute: typeof PsychologueEnLigneCountryRoute
   PsychologueCityRoute: typeof PsychologueCityRoute
@@ -2819,6 +2844,7 @@ export interface RootRouteChildren {
   LocaleInviteCodeRoute: typeof LocaleInviteCodeRoute
   LocaleLearnSlugRoute: typeof LocaleLearnSlugRoute
   LocaleNewsletterConfirmRoute: typeof LocaleNewsletterConfirmRoute
+  LocalePassportTokenRoute: typeof LocalePassportTokenRoute
   LocalePsychologistsIdRoute: typeof LocalePsychologistsIdRoute
   LocalePsychologueEnLigneCountryRoute: typeof LocalePsychologueEnLigneCountryRoute
   LocalePsychologueCityRoute: typeof LocalePsychologueCityRoute
@@ -3739,6 +3765,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof OpsPreviewRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/passport/$token': {
+      id: '/passport/$token'
+      path: '/passport/$token'
+      fullPath: '/passport/$token'
+      preLoaderRoute: typeof PassportTokenRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/psychologists/': {
       id: '/psychologists/'
       path: '/psychologists'
@@ -4080,6 +4113,13 @@ declare module '@tanstack/react-router' {
       path: '/$locale/newsletter/confirm'
       fullPath: '/$locale/newsletter/confirm'
       preLoaderRoute: typeof LocaleNewsletterConfirmRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/$locale/passport/$token': {
+      id: '/$locale/passport/$token'
+      path: '/$locale/passport/$token'
+      fullPath: '/$locale/passport/$token'
+      preLoaderRoute: typeof LocalePassportTokenRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/$locale/psychologists/': {
@@ -4544,6 +4584,7 @@ const rootRouteChildren: RootRouteChildren = {
   NewsletterConfirmRoute: NewsletterConfirmRoute,
   OpsWorkspaceRoute: OpsWorkspaceRouteWithChildren,
   OpsPreviewRoute: OpsPreviewRoute,
+  PassportTokenRoute: PassportTokenRoute,
   PsychologistsIdRoute: PsychologistsIdRoute,
   PsychologueEnLigneCountryRoute: PsychologueEnLigneCountryRoute,
   PsychologueCityRoute: PsychologueCityRoute,
@@ -4598,6 +4639,7 @@ const rootRouteChildren: RootRouteChildren = {
   LocaleInviteCodeRoute: LocaleInviteCodeRoute,
   LocaleLearnSlugRoute: LocaleLearnSlugRoute,
   LocaleNewsletterConfirmRoute: LocaleNewsletterConfirmRoute,
+  LocalePassportTokenRoute: LocalePassportTokenRoute,
   LocalePsychologistsIdRoute: LocalePsychologistsIdRoute,
   LocalePsychologueEnLigneCountryRoute: LocalePsychologueEnLigneCountryRoute,
   LocalePsychologueCityRoute: LocalePsychologueCityRoute,
