@@ -21,10 +21,10 @@ INSERT INTO public.user_roles (user_id, role) VALUES
 
 SET LOCAL ROLE authenticated;
 
--- Seeded categories have no amount yet: not offered.
+-- The fee grid of the règlement (Art. 8) is offered; the old seed is closed.
 SELECT set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-00000000e101', true);
-SELECT pg_temp.expect((SELECT count(*) = 0 FROM public.league_membership_plans),
-  'categories without an amount are not offered');
+SELECT pg_temp.expect((SELECT count(*) = 6 AND bool_and(amount_mad IS NOT NULL)
+  FROM public.league_membership_plans), 'the six categories of Art. 8 are offered');
 
 -- The League sets the amount and opens the category.
 SELECT set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-00000000e102', true);
@@ -43,13 +43,14 @@ RESET ROLE;
 GRANT EXECUTE ON FUNCTION pg_temp.expect(boolean, text) TO anon;
 SET LOCAL ROLE anon;
 SELECT set_config('request.jwt.claim.sub', '', true);
-SELECT pg_temp.expect((SELECT count(*) = 1 FROM public.league_membership_plans), 'visitors see open categories');
+SELECT pg_temp.expect((SELECT count(*) = 6 FROM public.league_membership_plans), 'visitors see open categories');
 SET LOCAL ROLE authenticated;
 
 -- The member applies and declares a transfer.
 SELECT set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-00000000e101', true);
 CREATE TEMP TABLE m AS
-  SELECT public.league_join((SELECT id FROM public.league_membership_plans WHERE code = 'praticien')) AS id;
+  SELECT public.league_join((SELECT id FROM public.league_membership_plans WHERE code = 'praticien'),
+    _photo_path => '00000000-0000-0000-0000-00000000e101/photo.jpg') AS id;
 GRANT SELECT ON m TO authenticated;
 SELECT pg_temp.expect(NOT public.is_league_member('00000000-0000-0000-0000-00000000e101'),
   'applying grants nothing');
@@ -83,14 +84,14 @@ EXCEPTION WHEN raise_exception THEN
   RAISE NOTICE 'ok: U.Psy admins cannot confirm League payments';
 END $$;
 
--- The League confirms: receipt numbered, membership active for 12 months,
+-- The League confirms: receipt numbered, membership active to 31 December (Art. 9),
 -- first membership gives 3 months without commission.
 SELECT set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-00000000e102', true);
 SELECT public.league_review_payment((SELECT id FROM pay), true, 'Reçu sur le compte');
 SELECT pg_temp.expect((SELECT receipt_number LIKE 'REC-COT-' || extract(year FROM now()) || '-00001'
   FROM public.league_payments WHERE id = (SELECT id FROM pay)), 'the receipt gets the first number of the year');
 SELECT pg_temp.expect((SELECT status = 'active' AND member_number LIKE 'LSSPM-%'
-    AND ends_on = (current_date + interval '12 months')::date - 1
+    AND ends_on = make_date(extract(year FROM current_date)::int, 12, 31)
     AND commission_free_until = (current_date + interval '3 months')::date
   FROM public.league_memberships WHERE id = (SELECT id FROM m)), 'the membership is confirmed with its benefits');
 SELECT pg_temp.expect(public.is_league_member('00000000-0000-0000-0000-00000000e101'), 'the psychologist is a member');
@@ -98,7 +99,8 @@ SELECT pg_temp.expect(public.is_league_member('00000000-0000-0000-0000-00000000e
 -- A walk-in pays cash at an event: recorded and confirmed by the League.
 SELECT set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-00000000e104', true);
 CREATE TEMP TABLE m2 AS
-  SELECT public.league_join((SELECT id FROM public.league_membership_plans WHERE code = 'praticien')) AS id;
+  SELECT public.league_join((SELECT id FROM public.league_membership_plans WHERE code = 'praticien'),
+    _photo_path => '00000000-0000-0000-0000-00000000e104/photo.jpg') AS id;
 GRANT SELECT ON m2 TO authenticated;
 SELECT set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-00000000e102', true);
 SELECT public.league_record_payment((SELECT id FROM m2), 'cash', 600, 'Congrès');

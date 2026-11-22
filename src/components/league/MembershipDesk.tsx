@@ -9,6 +9,11 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
 import { useMembershipCopy } from "@/lib/league/membershipCopy";
+import {
+  type MemberDoc,
+  downloadAttestationPdf,
+  downloadCardPdf,
+} from "@/lib/league/memberDocs";
 
 type DeskRow = {
   membership_id: string;
@@ -16,10 +21,19 @@ type DeskRow = {
   email: string;
   plan_label: string;
   plan_amount: number | null;
+  plan_code: string;
+  category: string;
   status: string;
   member_number: string | null;
+  starts_on: string | null;
   ends_on: string | null;
+  attestation_number: string | null;
+  birth_date: string | null;
+  photo_path: string | null;
+  enrolment_path: string | null;
+  verify_token: string | null;
   created_at: string;
+  confirmed_at: string | null;
   payment_id: string | null;
   payment_status: string | null;
   payment_method: string | null;
@@ -27,7 +41,13 @@ type DeskRow = {
   payer_reference: string | null;
   proof_path: string | null;
   receipt_number: string | null;
+  paid_at: string | null;
 };
+
+const ageOf = (d: string) =>
+  Math.floor(
+    (Date.now() - new Date(d).getTime()) / (365.25 * 24 * 3600 * 1000),
+  );
 
 /** League portal: check payments, record cash/cheque, set fees and bank details. */
 export default function MembershipDesk() {
@@ -87,6 +107,7 @@ export default function MembershipDesk() {
         </div>
       )}
 
+      <GrantForm onDone={refresh} />
       <PlansEditor />
       <BankEditor />
     </div>
@@ -94,19 +115,61 @@ export default function MembershipDesk() {
 }
 
 function DeskItem({ r, onChange }: { r: DeskRow; onChange: () => void }) {
-  const { t } = useMembershipCopy();
+  const { t, locale } = useMembershipCopy();
+  const lang = locale === "en" ? "en" : "fr";
   const [note, setNote] = useState("");
   const [busy, setBusy] = useState(false);
   const [recMethod, setRecMethod] = useState("cash");
   const [recRef, setRecRef] = useState("");
 
-  const proof = async () => {
-    if (!r.proof_path) return;
+  const open = async (bucket: string, path: string | null) => {
+    if (!path) return;
     const { data, error } = await supabase.storage
-      .from("league-proofs")
-      .createSignedUrl(r.proof_path, 300);
+      .from(bucket)
+      .createSignedUrl(path, 300);
     if (error || !data) return toast.error(error?.message ?? "Error");
     window.open(data.signedUrl, "_blank", "noopener");
+  };
+  const proof = () => open("league-proofs", r.proof_path);
+  const memberDoc = async (): Promise<MemberDoc> => ({
+    fullName: r.full_name || r.email,
+    memberNumber: r.member_number ?? "",
+    category: r.category,
+    startsOn: r.starts_on ?? "",
+    endsOn: r.ends_on ?? "",
+    attestationNumber: r.attestation_number,
+    confirmedAt: r.confirmed_at,
+    verifyToken: r.verify_token,
+    photoUrl: r.photo_path
+      ? ((
+          await supabase.storage
+            .from("league-files")
+            .createSignedUrl(r.photo_path, 600)
+        ).data?.signedUrl ?? null)
+      : null,
+  });
+  const download = async (kind: "card" | "att") => {
+    setBusy(true);
+    try {
+      const d = await memberDoc();
+      await (kind === "card" ? downloadCardPdf : downloadAttestationPdf)(
+        d,
+        lang,
+      );
+    } catch (e) {
+      toast.error((e as Error).message);
+    } finally {
+      setBusy(false);
+    }
+  };
+  const setCategory = async (category: string) => {
+    const { error } = await supabase.rpc("league_set_category", {
+      _membership: r.membership_id,
+      _category: category,
+    });
+    if (error) return toast.error(error.message);
+    toast.success(t.saved);
+    onChange();
   };
   const review = async (approve: boolean) => {
     if (!r.payment_id) return;
@@ -156,6 +219,64 @@ function DeskItem({ r, onChange }: { r: DeskRow; onChange: () => void }) {
             </Badge>
           )}
         </div>
+      </div>
+
+      <div className="flex flex-wrap items-center gap-2 text-xs">
+        {r.birth_date && (
+          <span className="text-muted-foreground">
+            {t.birthDate} : {r.birth_date} ({t.age(ageOf(r.birth_date))})
+          </span>
+        )}
+        {r.photo_path && (
+          <Button
+            size="sm"
+            variant="ghost"
+            onClick={() => open("league-files", r.photo_path)}
+          >
+            {t.viewPhoto}
+          </Button>
+        )}
+        {r.enrolment_path && (
+          <Button
+            size="sm"
+            variant="ghost"
+            onClick={() => open("league-files", r.enrolment_path)}
+          >
+            {t.viewEnrolment}
+          </Button>
+        )}
+        <select
+          aria-label={t.category}
+          className="h-8 rounded-md border bg-background px-2"
+          value={r.category}
+          onChange={(e) => setCategory(e.target.value)}
+        >
+          {Object.entries(t.categories).map(([k, v]) => (
+            <option key={k} value={k}>
+              {v}
+            </option>
+          ))}
+        </select>
+        {r.status === "active" && (
+          <>
+            <Button
+              size="sm"
+              variant="outline"
+              disabled={busy}
+              onClick={() => download("card")}
+            >
+              {t.downloadCard}
+            </Button>
+            <Button
+              size="sm"
+              variant="outline"
+              disabled={busy}
+              onClick={() => download("att")}
+            >
+              {t.downloadAttestation}
+            </Button>
+          </>
+        )}
       </div>
 
       {r.payment_id && (
@@ -267,7 +388,6 @@ function PlanRow({
   const [amount, setAmount] = useState(
     p.amount_mad == null ? "" : String(p.amount_mad),
   );
-  const [months, setMonths] = useState(String(p.period_months));
   const [active, setActive] = useState(p.is_active);
   const save = async () => {
     const { error } = await supabase
@@ -275,7 +395,6 @@ function PlanRow({
       .update({
         label_fr: label,
         amount_mad: amount === "" ? null : Number(amount),
-        period_months: Number(months) || 12,
         is_active: active,
       })
       .eq("id", p.id);
@@ -284,7 +403,7 @@ function PlanRow({
     onSaved();
   };
   return (
-    <div className="grid gap-2 md:grid-cols-[1fr_120px_100px_auto_auto] items-center">
+    <div className="grid gap-2 md:grid-cols-[1fr_120px_auto_auto] items-center">
       <Input
         aria-label={t.planLabel}
         value={label}
@@ -297,14 +416,6 @@ function PlanRow({
         min={0}
         value={amount}
         onChange={(e) => setAmount(e.target.value)}
-      />
-      <Input
-        aria-label={t.planMonths}
-        type="number"
-        min={1}
-        max={60}
-        value={months}
-        onChange={(e) => setMonths(e.target.value)}
       />
       <label className="flex items-center gap-2 text-sm">
         <Switch
@@ -404,6 +515,58 @@ function BankForm({
       <Button size="sm" onClick={save}>
         {t.save}
       </Button>
+    </section>
+  );
+}
+
+function GrantForm({ onDone }: { onDone: () => void }) {
+  const { t } = useMembershipCopy();
+  const [email, setEmail] = useState("");
+  const [busy, setBusy] = useState(false);
+  const grant = async (code: "honoraire" | "bureau") => {
+    setBusy(true);
+    const { error } = await supabase.rpc("league_grant", {
+      _email: email,
+      _plan_code: code,
+    });
+    setBusy(false);
+    if (error)
+      return toast.error(
+        error.message.includes("no account") ? t.noAccount : error.message,
+      );
+    toast.success(t.granted);
+    setEmail("");
+    onDone();
+  };
+  return (
+    <section className="space-y-2 rounded-xl border border-border p-4">
+      <h3 className="font-semibold">{t.grantTitle}</h3>
+      <p className="text-xs text-muted-foreground">{t.grantHint}</p>
+      <div className="flex flex-wrap gap-2">
+        <Input
+          type="email"
+          className="max-w-xs"
+          placeholder={t.grantEmail}
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+        <Button
+          size="sm"
+          variant="outline"
+          disabled={!email || busy}
+          onClick={() => grant("honoraire")}
+        >
+          {t.grantHonorary}
+        </Button>
+        <Button
+          size="sm"
+          variant="outline"
+          disabled={!email || busy}
+          onClick={() => grant("bureau")}
+        >
+          {t.grantBureau}
+        </Button>
+      </div>
     </section>
   );
 }

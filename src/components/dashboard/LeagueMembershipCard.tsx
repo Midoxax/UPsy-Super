@@ -10,6 +10,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import { useLeagueMembership } from "@/hooks/useLeagueMembership";
 import { LEAGUE_NAME, useMembershipCopy } from "@/lib/league/membershipCopy";
 import LsspmLogo from "@/components/league/LsspmLogo";
+import MemberCard from "@/components/league/MemberCard";
 
 const MAX_BYTES = 5 * 1024 * 1024;
 
@@ -41,6 +42,9 @@ export default function LeagueMembershipCard() {
   const [reference, setReference] = useState("");
   const [file, setFile] = useState<File | null>(null);
   const [busy, setBusy] = useState(false);
+  const [birth, setBirth] = useState("");
+  const [photo, setPhoto] = useState<File | null>(null);
+  const [enrolment, setEnrolment] = useState<File | null>(null);
 
   if (isLoading || !user) return null;
   const date = (d: string | null) =>
@@ -62,12 +66,44 @@ export default function LeagueMembershipCard() {
     (locale === "ar" && p.label_ar) ||
     p.label_fr;
 
-  const apply = async (id: string) => {
+  const upload = async (f: File, kind: string) => {
+    if (f.size > MAX_BYTES) throw new Error(t.tooLarge);
+    const safe = f.name.replace(/[^a-zA-Z0-9._-]/g, "_").slice(-60);
+    const path = `${user.id}/${kind}-${Date.now()}-${safe}`;
+    const { error } = await supabase.storage
+      .from("league-files")
+      .upload(path, f, { contentType: f.type || undefined });
+    if (error) throw error;
+    return path;
+  };
+
+  const chosen = offer?.plans.find((p) => p.id === planId);
+  const ready =
+    !!chosen &&
+    !!photo &&
+    (!chosen.max_age || !!birth) &&
+    (!chosen.requires_enrolment || !!enrolment);
+
+  const apply = async () => {
+    if (!chosen || !photo) return;
     setBusy(true);
-    const { error } = await supabase.rpc("league_join", { _plan: id });
-    setBusy(false);
-    if (error) return toast.error(error.message);
-    refresh();
+    try {
+      const { error } = await supabase.rpc("league_join", {
+        _plan: chosen.id,
+        _birth_date: birth || undefined,
+        _photo_path: await upload(photo, "photo"),
+        _enrolment_path: enrolment
+          ? await upload(enrolment, "enrolment")
+          : undefined,
+      });
+      if (error) throw error;
+      refresh();
+    } catch (e) {
+      const msg = (e as Error).message;
+      toast.error(msg.includes("age limit") ? t.ageLimit : msg);
+    } finally {
+      setBusy(false);
+    }
   };
 
   const send = async () => {
@@ -120,12 +156,7 @@ export default function LeagueMembershipCard() {
 
       {active && (
         <div className="space-y-1 text-sm">
-          <p>
-            {t.number} <span className="font-mono">{active.member_number}</span>
-          </p>
-          <p className="text-muted-foreground">
-            {t.validUntil(date(active.ends_on))}
-          </p>
+          <MemberCard m={active} />
           {active.commission_free_until &&
             active.commission_free_until >=
               new Date().toISOString().slice(0, 10) && (
@@ -144,31 +175,73 @@ export default function LeagueMembershipCard() {
           ) : (
             <div className="space-y-2">
               <p className="text-xs font-medium">{t.choose}</p>
-              {offer?.plans.map((p) => (
-                <label
-                  key={p.id}
-                  className="flex items-center justify-between gap-2 rounded-lg border p-2 text-sm cursor-pointer"
-                >
-                  <span className="flex items-center gap-2">
+              {offer?.plans
+                .filter((p) => p.self_service)
+                .map((p) => (
+                  <label
+                    key={p.id}
+                    className="flex items-center justify-between gap-2 rounded-lg border p-2 text-sm cursor-pointer"
+                  >
+                    <span className="flex items-center gap-2">
+                      <input
+                        type="radio"
+                        name="league-plan"
+                        checked={planId === p.id}
+                        onChange={() => setPlanId(p.id)}
+                      />
+                      {label(p)}
+                    </span>
+                    <span className="font-medium whitespace-nowrap">
+                      {Number(p.amount_mad)} MAD {t.perCalendar}
+                    </span>
+                  </label>
+                ))}
+              <p className="text-xs text-muted-foreground">{t.rulesNote}</p>
+              <p className="text-xs text-muted-foreground">{t.grantedNote}</p>
+              {chosen && (
+                <div className="space-y-2 rounded-lg border bg-background/60 p-3">
+                  <label className="block text-xs text-muted-foreground">
+                    {t.photo}
                     <input
-                      type="radio"
-                      name="league-plan"
-                      checked={planId === p.id}
-                      onChange={() => setPlanId(p.id)}
+                      type="file"
+                      accept="image/*"
+                      className="mt-1 block w-full text-xs"
+                      onChange={(e) => setPhoto(e.target.files?.[0] ?? null)}
                     />
-                    {label(p)}
-                  </span>
-                  <span className="font-medium whitespace-nowrap">
-                    {Number(p.amount_mad)} MAD {t.perYear(p.period_months)}
-                  </span>
-                </label>
-              ))}
+                  </label>
+                  {!!chosen.max_age && (
+                    <label className="block text-xs text-muted-foreground">
+                      {t.birthDate}
+                      <Input
+                        type="date"
+                        className="mt-1"
+                        value={birth}
+                        onChange={(e) => setBirth(e.target.value)}
+                      />
+                    </label>
+                  )}
+                  {chosen.requires_enrolment && (
+                    <label className="block text-xs text-muted-foreground">
+                      {t.enrolment}
+                      <input
+                        type="file"
+                        accept="application/pdf,image/*"
+                        className="mt-1 block w-full text-xs"
+                        onChange={(e) =>
+                          setEnrolment(e.target.files?.[0] ?? null)
+                        }
+                      />
+                    </label>
+                  )}
+                </div>
+              )}
               <Button
                 size="sm"
                 className="w-full"
-                disabled={!planId || busy}
-                onClick={() => apply(planId)}
+                disabled={!ready || busy}
+                onClick={apply}
               >
+                {busy && <Loader2 className="h-4 w-4 me-1 animate-spin" />}
                 {t.apply}
               </Button>
             </div>

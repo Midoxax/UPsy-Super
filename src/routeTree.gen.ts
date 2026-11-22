@@ -118,6 +118,7 @@ import { Route as BlogUnderstandingDepressionRouteImport } from './routes/blog/u
 import { Route as CampaignsFirstSessionRouteImport } from './routes/campaigns/first-session'
 import { Route as CampaignsJoinSpecialistRouteImport } from './routes/campaigns/join-specialist'
 import { Route as CampaignsLsspmRouteImport } from './routes/campaigns/lsspm'
+import { Route as CardTokenRouteImport } from './routes/card/$token'
 import { Route as CenterIndexRouteImport } from './routes/center/index'
 import { Route as CenterProgressRouteImport } from './routes/center/progress'
 import { Route as CenterSchoolsRouteImport } from './routes/center/schools'
@@ -173,6 +174,7 @@ import { Route as LocaleBlogUnderstandingDepressionRouteImport } from './routes/
 import { Route as LocaleCampaignsFirstSessionRouteImport } from './routes/$locale/campaigns/first-session'
 import { Route as LocaleCampaignsJoinSpecialistRouteImport } from './routes/$locale/campaigns/join-specialist'
 import { Route as LocaleCampaignsLsspmRouteImport } from './routes/$locale/campaigns/lsspm'
+import { Route as LocaleCardTokenRouteImport } from './routes/$locale/card/$token'
 import { Route as LocaleCenterIndexRouteImport } from './routes/$locale/center/index'
 import { Route as LocaleCenterProgressRouteImport } from './routes/$locale/center/progress'
 import { Route as LocaleCenterSchoolsRouteImport } from './routes/$locale/center/schools'
@@ -786,6 +788,11 @@ const CampaignsLsspmRoute = CampaignsLsspmRouteImport.update({
   path: '/campaigns/lsspm',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CardTokenRoute = CardTokenRouteImport.update({
+  id: '/card/$token',
+  path: '/card/$token',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const CenterIndexRoute = CenterIndexRouteImport.update({
   id: '/center/',
   path: '/center/',
@@ -1073,6 +1080,11 @@ const LocaleCampaignsJoinSpecialistRoute =
 const LocaleCampaignsLsspmRoute = LocaleCampaignsLsspmRouteImport.update({
   id: '/$locale/campaigns/lsspm',
   path: '/$locale/campaigns/lsspm',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LocaleCardTokenRoute = LocaleCardTokenRouteImport.update({
+  id: '/$locale/card/$token',
+  path: '/$locale/card/$token',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LocaleCenterIndexRoute = LocaleCenterIndexRouteImport.update({
@@ -1483,6 +1495,7 @@ export interface FileRoutesByFullPath {
   '/campaigns/first-session': typeof CampaignsFirstSessionRoute
   '/campaigns/join-specialist': typeof CampaignsJoinSpecialistRoute
   '/campaigns/lsspm': typeof CampaignsLsspmRoute
+  '/card/$token': typeof CardTokenRoute
   '/center/progress': typeof CenterProgressRoute
   '/center/schools': typeof CenterSchoolsRoute
   '/dashboard/client': typeof DashboardClientRoute
@@ -1539,6 +1552,7 @@ export interface FileRoutesByFullPath {
   '/$locale/campaigns/first-session': typeof LocaleCampaignsFirstSessionRoute
   '/$locale/campaigns/join-specialist': typeof LocaleCampaignsJoinSpecialistRoute
   '/$locale/campaigns/lsspm': typeof LocaleCampaignsLsspmRoute
+  '/$locale/card/$token': typeof LocaleCardTokenRoute
   '/$locale/center/progress': typeof LocaleCenterProgressRoute
   '/$locale/center/schools': typeof LocaleCenterSchoolsRoute
   '/$locale/dashboard/client': typeof LocaleDashboardClientRoute
@@ -1707,6 +1721,7 @@ export interface FileRoutesByTo {
   '/campaigns/first-session': typeof CampaignsFirstSessionRoute
   '/campaigns/join-specialist': typeof CampaignsJoinSpecialistRoute
   '/campaigns/lsspm': typeof CampaignsLsspmRoute
+  '/card/$token': typeof CardTokenRoute
   '/center/progress': typeof CenterProgressRoute
   '/center/schools': typeof CenterSchoolsRoute
   '/dashboard/client': typeof DashboardClientRoute
@@ -1762,6 +1777,7 @@ export interface FileRoutesByTo {
   '/$locale/campaigns/first-session': typeof LocaleCampaignsFirstSessionRoute
   '/$locale/campaigns/join-specialist': typeof LocaleCampaignsJoinSpecialistRoute
   '/$locale/campaigns/lsspm': typeof LocaleCampaignsLsspmRoute
+  '/$locale/card/$token': typeof LocaleCardTokenRoute
   '/$locale/center/progress': typeof LocaleCenterProgressRoute
   '/$locale/center/schools': typeof LocaleCenterSchoolsRoute
   '/$locale/dashboard/client': typeof LocaleDashboardClientRoute
@@ -1931,6 +1947,7 @@ export interface FileRoutesById {
   '/campaigns/first-session': typeof CampaignsFirstSessionRoute
   '/campaigns/join-specialist': typeof CampaignsJoinSpecialistRoute
   '/campaigns/lsspm': typeof CampaignsLsspmRoute
+  '/card/$token': typeof CardTokenRoute
   '/center/progress': typeof CenterProgressRoute
   '/center/schools': typeof CenterSchoolsRoute
   '/dashboard/client': typeof DashboardClientRoute
@@ -1987,6 +2004,7 @@ export interface FileRoutesById {
   '/$locale/campaigns/first-session': typeof LocaleCampaignsFirstSessionRoute
   '/$locale/campaigns/join-specialist': typeof LocaleCampaignsJoinSpecialistRoute
   '/$locale/campaigns/lsspm': typeof LocaleCampaignsLsspmRoute
+  '/$locale/card/$token': typeof LocaleCardTokenRoute
   '/$locale/center/progress': typeof LocaleCenterProgressRoute
   '/$locale/center/schools': typeof LocaleCenterSchoolsRoute
   '/$locale/dashboard/client': typeof LocaleDashboardClientRoute
@@ -2157,6 +2175,7 @@ export interface FileRouteTypes {
     | '/campaigns/first-session'
     | '/campaigns/join-specialist'
     | '/campaigns/lsspm'
+    | '/card/$token'
     | '/center/progress'
     | '/center/schools'
     | '/dashboard/client'
@@ -2213,6 +2232,7 @@ export interface FileRouteTypes {
     | '/$locale/campaigns/first-session'
     | '/$locale/campaigns/join-specialist'
     | '/$locale/campaigns/lsspm'
+    | '/$locale/card/$token'
     | '/$locale/center/progress'
     | '/$locale/center/schools'
     | '/$locale/dashboard/client'
@@ -2381,6 +2401,7 @@ export interface FileRouteTypes {
     | '/campaigns/first-session'
     | '/campaigns/join-specialist'
     | '/campaigns/lsspm'
+    | '/card/$token'
     | '/center/progress'
     | '/center/schools'
     | '/dashboard/client'
@@ -2436,6 +2457,7 @@ export interface FileRouteTypes {
     | '/$locale/campaigns/first-session'
     | '/$locale/campaigns/join-specialist'
     | '/$locale/campaigns/lsspm'
+    | '/$locale/card/$token'
     | '/$locale/center/progress'
     | '/$locale/center/schools'
     | '/$locale/dashboard/client'
@@ -2604,6 +2626,7 @@ export interface FileRouteTypes {
     | '/campaigns/first-session'
     | '/campaigns/join-specialist'
     | '/campaigns/lsspm'
+    | '/card/$token'
     | '/center/progress'
     | '/center/schools'
     | '/dashboard/client'
@@ -2660,6 +2683,7 @@ export interface FileRouteTypes {
     | '/$locale/campaigns/first-session'
     | '/$locale/campaigns/join-specialist'
     | '/$locale/campaigns/lsspm'
+    | '/$locale/card/$token'
     | '/$locale/center/progress'
     | '/$locale/center/schools'
     | '/$locale/dashboard/client'
@@ -2829,6 +2853,7 @@ export interface RootRouteChildren {
   CampaignsFirstSessionRoute: typeof CampaignsFirstSessionRoute
   CampaignsJoinSpecialistRoute: typeof CampaignsJoinSpecialistRoute
   CampaignsLsspmRoute: typeof CampaignsLsspmRoute
+  CardTokenRoute: typeof CardTokenRoute
   CenterProgressRoute: typeof CenterProgressRoute
   CenterSchoolsRoute: typeof CenterSchoolsRoute
   DashboardClientRoute: typeof DashboardClientRoute
@@ -2885,6 +2910,7 @@ export interface RootRouteChildren {
   LocaleCampaignsFirstSessionRoute: typeof LocaleCampaignsFirstSessionRoute
   LocaleCampaignsJoinSpecialistRoute: typeof LocaleCampaignsJoinSpecialistRoute
   LocaleCampaignsLsspmRoute: typeof LocaleCampaignsLsspmRoute
+  LocaleCardTokenRoute: typeof LocaleCardTokenRoute
   LocaleCenterProgressRoute: typeof LocaleCenterProgressRoute
   LocaleCenterSchoolsRoute: typeof LocaleCenterSchoolsRoute
   LocaleDashboardClientRoute: typeof LocaleDashboardClientRoute
@@ -3705,6 +3731,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CampaignsLsspmRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/card/$token': {
+      id: '/card/$token'
+      path: '/card/$token'
+      fullPath: '/card/$token'
+      preLoaderRoute: typeof CardTokenRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/center/': {
       id: '/center/'
       path: '/center'
@@ -4088,6 +4121,13 @@ declare module '@tanstack/react-router' {
       path: '/$locale/campaigns/lsspm'
       fullPath: '/$locale/campaigns/lsspm'
       preLoaderRoute: typeof LocaleCampaignsLsspmRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/$locale/card/$token': {
+      id: '/$locale/card/$token'
+      path: '/$locale/card/$token'
+      fullPath: '/$locale/card/$token'
+      preLoaderRoute: typeof LocaleCardTokenRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/$locale/center/': {
@@ -4653,6 +4693,7 @@ const rootRouteChildren: RootRouteChildren = {
   CampaignsFirstSessionRoute: CampaignsFirstSessionRoute,
   CampaignsJoinSpecialistRoute: CampaignsJoinSpecialistRoute,
   CampaignsLsspmRoute: CampaignsLsspmRoute,
+  CardTokenRoute: CardTokenRoute,
   CenterProgressRoute: CenterProgressRoute,
   CenterSchoolsRoute: CenterSchoolsRoute,
   DashboardClientRoute: DashboardClientRoute,
@@ -4712,6 +4753,7 @@ const rootRouteChildren: RootRouteChildren = {
   LocaleCampaignsFirstSessionRoute: LocaleCampaignsFirstSessionRoute,
   LocaleCampaignsJoinSpecialistRoute: LocaleCampaignsJoinSpecialistRoute,
   LocaleCampaignsLsspmRoute: LocaleCampaignsLsspmRoute,
+  LocaleCardTokenRoute: LocaleCardTokenRoute,
   LocaleCenterProgressRoute: LocaleCenterProgressRoute,
   LocaleCenterSchoolsRoute: LocaleCenterSchoolsRoute,
   LocaleDashboardClientRoute: LocaleDashboardClientRoute,

@@ -633,6 +633,10 @@ export type Database = {
           period_months: number;
           position: number;
           updated_at: string;
+          category: string;
+          max_age: number | null;
+          requires_enrolment: boolean;
+          self_service: boolean;
         };
         Insert: {
           amount_mad?: number | null;
@@ -647,6 +651,10 @@ export type Database = {
           period_months?: number;
           position?: number;
           updated_at?: string;
+          category?: string;
+          max_age?: number | null;
+          requires_enrolment?: boolean;
+          self_service?: boolean;
         };
         Update: {
           amount_mad?: number | null;
@@ -661,6 +669,10 @@ export type Database = {
           period_months?: number;
           position?: number;
           updated_at?: string;
+          category?: string;
+          max_age?: number | null;
+          requires_enrolment?: boolean;
+          self_service?: boolean;
         };
         Relationships: [];
       };
@@ -679,6 +691,12 @@ export type Database = {
           status: string;
           updated_at: string;
           user_id: string;
+          birth_date: string | null;
+          photo_path: string | null;
+          enrolment_path: string | null;
+          category: string | null;
+          attestation_number: string | null;
+          verify_token: string | null;
         };
         Insert: {
           commission_free_until?: string | null;
@@ -694,6 +712,12 @@ export type Database = {
           status?: string;
           updated_at?: string;
           user_id: string;
+          birth_date?: string | null;
+          photo_path?: string | null;
+          enrolment_path?: string | null;
+          category?: string | null;
+          attestation_number?: string | null;
+          verify_token?: string | null;
         };
         Update: {
           commission_free_until?: string | null;
@@ -709,6 +733,12 @@ export type Database = {
           status?: string;
           updated_at?: string;
           user_id?: string;
+          birth_date?: string | null;
+          photo_path?: string | null;
+          enrolment_path?: string | null;
+          category?: string | null;
+          attestation_number?: string | null;
+          verify_token?: string | null;
         };
         Relationships: [
           {
@@ -8586,32 +8616,57 @@ export type Database = {
         Returns: boolean;
       };
       league_join: {
-        Args: { _plan: string };
+        Args: {
+          _plan: string;
+          _birth_date?: string;
+          _photo_path?: string;
+          _enrolment_path?: string;
+        };
         Returns: string;
       };
       league_membership_desk: {
-        Args: Record<PropertyKey, never>;
+        Args: never;
         Returns: {
           membership_id: string;
           user_id: string;
-          full_name: string | null;
+          full_name: string;
           email: string;
           plan_label: string;
-          plan_amount: number | null;
+          plan_amount: number;
+          plan_code: string;
+          category: string;
           status: string;
-          member_number: string | null;
-          starts_on: string | null;
-          ends_on: string | null;
+          member_number: string;
+          starts_on: string;
+          ends_on: string;
+          attestation_number: string;
+          birth_date: string;
+          photo_path: string;
+          enrolment_path: string;
+          verify_token: string;
           created_at: string;
-          payment_id: string | null;
-          payment_status: string | null;
-          payment_method: string | null;
-          payment_amount: number | null;
-          payer_reference: string | null;
-          proof_path: string | null;
-          receipt_number: string | null;
-          paid_at: string | null;
+          confirmed_at: string;
+          payment_id: string;
+          payment_status: string;
+          payment_method: string;
+          payment_amount: number;
+          payer_reference: string;
+          proof_path: string;
+          receipt_number: string;
+          paid_at: string;
         }[];
+      };
+      league_grant: {
+        Args: { _email: string; _plan_code: string; _category?: string };
+        Returns: string;
+      };
+      league_set_category: {
+        Args: { _membership: string; _category: string };
+        Returns: undefined;
+      };
+      league_verify: {
+        Args: { _token: string };
+        Returns: Json;
       };
       league_record_payment: {
         Args: {
