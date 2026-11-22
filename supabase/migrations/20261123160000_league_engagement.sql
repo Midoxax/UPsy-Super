@@ -190,9 +190,11 @@ CREATE POLICY league_discipline_read ON public.league_discipline FOR SELECT TO a
   USING (user_id = auth.uid() OR public.is_league_reviewer(auth.uid()));
 
 GRANT SELECT ON public.league_divisions TO anon;
-GRANT SELECT, INSERT, UPDATE, DELETE ON public.league_divisions, public.league_division_leads,
-  public.league_member_profiles TO authenticated;
-GRANT SELECT ON public.league_commitments, public.league_discipline TO authenticated;
+GRANT SELECT, INSERT, UPDATE, DELETE ON public.league_divisions TO authenticated;
+GRANT SELECT, INSERT, UPDATE, DELETE ON public.league_division_leads TO authenticated;
+GRANT SELECT, INSERT, UPDATE, DELETE ON public.league_member_profiles TO authenticated;
+GRANT SELECT ON public.league_commitments TO authenticated;
+GRANT SELECT ON public.league_discipline TO authenticated;
 GRANT SELECT, INSERT, DELETE ON public.league_contributions TO authenticated;
 GRANT SELECT, INSERT ON public.league_evaluations TO authenticated;
 
