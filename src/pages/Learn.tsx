@@ -28,6 +28,7 @@ import { useLocalizedField } from "@/lib/i18n/localizedField";
 import { addLocalePrefix } from "@/lib/i18n/utils";
 import { Radio } from "lucide-react";
 import { useTrainingsCopy } from "@/lib/academy/trainingsCopy";
+import { usePublicationsCopy } from "@/lib/shop/publicationsCopy";
 
 const PATH_STYLE: Record<string, string> = {
   "mental-health": "bg-blue-500/10 text-blue-600 border-blue-500/20",
@@ -142,6 +143,7 @@ export default function Learn() {
   const [searchParams, setSearchParams] = useSearchParams();
   const { locale } = useLocale();
   const { t: tr } = useTrainingsCopy();
+  const { t: pc } = usePublicationsCopy();
   const loc = useLocalizedField();
   const t = COPY[locale === "ar" ? "ar" : locale === "en" ? "en" : "fr"];
 
@@ -283,6 +285,16 @@ export default function Learn() {
               >
                 <GraduationCap className="h-4 w-4 me-2" />
                 {tr.nav}
+              </Button>
+            </Link>
+            <Link to={addLocalePrefix("/publications", locale)}>
+              <Button
+                size="lg"
+                variant="outline"
+                className="border-white/30 text-white hover:bg-white/10 hover:text-white"
+              >
+                <BookOpen className="h-4 w-4 me-2" />
+                {pc.title}
               </Button>
             </Link>
             <Link to={addLocalePrefix("/learn/live", locale)}>
