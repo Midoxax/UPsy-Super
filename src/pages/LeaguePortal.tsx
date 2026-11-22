@@ -1,5 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import MembershipDesk from "@/components/league/MembershipDesk";
+import PassportDesk from "@/components/league/PassportDesk";
+import { usePassportCopy } from "@/lib/passport/passportCopy";
 import { useMembershipCopy } from "@/lib/league/membershipCopy";
 import UpsyLogo, { withLogo } from "@/components/UpsyLogo";
 import {
@@ -212,7 +214,8 @@ export default function LeaguePortal() {
   const [sort, setSort] = useState<"recent" | "upsy" | "league">("recent");
   const [onlyTodo, setOnlyTodo] = useState(false);
   const [openId, setOpenId] = useState<string | null>(null);
-  const [view, setView] = useState<"files" | "members">("files");
+  const [view, setView] = useState<"files" | "members" | "passports">("files");
+  const { t: pt } = usePassportCopy();
   const { t: mt } = useMembershipCopy();
 
   // League accounts only: U.Psy admins are kept out (separate accounts).
@@ -291,10 +294,19 @@ export default function LeaguePortal() {
         >
           {mt.desk}
         </Button>
+        <Button
+          size="sm"
+          variant={view === "passports" ? "default" : "outline"}
+          onClick={() => setView("passports")}
+        >
+          {pt.desk}
+        </Button>
       </div>
 
       {view === "members" ? (
         <MembershipDesk />
+      ) : view === "passports" ? (
+        <PassportDesk />
       ) : (
         <>
           <section className="grid grid-cols-2 lg:grid-cols-4 gap-3">

@@ -21,7 +21,15 @@ import {
   Brain,
   Medal,
 } from "lucide-react";
-import { ClipboardList, ListChecks, TrendingUp, LogOut } from "lucide-react";
+import {
+  ClipboardList,
+  ListChecks,
+  TrendingUp,
+  LogOut,
+  BookUser,
+} from "lucide-react";
+import PassportTab from "@/components/dashboard/PassportTab";
+import { usePassportCopy } from "@/lib/passport/passportCopy";
 import { ProfileTab } from "@/components/dashboard/ProfileTab";
 import { AvailabilityTab } from "@/components/dashboard/AvailabilityTab";
 import { PricingTab } from "@/components/dashboard/PricingTab";
@@ -52,6 +60,7 @@ import LeagueMembershipCard from "@/components/dashboard/LeagueMembershipCard";
 import LsspmMemberBanner from "@/components/league/LsspmMemberBanner";
 
 const SpecialistDashboard = () => {
+  const { t: passportT } = usePassportCopy();
   return (
     <section className="section-spacing">
       <div className="container-custom">
@@ -142,6 +151,10 @@ const SpecialistDashboard = () => {
                   <BookOpen className="h-4 w-4" />
                   <span>Journal</span>
                 </TabsTrigger>
+                <TabsTrigger value="passport" className="gap-1.5">
+                  <BookUser className="h-4 w-4" />
+                  <span>{passportT.tab}</span>
+                </TabsTrigger>
                 <TabsTrigger value="certificates" className="gap-1.5">
                   <Award className="h-4 w-4" />
                   <span>Certificates</span>
@@ -210,6 +223,9 @@ const SpecialistDashboard = () => {
               </TabsContent>
               <TabsContent value="journal">
                 <JournalTab />
+              </TabsContent>
+              <TabsContent value="passport">
+                <PassportTab />
               </TabsContent>
               <TabsContent value="certificates">
                 <CertificatesTab />

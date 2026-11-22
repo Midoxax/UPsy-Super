@@ -812,6 +812,108 @@ export type Database = {
         };
         Relationships: [];
       };
+      passport_entries: {
+        Row: {
+          created_at: string;
+          description: string | null;
+          doi: string | null;
+          end_date: string | null;
+          id: string;
+          kind: string;
+          location: string | null;
+          organization: string | null;
+          proof_path: string | null;
+          review_note: string | null;
+          role: string | null;
+          shareable: boolean;
+          start_date: string | null;
+          status: string;
+          title: string;
+          updated_at: string;
+          url: string | null;
+          user_id: string;
+          validated_at: string | null;
+          validated_by: string | null;
+        };
+        Insert: {
+          created_at?: string;
+          description?: string | null;
+          doi?: string | null;
+          end_date?: string | null;
+          id?: string;
+          kind: string;
+          location?: string | null;
+          organization?: string | null;
+          proof_path?: string | null;
+          review_note?: string | null;
+          role?: string | null;
+          shareable?: boolean;
+          start_date?: string | null;
+          status?: string;
+          title: string;
+          updated_at?: string;
+          url?: string | null;
+          user_id?: string;
+          validated_at?: string | null;
+          validated_by?: string | null;
+        };
+        Update: {
+          created_at?: string;
+          description?: string | null;
+          doi?: string | null;
+          end_date?: string | null;
+          id?: string;
+          kind?: string;
+          location?: string | null;
+          organization?: string | null;
+          proof_path?: string | null;
+          review_note?: string | null;
+          role?: string | null;
+          shareable?: boolean;
+          start_date?: string | null;
+          status?: string;
+          title?: string;
+          updated_at?: string;
+          url?: string | null;
+          user_id?: string;
+          validated_at?: string | null;
+          validated_by?: string | null;
+        };
+        Relationships: [];
+      };
+      passport_shares: {
+        Row: {
+          created_at: string;
+          expires_at: string | null;
+          id: string;
+          label: string | null;
+          revoked_at: string | null;
+          token: string;
+          user_id: string;
+          views: number;
+        };
+        Insert: {
+          created_at?: string;
+          expires_at?: string | null;
+          id?: string;
+          label?: string | null;
+          revoked_at?: string | null;
+          token?: string;
+          user_id?: string;
+          views?: number;
+        };
+        Update: {
+          created_at?: string;
+          expires_at?: string | null;
+          id?: string;
+          label?: string | null;
+          revoked_at?: string | null;
+          token?: string;
+          user_id?: string;
+          views?: number;
+        };
+        Relationships: [];
+      };
       league_reviews: {
         Row: {
           application_id: string;
@@ -8244,6 +8346,33 @@ export type Database = {
           _proof_path: string;
         };
         Returns: string;
+      };
+      passport_public: {
+        Args: { _token: string };
+        Returns: Json;
+      };
+      passport_review: {
+        Args: { _entry: string; _approve: boolean; _note: string };
+        Returns: undefined;
+      };
+      passport_review_queue: {
+        Args: Record<PropertyKey, never>;
+        Returns: {
+          id: string;
+          user_id: string;
+          full_name: string | null;
+          kind: string;
+          title: string;
+          organization: string | null;
+          role: string | null;
+          start_date: string | null;
+          end_date: string | null;
+          description: string | null;
+          url: string | null;
+          doi: string | null;
+          proof_path: string | null;
+          submitted_at: string;
+        }[];
       };
       issue_training_certificate: {
         Args: { _training: string };
