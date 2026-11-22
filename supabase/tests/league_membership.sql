@@ -38,6 +38,14 @@ UPDATE public.league_membership_plans SET amount_mad = 1 WHERE code = 'praticien
 SELECT pg_temp.expect((SELECT count(*) = 0 FROM public.league_membership_plans WHERE amount_mad = 1),
   'U.Psy admins cannot change League fees');
 
+-- Logged out: open categories list without error.
+RESET ROLE;
+GRANT EXECUTE ON FUNCTION pg_temp.expect(boolean, text) TO anon;
+SET LOCAL ROLE anon;
+SELECT set_config('request.jwt.claim.sub', '', true);
+SELECT pg_temp.expect((SELECT count(*) = 1 FROM public.league_membership_plans), 'visitors see open categories');
+SET LOCAL ROLE authenticated;
+
 -- The member applies and declares a transfer.
 SELECT set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-00000000e101', true);
 CREATE TEMP TABLE m AS
