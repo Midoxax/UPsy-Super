@@ -28,6 +28,7 @@ import { Route as GetMatchedRouteImport } from './routes/get-matched'
 import { Route as InstallRouteImport } from './routes/install'
 import { Route as LeagueRouteImport } from './routes/league'
 import { Route as LegalRouteImport } from './routes/legal'
+import { Route as LsspmRouteImport } from './routes/lsspm'
 import { Route as MembershipRouteImport } from './routes/membership'
 import { Route as MentalPerformanceRouteImport } from './routes/mental-performance'
 import { Route as MentalToughnessAthletesRouteImport } from './routes/mental-toughness-athletes'
@@ -68,6 +69,7 @@ import { Route as LocaleGetMatchedRouteImport } from './routes/$locale/get-match
 import { Route as LocaleInstallRouteImport } from './routes/$locale/install'
 import { Route as LocaleLeagueRouteImport } from './routes/$locale/league'
 import { Route as LocaleLegalRouteImport } from './routes/$locale/legal'
+import { Route as LocaleLsspmRouteImport } from './routes/$locale/lsspm'
 import { Route as LocaleMembershipRouteImport } from './routes/$locale/membership'
 import { Route as LocaleMentalPerformanceRouteImport } from './routes/$locale/mental-performance'
 import { Route as LocaleMentalToughnessAthletesRouteImport } from './routes/$locale/mental-toughness-athletes'
@@ -118,6 +120,7 @@ import { Route as BlogUnderstandingDepressionRouteImport } from './routes/blog/u
 import { Route as CampaignsFirstSessionRouteImport } from './routes/campaigns/first-session'
 import { Route as CampaignsJoinSpecialistRouteImport } from './routes/campaigns/join-specialist'
 import { Route as CampaignsLsspmRouteImport } from './routes/campaigns/lsspm'
+import { Route as CardTokenRouteImport } from './routes/card/$token'
 import { Route as CenterIndexRouteImport } from './routes/center/index'
 import { Route as CenterProgressRouteImport } from './routes/center/progress'
 import { Route as CenterSchoolsRouteImport } from './routes/center/schools'
@@ -173,6 +176,7 @@ import { Route as LocaleBlogUnderstandingDepressionRouteImport } from './routes/
 import { Route as LocaleCampaignsFirstSessionRouteImport } from './routes/$locale/campaigns/first-session'
 import { Route as LocaleCampaignsJoinSpecialistRouteImport } from './routes/$locale/campaigns/join-specialist'
 import { Route as LocaleCampaignsLsspmRouteImport } from './routes/$locale/campaigns/lsspm'
+import { Route as LocaleCardTokenRouteImport } from './routes/$locale/card/$token'
 import { Route as LocaleCenterIndexRouteImport } from './routes/$locale/center/index'
 import { Route as LocaleCenterProgressRouteImport } from './routes/$locale/center/progress'
 import { Route as LocaleCenterSchoolsRouteImport } from './routes/$locale/center/schools'
@@ -325,6 +329,11 @@ const LeagueRoute = LeagueRouteImport.update({
 const LegalRoute = LegalRouteImport.update({
   id: '/legal',
   path: '/legal',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LsspmRoute = LsspmRouteImport.update({
+  id: '/lsspm',
+  path: '/lsspm',
   getParentRoute: () => rootRouteImport,
 } as any)
 const MembershipRoute = MembershipRouteImport.update({
@@ -525,6 +534,11 @@ const LocaleLeagueRoute = LocaleLeagueRouteImport.update({
 const LocaleLegalRoute = LocaleLegalRouteImport.update({
   id: '/$locale/legal',
   path: '/$locale/legal',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LocaleLsspmRoute = LocaleLsspmRouteImport.update({
+  id: '/$locale/lsspm',
+  path: '/$locale/lsspm',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LocaleMembershipRoute = LocaleMembershipRouteImport.update({
@@ -784,6 +798,11 @@ const CampaignsJoinSpecialistRoute = CampaignsJoinSpecialistRouteImport.update({
 const CampaignsLsspmRoute = CampaignsLsspmRouteImport.update({
   id: '/campaigns/lsspm',
   path: '/campaigns/lsspm',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CardTokenRoute = CardTokenRouteImport.update({
+  id: '/card/$token',
+  path: '/card/$token',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CenterIndexRoute = CenterIndexRouteImport.update({
@@ -1073,6 +1092,11 @@ const LocaleCampaignsJoinSpecialistRoute =
 const LocaleCampaignsLsspmRoute = LocaleCampaignsLsspmRouteImport.update({
   id: '/$locale/campaigns/lsspm',
   path: '/$locale/campaigns/lsspm',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LocaleCardTokenRoute = LocaleCardTokenRouteImport.update({
+  id: '/$locale/card/$token',
+  path: '/$locale/card/$token',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LocaleCenterIndexRoute = LocaleCenterIndexRouteImport.update({
@@ -1398,6 +1422,7 @@ export interface FileRoutesByFullPath {
   '/install': typeof InstallRoute
   '/league': typeof LeagueRoute
   '/legal': typeof LegalRoute
+  '/lsspm': typeof LsspmRoute
   '/membership': typeof MembershipRoute
   '/mental-performance': typeof MentalPerformanceRoute
   '/mental-toughness-athletes': typeof MentalToughnessAthletesRoute
@@ -1437,6 +1462,7 @@ export interface FileRoutesByFullPath {
   '/$locale/install': typeof LocaleInstallRoute
   '/$locale/league': typeof LocaleLeagueRoute
   '/$locale/legal': typeof LocaleLegalRoute
+  '/$locale/lsspm': typeof LocaleLsspmRoute
   '/$locale/membership': typeof LocaleMembershipRoute
   '/$locale/mental-performance': typeof LocaleMentalPerformanceRoute
   '/$locale/mental-toughness-athletes': typeof LocaleMentalToughnessAthletesRoute
@@ -1483,6 +1509,7 @@ export interface FileRoutesByFullPath {
   '/campaigns/first-session': typeof CampaignsFirstSessionRoute
   '/campaigns/join-specialist': typeof CampaignsJoinSpecialistRoute
   '/campaigns/lsspm': typeof CampaignsLsspmRoute
+  '/card/$token': typeof CardTokenRoute
   '/center/progress': typeof CenterProgressRoute
   '/center/schools': typeof CenterSchoolsRoute
   '/dashboard/client': typeof DashboardClientRoute
@@ -1539,6 +1566,7 @@ export interface FileRoutesByFullPath {
   '/$locale/campaigns/first-session': typeof LocaleCampaignsFirstSessionRoute
   '/$locale/campaigns/join-specialist': typeof LocaleCampaignsJoinSpecialistRoute
   '/$locale/campaigns/lsspm': typeof LocaleCampaignsLsspmRoute
+  '/$locale/card/$token': typeof LocaleCardTokenRoute
   '/$locale/center/progress': typeof LocaleCenterProgressRoute
   '/$locale/center/schools': typeof LocaleCenterSchoolsRoute
   '/$locale/dashboard/client': typeof LocaleDashboardClientRoute
@@ -1622,6 +1650,7 @@ export interface FileRoutesByTo {
   '/install': typeof InstallRoute
   '/league': typeof LeagueRoute
   '/legal': typeof LegalRoute
+  '/lsspm': typeof LsspmRoute
   '/membership': typeof MembershipRoute
   '/mental-performance': typeof MentalPerformanceRoute
   '/mental-toughness-athletes': typeof MentalToughnessAthletesRoute
@@ -1661,6 +1690,7 @@ export interface FileRoutesByTo {
   '/$locale/install': typeof LocaleInstallRoute
   '/$locale/league': typeof LocaleLeagueRoute
   '/$locale/legal': typeof LocaleLegalRoute
+  '/$locale/lsspm': typeof LocaleLsspmRoute
   '/$locale/membership': typeof LocaleMembershipRoute
   '/$locale/mental-performance': typeof LocaleMentalPerformanceRoute
   '/$locale/mental-toughness-athletes': typeof LocaleMentalToughnessAthletesRoute
@@ -1707,6 +1737,7 @@ export interface FileRoutesByTo {
   '/campaigns/first-session': typeof CampaignsFirstSessionRoute
   '/campaigns/join-specialist': typeof CampaignsJoinSpecialistRoute
   '/campaigns/lsspm': typeof CampaignsLsspmRoute
+  '/card/$token': typeof CardTokenRoute
   '/center/progress': typeof CenterProgressRoute
   '/center/schools': typeof CenterSchoolsRoute
   '/dashboard/client': typeof DashboardClientRoute
@@ -1762,6 +1793,7 @@ export interface FileRoutesByTo {
   '/$locale/campaigns/first-session': typeof LocaleCampaignsFirstSessionRoute
   '/$locale/campaigns/join-specialist': typeof LocaleCampaignsJoinSpecialistRoute
   '/$locale/campaigns/lsspm': typeof LocaleCampaignsLsspmRoute
+  '/$locale/card/$token': typeof LocaleCardTokenRoute
   '/$locale/center/progress': typeof LocaleCenterProgressRoute
   '/$locale/center/schools': typeof LocaleCenterSchoolsRoute
   '/$locale/dashboard/client': typeof LocaleDashboardClientRoute
@@ -1846,6 +1878,7 @@ export interface FileRoutesById {
   '/install': typeof InstallRoute
   '/league': typeof LeagueRoute
   '/legal': typeof LegalRoute
+  '/lsspm': typeof LsspmRoute
   '/membership': typeof MembershipRoute
   '/mental-performance': typeof MentalPerformanceRoute
   '/mental-toughness-athletes': typeof MentalToughnessAthletesRoute
@@ -1885,6 +1918,7 @@ export interface FileRoutesById {
   '/$locale/install': typeof LocaleInstallRoute
   '/$locale/league': typeof LocaleLeagueRoute
   '/$locale/legal': typeof LocaleLegalRoute
+  '/$locale/lsspm': typeof LocaleLsspmRoute
   '/$locale/membership': typeof LocaleMembershipRoute
   '/$locale/mental-performance': typeof LocaleMentalPerformanceRoute
   '/$locale/mental-toughness-athletes': typeof LocaleMentalToughnessAthletesRoute
@@ -1931,6 +1965,7 @@ export interface FileRoutesById {
   '/campaigns/first-session': typeof CampaignsFirstSessionRoute
   '/campaigns/join-specialist': typeof CampaignsJoinSpecialistRoute
   '/campaigns/lsspm': typeof CampaignsLsspmRoute
+  '/card/$token': typeof CardTokenRoute
   '/center/progress': typeof CenterProgressRoute
   '/center/schools': typeof CenterSchoolsRoute
   '/dashboard/client': typeof DashboardClientRoute
@@ -1987,6 +2022,7 @@ export interface FileRoutesById {
   '/$locale/campaigns/first-session': typeof LocaleCampaignsFirstSessionRoute
   '/$locale/campaigns/join-specialist': typeof LocaleCampaignsJoinSpecialistRoute
   '/$locale/campaigns/lsspm': typeof LocaleCampaignsLsspmRoute
+  '/$locale/card/$token': typeof LocaleCardTokenRoute
   '/$locale/center/progress': typeof LocaleCenterProgressRoute
   '/$locale/center/schools': typeof LocaleCenterSchoolsRoute
   '/$locale/dashboard/client': typeof LocaleDashboardClientRoute
@@ -2072,6 +2108,7 @@ export interface FileRouteTypes {
     | '/install'
     | '/league'
     | '/legal'
+    | '/lsspm'
     | '/membership'
     | '/mental-performance'
     | '/mental-toughness-athletes'
@@ -2111,6 +2148,7 @@ export interface FileRouteTypes {
     | '/$locale/install'
     | '/$locale/league'
     | '/$locale/legal'
+    | '/$locale/lsspm'
     | '/$locale/membership'
     | '/$locale/mental-performance'
     | '/$locale/mental-toughness-athletes'
@@ -2157,6 +2195,7 @@ export interface FileRouteTypes {
     | '/campaigns/first-session'
     | '/campaigns/join-specialist'
     | '/campaigns/lsspm'
+    | '/card/$token'
     | '/center/progress'
     | '/center/schools'
     | '/dashboard/client'
@@ -2213,6 +2252,7 @@ export interface FileRouteTypes {
     | '/$locale/campaigns/first-session'
     | '/$locale/campaigns/join-specialist'
     | '/$locale/campaigns/lsspm'
+    | '/$locale/card/$token'
     | '/$locale/center/progress'
     | '/$locale/center/schools'
     | '/$locale/dashboard/client'
@@ -2296,6 +2336,7 @@ export interface FileRouteTypes {
     | '/install'
     | '/league'
     | '/legal'
+    | '/lsspm'
     | '/membership'
     | '/mental-performance'
     | '/mental-toughness-athletes'
@@ -2335,6 +2376,7 @@ export interface FileRouteTypes {
     | '/$locale/install'
     | '/$locale/league'
     | '/$locale/legal'
+    | '/$locale/lsspm'
     | '/$locale/membership'
     | '/$locale/mental-performance'
     | '/$locale/mental-toughness-athletes'
@@ -2381,6 +2423,7 @@ export interface FileRouteTypes {
     | '/campaigns/first-session'
     | '/campaigns/join-specialist'
     | '/campaigns/lsspm'
+    | '/card/$token'
     | '/center/progress'
     | '/center/schools'
     | '/dashboard/client'
@@ -2436,6 +2479,7 @@ export interface FileRouteTypes {
     | '/$locale/campaigns/first-session'
     | '/$locale/campaigns/join-specialist'
     | '/$locale/campaigns/lsspm'
+    | '/$locale/card/$token'
     | '/$locale/center/progress'
     | '/$locale/center/schools'
     | '/$locale/dashboard/client'
@@ -2519,6 +2563,7 @@ export interface FileRouteTypes {
     | '/install'
     | '/league'
     | '/legal'
+    | '/lsspm'
     | '/membership'
     | '/mental-performance'
     | '/mental-toughness-athletes'
@@ -2558,6 +2603,7 @@ export interface FileRouteTypes {
     | '/$locale/install'
     | '/$locale/league'
     | '/$locale/legal'
+    | '/$locale/lsspm'
     | '/$locale/membership'
     | '/$locale/mental-performance'
     | '/$locale/mental-toughness-athletes'
@@ -2604,6 +2650,7 @@ export interface FileRouteTypes {
     | '/campaigns/first-session'
     | '/campaigns/join-specialist'
     | '/campaigns/lsspm'
+    | '/card/$token'
     | '/center/progress'
     | '/center/schools'
     | '/dashboard/client'
@@ -2660,6 +2707,7 @@ export interface FileRouteTypes {
     | '/$locale/campaigns/first-session'
     | '/$locale/campaigns/join-specialist'
     | '/$locale/campaigns/lsspm'
+    | '/$locale/card/$token'
     | '/$locale/center/progress'
     | '/$locale/center/schools'
     | '/$locale/dashboard/client'
@@ -2744,6 +2792,7 @@ export interface RootRouteChildren {
   InstallRoute: typeof InstallRoute
   LeagueRoute: typeof LeagueRoute
   LegalRoute: typeof LegalRoute
+  LsspmRoute: typeof LsspmRoute
   MembershipRoute: typeof MembershipRoute
   MentalPerformanceRoute: typeof MentalPerformanceRoute
   MentalToughnessAthletesRoute: typeof MentalToughnessAthletesRoute
@@ -2783,6 +2832,7 @@ export interface RootRouteChildren {
   LocaleInstallRoute: typeof LocaleInstallRoute
   LocaleLeagueRoute: typeof LocaleLeagueRoute
   LocaleLegalRoute: typeof LocaleLegalRoute
+  LocaleLsspmRoute: typeof LocaleLsspmRoute
   LocaleMembershipRoute: typeof LocaleMembershipRoute
   LocaleMentalPerformanceRoute: typeof LocaleMentalPerformanceRoute
   LocaleMentalToughnessAthletesRoute: typeof LocaleMentalToughnessAthletesRoute
@@ -2829,6 +2879,7 @@ export interface RootRouteChildren {
   CampaignsFirstSessionRoute: typeof CampaignsFirstSessionRoute
   CampaignsJoinSpecialistRoute: typeof CampaignsJoinSpecialistRoute
   CampaignsLsspmRoute: typeof CampaignsLsspmRoute
+  CardTokenRoute: typeof CardTokenRoute
   CenterProgressRoute: typeof CenterProgressRoute
   CenterSchoolsRoute: typeof CenterSchoolsRoute
   DashboardClientRoute: typeof DashboardClientRoute
@@ -2885,6 +2936,7 @@ export interface RootRouteChildren {
   LocaleCampaignsFirstSessionRoute: typeof LocaleCampaignsFirstSessionRoute
   LocaleCampaignsJoinSpecialistRoute: typeof LocaleCampaignsJoinSpecialistRoute
   LocaleCampaignsLsspmRoute: typeof LocaleCampaignsLsspmRoute
+  LocaleCardTokenRoute: typeof LocaleCardTokenRoute
   LocaleCenterProgressRoute: typeof LocaleCenterProgressRoute
   LocaleCenterSchoolsRoute: typeof LocaleCenterSchoolsRoute
   LocaleDashboardClientRoute: typeof LocaleDashboardClientRoute
@@ -3073,6 +3125,13 @@ declare module '@tanstack/react-router' {
       path: '/legal'
       fullPath: '/legal'
       preLoaderRoute: typeof LegalRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/lsspm': {
+      id: '/lsspm'
+      path: '/lsspm'
+      fullPath: '/lsspm'
+      preLoaderRoute: typeof LsspmRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/membership': {
@@ -3353,6 +3412,13 @@ declare module '@tanstack/react-router' {
       path: '/$locale/legal'
       fullPath: '/$locale/legal'
       preLoaderRoute: typeof LocaleLegalRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/$locale/lsspm': {
+      id: '/$locale/lsspm'
+      path: '/$locale/lsspm'
+      fullPath: '/$locale/lsspm'
+      preLoaderRoute: typeof LocaleLsspmRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/$locale/membership': {
@@ -3703,6 +3769,13 @@ declare module '@tanstack/react-router' {
       path: '/campaigns/lsspm'
       fullPath: '/campaigns/lsspm'
       preLoaderRoute: typeof CampaignsLsspmRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/card/$token': {
+      id: '/card/$token'
+      path: '/card/$token'
+      fullPath: '/card/$token'
+      preLoaderRoute: typeof CardTokenRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/center/': {
@@ -4088,6 +4161,13 @@ declare module '@tanstack/react-router' {
       path: '/$locale/campaigns/lsspm'
       fullPath: '/$locale/campaigns/lsspm'
       preLoaderRoute: typeof LocaleCampaignsLsspmRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/$locale/card/$token': {
+      id: '/$locale/card/$token'
+      path: '/$locale/card/$token'
+      fullPath: '/$locale/card/$token'
+      preLoaderRoute: typeof LocaleCardTokenRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/$locale/center/': {
@@ -4568,6 +4648,7 @@ const rootRouteChildren: RootRouteChildren = {
   InstallRoute: InstallRoute,
   LeagueRoute: LeagueRoute,
   LegalRoute: LegalRoute,
+  LsspmRoute: LsspmRoute,
   MembershipRoute: MembershipRoute,
   MentalPerformanceRoute: MentalPerformanceRoute,
   MentalToughnessAthletesRoute: MentalToughnessAthletesRoute,
@@ -4607,6 +4688,7 @@ const rootRouteChildren: RootRouteChildren = {
   LocaleInstallRoute: LocaleInstallRoute,
   LocaleLeagueRoute: LocaleLeagueRoute,
   LocaleLegalRoute: LocaleLegalRoute,
+  LocaleLsspmRoute: LocaleLsspmRoute,
   LocaleMembershipRoute: LocaleMembershipRoute,
   LocaleMentalPerformanceRoute: LocaleMentalPerformanceRoute,
   LocaleMentalToughnessAthletesRoute: LocaleMentalToughnessAthletesRoute,
@@ -4653,6 +4735,7 @@ const rootRouteChildren: RootRouteChildren = {
   CampaignsFirstSessionRoute: CampaignsFirstSessionRoute,
   CampaignsJoinSpecialistRoute: CampaignsJoinSpecialistRoute,
   CampaignsLsspmRoute: CampaignsLsspmRoute,
+  CardTokenRoute: CardTokenRoute,
   CenterProgressRoute: CenterProgressRoute,
   CenterSchoolsRoute: CenterSchoolsRoute,
   DashboardClientRoute: DashboardClientRoute,
@@ -4712,6 +4795,7 @@ const rootRouteChildren: RootRouteChildren = {
   LocaleCampaignsFirstSessionRoute: LocaleCampaignsFirstSessionRoute,
   LocaleCampaignsJoinSpecialistRoute: LocaleCampaignsJoinSpecialistRoute,
   LocaleCampaignsLsspmRoute: LocaleCampaignsLsspmRoute,
+  LocaleCardTokenRoute: LocaleCardTokenRoute,
   LocaleCenterProgressRoute: LocaleCenterProgressRoute,
   LocaleCenterSchoolsRoute: LocaleCenterSchoolsRoute,
   LocaleDashboardClientRoute: LocaleDashboardClientRoute,

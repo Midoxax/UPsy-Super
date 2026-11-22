@@ -151,7 +151,7 @@ const TalentInnovationHub = () => {
               <StaggerItem key={pillar.title}>
                 <Card className="h-full border-2 hover:border-accent/30 transition-colors">
                   <CardHeader className="flex flex-row items-start gap-4 pb-2">
-                    <div className="w-12 h-12 rounded-xl flex items-center justify-center bg-accent/10 shrink-0">
+                    <div className="icon-3d w-12 h-12 rounded-xl flex items-center justify-center bg-accent/10 shrink-0">
                       <pillar.icon className="w-6 h-6 text-accent" />
                     </div>
                     <div>

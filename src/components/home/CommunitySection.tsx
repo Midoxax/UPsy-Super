@@ -49,7 +49,7 @@ const CommunitySection = () => {
       <div className="container-custom max-w-5xl">
         <ScrollReveal>
           <div className="text-center mb-12">
-            <div className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6 bg-primary/10 border-2 border-primary/20">
+            <div className="icon-3d w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6 bg-primary/10 border-2 border-primary/20">
               <Users className="w-8 h-8 text-primary" />
             </div>
             <h2 className="text-h2 mb-4">

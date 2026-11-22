@@ -26,15 +26,15 @@ INSERT INTO auth.users (id, email) VALUES
 INSERT INTO public.user_roles (user_id, role) VALUES
   ('00000000-0000-0000-0000-00000000c901', 'admin'),
   ('00000000-0000-0000-0000-00000000c902', 'league') ON CONFLICT DO NOTHING;
-UPDATE public.league_membership_plans SET is_active = true, amount_mad = 500;
 INSERT INTO public.publications (id, slug, title, is_published, price_ebook)
   VALUES ('00000000-0000-0000-0000-00000000c9a1', 'livret-notif', 'Livret', true, 100);
 
 SET LOCAL ROLE authenticated;
 SELECT set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-00000000c903', true);
-CREATE TEMP TABLE m AS SELECT public.league_join((SELECT id FROM public.league_membership_plans LIMIT 1)) AS id;
+CREATE TEMP TABLE m AS SELECT public.league_join((SELECT id FROM public.league_membership_plans WHERE code = 'praticien'),
+  _photo_path => '00000000-0000-0000-0000-00000000c903/photo.jpg') AS id;
 GRANT SELECT ON m TO authenticated;
-SELECT public.league_submit_payment((SELECT id FROM m), 'transfer', 500, 'VIR', '00000000-0000-0000-0000-00000000c903/r.pdf');
+SELECT public.league_submit_payment((SELECT id FROM m), 'transfer', 900, 'VIR', '00000000-0000-0000-0000-00000000c903/r.pdf');
 SELECT pg_temp.expect(pg_temp.n('00000000-0000-0000-0000-00000000c902', 'league_staff') = 1,
   'League reviewers are alerted to a receipt');
 SELECT pg_temp.expect(pg_temp.n('00000000-0000-0000-0000-00000000c901', 'league_staff') = 0,
@@ -45,7 +45,7 @@ SELECT public.league_review_payment((SELECT id FROM public.league_payments LIMIT
 SELECT pg_temp.expect(pg_temp.n('00000000-0000-0000-0000-00000000c903', 'league') = 1
   AND pg_temp.ex($w$body LIKE '%Montant incomplet%'$w$),
   'a refused payment notifies the member with the reason');
-SELECT public.league_record_payment((SELECT id FROM m), 'cash', 500, NULL);
+SELECT public.league_record_payment((SELECT id FROM m), 'cash', 900, NULL);
 SELECT pg_temp.expect(pg_temp.n('00000000-0000-0000-0000-00000000c903', 'league') = 2
   AND pg_temp.ex($w$title LIKE '%adhésion%confirmée%' AND body LIKE '%LSSPM-%'$w$),
   'confirming the membership notifies the member with the number');

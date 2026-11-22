@@ -428,6 +428,70 @@ html.lenis body {
     border-color: hsl(var(--primary) / 0.35);
   }
 
+  /* ── 3D icon chip ──
+     Layered over the chip's own colour: a domed light from the top-left, a
+     specular highlight, an inner bevel and a soft cast shadow; the glyph is
+     lifted with a light edge on top and a shadow below. */
+  .icon-3d {
+    position: relative;
+    isolation: isolate;
+    background-image:
+      radial-gradient(circle at 32% 24%, hsl(0 0% 100% / 0.95) 0%, hsl(0 0% 100% / 0.35) 32%, transparent 60%),
+      radial-gradient(circle at 70% 90%, hsl(var(--secondary) / 0.16) 0%, transparent 55%) !important;
+    box-shadow:
+      inset 0 2px 1px hsl(0 0% 100% / 0.85),
+      inset 0 -5px 9px hsl(var(--secondary) / 0.16),
+      0 12px 20px -10px hsl(var(--secondary) / 0.45),
+      0 2px 4px hsl(var(--secondary) / 0.14);
+    transition: transform var(--duration-ui) var(--ease-calm),
+      box-shadow var(--duration-ui) var(--ease-calm);
+  }
+  .icon-3d::before {
+    content: "";
+    position: absolute;
+    inset: 9% 24% 55% 20%;
+    border-radius: 9999px;
+    background: linear-gradient(hsl(0 0% 100% / 0.7), hsl(0 0% 100% / 0));
+    pointer-events: none;
+    z-index: 0;
+  }
+  .icon-3d > * {
+    position: relative;
+    z-index: 1;
+  }
+  .icon-3d > svg,
+  .icon-3d-glyphs svg {
+    filter: drop-shadow(0 -1px 0 hsl(0 0% 100% / 0.65))
+      drop-shadow(0 2px 1.5px hsl(var(--secondary) / 0.35));
+  }
+  .group:hover .icon-3d,
+  .icon-3d:hover {
+    transform: translateY(-2px);
+    box-shadow:
+      inset 0 2px 1px hsl(0 0% 100% / 0.85),
+      inset 0 -5px 9px hsl(var(--secondary) / 0.16),
+      0 16px 24px -10px hsl(var(--secondary) / 0.5),
+      0 3px 6px hsl(var(--secondary) / 0.16);
+  }
+  .dark .icon-3d {
+    background-image:
+      radial-gradient(circle at 32% 24%, hsl(0 0% 100% / 0.28) 0%, transparent 55%),
+      radial-gradient(circle at 70% 90%, hsl(0 0% 0% / 0.35) 0%, transparent 55%) !important;
+    box-shadow:
+      inset 0 1px 1px hsl(0 0% 100% / 0.25),
+      inset 0 -5px 9px hsl(0 0% 0% / 0.35),
+      0 12px 20px -10px hsl(0 0% 0% / 0.7);
+  }
+  .dark .icon-3d::before {
+    background: linear-gradient(hsl(0 0% 100% / 0.22), hsl(0 0% 100% / 0));
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .group:hover .icon-3d,
+    .icon-3d:hover {
+      transform: none;
+    }
+  }
+
   /* ── Luxe italic accent (Cormorant Garamond — softer counterpoint to Fraunces) ── */
   .accent-italic {
     font-family: 'Cormorant Garamond', 'Fraunces', Georgia, serif;

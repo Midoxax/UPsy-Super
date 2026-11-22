@@ -1,5 +1,6 @@
 import { CheckCircle2 } from "lucide-react";
 import { useLocale } from "@/contexts/LocaleContext";
+import { withLogo } from "@/components/UpsyLogo";
 import { englishMessages } from "@/lib/i18n/messages";
 import SEOHead from "@/components/SEOHead";
 
@@ -120,7 +121,7 @@ const About = () => {
             {/* Experience */}
             <div className="glass-card p-8">
               <h2 className="text-h2 text-foreground mb-6">
-                {t("about.experience.title")}
+                {withLogo(t("about.experience.title"), "h-[0.9em] mx-1")}
               </h2>
               <div className="space-y-4 text-body text-muted-foreground">
                 <p>{t("about.experience.paragraph1")}</p>

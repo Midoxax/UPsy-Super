@@ -43,6 +43,7 @@ import PendingInvitationsCard from "@/components/dashboard/PendingInvitationsCar
 import AnamnesisCard from "@/components/dashboard/AnamnesisCard";
 import CertificatesTab from "@/components/dashboard/CertificatesTab";
 import CandidateInterviewsCard from "@/components/recruitment/CandidateInterviewsCard";
+import AssessmentCard from "@/components/recruitment/AssessmentCard";
 import JournalTab from "@/components/dashboard/JournalTab";
 import DocumentsTab from "@/components/dashboard/DocumentsTab";
 import { ClientBillingTab } from "@/components/dashboard/ClientBillingTab";
@@ -242,6 +243,7 @@ const PatientDashboard = () => {
         <div className="container-custom">
           <div className="mb-6">
             <CandidateInterviewsCard />
+            <AssessmentCard />
           </div>
           <div id="patient-tabs-top" className="scroll-mt-20" />
           <Tabs

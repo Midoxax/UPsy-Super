@@ -57,7 +57,7 @@ const SelfAssessmentSection = () => {
           </div>
 
           {/* Icon */}
-          <div className="w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-5 bg-primary/8 border border-primary/15">
+          <div className="icon-3d w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-5 bg-primary/8 border border-primary/15">
             <BarChart3 className="w-7 h-7 text-primary" />
           </div>
 

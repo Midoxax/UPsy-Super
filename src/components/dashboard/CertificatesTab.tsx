@@ -115,7 +115,7 @@ const CertificatesTab = () => {
               <div className="flex items-start justify-between">
                 <div className="flex items-center gap-2">
                   <div
-                    className="w-9 h-9 rounded-xl flex items-center justify-center"
+                    className="icon-3d w-9 h-9 rounded-xl flex items-center justify-center"
                     style={{
                       background: "rgba(218,165,32,0.1)",
                       border: "1px solid rgba(218,165,32,0.2)",

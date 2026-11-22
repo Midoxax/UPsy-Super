@@ -233,7 +233,7 @@ const WhyUs = () => {
                   transition={{ duration: 0.5, delay: (idx % 2) * 0.08 }}
                   className="glass-card p-7 rounded-3xl flex flex-col"
                 >
-                  <div className="w-12 h-12 rounded-2xl flex items-center justify-center bg-primary/10 border border-primary/20 mb-5">
+                  <div className="icon-3d w-12 h-12 rounded-2xl flex items-center justify-center bg-primary/10 border border-primary/20 mb-5">
                     <pillar.icon className="w-6 h-6 text-primary" />
                   </div>
                   <h3 className="text-h3 mb-3">

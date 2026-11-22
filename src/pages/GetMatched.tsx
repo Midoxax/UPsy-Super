@@ -364,7 +364,7 @@ const GetMatched = () => {
     <ScrollReveal>
       <div className="max-w-xl mx-auto text-center space-y-6">
         <div
-          className="w-20 h-20 rounded-full flex items-center justify-center mx-auto"
+          className="icon-3d w-20 h-20 rounded-full flex items-center justify-center mx-auto"
           style={{
             background: "rgba(255,179,0,0.1)",
             border: "2px solid rgba(255,179,0,0.3)",
@@ -524,7 +524,7 @@ const GetMatched = () => {
     <ScrollReveal>
       <div className="max-w-xl mx-auto text-center space-y-6">
         <div
-          className="w-16 h-16 rounded-full flex items-center justify-center mx-auto"
+          className="icon-3d w-16 h-16 rounded-full flex items-center justify-center mx-auto"
           style={{
             background: "rgba(255,179,0,0.1)",
             border: "2px solid rgba(255,179,0,0.3)",

@@ -74,7 +74,7 @@ const ProgramsSection = () => {
               <StaggerItem key={program.fallbackTitle}>
                 <div className="card-tilt">
                   <div className="glass-card p-7 h-full min-w-0">
-                    <div className="w-12 h-12 rounded-full flex items-center justify-center mb-5 bg-primary/8 border-2 border-primary/15">
+                    <div className="icon-3d w-12 h-12 rounded-full flex items-center justify-center mb-5 bg-primary/8 border-2 border-primary/15">
                       <program.icon className="w-6 h-6 text-primary" />
                     </div>
                     <h3 className="text-lg font-semibold text-foreground mb-2">

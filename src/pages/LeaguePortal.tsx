@@ -1,5 +1,9 @@
 import { useEffect, useMemo, useState } from "react";
 import MembershipDesk from "@/components/league/MembershipDesk";
+import ParticipationDesk from "@/components/league/ParticipationDesk";
+import AssessmentsDesk from "@/components/recruitment/AssessmentsDesk";
+import { useBatteryCopy } from "@/lib/recruitment/batteryCopy";
+import { useEngagementCopy } from "@/lib/league/engagementCopy";
 import LsspmLogo from "@/components/league/LsspmLogo";
 import PassportDesk from "@/components/league/PassportDesk";
 import InterviewsDesk from "@/components/league/InterviewsDesk";
@@ -24,6 +28,7 @@ import { supabase } from "@/integrations/supabase/client";
 import type { Database } from "@/integrations/supabase/types";
 import { useUserRole } from "@/hooks/useUserRole";
 import { useLocale } from "@/contexts/LocaleContext";
+import { addLocalePrefix } from "@/lib/i18n/utils";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
@@ -223,11 +228,18 @@ export default function LeaguePortal() {
   const [onlyTodo, setOnlyTodo] = useState(false);
   const [openId, setOpenId] = useState<string | null>(null);
   const [view, setView] = useState<
-    "files" | "members" | "passports" | "interviews"
+    | "files"
+    | "members"
+    | "passports"
+    | "interviews"
+    | "participation"
+    | "assessments"
   >("files");
   const { t: rt } = useRecruitmentCopy();
   const { t: pt } = usePassportCopy();
   const { t: mt } = useMembershipCopy();
+  const { t: et } = useEngagementCopy();
+  const { t: bt } = useBatteryCopy();
 
   // League accounts only: U.Psy admins are kept out (separate accounts).
   const allowed = isLeague;
@@ -320,9 +332,30 @@ export default function LeaguePortal() {
         >
           {rt.desk}
         </Button>
+        <Button
+          size="sm"
+          variant={view === "participation" ? "default" : "outline"}
+          onClick={() => setView("participation")}
+        >
+          {et.participation}
+        </Button>
+        <Button
+          size="sm"
+          variant={view === "assessments" ? "default" : "outline"}
+          onClick={() => setView("assessments")}
+        >
+          {bt.desk}
+        </Button>
+        <Button size="sm" variant="ghost" asChild>
+          <a href={addLocalePrefix("/lsspm", locale)}>{et.docs}</a>
+        </Button>
       </div>
 
-      {view === "members" ? (
+      {view === "assessments" ? (
+        <AssessmentsDesk />
+      ) : view === "participation" ? (
+        <ParticipationDesk />
+      ) : view === "members" ? (
         <MembershipDesk />
       ) : view === "passports" ? (
         <PassportDesk />

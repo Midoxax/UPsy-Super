@@ -79,7 +79,7 @@ const OrganizationsSection = () => {
             {services.map((service) => (
               <StaggerItem key={service.fallbackTitle}>
                 <div className="glass-card p-7 h-full flex flex-col">
-                  <div className="w-14 h-14 rounded-full flex items-center justify-center mb-5 bg-primary/8 border-2 border-primary/15">
+                  <div className="icon-3d w-14 h-14 rounded-full flex items-center justify-center mb-5 bg-primary/8 border-2 border-primary/15">
                     <service.icon className="w-7 h-7 text-primary" />
                   </div>
                   <h3 className="text-lg font-semibold text-foreground mb-2">

@@ -57,6 +57,9 @@ import ContinueLearningCard from "@/components/dashboard/ContinueLearningCard";
 import AthletesTab from "@/components/dashboard/AthletesTab";
 import LeagueShareCard from "@/components/dashboard/LeagueShareCard";
 import LeagueMembershipCard from "@/components/dashboard/LeagueMembershipCard";
+import LeagueEngagementCard from "@/components/league/LeagueEngagementCard";
+import LeadDesk from "@/components/league/LeadDesk";
+import AssessmentCard from "@/components/recruitment/AssessmentCard";
 import CandidateInterviewsCard from "@/components/recruitment/CandidateInterviewsCard";
 
 const SpecialistDashboard = () => {
@@ -68,6 +71,9 @@ const SpecialistDashboard = () => {
           {/* Main */}
           <div className="space-y-6 min-w-0">
             <LeagueMembershipCard />
+            <LeagueEngagementCard />
+            <LeadDesk />
+            <AssessmentCard />
             <CandidateInterviewsCard />
             <UpcomingSessionsCard as="specialist" />
 
