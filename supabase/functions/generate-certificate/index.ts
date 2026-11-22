@@ -1,4 +1,7 @@
-import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+import {
+  createClient,
+  type SupabaseClient,
+} from "https://esm.sh/@supabase/supabase-js@2";
 import { sender } from "../_shared/sender.ts";
 
 const corsHeaders = {
@@ -243,8 +246,24 @@ Deno.serve(async (req) => {
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
-    const { certificate_type, reference_id, title, description } =
-      validation.data;
+    const { certificate_type, reference_id } = validation.data;
+
+    // The server decides whether a certificate is earned and what it says:
+    // the request only names what to check. Training certificates come from
+    // the issue_training_certificate() RPC instead.
+    const earned = await verifyEarned(
+      supabaseAdmin,
+      user.id,
+      certificate_type,
+      reference_id,
+    );
+    if (!earned) {
+      return new Response(JSON.stringify({ error: "Not earned" }), {
+        status: 403,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+    const { title, description } = earned;
 
     const { data: profile } = await supabaseAdmin
       .from("profiles")
@@ -288,7 +307,7 @@ Deno.serve(async (req) => {
         user_id: user.id,
         certificate_type,
         title,
-        description: description || null,
+        description,
         recipient_name: recipientName,
         reference_id: reference_id || null,
         metadata: {
@@ -367,3 +386,64 @@ Deno.serve(async (req) => {
     });
   }
 });
+
+type Admin = SupabaseClient;
+
+/** What a certificate says, if the user has earned it; null otherwise. */
+async function verifyEarned(
+  admin: Admin,
+  userId: string,
+  type: string,
+  ref: string | undefined,
+): Promise<{ title: string; description: string } | null> {
+  if (type === "course_completion" && ref) {
+    const { data: done } = await admin.rpc("course_done", {
+      _course: ref,
+      _uid: userId,
+    });
+    if (done !== true) return null;
+    const { data: c } = await admin
+      .from("courses")
+      .select("title, title_fr")
+      .eq("id", ref)
+      .maybeSingle();
+    if (!c) return null;
+    const t = (c.title_fr as string | null) || (c.title as string);
+    return {
+      title: t,
+      description: `A suivi et terminé le cours « ${t} » sur U.Psy Academy.`,
+    };
+  }
+  if (type === "assessment_completion" && ref) {
+    const { data: r } = await admin
+      .from("assessment_results")
+      .select("id, assessments(title)")
+      .eq("user_id", userId)
+      .eq("assessment_id", ref)
+      .limit(1)
+      .maybeSingle();
+    const a = (r as unknown as { assessments: { title: string } | null } | null)
+      ?.assessments;
+    if (!a) return null;
+    return {
+      title: a.title,
+      description: `A complété l'évaluation « ${a.title} » sur U.Psy.`,
+    };
+  }
+  if (type === "psychologist_accreditation") {
+    const { data: app } = await admin
+      .from("psychologist_applications")
+      .select("status")
+      .eq("user_id", userId)
+      .eq("status", "approved")
+      .limit(1)
+      .maybeSingle();
+    if (!app) return null;
+    return {
+      title: "Accréditation professionnelle U.Psy",
+      description:
+        "Psychologue dont le dossier professionnel a été vérifié et accrédité par U.Psy.",
+    };
+  }
+  return null;
+}

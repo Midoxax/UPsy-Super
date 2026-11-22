@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import CourseEditDrawer from "./CourseEditDrawer";
 import SeriesToCourse from "./SeriesToCourse";
+import TrainingsManager from "./TrainingsManager";
 import { cn } from "@/lib/utils";
 
 const PATH_STYLE: Record<string, string> = {
@@ -80,6 +81,8 @@ export default function LearningHubManager() {
           <Plus className="h-4 w-4 mr-1" /> New course
         </Button>
       </div>
+
+      <TrainingsManager />
 
       <SeriesToCourse
         onCreated={(created) => {
