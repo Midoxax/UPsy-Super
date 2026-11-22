@@ -7305,6 +7305,96 @@ export type Database = {
         };
         Relationships: [];
       };
+      training_courses: {
+        Row: {
+          course_id: string;
+          id: string;
+          position: number;
+          required: boolean;
+          training_id: string;
+        };
+        Insert: {
+          course_id: string;
+          id?: string;
+          position?: number;
+          required?: boolean;
+          training_id: string;
+        };
+        Update: {
+          course_id?: string;
+          id?: string;
+          position?: number;
+          required?: boolean;
+          training_id?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "training_courses_course_id_fkey";
+            columns: ["course_id"];
+            isOneToOne: false;
+            referencedRelation: "courses";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "training_courses_training_id_fkey";
+            columns: ["training_id"];
+            isOneToOne: false;
+            referencedRelation: "trainings";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
+      trainings: {
+        Row: {
+          audience: string;
+          cpd_hours: number | null;
+          created_at: string;
+          description: string | null;
+          description_ar: string | null;
+          description_fr: string | null;
+          id: string;
+          is_published: boolean;
+          level: string;
+          slug: string;
+          title: string;
+          title_ar: string | null;
+          title_fr: string | null;
+          updated_at: string;
+        };
+        Insert: {
+          audience?: string;
+          cpd_hours?: number | null;
+          created_at?: string;
+          description?: string | null;
+          description_ar?: string | null;
+          description_fr?: string | null;
+          id?: string;
+          is_published?: boolean;
+          level?: string;
+          slug: string;
+          title: string;
+          title_ar?: string | null;
+          title_fr?: string | null;
+          updated_at?: string;
+        };
+        Update: {
+          audience?: string;
+          cpd_hours?: number | null;
+          created_at?: string;
+          description?: string | null;
+          description_ar?: string | null;
+          description_fr?: string | null;
+          id?: string;
+          is_published?: boolean;
+          level?: string;
+          slug?: string;
+          title?: string;
+          title_ar?: string | null;
+          title_fr?: string | null;
+          updated_at?: string;
+        };
+        Relationships: [];
+      };
       translation_overrides: {
         Row: {
           id: string;
@@ -7881,8 +7971,16 @@ export type Database = {
       };
     };
     Functions: {
+      course_done: {
+        Args: { _course: string; _uid: string };
+        Returns: boolean;
+      };
       course_from_live_series: {
         Args: { _series: string };
+        Returns: string;
+      };
+      issue_training_certificate: {
+        Args: { _training: string };
         Returns: string;
       };
       reorder_live_series: {
