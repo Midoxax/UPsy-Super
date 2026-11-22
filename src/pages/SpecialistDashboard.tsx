@@ -57,7 +57,6 @@ import ContinueLearningCard from "@/components/dashboard/ContinueLearningCard";
 import AthletesTab from "@/components/dashboard/AthletesTab";
 import LeagueShareCard from "@/components/dashboard/LeagueShareCard";
 import LeagueMembershipCard from "@/components/dashboard/LeagueMembershipCard";
-import LsspmMemberBanner from "@/components/league/LsspmMemberBanner";
 import CandidateInterviewsCard from "@/components/recruitment/CandidateInterviewsCard";
 
 const SpecialistDashboard = () => {
@@ -68,7 +67,7 @@ const SpecialistDashboard = () => {
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-6">
           {/* Main */}
           <div className="space-y-6 min-w-0">
-            <LsspmMemberBanner />
+            <LeagueMembershipCard />
             <CandidateInterviewsCard />
             <UpcomingSessionsCard as="specialist" />
 
@@ -262,7 +261,6 @@ const SpecialistDashboard = () => {
               </Button>
             </Card>
 
-            <LeagueMembershipCard />
             <LeagueShareCard />
             <SpecialistBurnoutCard />
             <SmartSchedulingCard />

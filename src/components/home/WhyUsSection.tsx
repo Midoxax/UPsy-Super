@@ -1,5 +1,6 @@
 import { Link } from "@/lib/router-compat";
 import { motion } from "framer-motion";
+import { withLogo } from "@/components/UpsyLogo";
 import { ArrowRight, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useLocale } from "@/contexts/LocaleContext";
@@ -91,7 +92,7 @@ const WhyUsSection = () => {
         >
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-secondary/40 bg-secondary/5 text-secondary text-xs font-semibold tracking-[0.2em] uppercase mb-6">
             <Sparkles className="w-3.5 h-3.5" />
-            {t("whyUs.eyebrow") || "Why U.Psy"}
+            {withLogo(t("whyUs.eyebrow") || "Why U.Psy", "h-[1.6em] mx-1")}
           </div>
           <h2 className="text-h2 mb-5">
             {t("whyUs.title") ||

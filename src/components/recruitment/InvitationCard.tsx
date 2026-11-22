@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { toast } from "sonner";
+import { withLogo } from "@/components/UpsyLogo";
 import { CalendarPlus, Clock, MapPin, Phone, Video } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import type { Tables } from "@/integrations/supabase/types";
@@ -78,11 +79,11 @@ export default function InvitationCard({
     <Card className="p-4 space-y-3">
       <div className="flex flex-wrap items-start justify-between gap-2">
         <div className="min-w-0">
-          <p className="font-medium">{inv.title}</p>
+          <p className="font-medium">{withLogo(inv.title)}</p>
           <p className="text-xs text-muted-foreground flex flex-wrap items-center gap-x-3 gap-y-1">
             {counterpart && (
               <span>
-                {t.with} {counterpart}
+                {t.with} {withLogo(counterpart)}
               </span>
             )}
             <span className="inline-flex items-center gap-1">

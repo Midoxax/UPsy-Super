@@ -40,3 +40,6 @@ verify_jwt = false
 
 [functions.jaas-webhook]
 verify_jwt = false
+
+[functions.notification-emails]
+verify_jwt = false

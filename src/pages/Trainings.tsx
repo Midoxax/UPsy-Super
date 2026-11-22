@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "@/lib/router-compat";
+import { withLogo } from "@/components/UpsyLogo";
 import { supabase } from "@/integrations/supabase/client";
 import { addLocalePrefix } from "@/lib/i18n/utils";
 import { useLocalizedField } from "@/lib/i18n/localizedField";
@@ -37,7 +38,8 @@ export default function Trainings() {
           to={addLocalePrefix("/learn", locale)}
           className="text-xs text-muted-foreground hover:text-primary inline-flex items-center gap-1"
         >
-          <ArrowLeft className="h-3 w-3" /> {t.academy}
+          <ArrowLeft className="h-3 w-3" />{" "}
+          {withLogo(t.academy, "h-[1.2em] mx-0.5")}
         </Link>
         <header className="space-y-3 max-w-2xl">
           <h1 className="text-display font-display">{t.title}</h1>

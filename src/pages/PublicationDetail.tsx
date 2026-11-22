@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { withLogo } from "@/components/UpsyLogo";
 import { toast } from "sonner";
 import { ArrowLeft, BookOpen, Loader2 } from "lucide-react";
 import { Link, useParams } from "@/lib/router-compat";
@@ -191,7 +192,7 @@ export default function PublicationDetail() {
                             : "text-xs text-muted-foreground"
                         }
                       >
-                        {t.memberPrice} {t.mad(v.mem)}
+                        {withLogo(t.memberPrice)} {t.mad(v.mem)}
                       </span>
                     )}
                   </span>

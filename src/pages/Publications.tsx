@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { BookOpen, Loader2 } from "lucide-react";
+import { withLogo } from "@/components/UpsyLogo";
 import { Link } from "@/lib/router-compat";
 import { supabase } from "@/integrations/supabase/client";
 import { addLocalePrefix } from "@/lib/i18n/utils";
@@ -99,7 +100,7 @@ export default function Publications() {
                         {mem != null && mem < pub && (
                           <span className="text-primary">
                             {" "}
-                            · {t.memberPrice} {t.mad(mem)}
+                            · {withLogo(t.memberPrice)} {t.mad(mem)}
                           </span>
                         )}
                       </p>

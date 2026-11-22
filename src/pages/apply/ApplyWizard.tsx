@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "@/lib/router-compat";
+import { withLogo } from "@/components/UpsyLogo";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
@@ -338,7 +339,9 @@ const ApplyWizard = () => {
       <div className="mb-8 space-y-3">
         <div className="flex items-center gap-2 text-sm text-muted-foreground">
           <ShieldCheck className="h-4 w-4 text-primary" />
-          <span>Dossier d'accréditation U.Psy</span>
+          <span>
+            {withLogo("Dossier d'accréditation U.Psy", "h-[1.3em] ms-0.5")}
+          </span>
         </div>
         <h1 className="text-3xl md:text-4xl font-bold text-foreground">
           Devenir psychologue partenaire

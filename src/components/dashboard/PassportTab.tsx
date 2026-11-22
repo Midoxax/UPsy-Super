@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { withLogo } from "@/components/UpsyLogo";
 import { toast } from "sonner";
 import {
   BadgeCheck,
@@ -128,7 +129,7 @@ export default function PassportTab() {
                         {e.status === "validated" && (
                           <BadgeCheck className="h-3 w-3 me-1" />
                         )}
-                        {t.status[e.status] ?? e.status}
+                        {withLogo(t.status[e.status] ?? e.status)}
                       </Badge>
                     </div>
                     {e.status === "rejected" && e.review_note && (

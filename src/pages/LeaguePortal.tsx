@@ -1,12 +1,13 @@
 import { useEffect, useMemo, useState } from "react";
 import MembershipDesk from "@/components/league/MembershipDesk";
+import LsspmLogo from "@/components/league/LsspmLogo";
 import PassportDesk from "@/components/league/PassportDesk";
 import InterviewsDesk from "@/components/league/InterviewsDesk";
 import InterviewInviteForm from "@/components/league/InterviewInviteForm";
 import { useRecruitmentCopy } from "@/lib/recruitment/recruitmentCopy";
 import { usePassportCopy } from "@/lib/passport/passportCopy";
 import { useMembershipCopy } from "@/lib/league/membershipCopy";
-import UpsyLogo, { withLogo } from "@/components/UpsyLogo";
+import { LsspmMark, withLogo } from "@/components/UpsyLogo";
 import {
   ShieldCheck,
   Search,
@@ -61,6 +62,8 @@ const COPY = {
     consent:
       "Seuls les dossiers dont le psychologue a donné son accord apparaissent. Le retrait de l'accord retire l'accès immédiatement. CIN, RIB, date de naissance et téléphone ne sont jamais partagés (loi 09-08).",
     reserved: "Accès réservé aux évaluateurs de la Ligue.",
+    reservedHint:
+      "Le portail de la Ligue fonctionne avec les comptes de la Ligue, séparés des comptes d'administration U.Psy. Connectez-vous avec le compte LSSPM pour y accéder.",
     shared: "Dossiers partagés",
     campaign: "Campagne Ligue",
     started: "Candidatures commencées",
@@ -121,6 +124,8 @@ const COPY = {
     consent:
       "Only files whose psychologist consented appear. Withdrawing consent removes access at once. ID card, bank details, date of birth and phone are never shared (Law 09-08).",
     reserved: "Reserved for League reviewers.",
+    reservedHint:
+      "The League portal works with League accounts, kept separate from U.Psy administration accounts. Sign in with the LSSPM account to open it.",
     shared: "Shared files",
     campaign: "League campaign",
     started: "Applications started",
@@ -263,9 +268,10 @@ export default function LeaguePortal() {
   if (roleLoading) return null;
   if (!allowed)
     return (
-      <div className="container-custom py-24 text-center">
-        <ShieldCheck className="w-10 h-10 text-primary mx-auto mb-3" />
-        <p className="text-muted-foreground">{c.reserved}</p>
+      <div className="container-custom py-24 text-center max-w-xl space-y-3">
+        <LsspmLogo className="h-20 w-20 mx-auto" />
+        <p className="font-medium">{c.reserved}</p>
+        <p className="text-sm text-muted-foreground">{c.reservedHint}</p>
       </div>
     );
 
@@ -275,7 +281,7 @@ export default function LeaguePortal() {
     <div className="container-custom py-8 sm:py-12 space-y-6">
       <header className="space-y-2">
         <Badge className="bg-primary/10 text-primary border-primary/20">
-          LSSPM × <UpsyLogo className="h-[1.3em] ml-0.5" />
+          {withLogo("LSSPM × U.Psy", "h-[1.3em] ml-0.5")}
         </Badge>
         <h1 className="text-h1">{c.title}</h1>
         <p className="text-muted-foreground max-w-3xl">{c.subtitle}</p>
@@ -462,7 +468,7 @@ export default function LeaguePortal() {
                           </Badge>
                           {r.source === "lsspm" && (
                             <Badge className="text-[10px] bg-primary/10 text-primary border-primary/20">
-                              LSSPM
+                              <LsspmMark />
                             </Badge>
                           )}
                         </div>
