@@ -601,6 +601,217 @@ export type Database = {
         };
         Relationships: [];
       };
+      league_counters: {
+        Row: {
+          last: number;
+          prefix: string;
+          year: number;
+        };
+        Insert: {
+          last?: number;
+          prefix: string;
+          year: number;
+        };
+        Update: {
+          last?: number;
+          prefix?: string;
+          year?: number;
+        };
+        Relationships: [];
+      };
+      league_membership_plans: {
+        Row: {
+          amount_mad: number | null;
+          code: string;
+          created_at: string;
+          description_fr: string | null;
+          id: string;
+          is_active: boolean;
+          label_ar: string | null;
+          label_en: string | null;
+          label_fr: string;
+          period_months: number;
+          position: number;
+          updated_at: string;
+        };
+        Insert: {
+          amount_mad?: number | null;
+          code: string;
+          created_at?: string;
+          description_fr?: string | null;
+          id?: string;
+          is_active?: boolean;
+          label_ar?: string | null;
+          label_en?: string | null;
+          label_fr: string;
+          period_months?: number;
+          position?: number;
+          updated_at?: string;
+        };
+        Update: {
+          amount_mad?: number | null;
+          code?: string;
+          created_at?: string;
+          description_fr?: string | null;
+          id?: string;
+          is_active?: boolean;
+          label_ar?: string | null;
+          label_en?: string | null;
+          label_fr?: string;
+          period_months?: number;
+          position?: number;
+          updated_at?: string;
+        };
+        Relationships: [];
+      };
+      league_memberships: {
+        Row: {
+          commission_free_until: string | null;
+          confirmed_at: string | null;
+          confirmed_by: string | null;
+          created_at: string;
+          ends_on: string | null;
+          id: string;
+          member_number: string | null;
+          plan_id: string;
+          review_note: string | null;
+          starts_on: string | null;
+          status: string;
+          updated_at: string;
+          user_id: string;
+        };
+        Insert: {
+          commission_free_until?: string | null;
+          confirmed_at?: string | null;
+          confirmed_by?: string | null;
+          created_at?: string;
+          ends_on?: string | null;
+          id?: string;
+          member_number?: string | null;
+          plan_id: string;
+          review_note?: string | null;
+          starts_on?: string | null;
+          status?: string;
+          updated_at?: string;
+          user_id: string;
+        };
+        Update: {
+          commission_free_until?: string | null;
+          confirmed_at?: string | null;
+          confirmed_by?: string | null;
+          created_at?: string;
+          ends_on?: string | null;
+          id?: string;
+          member_number?: string | null;
+          plan_id?: string;
+          review_note?: string | null;
+          starts_on?: string | null;
+          status?: string;
+          updated_at?: string;
+          user_id?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "league_memberships_plan_id_fkey";
+            columns: ["plan_id"];
+            isOneToOne: false;
+            referencedRelation: "league_membership_plans";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
+      league_payments: {
+        Row: {
+          amount_mad: number;
+          created_at: string;
+          id: string;
+          membership_id: string | null;
+          method: string;
+          nature: string;
+          payer_reference: string | null;
+          proof_path: string | null;
+          receipt_number: string | null;
+          recorded_by: string | null;
+          review_note: string | null;
+          status: string;
+          user_id: string;
+          verified_at: string | null;
+          verified_by: string | null;
+        };
+        Insert: {
+          amount_mad: number;
+          created_at?: string;
+          id?: string;
+          membership_id?: string | null;
+          method: string;
+          nature: string;
+          payer_reference?: string | null;
+          proof_path?: string | null;
+          receipt_number?: string | null;
+          recorded_by?: string | null;
+          review_note?: string | null;
+          status?: string;
+          user_id: string;
+          verified_at?: string | null;
+          verified_by?: string | null;
+        };
+        Update: {
+          amount_mad?: number;
+          created_at?: string;
+          id?: string;
+          membership_id?: string | null;
+          method?: string;
+          nature?: string;
+          payer_reference?: string | null;
+          proof_path?: string | null;
+          receipt_number?: string | null;
+          recorded_by?: string | null;
+          review_note?: string | null;
+          status?: string;
+          user_id?: string;
+          verified_at?: string | null;
+          verified_by?: string | null;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "league_payments_membership_id_fkey";
+            columns: ["membership_id"];
+            isOneToOne: false;
+            referencedRelation: "league_memberships";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
+      league_settings: {
+        Row: {
+          account_holder: string | null;
+          bank_name: string | null;
+          id: boolean;
+          instructions_en: string | null;
+          instructions_fr: string | null;
+          rib: string | null;
+          updated_at: string;
+        };
+        Insert: {
+          account_holder?: string | null;
+          bank_name?: string | null;
+          id?: boolean;
+          instructions_en?: string | null;
+          instructions_fr?: string | null;
+          rib?: string | null;
+          updated_at?: string;
+        };
+        Update: {
+          account_holder?: string | null;
+          bank_name?: string | null;
+          id?: boolean;
+          instructions_en?: string | null;
+          instructions_fr?: string | null;
+          rib?: string | null;
+          updated_at?: string;
+        };
+        Relationships: [];
+      };
       league_reviews: {
         Row: {
           application_id: string;
@@ -7977,6 +8188,61 @@ export type Database = {
       };
       course_from_live_series: {
         Args: { _series: string };
+        Returns: string;
+      };
+      is_league_member: {
+        Args: { _uid: string };
+        Returns: boolean;
+      };
+      league_join: {
+        Args: { _plan: string };
+        Returns: string;
+      };
+      league_membership_desk: {
+        Args: Record<PropertyKey, never>;
+        Returns: {
+          membership_id: string;
+          user_id: string;
+          full_name: string | null;
+          email: string;
+          plan_label: string;
+          plan_amount: number | null;
+          status: string;
+          member_number: string | null;
+          starts_on: string | null;
+          ends_on: string | null;
+          created_at: string;
+          payment_id: string | null;
+          payment_status: string | null;
+          payment_method: string | null;
+          payment_amount: number | null;
+          payer_reference: string | null;
+          proof_path: string | null;
+          receipt_number: string | null;
+          paid_at: string | null;
+        }[];
+      };
+      league_record_payment: {
+        Args: {
+          _membership: string;
+          _method: string;
+          _amount: number;
+          _reference: string;
+        };
+        Returns: string;
+      };
+      league_review_payment: {
+        Args: { _payment: string; _approve: boolean; _note: string };
+        Returns: undefined;
+      };
+      league_submit_payment: {
+        Args: {
+          _membership: string;
+          _method: string;
+          _amount: number;
+          _reference: string;
+          _proof_path: string;
+        };
         Returns: string;
       };
       issue_training_certificate: {

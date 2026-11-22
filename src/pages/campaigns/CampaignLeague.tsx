@@ -9,24 +9,25 @@ const config: CampaignConfig = {
   audience: "specialist",
   seoTitle: "LSSPM × U.Psy — Rejoignez le réseau des spécialistes accrédités",
   seoDescription:
-    "Psychologues membres ou candidats de la Ligue des Spécialistes de la Santé Psychologique et Mentale : déposez votre dossier sur U.Psy, faites-le évaluer par la Ligue et recevez des patients.",
+    "Psychologues membres ou candidats de la Ligue des Spécialistes de la Santé Psychique et Mentale : déposez votre dossier sur U.Psy, faites-le évaluer par la Ligue et recevez des patients.",
   eyebrow: "LSSPM × U.Psy · Partenariat",
   headline: "Un seul dossier,",
   headlineAccent: "reconnu par la Ligue et par U.Psy.",
   subheadline:
     "Déposez votre dossier professionnel une fois. U.Psy le vérifie, la Ligue l'évalue si vous l'y autorisez, et votre profil accrédité reçoit des demandes de patients partout au Maroc.",
-  offerLabel: "Membres et candidats LSSPM · 3 mois sans commission",
+  offerLabel:
+    "Membres LSSPM · 3 mois sans commission après confirmation de l'adhésion",
   bullets: [
     "Un seul dépôt : diplômes, autorisation d'exercice, inscription, CV",
     "Évaluation par la Ligue, uniquement avec votre accord (révocable)",
     "Profil accrédité visible par les patients, en ligne et au cabinet",
     "Réservations, visio, rappels et paiements gérés par U.Psy",
-    "Aucune commission pendant vos 3 premiers mois",
+    "Adhésion à la Ligue confirmée : 3 mois sans commission U.Psy, badge LSSPM et tarifs membres",
   ],
   proof: [
     { number: "1", label: "Dossier pour deux validations" },
     { number: "48 h", label: "Délai de pré-vérification" },
-    { number: "0 %", label: "Commission pendant 3 mois" },
+    { number: "0 %", label: "Commission 3 mois, adhésion confirmée" },
   ],
   primaryCta: { label: "Commencer mon dossier", href: "#" },
   formTitle: "Commencez votre candidature",

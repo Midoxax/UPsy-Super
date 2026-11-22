@@ -48,6 +48,8 @@ import SmartSchedulingCard from "@/components/dashboard/SmartSchedulingCard";
 import ContinueLearningCard from "@/components/dashboard/ContinueLearningCard";
 import AthletesTab from "@/components/dashboard/AthletesTab";
 import LeagueShareCard from "@/components/dashboard/LeagueShareCard";
+import LeagueMembershipCard from "@/components/dashboard/LeagueMembershipCard";
+import LsspmMemberBanner from "@/components/league/LsspmMemberBanner";
 
 const SpecialistDashboard = () => {
   return (
@@ -56,6 +58,7 @@ const SpecialistDashboard = () => {
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-6">
           {/* Main */}
           <div className="space-y-6 min-w-0">
+            <LsspmMemberBanner />
             <UpcomingSessionsCard as="specialist" />
 
             <div id="specialist-tabs-top" className="scroll-mt-20" />
@@ -241,6 +244,7 @@ const SpecialistDashboard = () => {
               </Button>
             </Card>
 
+            <LeagueMembershipCard />
             <LeagueShareCard />
             <SpecialistBurnoutCard />
             <SmartSchedulingCard />

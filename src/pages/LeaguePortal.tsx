@@ -1,4 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
+import MembershipDesk from "@/components/league/MembershipDesk";
+import { useMembershipCopy } from "@/lib/league/membershipCopy";
 import UpsyLogo, { withLogo } from "@/components/UpsyLogo";
 import {
   ShieldCheck,
@@ -50,7 +52,7 @@ const COPY = {
   fr: {
     title: "Portail de la Ligue",
     subtitle:
-      "Ligue des Spécialistes de la Santé Psychologique et Mentale (LSSPM). Dossiers des psychologues qui ont choisi de les partager avec la Ligue via U.Psy.",
+      "Ligue des Spécialistes de la Santé Psychique et Mentale (LSSPM). Dossiers des psychologues qui ont choisi de les partager avec la Ligue via U.Psy.",
     consent:
       "Seuls les dossiers dont le psychologue a donné son accord apparaissent. Le retrait de l'accord retire l'accès immédiatement. CIN, RIB, date de naissance et téléphone ne sont jamais partagés (loi 09-08).",
     reserved: "Accès réservé aux évaluateurs de la Ligue.",
@@ -210,6 +212,8 @@ export default function LeaguePortal() {
   const [sort, setSort] = useState<"recent" | "upsy" | "league">("recent");
   const [onlyTodo, setOnlyTodo] = useState(false);
   const [openId, setOpenId] = useState<string | null>(null);
+  const [view, setView] = useState<"files" | "members">("files");
+  const { t: mt } = useMembershipCopy();
 
   // League accounts only: U.Psy admins are kept out (separate accounts).
   const allowed = isLeague;
@@ -272,175 +276,198 @@ export default function LeaguePortal() {
         </p>
       </header>
 
-      <section className="grid grid-cols-2 lg:grid-cols-4 gap-3">
-        {[
-          [c.shared, stats?.all_shared_with_league],
-          [c.started, stats?.started],
-          [c.submitted, stats?.submitted],
-          [c.approved, stats?.approved],
-        ].map(([label, v], i) => (
-          <div key={i} className="glass-card p-4">
-            <p className="text-2xl font-bold tabular-nums">{v ?? "—"}</p>
-            <p className="text-xs text-muted-foreground mt-1">
-              {label}
-              {i > 0 && ` · ${c.campaign}`}
-            </p>
-          </div>
-        ))}
-      </section>
-
-      <section className="glass-card p-4 flex flex-col sm:flex-row sm:items-center gap-3">
-        <div className="min-w-0 flex-1">
-          <p className="text-xs text-muted-foreground">{c.link}</p>
-          <p className="font-mono text-sm break-all">{CAMPAIGN_URL}</p>
-        </div>
+      <div className="flex gap-2">
         <Button
-          variant="outline"
-          onClick={() => {
-            navigator.clipboard.writeText(CAMPAIGN_URL);
-            toast.success(c.copied);
-          }}
+          size="sm"
+          variant={view === "files" ? "default" : "outline"}
+          onClick={() => setView("files")}
         >
-          <Copy className="w-4 h-4" />
-          {c.copy}
+          {mt.files}
         </Button>
-      </section>
+        <Button
+          size="sm"
+          variant={view === "members" ? "default" : "outline"}
+          onClick={() => setView("members")}
+        >
+          {mt.desk}
+        </Button>
+      </div>
 
-      <section className="flex flex-col sm:flex-row gap-3 sm:items-center">
-        <div className="relative flex-1">
-          <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
-          <Input
-            value={q}
-            onChange={(e) => setQ(e.target.value)}
-            placeholder={c.search}
-            aria-label={c.search}
-            className="pl-9"
-          />
-        </div>
-        <div className="flex gap-2 overflow-x-auto">
-          <Button
-            size="sm"
-            variant={onlyTodo ? "default" : "outline"}
-            onClick={() => setOnlyTodo(!onlyTodo)}
-          >
-            {onlyTodo ? c.toReview : c.all}
-          </Button>
-          {(["recent", "upsy", "league"] as const).map((s) => (
-            <Button
-              key={s}
-              size="sm"
-              variant={sort === s ? "default" : "outline"}
-              onClick={() => setSort(s)}
-              className="shrink-0"
-            >
-              {s === "recent"
-                ? c.sortRecent
-                : s === "upsy"
-                  ? c.sortUpsy
-                  : c.sortLeague}
-            </Button>
-          ))}
-          <ExportCsvButton
-            filename="lsspm-dossiers.csv"
-            rows={shown.map((r) => ({
-              nom: r.full_name,
-              email: r.email,
-              ville: r.city,
-              experience: r.years_experience,
-              specialites: (r.specialties ?? []).join("; "),
-              niveau: r.accreditation_level,
-              statut_upsy: r.status,
-              score_upsy: r.upsy_score,
-              score_ligue: r.league_avg,
-              evaluations: r.league_reviews,
-              source: r.source,
-            }))}
-          />
-        </div>
-      </section>
-
-      {rows === null ? (
-        <Loader2 className="w-6 h-6 animate-spin text-muted-foreground mx-auto" />
-      ) : shown.length === 0 ? (
-        <p className="text-muted-foreground text-center py-12">{c.empty}</p>
+      {view === "members" ? (
+        <MembershipDesk />
       ) : (
-        <ul className="grid gap-3 md:grid-cols-2 xl:grid-cols-3">
-          {shown.map((r) => (
-            <li key={r.id}>
-              <button
-                onClick={() => setOpenId(r.id)}
-                className="glass-card w-full p-4 text-start space-y-3 hover:shadow-glass-hover transition-all"
+        <>
+          <section className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+            {[
+              [c.shared, stats?.all_shared_with_league],
+              [c.started, stats?.started],
+              [c.submitted, stats?.submitted],
+              [c.approved, stats?.approved],
+            ].map(([label, v], i) => (
+              <div key={i} className="glass-card p-4">
+                <p className="text-2xl font-bold tabular-nums">{v ?? "—"}</p>
+                <p className="text-xs text-muted-foreground mt-1">
+                  {label}
+                  {i > 0 && ` · ${c.campaign}`}
+                </p>
+              </div>
+            ))}
+          </section>
+
+          <section className="glass-card p-4 flex flex-col sm:flex-row sm:items-center gap-3">
+            <div className="min-w-0 flex-1">
+              <p className="text-xs text-muted-foreground">{c.link}</p>
+              <p className="font-mono text-sm break-all">{CAMPAIGN_URL}</p>
+            </div>
+            <Button
+              variant="outline"
+              onClick={() => {
+                navigator.clipboard.writeText(CAMPAIGN_URL);
+                toast.success(c.copied);
+              }}
+            >
+              <Copy className="w-4 h-4" />
+              {c.copy}
+            </Button>
+          </section>
+
+          <section className="flex flex-col sm:flex-row gap-3 sm:items-center">
+            <div className="relative flex-1">
+              <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
+              <Input
+                value={q}
+                onChange={(e) => setQ(e.target.value)}
+                placeholder={c.search}
+                aria-label={c.search}
+                className="pl-9"
+              />
+            </div>
+            <div className="flex gap-2 overflow-x-auto">
+              <Button
+                size="sm"
+                variant={onlyTodo ? "default" : "outline"}
+                onClick={() => setOnlyTodo(!onlyTodo)}
               >
-                <div className="flex items-start gap-3">
-                  {r.photo_url ? (
-                    <img
-                      src={photoUrl(r.photo_url, 48)}
-                      alt=""
-                      className="w-12 h-12 rounded-full object-cover shrink-0"
-                    />
-                  ) : (
-                    <div className="w-12 h-12 rounded-full bg-muted flex items-center justify-center shrink-0">
-                      <Users className="w-5 h-5 text-muted-foreground" />
-                    </div>
-                  )}
-                  <div className="min-w-0 flex-1">
-                    <p className="font-semibold text-foreground truncate">
-                      {r.full_name}
-                    </p>
-                    <p className="text-xs text-muted-foreground truncate">
-                      {[
-                        r.city,
-                        r.years_experience != null
-                          ? c.years(r.years_experience)
-                          : null,
-                      ]
-                        .filter(Boolean)
-                        .join(" · ")}
-                    </p>
-                    <div className="flex flex-wrap gap-1 mt-1.5">
-                      <Badge variant="outline" className="text-[10px]">
-                        {r.accreditation_level}
-                      </Badge>
-                      <Badge variant="outline" className="text-[10px]">
-                        {r.status}
-                      </Badge>
-                      {r.source === "lsspm" && (
-                        <Badge className="text-[10px] bg-primary/10 text-primary border-primary/20">
-                          LSSPM
-                        </Badge>
+                {onlyTodo ? c.toReview : c.all}
+              </Button>
+              {(["recent", "upsy", "league"] as const).map((s) => (
+                <Button
+                  key={s}
+                  size="sm"
+                  variant={sort === s ? "default" : "outline"}
+                  onClick={() => setSort(s)}
+                  className="shrink-0"
+                >
+                  {s === "recent"
+                    ? c.sortRecent
+                    : s === "upsy"
+                      ? c.sortUpsy
+                      : c.sortLeague}
+                </Button>
+              ))}
+              <ExportCsvButton
+                filename="lsspm-dossiers.csv"
+                rows={shown.map((r) => ({
+                  nom: r.full_name,
+                  email: r.email,
+                  ville: r.city,
+                  experience: r.years_experience,
+                  specialites: (r.specialties ?? []).join("; "),
+                  niveau: r.accreditation_level,
+                  statut_upsy: r.status,
+                  score_upsy: r.upsy_score,
+                  score_ligue: r.league_avg,
+                  evaluations: r.league_reviews,
+                  source: r.source,
+                }))}
+              />
+            </div>
+          </section>
+
+          {rows === null ? (
+            <Loader2 className="w-6 h-6 animate-spin text-muted-foreground mx-auto" />
+          ) : shown.length === 0 ? (
+            <p className="text-muted-foreground text-center py-12">{c.empty}</p>
+          ) : (
+            <ul className="grid gap-3 md:grid-cols-2 xl:grid-cols-3">
+              {shown.map((r) => (
+                <li key={r.id}>
+                  <button
+                    onClick={() => setOpenId(r.id)}
+                    className="glass-card w-full p-4 text-start space-y-3 hover:shadow-glass-hover transition-all"
+                  >
+                    <div className="flex items-start gap-3">
+                      {r.photo_url ? (
+                        <img
+                          src={photoUrl(r.photo_url, 48)}
+                          alt=""
+                          className="w-12 h-12 rounded-full object-cover shrink-0"
+                        />
+                      ) : (
+                        <div className="w-12 h-12 rounded-full bg-muted flex items-center justify-center shrink-0">
+                          <Users className="w-5 h-5 text-muted-foreground" />
+                        </div>
                       )}
+                      <div className="min-w-0 flex-1">
+                        <p className="font-semibold text-foreground truncate">
+                          {r.full_name}
+                        </p>
+                        <p className="text-xs text-muted-foreground truncate">
+                          {[
+                            r.city,
+                            r.years_experience != null
+                              ? c.years(r.years_experience)
+                              : null,
+                          ]
+                            .filter(Boolean)
+                            .join(" · ")}
+                        </p>
+                        <div className="flex flex-wrap gap-1 mt-1.5">
+                          <Badge variant="outline" className="text-[10px]">
+                            {r.accreditation_level}
+                          </Badge>
+                          <Badge variant="outline" className="text-[10px]">
+                            {r.status}
+                          </Badge>
+                          {r.source === "lsspm" && (
+                            <Badge className="text-[10px] bg-primary/10 text-primary border-primary/20">
+                              LSSPM
+                            </Badge>
+                          )}
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                </div>
-                <div className="grid grid-cols-2 gap-3 text-sm">
-                  <div>
-                    <p className="text-[11px] text-muted-foreground">
-                      {c.upsy}
-                    </p>
-                    <p
-                      className={`font-bold tabular-nums ${scoreTone(r.upsy_score)}`}
-                    >
-                      {r.upsy_score}/100
-                    </p>
-                  </div>
-                  <div>
-                    <p className="text-[11px] text-muted-foreground">
-                      {c.league}
-                    </p>
-                    <p
-                      className={`font-bold tabular-nums ${scoreTone(r.league_avg)}`}
-                    >
-                      {r.league_avg == null ? "—" : `${r.league_avg}/100`}
-                    </p>
-                    <p className="text-[10px] text-muted-foreground">
-                      {c.reviews(r.league_reviews)}
-                    </p>
-                  </div>
-                </div>
-              </button>
-            </li>
-          ))}
-        </ul>
+                    <div className="grid grid-cols-2 gap-3 text-sm">
+                      <div>
+                        <p className="text-[11px] text-muted-foreground">
+                          {c.upsy}
+                        </p>
+                        <p
+                          className={`font-bold tabular-nums ${scoreTone(r.upsy_score)}`}
+                        >
+                          {r.upsy_score}/100
+                        </p>
+                      </div>
+                      <div>
+                        <p className="text-[11px] text-muted-foreground">
+                          {c.league}
+                        </p>
+                        <p
+                          className={`font-bold tabular-nums ${scoreTone(r.league_avg)}`}
+                        >
+                          {r.league_avg == null ? "—" : `${r.league_avg}/100`}
+                        </p>
+                        <p className="text-[10px] text-muted-foreground">
+                          {c.reviews(r.league_reviews)}
+                        </p>
+                      </div>
+                    </div>
+                  </button>
+                </li>
+              ))}
+            </ul>
+          )}
+        </>
       )}
 
       <Sheet open={!!open} onOpenChange={(o) => !o && setOpenId(null)}>
