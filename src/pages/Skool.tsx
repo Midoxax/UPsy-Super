@@ -125,7 +125,7 @@ const Skool = () => {
               <StaggerItem key={feature.title}>
                 <Card className="h-full border-2 hover:border-primary/30 transition-colors">
                   <CardHeader className="flex flex-row items-start gap-4 pb-2">
-                    <div className="w-12 h-12 rounded-xl flex items-center justify-center bg-primary/10 shrink-0">
+                    <div className="icon-3d w-12 h-12 rounded-xl flex items-center justify-center bg-primary/10 shrink-0">
                       <feature.icon className="w-6 h-6 text-primary" />
                     </div>
                     <div>

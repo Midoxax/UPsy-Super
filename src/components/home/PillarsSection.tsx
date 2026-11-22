@@ -1,5 +1,6 @@
 import { Heart, BookOpen, Activity, Building2, ArrowRight } from "lucide-react";
 import { Link } from "@/lib/router-compat";
+import { withLogo } from "@/components/UpsyLogo";
 import { Button } from "@/components/ui/button";
 import { useLocale } from "@/contexts/LocaleContext";
 import ScrollReveal from "@/components/ScrollReveal";
@@ -67,7 +68,10 @@ const PillarsSection = () => {
         <ScrollReveal>
           <div className="text-center mb-16">
             <h2 className="text-h2 mb-4">
-              {t("pillars.title") || "The U.Psy Ecosystem"}
+              {withLogo(
+                t("pillars.title") || "The U.Psy Ecosystem",
+                "h-[0.9em] mx-1",
+              )}
             </h2>
             <p className="text-body text-muted-foreground max-w-2xl mx-auto">
               {t("pillars.subtitle") ||
@@ -83,7 +87,7 @@ const PillarsSection = () => {
                 <Link to={pillar.href} className="block h-full">
                   <div className="glass-card p-7 h-full group">
                     <div
-                      className="w-14 h-14 rounded-full flex items-center justify-center mb-6"
+                      className="icon-3d w-14 h-14 rounded-full flex items-center justify-center mb-6"
                       style={{
                         background: pillar.bgVar,
                         border: `2px solid ${pillar.borderVar}`,

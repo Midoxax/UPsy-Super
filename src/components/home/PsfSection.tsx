@@ -26,7 +26,7 @@ const PsfSection = () => {
             <div className="flex flex-col md:flex-row items-center gap-8">
               {/* Icon / Visual */}
               <div className="flex-shrink-0">
-                <div className="w-24 h-24 rounded-full flex items-center justify-center bg-secondary/10 border-2 border-secondary/30">
+                <div className="icon-3d w-24 h-24 rounded-full flex items-center justify-center bg-secondary/10 border-2 border-secondary/30">
                   <div className="relative">
                     <Globe className="w-10 h-10 text-secondary" />
                     <Heart className="w-5 h-5 text-primary absolute -bottom-1 -right-1 fill-primary" />

@@ -103,7 +103,7 @@ export const AccreditationBadge = ({
       <div className="flex items-center gap-3">
         <div
           className={cn(
-            "w-12 h-12 rounded-xl flex items-center justify-center",
+            "icon-3d w-12 h-12 rounded-xl flex items-center justify-center",
             t.bg,
             "border",
             t.border,

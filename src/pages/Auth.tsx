@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "@/lib/router-compat";
+import { withLogo } from "@/components/UpsyLogo";
 import { useAuth, buildEmailRedirectUrl } from "@/contexts/AuthContext";
 import { useLocale } from "@/contexts/LocaleContext";
 import { Button } from "@/components/ui/button";
@@ -325,7 +326,7 @@ const Auth = () => {
             as="h1"
             className="font-display text-3xl md:text-4xl font-normal tracking-tight"
           >
-            {t("auth.portalTitle")}
+            {withLogo(t("auth.portalTitle"), "h-[0.9em] mx-1")}
           </CardTitle>
           <CardDescription className="font-sans text-base">
             {t("auth.portalDesc")}

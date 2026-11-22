@@ -584,7 +584,7 @@ const BookingModal = ({
   const renderSuccess = () => (
     <div className="text-center space-y-5 py-4">
       <div
-        className="w-16 h-16 rounded-full flex items-center justify-center mx-auto"
+        className="icon-3d w-16 h-16 rounded-full flex items-center justify-center mx-auto"
         style={{
           background: "rgba(255,179,0,0.1)",
           border: "2px solid rgba(255,179,0,0.3)",

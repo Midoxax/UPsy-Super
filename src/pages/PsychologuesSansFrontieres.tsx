@@ -102,7 +102,7 @@ const PsychologuesSansFrontieres = () => {
         <div className="container-custom relative z-10">
           <ScrollReveal>
             <div className="max-w-4xl mx-auto text-center">
-              <div className="w-24 h-24 rounded-full flex items-center justify-center mx-auto mb-8 bg-secondary/10 border-2 border-secondary/30">
+              <div className="icon-3d w-24 h-24 rounded-full flex items-center justify-center mx-auto mb-8 bg-secondary/10 border-2 border-secondary/30">
                 <div className="relative">
                   <Globe className="w-12 h-12 text-secondary" />
                   <Heart className="w-6 h-6 text-primary absolute -bottom-1 -right-1 fill-primary" />

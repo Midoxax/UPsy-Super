@@ -61,7 +61,7 @@ const HowItWorksSection = () => {
                 <div className="text-5xl font-bold text-primary/15 mb-2">
                   {step.number}
                 </div>
-                <div className="w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-4 bg-primary/10 border-2 border-primary/25">
+                <div className="icon-3d w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-4 bg-primary/10 border-2 border-primary/25">
                   <step.icon className="w-7 h-7 text-primary" />
                 </div>
                 <h3 className="text-h3 mb-3">

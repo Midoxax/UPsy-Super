@@ -343,7 +343,7 @@ const Psychologists = () => {
                 >
                   <div className="flex items-start gap-4">
                     <div
-                      className="w-10 h-10 rounded-full flex items-center justify-center shrink-0"
+                      className="icon-3d w-10 h-10 rounded-full flex items-center justify-center shrink-0"
                       style={{
                         background: "rgba(255,179,0,0.12)",
                         border: "1px solid rgba(255,179,0,0.35)",
@@ -617,7 +617,7 @@ const Psychologists = () => {
               <div key={item.step} className="glass-card p-6 space-y-3">
                 <div className="flex items-start gap-4">
                   <div
-                    className="w-11 h-11 rounded-full flex items-center justify-center shrink-0"
+                    className="icon-3d w-11 h-11 rounded-full flex items-center justify-center shrink-0"
                     style={{
                       background: "rgba(255,179,0,0.1)",
                       border: "1px solid rgba(255,179,0,0.3)",
@@ -649,7 +649,7 @@ const Psychologists = () => {
           <div className="glass-card p-10 md:p-14 max-w-3xl mx-auto text-center">
             <ScrollReveal>
               <div
-                className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6"
+                className="icon-3d w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6"
                 style={{
                   background: "rgba(255,179,0,0.1)",
                   border: "2px solid rgba(255,179,0,0.3)",

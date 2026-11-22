@@ -1,5 +1,6 @@
 import { useLocale } from "@/contexts/LocaleContext";
 import { addLocalePrefix } from "@/lib/i18n/utils";
+import { withLogo } from "@/components/UpsyLogo";
 import { Link } from "@/lib/router-compat";
 import { Button } from "@/components/ui/button";
 import ScrollReveal from "@/components/ScrollReveal";
@@ -240,7 +241,10 @@ const Founder = () => {
                       — Mehdi Felji
                     </p>
                     <p className="text-xs text-muted-foreground">
-                      {t("founder.motSignature") || "Fondateur, U.Psy"}
+                      {withLogo(
+                        t("founder.motSignature") || "Fondateur, U.Psy",
+                        "h-[1.2em] ms-1",
+                      )}
                     </p>
                   </div>
                 </div>
