@@ -42,6 +42,7 @@ import UpcomingSessionsCard from "@/components/dashboard/UpcomingSessionsCard";
 import PendingInvitationsCard from "@/components/dashboard/PendingInvitationsCard";
 import AnamnesisCard from "@/components/dashboard/AnamnesisCard";
 import CertificatesTab from "@/components/dashboard/CertificatesTab";
+import CandidateInterviewsCard from "@/components/recruitment/CandidateInterviewsCard";
 import JournalTab from "@/components/dashboard/JournalTab";
 import DocumentsTab from "@/components/dashboard/DocumentsTab";
 import { ClientBillingTab } from "@/components/dashboard/ClientBillingTab";
@@ -239,6 +240,9 @@ const PatientDashboard = () => {
 
       <section className="section-spacing liquid-bg">
         <div className="container-custom">
+          <div className="mb-6">
+            <CandidateInterviewsCard />
+          </div>
           <div id="patient-tabs-top" className="scroll-mt-20" />
           <Tabs
             // ?tab=billing&pay=<booking> lands on the payment of one session

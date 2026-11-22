@@ -1,6 +1,9 @@
 import { useEffect, useMemo, useState } from "react";
 import MembershipDesk from "@/components/league/MembershipDesk";
 import PassportDesk from "@/components/league/PassportDesk";
+import InterviewsDesk from "@/components/league/InterviewsDesk";
+import InterviewInviteForm from "@/components/league/InterviewInviteForm";
+import { useRecruitmentCopy } from "@/lib/recruitment/recruitmentCopy";
 import { usePassportCopy } from "@/lib/passport/passportCopy";
 import { useMembershipCopy } from "@/lib/league/membershipCopy";
 import UpsyLogo, { withLogo } from "@/components/UpsyLogo";
@@ -214,7 +217,10 @@ export default function LeaguePortal() {
   const [sort, setSort] = useState<"recent" | "upsy" | "league">("recent");
   const [onlyTodo, setOnlyTodo] = useState(false);
   const [openId, setOpenId] = useState<string | null>(null);
-  const [view, setView] = useState<"files" | "members" | "passports">("files");
+  const [view, setView] = useState<
+    "files" | "members" | "passports" | "interviews"
+  >("files");
+  const { t: rt } = useRecruitmentCopy();
   const { t: pt } = usePassportCopy();
   const { t: mt } = useMembershipCopy();
 
@@ -301,12 +307,25 @@ export default function LeaguePortal() {
         >
           {pt.desk}
         </Button>
+        <Button
+          size="sm"
+          variant={view === "interviews" ? "default" : "outline"}
+          onClick={() => setView("interviews")}
+        >
+          {rt.desk}
+        </Button>
       </div>
 
       {view === "members" ? (
         <MembershipDesk />
       ) : view === "passports" ? (
         <PassportDesk />
+      ) : view === "interviews" ? (
+        <InterviewsDesk
+          names={Object.fromEntries(
+            (rows ?? []).map((r) => [r.id, r.full_name ?? ""]),
+          )}
+        />
       ) : (
         <>
           <section className="grid grid-cols-2 lg:grid-cols-4 gap-3">
@@ -744,6 +763,7 @@ function FileDetail({
           {saving ? "…" : c.save}
         </Button>
       </div>
+      <InterviewInviteForm applicationId={row.id} />
     </div>
   );
 }

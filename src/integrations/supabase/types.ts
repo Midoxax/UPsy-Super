@@ -914,6 +914,95 @@ export type Database = {
         };
         Relationships: [];
       };
+      recruitment_invitations: {
+        Row: {
+          application_id: string | null;
+          cancel_reason: string | null;
+          cancelled_by: string | null;
+          candidate_id: string;
+          created_at: string;
+          duration_minutes: number;
+          id: string;
+          location: string | null;
+          meeting_url: string | null;
+          message: string | null;
+          mode: string;
+          recruiter_id: string;
+          scheduled_at: string | null;
+          status: string;
+          title: string;
+          updated_at: string;
+        };
+        Insert: {
+          application_id?: string | null;
+          cancel_reason?: string | null;
+          cancelled_by?: string | null;
+          candidate_id: string;
+          created_at?: string;
+          duration_minutes?: number;
+          id?: string;
+          location?: string | null;
+          meeting_url?: string | null;
+          message?: string | null;
+          mode?: string;
+          recruiter_id: string;
+          scheduled_at?: string | null;
+          status?: string;
+          title: string;
+          updated_at?: string;
+        };
+        Update: {
+          application_id?: string | null;
+          cancel_reason?: string | null;
+          cancelled_by?: string | null;
+          candidate_id?: string;
+          created_at?: string;
+          duration_minutes?: number;
+          id?: string;
+          location?: string | null;
+          meeting_url?: string | null;
+          message?: string | null;
+          mode?: string;
+          recruiter_id?: string;
+          scheduled_at?: string | null;
+          status?: string;
+          title?: string;
+          updated_at?: string;
+        };
+        Relationships: [];
+      };
+      recruitment_slots: {
+        Row: {
+          created_at: string;
+          id: string;
+          invitation_id: string;
+          proposed_by: string;
+          starts_at: string;
+        };
+        Insert: {
+          created_at?: string;
+          id?: string;
+          invitation_id: string;
+          proposed_by: string;
+          starts_at: string;
+        };
+        Update: {
+          created_at?: string;
+          id?: string;
+          invitation_id?: string;
+          proposed_by?: string;
+          starts_at?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "recruitment_slots_invitation_id_fkey";
+            columns: ["invitation_id"];
+            isOneToOne: false;
+            referencedRelation: "recruitment_invitations";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
       league_reviews: {
         Row: {
           application_id: string;
@@ -8373,6 +8462,35 @@ export type Database = {
           proof_path: string | null;
           submitted_at: string;
         }[];
+      };
+      recruitment_cancel: {
+        Args: { _invitation: string; _reason: string };
+        Returns: undefined;
+      };
+      recruitment_confirm: {
+        Args: { _slot: string };
+        Returns: undefined;
+      };
+      recruitment_invite: {
+        Args: {
+          _application: string;
+          _title: string;
+          _message: string;
+          _mode: string;
+          _location: string;
+          _meeting_url: string;
+          _duration: number;
+          _slots: string[];
+        };
+        Returns: string;
+      };
+      recruitment_propose: {
+        Args: { _invitation: string; _slots: string[] };
+        Returns: undefined;
+      };
+      recruitment_reschedule: {
+        Args: { _invitation: string };
+        Returns: undefined;
       };
       issue_training_certificate: {
         Args: { _training: string };
