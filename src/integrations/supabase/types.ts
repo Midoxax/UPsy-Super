@@ -1482,6 +1482,84 @@ export type Database = {
         };
         Relationships: [];
       };
+      recruitment_assessments: {
+        Row: {
+          id: string;
+          user_id: string;
+          niches: string[];
+          consent_at: string;
+          started_at: string;
+          completed_at: string | null;
+          likert: Json;
+          sjt_answers: Json;
+          sjt_scores: Json | null;
+          committee_note: string | null;
+          committee_by: string | null;
+          committee_at: string | null;
+        };
+        Insert: {
+          id?: string;
+          user_id?: string;
+          niches: string[];
+          consent_at?: string;
+          started_at?: string;
+          completed_at?: string | null;
+          likert?: Json;
+          sjt_answers?: Json;
+          sjt_scores?: Json | null;
+          committee_note?: string | null;
+          committee_by?: string | null;
+          committee_at?: string | null;
+        };
+        Update: {
+          id?: string;
+          user_id?: string;
+          niches?: string[];
+          consent_at?: string;
+          started_at?: string;
+          completed_at?: string | null;
+          likert?: Json;
+          sjt_answers?: Json;
+          sjt_scores?: Json | null;
+          committee_note?: string | null;
+          committee_by?: string | null;
+          committee_at?: string | null;
+        };
+        Relationships: [];
+      };
+      recruitment_sjt_items: {
+        Row: {
+          id: string;
+          niche: string;
+          position: number;
+          prompt_fr: string;
+          prompt_en: string;
+          options: Json;
+          key: Json;
+          is_active: boolean;
+        };
+        Insert: {
+          id: string;
+          niche: string;
+          position: number;
+          prompt_fr: string;
+          prompt_en: string;
+          options: Json;
+          key: Json;
+          is_active?: boolean;
+        };
+        Update: {
+          id?: string;
+          niche?: string;
+          position?: number;
+          prompt_fr?: string;
+          prompt_en?: string;
+          options?: Json;
+          key?: Json;
+          is_active?: boolean;
+        };
+        Relationships: [];
+      };
       league_reviews: {
         Row: {
           application_id: string;
@@ -9120,6 +9198,44 @@ export type Database = {
       is_league_evaluator: {
         Args: { _uid: string };
         Returns: boolean;
+      };
+      recruitment_assessment_start: {
+        Args: { _niches: string[] };
+        Returns: string;
+      };
+      recruitment_sjt_get: {
+        Args: { _assessment: string };
+        Returns: {
+          id: string;
+          niche: string;
+          prompt_fr: string;
+          prompt_en: string;
+          options: Json;
+        }[];
+      };
+      recruitment_assessment_submit: {
+        Args: { _assessment: string; _likert: Json; _sjt: Json };
+        Returns: undefined;
+      };
+      recruitment_assessment_note: {
+        Args: { _assessment: string; _note: string };
+        Returns: undefined;
+      };
+      recruitment_assessments_desk: {
+        Args: never;
+        Returns: {
+          id: string;
+          user_id: string;
+          full_name: string;
+          email: string;
+          niches: string[];
+          started_at: string;
+          completed_at: string;
+          likert: Json;
+          sjt_scores: Json;
+          committee_note: string;
+          passport_validated: number;
+        }[];
       };
       issue_training_certificate: {
         Args: { _training: string };
