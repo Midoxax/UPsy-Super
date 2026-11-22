@@ -1003,6 +1003,194 @@ export type Database = {
           },
         ];
       };
+      publication_orders: {
+        Row: {
+          id: string;
+          user_id: string;
+          publication_id: string;
+          format: string;
+          quantity: number;
+          unit_price_mad: number;
+          member_price: boolean;
+          shipping_mad: number;
+          total_mad: number;
+          ship_name: string | null;
+          ship_address: string | null;
+          ship_city: string | null;
+          ship_phone: string | null;
+          status: string;
+          pay_method: string | null;
+          pay_reference: string | null;
+          proof_path: string | null;
+          invoice_number: string | null;
+          paid_at: string | null;
+          shipped_at: string | null;
+          review_note: string | null;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          id?: string;
+          user_id: string;
+          publication_id: string;
+          format: string;
+          quantity?: number;
+          unit_price_mad: number;
+          member_price?: boolean;
+          shipping_mad?: number;
+          total_mad: number;
+          ship_name?: string | null;
+          ship_address?: string | null;
+          ship_city?: string | null;
+          ship_phone?: string | null;
+          status?: string;
+          pay_method?: string | null;
+          pay_reference?: string | null;
+          proof_path?: string | null;
+          invoice_number?: string | null;
+          paid_at?: string | null;
+          shipped_at?: string | null;
+          review_note?: string | null;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Update: {
+          id?: string;
+          user_id?: string;
+          publication_id?: string;
+          format?: string;
+          quantity?: number;
+          unit_price_mad?: number;
+          member_price?: boolean;
+          shipping_mad?: number;
+          total_mad?: number;
+          ship_name?: string | null;
+          ship_address?: string | null;
+          ship_city?: string | null;
+          ship_phone?: string | null;
+          status?: string;
+          pay_method?: string | null;
+          pay_reference?: string | null;
+          proof_path?: string | null;
+          invoice_number?: string | null;
+          paid_at?: string | null;
+          shipped_at?: string | null;
+          review_note?: string | null;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "publication_orders_publication_id_fkey";
+            columns: ["publication_id"];
+            isOneToOne: false;
+            referencedRelation: "publications";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
+      publications: {
+        Row: {
+          id: string;
+          slug: string;
+          title: string;
+          title_fr: string | null;
+          title_ar: string | null;
+          description: string | null;
+          description_fr: string | null;
+          description_ar: string | null;
+          author: string | null;
+          pages: number | null;
+          isbn: string | null;
+          cover_url: string | null;
+          ebook_path: string | null;
+          price_print: number | null;
+          price_print_member: number | null;
+          price_ebook: number | null;
+          price_ebook_member: number | null;
+          is_published: boolean;
+          position: number;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          id?: string;
+          slug: string;
+          title: string;
+          title_fr?: string | null;
+          title_ar?: string | null;
+          description?: string | null;
+          description_fr?: string | null;
+          description_ar?: string | null;
+          author?: string | null;
+          pages?: number | null;
+          isbn?: string | null;
+          cover_url?: string | null;
+          ebook_path?: string | null;
+          price_print?: number | null;
+          price_print_member?: number | null;
+          price_ebook?: number | null;
+          price_ebook_member?: number | null;
+          is_published?: boolean;
+          position?: number;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Update: {
+          id?: string;
+          slug?: string;
+          title?: string;
+          title_fr?: string | null;
+          title_ar?: string | null;
+          description?: string | null;
+          description_fr?: string | null;
+          description_ar?: string | null;
+          author?: string | null;
+          pages?: number | null;
+          isbn?: string | null;
+          cover_url?: string | null;
+          ebook_path?: string | null;
+          price_print?: number | null;
+          price_print_member?: number | null;
+          price_ebook?: number | null;
+          price_ebook_member?: number | null;
+          is_published?: boolean;
+          position?: number;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Relationships: [];
+      };
+      shop_settings: {
+        Row: {
+          id: boolean;
+          bank_name: string | null;
+          account_holder: string | null;
+          rib: string | null;
+          instructions_fr: string | null;
+          shipping_fee_mad: number;
+          updated_at: string;
+        };
+        Insert: {
+          id?: boolean;
+          bank_name?: string | null;
+          account_holder?: string | null;
+          rib?: string | null;
+          instructions_fr?: string | null;
+          shipping_fee_mad?: number;
+          updated_at?: string;
+        };
+        Update: {
+          id?: boolean;
+          bank_name?: string | null;
+          account_holder?: string | null;
+          rib?: string | null;
+          instructions_fr?: string | null;
+          shipping_fee_mad?: number;
+          updated_at?: string;
+        };
+        Relationships: [];
+      };
       league_reviews: {
         Row: {
           application_id: string;
@@ -8490,6 +8678,44 @@ export type Database = {
       };
       recruitment_reschedule: {
         Args: { _invitation: string };
+        Returns: undefined;
+      };
+      can_download_ebook: {
+        Args: { _path: string };
+        Returns: boolean;
+      };
+      publication_order: {
+        Args: {
+          _pub: string;
+          _format: string;
+          _quantity: number;
+          _ship_name: string;
+          _ship_address: string;
+          _ship_city: string;
+          _ship_phone: string;
+        };
+        Returns: string;
+      };
+      publication_order_admin: {
+        Args: {
+          _order: string;
+          _action: string;
+          _method: string;
+          _note: string;
+        };
+        Returns: undefined;
+      };
+      publication_order_cancel: {
+        Args: { _order: string };
+        Returns: undefined;
+      };
+      publication_order_pay: {
+        Args: {
+          _order: string;
+          _method: string;
+          _reference: string;
+          _proof_path: string;
+        };
         Returns: undefined;
       };
       issue_training_certificate: {

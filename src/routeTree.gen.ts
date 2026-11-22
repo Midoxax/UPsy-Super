@@ -141,6 +141,8 @@ import { Route as PsychologueEnLigneIndexRouteImport } from './routes/psychologu
 import { Route as PsychologueEnLigneCountryRouteImport } from './routes/psychologue-en-ligne/$country'
 import { Route as PsychologueIndexRouteImport } from './routes/psychologue/index'
 import { Route as PsychologueCityRouteImport } from './routes/psychologue/$city'
+import { Route as PublicationsIndexRouteImport } from './routes/publications/index'
+import { Route as PublicationsSlugRouteImport } from './routes/publications/$slug'
 import { Route as ResourcesSlugRouteImport } from './routes/resources_.$slug'
 import { Route as ServicesIndexRouteImport } from './routes/services/index'
 import { Route as ServicesConsultingForOrganizationsRouteImport } from './routes/services/consulting-for-organizations'
@@ -191,6 +193,8 @@ import { Route as LocalePsychologueEnLigneIndexRouteImport } from './routes/$loc
 import { Route as LocalePsychologueEnLigneCountryRouteImport } from './routes/$locale/psychologue-en-ligne/$country'
 import { Route as LocalePsychologueIndexRouteImport } from './routes/$locale/psychologue/index'
 import { Route as LocalePsychologueCityRouteImport } from './routes/$locale/psychologue/$city'
+import { Route as LocalePublicationsIndexRouteImport } from './routes/$locale/publications/index'
+import { Route as LocalePublicationsSlugRouteImport } from './routes/$locale/publications/$slug'
 import { Route as LocaleResourcesSlugRouteImport } from './routes/$locale/resources_.$slug'
 import { Route as LocaleServicesIndexRouteImport } from './routes/$locale/services/index'
 import { Route as LocaleServicesConsultingForOrganizationsRouteImport } from './routes/$locale/services/consulting-for-organizations'
@@ -898,6 +902,16 @@ const PsychologueCityRoute = PsychologueCityRouteImport.update({
   path: '/psychologue/$city',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PublicationsIndexRoute = PublicationsIndexRouteImport.update({
+  id: '/publications/',
+  path: '/publications/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PublicationsSlugRoute = PublicationsSlugRouteImport.update({
+  id: '/publications/$slug',
+  path: '/publications/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ResourcesSlugRoute = ResourcesSlugRouteImport.update({
   id: '/resources_/$slug',
   path: '/resources/$slug',
@@ -1164,6 +1178,16 @@ const LocalePsychologueIndexRoute = LocalePsychologueIndexRouteImport.update({
 const LocalePsychologueCityRoute = LocalePsychologueCityRouteImport.update({
   id: '/$locale/psychologue/$city',
   path: '/$locale/psychologue/$city',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LocalePublicationsIndexRoute = LocalePublicationsIndexRouteImport.update({
+  id: '/$locale/publications/',
+  path: '/$locale/publications/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LocalePublicationsSlugRoute = LocalePublicationsSlugRouteImport.update({
+  id: '/$locale/publications/$slug',
+  path: '/$locale/publications/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LocaleResourcesSlugRoute = LocaleResourcesSlugRouteImport.update({
@@ -1474,6 +1498,7 @@ export interface FileRoutesByFullPath {
   '/psychologists/$id': typeof PsychologistsIdRoute
   '/psychologue-en-ligne/$country': typeof PsychologueEnLigneCountryRoute
   '/psychologue/$city': typeof PsychologueCityRoute
+  '/publications/$slug': typeof PublicationsSlugRoute
   '/resources/$slug': typeof ResourcesSlugRoute
   '/services/consulting-for-organizations': typeof ServicesConsultingForOrganizationsRoute
   '/session/$sessionId': typeof SessionSessionIdRoute
@@ -1490,6 +1515,7 @@ export interface FileRoutesByFullPath {
   '/psychologists/': typeof PsychologistsIndexRoute
   '/psychologue-en-ligne/': typeof PsychologueEnLigneIndexRoute
   '/psychologue/': typeof PsychologueIndexRoute
+  '/publications/': typeof PublicationsIndexRoute
   '/services/': typeof ServicesIndexRoute
   '/$locale/admin/applications': typeof LocaleAdminApplicationsRoute
   '/$locale/admin/crm': typeof LocaleAdminCrmRoute
@@ -1526,6 +1552,7 @@ export interface FileRoutesByFullPath {
   '/$locale/psychologists/$id': typeof LocalePsychologistsIdRoute
   '/$locale/psychologue-en-ligne/$country': typeof LocalePsychologueEnLigneCountryRoute
   '/$locale/psychologue/$city': typeof LocalePsychologueCityRoute
+  '/$locale/publications/$slug': typeof LocalePublicationsSlugRoute
   '/$locale/resources/$slug': typeof LocaleResourcesSlugRoute
   '/$locale/services/consulting-for-organizations': typeof LocaleServicesConsultingForOrganizationsRoute
   '/$locale/session/$sessionId': typeof LocaleSessionSessionIdRoute
@@ -1553,6 +1580,7 @@ export interface FileRoutesByFullPath {
   '/$locale/psychologists/': typeof LocalePsychologistsIndexRoute
   '/$locale/psychologue-en-ligne/': typeof LocalePsychologueEnLigneIndexRoute
   '/$locale/psychologue/': typeof LocalePsychologueIndexRoute
+  '/$locale/publications/': typeof LocalePublicationsIndexRoute
   '/$locale/services/': typeof LocaleServicesIndexRoute
   '/learn/live/': typeof LearnLiveIndexRoute
   '/learn/trainings/': typeof LearnTrainingsIndexRoute
@@ -1693,6 +1721,7 @@ export interface FileRoutesByTo {
   '/psychologists/$id': typeof PsychologistsIdRoute
   '/psychologue-en-ligne/$country': typeof PsychologueEnLigneCountryRoute
   '/psychologue/$city': typeof PsychologueCityRoute
+  '/publications/$slug': typeof PublicationsSlugRoute
   '/resources/$slug': typeof ResourcesSlugRoute
   '/services/consulting-for-organizations': typeof ServicesConsultingForOrganizationsRoute
   '/session/$sessionId': typeof SessionSessionIdRoute
@@ -1709,6 +1738,7 @@ export interface FileRoutesByTo {
   '/psychologists': typeof PsychologistsIndexRoute
   '/psychologue-en-ligne': typeof PsychologueEnLigneIndexRoute
   '/psychologue': typeof PsychologueIndexRoute
+  '/publications': typeof PublicationsIndexRoute
   '/services': typeof ServicesIndexRoute
   '/$locale/admin/applications': typeof LocaleAdminApplicationsRoute
   '/$locale/admin/crm': typeof LocaleAdminCrmRoute
@@ -1745,6 +1775,7 @@ export interface FileRoutesByTo {
   '/$locale/psychologists/$id': typeof LocalePsychologistsIdRoute
   '/$locale/psychologue-en-ligne/$country': typeof LocalePsychologueEnLigneCountryRoute
   '/$locale/psychologue/$city': typeof LocalePsychologueCityRoute
+  '/$locale/publications/$slug': typeof LocalePublicationsSlugRoute
   '/$locale/resources/$slug': typeof LocaleResourcesSlugRoute
   '/$locale/services/consulting-for-organizations': typeof LocaleServicesConsultingForOrganizationsRoute
   '/$locale/session/$sessionId': typeof LocaleSessionSessionIdRoute
@@ -1772,6 +1803,7 @@ export interface FileRoutesByTo {
   '/$locale/psychologists': typeof LocalePsychologistsIndexRoute
   '/$locale/psychologue-en-ligne': typeof LocalePsychologueEnLigneIndexRoute
   '/$locale/psychologue': typeof LocalePsychologueIndexRoute
+  '/$locale/publications': typeof LocalePublicationsIndexRoute
   '/$locale/services': typeof LocaleServicesIndexRoute
   '/learn/live': typeof LearnLiveIndexRoute
   '/learn/trainings': typeof LearnTrainingsIndexRoute
@@ -1914,6 +1946,7 @@ export interface FileRoutesById {
   '/psychologists/$id': typeof PsychologistsIdRoute
   '/psychologue-en-ligne/$country': typeof PsychologueEnLigneCountryRoute
   '/psychologue/$city': typeof PsychologueCityRoute
+  '/publications/$slug': typeof PublicationsSlugRoute
   '/resources_/$slug': typeof ResourcesSlugRoute
   '/services/consulting-for-organizations': typeof ServicesConsultingForOrganizationsRoute
   '/session/$sessionId': typeof SessionSessionIdRoute
@@ -1930,6 +1963,7 @@ export interface FileRoutesById {
   '/psychologists/': typeof PsychologistsIndexRoute
   '/psychologue-en-ligne/': typeof PsychologueEnLigneIndexRoute
   '/psychologue/': typeof PsychologueIndexRoute
+  '/publications/': typeof PublicationsIndexRoute
   '/services/': typeof ServicesIndexRoute
   '/$locale/admin/applications': typeof LocaleAdminApplicationsRoute
   '/$locale/admin/crm': typeof LocaleAdminCrmRoute
@@ -1966,6 +2000,7 @@ export interface FileRoutesById {
   '/$locale/psychologists/$id': typeof LocalePsychologistsIdRoute
   '/$locale/psychologue-en-ligne/$country': typeof LocalePsychologueEnLigneCountryRoute
   '/$locale/psychologue/$city': typeof LocalePsychologueCityRoute
+  '/$locale/publications/$slug': typeof LocalePublicationsSlugRoute
   '/$locale/resources_/$slug': typeof LocaleResourcesSlugRoute
   '/$locale/services/consulting-for-organizations': typeof LocaleServicesConsultingForOrganizationsRoute
   '/$locale/session/$sessionId': typeof LocaleSessionSessionIdRoute
@@ -1993,6 +2028,7 @@ export interface FileRoutesById {
   '/$locale/psychologists/': typeof LocalePsychologistsIndexRoute
   '/$locale/psychologue-en-ligne/': typeof LocalePsychologueEnLigneIndexRoute
   '/$locale/psychologue/': typeof LocalePsychologueIndexRoute
+  '/$locale/publications/': typeof LocalePublicationsIndexRoute
   '/$locale/services/': typeof LocaleServicesIndexRoute
   '/learn/live/': typeof LearnLiveIndexRoute
   '/learn/trainings/': typeof LearnTrainingsIndexRoute
@@ -2136,6 +2172,7 @@ export interface FileRouteTypes {
     | '/psychologists/$id'
     | '/psychologue-en-ligne/$country'
     | '/psychologue/$city'
+    | '/publications/$slug'
     | '/resources/$slug'
     | '/services/consulting-for-organizations'
     | '/session/$sessionId'
@@ -2152,6 +2189,7 @@ export interface FileRouteTypes {
     | '/psychologists/'
     | '/psychologue-en-ligne/'
     | '/psychologue/'
+    | '/publications/'
     | '/services/'
     | '/$locale/admin/applications'
     | '/$locale/admin/crm'
@@ -2188,6 +2226,7 @@ export interface FileRouteTypes {
     | '/$locale/psychologists/$id'
     | '/$locale/psychologue-en-ligne/$country'
     | '/$locale/psychologue/$city'
+    | '/$locale/publications/$slug'
     | '/$locale/resources/$slug'
     | '/$locale/services/consulting-for-organizations'
     | '/$locale/session/$sessionId'
@@ -2215,6 +2254,7 @@ export interface FileRouteTypes {
     | '/$locale/psychologists/'
     | '/$locale/psychologue-en-ligne/'
     | '/$locale/psychologue/'
+    | '/$locale/publications/'
     | '/$locale/services/'
     | '/learn/live/'
     | '/learn/trainings/'
@@ -2355,6 +2395,7 @@ export interface FileRouteTypes {
     | '/psychologists/$id'
     | '/psychologue-en-ligne/$country'
     | '/psychologue/$city'
+    | '/publications/$slug'
     | '/resources/$slug'
     | '/services/consulting-for-organizations'
     | '/session/$sessionId'
@@ -2371,6 +2412,7 @@ export interface FileRouteTypes {
     | '/psychologists'
     | '/psychologue-en-ligne'
     | '/psychologue'
+    | '/publications'
     | '/services'
     | '/$locale/admin/applications'
     | '/$locale/admin/crm'
@@ -2407,6 +2449,7 @@ export interface FileRouteTypes {
     | '/$locale/psychologists/$id'
     | '/$locale/psychologue-en-ligne/$country'
     | '/$locale/psychologue/$city'
+    | '/$locale/publications/$slug'
     | '/$locale/resources/$slug'
     | '/$locale/services/consulting-for-organizations'
     | '/$locale/session/$sessionId'
@@ -2434,6 +2477,7 @@ export interface FileRouteTypes {
     | '/$locale/psychologists'
     | '/$locale/psychologue-en-ligne'
     | '/$locale/psychologue'
+    | '/$locale/publications'
     | '/$locale/services'
     | '/learn/live'
     | '/learn/trainings'
@@ -2575,6 +2619,7 @@ export interface FileRouteTypes {
     | '/psychologists/$id'
     | '/psychologue-en-ligne/$country'
     | '/psychologue/$city'
+    | '/publications/$slug'
     | '/resources_/$slug'
     | '/services/consulting-for-organizations'
     | '/session/$sessionId'
@@ -2591,6 +2636,7 @@ export interface FileRouteTypes {
     | '/psychologists/'
     | '/psychologue-en-ligne/'
     | '/psychologue/'
+    | '/publications/'
     | '/services/'
     | '/$locale/admin/applications'
     | '/$locale/admin/crm'
@@ -2627,6 +2673,7 @@ export interface FileRouteTypes {
     | '/$locale/psychologists/$id'
     | '/$locale/psychologue-en-ligne/$country'
     | '/$locale/psychologue/$city'
+    | '/$locale/publications/$slug'
     | '/$locale/resources_/$slug'
     | '/$locale/services/consulting-for-organizations'
     | '/$locale/session/$sessionId'
@@ -2654,6 +2701,7 @@ export interface FileRouteTypes {
     | '/$locale/psychologists/'
     | '/$locale/psychologue-en-ligne/'
     | '/$locale/psychologue/'
+    | '/$locale/publications/'
     | '/$locale/services/'
     | '/learn/live/'
     | '/learn/trainings/'
@@ -2796,6 +2844,7 @@ export interface RootRouteChildren {
   PsychologistsIdRoute: typeof PsychologistsIdRoute
   PsychologueEnLigneCountryRoute: typeof PsychologueEnLigneCountryRoute
   PsychologueCityRoute: typeof PsychologueCityRoute
+  PublicationsSlugRoute: typeof PublicationsSlugRoute
   ResourcesSlugRoute: typeof ResourcesSlugRoute
   ServicesConsultingForOrganizationsRoute: typeof ServicesConsultingForOrganizationsRoute
   SessionSessionIdRoute: typeof SessionSessionIdRoute
@@ -2812,6 +2861,7 @@ export interface RootRouteChildren {
   PsychologistsIndexRoute: typeof PsychologistsIndexRoute
   PsychologueEnLigneIndexRoute: typeof PsychologueEnLigneIndexRoute
   PsychologueIndexRoute: typeof PsychologueIndexRoute
+  PublicationsIndexRoute: typeof PublicationsIndexRoute
   ServicesIndexRoute: typeof ServicesIndexRoute
   LocaleAdminApplicationsRoute: typeof LocaleAdminApplicationsRoute
   LocaleAdminCrmRoute: typeof LocaleAdminCrmRoute
@@ -2848,6 +2898,7 @@ export interface RootRouteChildren {
   LocalePsychologistsIdRoute: typeof LocalePsychologistsIdRoute
   LocalePsychologueEnLigneCountryRoute: typeof LocalePsychologueEnLigneCountryRoute
   LocalePsychologueCityRoute: typeof LocalePsychologueCityRoute
+  LocalePublicationsSlugRoute: typeof LocalePublicationsSlugRoute
   LocaleResourcesSlugRoute: typeof LocaleResourcesSlugRoute
   LocaleServicesConsultingForOrganizationsRoute: typeof LocaleServicesConsultingForOrganizationsRoute
   LocaleSessionSessionIdRoute: typeof LocaleSessionSessionIdRoute
@@ -2872,6 +2923,7 @@ export interface RootRouteChildren {
   LocalePsychologistsIndexRoute: typeof LocalePsychologistsIndexRoute
   LocalePsychologueEnLigneIndexRoute: typeof LocalePsychologueEnLigneIndexRoute
   LocalePsychologueIndexRoute: typeof LocalePsychologueIndexRoute
+  LocalePublicationsIndexRoute: typeof LocalePublicationsIndexRoute
   LocaleServicesIndexRoute: typeof LocaleServicesIndexRoute
   LearnLiveIndexRoute: typeof LearnLiveIndexRoute
   LearnTrainingsIndexRoute: typeof LearnTrainingsIndexRoute
@@ -3814,6 +3866,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PsychologueCityRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/publications/': {
+      id: '/publications/'
+      path: '/publications'
+      fullPath: '/publications/'
+      preLoaderRoute: typeof PublicationsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/publications/$slug': {
+      id: '/publications/$slug'
+      path: '/publications/$slug'
+      fullPath: '/publications/$slug'
+      preLoaderRoute: typeof PublicationsSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/resources_/$slug': {
       id: '/resources_/$slug'
       path: '/resources/$slug'
@@ -4162,6 +4228,20 @@ declare module '@tanstack/react-router' {
       path: '/$locale/psychologue/$city'
       fullPath: '/$locale/psychologue/$city'
       preLoaderRoute: typeof LocalePsychologueCityRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/$locale/publications/': {
+      id: '/$locale/publications/'
+      path: '/$locale/publications'
+      fullPath: '/$locale/publications/'
+      preLoaderRoute: typeof LocalePublicationsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/$locale/publications/$slug': {
+      id: '/$locale/publications/$slug'
+      path: '/$locale/publications/$slug'
+      fullPath: '/$locale/publications/$slug'
+      preLoaderRoute: typeof LocalePublicationsSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/$locale/resources_/$slug': {
@@ -4588,6 +4668,7 @@ const rootRouteChildren: RootRouteChildren = {
   PsychologistsIdRoute: PsychologistsIdRoute,
   PsychologueEnLigneCountryRoute: PsychologueEnLigneCountryRoute,
   PsychologueCityRoute: PsychologueCityRoute,
+  PublicationsSlugRoute: PublicationsSlugRoute,
   ResourcesSlugRoute: ResourcesSlugRoute,
   ServicesConsultingForOrganizationsRoute:
     ServicesConsultingForOrganizationsRoute,
@@ -4605,6 +4686,7 @@ const rootRouteChildren: RootRouteChildren = {
   PsychologistsIndexRoute: PsychologistsIndexRoute,
   PsychologueEnLigneIndexRoute: PsychologueEnLigneIndexRoute,
   PsychologueIndexRoute: PsychologueIndexRoute,
+  PublicationsIndexRoute: PublicationsIndexRoute,
   ServicesIndexRoute: ServicesIndexRoute,
   LocaleAdminApplicationsRoute: LocaleAdminApplicationsRoute,
   LocaleAdminCrmRoute: LocaleAdminCrmRoute,
@@ -4643,6 +4725,7 @@ const rootRouteChildren: RootRouteChildren = {
   LocalePsychologistsIdRoute: LocalePsychologistsIdRoute,
   LocalePsychologueEnLigneCountryRoute: LocalePsychologueEnLigneCountryRoute,
   LocalePsychologueCityRoute: LocalePsychologueCityRoute,
+  LocalePublicationsSlugRoute: LocalePublicationsSlugRoute,
   LocaleResourcesSlugRoute: LocaleResourcesSlugRoute,
   LocaleServicesConsultingForOrganizationsRoute:
     LocaleServicesConsultingForOrganizationsRoute,
@@ -4668,6 +4751,7 @@ const rootRouteChildren: RootRouteChildren = {
   LocalePsychologistsIndexRoute: LocalePsychologistsIndexRoute,
   LocalePsychologueEnLigneIndexRoute: LocalePsychologueEnLigneIndexRoute,
   LocalePsychologueIndexRoute: LocalePsychologueIndexRoute,
+  LocalePublicationsIndexRoute: LocalePublicationsIndexRoute,
   LocaleServicesIndexRoute: LocaleServicesIndexRoute,
   LearnLiveIndexRoute: LearnLiveIndexRoute,
   LearnTrainingsIndexRoute: LearnTrainingsIndexRoute,

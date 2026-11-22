@@ -50,6 +50,7 @@ import {
   HeartHandshake,
   CreditCard,
   Megaphone,
+  ShoppingBag,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -84,6 +85,7 @@ import PsychologistEditDrawer from "@/components/admin/PsychologistEditDrawer";
 import BookingDetailDrawer from "@/components/admin/BookingDetailDrawer";
 import RolePreviewFrame from "@/components/admin/RolePreviewFrame";
 import LearningHubManager from "@/components/admin/LearningHubManager";
+import PublicationsManager from "@/components/admin/PublicationsManager";
 import SupportInbox from "@/components/admin/SupportInbox";
 import MatchingRequestsManager from "@/components/admin/MatchingRequestsManager";
 import SubscriptionsOverview from "@/components/admin/SubscriptionsOverview";
@@ -935,6 +937,10 @@ const AdminDashboard = () => {
           <TabsContent value="learning">
             <LearningHubManager />
           </TabsContent>
+
+          <TabsContent value="publications">
+            <PublicationsManager />
+          </TabsContent>
           <TabsContent value="support">
             <SupportInbox />
           </TabsContent>
@@ -997,6 +1003,7 @@ const SupportAwareTabs = () => {
     { value: "transactions", label: "Transactions", icon: Database },
     { value: "translations", label: "Translations", icon: Globe },
     { value: "learning", label: "Learning Hub", icon: BookOpen },
+    { value: "publications", label: "Publications", icon: ShoppingBag },
     {
       value: "support",
       label: "Support",
