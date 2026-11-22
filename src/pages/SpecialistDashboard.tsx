@@ -58,6 +58,7 @@ import AthletesTab from "@/components/dashboard/AthletesTab";
 import LeagueShareCard from "@/components/dashboard/LeagueShareCard";
 import LeagueMembershipCard from "@/components/dashboard/LeagueMembershipCard";
 import LsspmMemberBanner from "@/components/league/LsspmMemberBanner";
+import CandidateInterviewsCard from "@/components/recruitment/CandidateInterviewsCard";
 
 const SpecialistDashboard = () => {
   const { t: passportT } = usePassportCopy();
@@ -68,6 +69,7 @@ const SpecialistDashboard = () => {
           {/* Main */}
           <div className="space-y-6 min-w-0">
             <LsspmMemberBanner />
+            <CandidateInterviewsCard />
             <UpcomingSessionsCard as="specialist" />
 
             <div id="specialist-tabs-top" className="scroll-mt-20" />
