@@ -365,8 +365,8 @@ export default function Observatoire() {
   if (phase === "consent") {
     return shell(
       <motion.div
-        initial={{ opacity: 0, y: 12 }}
-        animate={{ opacity: 1, y: 0 }}
+        initial={{ y: 12 }}
+        animate={{ y: 0 }}
         transition={{ duration: 0.5 }}
       >
         <p className="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/5 px-3 py-1.5 text-xs font-mono uppercase tracking-widest text-primary">
