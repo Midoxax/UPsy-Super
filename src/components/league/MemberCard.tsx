@@ -15,6 +15,7 @@ import {
   downloadAttestationPdf,
   downloadCardPdf,
   downloadReceiptPdf,
+  membershipYears,
   verifyUrl,
 } from "@/lib/league/memberDocs";
 
@@ -203,7 +204,10 @@ export default function MemberCard({ m }: { m: Membership }) {
                         amount: Number(p.amount_mad),
                         method: p.method,
                         nature: p.nature,
-                        year: (m.ends_on ?? "").slice(0, 4),
+                        year: membershipYears(
+                          m.starts_on ?? "",
+                          m.ends_on ?? "",
+                        ).join("–"),
                       },
                       lang,
                     ),

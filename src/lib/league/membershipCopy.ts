@@ -73,7 +73,7 @@ const fr = {
   // Règlement intérieur: file, card, documents
   perCalendar: "/ année civile",
   rulesNote:
-    "Cotisation pour l'année civile en cours (règlement intérieur, art. 8 et 9). Tarifs étudiants réservés aux moins de 30 ans, sur attestation d'inscription.",
+    "Cotisation pour l'année civile en cours (règlement intérieur, art. 8 et 9) ; une adhésion validée à partir du 1er octobre est valable jusqu'au 31 décembre de l'année suivante. Tarifs étudiants réservés aux moins de 30 ans, sur attestation d'inscription.",
   grantedNote:
     "Membre honoraire / expert et membre du bureau : catégories attribuées par la Ligue.",
   photo: "Photo d'identité (pour la carte de membre)",
@@ -188,7 +188,7 @@ const en: Copy = {
   instructions: "Payment instructions (optional)",
   perCalendar: "/ calendar year",
   rulesNote:
-    "Fee for the current calendar year (internal rules, art. 8 and 9). Student rates are for members under 30, with an enrolment certificate.",
+    "Fee for the current calendar year (internal rules, art. 8 and 9); a membership approved from 1 October runs to 31 December of the following year. Student rates are for members under 30, with an enrolment certificate.",
   grantedNote:
     "Honorary member / expert and bureau member: categories granted by the League.",
   photo: "ID photo (for the membership card)",
@@ -267,7 +267,7 @@ const ar: Copy = {
   renew: "تجديد",
   perCalendar: "/ سنة ميلادية",
   rulesNote:
-    "واجب الانخراط عن السنة الميلادية الجارية (القانون الداخلي، المادتان 8 و9). أسعار الطلبة لمن هم دون 30 سنة مع شهادة التسجيل.",
+    "واجب الانخراط عن السنة الميلادية الجارية (القانون الداخلي، المادتان 8 و9)؛ الانخراط المصادق عليه ابتداء من فاتح أكتوبر صالح إلى 31 دجنبر من السنة الموالية. أسعار الطلبة لمن هم دون 30 سنة مع شهادة التسجيل.",
   grantedNote: "العضو الشرفي / الخبير وعضو المكتب: فئات تمنحها الرابطة.",
   photo: "صورة شمسية (لبطاقة العضوية)",
   birthDate: "تاريخ الازدياد",

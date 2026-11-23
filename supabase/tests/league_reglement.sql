@@ -52,10 +52,12 @@ GRANT SELECT ON m TO authenticated, anon;
 
 SELECT set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-00000000d202', true);
 SELECT public.league_record_payment((SELECT id FROM m), 'cash', 500, NULL);
-SELECT pg_temp.expect((SELECT status = 'active' AND ends_on = make_date(extract(year FROM current_date)::int, 12, 31)
+SELECT pg_temp.expect((SELECT status = 'active'
+    AND ends_on = make_date(extract(year FROM current_date)::int
+                            + (extract(month FROM current_date) >= 10)::int, 12, 31)
     AND attestation_number LIKE 'ATT-%' AND length(verify_token) >= 32
   FROM public.league_memberships WHERE id = (SELECT id FROM m)),
-  'confirmed to 31 December with an attestation number and a QR token');
+  'confirmed to 31 December (of next year from October) with an attestation number and a QR token');
 SELECT pg_temp.expect((SELECT category = 'supporter' FROM public.league_membership_desk()
   WHERE membership_id = (SELECT id FROM m)), 'a master''s student gets the supporter card');
 
@@ -78,5 +80,28 @@ UPDATE public.league_memberships SET ends_on = current_date - 1 WHERE id = (SELE
 SET LOCAL ROLE anon;
 SELECT pg_temp.expect(NOT (public.league_verify((SELECT t FROM tok)) ->> 'valid')::boolean,
   'an expired card shows as not valid');
+
+-- From 1 October a membership runs through the following year; before, to
+-- the end of the current one. The start date follows a previous membership.
+RESET ROLE;
+CREATE FUNCTION pg_temp.ends_after(_prev_end date) RETURNS date LANGUAGE plpgsql AS $$
+DECLARE _id uuid; _plan uuid := (SELECT id FROM public.league_membership_plans WHERE code = 'praticien');
+BEGIN
+  DELETE FROM public.league_memberships WHERE user_id = '00000000-0000-0000-0000-00000000d203';
+  INSERT INTO public.league_memberships (user_id, plan_id, status, member_number, starts_on, ends_on)
+  VALUES ('00000000-0000-0000-0000-00000000d203', _plan, 'active', 'LSSPM-T-9', _prev_end - 30, _prev_end);
+  INSERT INTO public.league_memberships (user_id, plan_id)
+  VALUES ('00000000-0000-0000-0000-00000000d203', _plan) RETURNING id INTO _id;
+  PERFORM public.league_activate(_id, NULL);
+  RETURN (SELECT ends_on FROM public.league_memberships WHERE id = _id);
+END $$;
+SELECT pg_temp.expect(pg_temp.ends_after('2030-09-29') = '2030-12-31', 'approved on 30 September: to 31 December');
+SELECT pg_temp.expect(pg_temp.ends_after('2030-09-30') = '2031-12-31', 'approved on 1 October: to the end of next year');
+SELECT pg_temp.expect(pg_temp.ends_after('2030-12-31') = '2031-12-31', 'a renewal covers the next calendar year');
+SELECT pg_temp.expect((SELECT count(DISTINCT member_number) = 1 AND count(*) = 2 FROM public.league_memberships
+  WHERE user_id = '00000000-0000-0000-0000-00000000d203'), 'a renewal keeps the member number');
+SELECT pg_temp.raises($q$UPDATE public.league_memberships SET member_number = 'LSSPM-T-9'
+  WHERE user_id <> '00000000-0000-0000-0000-00000000d203' AND member_number IS NOT NULL$q$,
+  'member number LSSPM-T-9 belongs to another member', 'a member number cannot be given to someone else');
 
 ROLLBACK;

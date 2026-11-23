@@ -1,4 +1,7 @@
 import { LEAGUE_NAME } from "./membershipCopy";
+import { membershipYears } from "./membershipYears";
+
+export { membershipYears };
 
 /**
  * The League's member documents, generated in the browser (jsPDF, loaded on
@@ -45,10 +48,10 @@ const T = {
       name: string,
       cat: string,
       no: string,
-      year: string,
+      years: string[],
       confirmed: string,
     ) =>
-      `La ${LEAGUE_NAME} (LSSPM) atteste que ${name}, titulaire de la carte de membre n° ${no}, est ${cat.toLowerCase()} de la Ligue pour l'année ${year}, son adhésion ayant été validée le ${confirmed} conformément aux statuts et au règlement intérieur de la Ligue.`,
+      `La ${LEAGUE_NAME} (LSSPM) atteste que ${name}, titulaire de la carte de membre n° ${no}, est ${cat.toLowerCase()} de la Ligue ${years.length > 1 ? `pour les années ${years.join(" et ")}` : `pour l'année ${years[0]}`}, son adhésion ayant été validée le ${confirmed} conformément aux statuts et au règlement intérieur de la Ligue.`,
     attestUse:
       "La présente attestation est délivrée à l'intéressé(e) pour servir et valoir ce que de droit.",
     madeAt: (d: string) => `Fait à Mohammedia, le ${d}`,
@@ -96,10 +99,10 @@ const T = {
       name: string,
       cat: string,
       no: string,
-      year: string,
+      years: string[],
       confirmed: string,
     ) =>
-      `The League of Specialists in Psychological and Mental Health (LSSPM) certifies that ${name}, holder of membership card no. ${no}, is a ${cat.toLowerCase()} of the League for the year ${year}, the membership having been approved on ${confirmed} under the League's statutes and internal rules.`,
+      `The League of Specialists in Psychological and Mental Health (LSSPM) certifies that ${name}, holder of membership card no. ${no}, is a ${cat.toLowerCase()} of the League ${years.length > 1 ? `for the years ${years.join(" and ")}` : `for the year ${years[0]}`}, the membership having been approved on ${confirmed} under the League's statutes and internal rules.`,
     attestUse: "This certificate is issued to the member at their request.",
     madeAt: (d: string) => `Mohammedia, ${d}`,
     president: "The President",
@@ -293,14 +296,14 @@ export async function downloadAttestationPdf(d: MemberDoc, lang: Lang) {
   doc.setFontSize(10);
   doc.text(`${t.attestNo} ${d.attestationNumber ?? "—"}`, 15, 70);
   const cat = t.category[d.category] ?? d.category;
-  const year = d.endsOn.slice(0, 4);
+  const years = membershipYears(d.startsOn, d.endsOn);
   doc.setFontSize(12);
   const body = doc.splitTextToSize(
     t.attestBody(
       d.fullName,
       cat,
       d.memberNumber,
-      year,
+      years,
       fmt(d.confirmedAt ?? d.startsOn, lang),
     ),
     180,
