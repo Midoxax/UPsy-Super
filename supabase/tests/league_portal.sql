@@ -21,21 +21,25 @@ INSERT INTO public.user_roles (user_id, role) VALUES ('00000000-0000-0000-0000-0
 
 INSERT INTO public.psychologist_applications
   (user_id, email, full_name, status, source, phone, date_of_birth,
-   doc_diploma_url, doc_cin_url, doc_rib_url, auto_check_flags)
+   doc_diploma_url, doc_cin_url, doc_rib_url, auto_check_flags, photo_url)
 VALUES
   ('00000000-0000-0000-0000-00000000b101', 'opted-in@league.test', 'Dr Opted In', 'pending', 'lsspm',
    '+212600000000', '1990-01-01',
    '00000000-0000-0000-0000-00000000b101/diploma.pdf', '00000000-0000-0000-0000-00000000b101/cin.pdf',
-   '00000000-0000-0000-0000-00000000b101/rib.pdf', '[{"severity":"warn"},{"severity":"warn"}]'),
+   '00000000-0000-0000-0000-00000000b101/rib.pdf', '[{"severity":"warn"},{"severity":"warn"}]',
+   '00000000-0000-0000-0000-00000000b101/photo.jpg'),
   ('00000000-0000-0000-0000-00000000b102', 'private@league.test', 'Dr Private', 'pending', NULL,
-   NULL, NULL, '00000000-0000-0000-0000-00000000b102/diploma.pdf', NULL, NULL, '[]');
+   NULL, NULL, '00000000-0000-0000-0000-00000000b102/diploma.pdf', NULL, NULL, '[]',
+   '00000000-0000-0000-0000-00000000b102/photo.jpg');
 
 INSERT INTO storage.buckets (id, name) VALUES ('accreditation-docs', 'accreditation-docs') ON CONFLICT DO NOTHING;
 INSERT INTO storage.objects (bucket_id, name) VALUES
   ('accreditation-docs', '00000000-0000-0000-0000-00000000b101/diploma.pdf'),
   ('accreditation-docs', '00000000-0000-0000-0000-00000000b101/cin.pdf'),
   ('accreditation-docs', '00000000-0000-0000-0000-00000000b101/rib.pdf'),
-  ('accreditation-docs', '00000000-0000-0000-0000-00000000b102/diploma.pdf');
+  ('accreditation-docs', '00000000-0000-0000-0000-00000000b101/photo.jpg'),
+  ('accreditation-docs', '00000000-0000-0000-0000-00000000b102/diploma.pdf'),
+  ('accreditation-docs', '00000000-0000-0000-0000-00000000b102/photo.jpg');
 
 SET LOCAL ROLE authenticated;
 
@@ -61,8 +65,8 @@ SELECT pg_temp.expect((SELECT upsy_score FROM public.league_applications()) = 84
   'UPSY score counts the auto-check flags (100 - 2 warnings x 8)');
 SELECT pg_temp.expect(
   (SELECT string_agg(name, ',' ORDER BY name) FROM storage.objects WHERE bucket_id = 'accreditation-docs')
-    = '00000000-0000-0000-0000-00000000b101/diploma.pdf',
-  'League reads the diploma, never the CIN or RIB');
+    = '00000000-0000-0000-0000-00000000b101/diploma.pdf,00000000-0000-0000-0000-00000000b101/photo.jpg',
+  'League reads the diploma and the photo, never the CIN or RIB');
 SELECT pg_temp.expect(
   (SELECT to_jsonb(l)::text FROM public.league_applications() l) NOT LIKE '%+212600000000%'
   AND (SELECT to_jsonb(l)::text FROM public.league_applications() l) NOT LIKE '%1990-01-01%',
