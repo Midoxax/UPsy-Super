@@ -45,6 +45,7 @@ import {
 import UpsyLogo, { withLogo } from "@/components/UpsyLogo";
 import LsspmLogo from "@/components/league/LsspmLogo";
 import { CATEGORY_COLORS } from "@/lib/league/memberDocs";
+import { LEAGUE_NAME } from "@/lib/league/membershipCopy";
 import { useLeagueLandingCopy } from "@/lib/league/landingCopy";
 import { CampaignLeadForm, type CampaignConfig } from "./CampaignLanding";
 
@@ -240,9 +241,7 @@ function MemberCardPreview() {
         >
           <LsspmLogo className="h-9 w-9 rounded-full bg-white p-0.5" />
           <p className="text-[9px] font-semibold uppercase leading-tight text-white/90">
-            Ligue des Spécialistes de la Santé
-            <br />
-            Psychique et Mentale — LSSPM
+            {LEAGUE_NAME} — LSSPM
           </p>
         </div>
         <div
