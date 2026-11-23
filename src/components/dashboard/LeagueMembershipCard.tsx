@@ -77,21 +77,36 @@ export default function LeagueMembershipCard() {
     return path;
   };
 
-  const chosen = offer?.plans.find((p) => p.id === planId);
+  const active = state?.active;
+  const pending = state?.pending;
+  const payment = state?.payment;
+  const s = offer?.settings;
+  // Renewal opens 61 days before the membership ends (as league_join checks).
+  const renewalOpen =
+    !!active?.ends_on &&
+    active.ends_on <=
+      new Date(Date.now() + 61 * 86_400_000).toISOString().slice(0, 10);
+  const renewing = !!active && renewalOpen;
+  // A renewal starts from the current category, birth date and photo.
+  const chosenId = planId || (renewing ? active.plan_id : "");
+  const birthDate = birth || (renewing ? (active.birth_date ?? "") : "");
+  const keptPhoto = renewing ? active.photo_path : null;
+
+  const chosen = offer?.plans.find((p) => p.id === chosenId);
   const ready =
     !!chosen &&
-    !!photo &&
-    (!chosen.max_age || !!birth) &&
+    (!!photo || !!keptPhoto) &&
+    (!chosen.max_age || !!birthDate) &&
     (!chosen.requires_enrolment || !!enrolment);
 
   const apply = async () => {
-    if (!chosen || !photo) return;
+    if (!chosen || (!photo && !keptPhoto)) return;
     setBusy(true);
     try {
       const { error } = await supabase.rpc("league_join", {
         _plan: chosen.id,
-        _birth_date: birth || undefined,
-        _photo_path: await upload(photo, "photo"),
+        _birth_date: birthDate || undefined,
+        _photo_path: photo ? await upload(photo, "photo") : (keptPhoto ?? ""),
         // Only for the student categories that ask for it.
         _enrolment_path:
           chosen.requires_enrolment && enrolment
@@ -139,11 +154,6 @@ export default function LeagueMembershipCard() {
     refresh();
   };
 
-  const active = state?.active;
-  const pending = state?.pending;
-  const payment = state?.payment;
-  const s = offer?.settings;
-
   return (
     <Card className="p-5 space-y-3 border-primary/20 bg-gradient-to-r from-sky-50 to-emerald-50 dark:from-sky-950/30 dark:to-emerald-950/30">
       <div className="flex items-center gap-4">
@@ -169,9 +179,20 @@ export default function LeagueMembershipCard() {
         </div>
       )}
 
-      {!active && !pending && (
+      {(!active || renewing) && !pending && (
         <>
-          <p className="text-sm text-muted-foreground">{t.intro}</p>
+          {renewing ? (
+            <div className="space-y-1 border-t pt-3">
+              <p className="text-sm font-medium">
+                {t.renewTitle(
+                  String(Number((active.ends_on ?? "").slice(0, 4)) + 1),
+                )}
+              </p>
+              <p className="text-xs text-muted-foreground">{t.renewHint}</p>
+            </div>
+          ) : (
+            <p className="text-sm text-muted-foreground">{t.intro}</p>
+          )}
           {offer && offer.plans.length === 0 ? (
             <p className="text-xs text-muted-foreground">{t.notOpen}</p>
           ) : (
@@ -188,7 +209,7 @@ export default function LeagueMembershipCard() {
                       <input
                         type="radio"
                         name="league-plan"
-                        checked={planId === p.id}
+                        checked={chosenId === p.id}
                         onChange={() => setPlanId(p.id)}
                       />
                       {label(p)}
@@ -204,6 +225,7 @@ export default function LeagueMembershipCard() {
                 <div className="space-y-2 rounded-lg border bg-background/60 p-3">
                   <label className="block text-xs text-muted-foreground">
                     {t.photo}
+                    {keptPhoto && <span className="block">{t.keepPhoto}</span>}
                     <input
                       type="file"
                       accept="image/*"
@@ -217,7 +239,7 @@ export default function LeagueMembershipCard() {
                       <Input
                         type="date"
                         className="mt-1"
-                        value={birth}
+                        value={birthDate}
                         onChange={(e) => setBirth(e.target.value)}
                       />
                     </label>
@@ -244,7 +266,7 @@ export default function LeagueMembershipCard() {
                 onClick={apply}
               >
                 {busy && <Loader2 className="h-4 w-4 me-1 animate-spin" />}
-                {t.apply}
+                {renewing ? t.renew : t.apply}
               </Button>
             </div>
           )}

@@ -39,6 +39,10 @@ const fr = {
   validUntil: (d: string) => `Valable jusqu'au ${d}`,
   commissionFree: (d: string) => `Sans commission U.Psy jusqu'au ${d}`,
   renew: "Renouveler",
+  renewTitle: (y: string) => `Renouveler votre adhésion pour ${y}`,
+  renewHint:
+    "Le renouvellement est ouvert jusqu'à la fin de votre adhésion. Votre numéro de membre et votre QR code restent les mêmes.",
+  keepPhoto: "Facultatif : laissez vide pour garder votre photo actuelle.",
   tooLarge: "Fichier trop volumineux (5 Mo max.).",
   // League desk
   desk: "Adhésions",
@@ -156,6 +160,10 @@ const en: Copy = {
   validUntil: (d: string) => `Valid until ${d}`,
   commissionFree: (d: string) => `No U.Psy commission until ${d}`,
   renew: "Renew",
+  renewTitle: (y: string) => `Renew your membership for ${y}`,
+  renewHint:
+    "Renewal is open until your membership ends. Your member number and QR code stay the same.",
+  keepPhoto: "Optional: leave empty to keep your current photo.",
   tooLarge: "File too large (5 MB max.).",
   desk: "Memberships",
   files: "Files",
@@ -265,6 +273,10 @@ const ar: Copy = {
   validUntil: (d: string) => `صالحة حتى ${d}`,
   commissionFree: (d: string) => `دون عمولة U.Psy حتى ${d}`,
   renew: "تجديد",
+  renewTitle: (y: string) => `جدد انخراطك لسنة ${y}`,
+  renewHint:
+    "التجديد مفتوح إلى نهاية انخراطك. يبقى رقم العضوية ورمز QR كما هما.",
+  keepPhoto: "اختياري: اتركه فارغا للاحتفاظ بصورتك الحالية.",
   perCalendar: "/ سنة ميلادية",
   rulesNote:
     "واجب الانخراط عن السنة الميلادية الجارية (القانون الداخلي، المادتان 8 و9)؛ الانخراط المصادق عليه ابتداء من فاتح أكتوبر صالح إلى 31 دجنبر من السنة الموالية. أسعار الطلبة لمن هم دون 30 سنة مع شهادة التسجيل.",
