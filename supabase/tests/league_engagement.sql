@@ -54,7 +54,8 @@ SELECT public.league_submit_legalized((SELECT id FROM public.league_commitments)
 
 -- The supervision lead validates (default points) and rates the member.
 SELECT set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-00000000f304', true);
-SELECT public.league_review_contribution((SELECT id FROM public.league_contributions LIMIT 1), true, NULL, NULL);
+-- The portal leaves _points and _note out to apply the default points.
+SELECT public.league_review_contribution((SELECT id FROM public.league_contributions LIMIT 1), true);
 INSERT INTO public.league_evaluations (user_id, period, engagement, quality, collaboration, reliability)
   VALUES ('00000000-0000-0000-0000-00000000f301', extract(year FROM current_date) || '-S2', 5, 4, 5, 4);
 SELECT pg_temp.expect((SELECT points = 10 AND rating = 4.5 AND score = 32.5 AND rank() OVER () = 1

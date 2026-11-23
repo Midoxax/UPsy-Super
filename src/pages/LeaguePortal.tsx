@@ -223,6 +223,8 @@ export default function LeaguePortal() {
   const { isLeague, loading: roleLoading } = useUserRole();
   const [rows, setRows] = useState<FileRow[] | null>(null);
   const [stats, setStats] = useState<Record<string, number> | null>(null);
+  // Applicants' photos are private files: signed URLs, keyed by path.
+  const [photos, setPhotos] = useState<Record<string, string>>({});
   const [q, setQ] = useState("");
   const [sort, setSort] = useState<"recent" | "upsy" | "league">("recent");
   const [onlyTodo, setOnlyTodo] = useState(false);
@@ -252,6 +254,21 @@ export default function LeaguePortal() {
     if (a.error) toast.error(a.error.message);
     setRows(a.data ?? []);
     setStats((s.data as Record<string, number>) ?? null);
+    const paths = (a.data ?? [])
+      .map((r) => r.photo_url)
+      .filter((p): p is string => !!p && !/^https?:/.test(p));
+    if (paths.length) {
+      const { data } = await supabase.storage
+        .from("accreditation-docs")
+        .createSignedUrls(paths, 3600);
+      setPhotos(
+        Object.fromEntries(
+          (data ?? [])
+            .filter((x) => x.path && x.signedUrl)
+            .map((x) => [x.path as string, x.signedUrl as string]),
+        ),
+      );
+    }
   };
 
   useEffect(() => {
@@ -467,9 +484,10 @@ export default function LeaguePortal() {
                     className="glass-card w-full p-4 text-start space-y-3 hover:shadow-glass-hover transition-all"
                   >
                     <div className="flex items-start gap-3">
-                      {r.photo_url ? (
+                      {r.photo_url &&
+                      (photos[r.photo_url] || /^https?:/.test(r.photo_url)) ? (
                         <img
-                          src={photoUrl(r.photo_url, 48)}
+                          src={photos[r.photo_url] ?? photoUrl(r.photo_url, 48)}
                           alt=""
                           className="w-12 h-12 rounded-full object-cover shrink-0"
                         />

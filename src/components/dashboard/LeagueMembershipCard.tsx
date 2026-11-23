@@ -92,9 +92,11 @@ export default function LeagueMembershipCard() {
         _plan: chosen.id,
         _birth_date: birth || undefined,
         _photo_path: await upload(photo, "photo"),
-        _enrolment_path: enrolment
-          ? await upload(enrolment, "enrolment")
-          : undefined,
+        // Only for the student categories that ask for it.
+        _enrolment_path:
+          chosen.requires_enrolment && enrolment
+            ? await upload(enrolment, "enrolment")
+            : undefined,
       });
       if (error) throw error;
       refresh();
