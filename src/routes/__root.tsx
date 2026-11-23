@@ -47,7 +47,11 @@ import Footer from "@/components/Footer";
 import SkipToContent from "@/components/SkipToContent";
 import { BreadcrumbWrapper } from "@/components/BreadcrumbWrapper";
 import SEOHead from "@/components/SEOHead";
-import { AuroraBackground, SmoothScrollProvider } from "@/lib/motion";
+import {
+  AuroraBackground,
+  ScrollDynamics,
+  SmoothScrollProvider,
+} from "@/lib/motion";
 import { reportLovableError } from "@/lib/lovable-error-reporting";
 
 // ported from main.tsx
@@ -341,6 +345,7 @@ const AppShell = () => {
       <AuroraBackground />
       <Header />
       <ScrollToTop />
+      <ScrollDynamics pathname={location.pathname} />
       <BreadcrumbWrapper />
       <main
         id="main-content"

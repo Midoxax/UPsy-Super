@@ -211,9 +211,11 @@ const HeroSection = () => {
               <span>{c.eyebrow}</span>
             </motion.div>
 
+            {/* The headline is the page's largest content: it paints at once
+                and only settles into place, so speed metrics don't wait. */}
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
+              initial={{ y: 20 }}
+              animate={{ y: 0 }}
               transition={{ duration: 0.8, delay: 0.1 }}
               className="space-y-5"
             >
@@ -227,8 +229,8 @@ const HeroSection = () => {
             </motion.div>
 
             <motion.p
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
+              initial={{ y: 12 }}
+              animate={{ y: 0 }}
               transition={{ duration: 0.6, delay: 0.35 }}
               className="hidden sm:block max-w-lg text-lg text-[#FAFAFA]/70 leading-relaxed font-light"
             >

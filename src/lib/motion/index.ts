@@ -11,3 +11,4 @@ export { default as SmoothScrollProvider } from "./components/SmoothScrollProvid
 export { default as Chapter, ChapterItem } from "./components/Chapter";
 export { default as Ember } from "./components/Ember";
 export { default as Pulse } from "./components/Pulse";
+export { default as ScrollDynamics } from "./components/ScrollDynamics";
