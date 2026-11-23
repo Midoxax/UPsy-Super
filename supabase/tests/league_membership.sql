@@ -91,7 +91,8 @@ SELECT public.league_review_payment((SELECT id FROM pay), true, 'Reçu sur le co
 SELECT pg_temp.expect((SELECT receipt_number LIKE 'REC-COT-' || extract(year FROM now()) || '-00001'
   FROM public.league_payments WHERE id = (SELECT id FROM pay)), 'the receipt gets the first number of the year');
 SELECT pg_temp.expect((SELECT status = 'active' AND member_number LIKE 'LSSPM-%'
-    AND ends_on = make_date(extract(year FROM current_date)::int, 12, 31)
+    AND ends_on = make_date(extract(year FROM current_date)::int
+                            + (extract(month FROM current_date) >= 10)::int, 12, 31)
     AND commission_free_until = (current_date + interval '3 months')::date
   FROM public.league_memberships WHERE id = (SELECT id FROM m)), 'the membership is confirmed with its benefits');
 SELECT pg_temp.expect(public.is_league_member('00000000-0000-0000-0000-00000000e101'), 'the psychologist is a member');
