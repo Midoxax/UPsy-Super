@@ -498,25 +498,17 @@ export default function CampaignLeague() {
               <UpsyLogo className="h-10 md:h-12" />
             </motion.div>
           </div>
-          <motion.h1
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.15 }}
-            className="mt-8 max-w-2xl font-display text-4xl md:text-7xl leading-[1.02] tracking-tight"
-          >
+          {/* Heading and lead paint at once: they are the page's largest
+              content, so no entrance animation delays them. */}
+          <h1 className="mt-8 max-w-2xl font-display text-4xl md:text-7xl leading-[1.02] tracking-tight">
             {t.title}{" "}
             <span className="italic accent-italic bg-gradient-to-r from-primary via-amber-200 to-[#7fb2ef] bg-clip-text text-transparent">
               {t.titleAccent}
             </span>
-          </motion.h1>
-          <motion.p
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.3 }}
-            className="mt-6 max-w-xl text-lg text-foreground/75 leading-relaxed"
-          >
+          </h1>
+          <p className="mt-6 max-w-xl text-lg text-foreground/75 leading-relaxed">
             {t.lead}
-          </motion.p>
+          </p>
           <motion.div
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}

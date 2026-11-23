@@ -209,6 +209,12 @@ const fr = {
     privacy: "politique de confidentialité",
     consentAfter: ". Données protégées par la loi 09-08 (CNDP).",
     noSpam: "Pas de spam. Désinscription en un clic dans chaque message.",
+    errName: "Indiquez votre nom complet.",
+    errEmail: "Saisissez une adresse e-mail valide.",
+    errPhone: "Saisissez un numéro de téléphone valide.",
+    errConsent: "Votre accord est nécessaire pour continuer (loi 09-08).",
+    errTitle: "Une erreur est survenue",
+    errRetry: "Veuillez réessayer dans un instant.",
   },
 };
 
@@ -418,6 +424,12 @@ const en: Copy = {
     privacy: "privacy notice",
     consentAfter: ". Data protected under Moroccan Law 09-08 (CNDP).",
     noSpam: "No spam. One-click unsubscribe in every message.",
+    errName: "Enter your full name.",
+    errEmail: "Enter a valid email address.",
+    errPhone: "Enter a valid phone number.",
+    errConsent: "Your consent is required to continue (Law 09-08).",
+    errTitle: "Something went wrong",
+    errRetry: "Please try again in a moment.",
   },
 };
 
@@ -615,6 +627,12 @@ const ar: Copy = {
     privacy: "سياسة الخصوصية",
     consentAfter: ". معطيات محمية بموجب القانون 09-08 (CNDP).",
     noSpam: "لا رسائل مزعجة. إلغاء الاشتراك بنقرة في كل رسالة.",
+    errName: "أدخل اسمك الكامل.",
+    errEmail: "أدخل بريدا إلكترونيا صحيحا.",
+    errPhone: "أدخل رقم هاتف صحيحا.",
+    errConsent: "موافقتك ضرورية للمتابعة (القانون 09-08).",
+    errTitle: "حدث خطأ",
+    errRetry: "يرجى المحاولة بعد لحظات.",
   },
 };
 
