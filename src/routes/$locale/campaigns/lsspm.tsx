@@ -1,13 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { lazy } from "react";
-import PageTransition from "@/components/PageTransition";
 
 const CampaignLeague = lazy(() => import("@/pages/campaigns/CampaignLeague"));
 
 export const Route = createFileRoute("/$locale/campaigns/lsspm")({
-  component: () => (
-    <PageTransition>
-      <CampaignLeague />
-    </PageTransition>
-  ),
+  // No page-wide fade: the hero heading is this page's largest content and
+  // must paint at once; the page animates its own sections.
+  component: () => <CampaignLeague />,
 });

@@ -50,6 +50,12 @@ const DEFAULT_LABELS = {
   privacy: "privacy notice",
   consentAfter: ". Data protected under Moroccan Law 09-08 — CNDP compliant.",
   noSpam: "No spam. One-click unsubscribe in every message.",
+  errName: "Your name helps us personalize",
+  errEmail: "Enter a valid email",
+  errPhone: "Enter a valid phone number",
+  errConsent: "Required to continue (Law 09-08)",
+  errTitle: "Something went wrong",
+  errRetry: "Please try again in a moment.",
 };
 
 const emailSchema = z.string().trim().email("Enter a valid email").max(255);
@@ -110,16 +116,13 @@ export function CampaignLeadForm({ config }: { config: CampaignConfig }) {
     const fieldErrors: Record<string, string> = {};
     const nameCheck = nameSchema.safeParse(name);
     const emailCheck = emailSchema.safeParse(email);
-    if (!nameCheck.success)
-      fieldErrors.name = nameCheck.error.issues[0].message;
-    if (!emailCheck.success)
-      fieldErrors.email = emailCheck.error.issues[0].message;
+    if (!nameCheck.success) fieldErrors.name = L.errName;
+    if (!emailCheck.success) fieldErrors.email = L.errEmail;
     if (config.askPhone || whatsapp) {
       const phoneCheck = phoneSchema.safeParse(phone);
-      if (!phoneCheck.success)
-        fieldErrors.phone = phoneCheck.error.issues[0].message;
+      if (!phoneCheck.success) fieldErrors.phone = L.errPhone;
     }
-    if (!consent) fieldErrors.consent = "Required to continue (Law 09-08)";
+    if (!consent) fieldErrors.consent = L.errConsent;
     if (Object.keys(fieldErrors).length) {
       setErrors(fieldErrors);
       return;
@@ -179,9 +182,8 @@ export function CampaignLeadForm({ config }: { config: CampaignConfig }) {
       setSuccess(true);
     } catch (err) {
       toast({
-        title: "Something went wrong",
-        description:
-          err instanceof Error ? err.message : "Please try again in a moment.",
+        title: L.errTitle,
+        description: err instanceof Error ? err.message : L.errRetry,
         variant: "destructive",
       });
     } finally {
