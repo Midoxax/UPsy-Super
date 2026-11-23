@@ -50,7 +50,8 @@ export default function MemberCard({ m }: { m: Membership }) {
           : Promise.resolve({ data: null }),
         supabase
           .from("league_payments")
-          .select("*")
+          // Each receipt names the year(s) of the membership it paid for.
+          .select("*, league_memberships(starts_on, ends_on)")
           .eq("user_id", user!.id)
           .eq("status", "verified")
           .order("verified_at", { ascending: false }),
@@ -205,8 +206,8 @@ export default function MemberCard({ m }: { m: Membership }) {
                         method: p.method,
                         nature: p.nature,
                         year: membershipYears(
-                          m.starts_on ?? "",
-                          m.ends_on ?? "",
+                          p.league_memberships?.starts_on ?? m.starts_on ?? "",
+                          p.league_memberships?.ends_on ?? m.ends_on ?? "",
                         ).join("–"),
                       },
                       lang,

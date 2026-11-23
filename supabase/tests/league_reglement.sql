@@ -110,6 +110,12 @@ SELECT pg_temp.expect((SELECT array_agg(verify_token ORDER BY ends_on) = ARRAY[N
     AND max(ends_on) = '2032-12-31'
   FROM public.league_memberships WHERE user_id = '00000000-0000-0000-0000-00000000d203'),
   'renewals keep the same QR code, carried by the newest membership');
+SELECT pg_temp.expect(
+  EXISTS (SELECT 1 FROM public.notifications WHERE user_id = '00000000-0000-0000-0000-00000000d203'
+          AND title = 'Votre adhésion à la LSSPM est confirmée')
+  AND EXISTS (SELECT 1 FROM public.notifications WHERE user_id = '00000000-0000-0000-0000-00000000d203'
+              AND title = 'Votre adhésion à la LSSPM est renouvelée' AND body LIKE '%2032%'),
+  'a first membership is welcomed, a renewal is thanked');
 SELECT pg_temp.raises($q$UPDATE public.league_memberships SET member_number = 'LSSPM-T-9'
   WHERE user_id <> '00000000-0000-0000-0000-00000000d203' AND member_number IS NOT NULL$q$,
   'member number LSSPM-T-9 belongs to another member', 'a member number cannot be given to someone else');

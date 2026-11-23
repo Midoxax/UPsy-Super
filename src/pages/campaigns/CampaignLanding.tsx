@@ -78,7 +78,8 @@ function readAttribution() {
   };
 }
 
-const CampaignLanding = ({ config }: { config: CampaignConfig }) => {
+/** The lead form of a campaign (or its success panel), with tracking. */
+export function CampaignLeadForm({ config }: { config: CampaignConfig }) {
   const L = { ...DEFAULT_LABELS, ...config.labels };
   const { toast } = useToast();
   const [name, setName] = useState("");
@@ -189,6 +190,163 @@ const CampaignLanding = ({ config }: { config: CampaignConfig }) => {
   };
 
   return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6, delay: 0.15 }}
+      className="rounded-3xl border border-border/60 bg-background/80 backdrop-blur-xl p-7 shadow-2xl"
+    >
+      {success ? (
+        <div className="text-center py-8">
+          <div className="mx-auto h-14 w-14 rounded-full bg-primary/15 flex items-center justify-center">
+            <Check className="h-7 w-7 text-primary" />
+          </div>
+          <h2 className="mt-5 font-display text-2xl">{config.successTitle}</h2>
+          <p className="mt-3 text-sm text-foreground/70 leading-relaxed">
+            {config.successBody}
+          </p>
+          <Button asChild className="mt-6 w-full" size="lg">
+            {/\.[a-z0-9]+$/i.test(config.successCta.href) ? (
+              // A file (a campaign brochure), not an app route.
+              <a href={config.successCta.href} download>
+                {config.successCta.label}
+                <ArrowRight className="ml-2 h-4 w-4" />
+              </a>
+            ) : (
+              <Link to={config.successCta.href}>
+                {config.successCta.label}
+                <ArrowRight className="ml-2 h-4 w-4" />
+              </Link>
+            )}
+          </Button>
+        </div>
+      ) : (
+        <form onSubmit={handleSubmit} className="space-y-4" noValidate>
+          <div>
+            <h2 className="font-display text-2xl">{config.formTitle}</h2>
+            <p className="text-sm text-muted-foreground mt-1">
+              {config.formSubtitle}
+            </p>
+          </div>
+
+          <div>
+            <Label htmlFor="name">{L.name}</Label>
+            <Input
+              id="name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              maxLength={120}
+              autoComplete="name"
+              required
+            />
+            {errors.name && (
+              <p className="text-xs text-destructive mt-1">{errors.name}</p>
+            )}
+          </div>
+
+          <div>
+            <Label htmlFor="email">{L.email}</Label>
+            <Input
+              id="email"
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              maxLength={255}
+              autoComplete="email"
+              required
+            />
+            {errors.email && (
+              <p className="text-xs text-destructive mt-1">{errors.email}</p>
+            )}
+          </div>
+
+          {(config.askPhone || whatsapp) && (
+            <div>
+              <Label htmlFor="phone">{L.phone}</Label>
+              <Input
+                id="phone"
+                type="tel"
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
+                placeholder="+212 6..."
+                autoComplete="tel"
+                maxLength={20}
+              />
+              {errors.phone && (
+                <p className="text-xs text-destructive mt-1">{errors.phone}</p>
+              )}
+            </div>
+          )}
+
+          {config.askOrg && (
+            <div>
+              <Label htmlFor="org">{L.org}</Label>
+              <Input
+                id="org"
+                value={org}
+                onChange={(e) => setOrg(e.target.value)}
+                maxLength={120}
+              />
+            </div>
+          )}
+
+          <label className="flex items-start gap-3 rounded-lg border border-border/60 p-3 text-xs cursor-pointer hover:bg-muted/40 transition-colors">
+            <Checkbox
+              checked={whatsapp}
+              onCheckedChange={(v) => setWhatsapp(v === true)}
+              className="mt-0.5"
+            />
+            <span className="text-foreground/80 leading-relaxed">
+              {L.whatsapp}
+            </span>
+          </label>
+
+          <label className="flex items-start gap-3 text-xs cursor-pointer">
+            <Checkbox
+              checked={consent}
+              onCheckedChange={(v) => setConsent(v === true)}
+              className="mt-0.5"
+              required
+            />
+            <span className="text-muted-foreground leading-relaxed">
+              {L.consentBefore}{" "}
+              <Link to="/privacy" className="underline hover:text-foreground">
+                {L.privacy}
+              </Link>
+              {L.consentAfter}
+            </span>
+          </label>
+          {errors.consent && (
+            <p className="text-xs text-destructive">{errors.consent}</p>
+          )}
+
+          <Button
+            type="submit"
+            className="w-full"
+            size="lg"
+            disabled={submitting}
+          >
+            {submitting ? (
+              <Loader2 className="h-4 w-4 animate-spin" />
+            ) : (
+              <>
+                {config.primaryCta.label}
+                <ArrowRight className="ml-2 h-4 w-4" />
+              </>
+            )}
+          </Button>
+
+          <p className="text-[11px] text-center text-muted-foreground">
+            {L.noSpam}
+          </p>
+        </form>
+      )}
+    </motion.div>
+  );
+}
+
+const CampaignLanding = ({ config }: { config: CampaignConfig }) => {
+  return (
     <main className="flex-1 marketing-night min-h-screen">
       <SEOHead
         path={`/campaigns/${config.slug}`}
@@ -262,171 +420,7 @@ const CampaignLanding = ({ config }: { config: CampaignConfig }) => {
 
           {/* Right: form or success */}
           <div className="lg:col-span-5 lg:sticky lg:top-24">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.15 }}
-              className="rounded-3xl border border-border/60 bg-background/80 backdrop-blur-xl p-7 shadow-2xl"
-            >
-              {success ? (
-                <div className="text-center py-8">
-                  <div className="mx-auto h-14 w-14 rounded-full bg-primary/15 flex items-center justify-center">
-                    <Check className="h-7 w-7 text-primary" />
-                  </div>
-                  <h2 className="mt-5 font-display text-2xl">
-                    {config.successTitle}
-                  </h2>
-                  <p className="mt-3 text-sm text-foreground/70 leading-relaxed">
-                    {config.successBody}
-                  </p>
-                  <Button asChild className="mt-6 w-full" size="lg">
-                    {/\.[a-z0-9]+$/i.test(config.successCta.href) ? (
-                      // A file (a campaign brochure), not an app route.
-                      <a href={config.successCta.href} download>
-                        {config.successCta.label}
-                        <ArrowRight className="ml-2 h-4 w-4" />
-                      </a>
-                    ) : (
-                      <Link to={config.successCta.href}>
-                        {config.successCta.label}
-                        <ArrowRight className="ml-2 h-4 w-4" />
-                      </Link>
-                    )}
-                  </Button>
-                </div>
-              ) : (
-                <form onSubmit={handleSubmit} className="space-y-4" noValidate>
-                  <div>
-                    <h2 className="font-display text-2xl">
-                      {config.formTitle}
-                    </h2>
-                    <p className="text-sm text-muted-foreground mt-1">
-                      {config.formSubtitle}
-                    </p>
-                  </div>
-
-                  <div>
-                    <Label htmlFor="name">{L.name}</Label>
-                    <Input
-                      id="name"
-                      value={name}
-                      onChange={(e) => setName(e.target.value)}
-                      maxLength={120}
-                      autoComplete="name"
-                      required
-                    />
-                    {errors.name && (
-                      <p className="text-xs text-destructive mt-1">
-                        {errors.name}
-                      </p>
-                    )}
-                  </div>
-
-                  <div>
-                    <Label htmlFor="email">{L.email}</Label>
-                    <Input
-                      id="email"
-                      type="email"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      maxLength={255}
-                      autoComplete="email"
-                      required
-                    />
-                    {errors.email && (
-                      <p className="text-xs text-destructive mt-1">
-                        {errors.email}
-                      </p>
-                    )}
-                  </div>
-
-                  {(config.askPhone || whatsapp) && (
-                    <div>
-                      <Label htmlFor="phone">{L.phone}</Label>
-                      <Input
-                        id="phone"
-                        type="tel"
-                        value={phone}
-                        onChange={(e) => setPhone(e.target.value)}
-                        placeholder="+212 6..."
-                        autoComplete="tel"
-                        maxLength={20}
-                      />
-                      {errors.phone && (
-                        <p className="text-xs text-destructive mt-1">
-                          {errors.phone}
-                        </p>
-                      )}
-                    </div>
-                  )}
-
-                  {config.askOrg && (
-                    <div>
-                      <Label htmlFor="org">{L.org}</Label>
-                      <Input
-                        id="org"
-                        value={org}
-                        onChange={(e) => setOrg(e.target.value)}
-                        maxLength={120}
-                      />
-                    </div>
-                  )}
-
-                  <label className="flex items-start gap-3 rounded-lg border border-border/60 p-3 text-xs cursor-pointer hover:bg-muted/40 transition-colors">
-                    <Checkbox
-                      checked={whatsapp}
-                      onCheckedChange={(v) => setWhatsapp(v === true)}
-                      className="mt-0.5"
-                    />
-                    <span className="text-foreground/80 leading-relaxed">
-                      {L.whatsapp}
-                    </span>
-                  </label>
-
-                  <label className="flex items-start gap-3 text-xs cursor-pointer">
-                    <Checkbox
-                      checked={consent}
-                      onCheckedChange={(v) => setConsent(v === true)}
-                      className="mt-0.5"
-                      required
-                    />
-                    <span className="text-muted-foreground leading-relaxed">
-                      {L.consentBefore}{" "}
-                      <Link
-                        to="/privacy"
-                        className="underline hover:text-foreground"
-                      >
-                        {L.privacy}
-                      </Link>
-                      {L.consentAfter}
-                    </span>
-                  </label>
-                  {errors.consent && (
-                    <p className="text-xs text-destructive">{errors.consent}</p>
-                  )}
-
-                  <Button
-                    type="submit"
-                    className="w-full"
-                    size="lg"
-                    disabled={submitting}
-                  >
-                    {submitting ? (
-                      <Loader2 className="h-4 w-4 animate-spin" />
-                    ) : (
-                      <>
-                        {config.primaryCta.label}
-                        <ArrowRight className="ml-2 h-4 w-4" />
-                      </>
-                    )}
-                  </Button>
-
-                  <p className="text-[11px] text-center text-muted-foreground">
-                    {L.noSpam}
-                  </p>
-                </form>
-              )}
-            </motion.div>
+            <CampaignLeadForm config={config} />
           </div>
         </div>
       </section>
