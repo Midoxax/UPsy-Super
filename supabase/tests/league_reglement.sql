@@ -88,8 +88,9 @@ CREATE FUNCTION pg_temp.ends_after(_prev_end date) RETURNS date LANGUAGE plpgsql
 DECLARE _id uuid; _plan uuid := (SELECT id FROM public.league_membership_plans WHERE code = 'praticien');
 BEGIN
   DELETE FROM public.league_memberships WHERE user_id = '00000000-0000-0000-0000-00000000d203';
-  INSERT INTO public.league_memberships (user_id, plan_id, status, member_number, starts_on, ends_on)
-  VALUES ('00000000-0000-0000-0000-00000000d203', _plan, 'active', 'LSSPM-T-9', _prev_end - 30, _prev_end);
+  INSERT INTO public.league_memberships (user_id, plan_id, status, member_number, starts_on, ends_on, verify_token)
+  VALUES ('00000000-0000-0000-0000-00000000d203', _plan, 'active', 'LSSPM-T-9', _prev_end - 30, _prev_end,
+          repeat('ab', 32));
   INSERT INTO public.league_memberships (user_id, plan_id)
   VALUES ('00000000-0000-0000-0000-00000000d203', _plan) RETURNING id INTO _id;
   PERFORM public.league_activate(_id, NULL);
@@ -100,6 +101,15 @@ SELECT pg_temp.expect(pg_temp.ends_after('2030-09-30') = '2031-12-31', 'approved
 SELECT pg_temp.expect(pg_temp.ends_after('2030-12-31') = '2031-12-31', 'a renewal covers the next calendar year');
 SELECT pg_temp.expect((SELECT count(DISTINCT member_number) = 1 AND count(*) = 2 FROM public.league_memberships
   WHERE user_id = '00000000-0000-0000-0000-00000000d203'), 'a renewal keeps the member number');
+-- A second renewal: the QR code stays the same and sits on the newest membership only.
+INSERT INTO public.league_memberships (user_id, plan_id)
+  SELECT '00000000-0000-0000-0000-00000000d203', id FROM public.league_membership_plans WHERE code = 'praticien';
+SELECT public.league_activate((SELECT id FROM public.league_memberships
+  WHERE user_id = '00000000-0000-0000-0000-00000000d203' AND status = 'pending'), NULL);
+SELECT pg_temp.expect((SELECT array_agg(verify_token ORDER BY ends_on) = ARRAY[NULL, NULL, repeat('ab', 32)]
+    AND max(ends_on) = '2032-12-31'
+  FROM public.league_memberships WHERE user_id = '00000000-0000-0000-0000-00000000d203'),
+  'renewals keep the same QR code, carried by the newest membership');
 SELECT pg_temp.raises($q$UPDATE public.league_memberships SET member_number = 'LSSPM-T-9'
   WHERE user_id <> '00000000-0000-0000-0000-00000000d203' AND member_number IS NOT NULL$q$,
   'member number LSSPM-T-9 belongs to another member', 'a member number cannot be given to someone else');
