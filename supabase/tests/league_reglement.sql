@@ -120,4 +120,31 @@ SELECT pg_temp.raises($q$UPDATE public.league_memberships SET member_number = 'L
   WHERE user_id <> '00000000-0000-0000-0000-00000000d203' AND member_number IS NOT NULL$q$,
   'member number LSSPM-T-9 belongs to another member', 'a member number cannot be given to someone else');
 
+-- The public LSSPM badge: published profiles of confirmed members only.
+INSERT INTO auth.users (id, email) VALUES
+  ('00000000-0000-0000-0000-00000000d2b1', 'not-member@test'),
+  ('00000000-0000-0000-0000-00000000d2b2', 'hidden-member@test');
+INSERT INTO public.psychologist_profiles (id, full_name, is_published) VALUES
+  ('00000000-0000-0000-0000-00000000d203', 'Member', true),
+  ('00000000-0000-0000-0000-00000000d2b1', 'Not a member', true),
+  ('00000000-0000-0000-0000-00000000d2b2', 'Unpublished member', false);
+INSERT INTO public.league_memberships (user_id, plan_id, status, member_number, starts_on, ends_on)
+  SELECT '00000000-0000-0000-0000-00000000d2b2', id, 'active', 'LSSPM-T-B2', current_date - 10, current_date + 10
+  FROM public.league_membership_plans WHERE code = 'praticien';
+UPDATE public.league_memberships SET ends_on = current_date + 30
+  WHERE user_id = '00000000-0000-0000-0000-00000000d203' AND status = 'active';
+SET LOCAL ROLE anon;
+SELECT pg_temp.expect(
+  (SELECT array_agg(x) FROM public.league_member_badges(ARRAY[
+     '00000000-0000-0000-0000-00000000d203', '00000000-0000-0000-0000-00000000d2b1',
+     '00000000-0000-0000-0000-00000000d2b2']::uuid[]) x) = ARRAY['00000000-0000-0000-0000-00000000d203']::uuid[],
+  'visitors see the badge of published members only');
+RESET ROLE;
+UPDATE public.league_memberships SET ends_on = current_date - 1
+  WHERE user_id = '00000000-0000-0000-0000-00000000d203';
+SET LOCAL ROLE anon;
+SELECT pg_temp.expect(NOT EXISTS (SELECT 1 FROM public.league_member_badges(
+  ARRAY['00000000-0000-0000-0000-00000000d203']::uuid[])), 'an expired membership loses the badge');
+RESET ROLE;
+
 ROLLBACK;

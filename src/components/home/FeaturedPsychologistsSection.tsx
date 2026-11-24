@@ -16,6 +16,8 @@ import StaggerContainer, { StaggerItem } from "@/components/StaggerContainer";
 import { useQuery } from "@tanstack/react-query";
 import { getFeaturedPsychologists } from "@/services/psychologistsService";
 import { photoUrl } from "@/lib/images/photoUrl";
+import LeagueMemberBadge from "@/components/league/LeagueMemberBadge";
+import { useLeagueBadges } from "@/hooks/useLeagueBadges";
 
 // t() in this project returns the key when a translation is missing.
 // This helper falls back to the provided default in that case.
@@ -53,6 +55,9 @@ const FeaturedPsychologistsSection = () => {
   // Only real, published specialists. No placeholder profiles: a visitor
   // who books a made-up person is a broken promise.
   const displayPsychologists = psychologists ?? [];
+  const leagueBadges = useLeagueBadges(
+    displayPsychologists.map((p: { id: string }) => p.id),
+  );
   if (displayPsychologists.length === 0) return null;
 
   return (
@@ -152,6 +157,12 @@ const FeaturedPsychologistsSection = () => {
                         <h3 className="font-display text-xl font-medium text-foreground leading-tight truncate tracking-tight">
                           {psych.full_name}
                         </h3>
+                        {leagueBadges.has(psych.id) && (
+                          <LeagueMemberBadge
+                            variant="inline"
+                            className="mt-1"
+                          />
+                        )}
                         <p className="text-sm text-muted-foreground truncate">
                           {specialty}
                         </p>

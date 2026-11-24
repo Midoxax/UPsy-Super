@@ -12,6 +12,7 @@ import {
 import type { NearPoint, SortOption } from "@/services/psychologistsService";
 import { PsychologistFilters } from "@/components/psychologists/PsychologistFilters";
 import { PsychologistCard } from "@/components/psychologists/PsychologistCard";
+import { useLeagueBadges } from "@/hooks/useLeagueBadges";
 import { PsychologistCardSkeleton } from "@/components/psychologists/PsychologistCardSkeleton";
 import ScrollReveal from "@/components/ScrollReveal";
 import MaroonDivider from "@/components/ui/maroon-divider";
@@ -209,6 +210,10 @@ const Psychologists = () => {
   });
   const totalPages = data ? Math.ceil(data.total / data.pageSize) : 0;
   const filteredProfiles = data?.profiles;
+  // Confirmed LSSPM members among the results get the League badge.
+  const leagueBadges = useLeagueBadges(
+    (filteredProfiles ?? []).map((p) => p.id),
+  );
 
   const activeFilterCount = [
     filters.specialties.length > 0,
@@ -527,6 +532,7 @@ const Psychologists = () => {
                         <PsychologistCard
                           key={psychologist.id}
                           psychologist={psychologist}
+                          leagueMember={leagueBadges.has(psychologist.id)}
                         />
                       ))}
                     </div>
