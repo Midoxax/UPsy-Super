@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { ReactNode } from "react";
-import { crystalDissolve } from "@/lib/motion/variants";
+import { pageSettle } from "@/lib/motion/variants";
 
 interface PageTransitionProps {
   children: ReactNode;
@@ -9,11 +9,11 @@ interface PageTransitionProps {
 const PageTransition = ({ children }: PageTransitionProps) => {
   return (
     <motion.div
-      variants={crystalDissolve}
+      variants={pageSettle}
       initial="initial"
       animate="animate"
       exit="exit"
-      style={{ willChange: "transform, filter, opacity" }}
+      style={{ willChange: "transform" }}
     >
       {children}
     </motion.div>

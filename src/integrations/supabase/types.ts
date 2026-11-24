@@ -8963,6 +8963,10 @@ export type Database = {
         };
         Returns: string;
       };
+      league_member_badges: {
+        Args: { _ids: string[] };
+        Returns: string[];
+      };
       league_membership_desk: {
         Args: never;
         Returns: {

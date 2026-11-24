@@ -26,6 +26,22 @@ export const chapterItem: Variants = {
 };
 
 /** Crystal dissolve — used by route transitions. */
+/**
+ * Page entrance that never hides content: the page paints at once (its
+ * largest content counts for speed metrics) and settles by a few pixels.
+ * Leaving a page still dissolves it.
+ */
+export const pageSettle: Variants = {
+  initial: { y: 10 },
+  animate: { y: 0, transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] } },
+  exit: {
+    opacity: 0,
+    y: -6,
+    filter: "blur(6px)",
+    transition: { duration: 0.25, ease: [0.4, 0, 1, 1] },
+  },
+};
+
 export const crystalDissolve: Variants = {
   initial: { opacity: 0, scale: 1.02, filter: "blur(12px)" },
   animate: {

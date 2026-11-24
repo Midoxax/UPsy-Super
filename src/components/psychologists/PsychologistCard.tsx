@@ -18,9 +18,12 @@ import { useLocale } from "@/contexts/LocaleContext";
 import { getHomeCopy } from "@/lib/i18n/homeCopy";
 import { addLocalePrefix } from "@/lib/i18n/utils";
 import { photoUrl } from "@/lib/images/photoUrl";
+import LeagueMemberBadge from "@/components/league/LeagueMemberBadge";
 
 interface PsychologistCardProps {
   psychologist: PsychologistProfile;
+  /** A confirmed LSSPM member: shows the League's badge. */
+  leagueMember?: boolean;
 }
 
 // "Today", "Tomorrow" or a short weekday + date, from a YYYY-MM-DD day.
@@ -42,7 +45,10 @@ const dayLabel = (
   });
 };
 
-export const PsychologistCard = ({ psychologist }: PsychologistCardProps) => {
+export const PsychologistCard = ({
+  psychologist,
+  leagueMember = false,
+}: PsychologistCardProps) => {
   const { t, locale } = useLocale();
   const rating = psychologist.rating_avg ?? null;
   const reviews = psychologist.rating_count ?? 0;
@@ -67,6 +73,9 @@ export const PsychologistCard = ({ psychologist }: PsychologistCardProps) => {
           <div className="w-full h-full flex items-center justify-center">
             <User className="w-16 h-16 text-u-gold/30" />
           </div>
+        )}
+        {leagueMember && (
+          <LeagueMemberBadge className="absolute top-3 left-3" />
         )}
         {psychologist.is_accredited && (
           <div className="absolute top-3 right-3 bg-u-burgundy rounded-full px-3 py-1 flex items-center gap-1.5">

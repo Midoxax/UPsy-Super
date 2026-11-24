@@ -372,8 +372,8 @@ const CampaignLanding = ({ config }: { config: CampaignConfig }) => {
             </motion.div>
 
             <motion.h1
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
+              initial={{ y: 16 }}
+              animate={{ y: 0 }}
               transition={{ duration: 0.6, delay: 0.05 }}
               className="mt-6 font-display text-4xl md:text-6xl leading-[1.05] tracking-tight"
             >

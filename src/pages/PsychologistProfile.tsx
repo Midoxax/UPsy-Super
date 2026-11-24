@@ -38,6 +38,8 @@ import {
   Building2,
 } from "lucide-react";
 import { photoUrl } from "@/lib/images/photoUrl";
+import LeagueMemberBadge from "@/components/league/LeagueMemberBadge";
+import { useLeagueBadges } from "@/hooks/useLeagueBadges";
 
 const DAY_LABELS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
@@ -45,6 +47,9 @@ const PsychologistProfile = () => {
   const { id } = useParams<{ id: string }>();
   const [searchParams] = useSearchParams();
   const { data: psychologist, isLoading, error } = usePsychologistProfile(id!);
+  const leagueMember = useLeagueBadges(
+    psychologist ? [psychologist.id] : [],
+  ).has(psychologist?.id ?? "");
   const { t, locale } = useLocale();
   const [isMatchingModalOpen, setIsMatchingModalOpen] = useState(false);
   const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
@@ -288,6 +293,7 @@ const PsychologistProfile = () => {
                   {psychologist.full_name}
                 </h1>
                 <div className="flex flex-wrap gap-2">
+                  {leagueMember && <LeagueMemberBadge variant="inline" />}
                   {psychologist.offers_online && (
                     <Badge
                       variant="outline"
