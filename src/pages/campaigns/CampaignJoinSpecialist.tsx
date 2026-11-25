@@ -83,6 +83,12 @@ const fr: CampaignConfig = {
     privacy: "politique de confidentialité",
     consentAfter: ". Données protégées par la loi 09-08 (CNDP).",
     noSpam: "Pas de spam. Désinscription en un clic dans chaque message.",
+    errName: "Indiquez votre nom complet.",
+    errEmail: "Saisissez une adresse e-mail valide.",
+    errPhone: "Saisissez un numéro de téléphone valide.",
+    errConsent: "Votre accord est nécessaire pour continuer (loi 09-08).",
+    errTitle: "Une erreur est survenue",
+    errRetry: "Veuillez réessayer dans un instant.",
   },
 };
 
@@ -127,6 +133,12 @@ const ar: CampaignConfig = {
     privacy: "سياسة الخصوصية",
     consentAfter: ". بيانات محمية بموجب القانون 09-08 (CNDP).",
     noSpam: "بدون رسائل مزعجة. إلغاء الاشتراك بنقرة في كل رسالة.",
+    errName: "أدخل اسمك الكامل.",
+    errEmail: "أدخل بريدا إلكترونيا صحيحا.",
+    errPhone: "أدخل رقم هاتف صحيحا.",
+    errConsent: "موافقتك ضرورية للمتابعة (القانون 09-08).",
+    errTitle: "حدث خطأ",
+    errRetry: "يرجى المحاولة بعد لحظات.",
   },
 };
 

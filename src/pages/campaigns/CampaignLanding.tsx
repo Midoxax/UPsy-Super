@@ -50,10 +50,10 @@ const DEFAULT_LABELS = {
   privacy: "privacy notice",
   consentAfter: ". Data protected under Moroccan Law 09-08 — CNDP compliant.",
   noSpam: "No spam. One-click unsubscribe in every message.",
-  errName: "Your name helps us personalize",
-  errEmail: "Enter a valid email",
-  errPhone: "Enter a valid phone number",
-  errConsent: "Required to continue (Law 09-08)",
+  errName: "Enter your full name.",
+  errEmail: "Enter a valid email address.",
+  errPhone: "Enter a valid phone number.",
+  errConsent: "Your consent is required to continue (Law 09-08).",
   errTitle: "Something went wrong",
   errRetry: "Please try again in a moment.",
 };
@@ -181,9 +181,11 @@ export function CampaignLeadForm({ config }: { config: CampaignConfig }) {
 
       setSuccess(true);
     } catch (err) {
+      // Technical details stay in the console; visitors get the wording of their language.
+      console.error("campaign lead failed", err);
       toast({
         title: L.errTitle,
-        description: err instanceof Error ? err.message : L.errRetry,
+        description: L.errRetry,
         variant: "destructive",
       });
     } finally {
