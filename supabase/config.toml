@@ -43,3 +43,9 @@ verify_jwt = false
 
 [functions.notification-emails]
 verify_jwt = false
+
+[functions.nurture-emails]
+verify_jwt = false
+
+[functions.email-language]
+verify_jwt = false

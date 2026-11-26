@@ -25,7 +25,8 @@ export const BRAND = {
   muted: "#7A7268",
   line: "#E7E0D5",
   serif: "Georgia, 'Times New Roman', serif",
-  sans: "'Helvetica Neue', Helvetica, Arial, sans-serif",
+  // Ebrima and Noto Sans Tifinagh: Tifinagh glyphs for Tamazight emails.
+  sans: "'Helvetica Neue', Helvetica, Arial, Ebrima, 'Noto Sans Tifinagh', sans-serif",
   arabic: "Tahoma, 'Segoe UI', Arial, sans-serif",
 };
 
@@ -186,18 +187,29 @@ export interface EmailOptions {
   footerNote?: string;
   /** Co-branding: "lsspm" shows the League's logo beside U.Psy's. */
   partner?: "lsspm";
+  /** The language tag when it differs from the layout (e.g. "ary", "zgh"). */
+  lang?: string;
+  /** Footer wording for languages the layout has no strings for. */
+  footer?: Partial<{
+    tagline: string;
+    privacy: string;
+    help: string;
+    unsubscribe: string;
+  }>;
+  /** Trusted HTML under the footer links (e.g. language choices). */
+  footerExtra?: string;
 }
 
 export function renderEmail(o: EmailOptions): string {
   const locale = o.locale ?? "fr";
   const dir = locale === "ar" ? "rtl" : "ltr";
-  const f = FOOTER[locale];
+  const f = { ...FOOTER[locale], ...(o.footer ?? {}) };
   const font = fontFor(locale);
   const a = align(locale);
   const pre = escapeHtml(o.preheader);
 
   return `<!DOCTYPE html>
-<html lang="${locale}" dir="${dir}" xmlns="http://www.w3.org/1999/xhtml">
+<html lang="${escapeHtml(o.lang ?? locale)}" dir="${dir}" xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -242,6 +254,7 @@ export function renderEmail(o: EmailOptions): string {
         <a href="mailto:contact@upsy.ma" style="color:${BRAND.muted};text-decoration:underline;">${escapeHtml(f.help)}</a>
         ${o.unsubscribeUrl ? `&nbsp;&middot;&nbsp;<a href="${escapeHtml(o.unsubscribeUrl)}" style="color:${BRAND.muted};text-decoration:underline;">${escapeHtml(f.unsubscribe)}</a>` : ""}
       </p>
+      ${o.footerExtra ? `<p style="margin:10px 0 0;">${o.footerExtra}</p>` : ""}
     </td></tr>
   </table>
 </td></tr>
