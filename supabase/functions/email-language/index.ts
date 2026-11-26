@@ -55,7 +55,8 @@ Deno.serve(async (req) => {
     .eq("token", token)
     .maybeSingle();
   if (!t || t.used_at) {
-    return page(lang, COMMON[lang].langSaved);
+    // Nothing was saved: unknown link, or the address unsubscribed.
+    return page("fr", "Ce lien n'est pas valide. This link is not valid.", 400);
   }
   await db
     .from("nurture_enrolments")
