@@ -42,6 +42,7 @@ import { Route as PricingRouteImport } from './routes/pricing'
 import { Route as PricingSpecialistsRouteImport } from './routes/pricing-specialists'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as PsfRouteImport } from './routes/psf'
+import { Route as PublishProfileRouteImport } from './routes/publish-profile'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as ResourcesRouteImport } from './routes/resources'
 import { Route as SkoolRouteImport } from './routes/skool'
@@ -83,6 +84,7 @@ import { Route as LocalePricingRouteImport } from './routes/$locale/pricing'
 import { Route as LocalePricingSpecialistsRouteImport } from './routes/$locale/pricing-specialists'
 import { Route as LocalePrivacyRouteImport } from './routes/$locale/privacy'
 import { Route as LocalePsfRouteImport } from './routes/$locale/psf'
+import { Route as LocalePublishProfileRouteImport } from './routes/$locale/publish-profile'
 import { Route as LocaleResetPasswordRouteImport } from './routes/$locale/reset-password'
 import { Route as LocaleResourcesRouteImport } from './routes/$locale/resources'
 import { Route as LocaleSkoolRouteImport } from './routes/$locale/skool'
@@ -401,6 +403,11 @@ const PsfRoute = PsfRouteImport.update({
   path: '/psf',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PublishProfileRoute = PublishProfileRouteImport.update({
+  id: '/publish-profile',
+  path: '/publish-profile',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ResetPasswordRoute = ResetPasswordRouteImport.update({
   id: '/reset-password',
   path: '/reset-password',
@@ -606,6 +613,11 @@ const LocalePrivacyRoute = LocalePrivacyRouteImport.update({
 const LocalePsfRoute = LocalePsfRouteImport.update({
   id: '/$locale/psf',
   path: '/$locale/psf',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LocalePublishProfileRoute = LocalePublishProfileRouteImport.update({
+  id: '/$locale/publish-profile',
+  path: '/$locale/publish-profile',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LocaleResetPasswordRoute = LocaleResetPasswordRouteImport.update({
@@ -1436,6 +1448,7 @@ export interface FileRoutesByFullPath {
   '/pricing-specialists': typeof PricingSpecialistsRoute
   '/privacy': typeof PrivacyRoute
   '/psf': typeof PsfRoute
+  '/publish-profile': typeof PublishProfileRoute
   '/reset-password': typeof ResetPasswordRoute
   '/resources': typeof ResourcesRoute
   '/skool': typeof SkoolRoute
@@ -1476,6 +1489,7 @@ export interface FileRoutesByFullPath {
   '/$locale/pricing-specialists': typeof LocalePricingSpecialistsRoute
   '/$locale/privacy': typeof LocalePrivacyRoute
   '/$locale/psf': typeof LocalePsfRoute
+  '/$locale/publish-profile': typeof LocalePublishProfileRoute
   '/$locale/reset-password': typeof LocaleResetPasswordRoute
   '/$locale/resources': typeof LocaleResourcesRoute
   '/$locale/skool': typeof LocaleSkoolRoute
@@ -1664,6 +1678,7 @@ export interface FileRoutesByTo {
   '/pricing-specialists': typeof PricingSpecialistsRoute
   '/privacy': typeof PrivacyRoute
   '/psf': typeof PsfRoute
+  '/publish-profile': typeof PublishProfileRoute
   '/reset-password': typeof ResetPasswordRoute
   '/resources': typeof ResourcesRoute
   '/skool': typeof SkoolRoute
@@ -1704,6 +1719,7 @@ export interface FileRoutesByTo {
   '/$locale/pricing-specialists': typeof LocalePricingSpecialistsRoute
   '/$locale/privacy': typeof LocalePrivacyRoute
   '/$locale/psf': typeof LocalePsfRoute
+  '/$locale/publish-profile': typeof LocalePublishProfileRoute
   '/$locale/reset-password': typeof LocaleResetPasswordRoute
   '/$locale/resources': typeof LocaleResourcesRoute
   '/$locale/skool': typeof LocaleSkoolRoute
@@ -1892,6 +1908,7 @@ export interface FileRoutesById {
   '/pricing-specialists': typeof PricingSpecialistsRoute
   '/privacy': typeof PrivacyRoute
   '/psf': typeof PsfRoute
+  '/publish-profile': typeof PublishProfileRoute
   '/reset-password': typeof ResetPasswordRoute
   '/resources': typeof ResourcesRoute
   '/skool': typeof SkoolRoute
@@ -1932,6 +1949,7 @@ export interface FileRoutesById {
   '/$locale/pricing-specialists': typeof LocalePricingSpecialistsRoute
   '/$locale/privacy': typeof LocalePrivacyRoute
   '/$locale/psf': typeof LocalePsfRoute
+  '/$locale/publish-profile': typeof LocalePublishProfileRoute
   '/$locale/reset-password': typeof LocaleResetPasswordRoute
   '/$locale/resources': typeof LocaleResourcesRoute
   '/$locale/skool': typeof LocaleSkoolRoute
@@ -2122,6 +2140,7 @@ export interface FileRouteTypes {
     | '/pricing-specialists'
     | '/privacy'
     | '/psf'
+    | '/publish-profile'
     | '/reset-password'
     | '/resources'
     | '/skool'
@@ -2162,6 +2181,7 @@ export interface FileRouteTypes {
     | '/$locale/pricing-specialists'
     | '/$locale/privacy'
     | '/$locale/psf'
+    | '/$locale/publish-profile'
     | '/$locale/reset-password'
     | '/$locale/resources'
     | '/$locale/skool'
@@ -2350,6 +2370,7 @@ export interface FileRouteTypes {
     | '/pricing-specialists'
     | '/privacy'
     | '/psf'
+    | '/publish-profile'
     | '/reset-password'
     | '/resources'
     | '/skool'
@@ -2390,6 +2411,7 @@ export interface FileRouteTypes {
     | '/$locale/pricing-specialists'
     | '/$locale/privacy'
     | '/$locale/psf'
+    | '/$locale/publish-profile'
     | '/$locale/reset-password'
     | '/$locale/resources'
     | '/$locale/skool'
@@ -2577,6 +2599,7 @@ export interface FileRouteTypes {
     | '/pricing-specialists'
     | '/privacy'
     | '/psf'
+    | '/publish-profile'
     | '/reset-password'
     | '/resources'
     | '/skool'
@@ -2617,6 +2640,7 @@ export interface FileRouteTypes {
     | '/$locale/pricing-specialists'
     | '/$locale/privacy'
     | '/$locale/psf'
+    | '/$locale/publish-profile'
     | '/$locale/reset-password'
     | '/$locale/resources'
     | '/$locale/skool'
@@ -2806,6 +2830,7 @@ export interface RootRouteChildren {
   PricingSpecialistsRoute: typeof PricingSpecialistsRoute
   PrivacyRoute: typeof PrivacyRoute
   PsfRoute: typeof PsfRoute
+  PublishProfileRoute: typeof PublishProfileRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
   ResourcesRoute: typeof ResourcesRoute
   SkoolRoute: typeof SkoolRoute
@@ -2846,6 +2871,7 @@ export interface RootRouteChildren {
   LocalePricingSpecialistsRoute: typeof LocalePricingSpecialistsRoute
   LocalePrivacyRoute: typeof LocalePrivacyRoute
   LocalePsfRoute: typeof LocalePsfRoute
+  LocalePublishProfileRoute: typeof LocalePublishProfileRoute
   LocaleResetPasswordRoute: typeof LocaleResetPasswordRoute
   LocaleResourcesRoute: typeof LocaleResourcesRoute
   LocaleSkoolRoute: typeof LocaleSkoolRoute
@@ -3225,6 +3251,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PsfRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/publish-profile': {
+      id: '/publish-profile'
+      path: '/publish-profile'
+      fullPath: '/publish-profile'
+      preLoaderRoute: typeof PublishProfileRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/reset-password': {
       id: '/reset-password'
       path: '/reset-password'
@@ -3510,6 +3543,13 @@ declare module '@tanstack/react-router' {
       path: '/$locale/psf'
       fullPath: '/$locale/psf'
       preLoaderRoute: typeof LocalePsfRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/$locale/publish-profile': {
+      id: '/$locale/publish-profile'
+      path: '/$locale/publish-profile'
+      fullPath: '/$locale/publish-profile'
+      preLoaderRoute: typeof LocalePublishProfileRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/$locale/reset-password': {
@@ -4662,6 +4702,7 @@ const rootRouteChildren: RootRouteChildren = {
   PricingSpecialistsRoute: PricingSpecialistsRoute,
   PrivacyRoute: PrivacyRoute,
   PsfRoute: PsfRoute,
+  PublishProfileRoute: PublishProfileRoute,
   ResetPasswordRoute: ResetPasswordRoute,
   ResourcesRoute: ResourcesRoute,
   SkoolRoute: SkoolRoute,
@@ -4702,6 +4743,7 @@ const rootRouteChildren: RootRouteChildren = {
   LocalePricingSpecialistsRoute: LocalePricingSpecialistsRoute,
   LocalePrivacyRoute: LocalePrivacyRoute,
   LocalePsfRoute: LocalePsfRoute,
+  LocalePublishProfileRoute: LocalePublishProfileRoute,
   LocaleResetPasswordRoute: LocaleResetPasswordRoute,
   LocaleResourcesRoute: LocaleResourcesRoute,
   LocaleSkoolRoute: LocaleSkoolRoute,

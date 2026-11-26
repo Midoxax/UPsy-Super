@@ -116,6 +116,7 @@ const ar = {
     campaigns: "الحملات",
     joinSpecialist: "الانضمام كمختص",
     specialistPricing: "أسعار المختصين",
+    publishProfile: "نشر ملفي",
     pitch: "العرض",
     home: "الرئيسية",
     services: "الخدمات",

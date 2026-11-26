@@ -73,6 +73,11 @@ const breadcrumbConfig: Record<
     icon: Award,
     color: "text-u-teal",
   },
+  "/publish-profile": {
+    key: "publishProfile",
+    icon: FileText,
+    color: "text-u-gray-400",
+  },
   "/pricing-specialists": {
     key: "specialistPricing",
     icon: Award,

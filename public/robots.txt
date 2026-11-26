@@ -23,6 +23,8 @@ Disallow: /notifications
 Disallow: /*/notifications
 Disallow: /unsubscribe
 Disallow: /*/unsubscribe
+Disallow: /publish-profile
+Disallow: /*/publish-profile
 Disallow: /api
 Disallow: /*/api
 
@@ -48,6 +50,8 @@ Disallow: /notifications
 Disallow: /*/notifications
 Disallow: /unsubscribe
 Disallow: /*/unsubscribe
+Disallow: /publish-profile
+Disallow: /*/publish-profile
 Disallow: /api
 Disallow: /*/api
 
@@ -73,6 +77,8 @@ Disallow: /notifications
 Disallow: /*/notifications
 Disallow: /unsubscribe
 Disallow: /*/unsubscribe
+Disallow: /publish-profile
+Disallow: /*/publish-profile
 Disallow: /api
 Disallow: /*/api
 
@@ -98,6 +104,8 @@ Disallow: /notifications
 Disallow: /*/notifications
 Disallow: /unsubscribe
 Disallow: /*/unsubscribe
+Disallow: /publish-profile
+Disallow: /*/publish-profile
 Disallow: /api
 Disallow: /*/api
 
@@ -123,6 +131,8 @@ Disallow: /notifications
 Disallow: /*/notifications
 Disallow: /unsubscribe
 Disallow: /*/unsubscribe
+Disallow: /publish-profile
+Disallow: /*/publish-profile
 Disallow: /api
 Disallow: /*/api
 

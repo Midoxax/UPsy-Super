@@ -46,6 +46,8 @@ const fr = {
   badge: "Membre LSSPM",
   badgeHint:
     "Membre confirmé de la Ligue des Spécialistes de la Santé Psychique et Mentale",
+  badgeHidden:
+    "Votre badge LSSPM n'est pas encore visible : votre profil n'est pas publié. Publiez-le dans l'onglet Profil pour que les patients voient votre badge.",
   tooLarge: "Fichier trop volumineux (5 Mo max.).",
   // League desk
   desk: "Adhésions",
@@ -170,6 +172,8 @@ const en: Copy = {
   badge: "LSSPM member",
   badgeHint:
     "Confirmed member of the League of Specialists in Psychological and Mental Health",
+  badgeHidden:
+    "Your LSSPM badge is not visible yet: your profile is not published. Publish it in the Profile tab so patients see your badge.",
   tooLarge: "File too large (5 MB max.).",
   desk: "Memberships",
   files: "Files",
@@ -285,6 +289,8 @@ const ar: Copy = {
   keepPhoto: "اختياري: اتركه فارغا للاحتفاظ بصورتك الحالية.",
   badge: "عضو LSSPM",
   badgeHint: "عضو مؤكد في رابطة أخصائيي الصحة النفسية والعقلية",
+  badgeHidden:
+    "شارة LSSPM غير ظاهرة بعد لأن ملفك غير منشور. انشره من تبويب الملف الشخصي ليرى المرضى شارتك.",
   perCalendar: "/ سنة ميلادية",
   rulesNote:
     "واجب الانخراط عن السنة الميلادية الجارية (القانون الداخلي، المادتان 8 و9)؛ الانخراط المصادق عليه ابتداء من فاتح أكتوبر صالح إلى 31 دجنبر من السنة الموالية. أسعار الطلبة لمن هم دون 30 سنة مع شهادة التسجيل.",

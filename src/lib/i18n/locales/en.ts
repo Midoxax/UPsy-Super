@@ -113,6 +113,7 @@ const en = {
     campaigns: "Campaigns",
     joinSpecialist: "Join as a specialist",
     specialistPricing: "Specialist pricing",
+    publishProfile: "Publish my profile",
     pitch: "The pitch",
     home: "Home",
     services: "Services",

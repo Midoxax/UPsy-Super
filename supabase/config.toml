@@ -49,3 +49,9 @@ verify_jwt = false
 
 [functions.email-language]
 verify_jwt = false
+
+[functions.profile-publication]
+verify_jwt = false
+
+[functions.send-publish-link]
+verify_jwt = false

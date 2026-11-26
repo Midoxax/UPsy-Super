@@ -116,6 +116,7 @@ const fr = {
     campaigns: "Campagnes",
     joinSpecialist: "Rejoindre le réseau",
     specialistPricing: "Tarifs spécialistes",
+    publishProfile: "Publier mon profil",
     pitch: "Le pitch",
     home: "Accueil",
     services: "Services",
