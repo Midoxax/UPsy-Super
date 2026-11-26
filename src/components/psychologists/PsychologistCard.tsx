@@ -24,6 +24,8 @@ interface PsychologistCardProps {
   psychologist: PsychologistProfile;
   /** A confirmed LSSPM member: shows the League's badge. */
   leagueMember?: boolean;
+  /** Above the fold: load the photo at once (it is the page's largest image). */
+  priority?: boolean;
 }
 
 // "Today", "Tomorrow" or a short weekday + date, from a YYYY-MM-DD day.
@@ -48,6 +50,7 @@ const dayLabel = (
 export const PsychologistCard = ({
   psychologist,
   leagueMember = false,
+  priority = false,
 }: PsychologistCardProps) => {
   const { t, locale } = useLocale();
   const rating = psychologist.rating_avg ?? null;
@@ -66,7 +69,8 @@ export const PsychologistCard = ({
             src={photoUrl(psychologist.photo_url, 360)}
             alt={psychologist.full_name}
             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-            loading="lazy"
+            loading={priority ? "eager" : "lazy"}
+            fetchPriority={priority ? "high" : "auto"}
             decoding="async"
           />
         ) : (

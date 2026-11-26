@@ -528,11 +528,12 @@ const Psychologists = () => {
                   <>
                     {/* No fade-in: results are what people came for. */}
                     <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-6">
-                      {filteredProfiles.map((psychologist) => (
+                      {filteredProfiles.map((psychologist, i) => (
                         <PsychologistCard
                           key={psychologist.id}
                           psychologist={psychologist}
                           leagueMember={leagueBadges.has(psychologist.id)}
+                          priority={page === 1 && i < 3}
                         />
                       ))}
                     </div>

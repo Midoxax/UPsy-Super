@@ -1,6 +1,9 @@
+import { useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
 import {
-  searchPsychologists,
+  rankPsychologists,
+  fetchTaxonomy,
+  withTaxonomy,
   fetchSpecialties,
   fetchLanguages,
   fetchTherapyApproaches,
@@ -27,13 +30,35 @@ export const usePsychologists = ({
   pageSize = 12,
   enabled = true,
 }: UsePsychologistsParams) => {
-  return useQuery({
+  // The cards show as soon as the ranking arrives; their specialty, language
+  // and approach names follow in a second request instead of holding them.
+  const ranked = useQuery({
     queryKey: ["psychologists", filters, near, query, sort, page, pageSize],
     queryFn: () =>
-      searchPsychologists({ filters, near, query, sort, page, pageSize }),
+      rankPsychologists({ filters, near, query, sort, page, pageSize }),
     placeholderData: (prev) => prev,
     enabled,
   });
+  const ids = useMemo(
+    () => ranked.data?.profiles.map((p) => p.id) ?? [],
+    [ranked.data],
+  );
+  const taxonomy = useQuery({
+    queryKey: ["psychologist_taxonomy", ids],
+    queryFn: () => fetchTaxonomy(ids),
+    placeholderData: (prev) => prev,
+    enabled: enabled && ids.length > 0,
+    staleTime: 5 * 60_000,
+  });
+  const data = useMemo(
+    () =>
+      ranked.data && {
+        ...ranked.data,
+        profiles: withTaxonomy(ranked.data.profiles, taxonomy.data),
+      },
+    [ranked.data, taxonomy.data],
+  );
+  return { data, isLoading: ranked.isLoading };
 };
 
 export const useSpecialties = () => {
