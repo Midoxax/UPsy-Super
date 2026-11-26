@@ -4,7 +4,8 @@ type CertificateType =
   | "course_completion"
   | "assessment_completion"
   | "psychologist_accreditation"
-  | "mooc_training";
+  | "mooc_training"
+  | "webinar_attendance";
 
 interface IssueCertificateParams {
   certificate_type: CertificateType;

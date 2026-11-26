@@ -812,6 +812,39 @@ export type Database = {
           },
         ];
       };
+      training_settings: {
+        Row: {
+          account_holder: string | null;
+          bank_name: string | null;
+          id: boolean;
+          instructions_fr: string | null;
+          licence_annual_mad: number;
+          rib: string | null;
+          updated_at: string;
+          upsy_share_pct: number;
+        };
+        Insert: {
+          account_holder?: string | null;
+          bank_name?: string | null;
+          id?: boolean;
+          instructions_fr?: string | null;
+          licence_annual_mad?: number;
+          rib?: string | null;
+          updated_at?: string;
+          upsy_share_pct?: number;
+        };
+        Update: {
+          account_holder?: string | null;
+          bank_name?: string | null;
+          id?: boolean;
+          instructions_fr?: string | null;
+          licence_annual_mad?: number;
+          rib?: string | null;
+          updated_at?: string;
+          upsy_share_pct?: number;
+        };
+        Relationships: [];
+      };
       league_settings: {
         Row: {
           account_holder: string | null;
@@ -4710,6 +4743,16 @@ export type Database = {
       };
       live_class_registrations: {
         Row: {
+          amount_mad: number;
+          confirmed_notified_at: string | null;
+          payer_reference: string | null;
+          payment_status: string;
+          payment_verified_at: string | null;
+          payment_verified_by: string | null;
+          receipt_number: string | null;
+          reminded_1h_at: string | null;
+          reminded_24h_at: string | null;
+          role: string;
           cancelled_at: string | null;
           class_id: string;
           id: string;
@@ -4718,6 +4761,16 @@ export type Database = {
           user_id: string;
         };
         Insert: {
+          amount_mad?: number;
+          confirmed_notified_at?: string | null;
+          payer_reference?: string | null;
+          payment_status?: string;
+          payment_verified_at?: string | null;
+          payment_verified_by?: string | null;
+          receipt_number?: string | null;
+          reminded_1h_at?: string | null;
+          reminded_24h_at?: string | null;
+          role?: string;
           cancelled_at?: string | null;
           class_id: string;
           id?: string;
@@ -4726,6 +4779,16 @@ export type Database = {
           user_id: string;
         };
         Update: {
+          amount_mad?: number;
+          confirmed_notified_at?: string | null;
+          payer_reference?: string | null;
+          payment_status?: string;
+          payment_verified_at?: string | null;
+          payment_verified_by?: string | null;
+          receipt_number?: string | null;
+          reminded_1h_at?: string | null;
+          reminded_24h_at?: string | null;
+          role?: string;
           cancelled_at?: string | null;
           class_id?: string;
           id?: string;
@@ -4745,6 +4808,15 @@ export type Database = {
       };
       live_classes: {
         Row: {
+          access: string;
+          closed_at: string | null;
+          member_price_mad: number;
+          min_attendance_pct: number;
+          organizer: string | null;
+          price_mad: number | null;
+          speaker_name: string | null;
+          speaker_title: string | null;
+          training_hours: number | null;
           capacity: number | null;
           course_id: string | null;
           created_at: string;
@@ -4766,6 +4838,15 @@ export type Database = {
           updated_at: string;
         };
         Insert: {
+          access?: string;
+          closed_at?: string | null;
+          member_price_mad?: number;
+          min_attendance_pct?: number;
+          organizer?: string | null;
+          price_mad?: number | null;
+          speaker_name?: string | null;
+          speaker_title?: string | null;
+          training_hours?: number | null;
           capacity?: number | null;
           course_id?: string | null;
           created_at?: string;
@@ -4787,6 +4868,15 @@ export type Database = {
           updated_at?: string;
         };
         Update: {
+          access?: string;
+          closed_at?: string | null;
+          member_price_mad?: number;
+          min_attendance_pct?: number;
+          organizer?: string | null;
+          price_mad?: number | null;
+          speaker_name?: string | null;
+          speaker_title?: string | null;
+          training_hours?: number | null;
           capacity?: number | null;
           course_id?: string | null;
           created_at?: string;
@@ -9253,6 +9343,39 @@ export type Database = {
         Args: { _recording: string };
         Returns: boolean;
       };
+      webinar_payment_info: { Args: { _class: string }; Returns: Json };
+      submit_webinar_payment: {
+        Args: { _class: string; _reference: string };
+        Returns: undefined;
+      };
+      verify_webinar_payment: {
+        Args: { _registration: string; _ok: boolean; _note?: string };
+        Returns: string;
+      };
+      close_live_class: { Args: { _class: string }; Returns: Json };
+      add_live_class_speaker: {
+        Args: { _class: string; _email: string };
+        Returns: string;
+      };
+      league_training_report: {
+        Args: { _from?: string; _to?: string };
+        Returns: {
+          class_id: string;
+          title: string;
+          starts_at: string;
+          access: string;
+          speaker_name: string | null;
+          training_hours: number | null;
+          registered: number;
+          attended: number;
+          certificates: number;
+          paid_seats: number;
+          revenue_mad: number;
+          upsy_share_mad: number;
+          league_share_mad: number;
+          recording_published: boolean;
+        }[];
+      };
       register_live_class: {
         Args: { _class: string; _recording_consent?: boolean };
         Returns: string;
@@ -9266,6 +9389,12 @@ export type Database = {
       live_class_roster: {
         Args: { _class: string };
         Returns: {
+          registration_id: string;
+          role: string;
+          amount_mad: number;
+          payment_status: string;
+          payer_reference: string | null;
+          receipt_number: string | null;
           user_id: string;
           full_name: string | null;
           email: string;
@@ -10258,7 +10387,8 @@ export type Database = {
         | "course_completion"
         | "assessment_completion"
         | "psychologist_accreditation"
-        | "mooc_training";
+        | "mooc_training"
+        | "webinar_attendance";
       discharge_reason:
         "goals_met" | "client_request" | "referral" | "dropout" | "other";
       homework_category:
@@ -10427,6 +10557,7 @@ export const Constants = {
         "assessment_completion",
         "psychologist_accreditation",
         "mooc_training",
+        "webinar_attendance",
       ],
       discharge_reason: [
         "goals_met",

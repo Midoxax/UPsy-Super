@@ -1,6 +1,8 @@
 import { useEffect, useMemo, useState } from "react";
 import MembershipDesk from "@/components/league/MembershipDesk";
 import ParticipationDesk from "@/components/league/ParticipationDesk";
+import TrainingDesk from "@/components/league/TrainingDesk";
+import { useTrainingCopy } from "@/lib/league/trainingCopy";
 import AssessmentsDesk from "@/components/recruitment/AssessmentsDesk";
 import { useBatteryCopy } from "@/lib/recruitment/batteryCopy";
 import { useEngagementCopy } from "@/lib/league/engagementCopy";
@@ -236,7 +238,9 @@ export default function LeaguePortal() {
     | "interviews"
     | "participation"
     | "assessments"
+    | "training"
   >("files");
+  const { t: tt } = useTrainingCopy();
   const { t: rt } = useRecruitmentCopy();
   const { t: pt } = usePassportCopy();
   const { t: mt } = useMembershipCopy();
@@ -363,12 +367,21 @@ export default function LeaguePortal() {
         >
           {bt.desk}
         </Button>
+        <Button
+          size="sm"
+          variant={view === "training" ? "default" : "outline"}
+          onClick={() => setView("training")}
+        >
+          {tt.desk}
+        </Button>
         <Button size="sm" variant="ghost" asChild>
           <a href={addLocalePrefix("/lsspm", locale)}>{et.docs}</a>
         </Button>
       </div>
 
-      {view === "assessments" ? (
+      {view === "training" ? (
+        <TrainingDesk />
+      ) : view === "assessments" ? (
         <AssessmentsDesk />
       ) : view === "participation" ? (
         <ParticipationDesk />
