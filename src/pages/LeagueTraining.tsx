@@ -10,6 +10,12 @@ import { LiveClassSections } from "@/pages/LiveClasses";
 import TrainingDesk from "@/components/league/TrainingDesk";
 
 const FACT_ICONS = [Award, Users, ListVideo];
+// One-off colours stay inline: as Tailwind classes they would ship in the
+// CSS every page loads.
+const LEAGUE = "#2E5B8C";
+const NAVY = "#0b1220";
+const GLOW =
+  "radial-gradient(circle at 85% 10%, rgba(46,91,140,0.45), transparent 55%), radial-gradient(circle at 10% 90%, rgba(255,179,0,0.14), transparent 50%)";
 
 /**
  * The League's training inside U.Psy's training center: its webinars with
@@ -29,8 +35,11 @@ export default function LeagueTraining() {
         description={t.seoDescription}
       />
 
-      <section className="relative overflow-hidden bg-[#0b1220] text-white">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_85%_10%,rgba(46,91,140,0.45),transparent_55%),radial-gradient(circle_at_10%_90%,rgba(255,179,0,0.14),transparent_50%)]" />
+      <section
+        className="relative overflow-hidden text-white"
+        style={{ background: NAVY }}
+      >
+        <div className="absolute inset-0" style={{ background: GLOW }} />
         <div className="container-custom relative space-y-7 py-20 md:py-28">
           <motion.p
             initial={{ opacity: 0, y: 8 }}
@@ -85,7 +94,10 @@ export default function LeagueTraining() {
             const Icon = FACT_ICONS[i];
             return (
               <li key={f.title} className="flex gap-4">
-                <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-[#2E5B8C]/10 text-[#2E5B8C]">
+                <span
+                  className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl"
+                  style={{ background: "rgba(46,91,140,0.1)", color: LEAGUE }}
+                >
                   <Icon className="h-5 w-5" />
                 </span>
                 <div>
@@ -104,7 +116,10 @@ export default function LeagueTraining() {
 
         {(isAdmin || isLeague) && (
           <section className="space-y-2 border-t border-border pt-10">
-            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#2E5B8C]">
+            <p
+              className="text-xs font-semibold uppercase tracking-[0.18em]"
+              style={{ color: LEAGUE }}
+            >
               {t.desk}
             </p>
             <p className="text-sm text-muted-foreground">{t.deskSub}</p>

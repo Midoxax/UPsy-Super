@@ -9,7 +9,10 @@ export default function NewsletterBand() {
   return (
     <section className="container-custom pb-20">
       <div className="relative overflow-hidden rounded-3xl bg-secondary px-6 py-12 text-center text-white md:px-12">
-        <div className="pointer-events-none absolute -end-16 -top-16 h-56 w-56 rounded-full bg-u-gold/20 blur-3xl" />
+        <div
+          className="pointer-events-none absolute h-56 w-56 rounded-full bg-u-gold/20 blur-3xl"
+          style={{ insetInlineEnd: "-4rem", top: "-4rem" }}
+        />
         <h2 className="font-display text-3xl md:text-4xl">{t.bandTitle}</h2>
         <p className="mx-auto mt-3 max-w-xl text-white/75">{t.bandText}</p>
         <div className="mt-7 flex flex-wrap justify-center gap-3">

@@ -14,6 +14,10 @@ import NewsletterBand from "@/components/newsletter/NewsletterBand";
 import IssueArticles from "@/components/newsletter/IssueArticles";
 
 const HERO = "/campaign/newsletter/hero.jpg";
+// One-off colours stay inline: as Tailwind classes they would ship in the
+// CSS every page loads.
+const veil = (rtl: boolean) =>
+  `linear-gradient(to ${rtl ? "left" : "right"}, #2a0610, rgba(42,6,16,0.85), rgba(42,6,16,0.2))`;
 
 /**
  * The newsletter's home: sign up over the brand image, what each issue
@@ -38,7 +42,10 @@ export default function Newsletter() {
       />
 
       {/* Hero: the brand image under a maroon veil, the form on the right. */}
-      <section className="relative isolate overflow-hidden bg-[#2a0610] text-white">
+      <section
+        className="relative isolate overflow-hidden text-white"
+        style={{ background: "#2a0610" }}
+      >
         <img
           src={HERO}
           alt=""
@@ -47,8 +54,11 @@ export default function Newsletter() {
           fetchPriority="high"
           className="absolute inset-0 -z-10 h-full w-full object-cover opacity-70"
         />
-        <div className="absolute inset-0 -z-10 bg-gradient-to-r from-[#2a0610] via-[#2a0610]/85 to-[#2a0610]/20 rtl:bg-gradient-to-l" />
-        <div className="container-custom grid items-center gap-10 py-20 md:py-28 lg:grid-cols-[1.2fr_1fr]">
+        <div
+          className="absolute inset-0 -z-10"
+          style={{ background: veil(locale === "ar") }}
+        />
+        <div className="container-custom grid items-center gap-10 py-20 md:py-28 lg:grid-cols-[1.4fr_1fr]">
           <motion.div
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
@@ -66,7 +76,7 @@ export default function Newsletter() {
             {voted && (
               <p
                 role="status"
-                className="flex max-w-xl items-start gap-2 rounded-xl border border-u-gold/40 bg-u-gold/10 p-3 text-sm text-white"
+                className="flex max-w-xl items-start gap-2 rounded-xl border border-white/20 bg-u-gold/10 p-3 text-sm text-white"
               >
                 <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-u-gold" />
                 {t.voted}
@@ -77,7 +87,7 @@ export default function Newsletter() {
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.15 }}
-            className="rounded-2xl bg-card p-6 text-foreground shadow-2xl ring-1 ring-black/5 md:p-8"
+            className="rounded-2xl bg-card p-6 text-foreground shadow-2xl md:p-8"
           >
             <NewsletterSignup source="newsletter-page" />
           </motion.div>

@@ -37,7 +37,7 @@ export default function IssueArticles({
           <p className="text-white/75">{lead.description}</p>
           <span className="inline-flex items-center gap-1.5 font-semibold text-u-gold">
             {t.read}
-            <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1 rtl:rotate-180 rtl:group-hover:-translate-x-1" />
+            <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1 rtl:rotate-180" />
           </span>
         </div>
       </Link>

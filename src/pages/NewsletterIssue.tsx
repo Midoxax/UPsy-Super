@@ -34,7 +34,10 @@ export default function NewsletterIssue() {
         ogImage={`https://upsy.ma${HERO}`}
       />
 
-      <section className="relative isolate overflow-hidden bg-[#2a0610] text-white">
+      <section
+        className="relative isolate overflow-hidden text-white"
+        style={{ background: "#2a0610" }}
+      >
         <img
           src={HERO}
           alt=""
@@ -43,7 +46,13 @@ export default function NewsletterIssue() {
           fetchPriority="high"
           className="absolute inset-0 -z-10 h-full w-full object-cover opacity-50"
         />
-        <div className="absolute inset-0 -z-10 bg-gradient-to-t from-[#2a0610] via-[#2a0610]/70 to-transparent" />
+        <div
+          className="absolute inset-0 -z-10"
+          style={{
+            background:
+              "linear-gradient(to top, #2a0610, rgba(42,6,16,0.7), transparent)",
+          }}
+        />
         <div className="container-custom space-y-4 pb-14 pt-24 md:pt-32">
           <Link
             to={addLocalePrefix("/newsletter", locale)}

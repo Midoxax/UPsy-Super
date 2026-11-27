@@ -323,10 +323,14 @@ export default function Learn() {
         <div className="container-custom py-8">
           <Link
             to={addLocalePrefix("/learn/lsspm", locale)}
-            className="group flex flex-col gap-4 rounded-3xl bg-[#0b1220] p-6 text-white transition hover:shadow-xl md:flex-row md:items-center md:justify-between md:p-8"
+            style={{ background: "#0b1220" }}
+            className="group flex flex-col gap-4 rounded-3xl p-6 text-white transition hover:shadow-xl md:flex-row md:items-center md:justify-between md:p-8"
           >
             <div className="flex items-start gap-4">
-              <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[#2E5B8C]/40 text-u-gold">
+              <span
+                className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl text-u-gold"
+                style={{ background: "rgba(46,91,140,0.4)" }}
+              >
                 <ShieldCheck className="h-6 w-6" />
               </span>
               <div className="space-y-1">
