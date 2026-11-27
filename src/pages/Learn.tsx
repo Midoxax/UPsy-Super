@@ -29,6 +29,8 @@ import { addLocalePrefix } from "@/lib/i18n/utils";
 import { Radio } from "lucide-react";
 import { useTrainingsCopy } from "@/lib/academy/trainingsCopy";
 import { usePublicationsCopy } from "@/lib/shop/publicationsCopy";
+import { useLeagueTrainingCopy } from "@/lib/league/leagueTrainingCopy";
+import { ShieldCheck, ArrowRight } from "lucide-react";
 
 const PATH_STYLE: Record<string, string> = {
   "mental-health": "bg-blue-500/10 text-blue-600 border-blue-500/20",
@@ -144,6 +146,7 @@ export default function Learn() {
   const { locale } = useLocale();
   const { t: tr } = useTrainingsCopy();
   const { t: pc } = usePublicationsCopy();
+  const { t: lt } = useLeagueTrainingCopy();
   const loc = useLocalizedField();
   const t = COPY[locale === "ar" ? "ar" : locale === "en" ? "en" : "fr"];
 
@@ -272,7 +275,7 @@ export default function Learn() {
               <Button
                 size="lg"
                 variant="outline"
-                className="border-white/30 text-white hover:bg-white/10 hover:text-white"
+                className="border-white/30 bg-transparent text-white hover:bg-white/10 hover:text-white"
               >
                 {t.browseFree}
               </Button>
@@ -281,7 +284,7 @@ export default function Learn() {
               <Button
                 size="lg"
                 variant="outline"
-                className="border-white/30 text-white hover:bg-white/10 hover:text-white"
+                className="border-white/30 bg-transparent text-white hover:bg-white/10 hover:text-white"
               >
                 <GraduationCap className="h-4 w-4 me-2" />
                 {tr.nav}
@@ -291,7 +294,7 @@ export default function Learn() {
               <Button
                 size="lg"
                 variant="outline"
-                className="border-white/30 text-white hover:bg-white/10 hover:text-white"
+                className="border-white/30 bg-transparent text-white hover:bg-white/10 hover:text-white"
               >
                 <BookOpen className="h-4 w-4 me-2" />
                 {pc.title}
@@ -301,7 +304,7 @@ export default function Learn() {
               <Button
                 size="lg"
                 variant="outline"
-                className="border-white/30 text-white hover:bg-white/10 hover:text-white"
+                className="border-white/30 bg-transparent text-white hover:bg-white/10 hover:text-white"
               >
                 <Radio className="h-4 w-4 me-2" />
                 {locale === "ar"
@@ -312,6 +315,30 @@ export default function Learn() {
               </Button>
             </Link>
           </div>
+        </div>
+      </section>
+
+      {/* The League's training (LSSPM), run by U.Psy. */}
+      <section className="border-b border-border">
+        <div className="container-custom py-8">
+          <Link
+            to={addLocalePrefix("/learn/lsspm", locale)}
+            className="group flex flex-col gap-4 rounded-3xl bg-[#0b1220] p-6 text-white transition hover:shadow-xl md:flex-row md:items-center md:justify-between md:p-8"
+          >
+            <div className="flex items-start gap-4">
+              <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[#2E5B8C]/40 text-u-gold">
+                <ShieldCheck className="h-6 w-6" />
+              </span>
+              <div className="space-y-1">
+                <p className="font-display text-2xl">{lt.learnTitle}</p>
+                <p className="max-w-xl text-white/70">{lt.learnSub}</p>
+              </div>
+            </div>
+            <span className="inline-flex items-center gap-1.5 font-semibold text-u-gold">
+              {lt.learnCta}
+              <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1 rtl:rotate-180" />
+            </span>
+          </Link>
         </div>
       </section>
 
@@ -476,7 +503,7 @@ export default function Learn() {
               <Button
                 size="lg"
                 variant="outline"
-                className="border-white/30 text-white hover:bg-white/10 hover:text-white"
+                className="border-white/30 bg-transparent text-white hover:bg-white/10 hover:text-white"
                 onClick={() => startCheckout.mutate("yearly")}
                 disabled={startCheckout.isPending}
               >

@@ -380,7 +380,12 @@ export default function LeaguePortal() {
       </div>
 
       {view === "training" ? (
-        <TrainingDesk />
+        <div className="space-y-4">
+          <Button size="sm" variant="outline" asChild>
+            <a href={addLocalePrefix("/learn/lsspm", locale)}>{tt.center}</a>
+          </Button>
+          <TrainingDesk />
+        </div>
       ) : view === "assessments" ? (
         <AssessmentsDesk />
       ) : view === "participation" ? (

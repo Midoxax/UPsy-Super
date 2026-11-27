@@ -20,6 +20,9 @@ verify_jwt = false
 [functions.handle-email-unsubscribe]
 verify_jwt = false
 
+[functions.newsletter-vote]
+verify_jwt = false
+
 [functions.handle-email-suppression]
 verify_jwt = false
 

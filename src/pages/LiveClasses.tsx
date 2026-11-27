@@ -29,20 +29,62 @@ type LiveClass = Tables<"live_classes">;
 /** Academy live classes: upcoming list, registration with consent. */
 export default function LiveClasses() {
   const { t, locale } = useLiveCopy();
-  const { user } = useAuth();
   const { data: canHost } = useCanHost();
 
+  return (
+    <>
+      <SEOHead
+        path="/learn/live"
+        title={`${t.title} | U.Psy Academy`}
+        description={t.subtitle}
+      />
+      <main className="container-custom py-10 md:py-14 space-y-10">
+        <header className="space-y-3 max-w-2xl">
+          <h1 className="text-display font-display">{t.title}</h1>
+          <p className="text-muted-foreground">{t.subtitle}</p>
+          <div className="flex flex-wrap gap-2">
+            <Button asChild variant="outline" size="sm">
+              <Link to={addLocalePrefix("/learn/live/series", locale)}>
+                <ListVideo className="me-2 h-4 w-4" /> {t.replays}
+              </Link>
+            </Button>
+            {canHost && (
+              <Button asChild variant="outline" size="sm">
+                <Link to={addLocalePrefix("/learn/live/manage", locale)}>
+                  <Settings className="me-2 h-4 w-4" /> {t.manage}
+                </Link>
+              </Button>
+            )}
+          </div>
+        </header>
+        <LiveClassSections />
+      </main>
+    </>
+  );
+}
+
+/**
+ * Upcoming classes with registration, then the past ones the viewer
+ * attended or may replay. `organizer` keeps one organiser's classes
+ * (the League's training center passes "lsspm").
+ */
+export function LiveClassSections({ organizer }: { organizer?: string }) {
+  const { t } = useLiveCopy();
+  const { user } = useAuth();
+
   const { data, isLoading } = useQuery({
-    queryKey: ["live-classes", user?.id],
+    queryKey: ["live-classes", user?.id, organizer ?? "all"],
     queryFn: async () => {
       const since = new Date(Date.now() - 30 * 24 * 3600 * 1000).toISOString();
-      const { data: classes, error } = await supabase
+      let q = supabase
         .from("live_classes")
         .select("*")
         .eq("is_published", true)
         .neq("status", "cancelled")
         .gte("starts_at", since)
         .order("starts_at");
+      if (organizer) q = q.eq("organizer", organizer);
+      const { data: classes, error } = await q;
       if (error) throw error;
       // Replays the viewer may watch (row-level security decides): their own
       // classes, and the League's replays for League members, at any date.
@@ -65,7 +107,10 @@ export default function LiveClasses() {
               .order("starts_at")
           ).data ?? [])
         : [];
-      const list = [...extra, ...(classes ?? [])];
+      const list = [
+        ...extra.filter((c) => !organizer || c.organizer === organizer),
+        ...(classes ?? []),
+      ];
       const seats = await Promise.all(
         list.map((c) =>
           supabase
@@ -113,63 +158,37 @@ export default function LiveClasses() {
 
   return (
     <>
-      <SEOHead
-        path="/learn/live"
-        title={`${t.title} | U.Psy Academy`}
-        description={t.subtitle}
-      />
-      <main className="container-custom py-10 md:py-14 space-y-10">
-        <header className="space-y-3 max-w-2xl">
-          <h1 className="text-display font-display">{t.title}</h1>
-          <p className="text-muted-foreground">{t.subtitle}</p>
-          <div className="flex flex-wrap gap-2">
-            <Button asChild variant="outline" size="sm">
-              <Link to={addLocalePrefix("/learn/live/series", locale)}>
-                <ListVideo className="me-2 h-4 w-4" /> {t.replays}
-              </Link>
-            </Button>
-            {canHost && (
-              <Button asChild variant="outline" size="sm">
-                <Link to={addLocalePrefix("/learn/live/manage", locale)}>
-                  <Settings className="me-2 h-4 w-4" /> {t.manage}
-                </Link>
-              </Button>
-            )}
+      <section className="space-y-4">
+        <h2 className="text-xl font-semibold">{t.upcoming}</h2>
+        {isLoading ? (
+          <Loader2 className="h-5 w-5 animate-spin" />
+        ) : upcoming.length === 0 ? (
+          <p className="text-muted-foreground">{t.none}</p>
+        ) : (
+          <div className="grid gap-4 md:grid-cols-2">
+            {upcoming.map((c) => (
+              <ClassCard
+                key={c.id}
+                c={c}
+                taken={data!.seats[c.id] ?? 0}
+                registered={data!.mine.has(c.id)}
+                awaitingPayment={data!.awaitingPayment.has(c.id)}
+              />
+            ))}
           </div>
-        </header>
-
-        <section className="space-y-4">
-          <h2 className="text-xl font-semibold">{t.upcoming}</h2>
-          {isLoading ? (
-            <Loader2 className="h-5 w-5 animate-spin" />
-          ) : upcoming.length === 0 ? (
-            <p className="text-muted-foreground">{t.none}</p>
-          ) : (
-            <div className="grid gap-4 md:grid-cols-2">
-              {upcoming.map((c) => (
-                <ClassCard
-                  key={c.id}
-                  c={c}
-                  taken={data!.seats[c.id] ?? 0}
-                  registered={data!.mine.has(c.id)}
-                  awaitingPayment={data!.awaitingPayment.has(c.id)}
-                />
-              ))}
-            </div>
-          )}
-        </section>
-
-        {past.length > 0 && (
-          <section className="space-y-4">
-            <h2 className="text-xl font-semibold">{t.past}</h2>
-            <div className="grid gap-4 md:grid-cols-2">
-              {past.map((c) => (
-                <ClassCard key={c.id} c={c} taken={0} registered past />
-              ))}
-            </div>
-          </section>
         )}
-      </main>
+      </section>
+
+      {past.length > 0 && (
+        <section className="space-y-4">
+          <h2 className="text-xl font-semibold">{t.past}</h2>
+          <div className="grid gap-4 md:grid-cols-2">
+            {past.map((c) => (
+              <ClassCard key={c.id} c={c} taken={0} registered past />
+            ))}
+          </div>
+        </section>
+      )}
     </>
   );
 }

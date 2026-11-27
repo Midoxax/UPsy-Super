@@ -29,6 +29,7 @@ const fr = {
   export: "Exporter",
   mad: "MAD",
   manage: "Programmer un webinaire",
+  center: "Ouvrir le centre de formation de la Ligue",
 };
 
 type Copy = typeof fr;
@@ -61,6 +62,7 @@ const en: Copy = {
   export: "Export",
   mad: "MAD",
   manage: "Schedule a webinar",
+  center: "Open the League's training center",
 };
 
 const ar: Copy = {
@@ -91,6 +93,7 @@ const ar: Copy = {
   export: "تصدير",
   mad: "درهم",
   manage: "برمجة ندوة",
+  center: "فتح مركز تكوين الرابطة",
 };
 
 export function useTrainingCopy() {

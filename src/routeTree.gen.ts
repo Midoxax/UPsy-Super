@@ -135,6 +135,9 @@ import { Route as IntakeBookingIdRouteImport } from './routes/intake/$bookingId'
 import { Route as InviteCodeRouteImport } from './routes/invite/$code'
 import { Route as LearnIndexRouteImport } from './routes/learn/index'
 import { Route as LearnSlugRouteImport } from './routes/learn/$slug'
+import { Route as LearnLsspmRouteImport } from './routes/learn/lsspm'
+import { Route as NewsletterIndexRouteImport } from './routes/newsletter/index'
+import { Route as NewsletterPeriodRouteImport } from './routes/newsletter/$period'
 import { Route as NewsletterConfirmRouteImport } from './routes/newsletter/confirm'
 import { Route as OpsIndexRouteImport } from './routes/ops/index'
 import { Route as OpsWorkspaceRouteImport } from './routes/ops/$workspace'
@@ -191,6 +194,9 @@ import { Route as LocaleIntakeBookingIdRouteImport } from './routes/$locale/inta
 import { Route as LocaleInviteCodeRouteImport } from './routes/$locale/invite/$code'
 import { Route as LocaleLearnIndexRouteImport } from './routes/$locale/learn/index'
 import { Route as LocaleLearnSlugRouteImport } from './routes/$locale/learn/$slug'
+import { Route as LocaleLearnLsspmRouteImport } from './routes/$locale/learn/lsspm'
+import { Route as LocaleNewsletterIndexRouteImport } from './routes/$locale/newsletter/index'
+import { Route as LocaleNewsletterPeriodRouteImport } from './routes/$locale/newsletter/$period'
 import { Route as LocaleNewsletterConfirmRouteImport } from './routes/$locale/newsletter/confirm'
 import { Route as LocalePassportTokenRouteImport } from './routes/$locale/passport/$token'
 import { Route as LocalePsychologistsIndexRouteImport } from './routes/$locale/psychologists/index'
@@ -877,6 +883,21 @@ const LearnSlugRoute = LearnSlugRouteImport.update({
   path: '/learn/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const LearnLsspmRoute = LearnLsspmRouteImport.update({
+  id: '/learn/lsspm',
+  path: '/learn/lsspm',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const NewsletterIndexRoute = NewsletterIndexRouteImport.update({
+  id: '/newsletter/',
+  path: '/newsletter/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const NewsletterPeriodRoute = NewsletterPeriodRouteImport.update({
+  id: '/newsletter/$period',
+  path: '/newsletter/$period',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const NewsletterConfirmRoute = NewsletterConfirmRouteImport.update({
   id: '/newsletter/confirm',
   path: '/newsletter/confirm',
@@ -1171,6 +1192,21 @@ const LocaleLearnIndexRoute = LocaleLearnIndexRouteImport.update({
 const LocaleLearnSlugRoute = LocaleLearnSlugRouteImport.update({
   id: '/$locale/learn/$slug',
   path: '/$locale/learn/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LocaleLearnLsspmRoute = LocaleLearnLsspmRouteImport.update({
+  id: '/$locale/learn/lsspm',
+  path: '/$locale/learn/lsspm',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LocaleNewsletterIndexRoute = LocaleNewsletterIndexRouteImport.update({
+  id: '/$locale/newsletter/',
+  path: '/$locale/newsletter/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LocaleNewsletterPeriodRoute = LocaleNewsletterPeriodRouteImport.update({
+  id: '/$locale/newsletter/$period',
+  path: '/$locale/newsletter/$period',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LocaleNewsletterConfirmRoute = LocaleNewsletterConfirmRouteImport.update({
@@ -1532,6 +1568,8 @@ export interface FileRoutesByFullPath {
   '/intake/$bookingId': typeof IntakeBookingIdRoute
   '/invite/$code': typeof InviteCodeRoute
   '/learn/$slug': typeof LearnSlugRoute
+  '/learn/lsspm': typeof LearnLsspmRoute
+  '/newsletter/$period': typeof NewsletterPeriodRoute
   '/newsletter/confirm': typeof NewsletterConfirmRoute
   '/ops/$workspace': typeof OpsWorkspaceRouteWithChildren
   '/ops/preview': typeof OpsPreviewRoute
@@ -1552,6 +1590,7 @@ export interface FileRoutesByFullPath {
   '/dashboard/': typeof DashboardIndexRoute
   '/intake/': typeof IntakeIndexRoute
   '/learn/': typeof LearnIndexRoute
+  '/newsletter/': typeof NewsletterIndexRoute
   '/ops/': typeof OpsIndexRoute
   '/psychologists/': typeof PsychologistsIndexRoute
   '/psychologue-en-ligne/': typeof PsychologueEnLigneIndexRoute
@@ -1589,6 +1628,8 @@ export interface FileRoutesByFullPath {
   '/$locale/intake/$bookingId': typeof LocaleIntakeBookingIdRoute
   '/$locale/invite/$code': typeof LocaleInviteCodeRoute
   '/$locale/learn/$slug': typeof LocaleLearnSlugRoute
+  '/$locale/learn/lsspm': typeof LocaleLearnLsspmRoute
+  '/$locale/newsletter/$period': typeof LocaleNewsletterPeriodRoute
   '/$locale/newsletter/confirm': typeof LocaleNewsletterConfirmRoute
   '/$locale/passport/$token': typeof LocalePassportTokenRoute
   '/$locale/psychologists/$id': typeof LocalePsychologistsIdRoute
@@ -1619,6 +1660,7 @@ export interface FileRoutesByFullPath {
   '/$locale/dashboard/': typeof LocaleDashboardIndexRoute
   '/$locale/intake/': typeof LocaleIntakeIndexRoute
   '/$locale/learn/': typeof LocaleLearnIndexRoute
+  '/$locale/newsletter/': typeof LocaleNewsletterIndexRoute
   '/$locale/psychologists/': typeof LocalePsychologistsIndexRoute
   '/$locale/psychologue-en-ligne/': typeof LocalePsychologueEnLigneIndexRoute
   '/$locale/psychologue/': typeof LocalePsychologueIndexRoute
@@ -1762,6 +1804,8 @@ export interface FileRoutesByTo {
   '/intake/$bookingId': typeof IntakeBookingIdRoute
   '/invite/$code': typeof InviteCodeRoute
   '/learn/$slug': typeof LearnSlugRoute
+  '/learn/lsspm': typeof LearnLsspmRoute
+  '/newsletter/$period': typeof NewsletterPeriodRoute
   '/newsletter/confirm': typeof NewsletterConfirmRoute
   '/ops/preview': typeof OpsPreviewRoute
   '/passport/$token': typeof PassportTokenRoute
@@ -1781,6 +1825,7 @@ export interface FileRoutesByTo {
   '/dashboard': typeof DashboardIndexRoute
   '/intake': typeof IntakeIndexRoute
   '/learn': typeof LearnIndexRoute
+  '/newsletter': typeof NewsletterIndexRoute
   '/ops': typeof OpsIndexRoute
   '/psychologists': typeof PsychologistsIndexRoute
   '/psychologue-en-ligne': typeof PsychologueEnLigneIndexRoute
@@ -1818,6 +1863,8 @@ export interface FileRoutesByTo {
   '/$locale/intake/$bookingId': typeof LocaleIntakeBookingIdRoute
   '/$locale/invite/$code': typeof LocaleInviteCodeRoute
   '/$locale/learn/$slug': typeof LocaleLearnSlugRoute
+  '/$locale/learn/lsspm': typeof LocaleLearnLsspmRoute
+  '/$locale/newsletter/$period': typeof LocaleNewsletterPeriodRoute
   '/$locale/newsletter/confirm': typeof LocaleNewsletterConfirmRoute
   '/$locale/passport/$token': typeof LocalePassportTokenRoute
   '/$locale/psychologists/$id': typeof LocalePsychologistsIdRoute
@@ -1848,6 +1895,7 @@ export interface FileRoutesByTo {
   '/$locale/dashboard': typeof LocaleDashboardIndexRoute
   '/$locale/intake': typeof LocaleIntakeIndexRoute
   '/$locale/learn': typeof LocaleLearnIndexRoute
+  '/$locale/newsletter': typeof LocaleNewsletterIndexRoute
   '/$locale/psychologists': typeof LocalePsychologistsIndexRoute
   '/$locale/psychologue-en-ligne': typeof LocalePsychologueEnLigneIndexRoute
   '/$locale/psychologue': typeof LocalePsychologueIndexRoute
@@ -1992,6 +2040,8 @@ export interface FileRoutesById {
   '/intake/$bookingId': typeof IntakeBookingIdRoute
   '/invite/$code': typeof InviteCodeRoute
   '/learn/$slug': typeof LearnSlugRoute
+  '/learn/lsspm': typeof LearnLsspmRoute
+  '/newsletter/$period': typeof NewsletterPeriodRoute
   '/newsletter/confirm': typeof NewsletterConfirmRoute
   '/ops/$workspace': typeof OpsWorkspaceRouteWithChildren
   '/ops/preview': typeof OpsPreviewRoute
@@ -2012,6 +2062,7 @@ export interface FileRoutesById {
   '/dashboard/': typeof DashboardIndexRoute
   '/intake/': typeof IntakeIndexRoute
   '/learn/': typeof LearnIndexRoute
+  '/newsletter/': typeof NewsletterIndexRoute
   '/ops/': typeof OpsIndexRoute
   '/psychologists/': typeof PsychologistsIndexRoute
   '/psychologue-en-ligne/': typeof PsychologueEnLigneIndexRoute
@@ -2049,6 +2100,8 @@ export interface FileRoutesById {
   '/$locale/intake/$bookingId': typeof LocaleIntakeBookingIdRoute
   '/$locale/invite/$code': typeof LocaleInviteCodeRoute
   '/$locale/learn/$slug': typeof LocaleLearnSlugRoute
+  '/$locale/learn/lsspm': typeof LocaleLearnLsspmRoute
+  '/$locale/newsletter/$period': typeof LocaleNewsletterPeriodRoute
   '/$locale/newsletter/confirm': typeof LocaleNewsletterConfirmRoute
   '/$locale/passport/$token': typeof LocalePassportTokenRoute
   '/$locale/psychologists/$id': typeof LocalePsychologistsIdRoute
@@ -2079,6 +2132,7 @@ export interface FileRoutesById {
   '/$locale/dashboard/': typeof LocaleDashboardIndexRoute
   '/$locale/intake/': typeof LocaleIntakeIndexRoute
   '/$locale/learn/': typeof LocaleLearnIndexRoute
+  '/$locale/newsletter/': typeof LocaleNewsletterIndexRoute
   '/$locale/psychologists/': typeof LocalePsychologistsIndexRoute
   '/$locale/psychologue-en-ligne/': typeof LocalePsychologueEnLigneIndexRoute
   '/$locale/psychologue/': typeof LocalePsychologueIndexRoute
@@ -2224,6 +2278,8 @@ export interface FileRouteTypes {
     | '/intake/$bookingId'
     | '/invite/$code'
     | '/learn/$slug'
+    | '/learn/lsspm'
+    | '/newsletter/$period'
     | '/newsletter/confirm'
     | '/ops/$workspace'
     | '/ops/preview'
@@ -2244,6 +2300,7 @@ export interface FileRouteTypes {
     | '/dashboard/'
     | '/intake/'
     | '/learn/'
+    | '/newsletter/'
     | '/ops/'
     | '/psychologists/'
     | '/psychologue-en-ligne/'
@@ -2281,6 +2338,8 @@ export interface FileRouteTypes {
     | '/$locale/intake/$bookingId'
     | '/$locale/invite/$code'
     | '/$locale/learn/$slug'
+    | '/$locale/learn/lsspm'
+    | '/$locale/newsletter/$period'
     | '/$locale/newsletter/confirm'
     | '/$locale/passport/$token'
     | '/$locale/psychologists/$id'
@@ -2311,6 +2370,7 @@ export interface FileRouteTypes {
     | '/$locale/dashboard/'
     | '/$locale/intake/'
     | '/$locale/learn/'
+    | '/$locale/newsletter/'
     | '/$locale/psychologists/'
     | '/$locale/psychologue-en-ligne/'
     | '/$locale/psychologue/'
@@ -2454,6 +2514,8 @@ export interface FileRouteTypes {
     | '/intake/$bookingId'
     | '/invite/$code'
     | '/learn/$slug'
+    | '/learn/lsspm'
+    | '/newsletter/$period'
     | '/newsletter/confirm'
     | '/ops/preview'
     | '/passport/$token'
@@ -2473,6 +2535,7 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/intake'
     | '/learn'
+    | '/newsletter'
     | '/ops'
     | '/psychologists'
     | '/psychologue-en-ligne'
@@ -2510,6 +2573,8 @@ export interface FileRouteTypes {
     | '/$locale/intake/$bookingId'
     | '/$locale/invite/$code'
     | '/$locale/learn/$slug'
+    | '/$locale/learn/lsspm'
+    | '/$locale/newsletter/$period'
     | '/$locale/newsletter/confirm'
     | '/$locale/passport/$token'
     | '/$locale/psychologists/$id'
@@ -2540,6 +2605,7 @@ export interface FileRouteTypes {
     | '/$locale/dashboard'
     | '/$locale/intake'
     | '/$locale/learn'
+    | '/$locale/newsletter'
     | '/$locale/psychologists'
     | '/$locale/psychologue-en-ligne'
     | '/$locale/psychologue'
@@ -2683,6 +2749,8 @@ export interface FileRouteTypes {
     | '/intake/$bookingId'
     | '/invite/$code'
     | '/learn/$slug'
+    | '/learn/lsspm'
+    | '/newsletter/$period'
     | '/newsletter/confirm'
     | '/ops/$workspace'
     | '/ops/preview'
@@ -2703,6 +2771,7 @@ export interface FileRouteTypes {
     | '/dashboard/'
     | '/intake/'
     | '/learn/'
+    | '/newsletter/'
     | '/ops/'
     | '/psychologists/'
     | '/psychologue-en-ligne/'
@@ -2740,6 +2809,8 @@ export interface FileRouteTypes {
     | '/$locale/intake/$bookingId'
     | '/$locale/invite/$code'
     | '/$locale/learn/$slug'
+    | '/$locale/learn/lsspm'
+    | '/$locale/newsletter/$period'
     | '/$locale/newsletter/confirm'
     | '/$locale/passport/$token'
     | '/$locale/psychologists/$id'
@@ -2770,6 +2841,7 @@ export interface FileRouteTypes {
     | '/$locale/dashboard/'
     | '/$locale/intake/'
     | '/$locale/learn/'
+    | '/$locale/newsletter/'
     | '/$locale/psychologists/'
     | '/$locale/psychologue-en-ligne/'
     | '/$locale/psychologue/'
@@ -2914,6 +2986,8 @@ export interface RootRouteChildren {
   IntakeBookingIdRoute: typeof IntakeBookingIdRoute
   InviteCodeRoute: typeof InviteCodeRoute
   LearnSlugRoute: typeof LearnSlugRoute
+  LearnLsspmRoute: typeof LearnLsspmRoute
+  NewsletterPeriodRoute: typeof NewsletterPeriodRoute
   NewsletterConfirmRoute: typeof NewsletterConfirmRoute
   OpsWorkspaceRoute: typeof OpsWorkspaceRouteWithChildren
   OpsPreviewRoute: typeof OpsPreviewRoute
@@ -2934,6 +3008,7 @@ export interface RootRouteChildren {
   DashboardIndexRoute: typeof DashboardIndexRoute
   IntakeIndexRoute: typeof IntakeIndexRoute
   LearnIndexRoute: typeof LearnIndexRoute
+  NewsletterIndexRoute: typeof NewsletterIndexRoute
   OpsIndexRoute: typeof OpsIndexRoute
   PsychologistsIndexRoute: typeof PsychologistsIndexRoute
   PsychologueEnLigneIndexRoute: typeof PsychologueEnLigneIndexRoute
@@ -2971,6 +3046,8 @@ export interface RootRouteChildren {
   LocaleIntakeBookingIdRoute: typeof LocaleIntakeBookingIdRoute
   LocaleInviteCodeRoute: typeof LocaleInviteCodeRoute
   LocaleLearnSlugRoute: typeof LocaleLearnSlugRoute
+  LocaleLearnLsspmRoute: typeof LocaleLearnLsspmRoute
+  LocaleNewsletterPeriodRoute: typeof LocaleNewsletterPeriodRoute
   LocaleNewsletterConfirmRoute: typeof LocaleNewsletterConfirmRoute
   LocalePassportTokenRoute: typeof LocalePassportTokenRoute
   LocalePsychologistsIdRoute: typeof LocalePsychologistsIdRoute
@@ -2998,6 +3075,7 @@ export interface RootRouteChildren {
   LocaleDashboardIndexRoute: typeof LocaleDashboardIndexRoute
   LocaleIntakeIndexRoute: typeof LocaleIntakeIndexRoute
   LocaleLearnIndexRoute: typeof LocaleLearnIndexRoute
+  LocaleNewsletterIndexRoute: typeof LocaleNewsletterIndexRoute
   LocalePsychologistsIndexRoute: typeof LocalePsychologistsIndexRoute
   LocalePsychologueEnLigneIndexRoute: typeof LocalePsychologueEnLigneIndexRoute
   LocalePsychologueIndexRoute: typeof LocalePsychologueIndexRoute
@@ -3902,6 +3980,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LearnSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/learn/lsspm': {
+      id: '/learn/lsspm'
+      path: '/learn/lsspm'
+      fullPath: '/learn/lsspm'
+      preLoaderRoute: typeof LearnLsspmRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/newsletter/': {
+      id: '/newsletter/'
+      path: '/newsletter'
+      fullPath: '/newsletter/'
+      preLoaderRoute: typeof NewsletterIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/newsletter/$period': {
+      id: '/newsletter/$period'
+      path: '/newsletter/$period'
+      fullPath: '/newsletter/$period'
+      preLoaderRoute: typeof NewsletterPeriodRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/newsletter/confirm': {
       id: '/newsletter/confirm'
       path: '/newsletter/confirm'
@@ -4292,6 +4391,27 @@ declare module '@tanstack/react-router' {
       path: '/$locale/learn/$slug'
       fullPath: '/$locale/learn/$slug'
       preLoaderRoute: typeof LocaleLearnSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/$locale/learn/lsspm': {
+      id: '/$locale/learn/lsspm'
+      path: '/$locale/learn/lsspm'
+      fullPath: '/$locale/learn/lsspm'
+      preLoaderRoute: typeof LocaleLearnLsspmRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/$locale/newsletter/': {
+      id: '/$locale/newsletter/'
+      path: '/$locale/newsletter'
+      fullPath: '/$locale/newsletter/'
+      preLoaderRoute: typeof LocaleNewsletterIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/$locale/newsletter/$period': {
+      id: '/$locale/newsletter/$period'
+      path: '/$locale/newsletter/$period'
+      fullPath: '/$locale/newsletter/$period'
+      preLoaderRoute: typeof LocaleNewsletterPeriodRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/$locale/newsletter/confirm': {
@@ -4786,6 +4906,8 @@ const rootRouteChildren: RootRouteChildren = {
   IntakeBookingIdRoute: IntakeBookingIdRoute,
   InviteCodeRoute: InviteCodeRoute,
   LearnSlugRoute: LearnSlugRoute,
+  LearnLsspmRoute: LearnLsspmRoute,
+  NewsletterPeriodRoute: NewsletterPeriodRoute,
   NewsletterConfirmRoute: NewsletterConfirmRoute,
   OpsWorkspaceRoute: OpsWorkspaceRouteWithChildren,
   OpsPreviewRoute: OpsPreviewRoute,
@@ -4807,6 +4929,7 @@ const rootRouteChildren: RootRouteChildren = {
   DashboardIndexRoute: DashboardIndexRoute,
   IntakeIndexRoute: IntakeIndexRoute,
   LearnIndexRoute: LearnIndexRoute,
+  NewsletterIndexRoute: NewsletterIndexRoute,
   OpsIndexRoute: OpsIndexRoute,
   PsychologistsIndexRoute: PsychologistsIndexRoute,
   PsychologueEnLigneIndexRoute: PsychologueEnLigneIndexRoute,
@@ -4846,6 +4969,8 @@ const rootRouteChildren: RootRouteChildren = {
   LocaleIntakeBookingIdRoute: LocaleIntakeBookingIdRoute,
   LocaleInviteCodeRoute: LocaleInviteCodeRoute,
   LocaleLearnSlugRoute: LocaleLearnSlugRoute,
+  LocaleLearnLsspmRoute: LocaleLearnLsspmRoute,
+  LocaleNewsletterPeriodRoute: LocaleNewsletterPeriodRoute,
   LocaleNewsletterConfirmRoute: LocaleNewsletterConfirmRoute,
   LocalePassportTokenRoute: LocalePassportTokenRoute,
   LocalePsychologistsIdRoute: LocalePsychologistsIdRoute,
@@ -4874,6 +4999,7 @@ const rootRouteChildren: RootRouteChildren = {
   LocaleDashboardIndexRoute: LocaleDashboardIndexRoute,
   LocaleIntakeIndexRoute: LocaleIntakeIndexRoute,
   LocaleLearnIndexRoute: LocaleLearnIndexRoute,
+  LocaleNewsletterIndexRoute: LocaleNewsletterIndexRoute,
   LocalePsychologistsIndexRoute: LocalePsychologistsIndexRoute,
   LocalePsychologueEnLigneIndexRoute: LocalePsychologueEnLigneIndexRoute,
   LocalePsychologueIndexRoute: LocalePsychologueIndexRoute,

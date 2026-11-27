@@ -198,6 +198,8 @@ export interface EmailOptions {
   }>;
   /** Trusted HTML under the footer links (e.g. language choices). */
   footerExtra?: string;
+  /** Trusted full-width HTML at the top of the card (newsletter hero). */
+  hero?: string;
 }
 
 export function renderEmail(o: EmailOptions): string {
@@ -237,6 +239,7 @@ export function renderEmail(o: EmailOptions): string {
     <tr><td bgcolor="${BRAND.card}" style="background:${BRAND.card};border:1px solid ${BRAND.line};border-radius:18px;overflow:hidden;">
       <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr><td style="height:5px;line-height:5px;font-size:0;background:${BRAND.maroon};border-top-left-radius:18px;border-top-right-radius:18px;"><span style="display:block;width:96px;height:5px;background:${BRAND.gold};${locale === "ar" ? "margin-left:auto;" : ""}"></span></td></tr>
+        ${o.hero ? `<tr><td style="padding:0;">${o.hero}</td></tr>` : ""}
         <tr><td class="u-card" style="padding:40px 44px 36px;text-align:${a};">
           ${o.eyebrow ? `<p style="margin:0 0 10px;font-family:${font};font-size:12px;font-weight:700;letter-spacing:1.6px;text-transform:uppercase;color:#A07800;">${escapeHtml(o.eyebrow)}</p>` : ""}
           <h1 class="u-title" style="margin:0 0 20px;font-family:${locale === "ar" ? font : BRAND.serif};font-size:28px;line-height:1.25;font-weight:700;color:${BRAND.ink};">${escapeHtml(o.title)}</h1>

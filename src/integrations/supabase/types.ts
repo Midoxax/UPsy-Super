@@ -1698,6 +1698,30 @@ export type Database = {
         };
         Relationships: [];
       };
+      newsletter_votes: {
+        Row: {
+          created_at: string;
+          email: string;
+          id: string;
+          period: string;
+          topic: string;
+        };
+        Insert: {
+          created_at?: string;
+          email: string;
+          id?: string;
+          period: string;
+          topic: string;
+        };
+        Update: {
+          created_at?: string;
+          email?: string;
+          id?: string;
+          period?: string;
+          topic?: string;
+        };
+        Relationships: [];
+      };
       newsletter_subscribers: {
         Row: {
           confirm_token: string | null;
@@ -9434,9 +9458,23 @@ export type Database = {
           failures_24h: number;
         }[];
       };
+      newsletter_archive: {
+        Args: { _limit?: number };
+        Returns: {
+          intro_en: string | null;
+          intro_fr: string | null;
+          items: Json;
+          period: string;
+          sent_at: string | null;
+        }[];
+      };
       newsletter_confirm: {
         Args: { p_token: string };
         Returns: boolean;
+      };
+      newsletter_vote_tally: {
+        Args: { _period: string };
+        Returns: { topic: string; votes: number }[];
       };
       newsletter_subscribe: {
         Args: { p_email: string; p_locale?: string; p_source?: string };

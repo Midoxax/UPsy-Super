@@ -73,6 +73,9 @@ const breadcrumbConfig: Record<
     icon: Award,
     color: "text-u-teal",
   },
+  "/learn": { key: "learn", icon: BookOpen, color: "text-u-gold" },
+  "/learn/lsspm": { key: "leagueTraining", icon: Award, color: "text-u-teal" },
+  "/newsletter": { key: "newsletter", icon: Mail, color: "text-u-gold" },
   "/publish-profile": {
     key: "publishProfile",
     icon: FileText,

@@ -379,6 +379,26 @@ export default function ContentAutomationPanel() {
   );
 }
 
+/** Readers' votes for next month's topic (newsletter-vote). */
+function VoteTally({ period }: { period: string }) {
+  const { data = [] } = useQuery({
+    queryKey: ["newsletter-votes", period],
+    queryFn: async () =>
+      (await supabase.rpc("newsletter_vote_tally", { _period: period })).data ??
+      [],
+  });
+  if (!data.length) return null;
+  return (
+    <div className="flex flex-wrap gap-1.5 text-xs">
+      {data.map((v) => (
+        <Badge key={v.topic} variant="outline">
+          {v.topic} · {v.votes}
+        </Badge>
+      ))}
+    </div>
+  );
+}
+
 function IssueRow({
   issue,
   onPreview,
@@ -416,6 +436,7 @@ function IssueRow({
           <span className="text-xs text-muted-foreground">· {issue.error}</span>
         )}
       </div>
+      {issue.status === "sent" && <VoteTally period={issue.period} />}
       {items.length > 0 && (
         <div className="flex flex-wrap gap-2">
           {(["fr", "en", "ar"] as const).map((lang) => (
