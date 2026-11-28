@@ -38,6 +38,7 @@ import RaceWeekend from "@/components/performance/RaceWeekend";
 import SeasonPlanner from "@/components/performance/SeasonPlanner";
 import SessionDialog from "@/components/performance/SessionDialog";
 import CrewLinks from "@/components/performance/CrewLinks";
+import RaceRehearsal from "@/components/performance/RaceRehearsal";
 
 const TABS = [
   { id: "pit", icon: Gauge },
@@ -282,6 +283,11 @@ const AthleteHub = () => {
           {tab === "simulator" && (
             <>
               <Section title={pc.simulatorTitle} intro={pc.simulatorIntro}>
+                <RaceRehearsal
+                  c={pc}
+                  competitions={competitions}
+                  onLog={perf.addSession}
+                />
                 <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
                   {protocols.map((p) => {
                     const text = protocolText(c, p);

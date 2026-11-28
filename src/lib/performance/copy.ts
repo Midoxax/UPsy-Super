@@ -310,6 +310,24 @@ const en = {
   weeklyTitle: "Race engineer's weekly report",
   weeklyDesc:
     "Every Monday: last week's load, your readiness, the next competition and one thing to watch. Always in your notifications; by email if this is on.",
+  rehearseTitle: "Race rehearsal",
+  rehearseIntro:
+    "Rehearse your own race routine in imagery: each step in turn, with your breathing and cue words. Make it vivid and sport-specific (PETTLEP): where you are, what you feel, what you see.",
+  rehearseChoose: "Rehearse",
+  rehearseNone: "Write a race plan with a routine to rehearse it here.",
+  rehearseStart: "Start",
+  rehearsePause: "Pause",
+  rehearseResume: "Resume",
+  rehearseNext: "Next step",
+  rehearseFinish: "Finish",
+  rehearseVoice: "Voice guidance",
+  rehearseStep: (i: number, n: number) => `Step ${i} of ${n}`,
+  breatheIn: "Breathe in",
+  breatheOut: "Breathe out",
+  rehearseDone: "Rehearsal logged as mental training.",
+  rehearseIntroStep:
+    "Close your eyes for a moment. You are there, on competition day.",
+  rehearseOutroStep: "You are ready. One focus: the first action.",
   signIn: "Sign in to your Performance Center",
 };
 
@@ -621,6 +639,25 @@ const fr: Copy = {
   weeklyTitle: "Rapport hebdomadaire de l'ingénieur",
   weeklyDesc:
     "Chaque lundi : la charge de la semaine passée, votre disponibilité, la prochaine compétition et un point à surveiller. Toujours dans vos notifications ; par email si c'est activé.",
+  rehearseTitle: "Répétition de course",
+  rehearseIntro:
+    "Répétez votre propre routine de course en imagerie : chaque étape à son tour, avec votre respiration et vos mots-clés. Rendez-la vivante et propre à votre sport (PETTLEP) : où vous êtes, ce que vous ressentez, ce que vous voyez.",
+  rehearseChoose: "Répéter",
+  rehearseNone:
+    "Écrivez un plan de course avec une routine pour la répéter ici.",
+  rehearseStart: "Démarrer",
+  rehearsePause: "Pause",
+  rehearseResume: "Reprendre",
+  rehearseNext: "Étape suivante",
+  rehearseFinish: "Terminer",
+  rehearseVoice: "Guidage vocal",
+  rehearseStep: (i: number, n: number) => `Étape ${i} sur ${n}`,
+  breatheIn: "Inspirez",
+  breatheOut: "Expirez",
+  rehearseDone: "Répétition enregistrée comme préparation mentale.",
+  rehearseIntroStep:
+    "Fermez les yeux un instant. Vous y êtes, le jour de la compétition.",
+  rehearseOutroStep: "Vous êtes prêt. Une seule cible : la première action.",
   signIn: "Connectez-vous à votre Centre de performance",
 };
 
@@ -920,6 +957,23 @@ const ar: Copy = {
   weeklyTitle: "التقرير الأسبوعي لمهندس السباق",
   weeklyDesc:
     "كل اثنين: حِمل الأسبوع الماضي، جاهزيتك، المنافسة القادمة ونقطة للانتباه. دائمًا في إشعاراتك، وبالبريد إذا كان مفعّلًا.",
+  rehearseTitle: "تمرين السباق",
+  rehearseIntro:
+    "كرّر روتين سباقك بالتخيّل: كل خطوة بدورها، مع تنفسك وكلماتك المفتاحية. اجعله حيًا وخاصًا برياضتك (PETTLEP): أين أنت، ماذا تشعر، ماذا ترى.",
+  rehearseChoose: "تمرّن",
+  rehearseNone: "اكتب خطة سباق تتضمن روتينًا لتتمرّن عليها هنا.",
+  rehearseStart: "ابدأ",
+  rehearsePause: "إيقاف مؤقت",
+  rehearseResume: "استئناف",
+  rehearseNext: "الخطوة التالية",
+  rehearseFinish: "إنهاء",
+  rehearseVoice: "توجيه صوتي",
+  rehearseStep: (i: number, n: number) => `الخطوة ${i} من ${n}`,
+  breatheIn: "شهيق",
+  breatheOut: "زفير",
+  rehearseDone: "تم تسجيل التمرين كإعداد ذهني.",
+  rehearseIntroStep: "أغمض عينيك لحظة. أنت هناك، يوم المنافسة.",
+  rehearseOutroStep: "أنت جاهز. تركيز واحد: الحركة الأولى.",
   signIn: "سجّل الدخول إلى مركز الأداء",
 };
 
