@@ -42,12 +42,34 @@ interface Props {
   onClose: () => void;
 }
 
+// Publish on approval: the psychologist publishes the profile prepared from
+// their application from a one-click link, without logging in first.
+const PUBLISH_LINK = {
+  hint: "Not published yet. Email the psychologist the one-click link to check and publish the profile prepared from their application.",
+  send: "Send publication link",
+  sending: "Sending…",
+  sent: "Publication link sent",
+  failed: "Could not send the link",
+};
+
 export default function PsychologistEditDrawer({
   psychologistId,
   onClose,
 }: Props) {
   const qc = useQueryClient();
   const open = !!psychologistId;
+  const [sendingLink, setSendingLink] = useState(false);
+  const sendPublishLink = async () => {
+    if (!psychologistId) return;
+    setSendingLink(true);
+    const { data: r, error } = await supabase.functions.invoke(
+      "send-publish-link",
+      { body: { psychologistId } },
+    );
+    setSendingLink(false);
+    if (error || !r?.sent) toast.error(r?.error ?? PUBLISH_LINK.failed);
+    else toast.success(PUBLISH_LINK.sent);
+  };
 
   const { data, isLoading } = useQuery({
     queryKey: ["admin-psy-detail", psychologistId],
@@ -213,6 +235,21 @@ export default function PsychologistEditDrawer({
                   </a>
                 )}
               </div>
+              {!form.is_published && data.profile?.is_accredited && (
+                <div className="flex flex-wrap items-center justify-between gap-3 rounded-lg border border-dashed p-3">
+                  <p className="text-xs text-muted-foreground max-w-sm">
+                    {PUBLISH_LINK.hint}
+                  </p>
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    disabled={sendingLink}
+                    onClick={sendPublishLink}
+                  >
+                    {sendingLink ? PUBLISH_LINK.sending : PUBLISH_LINK.send}
+                  </Button>
+                </div>
+              )}
 
               <div className="space-y-2">
                 <Label>Full name</Label>

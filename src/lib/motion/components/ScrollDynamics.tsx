@@ -37,6 +37,7 @@ const APP_AREAS = [
   "/ops",
   "/passport",
   "/privacy",
+  "/publish-profile",
   "/reset-password",
   "/session",
   "/terms",

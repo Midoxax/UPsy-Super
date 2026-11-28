@@ -17,6 +17,7 @@ import {
 import {
   digestSubject,
   type DigestItem,
+  type DigestWebinar,
   type Lang,
   renderDigest as renderDigestEmail,
 } from "../_shared/newsletter/templates.ts";
@@ -27,6 +28,7 @@ import {
   type Network,
 } from "../_shared/social.ts";
 
+const SUPABASE_URL = Deno.env.get("SUPABASE_URL") ?? "";
 const NETWORKS: Network[] = ["linkedin", "facebook", "instagram"];
 const BATCH = 300;
 
@@ -228,10 +230,71 @@ function digestItems(items: FeedItem[], lang: Lang): DigestItem[] {
   }));
 }
 
+const PRICE = {
+  en: { free: "Free", members: "Members", mad: "MAD" },
+  fr: { free: "Gratuit", members: "Membres", mad: "MAD" },
+  ar: { free: "مجاني", members: "للأعضاء", mad: "درهم" },
+};
+
+type ClassRow = {
+  title: string;
+  starts_at: string;
+  organizer: string | null;
+  access: string | null;
+  price_mad: number | null;
+  speaker_name: string | null;
+};
+
+/** Published live classes and League webinars of the next 45 days. */
+async function upcomingClasses(db: SupabaseClient): Promise<ClassRow[]> {
+  const now = new Date();
+  const { data } = await db
+    .from("live_classes")
+    .select("title, starts_at, organizer, access, price_mad, speaker_name")
+    .eq("is_published", true)
+    .is("closed_at", null)
+    .gte("starts_at", now.toISOString())
+    .lte("starts_at", new Date(now.getTime() + 45 * 864e5).toISOString())
+    .order("starts_at")
+    .limit(4);
+  return (data ?? []) as ClassRow[];
+}
+
+function digestWebinars(rows: ClassRow[], lang: Lang, period: string) {
+  const p = PRICE[lang];
+  const prefix = lang === "en" ? "" : `/${lang}`;
+  return rows.map((c): DigestWebinar => {
+    const league = c.organizer === "lsspm";
+    return {
+      title: c.title,
+      startsAt: c.starts_at,
+      league,
+      speaker: c.speaker_name,
+      price:
+        c.access === "members"
+          ? p.members
+          : Number(c.price_mad ?? 0) > 0
+            ? `${Number(c.price_mad)} ${p.mad}`
+            : p.free,
+      url: tagged(
+        `${SITE_URL}${prefix}/learn/${league ? "lsspm" : "live"}`,
+        "newsletter",
+        "email",
+        period,
+      ),
+    };
+  });
+}
+
+/** Vote link for a topic; __TOKEN__ is replaced per reader. */
+const voteLink = (period: string, token: string) => (topic: string) =>
+  `${SUPABASE_URL}/functions/v1/newsletter-vote?p=${period}&c=${topic}&t=${token}`;
+
 async function renderDigest(
   issue: NewsletterIssue,
   lang: Lang,
   unsubscribeUrl: string,
+  opts: { classes?: ClassRow[]; token?: string } = {},
 ) {
   const mail = renderDigestEmail({
     lang,
@@ -239,6 +302,9 @@ async function renderDigest(
     items: digestItems(issue.items, lang),
     siteUrl: SITE_URL,
     unsubscribeUrl,
+    period: issue.period,
+    webinars: digestWebinars(opts.classes ?? [], lang, issue.period),
+    voteUrl: opts.token ? voteLink(issue.period, opts.token) : undefined,
   });
   return { subject: digestSubject(lang, issue.period), ...mail };
 }
@@ -313,6 +379,7 @@ async function newsletter(db: SupabaseClient, feed: FeedItem[], s: Settings) {
             issue,
             "fr",
             `${SITE_URL}/unsubscribe?token=${tok}`,
+            { classes: await upcomingClasses(db), token: tok },
           );
           await queueMarketingEmail(db, {
             to,
@@ -370,22 +437,31 @@ async function sendBatch(db: SupabaseClient, issue: NewsletterIssue) {
     string,
     { subject: string; html: string; text: string }
   >();
+  const classes = await upcomingClasses(db);
   for (const sub of batch) {
     const lang = langOf(sub.locale);
     const tok = await unsubscribeTokenFor(db, sub.email);
     let status = "suppressed";
     if (tok) {
       const unsub = `${SITE_URL}/unsubscribe?token=${tok}`;
-      // The body differs per reader only by the unsubscribe link.
+      // The body differs per reader only by the unsubscribe and vote links.
       const key = lang;
       if (!cache.has(key))
-        cache.set(key, await renderDigest(issue, lang, "__UNSUB__"));
+        cache.set(
+          key,
+          await renderDigest(issue, lang, "__UNSUB__", {
+            classes,
+            token: "__TOKEN__",
+          }),
+        );
       const r = cache.get(key)!;
+      const personal = (x: string) =>
+        x.replaceAll("__UNSUB__", unsub).replaceAll("__TOKEN__", tok);
       status = await queueMarketingEmail(db, {
         to: sub.email,
         subject: r.subject,
-        html: r.html.replaceAll("__UNSUB__", unsub),
-        text: r.text.replaceAll("__UNSUB__", unsub),
+        html: personal(r.html),
+        text: personal(r.text),
         label: `newsletter-${issue.period}`,
         idempotencyKey: `newsletter:${issue.id}:${sub.email}`,
         unsubscribeToken: tok,
@@ -459,7 +535,10 @@ Deno.serve(async (req) => {
         .single();
       const lang = langOf(body.lang ?? "fr");
       if (action === "preview") {
-        const r = await renderDigest(issue, lang, `${SITE_URL}/unsubscribe`);
+        const r = await renderDigest(issue, lang, `${SITE_URL}/unsubscribe`, {
+          classes: await upcomingClasses(db),
+          token: "preview",
+        });
         return reply(r);
       }
       const to = String(body.email ?? "").toLowerCase();
@@ -469,6 +548,7 @@ Deno.serve(async (req) => {
         issue,
         lang,
         `${SITE_URL}/unsubscribe?token=${tok}`,
+        { classes: await upcomingClasses(db), token: tok },
       );
       const status = await queueMarketingEmail(db, {
         to,

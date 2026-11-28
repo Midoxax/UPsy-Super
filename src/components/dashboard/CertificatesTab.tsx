@@ -51,6 +51,11 @@ const TYPE_CONFIG: Record<
     icon: GraduationCap,
     color: "text-u-lavender",
   },
+  webinar_attendance: {
+    label: "Webinar",
+    icon: GraduationCap,
+    color: "text-u-gold",
+  },
 };
 
 const CertificatesTab = () => {

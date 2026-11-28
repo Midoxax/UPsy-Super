@@ -19,6 +19,8 @@ interface ApprovalParams {
   /** One-time link to choose a password. Preferred over tempPassword. */
   setupUrl?: string;
   tempPassword?: string;
+  /** One-click publication of the profile prepared from the application. */
+  publishUrl?: string;
 }
 
 const COPY = {
@@ -44,6 +46,17 @@ const COPY = {
       "Publish your profile to appear in the directory",
     ],
     closing: "Welcome to the team.",
+    publishHeading: "Your profile is ready",
+    publishText:
+      "We prepared your public profile from your application: introduction, rate, languages, specialties and photo. Check it and publish it in one click, no login needed; patients can then find you and book.",
+    publishCta: "Check and publish my profile",
+    publishNote:
+      "You can change everything later from your dashboard. Your account access:",
+    publishSteps: [
+      "Check and publish your profile (link above)",
+      "Choose your password and add your available slots",
+      "Patients book directly; you receive each request by email",
+    ],
   },
   fr: {
     subject: "Bienvenue chez U.Psy — votre compte psychologue est prêt",
@@ -69,6 +82,17 @@ const COPY = {
       "Publiez votre profil pour apparaître dans l'annuaire",
     ],
     closing: "Bienvenue dans l'équipe.",
+    publishHeading: "Votre profil est prêt",
+    publishText:
+      "Nous avons préparé votre profil public à partir de votre dossier : présentation, tarif, langues, spécialités et photo. Vérifiez-le et publiez-le en un clic, sans vous connecter ; les patients pourront alors vous trouver et réserver.",
+    publishCta: "Vérifier et publier mon profil",
+    publishNote:
+      "Vous pourrez tout modifier ensuite depuis votre tableau de bord. Votre accès au compte :",
+    publishSteps: [
+      "Vérifiez et publiez votre profil (lien ci-dessus)",
+      "Choisissez votre mot de passe et ajoutez vos créneaux",
+      "Les patients réservent directement ; vous recevez chaque demande par e-mail",
+    ],
   },
   ar: {
     subject: "مرحباً بك في U.Psy — حسابك كأخصائي نفسي جاهز",
@@ -92,6 +116,16 @@ const COPY = {
       "انشر ملفك ليظهر في الدليل",
     ],
     closing: "مرحباً بك في الفريق.",
+    publishHeading: "ملفك جاهز",
+    publishText:
+      "أعددنا ملفك العام انطلاقًا من طلبك: التقديم، التعريفة، اللغات، التخصصات والصورة. راجعه وانشره بنقرة واحدة دون تسجيل الدخول؛ بعدها يستطيع المرضى إيجادك والحجز.",
+    publishCta: "راجع ملفي وانشره",
+    publishNote: "يمكنك تعديل كل شيء لاحقًا من لوحة التحكم. الدخول إلى حسابك:",
+    publishSteps: [
+      "راجع ملفك وانشره (الرابط أعلاه)",
+      "اختر كلمة المرور وأضف مواعيد توفرك",
+      "يحجز المرضى مباشرة، وتتوصل بكل طلب عبر البريد",
+    ],
   },
 };
 
@@ -118,7 +152,8 @@ export function buildApprovalEmail(p: ApprovalParams): {
       : para(c.credsExisting(p.email), locale);
   const ctaUrl = useSetupLink ? p.setupUrl! : p.loginUrl;
   const ctaLabel = useSetupLink ? c.setupCta : c.cta;
-  const steps = c.steps
+  const publish = !!p.publishUrl;
+  const steps = (publish ? c.publishSteps : c.steps)
     .map(
       (s, i) =>
         `<tr><td style="width:34px;vertical-align:top;padding:6px 0;"><span style="display:inline-block;width:24px;height:24px;line-height:24px;border-radius:12px;background:#FFF4D1;color:#6D0F22;font-weight:700;font-size:13px;text-align:center;font-family:Arial,sans-serif;">${i + 1}</span></td><td style="padding:6px 0;font-family:Arial,sans-serif;font-size:15px;line-height:1.5;color:#3B3631;">${escapeHtml(s)}</td></tr>`,
@@ -127,6 +162,12 @@ export function buildApprovalEmail(p: ApprovalParams): {
 
   const body =
     para(c.intro, locale) +
+    (publish
+      ? subheading(c.publishHeading, locale) +
+        para(c.publishText, locale) +
+        button(c.publishCta, p.publishUrl!, locale) +
+        para(c.publishNote, locale)
+      : "") +
     credsBlock +
     button(ctaLabel, ctaUrl, locale) +
     subheading(c.nextHeading, locale) +

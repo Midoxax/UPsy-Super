@@ -1,6 +1,26 @@
 import { useLocale } from "@/contexts/LocaleContext";
 
 const en = {
+  leagueBadge: "LSSPM",
+  membersOnly: "League members",
+  memberFree: "free for members",
+  hoursLabel: "h of training · certificate",
+  speakerBy: "With",
+  errMembersOnly: "This webinar is reserved for active LSSPM members.",
+  payTitle: "Complete your registration",
+  payText:
+    "Your seat is held. Make the transfer below, then give us its reference: we confirm your seat within 48 hours.",
+  payAmount: "Amount",
+  payHolder: "Account holder",
+  payBank: "Bank",
+  payRib: "RIB",
+  payRef: "Reference to write on the transfer",
+  payYourRef: "Your transfer reference",
+  paySend: "I have paid",
+  paySent: "Transfer received: we confirm your seat within 48 hours.",
+  payRejected:
+    "We could not confirm your transfer. Check the reference and send it again.",
+  addCalendar: "Add to my calendar",
   title: "Live classes",
   subtitle:
     "Join an Academy class live with a psychologist. Ask your questions, practise together, and replay it afterwards.",
@@ -40,6 +60,26 @@ const en = {
 type Copy = typeof en;
 
 const fr: Copy = {
+  leagueBadge: "LSSPM",
+  membersOnly: "Membres de la Ligue",
+  memberFree: "gratuit pour les membres",
+  hoursLabel: "h de formation · certificat",
+  speakerBy: "Avec",
+  errMembersOnly: "Ce webinaire est réservé aux membres actifs de la LSSPM.",
+  payTitle: "Finalisez votre inscription",
+  payText:
+    "Votre place est réservée. Faites le virement ci-dessous, puis indiquez-nous sa référence : nous confirmons votre place sous 48 heures.",
+  payAmount: "Montant",
+  payHolder: "Titulaire du compte",
+  payBank: "Banque",
+  payRib: "RIB",
+  payRef: "Référence à indiquer sur le virement",
+  payYourRef: "Référence de votre virement",
+  paySend: "J'ai payé",
+  paySent: "Virement transmis : nous confirmons votre place sous 48 heures.",
+  payRejected:
+    "Nous n'avons pas pu confirmer votre virement. Vérifiez la référence et renvoyez-la.",
+  addCalendar: "Ajouter à mon agenda",
   title: "Cours en direct",
   subtitle:
     "Suivez un cours de l'Académie en direct avec un psychologue. Posez vos questions, pratiquez ensemble, et revoyez-le ensuite.",
@@ -80,6 +120,25 @@ const fr: Copy = {
 };
 
 const ar: Copy = {
+  leagueBadge: "LSSPM",
+  membersOnly: "أعضاء الرابطة",
+  memberFree: "مجاني للأعضاء",
+  hoursLabel: "ساعة تكوين · شهادة",
+  speakerBy: "مع",
+  errMembersOnly: "هذه الندوة مخصصة لأعضاء LSSPM النشيطين.",
+  payTitle: "أكمل تسجيلك",
+  payText:
+    "مقعدك محجوز. قم بالتحويل أدناه ثم أرسل لنا مرجعه: نؤكد مقعدك خلال 48 ساعة.",
+  payAmount: "المبلغ",
+  payHolder: "صاحب الحساب",
+  payBank: "البنك",
+  payRib: "رقم الحساب RIB",
+  payRef: "المرجع الذي يُكتب على التحويل",
+  payYourRef: "مرجع تحويلك",
+  paySend: "لقد أديت",
+  paySent: "توصلنا بالتحويل: نؤكد مقعدك خلال 48 ساعة.",
+  payRejected: "تعذّر تأكيد تحويلك. تحقق من المرجع وأعد إرساله.",
+  addCalendar: "أضف إلى مفكرتي",
   title: "الدروس المباشرة",
   subtitle:
     "تابع درساً من الأكاديمية مباشرة مع أخصائي نفسي. اطرح أسئلتك، تدرّب مع الآخرين، وأعد مشاهدته لاحقاً.",
@@ -137,5 +196,6 @@ export function registerError(code: string, t: Copy) {
   if (code === "full") return t.errFull;
   if (code === "past") return t.errPast;
   if (code === "consent_required") return t.consentNeeded;
+  if (code === "members_only") return t.errMembersOnly;
   return t.errUnavailable;
 }

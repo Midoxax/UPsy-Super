@@ -188,6 +188,30 @@ const PAGES: Record<string, { title: L3; description: L3 }> = {
       ar: "السنغال وساحل العاج وتونس والجزائر والكاميرون وفرنسا وبلجيكا وكندا: استشر أخصائياً نفسياً عبر الفيديو.",
     },
   },
+  "/newsletter": {
+    title: {
+      fr: "Newsletter santé mentale et performance",
+      en: "Mental health and performance newsletter",
+      ar: "نشرة الصحة النفسية والأداء",
+    },
+    description: {
+      fr: "Un email par mois : les articles des psychologues U.Psy, les formations à venir et le sujet que vous choisissez. Archive de tous les numéros.",
+      en: "One email a month: articles by U.Psy psychologists, upcoming trainings and the topic you choose. Archive of every issue.",
+      ar: "بريد واحد في الشهر: مقالات أخصائيي U.Psy والتكوينات القادمة والموضوع الذي تختاره. أرشيف كل الأعداد.",
+    },
+  },
+  "/learn/lsspm": {
+    title: {
+      fr: "Formation continue de la Ligue (LSSPM) avec U.Psy",
+      en: "League (LSSPM) continuing education with U.Psy",
+      ar: "التكوين المستمر للرابطة (LSSPM) مع U.Psy",
+    },
+    description: {
+      fr: "Webinaires de la Ligue des spécialistes de la santé psychique et mentale, organisés par U.Psy : programme, inscription, certificats de présence et replays.",
+      en: "Webinars of the League of psychic and mental health specialists, run by U.Psy: programme, registration, attendance certificates and replays.",
+      ar: "ندوات رابطة المختصين في الصحة النفسية والعقلية، تنظمها U.Psy: البرنامج، التسجيل، شهادات الحضور والتسجيلات.",
+    },
+  },
   "/contact": {
     title: { fr: "Contacter U.Psy", en: "Contact U.Psy", ar: "اتصل بـ U.Psy" },
     description: {
@@ -200,7 +224,7 @@ const PAGES: Record<string, { title: L3; description: L3 }> = {
 
 // Signed-in or one-off pages: never in search results.
 const PRIVATE =
-  /^\/(dashboard|admin|ops|auth|my-space|notifications|intake|session|booking|b|invite|unsubscribe|newsletter|reset-password|league|passport|card|center\/progress|apply\/wizard|video)(\/|$)/;
+  /^\/(dashboard|admin|ops|auth|my-space|notifications|intake|session|booking|b|invite|unsubscribe|publish-profile|crew|newsletter\/confirm|reset-password|league|passport|card|center\/progress|apply\/wizard|video)(\/|$)/;
 
 const LOCALES = ["fr", "ar", "ber"] as const;
 

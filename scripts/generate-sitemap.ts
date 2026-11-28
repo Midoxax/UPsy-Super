@@ -60,6 +60,8 @@ const ROUTES: Entry[] = [
   { path: "/pricing", changefreq: "monthly", priority: "0.8" },
   { path: "/pricing-specialists", changefreq: "monthly", priority: "0.5" },
   { path: "/learn", changefreq: "weekly", priority: "0.6" },
+  { path: "/learn/lsspm", changefreq: "weekly", priority: "0.6" },
+  { path: "/newsletter", changefreq: "monthly", priority: "0.5" },
   { path: "/resources", changefreq: "weekly", priority: "0.6" },
   { path: "/talent-innovation-hub", changefreq: "monthly", priority: "0.6" },
   { path: "/athlete-hub", changefreq: "monthly", priority: "0.6" },
@@ -197,6 +199,8 @@ const PRIVATE_DISALLOW = [
   "ops",
   "notifications",
   "unsubscribe",
+  "publish-profile",
+  "crew",
   "api",
 ].flatMap((p) => [`Disallow: /${p}`, `Disallow: /*/${p}`]);
 

@@ -16,6 +16,9 @@ const SCOPES = [
   "competitions",
   "protocols",
   "assessments",
+  "training",
+  "profile",
+  "season",
   "journal",
 ] as const;
 const DEFAULT_SCOPES = ["readiness", "goals", "competitions", "protocols"];

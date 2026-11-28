@@ -16,6 +16,7 @@ const TYPE_LABELS: Record<string, string> = {
   assessment_completion: "Assessment",
   psychologist_accreditation: "Accreditation",
   mooc_training: "Training",
+  webinar_attendance: "Webinar",
 };
 
 /** Builds and downloads the certificate as an A4 landscape PDF. */

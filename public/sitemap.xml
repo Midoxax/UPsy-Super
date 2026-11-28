@@ -460,6 +460,60 @@
     <xhtml:link rel="alternate" hreflang="ar" href="https://upsy.ma/ar/learn" />
   </url>
   <url>
+    <loc>https://upsy.ma/learn/lsspm</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://upsy.ma/learn/lsspm" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://upsy.ma/learn/lsspm" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://upsy.ma/fr/learn/lsspm" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://upsy.ma/ar/learn/lsspm" />
+  </url>
+  <url>
+    <loc>https://upsy.ma/fr/learn/lsspm</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://upsy.ma/learn/lsspm" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://upsy.ma/learn/lsspm" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://upsy.ma/fr/learn/lsspm" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://upsy.ma/ar/learn/lsspm" />
+  </url>
+  <url>
+    <loc>https://upsy.ma/ar/learn/lsspm</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://upsy.ma/learn/lsspm" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://upsy.ma/learn/lsspm" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://upsy.ma/fr/learn/lsspm" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://upsy.ma/ar/learn/lsspm" />
+  </url>
+  <url>
+    <loc>https://upsy.ma/newsletter</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://upsy.ma/newsletter" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://upsy.ma/newsletter" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://upsy.ma/fr/newsletter" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://upsy.ma/ar/newsletter" />
+  </url>
+  <url>
+    <loc>https://upsy.ma/fr/newsletter</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://upsy.ma/newsletter" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://upsy.ma/newsletter" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://upsy.ma/fr/newsletter" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://upsy.ma/ar/newsletter" />
+  </url>
+  <url>
+    <loc>https://upsy.ma/ar/newsletter</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://upsy.ma/newsletter" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://upsy.ma/newsletter" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://upsy.ma/fr/newsletter" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://upsy.ma/ar/newsletter" />
+  </url>
+  <url>
     <loc>https://upsy.ma/resources</loc>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>

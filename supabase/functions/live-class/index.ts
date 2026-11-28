@@ -94,17 +94,24 @@ async function join(admin: Admin, user: User, classId: unknown) {
     _user_id: user.id,
     _role: "admin",
   });
-  const isHost = c.host_id === user.id || isAdmin === true;
-  if (!isHost) {
+  const isOwner = c.host_id === user.id || isAdmin === true;
+  let isSpeaker = false;
+  if (!isOwner) {
     const { data: reg } = await admin
       .from("live_class_registrations")
-      .select("id")
+      .select("id, role, payment_status")
       .eq("class_id", c.id)
       .eq("user_id", user.id)
       .is("cancelled_at", null)
       .maybeSingle();
     if (!reg) return json({ error: "Register for this class first." }, 403);
+    // A paid seat opens the room once U.Psy has confirmed the transfer.
+    if (!["none", "verified"].includes(reg.payment_status))
+      return json({ error: "Your payment is not confirmed yet." }, 402);
+    isSpeaker = reg.role === "speaker";
   }
+  // Speakers are moderators (they present); only the host records.
+  const isHost = isOwner || isSpeaker;
 
   const now = Math.floor(Date.now() / 1000);
   const start = Math.floor(new Date(c.starts_at).getTime() / 1000);
@@ -130,7 +137,7 @@ async function join(admin: Admin, user: User, classId: unknown) {
       recording: false,
     });
 
-  const canRecord = isHost && c.recording_enabled;
+  const canRecord = isOwner && c.recording_enabled;
   const name =
     (user.user_metadata?.full_name as string | undefined) ||
     user.email ||

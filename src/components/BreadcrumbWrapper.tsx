@@ -73,6 +73,19 @@ const breadcrumbConfig: Record<
     icon: Award,
     color: "text-u-teal",
   },
+  "/learn": { key: "learn", icon: BookOpen, color: "text-u-gold" },
+  "/learn/lsspm": { key: "leagueTraining", icon: Award, color: "text-u-teal" },
+  "/newsletter": { key: "newsletter", icon: Mail, color: "text-u-gold" },
+  "/athlete-hub": {
+    key: "performanceCenter",
+    icon: Award,
+    color: "text-u-gold",
+  },
+  "/publish-profile": {
+    key: "publishProfile",
+    icon: FileText,
+    color: "text-u-gray-400",
+  },
   "/pricing-specialists": {
     key: "specialistPricing",
     icon: Award,
@@ -87,8 +100,14 @@ export function BreadcrumbWrapper() {
 
   const cleanPath = stripLocalePrefix(location.pathname);
 
-  // Not on the home page, the 404, or the pitch deck (full-screen panels).
-  if (cleanPath === "/" || cleanPath === "/404" || cleanPath === "/pitch") {
+  // Not on the home page, the 404, the pitch deck (full-screen panels), or
+  // a crew link, whose last segment is its secret token.
+  if (
+    cleanPath === "/" ||
+    cleanPath === "/404" ||
+    cleanPath === "/pitch" ||
+    cleanPath.startsWith("/crew/")
+  ) {
     return null;
   }
 

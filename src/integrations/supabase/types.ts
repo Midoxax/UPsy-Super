@@ -507,6 +507,9 @@ export type Database = {
           result: string | null;
           updated_at: string;
           user_id: string;
+          debrief: Json | null;
+          pre_state: Json | null;
+          race_plan: Json;
         };
         Insert: {
           checklist?: Json;
@@ -521,6 +524,9 @@ export type Database = {
           result?: string | null;
           updated_at?: string;
           user_id: string;
+          debrief?: Json | null;
+          pre_state?: Json | null;
+          race_plan?: Json;
         };
         Update: {
           checklist?: Json;
@@ -535,6 +541,9 @@ export type Database = {
           result?: string | null;
           updated_at?: string;
           user_id?: string;
+          debrief?: Json | null;
+          pre_state?: Json | null;
+          race_plan?: Json;
         };
         Relationships: [];
       };
@@ -570,6 +579,136 @@ export type Database = {
           target_date?: string | null;
           title?: string;
           updated_at?: string;
+          user_id?: string;
+        };
+        Relationships: [];
+      };
+      athlete_crew_links: {
+        Row: {
+          athlete_id: string;
+          created_at: string;
+          id: string;
+          label: string;
+          last_viewed_at: string | null;
+          revoked_at: string | null;
+          role: string;
+          scopes: string[];
+          token: string;
+          invite_email: string | null;
+        };
+        Insert: {
+          athlete_id: string;
+          created_at?: string;
+          id?: string;
+          label: string;
+          last_viewed_at?: string | null;
+          revoked_at?: string | null;
+          role?: string;
+          scopes?: string[];
+          token?: string;
+          invite_email?: string | null;
+        };
+        Update: {
+          athlete_id?: string;
+          created_at?: string;
+          id?: string;
+          label?: string;
+          last_viewed_at?: string | null;
+          revoked_at?: string | null;
+          role?: string;
+          scopes?: string[];
+          token?: string;
+          invite_email?: string | null;
+        };
+        Relationships: [];
+      };
+      athlete_profile_snapshots: {
+        Row: {
+          created_at: string;
+          id: string;
+          note: string | null;
+          qualities: Json;
+          user_id: string;
+        };
+        Insert: {
+          created_at?: string;
+          id?: string;
+          note?: string | null;
+          qualities: Json;
+          user_id: string;
+        };
+        Update: {
+          created_at?: string;
+          id?: string;
+          note?: string | null;
+          qualities?: Json;
+          user_id?: string;
+        };
+        Relationships: [];
+      };
+      athlete_season_phases: {
+        Row: {
+          created_at: string;
+          ends_on: string;
+          focus: string | null;
+          id: string;
+          kind: string;
+          name: string;
+          starts_on: string;
+          user_id: string;
+        };
+        Insert: {
+          created_at?: string;
+          ends_on: string;
+          focus?: string | null;
+          id?: string;
+          kind: string;
+          name: string;
+          starts_on: string;
+          user_id: string;
+        };
+        Update: {
+          created_at?: string;
+          ends_on?: string;
+          focus?: string | null;
+          id?: string;
+          kind?: string;
+          name?: string;
+          starts_on?: string;
+          user_id?: string;
+        };
+        Relationships: [];
+      };
+      athlete_sessions: {
+        Row: {
+          created_at: string;
+          duration_minutes: number;
+          id: string;
+          kind: string;
+          load: number | null;
+          note: string | null;
+          rpe: number;
+          session_date: string;
+          user_id: string;
+        };
+        Insert: {
+          created_at?: string;
+          duration_minutes: number;
+          id?: string;
+          kind?: string;
+          note?: string | null;
+          rpe: number;
+          session_date?: string;
+          user_id: string;
+        };
+        Update: {
+          created_at?: string;
+          duration_minutes?: number;
+          id?: string;
+          kind?: string;
+          note?: string | null;
+          rpe?: number;
+          session_date?: string;
           user_id?: string;
         };
         Relationships: [];
@@ -811,6 +950,39 @@ export type Database = {
             referencedColumns: ["id"];
           },
         ];
+      };
+      training_settings: {
+        Row: {
+          account_holder: string | null;
+          bank_name: string | null;
+          id: boolean;
+          instructions_fr: string | null;
+          licence_annual_mad: number;
+          rib: string | null;
+          updated_at: string;
+          upsy_share_pct: number;
+        };
+        Insert: {
+          account_holder?: string | null;
+          bank_name?: string | null;
+          id?: boolean;
+          instructions_fr?: string | null;
+          licence_annual_mad?: number;
+          rib?: string | null;
+          updated_at?: string;
+          upsy_share_pct?: number;
+        };
+        Update: {
+          account_holder?: string | null;
+          bank_name?: string | null;
+          id?: boolean;
+          instructions_fr?: string | null;
+          licence_annual_mad?: number;
+          rib?: string | null;
+          updated_at?: string;
+          upsy_share_pct?: number;
+        };
+        Relationships: [];
       };
       league_settings: {
         Row: {
@@ -1662,6 +1834,30 @@ export type Database = {
           ok?: boolean | null;
           started_at?: string;
           summary?: Json;
+        };
+        Relationships: [];
+      };
+      newsletter_votes: {
+        Row: {
+          created_at: string;
+          email: string;
+          id: string;
+          period: string;
+          topic: string;
+        };
+        Insert: {
+          created_at?: string;
+          email: string;
+          id?: string;
+          period: string;
+          topic: string;
+        };
+        Update: {
+          created_at?: string;
+          email?: string;
+          id?: string;
+          period?: string;
+          topic?: string;
         };
         Relationships: [];
       };
@@ -4710,6 +4906,16 @@ export type Database = {
       };
       live_class_registrations: {
         Row: {
+          amount_mad: number;
+          confirmed_notified_at: string | null;
+          payer_reference: string | null;
+          payment_status: string;
+          payment_verified_at: string | null;
+          payment_verified_by: string | null;
+          receipt_number: string | null;
+          reminded_1h_at: string | null;
+          reminded_24h_at: string | null;
+          role: string;
           cancelled_at: string | null;
           class_id: string;
           id: string;
@@ -4718,6 +4924,16 @@ export type Database = {
           user_id: string;
         };
         Insert: {
+          amount_mad?: number;
+          confirmed_notified_at?: string | null;
+          payer_reference?: string | null;
+          payment_status?: string;
+          payment_verified_at?: string | null;
+          payment_verified_by?: string | null;
+          receipt_number?: string | null;
+          reminded_1h_at?: string | null;
+          reminded_24h_at?: string | null;
+          role?: string;
           cancelled_at?: string | null;
           class_id: string;
           id?: string;
@@ -4726,6 +4942,16 @@ export type Database = {
           user_id: string;
         };
         Update: {
+          amount_mad?: number;
+          confirmed_notified_at?: string | null;
+          payer_reference?: string | null;
+          payment_status?: string;
+          payment_verified_at?: string | null;
+          payment_verified_by?: string | null;
+          receipt_number?: string | null;
+          reminded_1h_at?: string | null;
+          reminded_24h_at?: string | null;
+          role?: string;
           cancelled_at?: string | null;
           class_id?: string;
           id?: string;
@@ -4745,6 +4971,15 @@ export type Database = {
       };
       live_classes: {
         Row: {
+          access: string;
+          closed_at: string | null;
+          member_price_mad: number;
+          min_attendance_pct: number;
+          organizer: string | null;
+          price_mad: number | null;
+          speaker_name: string | null;
+          speaker_title: string | null;
+          training_hours: number | null;
           capacity: number | null;
           course_id: string | null;
           created_at: string;
@@ -4766,6 +5001,15 @@ export type Database = {
           updated_at: string;
         };
         Insert: {
+          access?: string;
+          closed_at?: string | null;
+          member_price_mad?: number;
+          min_attendance_pct?: number;
+          organizer?: string | null;
+          price_mad?: number | null;
+          speaker_name?: string | null;
+          speaker_title?: string | null;
+          training_hours?: number | null;
           capacity?: number | null;
           course_id?: string | null;
           created_at?: string;
@@ -4787,6 +5031,15 @@ export type Database = {
           updated_at?: string;
         };
         Update: {
+          access?: string;
+          closed_at?: string | null;
+          member_price_mad?: number;
+          min_attendance_pct?: number;
+          organizer?: string | null;
+          price_mad?: number | null;
+          speaker_name?: string | null;
+          speaker_title?: string | null;
+          training_hours?: number | null;
           capacity?: number | null;
           course_id?: string | null;
           created_at?: string;
@@ -5031,6 +5284,7 @@ export type Database = {
           updated_at: string;
           user_id: string;
           email_league: boolean;
+          email_performance: boolean;
         };
         Insert: {
           created_at?: string;
@@ -5042,6 +5296,7 @@ export type Database = {
           updated_at?: string;
           user_id: string;
           email_league?: boolean;
+          email_performance?: boolean;
         };
         Update: {
           created_at?: string;
@@ -5053,6 +5308,7 @@ export type Database = {
           updated_at?: string;
           user_id?: string;
           email_league?: boolean;
+          email_performance?: boolean;
         };
         Relationships: [];
       };
@@ -7166,6 +7422,10 @@ export type Database = {
           sleep: number;
           stress: number;
           user_id: string;
+          hrv_ms: number | null;
+          resting_hr: number | null;
+          sleep_hours: number | null;
+          soreness: number | null;
         };
         Insert: {
           cognitive_load: number;
@@ -7178,6 +7438,10 @@ export type Database = {
           sleep: number;
           stress: number;
           user_id: string;
+          hrv_ms?: number | null;
+          resting_hr?: number | null;
+          sleep_hours?: number | null;
+          soreness?: number | null;
         };
         Update: {
           cognitive_load?: number;
@@ -7190,6 +7454,10 @@ export type Database = {
           sleep?: number;
           stress?: number;
           user_id?: string;
+          hrv_ms?: number | null;
+          resting_hr?: number | null;
+          sleep_hours?: number | null;
+          soreness?: number | null;
         };
         Relationships: [];
       };
@@ -9253,6 +9521,39 @@ export type Database = {
         Args: { _recording: string };
         Returns: boolean;
       };
+      webinar_payment_info: { Args: { _class: string }; Returns: Json };
+      submit_webinar_payment: {
+        Args: { _class: string; _reference: string };
+        Returns: undefined;
+      };
+      verify_webinar_payment: {
+        Args: { _registration: string; _ok: boolean; _note?: string };
+        Returns: string;
+      };
+      close_live_class: { Args: { _class: string }; Returns: Json };
+      add_live_class_speaker: {
+        Args: { _class: string; _email: string };
+        Returns: string;
+      };
+      league_training_report: {
+        Args: { _from?: string; _to?: string };
+        Returns: {
+          class_id: string;
+          title: string;
+          starts_at: string;
+          access: string;
+          speaker_name: string | null;
+          training_hours: number | null;
+          registered: number;
+          attended: number;
+          certificates: number;
+          paid_seats: number;
+          revenue_mad: number;
+          upsy_share_mad: number;
+          league_share_mad: number;
+          recording_published: boolean;
+        }[];
+      };
       register_live_class: {
         Args: { _class: string; _recording_consent?: boolean };
         Returns: string;
@@ -9266,6 +9567,12 @@ export type Database = {
       live_class_roster: {
         Args: { _class: string };
         Returns: {
+          registration_id: string;
+          role: string;
+          amount_mad: number;
+          payment_status: string;
+          payer_reference: string | null;
+          receipt_number: string | null;
           user_id: string;
           full_name: string | null;
           email: string;
@@ -9305,9 +9612,36 @@ export type Database = {
           failures_24h: number;
         }[];
       };
+      crew_squad: {
+        Args: never;
+        Returns: {
+          athlete: string;
+          label: string;
+          role: string;
+          token: string;
+        }[];
+      };
+      crew_view: {
+        Args: { _token: string };
+        Returns: Json;
+      };
+      newsletter_archive: {
+        Args: { _limit?: number };
+        Returns: {
+          intro_en: string | null;
+          intro_fr: string | null;
+          items: Json;
+          period: string;
+          sent_at: string | null;
+        }[];
+      };
       newsletter_confirm: {
         Args: { p_token: string };
         Returns: boolean;
+      };
+      newsletter_vote_tally: {
+        Args: { _period: string };
+        Returns: { topic: string; votes: number }[];
       };
       newsletter_subscribe: {
         Args: { p_email: string; p_locale?: string; p_source?: string };
@@ -10258,7 +10592,8 @@ export type Database = {
         | "course_completion"
         | "assessment_completion"
         | "psychologist_accreditation"
-        | "mooc_training";
+        | "mooc_training"
+        | "webinar_attendance";
       discharge_reason:
         "goals_met" | "client_request" | "referral" | "dropout" | "other";
       homework_category:
@@ -10427,6 +10762,7 @@ export const Constants = {
         "assessment_completion",
         "psychologist_accreditation",
         "mooc_training",
+        "webinar_attendance",
       ],
       discharge_reason: [
         "goals_met",

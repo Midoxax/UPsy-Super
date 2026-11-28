@@ -54,6 +54,12 @@ const config: CampaignConfig = {
     privacy: "politique de confidentialité",
     consentAfter: ". Données protégées par la loi 09-08 (CNDP).",
     noSpam: "Pas de spam. Désinscription en un clic dans chaque message.",
+    errName: "Indiquez votre nom complet.",
+    errEmail: "Saisissez une adresse e-mail valide.",
+    errPhone: "Saisissez un numéro de téléphone valide.",
+    errConsent: "Votre accord est nécessaire pour continuer (loi 09-08).",
+    errTitle: "Une erreur est survenue",
+    errRetry: "Veuillez réessayer dans un instant.",
   },
 };
 

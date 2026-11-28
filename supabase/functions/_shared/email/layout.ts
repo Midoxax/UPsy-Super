@@ -25,7 +25,8 @@ export const BRAND = {
   muted: "#7A7268",
   line: "#E7E0D5",
   serif: "Georgia, 'Times New Roman', serif",
-  sans: "'Helvetica Neue', Helvetica, Arial, sans-serif",
+  // Ebrima and Noto Sans Tifinagh: Tifinagh glyphs for Tamazight emails.
+  sans: "'Helvetica Neue', Helvetica, Arial, Ebrima, 'Noto Sans Tifinagh', sans-serif",
   arabic: "Tahoma, 'Segoe UI', Arial, sans-serif",
 };
 
@@ -186,18 +187,31 @@ export interface EmailOptions {
   footerNote?: string;
   /** Co-branding: "lsspm" shows the League's logo beside U.Psy's. */
   partner?: "lsspm";
+  /** The language tag when it differs from the layout (e.g. "ary", "zgh"). */
+  lang?: string;
+  /** Footer wording for languages the layout has no strings for. */
+  footer?: Partial<{
+    tagline: string;
+    privacy: string;
+    help: string;
+    unsubscribe: string;
+  }>;
+  /** Trusted HTML under the footer links (e.g. language choices). */
+  footerExtra?: string;
+  /** Trusted full-width HTML at the top of the card (newsletter hero). */
+  hero?: string;
 }
 
 export function renderEmail(o: EmailOptions): string {
   const locale = o.locale ?? "fr";
   const dir = locale === "ar" ? "rtl" : "ltr";
-  const f = FOOTER[locale];
+  const f = { ...FOOTER[locale], ...(o.footer ?? {}) };
   const font = fontFor(locale);
   const a = align(locale);
   const pre = escapeHtml(o.preheader);
 
   return `<!DOCTYPE html>
-<html lang="${locale}" dir="${dir}" xmlns="http://www.w3.org/1999/xhtml">
+<html lang="${escapeHtml(o.lang ?? locale)}" dir="${dir}" xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -225,6 +239,7 @@ export function renderEmail(o: EmailOptions): string {
     <tr><td bgcolor="${BRAND.card}" style="background:${BRAND.card};border:1px solid ${BRAND.line};border-radius:18px;overflow:hidden;">
       <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr><td style="height:5px;line-height:5px;font-size:0;background:${BRAND.maroon};border-top-left-radius:18px;border-top-right-radius:18px;"><span style="display:block;width:96px;height:5px;background:${BRAND.gold};${locale === "ar" ? "margin-left:auto;" : ""}"></span></td></tr>
+        ${o.hero ? `<tr><td style="padding:0;">${o.hero}</td></tr>` : ""}
         <tr><td class="u-card" style="padding:40px 44px 36px;text-align:${a};">
           ${o.eyebrow ? `<p style="margin:0 0 10px;font-family:${font};font-size:12px;font-weight:700;letter-spacing:1.6px;text-transform:uppercase;color:#A07800;">${escapeHtml(o.eyebrow)}</p>` : ""}
           <h1 class="u-title" style="margin:0 0 20px;font-family:${locale === "ar" ? font : BRAND.serif};font-size:28px;line-height:1.25;font-weight:700;color:${BRAND.ink};">${escapeHtml(o.title)}</h1>
@@ -242,6 +257,7 @@ export function renderEmail(o: EmailOptions): string {
         <a href="mailto:contact@upsy.ma" style="color:${BRAND.muted};text-decoration:underline;">${escapeHtml(f.help)}</a>
         ${o.unsubscribeUrl ? `&nbsp;&middot;&nbsp;<a href="${escapeHtml(o.unsubscribeUrl)}" style="color:${BRAND.muted};text-decoration:underline;">${escapeHtml(f.unsubscribe)}</a>` : ""}
       </p>
+      ${o.footerExtra ? `<p style="margin:10px 0 0;">${o.footerExtra}</p>` : ""}
     </td></tr>
   </table>
 </td></tr>

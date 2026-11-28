@@ -38,9 +38,10 @@ interface SearchResult {
 export const PRICE_MIN = 0;
 export const PRICE_MAX = 2000;
 
-/** Ranking happens in the database (rank_psychologists); this adds the
- *  specialty, language and approach names for the cards. */
-export const searchPsychologists = async ({
+/** Ranking happens in the database (rank_psychologists). The cards are
+ *  shown from this alone; their specialty, language and approach names
+ *  follow from fetchTaxonomy. */
+export const rankPsychologists = async ({
   filters,
   near,
   query,
@@ -70,16 +71,65 @@ export const searchPsychologists = async ({
 
   const rows = data ?? [];
   const total = rows.length > 0 ? Number(rows[0].total_count) : 0;
-  const profiles = await withTaxonomy(rows);
-  return { profiles, total, page, pageSize };
+  return { profiles: rows.map(toProfile), total, page, pageSize };
+};
+
+/** Ranking plus the specialty, language and approach names, in one call. */
+export const searchPsychologists = async (
+  params: SearchParams,
+): Promise<SearchResult> => {
+  const result = await rankPsychologists(params);
+  const taxonomy = await fetchTaxonomy(result.profiles.map((p) => p.id));
+  return { ...result, profiles: withTaxonomy(result.profiles, taxonomy) };
 };
 
 type RankedRow =
   Database["public"]["Functions"]["rank_psychologists"]["Returns"][number];
 
-async function withTaxonomy(rows: RankedRow[]): Promise<PsychologistProfile[]> {
-  const ids = rows.map((r) => r.id);
-  if (ids.length === 0) return [];
+const toProfile = ({
+  total_count: _total,
+  score: _score,
+  ...r
+}: RankedRow): PsychologistProfile => ({
+  ...r,
+  office_lat: r.location_precise ? r.map_lat : null,
+  office_lng: r.location_precise ? r.map_lng : null,
+  distance_km: r.distance_km === null ? null : Number(r.distance_km),
+  is_published: true,
+  rating_avg: r.rating_avg === null ? null : Number(r.rating_avg),
+  rating_count: Number(r.rating_count ?? 0),
+  specialties: [],
+  languages: [],
+  therapy_approaches: [],
+});
+
+export interface Taxonomy {
+  specialties: Map<string, Specialty[]>;
+  languages: Map<string, Language[]>;
+  approaches: Map<string, TherapyApproach[]>;
+}
+
+export const withTaxonomy = (
+  profiles: PsychologistProfile[],
+  t: Taxonomy | undefined,
+): PsychologistProfile[] =>
+  t
+    ? profiles.map((p) => ({
+        ...p,
+        specialties: t.specialties.get(p.id) ?? [],
+        languages: t.languages.get(p.id) ?? [],
+        therapy_approaches: t.approaches.get(p.id) ?? [],
+      }))
+    : profiles;
+
+/** The specialty, language and approach names of the given profiles. */
+export async function fetchTaxonomy(ids: string[]): Promise<Taxonomy> {
+  if (ids.length === 0)
+    return {
+      specialties: new Map(),
+      languages: new Map(),
+      approaches: new Map(),
+    };
   const [specialtiesData, languagesData, approachesData] = await Promise.all([
     supabase
       .from("psychologist_specialties")
@@ -110,25 +160,14 @@ async function withTaxonomy(rows: RankedRow[]): Promise<PsychologistProfile[]> {
     }
     return map;
   };
-  const specialties = group<Specialty>(specialtiesData.data ?? [], "specialty");
-  const languages = group<Language>(languagesData.data ?? [], "language");
-  const approaches = group<TherapyApproach>(
-    approachesData.data ?? [],
-    "therapy_approach",
-  );
-
-  return rows.map(({ total_count: _total, score: _score, ...r }) => ({
-    ...r,
-    office_lat: r.location_precise ? r.map_lat : null,
-    office_lng: r.location_precise ? r.map_lng : null,
-    distance_km: r.distance_km === null ? null : Number(r.distance_km),
-    is_published: true,
-    rating_avg: r.rating_avg === null ? null : Number(r.rating_avg),
-    rating_count: Number(r.rating_count ?? 0),
-    specialties: specialties.get(r.id) ?? [],
-    languages: languages.get(r.id) ?? [],
-    therapy_approaches: approaches.get(r.id) ?? [],
-  }));
+  return {
+    specialties: group<Specialty>(specialtiesData.data ?? [], "specialty"),
+    languages: group<Language>(languagesData.data ?? [], "language"),
+    approaches: group<TherapyApproach>(
+      approachesData.data ?? [],
+      "therapy_approach",
+    ),
+  };
 }
 
 /** Homepage: the top of the same ranking. */

@@ -1,6 +1,7 @@
 import { useEffect, useState, useCallback } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
+import type { PreState, RacePlan } from "@/lib/performance/metrics";
 
 export type Checkin = {
   id: string;
@@ -13,6 +14,18 @@ export type Checkin = {
   score: number;
   note: string | null;
   created_at: string;
+  sleep_hours?: number | null;
+  soreness?: number | null;
+  hrv_ms?: number | null;
+  resting_hr?: number | null;
+};
+
+/** Optional wearable / recovery fields of a check-in. */
+export type Telemetry = {
+  sleep_hours?: number | null;
+  soreness?: number | null;
+  hrv_ms?: number | null;
+  resting_hr?: number | null;
 };
 
 export type Protocol = {
@@ -61,6 +74,9 @@ export type Competition = {
   result: string | null;
   performance_rating: number | null;
   reflection: string | null;
+  race_plan?: RacePlan;
+  pre_state?: PreState | null;
+  debrief?: Record<string, string | number> | null;
 };
 
 export type Completion = {
@@ -168,7 +184,7 @@ export function useAthleteHub() {
         supabase
           .from("athlete_competitions")
           .select(
-            "id,name,event_date,location,importance,checklist,result,performance_rating,reflection",
+            "id,name,event_date,location,importance,checklist,result,performance_rating,reflection,race_plan,pre_state,debrief",
           )
           .eq("user_id", uid)
           .order("event_date", { ascending: true }),
@@ -197,7 +213,20 @@ export function useAthleteHub() {
         supabase.rpc("athlete_share_candidates"),
       ]);
     setGoals((gRes.data as Goal[]) ?? []);
-    setCompetitions((compRes.data as unknown as Competition[]) ?? []);
+    // Before the Performance Center migration the plan columns do not
+    // exist yet: read the competitions without them rather than lose them.
+    const comps = compRes.error
+      ? (
+          await supabase
+            .from("athlete_competitions")
+            .select(
+              "id,name,event_date,location,importance,checklist,result,performance_rating,reflection",
+            )
+            .eq("user_id", uid)
+            .order("event_date", { ascending: true })
+        ).data
+      : compRes.data;
+    setCompetitions((comps as unknown as Competition[]) ?? []);
     setCompletions((doneRes.data as Completion[]) ?? []);
     const last = new Map<
       string,
@@ -220,14 +249,16 @@ export function useAthleteHub() {
   }, [load]);
 
   const submitCheckin = useCallback(
-    async (input: {
-      mood: number;
-      sleep: number;
-      stress: number;
-      energy: number;
-      cognitive_load: number;
-      note?: string;
-    }) => {
+    async (
+      input: {
+        mood: number;
+        sleep: number;
+        stress: number;
+        energy: number;
+        cognitive_load: number;
+        note?: string;
+      } & Telemetry,
+    ) => {
       if (!user) return { error: new Error("not signed in") };
       const score = computeReadinessScore(input);
       const { error } = await supabase

@@ -23,6 +23,7 @@ import {
   Users,
 } from "lucide-react";
 import { formatWhen } from "@/lib/live/liveCopy";
+import { useUserRole } from "@/hooks/useUserRole";
 import { useCanHost } from "@/lib/live/useCanHost";
 import { useManageCopy } from "@/lib/live/manageCopy";
 import type { Tables, TablesInsert } from "@/integrations/supabase/types";
@@ -107,6 +108,10 @@ export default function LiveClassManage() {
           </div>
         </div>
 
+        <AdminOnly>
+          <TrainingSettings />
+        </AdminOnly>
+
         {editing && (
           <ClassForm
             initial={editing === "new" ? null : editing}
@@ -143,6 +148,21 @@ export default function LiveClassManage() {
                       <Badge variant="outline">
                         {c.recording_enabled ? t.recorded : t.notRecorded}
                       </Badge>
+                      {c.organizer === "lsspm" && (
+                        <Badge className="bg-[#2E5B8C] text-white">
+                          {t.leagueBadge}
+                        </Badge>
+                      )}
+                      {c.access !== "open" && (
+                        <Badge variant="outline">
+                          {c.access === "members"
+                            ? t.accessMembers
+                            : `${Number(c.price_mad)} MAD`}
+                        </Badge>
+                      )}
+                      {c.training_hours != null && (
+                        <Badge variant="outline">{c.training_hours} h</Badge>
+                      )}
                     </div>
                   </div>
                   <div className="flex flex-wrap gap-2">
@@ -213,6 +233,14 @@ function ClassForm({
     is_published: initial?.is_published ?? false,
     course_id: initial?.course_id ?? "",
     status: initial?.status ?? "scheduled",
+    organizer: initial?.organizer ?? "",
+    access: initial?.access ?? "open",
+    price_mad: initial?.price_mad ?? ("" as number | ""),
+    member_price_mad: initial?.member_price_mad ?? 0,
+    training_hours: initial?.training_hours ?? ("" as number | ""),
+    min_attendance_pct: initial?.min_attendance_pct ?? 75,
+    speaker_name: initial?.speaker_name ?? "",
+    speaker_title: initial?.speaker_title ?? "",
   });
   const set = <K extends keyof typeof f>(k: K, v: (typeof f)[K]) =>
     setF((p) => ({ ...p, [k]: v }));
@@ -230,6 +258,8 @@ function ClassForm({
 
   const save = async () => {
     if (!f.title_fr.trim() || !f.starts_at) return toast.error(t.required);
+    if (f.access === "paid" && !(Number(f.price_mad) > 0))
+      return toast.error(t.priceNeeded);
     setBusy(true);
     const row: TablesInsert<"live_classes"> = {
       title: f.title.trim() || f.title_fr.trim(),
@@ -246,6 +276,16 @@ function ClassForm({
       course_id: f.course_id || null,
       status: f.status,
       host_id: initial?.host_id ?? user!.id,
+      organizer: f.organizer || null,
+      // Members-only needs the League; outside it, fall back to open.
+      access: f.access === "members" && !f.organizer ? "open" : f.access,
+      price_mad:
+        f.access === "paid" && f.price_mad !== "" ? Number(f.price_mad) : null,
+      member_price_mad: Number(f.member_price_mad) || 0,
+      training_hours: f.training_hours === "" ? null : Number(f.training_hours),
+      min_attendance_pct: Number(f.min_attendance_pct) || 75,
+      speaker_name: f.speaker_name.trim() || null,
+      speaker_title: f.speaker_title.trim() || null,
     };
     const { error } = initial
       ? await supabase.from("live_classes").update(row).eq("id", initial.id)
@@ -363,6 +403,97 @@ function ClassForm({
           </Field>
         )}
       </div>
+      <fieldset className="space-y-3 rounded-xl border border-border p-4">
+        <legend className="px-1 text-sm font-semibold">
+          {t.leagueSection}
+        </legend>
+        <label className="flex items-center gap-3 text-sm">
+          <Switch
+            checked={f.organizer === "lsspm"}
+            onCheckedChange={(v) => set("organizer", v ? "lsspm" : "")}
+          />
+          <span>{t.fLeague}</span>
+        </label>
+        <div className="grid gap-3 sm:grid-cols-2">
+          <Field label={t.fAccess}>
+            <select
+              className="h-10 w-full rounded-md border border-input bg-background px-3 text-sm"
+              value={f.access}
+              onChange={(e) => set("access", e.target.value)}
+            >
+              <option value="open">{t.accessOpen}</option>
+              {f.organizer && (
+                <option value="members">{t.accessMembers}</option>
+              )}
+              <option value="paid">{t.accessPaid}</option>
+            </select>
+          </Field>
+          {f.access === "paid" && (
+            <>
+              <Field label={t.fPrice}>
+                <Input
+                  type="number"
+                  min={0}
+                  value={f.price_mad}
+                  onChange={(e) =>
+                    set(
+                      "price_mad",
+                      e.target.value === "" ? "" : Number(e.target.value),
+                    )
+                  }
+                />
+              </Field>
+              <Field label={t.fMemberPrice}>
+                <Input
+                  type="number"
+                  min={0}
+                  value={f.member_price_mad}
+                  onChange={(e) =>
+                    set("member_price_mad", Number(e.target.value))
+                  }
+                />
+              </Field>
+            </>
+          )}
+          <Field label={t.fHours}>
+            <Input
+              type="number"
+              min={0.5}
+              step={0.5}
+              value={f.training_hours}
+              onChange={(e) =>
+                set(
+                  "training_hours",
+                  e.target.value === "" ? "" : Number(e.target.value),
+                )
+              }
+            />
+          </Field>
+          <Field label={t.fMinAttendance}>
+            <Input
+              type="number"
+              min={10}
+              max={100}
+              value={f.min_attendance_pct}
+              onChange={(e) =>
+                set("min_attendance_pct", Number(e.target.value))
+              }
+            />
+          </Field>
+          <Field label={t.fSpeaker}>
+            <Input
+              value={f.speaker_name}
+              onChange={(e) => set("speaker_name", e.target.value)}
+            />
+          </Field>
+          <Field label={t.fSpeakerTitle}>
+            <Input
+              value={f.speaker_title}
+              onChange={(e) => set("speaker_title", e.target.value)}
+            />
+          </Field>
+        </div>
+      </fieldset>
       <div className="space-y-3">
         <label className="flex items-start gap-3 text-sm">
           <Switch
@@ -419,8 +550,50 @@ function Roster({ c }: { c: LiveClass }) {
       return data ?? [];
     },
   });
+  const qc = useQueryClient();
+  const { isAdmin } = useUserRole();
+  const [speaker, setSpeaker] = useState("");
   const active = data.filter((r) => !r.cancelled_at);
   const attended = active.filter((r) => r.minutes_attended > 0).length;
+  const refresh = () =>
+    qc.invalidateQueries({ queryKey: ["live-roster", c.id] });
+  const payLabel: Record<string, string> = {
+    none: t.payFree,
+    pending: t.payPending,
+    submitted: t.paySubmitted,
+    verified: t.payVerified,
+    rejected: t.payRejected,
+  };
+  const verify = async (id: string, ok: boolean) => {
+    const { error } = await supabase.rpc("verify_webinar_payment", {
+      _registration: id,
+      _ok: ok,
+    });
+    if (error) return toast.error(error.message);
+    toast.success(ok ? t.paymentConfirmed : t.paymentRejected);
+    refresh();
+  };
+  const addSpeaker = async () => {
+    const { error } = await supabase.rpc("add_live_class_speaker", {
+      _class: c.id,
+      _email: speaker,
+    });
+    if (error) return toast.error(error.message);
+    toast.success(t.speakerAdded);
+    setSpeaker("");
+    refresh();
+  };
+  const ended =
+    new Date(c.starts_at).getTime() + c.duration_minutes * 60000 < Date.now();
+  const close = async () => {
+    const { data: r, error } = await supabase.rpc("close_live_class", {
+      _class: c.id,
+    });
+    if (error) return toast.error(error.message);
+    const res = (r ?? {}) as { certificates?: number; participations?: number };
+    toast.success(t.closed(res.certificates ?? 0, res.participations ?? 0));
+    qc.invalidateQueries({ queryKey: ["live-manage"] });
+  };
 
   const exportCsv = () => {
     const esc = (v: unknown) => `"${String(v ?? "").replace(/"/g, '""')}"`;
@@ -475,6 +648,7 @@ function Roster({ c }: { c: LiveClass }) {
                 <th className="py-1 text-start">{t.name}</th>
                 <th className="py-1 text-start">{t.email}</th>
                 <th className="py-1 text-end">{t.attendance}</th>
+                <th className="py-1 text-end">{t.payment}</th>
               </tr>
             </thead>
             <tbody>
@@ -483,12 +657,49 @@ function Roster({ c }: { c: LiveClass }) {
                   key={r.user_id}
                   className={r.cancelled_at ? "opacity-50" : ""}
                 >
-                  <td className="py-1">{r.full_name || "—"}</td>
+                  <td className="py-1">
+                    {r.full_name || "—"}
+                    {r.role === "speaker" && (
+                      <Badge variant="outline" className="ms-2">
+                        {t.speaker}
+                      </Badge>
+                    )}
+                  </td>
                   <td className="py-1">{r.email}</td>
                   <td className="py-1 text-end">
                     {r.cancelled_at
                       ? t.cancelledShort
                       : `${r.minutes_attended} min`}
+                  </td>
+                  <td className="py-1 text-end">
+                    {r.payment_status === "none"
+                      ? t.payFree
+                      : `${Number(r.amount_mad)} MAD · ${payLabel[r.payment_status] ?? r.payment_status}`}
+                    {r.payer_reference && (
+                      <span className="block text-[11px] text-muted-foreground">
+                        {r.payer_reference}
+                        {r.receipt_number ? ` · ${r.receipt_number}` : ""}
+                      </span>
+                    )}
+                    {isAdmin &&
+                      ["pending", "submitted"].includes(r.payment_status) && (
+                        <span className="mt-1 flex justify-end gap-1">
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            onClick={() => verify(r.registration_id, true)}
+                          >
+                            {t.confirm}
+                          </Button>
+                          <Button
+                            size="sm"
+                            variant="ghost"
+                            onClick={() => verify(r.registration_id, false)}
+                          >
+                            {t.reject}
+                          </Button>
+                        </span>
+                      )}
                   </td>
                 </tr>
               ))}
@@ -496,8 +707,107 @@ function Roster({ c }: { c: LiveClass }) {
           </table>
         </div>
       )}
+      {isAdmin && (
+        <div className="space-y-2 border-t pt-3">
+          <Label htmlFor={`speaker-${c.id}`} className="text-xs">
+            {t.addSpeaker}
+          </Label>
+          <div className="flex gap-2">
+            <Input
+              id={`speaker-${c.id}`}
+              type="email"
+              value={speaker}
+              onChange={(e) => setSpeaker(e.target.value)}
+            />
+            <Button
+              size="sm"
+              variant="outline"
+              onClick={addSpeaker}
+              disabled={!speaker.includes("@")}
+            >
+              {t.add}
+            </Button>
+          </div>
+          {ended && (
+            <div className="flex flex-wrap items-center gap-3">
+              <Button size="sm" onClick={close}>
+                {t.closeClass}
+              </Button>
+              {c.closed_at && (
+                <span className="text-xs text-muted-foreground">
+                  {t.closedAt} {formatWhen(c.closed_at, "fr")}
+                </span>
+              )}
+            </div>
+          )}
+        </div>
+      )}
       <p className="text-[11px] text-muted-foreground">{t.privacy}</p>
     </div>
+  );
+}
+
+function AdminOnly({ children }: { children: React.ReactNode }) {
+  const { isAdmin } = useUserRole();
+  return isAdmin ? <>{children}</> : null;
+}
+
+/** The League licence: annual fee, U.Psy's share of paid seats, and the
+ *  account paid seats are transferred to. */
+function TrainingSettings() {
+  const t = useManageCopy();
+  const qc = useQueryClient();
+  const { data } = useQuery({
+    queryKey: ["training-settings"],
+    queryFn: async () =>
+      (await supabase.from("training_settings").select("*").maybeSingle()).data,
+  });
+  const [f, setF] = useState<Record<string, string>>({});
+  const v = (k: string) =>
+    f[k] ?? String((data as Record<string, unknown> | null)?.[k] ?? "");
+  const save = async () => {
+    const { error } = await supabase
+      .from("training_settings")
+      .update({
+        licence_annual_mad: Number(v("licence_annual_mad")) || 0,
+        upsy_share_pct: Number(v("upsy_share_pct")) || 0,
+        bank_name: v("bank_name") || null,
+        account_holder: v("account_holder") || null,
+        rib: v("rib") || null,
+        instructions_fr: v("instructions_fr") || null,
+      })
+      .eq("id", true);
+    if (error) return toast.error(error.message);
+    toast.success(t.settingsSaved);
+    qc.invalidateQueries({ queryKey: ["training-settings"] });
+  };
+  const fields: [string, string, string][] = [
+    ["licence_annual_mad", t.sLicence, "number"],
+    ["upsy_share_pct", t.sShare, "number"],
+    ["bank_name", t.sBank, "text"],
+    ["account_holder", t.sHolder, "text"],
+    ["rib", t.sRib, "text"],
+    ["instructions_fr", t.sInstructions, "text"],
+  ];
+  return (
+    <details className="rounded-2xl border border-border p-4">
+      <summary className="cursor-pointer font-semibold">{t.settings}</summary>
+      <div className="mt-4 grid gap-3 sm:grid-cols-2">
+        {fields.map(([k, label, type]) => (
+          <Field key={k} label={label}>
+            <Input
+              id={`ts-${k}`}
+              type={type}
+              value={v(k)}
+              onChange={(e) => setF({ ...f, [k]: e.target.value })}
+            />
+          </Field>
+        ))}
+      </div>
+      <Button className="mt-4" onClick={save}>
+        {t.save}
+      </Button>
+    </details>
   );
 }
 

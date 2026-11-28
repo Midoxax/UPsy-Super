@@ -13,6 +13,7 @@ import { useToast } from "@/hooks/use-toast";
 import SEOHead from "@/components/SEOHead";
 import { pushDataLayer } from "@/lib/analytics/gtm";
 import { withLogo } from "@/components/UpsyLogo";
+import { useLocale } from "@/contexts/LocaleContext";
 
 export type CampaignConfig = {
   slug: string;
@@ -50,10 +51,10 @@ const DEFAULT_LABELS = {
   privacy: "privacy notice",
   consentAfter: ". Data protected under Moroccan Law 09-08 — CNDP compliant.",
   noSpam: "No spam. One-click unsubscribe in every message.",
-  errName: "Your name helps us personalize",
-  errEmail: "Enter a valid email",
-  errPhone: "Enter a valid phone number",
-  errConsent: "Required to continue (Law 09-08)",
+  errName: "Enter your full name.",
+  errEmail: "Enter a valid email address.",
+  errPhone: "Enter a valid phone number.",
+  errConsent: "Your consent is required to continue (Law 09-08).",
   errTitle: "Something went wrong",
   errRetry: "Please try again in a moment.",
 };
@@ -87,6 +88,8 @@ function readAttribution() {
 /** The lead form of a campaign (or its success panel), with tracking. */
 export function CampaignLeadForm({ config }: { config: CampaignConfig }) {
   const L = { ...DEFAULT_LABELS, ...config.labels };
+  // The page's language, not the browser's: follow-up emails are written in it.
+  const { locale: pageLocale } = useLocale();
   const { toast } = useToast();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -136,7 +139,7 @@ export function CampaignLeadForm({ config }: { config: CampaignConfig }) {
         phone: phone.trim() || null,
         source: config.source,
         consent_marketing: consent,
-        locale: (navigator.language || "fr").split("-")[0],
+        locale: pageLocale,
         nurture_stage: "d0",
         score_breakdown: {
           audience: config.audience,
@@ -151,7 +154,7 @@ export function CampaignLeadForm({ config }: { config: CampaignConfig }) {
         _email: emailCheck.data!,
         _full_name: nameCheck.data!,
         _phone: phone.trim() || undefined,
-        _locale: (navigator.language || "fr").split("-")[0],
+        _locale: pageLocale,
         _contact_type:
           config.audience === "specialist" ? "specialist" : "client",
         _source: config.source,
@@ -181,9 +184,11 @@ export function CampaignLeadForm({ config }: { config: CampaignConfig }) {
 
       setSuccess(true);
     } catch (err) {
+      // Technical details stay in the console; visitors get the wording of their language.
+      console.error("campaign lead failed", err);
       toast({
         title: L.errTitle,
-        description: err instanceof Error ? err.message : L.errRetry,
+        description: L.errRetry,
         variant: "destructive",
       });
     } finally {

@@ -4,7 +4,7 @@
 // credential (verify_jwt = false). Titles stay generic ("UPSY session") so
 // a leaked feed does not name clients; the link inside needs a login.
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.45.0";
-import { icsCalendar } from "../_shared/ics.ts";
+import { icsCalendar, type IcsEvent } from "../_shared/ics.ts";
 
 const ORIGIN = Deno.env.get("PUBLIC_SITE_URL") ?? "https://upsy.ma";
 
@@ -37,27 +37,65 @@ Deno.serve(async (req) => {
     .limit(500);
   if (error) return new Response("Unavailable", { status: 503 });
 
-  const ics = icsCalendar(
-    (rows ?? []).map((b) => {
-      const online = b.session_type !== "in_person";
-      const url = `${ORIGIN}/session/${b.id}`;
-      const role = b.psychologist_id === feed.user_id ? "specialist" : "client";
+  // Webinars the person registered for (seat confirmed) or speaks at.
+  const { data: regs } = await sb
+    .from("live_class_registrations")
+    .select(
+      "role, payment_status, live_classes(id, title, title_fr, starts_at, duration_minutes, status)",
+    )
+    .eq("user_id", feed.user_id)
+    .is("cancelled_at", null)
+    .in("payment_status", ["none", "verified"])
+    .limit(200);
+  type Live = {
+    id: string;
+    title: string;
+    title_fr: string | null;
+    starts_at: string;
+    duration_minutes: number;
+    status: string;
+  };
+  const webinars = (regs ?? [])
+    .map((r) => r.live_classes as unknown as Live | null)
+    .filter((c): c is Live => !!c && c.starts_at >= since)
+    .map((c): IcsEvent => {
+      const url = `${ORIGIN}/learn/live/${c.id}`;
       return {
-        uid: b.id,
-        start: new Date(b.scheduled_at),
-        durationMin: b.duration_minutes ?? 50,
-        summary: `${b.status === "pending" ? "Requested: " : ""}UPSY session`,
-        description: `${online ? `Online. Join: ${url}` : "In person."}\nDetails: ${ORIGIN}/dashboard/${role}`,
-        url: online ? url : undefined,
-        location: online ? url : "In person",
-        status:
-          b.status === "pending"
-            ? "TENTATIVE"
-            : b.status === "cancelled"
-              ? "CANCELLED"
-              : "CONFIRMED",
+        uid: `live-${c.id}`,
+        start: new Date(c.starts_at),
+        durationMin: c.duration_minutes,
+        summary: `Webinaire : ${c.title_fr || c.title}`,
+        description: `En ligne. Rejoindre : ${url}`,
+        url,
+        location: url,
+        status: c.status === "cancelled" ? "CANCELLED" : "CONFIRMED",
       };
-    }),
+    });
+
+  const ics = icsCalendar(
+    (rows ?? [])
+      .map((b): IcsEvent => {
+        const online = b.session_type !== "in_person";
+        const url = `${ORIGIN}/session/${b.id}`;
+        const role =
+          b.psychologist_id === feed.user_id ? "specialist" : "client";
+        return {
+          uid: b.id,
+          start: new Date(b.scheduled_at),
+          durationMin: b.duration_minutes ?? 50,
+          summary: `${b.status === "pending" ? "Requested: " : ""}UPSY session`,
+          description: `${online ? `Online. Join: ${url}` : "In person."}\nDetails: ${ORIGIN}/dashboard/${role}`,
+          url: online ? url : undefined,
+          location: online ? url : "In person",
+          status:
+            b.status === "pending"
+              ? "TENTATIVE"
+              : b.status === "cancelled"
+                ? "CANCELLED"
+                : "CONFIRMED",
+        };
+      })
+      .concat(webinars),
     "PUBLISH",
     "UPSY sessions",
   );

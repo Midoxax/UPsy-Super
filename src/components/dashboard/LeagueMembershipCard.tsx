@@ -37,6 +37,19 @@ export default function LeagueMembershipCard() {
       return { plans: plans.data ?? [], settings: settings.data };
     },
   });
+  // The badge shows only on a published profile (league_member_badges).
+  const { data: published } = useQuery({
+    queryKey: ["own-profile-published", user?.id],
+    enabled: !!user,
+    queryFn: async () => {
+      const { data } = await supabase
+        .from("psychologist_profiles")
+        .select("is_published")
+        .eq("id", user!.id)
+        .maybeSingle();
+      return !!data?.is_published;
+    },
+  });
   const [planId, setPlanId] = useState("");
   const [method, setMethod] = useState<"transfer" | "deposit">("transfer");
   const [reference, setReference] = useState("");
@@ -176,6 +189,11 @@ export default function LeagueMembershipCard() {
                 {t.commissionFree(date(active.commission_free_until))}
               </p>
             )}
+          {published === false && (
+            <p className="rounded-md border border-dashed border-primary/40 bg-primary/5 p-2.5 text-xs">
+              {t.badgeHidden}
+            </p>
+          )}
         </div>
       )}
 

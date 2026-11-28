@@ -5,6 +5,7 @@ import { z } from "https://deno.land/x/zod@v3.22.4/mod.ts";
 import { buildApprovalEmail } from "../_shared/email-templates/accreditation/approval.ts";
 import { sender } from "../_shared/sender.ts";
 import { SITE_URL } from "../_shared/site.ts";
+import { preparePublication } from "../_shared/profile-publication.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -433,6 +434,13 @@ serve(async (req) => {
           // New accounts get a one-time link to choose a password rather than
           // a plaintext password in email. If the link cannot be generated,
           // fall back to the temporary password (the email says to change it).
+          // The profile, filled from the application, published in one click.
+          const publishUrl =
+            (await preparePublication(
+              supabase,
+              userId!,
+              application.preferred_locale,
+            ).catch(() => null)) ?? undefined;
           let setupUrl: string | undefined;
           if (isNewUser) {
             const { data: link, error: linkErr } =
@@ -458,6 +466,7 @@ serve(async (req) => {
             isNewUser,
             setupUrl,
             tempPassword: isNewUser && !setupUrl ? tempPassword : undefined,
+            publishUrl,
           });
           const { error } = await resend.emails.send({
             from: sender(),

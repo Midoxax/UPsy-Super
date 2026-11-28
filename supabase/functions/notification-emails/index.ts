@@ -39,12 +39,18 @@ const PREF: Record<string, string | null> = {
   shop: "email_payments",
   league_staff: null,
   shop_admin: null,
+  // Webinar notices go to registrants: confirmation, reminders, replay.
+  training: null,
+  league_training: null,
+  // The race engineer's weekly report (Performance Center).
+  performance: "email_performance",
 };
 const LEAGUE_TYPES = new Set([
   "league",
   "passport",
   "recruitment",
   "league_staff",
+  "league_training",
 ]);
 
 const OPEN: Record<Locale, string> = {
@@ -59,6 +65,9 @@ const EYEBROW: Record<string, string> = {
   league_staff: "Portail de la Ligue",
   shop: "Publications U.Psy",
   shop_admin: "Administration U.Psy",
+  training: "Formation U.Psy",
+  league_training: "Formation LSSPM",
+  performance: "Centre de performance U.Psy",
 };
 
 type Row = {

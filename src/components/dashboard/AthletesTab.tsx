@@ -12,6 +12,7 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
+import SharedPerformance from "@/components/performance/SharedPerformance";
 
 type Shared = {
   athlete_id: string;
@@ -242,6 +243,7 @@ export default function AthletesTab() {
               ))}
             </Card>
           )}
+          <SharedPerformance data={data as never} />
           {data.assessments && (
             <Card className="p-5 space-y-2">
               <p className="font-medium flex items-center gap-2">
