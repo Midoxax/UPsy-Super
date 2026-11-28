@@ -1,7 +1,13 @@
 import { useState } from "react";
 import { CheckCircle2, Circle, Flag, MapPin } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { daysToNext, isoDay, sortedRoutine } from "@/lib/performance/metrics";
+import {
+  daysToNext,
+  isoDay,
+  raceChecklist,
+  sortedRoutine,
+  type Light,
+} from "@/lib/performance/metrics";
 import { fmtDay, type PerfCopy } from "@/lib/performance/copy";
 import type { Competition } from "@/hooks/useAthleteHub";
 import RacePlanDialog, { type RaceView } from "./RacePlanDialog";
@@ -29,11 +35,15 @@ function Step({ done, label }: { done: boolean; label: string }) {
 export default function RaceWeekend({
   c,
   competitions,
+  sessions = [],
+  readinessLight = "off",
   onSave,
   children,
 }: {
   c: PerfCopy;
   competitions: Competition[];
+  sessions?: { session_date: string; kind?: string; note?: string | null }[];
+  readinessLight?: Light;
   onSave: (
     id: string,
     patch: Partial<Competition>,
@@ -89,6 +99,32 @@ export default function RaceWeekend({
           <Step done={!!x.pre_state} label={c.preRace} />
           <Step done={!!x.debrief} label={c.debrief} />
         </div>
+        {!isPast && diff <= 21 && (
+          <div className="space-y-1">
+            {(() => {
+              const list = raceChecklist(x.race_plan, {
+                name: x.name,
+                sessions,
+                readinessLight,
+              });
+              const n = list.filter((i) => i.done).length;
+              return (
+                <>
+                  <p className="text-xs font-semibold text-primary">
+                    {c.checklistTitle} · {c.readyCount(n, list.length)}
+                  </p>
+                  <ul className="grid grid-cols-2 gap-x-3 gap-y-0.5">
+                    {list.map((i) => (
+                      <li key={i.item}>
+                        <Step done={i.done} label={c.checklistItems[i.item]} />
+                      </li>
+                    ))}
+                  </ul>
+                </>
+              );
+            })()}
+          </div>
+        )}
         {!isPast && hasPlan(x) && (
           <p className="text-xs text-muted-foreground">
             {c.zoneTitle}: {plan.zone_low}–{plan.zone_high}

@@ -423,3 +423,46 @@ export function anxietyRead(
 export function sortedRoutine(plan: RacePlan) {
   return [...(plan.routine ?? [])].sort((a, b) => b.at - a.at);
 }
+
+// Race readiness checklist ------------------------------------------------------
+
+export type ReadinessItem =
+  "zone" | "routine" | "ifThen" | "cues" | "rehearsed" | "fit";
+
+/**
+ * The pre-race checklist for one competition: the plan is complete (zone,
+ * a routine of 3+ steps, an if-then plan, cue words), it was rehearsed in
+ * the last 7 days (a mental session naming the competition), and today's
+ * readiness light is not red.
+ */
+export function raceChecklist(
+  plan: RacePlan | null | undefined,
+  opts: {
+    name: string;
+    sessions: { session_date: string; kind?: string; note?: string | null }[];
+    readinessLight: Light;
+    now?: Date;
+  },
+): { item: ReadinessItem; done: boolean }[] {
+  const p = plan ?? {};
+  const now = opts.now ?? new Date();
+  const since = isoDay(new Date(now.getTime() - 7 * DAY));
+  const rehearsed = opts.sessions.some(
+    (s) =>
+      s.kind === "mental" &&
+      s.session_date >= since &&
+      !!s.note &&
+      s.note.toLowerCase().includes(opts.name.toLowerCase()),
+  );
+  return [
+    { item: "zone", done: p.zone_low != null && p.zone_high != null },
+    { item: "routine", done: (p.routine?.length ?? 0) >= 3 },
+    { item: "ifThen", done: (p.if_then?.length ?? 0) >= 1 },
+    { item: "cues", done: (p.cues?.length ?? 0) >= 1 },
+    { item: "rehearsed", done: rehearsed },
+    {
+      item: "fit",
+      done: opts.readinessLight !== "red" && opts.readinessLight !== "off",
+    },
+  ];
+}

@@ -10,6 +10,7 @@ import {
   pitWall,
   profileGaps,
   profileProgress,
+  raceChecklist,
   sortedRoutine,
   weeklySeries,
   zoneCheck,
@@ -242,5 +243,59 @@ describe("profile and race day", () => {
     ).toBe(5);
     expect(daysToNext([{ event_date: day(0) }], NOW)).toBe(0);
     expect(daysToNext([], NOW)).toBeNull();
+  });
+});
+
+describe("race checklist", () => {
+  const plan = {
+    zone_low: 5,
+    zone_high: 7,
+    routine: [
+      { at: 60, label: "a" },
+      { at: 30, label: "b" },
+      { at: 5, label: "c" },
+    ],
+    if_then: [{ if: "x", then: "y" }],
+    cues: ["smooth"],
+  };
+  it("is complete with a full plan, a recent rehearsal and a fit athlete", () => {
+    const list = raceChecklist(plan, {
+      name: "Open de Rabat",
+      sessions: [
+        {
+          session_date: day(2),
+          kind: "mental",
+          note: "Race rehearsal: Open de Rabat",
+        },
+      ],
+      readinessLight: "green",
+      now: NOW,
+    });
+    expect(list.every((x) => x.done)).toBe(true);
+  });
+  it("flags what is missing", () => {
+    const list = raceChecklist(
+      { zone_low: 5, zone_high: 7, routine: [{ at: 5, label: "c" }] },
+      {
+        name: "Open de Rabat",
+        sessions: [
+          {
+            session_date: day(10),
+            kind: "mental",
+            note: "Race rehearsal: Open de Rabat",
+          },
+          { session_date: day(1), kind: "training", note: "Open de Rabat" },
+        ],
+        readinessLight: "red",
+        now: NOW,
+      },
+    );
+    expect(list.filter((x) => !x.done).map((x) => x.item)).toEqual([
+      "routine",
+      "ifThen",
+      "cues",
+      "rehearsed",
+      "fit",
+    ]);
   });
 });

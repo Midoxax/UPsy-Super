@@ -89,6 +89,7 @@ function Stat({
 export default function PitWall({
   c,
   wall,
+  nextReady,
   checkedInToday,
   onCheckin,
   onLogSession,
@@ -96,6 +97,8 @@ export default function PitWall({
 }: {
   c: PerfCopy;
   wall: Wall;
+  /** The next competition's pre-race checklist (done / total). */
+  nextReady?: { done: number; total: number } | null;
   checkedInToday: boolean;
   onCheckin: () => void;
   onLogSession: () => void;
@@ -137,6 +140,12 @@ export default function PitWall({
                   {c.countdown(wall.nextRaceDays)}
                 </span>
                 {c.nextRace(wall.nextRaceDays)}
+              </p>
+            )}
+            {nextReady && (
+              <p className="mt-1 text-xs font-semibold text-primary">
+                {c.checklistTitle} ·{" "}
+                {c.readyCount(nextReady.done, nextReady.total)}
               </p>
             )}
           </div>

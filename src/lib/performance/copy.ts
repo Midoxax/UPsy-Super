@@ -328,6 +328,16 @@ const en = {
   rehearseIntroStep:
     "Close your eyes for a moment. You are there, on competition day.",
   rehearseOutroStep: "You are ready. One focus: the first action.",
+  checklistTitle: "Pre-race checklist",
+  checklistItems: {
+    zone: "Activation zone set",
+    routine: "Routine of 3+ steps",
+    ifThen: "An if-then plan",
+    cues: "Cue words",
+    rehearsed: "Rehearsed this week",
+    fit: "Readiness not red",
+  } as Record<string, string>,
+  readyCount: (n: number, t: number) => `Ready ${n}/${t}`,
   signIn: "Sign in to your Performance Center",
 };
 
@@ -658,6 +668,16 @@ const fr: Copy = {
   rehearseIntroStep:
     "Fermez les yeux un instant. Vous y êtes, le jour de la compétition.",
   rehearseOutroStep: "Vous êtes prêt. Une seule cible : la première action.",
+  checklistTitle: "Check-list de départ",
+  checklistItems: {
+    zone: "Zone d'activation fixée",
+    routine: "Routine de 3 étapes ou plus",
+    ifThen: "Un plan si-alors",
+    cues: "Mots-clés",
+    rehearsed: "Répétée cette semaine",
+    fit: "Disponibilité pas au rouge",
+  } as Record<string, string>,
+  readyCount: (n: number, t: number) => `Prêt ${n}/${t}`,
   signIn: "Connectez-vous à votre Centre de performance",
 };
 
@@ -974,6 +994,16 @@ const ar: Copy = {
   rehearseDone: "تم تسجيل التمرين كإعداد ذهني.",
   rehearseIntroStep: "أغمض عينيك لحظة. أنت هناك، يوم المنافسة.",
   rehearseOutroStep: "أنت جاهز. تركيز واحد: الحركة الأولى.",
+  checklistTitle: "قائمة ما قبل الانطلاق",
+  checklistItems: {
+    zone: "منطقة التنشيط محددة",
+    routine: "روتين من 3 خطوات أو أكثر",
+    ifThen: "خطة إذا-فإن",
+    cues: "كلمات مفتاحية",
+    rehearsed: "تم التمرّن هذا الأسبوع",
+    fit: "الجاهزية ليست حمراء",
+  } as Record<string, string>,
+  readyCount: (n: number, t: number) => `جاهز ${n}/${t}`,
   signIn: "سجّل الدخول إلى مركز الأداء",
 };
 

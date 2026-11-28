@@ -30,7 +30,7 @@ import ProgressReport from "@/components/athlete/ProgressReport";
 import StudyPanel from "@/components/athlete/StudyPanel";
 import { useHubCopy, protocolText } from "@/components/athlete/copy";
 import { usePerfCopy } from "@/lib/performance/copy";
-import { isoDay, pitWall } from "@/lib/performance/metrics";
+import { isoDay, pitWall, raceChecklist } from "@/lib/performance/metrics";
 import PitWall, { StatusLight } from "@/components/performance/PitWall";
 import Telemetry from "@/components/performance/Telemetry";
 import SetupSheet from "@/components/performance/SetupSheet";
@@ -116,6 +116,17 @@ const AthleteHub = () => {
     () => pitWall({ checkins, sessions: perf.sessions, competitions }),
     [checkins, perf.sessions, competitions],
   );
+  // The next competition's pre-race checklist, for the pit wall countdown.
+  const nextRace = competitions.find((x) => x.event_date >= isoDay(new Date()));
+  const nextReady = useMemo(() => {
+    if (!nextRace) return null;
+    const list = raceChecklist(nextRace.race_plan, {
+      name: nextRace.name,
+      sessions: perf.sessions,
+      readinessLight: wall.lights.readiness,
+    });
+    return { done: list.filter((i) => i.done).length, total: list.length };
+  }, [nextRace, perf.sessions, wall.lights.readiness]);
   const doneToday =
     !!checkins[0] &&
     isoDay(new Date(checkins[0].created_at)) === isoDay(new Date());
@@ -222,6 +233,7 @@ const AthleteHub = () => {
             <PitWall
               c={pc}
               wall={wall}
+              nextReady={nextReady}
               checkedInToday={doneToday}
               onCheckin={() => setCheckinOpen(true)}
               onLogSession={() => setSessionOpen(true)}
@@ -256,6 +268,8 @@ const AthleteHub = () => {
               <RaceWeekend
                 c={pc}
                 competitions={competitions}
+                sessions={perf.sessions}
+                readinessLight={wall.lights.readiness}
                 onSave={hub.updateCompetition}
               >
                 <CompetitionsPanel
