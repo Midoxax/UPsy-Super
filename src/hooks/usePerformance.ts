@@ -26,6 +26,7 @@ export type CrewLink = {
   role: string;
   scopes: string[];
   token: string;
+  invite_email?: string | null;
   created_at: string;
   last_viewed_at: string | null;
   revoked_at: string | null;
@@ -79,7 +80,7 @@ export function usePerformance() {
         supabase
           .from("athlete_crew_links")
           .select(
-            "id,label,role,scopes,token,created_at,last_viewed_at,revoked_at",
+            "id,label,role,scopes,token,invite_email,created_at,last_viewed_at,revoked_at",
           )
           .eq("athlete_id", uid!)
           .is("revoked_at", null)
@@ -108,7 +109,12 @@ export function usePerformance() {
     profiles: data?.profiles ?? [],
     phases: data?.phases ?? [],
     crew: data?.crew ?? [],
-    addCrewLink: (l: { label: string; role: string; scopes: string[] }) =>
+    addCrewLink: (l: {
+      label: string;
+      role: string;
+      scopes: string[];
+      invite_email?: string | null;
+    }) =>
       run(
         supabase.from("athlete_crew_links").insert({ ...l, athlete_id: uid! }),
       ),
@@ -138,4 +144,21 @@ export function usePerformance() {
     removePhase: (id: string) =>
       run(supabase.from("athlete_season_phases").delete().eq("id", id)),
   };
+}
+
+export type SquadMember = {
+  token: string;
+  label: string;
+  role: string;
+  athlete: string;
+};
+
+/** Athletes who invited the signed-in user (crew_squad). */
+export function useSquad() {
+  return useQuery({
+    queryKey: ["crew-squad"],
+    queryFn: async () =>
+      ((await supabase.rpc("crew_squad")).data ?? []) as SquadMember[],
+    staleTime: 60_000,
+  });
 }

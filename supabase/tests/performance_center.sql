@@ -173,4 +173,24 @@ SELECT pg_temp.expect((SELECT title LIKE 'Your week: load 0 AU, readiness 61' AN
 SELECT pg_temp.expect(NOT has_function_privilege('authenticated', 'public.performance_weekly_report()', 'EXECUTE'),
   'only the scheduler sends the report');
 
+
+-- Squad: the link addressed to a coach's email shows on their board only.
+INSERT INTO auth.users (id, email) VALUES ('00000000-0000-0000-0000-00000000bc04', 'karim@club.ma');
+SET LOCAL ROLE authenticated;
+SELECT pg_temp.as_user('00000000-0000-0000-0000-00000000bc01');
+INSERT INTO public.athlete_crew_links (athlete_id, label, role, scopes, invite_email)
+  VALUES ('00000000-0000-0000-0000-00000000bc01', 'Coach Karim', 'coach', ARRAY['readiness'], 'karim@club.ma');
+SELECT pg_temp.raises($q$INSERT INTO public.athlete_crew_links (athlete_id, label, invite_email)
+  VALUES ('00000000-0000-0000-0000-00000000bc01', 'x', 'Karim@Club.ma')$q$, 'invitation emails are stored in lower case');
+SELECT set_config('request.jwt.claims', json_build_object('sub', '00000000-0000-0000-0000-00000000bc04',
+  'role', 'authenticated', 'email', 'Karim@Club.ma')::text, true);
+SELECT set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-00000000bc04', true);
+SELECT pg_temp.expect((SELECT count(*) = 1 AND bool_and(label = 'Coach Karim') FROM public.crew_squad()),
+  'the coach sees the athlete who invited them');
+SELECT pg_temp.expect((SELECT (public.crew_view(token)) ? 'checkins' FROM public.crew_squad()),
+  'and opens their read-only view');
+SELECT pg_temp.as_user('00000000-0000-0000-0000-00000000bc03');
+SELECT pg_temp.expect((SELECT count(*) = 0 FROM public.crew_squad()), 'nobody else does');
+RESET ROLE;
+
 ROLLBACK;

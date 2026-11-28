@@ -594,6 +594,7 @@ export type Database = {
           role: string;
           scopes: string[];
           token: string;
+          invite_email: string | null;
         };
         Insert: {
           athlete_id: string;
@@ -605,6 +606,7 @@ export type Database = {
           role?: string;
           scopes?: string[];
           token?: string;
+          invite_email?: string | null;
         };
         Update: {
           athlete_id?: string;
@@ -616,6 +618,7 @@ export type Database = {
           role?: string;
           scopes?: string[];
           token?: string;
+          invite_email?: string | null;
         };
         Relationships: [];
       };
@@ -9607,6 +9610,15 @@ export type Database = {
           last_status: string | null;
           last_message: string | null;
           failures_24h: number;
+        }[];
+      };
+      crew_squad: {
+        Args: never;
+        Returns: {
+          athlete: string;
+          label: string;
+          role: string;
+          token: string;
         }[];
       };
       crew_view: {

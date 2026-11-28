@@ -25,11 +25,13 @@ export default function CrewLinks({
     label: string;
     role: string;
     scopes: string[];
+    invite_email?: string | null;
   }) => Promise<{ error: Error | null }>;
   onRevoke: (id: string) => void;
 }) {
   const { locale } = useLocale();
   const [label, setLabel] = useState("");
+  const [email, setEmail] = useState("");
   const [role, setRole] = useState<string>("coach");
   const [scopes, setScopes] = useState<string[]>([
     "readiness",
@@ -43,10 +45,17 @@ export default function CrewLinks({
   const create = async () => {
     if (!label.trim() || !scopes.length) return;
     setBusy(true);
-    const { error } = await onAdd({ label: label.trim(), role, scopes });
+    const invite = email.trim().toLowerCase();
+    const { error } = await onAdd({
+      label: label.trim(),
+      role,
+      scopes,
+      invite_email: /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(invite) ? invite : null,
+    });
     setBusy(false);
     if (error) return toast.error(c.saveFailed, { description: error.message });
     setLabel("");
+    setEmail("");
     toast.success(c.saved);
   };
   const copy = async (token: string) => {
@@ -83,6 +92,7 @@ export default function CrewLinks({
                   {l.label}{" "}
                   <span className="text-xs text-muted-foreground">
                     · {c.crewRoles[l.role] ?? l.role}
+                    {l.invite_email && ` · ${l.invite_email}`}
                   </span>
                 </p>
                 <p className="text-xs text-muted-foreground">
@@ -142,6 +152,19 @@ export default function CrewLinks({
             </div>
           </div>
         </div>
+        <label className="block space-y-1 text-sm">
+          <span>{c.crewEmail}</span>
+          <Input
+            type="email"
+            value={email}
+            maxLength={254}
+            autoComplete="off"
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <span className="block text-xs text-muted-foreground">
+            {c.crewEmailHint}
+          </span>
+        </label>
         <div className="grid gap-2 sm:grid-cols-2">
           {SCOPES.map((s) => (
             <label key={s} className="flex items-center gap-2 text-sm">

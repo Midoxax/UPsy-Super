@@ -404,3 +404,29 @@ BEGIN
   PERFORM cron.schedule('performance-weekly-report', '10 7 * * 1',
                         'SELECT public.performance_weekly_report();');
 END $$;
+
+-- 9. Squad: a coach sees every athlete who addressed a crew link to them ---
+-- The athlete may address a crew link to the coach's email. When that coach
+-- signs in, the link appears on their squad board, still read-only and
+-- limited to what the athlete ticked (through crew_view).
+ALTER TABLE public.athlete_crew_links
+  ADD COLUMN IF NOT EXISTS invite_email text
+    CHECK (invite_email IS NULL OR (invite_email = lower(invite_email) AND invite_email LIKE '%_@_%'));
+GRANT INSERT (invite_email), UPDATE (invite_email) ON public.athlete_crew_links TO authenticated;
+CREATE INDEX IF NOT EXISTS idx_athlete_crew_links_invite
+  ON public.athlete_crew_links (invite_email) WHERE invite_email IS NOT NULL AND revoked_at IS NULL;
+
+CREATE OR REPLACE FUNCTION public.crew_squad()
+RETURNS TABLE (token text, label text, role text, athlete text)
+LANGUAGE sql STABLE SECURITY DEFINER SET search_path = '' AS $$
+  SELECT l.token, l.label, l.role,
+         coalesce(split_part(p.full_name, ' ', 1), '')
+    FROM public.athlete_crew_links l
+    LEFT JOIN public.profiles p ON p.id = l.athlete_id
+   WHERE l.revoked_at IS NULL
+     AND l.invite_email IS NOT NULL
+     AND l.invite_email = lower(auth.email())
+   ORDER BY l.created_at;
+$$;
+REVOKE ALL ON FUNCTION public.crew_squad() FROM PUBLIC, anon;
+GRANT EXECUTE ON FUNCTION public.crew_squad() TO authenticated;

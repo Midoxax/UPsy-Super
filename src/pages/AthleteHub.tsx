@@ -15,10 +15,11 @@ import {
   Medal,
   MessageCircle,
   SlidersHorizontal,
+  Trophy,
   Users,
 } from "lucide-react";
 import { useAthleteHub, type Protocol } from "@/hooks/useAthleteHub";
-import { usePerformance } from "@/hooks/usePerformance";
+import { usePerformance, useSquad } from "@/hooks/usePerformance";
 import DailyCheckinDialog from "@/components/athlete/DailyCheckinDialog";
 import ProtocolRunner from "@/components/athlete/ProtocolRunner";
 import JournalPanel from "@/components/athlete/JournalPanel";
@@ -39,6 +40,7 @@ import SeasonPlanner from "@/components/performance/SeasonPlanner";
 import SessionDialog from "@/components/performance/SessionDialog";
 import CrewLinks from "@/components/performance/CrewLinks";
 import RaceRehearsal from "@/components/performance/RaceRehearsal";
+import SquadBoard from "@/components/performance/SquadBoard";
 
 const TABS = [
   { id: "pit", icon: Gauge },
@@ -48,6 +50,7 @@ const TABS = [
   { id: "season", icon: CalendarRange },
   { id: "simulator", icon: Cpu },
   { id: "crew", icon: Users },
+  { id: "squad", icon: Trophy },
 ] as const;
 type Tab = (typeof TABS)[number]["id"];
 const isTab = (s: string): s is Tab => TABS.some((t) => t.id === s);
@@ -89,6 +92,8 @@ const AthleteHub = () => {
   const pc = usePerfCopy();
   const hub = useAthleteHub();
   const perf = usePerformance();
+  // Coaches invited by athletes get the squad tab.
+  const { data: squad = [] } = useSquad();
   const { checkins, protocols, journal, goals, competitions, completions } =
     hub;
   const [tab, setTab] = useState<Tab>("pit");
@@ -212,18 +217,20 @@ const AthleteHub = () => {
           role="tablist"
           className="container-custom flex gap-1 overflow-x-auto py-2"
         >
-          {TABS.map(({ id, icon: Icon }) => (
-            <button
-              key={id}
-              role="tab"
-              aria-selected={tab === id}
-              onClick={() => go(id)}
-              className={`inline-flex min-h-10 shrink-0 items-center gap-2 rounded-full px-4 text-sm transition ${tab === id ? "bg-primary text-primary-foreground font-semibold" : "text-foreground hover:bg-muted"}`}
-            >
-              <Icon className="h-4 w-4" />
-              {pc.tabs[id]}
-            </button>
-          ))}
+          {TABS.filter((t) => t.id !== "squad" || squad.length > 0).map(
+            ({ id, icon: Icon }) => (
+              <button
+                key={id}
+                role="tab"
+                aria-selected={tab === id}
+                onClick={() => go(id)}
+                className={`inline-flex min-h-10 shrink-0 items-center gap-2 rounded-full px-4 text-sm transition ${tab === id ? "bg-primary text-primary-foreground font-semibold" : "text-foreground hover:bg-muted"}`}
+              >
+                <Icon className="h-4 w-4" />
+                {id === "squad" ? pc.squadTab : pc.tabs[id]}
+              </button>
+            ),
+          )}
         </div>
       </nav>
 
@@ -364,6 +371,12 @@ const AthleteHub = () => {
                 />
               </Section>
             </>
+          )}
+
+          {tab === "squad" && (
+            <Section title={pc.squadTitle}>
+              <SquadBoard c={pc} members={squad} />
+            </Section>
           )}
 
           {tab === "crew" && (

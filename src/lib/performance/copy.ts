@@ -338,6 +338,14 @@ const en = {
     fit: "Readiness not red",
   } as Record<string, string>,
   readyCount: (n: number, t: number) => `Ready ${n}/${t}`,
+  squadTab: "Squad",
+  squadTitle: "Your squad",
+  squadIntro:
+    "Athletes who invited you through a crew link. Read-only, limited to what each athlete chose to share.",
+  squadOpen: "Open",
+  crewEmail: "Their email (optional)",
+  crewEmailHint:
+    "With an email, the link also appears on their squad board when they sign in to U.Psy.",
   signIn: "Sign in to your Performance Center",
 };
 
@@ -678,6 +686,14 @@ const fr: Copy = {
     fit: "Disponibilité pas au rouge",
   } as Record<string, string>,
   readyCount: (n: number, t: number) => `Prêt ${n}/${t}`,
+  squadTab: "Écurie",
+  squadTitle: "Votre écurie",
+  squadIntro:
+    "Les athlètes qui vous ont invité par un lien d'équipe. En lecture seule, limité à ce que chacun a choisi de partager.",
+  squadOpen: "Ouvrir",
+  crewEmail: "Son email (facultatif)",
+  crewEmailHint:
+    "Avec un email, le lien apparaît aussi dans son écurie quand il se connecte à U.Psy.",
   signIn: "Connectez-vous à votre Centre de performance",
 };
 
@@ -1004,6 +1020,14 @@ const ar: Copy = {
     fit: "الجاهزية ليست حمراء",
   } as Record<string, string>,
   readyCount: (n: number, t: number) => `جاهز ${n}/${t}`,
+  squadTab: "الفريق",
+  squadTitle: "فريقك",
+  squadIntro:
+    "الرياضيون الذين دعوك عبر رابط الفريق. للقراءة فقط، ومحدود بما اختار كل واحد مشاركته.",
+  squadOpen: "فتح",
+  crewEmail: "بريده الإلكتروني (اختياري)",
+  crewEmailHint:
+    "مع البريد، يظهر الرابط أيضًا في لوحة فريقه عند تسجيل دخوله إلى U.Psy.",
   signIn: "سجّل الدخول إلى مركز الأداء",
 };
 
