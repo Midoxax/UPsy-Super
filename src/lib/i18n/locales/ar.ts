@@ -117,6 +117,7 @@ const ar = {
     joinSpecialist: "الانضمام كمختص",
     specialistPricing: "أسعار المختصين",
     learn: "مركز التكوين",
+    performanceCenter: "مركز الأداء",
     leagueTraining: "تكوين الرابطة",
     newsletter: "النشرة",
     publishProfile: "نشر ملفي",

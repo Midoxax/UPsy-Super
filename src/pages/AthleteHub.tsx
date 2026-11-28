@@ -1,4 +1,4 @@
-import { useState, useMemo, type ReactNode } from "react";
+import { useEffect, useMemo, useState, type ReactNode } from "react";
 import { Link } from "@/lib/router-compat";
 import { useAuth } from "@/contexts/AuthContext";
 import { useLocale } from "@/contexts/LocaleContext";
@@ -6,26 +6,19 @@ import { addLocalePrefix } from "@/lib/i18n/utils";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import {
-  Medal,
-  Dumbbell,
-  Sparkles,
+  Activity,
+  CalendarRange,
   Clock,
+  Cpu,
+  Flag,
+  Gauge,
+  Medal,
   MessageCircle,
-  Flame,
-  CheckCircle2,
+  SlidersHorizontal,
+  Users,
 } from "lucide-react";
-import {
-  LineChart,
-  Line,
-  ResponsiveContainer,
-  XAxis,
-  YAxis,
-  Tooltip,
-} from "recharts";
 import { useAthleteHub, type Protocol } from "@/hooks/useAthleteHub";
-import ReadinessRing, {
-  readinessTier,
-} from "@/components/athlete/ReadinessRing";
+import { usePerformance } from "@/hooks/usePerformance";
 import DailyCheckinDialog from "@/components/athlete/DailyCheckinDialog";
 import ProtocolRunner from "@/components/athlete/ProtocolRunner";
 import JournalPanel from "@/components/athlete/JournalPanel";
@@ -35,82 +28,95 @@ import SharePanel from "@/components/athlete/SharePanel";
 import AssessmentsPanel from "@/components/athlete/AssessmentsPanel";
 import ProgressReport from "@/components/athlete/ProgressReport";
 import StudyPanel from "@/components/athlete/StudyPanel";
-import { useStudyCopy } from "@/lib/study/copy";
-import { FlaskConical } from "lucide-react";
-import { useHubCopy, protocolText, fmtDate } from "@/components/athlete/copy";
-import { checkinStreak } from "@/components/athlete/stats";
+import { useHubCopy, protocolText } from "@/components/athlete/copy";
+import { usePerfCopy } from "@/lib/performance/copy";
+import { isoDay, pitWall } from "@/lib/performance/metrics";
+import PitWall, { StatusLight } from "@/components/performance/PitWall";
+import Telemetry from "@/components/performance/Telemetry";
+import SetupSheet from "@/components/performance/SetupSheet";
+import RaceWeekend from "@/components/performance/RaceWeekend";
+import SeasonPlanner from "@/components/performance/SeasonPlanner";
+import SessionDialog from "@/components/performance/SessionDialog";
 
-function Module({
-  n,
+const TABS = [
+  { id: "pit", icon: Gauge },
+  { id: "telemetry", icon: Activity },
+  { id: "setup", icon: SlidersHorizontal },
+  { id: "race", icon: Flag },
+  { id: "season", icon: CalendarRange },
+  { id: "simulator", icon: Cpu },
+  { id: "crew", icon: Users },
+] as const;
+type Tab = (typeof TABS)[number]["id"];
+const isTab = (s: string): s is Tab => TABS.some((t) => t.id === s);
+
+function Section({
   title,
-  aside,
+  intro,
   children,
 }: {
-  n: number;
   title: string;
-  aside?: ReactNode;
+  intro?: string;
   children: ReactNode;
 }) {
   return (
-    <section id={`m${n}`} className="scroll-mt-32 space-y-4">
-      <div className="flex items-center justify-between gap-3 flex-wrap">
-        <h2 className="text-h3 flex items-center gap-3">
-          <span className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary text-primary-foreground text-sm font-bold">
-            {n}
-          </span>
-          {title}
-        </h2>
-        {aside}
+    <section className="space-y-4">
+      <div>
+        <h2 className="text-h3">{title}</h2>
+        {intro && (
+          <p className="mt-1 max-w-3xl text-sm text-muted-foreground">
+            {intro}
+          </p>
+        )}
       </div>
       {children}
     </section>
   );
 }
 
+/**
+ * The Performance Center (formerly the Athlete Hub): a development hub run
+ * like a race team's. Pit wall, telemetry, setup sheet (performance
+ * profile), race weekend (plans, pre-race check, debrief), season plan,
+ * simulator (mental training) and pit crew (sharing, assessments, report).
+ */
 const AthleteHub = () => {
   const { user } = useAuth();
   const { locale } = useLocale();
   const c = useHubCopy();
-  const st = useStudyCopy();
+  const pc = usePerfCopy();
   const hub = useAthleteHub();
-  const {
-    checkins,
-    protocols,
-    journal,
-    goals,
-    competitions,
-    completions,
-    assessments,
-    shares,
-    candidates,
-    latestScore,
-  } = hub;
+  const perf = usePerformance();
+  const { checkins, protocols, journal, goals, competitions, completions } =
+    hub;
+  const [tab, setTab] = useState<Tab>("pit");
   const [checkinOpen, setCheckinOpen] = useState(false);
+  const [sessionOpen, setSessionOpen] = useState(false);
   const [activeProtocol, setActiveProtocol] = useState<Protocol | null>(null);
 
-  const trend = useMemo(
-    () =>
-      [...checkins].reverse().map((ci) => ({
-        score: ci.score,
-        date: fmtDate(c, ci.created_at),
-      })),
-    [checkins, c],
+  // Deep links: /athlete-hub#telemetry opens that tab.
+  useEffect(() => {
+    const sync = () => {
+      const h = window.location.hash.slice(1);
+      if (isTab(h)) setTab(h);
+    };
+    sync();
+    window.addEventListener("hashchange", sync);
+    return () => window.removeEventListener("hashchange", sync);
+  }, []);
+  const go = (t: Tab) => {
+    setTab(t);
+    history.pushState(null, "", `#${t}`);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  const wall = useMemo(
+    () => pitWall({ checkins, sessions: perf.sessions, competitions }),
+    [checkins, perf.sessions, competitions],
   );
-
-  const avg7 = useMemo(() => {
-    const recent = checkins.slice(0, 7);
-    if (recent.length === 0) return null;
-    return Math.round(recent.reduce((s, x) => s + x.score, 0) / recent.length);
-  }, [checkins]);
-
   const doneToday =
     !!checkins[0] &&
-    new Date(checkins[0].created_at).toDateString() ===
-      new Date().toDateString();
-  const streak = useMemo(
-    () => checkinStreak(checkins.map((x) => x.created_at)),
-    [checkins],
-  );
+    isoDay(new Date(checkins[0].created_at)) === isoDay(new Date());
   const monthCount = useMemo(() => {
     const since = Date.now() - 30 * 86400000;
     const m = new Map<string, number>();
@@ -125,7 +131,7 @@ const AthleteHub = () => {
       <div className="min-h-screen flex items-center justify-center px-4">
         <div className="glass-card p-8 sm:p-12 text-center max-w-md">
           <Medal className="w-12 h-12 text-primary mx-auto mb-4" />
-          <h1 className="text-h2 mb-2">{c.signInTitle}</h1>
+          <h1 className="text-h2 mb-2">{pc.signIn}</h1>
           <p className="text-muted-foreground mb-6">{c.signInDesc}</p>
           <Button variant="primary" asChild>
             <Link to={addLocalePrefix("/auth?redirect=/athlete-hub", locale)}>
@@ -137,297 +143,235 @@ const AthleteHub = () => {
     );
   }
 
-  const tier = latestScore == null ? null : readinessTier(latestScore);
   const name =
     (user.user_metadata?.full_name as string | undefined) ?? user.email ?? "";
+  const lights = wall.lights;
 
   return (
     <div className="min-h-screen">
-      <section className="hero-neural-bg relative py-8 sm:py-12 print:hidden">
-        <div className="container-custom relative z-10">
-          <div className="flex items-center gap-3 mb-2">
-            <Dumbbell className="w-6 h-6 text-primary" />
-            <Badge className="bg-primary/10 text-primary border-primary/20">
-              {c.badge}
+      {/* Garage: the athlete, the three lights, the next race. */}
+      <section
+        className="relative overflow-hidden bg-[#0b0c10] text-white print:hidden"
+        style={{
+          backgroundImage:
+            "radial-gradient(circle at 85% 0%, rgba(255,179,0,0.18), transparent 45%), radial-gradient(circle at 0% 100%, rgba(109,15,34,0.55), transparent 50%), repeating-linear-gradient(135deg, rgba(255,255,255,0.025) 0 2px, transparent 2px 10px)",
+        }}
+      >
+        <div className="container-custom relative space-y-6 py-10 sm:py-14">
+          <div className="flex flex-wrap items-center gap-3">
+            <Badge
+              variant="outline"
+              className="border-white/20 bg-white/5 text-white/80"
+            >
+              <Gauge className="me-1.5 h-3.5 w-3.5 text-primary" />
+              {pc.eyebrow}
             </Badge>
+            {name && <span className="text-sm text-white/60">{name}</span>}
           </div>
-          <h1 className="text-h1">{c.title}</h1>
-          <p className="text-muted-foreground mt-2 max-w-2xl">{c.subtitle}</p>
+          <div className="grid items-end gap-8 lg:grid-cols-[1.4fr_1fr]">
+            <div className="space-y-3">
+              <h1 className="font-display text-4xl leading-[1.05] tracking-tight md:text-5xl">
+                {pc.title}
+              </h1>
+              <p className="max-w-xl text-white/70">{pc.subtitle}</p>
+            </div>
+            <div className="grid gap-2 sm:grid-cols-3 lg:grid-cols-1 xl:grid-cols-3">
+              {(["readiness", "load", "recovery"] as const).map((k) => (
+                <StatusLight
+                  key={k}
+                  dark
+                  label={pc.lights[k]}
+                  light={lights[k]}
+                  state={pc.lightState[lights[k]]}
+                />
+              ))}
+            </div>
+          </div>
         </div>
       </section>
 
-      {/* Module index 1-9: scrolls sideways on phones, wraps on desktop. */}
+      {/* Tabs */}
       <nav
-        aria-label={c.title}
-        className="sticky top-16 z-20 border-y border-border/40 bg-background/90 backdrop-blur print:hidden"
+        aria-label={pc.eyebrow}
+        className="sticky top-16 z-20 border-b border-border/60 bg-background/90 backdrop-blur print:hidden"
       >
-        <ol className="container-custom flex gap-2 overflow-x-auto py-2 sm:flex-wrap">
-          <li className="shrink-0">
-            <a
-              href="#study"
-              className="inline-flex min-h-10 items-center gap-2 rounded-full border border-primary/60 bg-primary/10 px-3 text-sm text-foreground hover:border-primary hover:text-primary"
+        <div
+          role="tablist"
+          className="container-custom flex gap-1 overflow-x-auto py-2"
+        >
+          {TABS.map(({ id, icon: Icon }) => (
+            <button
+              key={id}
+              role="tab"
+              aria-selected={tab === id}
+              onClick={() => go(id)}
+              className={`inline-flex min-h-10 shrink-0 items-center gap-2 rounded-full px-4 text-sm transition ${tab === id ? "bg-primary text-primary-foreground font-semibold" : "text-foreground hover:bg-muted"}`}
             >
-              <FlaskConical className="h-3.5 w-3.5 text-primary" />
-              {st.nav}
-            </a>
-          </li>
-          {c.modules.map((label, i) => (
-            <li key={label} className="shrink-0">
-              <a
-                href={`#m${i + 1}`}
-                className="inline-flex min-h-10 items-center gap-2 rounded-full border border-border/60 px-3 text-sm text-foreground hover:border-primary hover:text-primary"
-              >
-                <span className="text-xs font-bold text-primary">{i + 1}</span>
-                {label}
-              </a>
-            </li>
+              <Icon className="h-4 w-4" />
+              {pc.tabs[id]}
+            </button>
           ))}
-        </ol>
+        </div>
       </nav>
 
-      <div className="py-8 sm:py-12 liquid-bg">
+      <div className="py-8 sm:py-10">
         <div className="container-custom space-y-12">
-          {/* The longitudinal study the Hub feeds. */}
-          <section id="study" className="scroll-mt-32">
-            <StudyPanel />
-          </section>
-
-          {/* 1. Check-in */}
-          <Module n={1} title={c.modules[0]}>
-            <div className="glass-card p-5 sm:p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-              <div className="space-y-1">
-                <p className="font-medium text-foreground flex items-center gap-2">
-                  {doneToday ? (
-                    <CheckCircle2 className="w-5 h-5 text-primary" />
-                  ) : (
-                    <Clock className="w-5 h-5 text-muted-foreground" />
-                  )}
-                  {doneToday ? c.checkinDoneToday : c.checkinNotYet}
-                </p>
-                {streak > 0 && (
-                  <p className="text-sm text-muted-foreground flex items-center gap-1.5">
-                    <Flame className="w-4 h-4 text-amber-500" />
-                    {streak} {c.streak}
-                  </p>
-                )}
-              </div>
-              <Button
-                variant="primary"
-                size="lg"
-                className="w-full sm:w-auto"
-                onClick={() => setCheckinOpen(true)}
-              >
-                <Sparkles className="w-4 h-4" />
-                {doneToday ? c.checkinUpdate : c.checkinCta}
-              </Button>
-            </div>
-          </Module>
-
-          {/* 2. Readiness */}
-          <Module n={2} title={c.modules[1]}>
-            <div className="grid lg:grid-cols-[320px_1fr] gap-6">
-              <div className="glass-card p-6 flex flex-col items-center justify-center">
-                <ReadinessRing score={latestScore} size={200} />
-                {tier && (
-                  <p className="text-sm text-center text-muted-foreground mt-4">
-                    {c.tierAdvice[tier]}
-                  </p>
-                )}
-                <div className="grid grid-cols-2 gap-6 w-full mt-6 pt-6 border-t border-border/30">
-                  <div className="text-center">
-                    <p className="text-2xl font-bold text-foreground">
-                      {avg7 ?? "—"}
-                    </p>
-                    <p className="text-[11px] uppercase tracking-widest text-muted-foreground mt-1">
-                      {c.avg7}
-                    </p>
-                  </div>
-                  <div className="text-center">
-                    <p className="text-2xl font-bold text-foreground">
-                      {checkins.length}
-                    </p>
-                    <p className="text-[11px] uppercase tracking-widest text-muted-foreground mt-1">
-                      {c.checkins}
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              <div className="glass-card p-5 sm:p-6 min-w-0">
-                <div className="flex items-center justify-between gap-2 mb-4 flex-wrap">
-                  <h3 className="font-semibold text-foreground">{c.trend}</h3>
-                  <Badge variant="outline">{c.lastN(trend.length)}</Badge>
-                </div>
-                {trend.length < 2 ? (
-                  <div className="flex flex-col items-center justify-center h-[220px] text-center">
-                    <p className="text-sm text-muted-foreground mb-3">
-                      {c.trendEmpty}
-                    </p>
-                    <Button
-                      variant="outline"
-                      onClick={() => setCheckinOpen(true)}
-                    >
-                      {c.checkinCta}
-                    </Button>
-                  </div>
-                ) : (
-                  <div className="h-[220px]" dir="ltr">
-                    <ResponsiveContainer width="100%" height="100%">
-                      <LineChart
-                        data={trend}
-                        margin={{ top: 8, right: 8, left: -16, bottom: 0 }}
-                      >
-                        <XAxis
-                          dataKey="date"
-                          tick={{
-                            fontSize: 11,
-                            fill: "hsl(var(--muted-foreground))",
-                          }}
-                          tickLine={false}
-                          axisLine={false}
-                          minTickGap={16}
-                        />
-                        <YAxis
-                          domain={[0, 100]}
-                          tick={{
-                            fontSize: 11,
-                            fill: "hsl(var(--muted-foreground))",
-                          }}
-                          tickLine={false}
-                          axisLine={false}
-                        />
-                        <Tooltip
-                          contentStyle={{
-                            background: "hsl(var(--card))",
-                            border: "1px solid hsl(var(--border))",
-                            borderRadius: 12,
-                          }}
-                          labelStyle={{ color: "hsl(var(--foreground))" }}
-                        />
-                        <Line
-                          type="monotone"
-                          dataKey="score"
-                          stroke="hsl(var(--primary))"
-                          strokeWidth={2.5}
-                          dot={{ r: 3 }}
-                        />
-                      </LineChart>
-                    </ResponsiveContainer>
-                  </div>
-                )}
-              </div>
-            </div>
-          </Module>
-
-          {/* 3. Protocols */}
-          <Module
-            n={3}
-            title={c.modules[2]}
-            aside={
-              <Badge variant="outline">{c.sessions(protocols.length)}</Badge>
-            }
-          >
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
-              {protocols.map((p) => {
-                const text = protocolText(c, p);
-                const n = monthCount.get(p.id) ?? 0;
-                return (
-                  <button
-                    key={p.id}
-                    onClick={() => setActiveProtocol(p)}
-                    className="glass-card p-5 text-start group hover:shadow-glass-hover transition-all flex flex-col"
-                  >
-                    <div className="flex items-center gap-2 mb-3 flex-wrap">
-                      <Badge variant="outline" className="text-[10px]">
-                        {c.categories[p.category] ?? p.category}
-                      </Badge>
-                      <Badge variant="outline" className="text-[10px]">
-                        <Clock className="w-3 h-3 mr-1" />
-                        {p.duration_minutes} {c.minutes}
-                      </Badge>
-                    </div>
-                    <h3 className="font-semibold text-foreground mb-2 group-hover:text-primary transition-colors">
-                      {text.title}
-                    </h3>
-                    <p className="text-xs text-muted-foreground line-clamp-3">
-                      {text.description}
-                    </p>
-                    {n > 0 && (
-                      <p className="text-xs text-primary mt-3 font-medium">
-                        {c.doneThisMonth(n)}
-                      </p>
-                    )}
-                  </button>
-                );
-              })}
-            </div>
-          </Module>
-
-          {/* 4. Journal */}
-          <Module n={4} title={c.modules[3]}>
-            <div className="grid lg:grid-cols-[1.4fr_1fr] gap-6">
-              <JournalPanel
-                entries={journal}
-                onAdd={hub.addJournalEntry}
-                onSynthesize={hub.synthesizeEntry}
-              />
-              <Link
-                to={addLocalePrefix("/ai-assistant", locale)}
-                className="glass-card p-6 block group hover:shadow-glass-hover transition-all self-start"
-              >
-                <MessageCircle className="w-8 h-8 text-primary mb-3 group-hover:scale-110 transition-transform" />
-                <p className="font-semibold text-foreground">{c.aiCoach}</p>
-                <p className="text-xs text-muted-foreground mt-1">
-                  {c.aiCoachDesc}
-                </p>
-              </Link>
-            </div>
-          </Module>
-
-          {/* 5. Goals */}
-          <Module n={5} title={c.modules[4]}>
-            <GoalsPanel
-              goals={goals}
-              onAdd={hub.addGoal}
-              onUpdate={hub.updateGoal}
+          {tab === "pit" && (
+            <PitWall
+              c={pc}
+              wall={wall}
+              checkedInToday={doneToday}
+              onCheckin={() => setCheckinOpen(true)}
+              onLogSession={() => setSessionOpen(true)}
+              onGoto={go}
             />
-          </Module>
+          )}
 
-          {/* 6. Competitions */}
-          <Module n={6} title={c.modules[5]}>
-            <CompetitionsPanel
-              competitions={competitions}
-              onAdd={hub.addCompetition}
-              onUpdate={hub.updateCompetition}
-              onRemove={hub.removeCompetition}
-            />
-          </Module>
-
-          {/* 7. Psychologist */}
-          <Module n={7} title={c.share}>
-            <SharePanel
-              shares={shares}
-              candidates={candidates}
-              onSet={hub.setShare}
-            />
-          </Module>
-
-          {/* 8. Assessments */}
-          <Module n={8} title={c.modules[7]}>
-            <AssessmentsPanel assessments={assessments} />
-          </Module>
-
-          {/* 9. Report */}
-          <Module n={9} title={c.report}>
-            <ProgressReport
-              name={name}
+          {tab === "telemetry" && (
+            <Telemetry
+              c={pc}
               checkins={checkins}
-              completions={completions}
-              goals={goals}
-              competitions={competitions}
-              journal={journal}
+              sessions={perf.sessions}
+              onRemoveSession={(id) => perf.removeSession(id)}
             />
-          </Module>
+          )}
+
+          {tab === "setup" && (
+            <Section title={pc.setupTitle}>
+              <SetupSheet
+                c={pc}
+                profiles={perf.profiles}
+                protocols={protocols}
+                protocolTitle={(p) => protocolText(c, p).title}
+                onOpenProtocol={setActiveProtocol}
+                onSave={perf.saveProfile}
+              />
+            </Section>
+          )}
+
+          {tab === "race" && (
+            <Section title={pc.raceTitle}>
+              <RaceWeekend
+                c={pc}
+                competitions={competitions}
+                onSave={hub.updateCompetition}
+              >
+                <CompetitionsPanel
+                  competitions={competitions}
+                  onAdd={hub.addCompetition}
+                  onUpdate={hub.updateCompetition}
+                  onRemove={hub.removeCompetition}
+                />
+              </RaceWeekend>
+            </Section>
+          )}
+
+          {tab === "season" && (
+            <Section title={pc.seasonTitle}>
+              <SeasonPlanner
+                c={pc}
+                phases={perf.phases}
+                competitions={competitions}
+                onAdd={perf.addPhase}
+                onRemove={(id) => perf.removePhase(id)}
+              />
+            </Section>
+          )}
+
+          {tab === "simulator" && (
+            <>
+              <Section title={pc.simulatorTitle} intro={pc.simulatorIntro}>
+                <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
+                  {protocols.map((p) => {
+                    const text = protocolText(c, p);
+                    const n = monthCount.get(p.id) ?? 0;
+                    return (
+                      <button
+                        key={p.id}
+                        onClick={() => setActiveProtocol(p)}
+                        className="glass-card group flex flex-col p-5 text-start transition-all hover:shadow-glass-hover"
+                      >
+                        <div className="mb-3 flex flex-wrap items-center gap-2">
+                          <Badge variant="outline" className="text-[10px]">
+                            {c.categories[p.category] ?? p.category}
+                          </Badge>
+                          <Badge variant="outline" className="text-[10px]">
+                            <Clock className="mr-1 h-3 w-3" />
+                            {p.duration_minutes} {c.minutes}
+                          </Badge>
+                        </div>
+                        <h3 className="mb-2 font-semibold text-foreground transition-colors group-hover:text-primary">
+                          {text.title}
+                        </h3>
+                        <p className="line-clamp-3 text-xs text-muted-foreground">
+                          {text.description}
+                        </p>
+                        {n > 0 && (
+                          <p className="mt-3 text-xs font-medium text-primary">
+                            {c.doneThisMonth(n)}
+                          </p>
+                        )}
+                      </button>
+                    );
+                  })}
+                </div>
+              </Section>
+              <Section title={c.modules[3]}>
+                <div className="grid gap-6 lg:grid-cols-[1.4fr_1fr]">
+                  <JournalPanel
+                    entries={journal}
+                    onAdd={hub.addJournalEntry}
+                    onSynthesize={hub.synthesizeEntry}
+                  />
+                  <Link
+                    to={addLocalePrefix("/ai-assistant", locale)}
+                    className="glass-card group block self-start p-6 transition-all hover:shadow-glass-hover"
+                  >
+                    <MessageCircle className="mb-3 h-8 w-8 text-primary transition-transform group-hover:scale-110" />
+                    <p className="font-semibold text-foreground">{c.aiCoach}</p>
+                    <p className="mt-1 text-xs text-muted-foreground">
+                      {c.aiCoachDesc}
+                    </p>
+                  </Link>
+                </div>
+              </Section>
+              <Section title={c.modules[4]}>
+                <GoalsPanel
+                  goals={goals}
+                  onAdd={hub.addGoal}
+                  onUpdate={hub.updateGoal}
+                />
+              </Section>
+            </>
+          )}
+
+          {tab === "crew" && (
+            <>
+              <Section title={pc.crewTitle} intro={pc.crewIntro}>
+                <SharePanel
+                  shares={hub.shares}
+                  candidates={hub.candidates}
+                  onSet={hub.setShare}
+                />
+              </Section>
+              <Section title={c.modules[7]}>
+                <AssessmentsPanel assessments={hub.assessments} />
+              </Section>
+              <section id="study" className="scroll-mt-32">
+                <StudyPanel />
+              </section>
+              <Section title={c.report}>
+                <ProgressReport
+                  name={name}
+                  checkins={checkins}
+                  completions={completions}
+                  goals={goals}
+                  competitions={competitions}
+                  journal={journal}
+                />
+              </Section>
+            </>
+          )}
         </div>
       </div>
 
@@ -435,6 +379,12 @@ const AthleteHub = () => {
         open={checkinOpen}
         onOpenChange={setCheckinOpen}
         onSubmit={hub.submitCheckin}
+      />
+      <SessionDialog
+        c={pc}
+        open={sessionOpen}
+        onOpenChange={setSessionOpen}
+        onSave={perf.addSession}
       />
       <ProtocolRunner
         protocol={activeProtocol}

@@ -114,6 +114,7 @@ const en = {
     joinSpecialist: "Join as a specialist",
     specialistPricing: "Specialist pricing",
     learn: "Training center",
+    performanceCenter: "Performance Center",
     leagueTraining: "League training",
     newsletter: "Newsletter",
     publishProfile: "Publish my profile",

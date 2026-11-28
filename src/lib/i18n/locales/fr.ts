@@ -117,6 +117,7 @@ const fr = {
     joinSpecialist: "Rejoindre le réseau",
     specialistPricing: "Tarifs spécialistes",
     learn: "Centre de formation",
+    performanceCenter: "Centre de performance",
     leagueTraining: "Formation de la Ligue",
     newsletter: "Newsletter",
     publishProfile: "Publier mon profil",

@@ -1,0 +1,109 @@
+-- Behaviour test for 20261128090000_performance_center.sql: the athlete's
+-- telemetry, session load, profile, race plans and season are private;
+-- a psychologist sees each part only when the athlete shares that scope.
+\set ON_ERROR_STOP 1
+BEGIN;
+
+CREATE FUNCTION pg_temp.expect(_ok boolean, _what text) RETURNS void LANGUAGE plpgsql AS $$
+BEGIN IF NOT coalesce(_ok, false) THEN RAISE EXCEPTION 'FAILED: %', _what; END IF;
+      RAISE NOTICE 'ok: %', _what; END $$;
+CREATE FUNCTION pg_temp.raises(_sql text, _what text) RETURNS void LANGUAGE plpgsql AS $$
+BEGIN
+  EXECUTE _sql;
+  RAISE EXCEPTION 'FAILED: % (no error)', _what;
+EXCEPTION WHEN check_violation OR insufficient_privilege OR raise_exception THEN
+  IF SQLERRM LIKE 'FAILED%' THEN RAISE; END IF;
+  RAISE NOTICE 'ok: %', _what;
+END $$;
+CREATE FUNCTION pg_temp.as_user(_id uuid) RETURNS void LANGUAGE plpgsql AS $$
+BEGIN
+  PERFORM set_config('request.jwt.claim.sub', _id::text, true);
+  PERFORM set_config('request.jwt.claims', json_build_object('sub', _id, 'role', 'authenticated')::text, true);
+END $$;
+GRANT EXECUTE ON FUNCTION pg_temp.expect(boolean, text), pg_temp.raises(text, text), pg_temp.as_user(uuid) TO authenticated;
+
+-- a: athlete · p: their psychologist · s: a stranger
+INSERT INTO auth.users (id, email) VALUES
+  ('00000000-0000-0000-0000-00000000bc01', 'pc-athlete@hub.test'),
+  ('00000000-0000-0000-0000-00000000bc02', 'pc-psy@hub.test'),
+  ('00000000-0000-0000-0000-00000000bc03', 'pc-stranger@hub.test');
+INSERT INTO public.psychologist_profiles (id, full_name) VALUES
+  ('00000000-0000-0000-0000-00000000bc02', 'Dr Pit Wall');
+INSERT INTO public.bookings (patient_id, psychologist_id, scheduled_at, duration_minutes, session_type, status)
+  VALUES ('00000000-0000-0000-0000-00000000bc01', '00000000-0000-0000-0000-00000000bc02',
+          now() + interval '2 days', 50, 'video', 'pending');
+
+SET LOCAL ROLE authenticated;
+SELECT pg_temp.as_user('00000000-0000-0000-0000-00000000bc01');
+
+-- Telemetry and load.
+INSERT INTO public.readiness_checkins (user_id, mood, sleep, stress, energy, cognitive_load, score,
+                                       sleep_hours, soreness, hrv_ms, resting_hr)
+  VALUES ('00000000-0000-0000-0000-00000000bc01', 7, 6, 4, 7, 4, 66, 7.5, 3, 62, 54);
+SELECT pg_temp.raises($q$INSERT INTO public.readiness_checkins (user_id, mood, sleep, stress, energy, cognitive_load, score, sleep_hours)
+  VALUES ('00000000-0000-0000-0000-00000000bc01', 7, 6, 4, 7, 4, 66, 20)$q$, 'sleep hours stay plausible');
+INSERT INTO public.athlete_sessions (user_id, session_date, kind, duration_minutes, rpe)
+  VALUES ('00000000-0000-0000-0000-00000000bc01', current_date, 'training', 90, 7),
+         ('00000000-0000-0000-0000-00000000bc01', current_date - 1, 'match', 60, 9);
+SELECT pg_temp.expect((SELECT sum(load) = 90 * 7 + 60 * 9 FROM public.athlete_sessions),
+  'session load is duration x RPE (Foster)');
+SELECT pg_temp.raises($q$INSERT INTO public.athlete_sessions (user_id, duration_minutes, rpe)
+  VALUES ('00000000-0000-0000-0000-00000000bc01', 60, 11)$q$, 'RPE is on the CR-10 scale');
+
+-- Profile, race plan, season.
+INSERT INTO public.athlete_profile_snapshots (user_id, qualities) VALUES
+  ('00000000-0000-0000-0000-00000000bc01',
+   '[{"label":"Focus under pressure","area":"mental","current":5,"ideal":9}]');
+SELECT pg_temp.raises($q$INSERT INTO public.athlete_profile_snapshots (user_id, qualities)
+  VALUES ('00000000-0000-0000-0000-00000000bc01', '[]')$q$, 'a profile has at least one quality');
+INSERT INTO public.athlete_competitions (user_id, name, event_date, race_plan, pre_state)
+  VALUES ('00000000-0000-0000-0000-00000000bc01', 'Open de Rabat', current_date + 5,
+          '{"zone_low":5,"zone_high":7,"cues":["smooth"],"if_then":[{"if":"I miss early","then":"breathe, next point"}]}',
+          '{"cognitive":4,"somatic":5,"confidence":7,"direction":2}');
+SELECT pg_temp.raises($q$INSERT INTO public.athlete_competitions (user_id, name, event_date, race_plan)
+  VALUES ('00000000-0000-0000-0000-00000000bc01', 'x', current_date, '[]')$q$, 'a race plan is an object');
+INSERT INTO public.athlete_season_phases (user_id, name, kind, starts_on, ends_on)
+  VALUES ('00000000-0000-0000-0000-00000000bc01', 'Bloc spécifique', 'specific_prep', current_date, current_date + 28);
+SELECT pg_temp.raises($q$INSERT INTO public.athlete_season_phases (user_id, name, kind, starts_on, ends_on)
+  VALUES ('00000000-0000-0000-0000-00000000bc01', 'x', 'competition', current_date, current_date - 1)$q$,
+  'a phase ends after it starts');
+
+-- Share readiness and competitions only.
+INSERT INTO public.athlete_shares (athlete_id, psychologist_id, scopes)
+  VALUES ('00000000-0000-0000-0000-00000000bc01', '00000000-0000-0000-0000-00000000bc02',
+          ARRAY['readiness', 'competitions']);
+SELECT pg_temp.raises($q$UPDATE public.athlete_shares SET scopes = ARRAY['everything']$q$,
+  'only the listed scopes can be shared');
+
+-- A stranger sees none of it.
+SELECT pg_temp.as_user('00000000-0000-0000-0000-00000000bc03');
+SELECT pg_temp.expect((SELECT count(*) FROM public.athlete_sessions) = 0
+  AND (SELECT count(*) FROM public.athlete_profile_snapshots) = 0
+  AND (SELECT count(*) FROM public.athlete_season_phases) = 0,
+  'sessions, profiles and the season are private');
+
+-- The psychologist sees the shared scopes, with the new fields.
+SELECT pg_temp.as_user('00000000-0000-0000-0000-00000000bc02');
+SELECT pg_temp.expect((SELECT (o->'checkins'->0->>'hrv_ms')::int = 62
+                              AND o->'competitions'->0->'race_plan'->'cues'->>0 = 'smooth'
+                              AND (o->'competitions'->0->'pre_state'->>'direction')::int = 2
+                              AND NOT o ? 'sessions' AND NOT o ? 'profiles' AND NOT o ? 'season'
+                         FROM public.athlete_shared_overview('00000000-0000-0000-0000-00000000bc01') o),
+  'the psychologist sees telemetry and race plans, not load, profile or season');
+
+-- The athlete adds training, profile and season.
+SELECT pg_temp.as_user('00000000-0000-0000-0000-00000000bc01');
+UPDATE public.athlete_shares SET scopes = ARRAY['training', 'profile', 'season'];
+SELECT pg_temp.as_user('00000000-0000-0000-0000-00000000bc02');
+SELECT pg_temp.expect((SELECT jsonb_array_length(o->'sessions') = 2
+                              AND (o->'sessions'->0->>'load')::int = 630
+                              AND o->'profiles'->0->'qualities'->0->>'label' = 'Focus under pressure'
+                              AND o->'season'->0->>'kind' = 'specific_prep'
+                              AND NOT o ? 'checkins'
+                         FROM public.athlete_shared_overview('00000000-0000-0000-0000-00000000bc01') o),
+  'then load, profile and season, and no longer the check-ins');
+SELECT pg_temp.expect((SELECT count(*) FROM public.athlete_sessions) = 0,
+  'the psychologist still cannot read the tables directly');
+RESET ROLE;
+
+ROLLBACK;

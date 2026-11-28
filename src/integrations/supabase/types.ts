@@ -507,6 +507,9 @@ export type Database = {
           result: string | null;
           updated_at: string;
           user_id: string;
+          debrief: Json | null;
+          pre_state: Json | null;
+          race_plan: Json;
         };
         Insert: {
           checklist?: Json;
@@ -521,6 +524,9 @@ export type Database = {
           result?: string | null;
           updated_at?: string;
           user_id: string;
+          debrief?: Json | null;
+          pre_state?: Json | null;
+          race_plan?: Json;
         };
         Update: {
           checklist?: Json;
@@ -535,6 +541,9 @@ export type Database = {
           result?: string | null;
           updated_at?: string;
           user_id?: string;
+          debrief?: Json | null;
+          pre_state?: Json | null;
+          race_plan?: Json;
         };
         Relationships: [];
       };
@@ -570,6 +579,97 @@ export type Database = {
           target_date?: string | null;
           title?: string;
           updated_at?: string;
+          user_id?: string;
+        };
+        Relationships: [];
+      };
+      athlete_profile_snapshots: {
+        Row: {
+          created_at: string;
+          id: string;
+          note: string | null;
+          qualities: Json;
+          user_id: string;
+        };
+        Insert: {
+          created_at?: string;
+          id?: string;
+          note?: string | null;
+          qualities: Json;
+          user_id: string;
+        };
+        Update: {
+          created_at?: string;
+          id?: string;
+          note?: string | null;
+          qualities?: Json;
+          user_id?: string;
+        };
+        Relationships: [];
+      };
+      athlete_season_phases: {
+        Row: {
+          created_at: string;
+          ends_on: string;
+          focus: string | null;
+          id: string;
+          kind: string;
+          name: string;
+          starts_on: string;
+          user_id: string;
+        };
+        Insert: {
+          created_at?: string;
+          ends_on: string;
+          focus?: string | null;
+          id?: string;
+          kind: string;
+          name: string;
+          starts_on: string;
+          user_id: string;
+        };
+        Update: {
+          created_at?: string;
+          ends_on?: string;
+          focus?: string | null;
+          id?: string;
+          kind?: string;
+          name?: string;
+          starts_on?: string;
+          user_id?: string;
+        };
+        Relationships: [];
+      };
+      athlete_sessions: {
+        Row: {
+          created_at: string;
+          duration_minutes: number;
+          id: string;
+          kind: string;
+          load: number | null;
+          note: string | null;
+          rpe: number;
+          session_date: string;
+          user_id: string;
+        };
+        Insert: {
+          created_at?: string;
+          duration_minutes: number;
+          id?: string;
+          kind?: string;
+          note?: string | null;
+          rpe: number;
+          session_date?: string;
+          user_id: string;
+        };
+        Update: {
+          created_at?: string;
+          duration_minutes?: number;
+          id?: string;
+          kind?: string;
+          note?: string | null;
+          rpe?: number;
+          session_date?: string;
           user_id?: string;
         };
         Relationships: [];
@@ -7280,6 +7380,10 @@ export type Database = {
           sleep: number;
           stress: number;
           user_id: string;
+          hrv_ms: number | null;
+          resting_hr: number | null;
+          sleep_hours: number | null;
+          soreness: number | null;
         };
         Insert: {
           cognitive_load: number;
@@ -7292,6 +7396,10 @@ export type Database = {
           sleep: number;
           stress: number;
           user_id: string;
+          hrv_ms?: number | null;
+          resting_hr?: number | null;
+          sleep_hours?: number | null;
+          soreness?: number | null;
         };
         Update: {
           cognitive_load?: number;
@@ -7304,6 +7412,10 @@ export type Database = {
           sleep?: number;
           stress?: number;
           user_id?: string;
+          hrv_ms?: number | null;
+          resting_hr?: number | null;
+          sleep_hours?: number | null;
+          soreness?: number | null;
         };
         Relationships: [];
       };
