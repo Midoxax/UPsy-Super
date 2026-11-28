@@ -37,6 +37,7 @@ import SetupSheet from "@/components/performance/SetupSheet";
 import RaceWeekend from "@/components/performance/RaceWeekend";
 import SeasonPlanner from "@/components/performance/SeasonPlanner";
 import SessionDialog from "@/components/performance/SessionDialog";
+import CrewLinks from "@/components/performance/CrewLinks";
 
 const TABS = [
   { id: "pit", icon: Gauge },
@@ -352,6 +353,12 @@ const AthleteHub = () => {
                   shares={hub.shares}
                   candidates={hub.candidates}
                   onSet={hub.setShare}
+                />
+                <CrewLinks
+                  c={pc}
+                  links={perf.crew}
+                  onAdd={perf.addCrewLink}
+                  onRevoke={(id) => perf.revokeCrewLink(id)}
                 />
               </Section>
               <Section title={c.modules[7]}>

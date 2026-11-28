@@ -62,7 +62,8 @@ export default function Telemetry({
   c: PerfCopy;
   checkins: CheckinRow[];
   sessions: Session[];
-  onRemoveSession: (id: string) => void;
+  /** Omitted on read-only views (crew links). */
+  onRemoveSession?: (id: string) => void;
 }) {
   // Readiness: last 42 days, one point per day (the latest check-in).
   const readiness = useMemo(() => {
@@ -299,7 +300,10 @@ export default function Telemetry({
           ) : (
             <ul className="divide-y divide-border">
               {sessions.slice(0, 8).map((s) => (
-                <li key={s.id} className="flex items-center gap-3 py-2 text-sm">
+                <li
+                  key={s.id ?? `${s.session_date}-${s.load}`}
+                  className="flex items-center gap-3 py-2 text-sm"
+                >
                   <span className="w-16 shrink-0 text-muted-foreground">
                     {fmtDay(c, s.session_date)}
                   </span>
@@ -310,14 +314,16 @@ export default function Telemetry({
                   <span className="font-semibold tabular-nums" dir="ltr">
                     {s.load ?? s.duration_minutes * s.rpe}
                   </span>
-                  <Button
-                    size="icon"
-                    variant="ghost"
-                    aria-label={c.delete}
-                    onClick={() => onRemoveSession(s.id)}
-                  >
-                    <Trash2 className="h-4 w-4" />
-                  </Button>
+                  {onRemoveSession && (
+                    <Button
+                      size="icon"
+                      variant="ghost"
+                      aria-label={c.delete}
+                      onClick={() => onRemoveSession(s.id)}
+                    >
+                      <Trash2 className="h-4 w-4" />
+                    </Button>
+                  )}
                 </li>
               ))}
             </ul>

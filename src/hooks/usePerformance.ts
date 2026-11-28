@@ -20,6 +20,17 @@ export type ProfileSnapshot = {
   note: string | null;
 };
 
+export type CrewLink = {
+  id: string;
+  label: string;
+  role: string;
+  scopes: string[];
+  token: string;
+  created_at: string;
+  last_viewed_at: string | null;
+  revoked_at: string | null;
+};
+
 export type SeasonPhase = {
   id: string;
   name: string;
@@ -46,7 +57,7 @@ export function usePerformance() {
       const since = new Date(Date.now() - 120 * 86_400_000)
         .toISOString()
         .slice(0, 10);
-      const [s, p, ph] = await Promise.all([
+      const [s, p, ph, cr] = await Promise.all([
         supabase
           .from("athlete_sessions")
           .select("id,session_date,kind,duration_minutes,rpe,load,note")
@@ -65,11 +76,20 @@ export function usePerformance() {
           .select("id,name,kind,starts_on,ends_on,focus")
           .eq("user_id", uid!)
           .order("starts_on"),
+        supabase
+          .from("athlete_crew_links")
+          .select(
+            "id,label,role,scopes,token,created_at,last_viewed_at,revoked_at",
+          )
+          .eq("athlete_id", uid!)
+          .is("revoked_at", null)
+          .order("created_at", { ascending: false }),
       ]);
       return {
         sessions: (s.data ?? []) as Session[],
         profiles: (p.data ?? []) as unknown as ProfileSnapshot[],
         phases: (ph.data ?? []) as SeasonPhase[],
+        crew: (cr.data ?? []) as CrewLink[],
       };
     },
   });
@@ -87,6 +107,18 @@ export function usePerformance() {
     sessions: data?.sessions ?? [],
     profiles: data?.profiles ?? [],
     phases: data?.phases ?? [],
+    crew: data?.crew ?? [],
+    addCrewLink: (l: { label: string; role: string; scopes: string[] }) =>
+      run(
+        supabase.from("athlete_crew_links").insert({ ...l, athlete_id: uid! }),
+      ),
+    revokeCrewLink: (id: string) =>
+      run(
+        supabase
+          .from("athlete_crew_links")
+          .update({ revoked_at: new Date().toISOString() })
+          .eq("id", id),
+      ),
     addSession: (s: Omit<Session, "id" | "load">) =>
       run(supabase.from("athlete_sessions").insert({ ...s, user_id: uid! })),
     removeSession: (id: string) =>

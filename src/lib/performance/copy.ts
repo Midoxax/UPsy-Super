@@ -279,6 +279,34 @@ const en = {
     "The people in your garage. Share what you choose with your psychologist, take assessments, contribute to research, print your report.",
   disclaimer:
     "Self-monitoring tools for training, not a medical device. In case of pain, illness or distress, see a professional.",
+  crewLinksTitle: "Crew links",
+  crewLinksIntro:
+    "Give your coach, physio or a parent a read-only view of your pit wall. You choose what each link shows and can stop it at any time. A link never shows your journal, your assessments or anything from your psychologist.",
+  crewLabel: "Name",
+  crewLabelPh: "e.g. Coach Karim",
+  crewRoles: {
+    coach: "Coach",
+    physio: "Physio",
+    parent: "Parent",
+    other: "Other",
+  } as Record<string, string>,
+  crewScopes: {
+    readiness: "Readiness and recovery",
+    training: "Training load",
+    competitions: "Competitions and race routine",
+    season: "Season plan",
+  } as Record<string, string>,
+  crewCreate: "Create the link",
+  crewCopy: "Copy link",
+  crewCopied: "Link copied",
+  crewRevoke: "Stop",
+  crewViewed: (d: string) => `Last opened ${d}`,
+  crewNotViewed: "Not opened yet",
+  crewPageTitle: (n: string) => (n ? `${n}'s pit wall` : "Pit wall"),
+  crewPageIntro: (label: string) =>
+    `Read-only view shared with ${label}. The athlete chooses what appears here and can stop sharing at any time.`,
+  crewInvalid: "This link is not valid or the athlete has stopped sharing it.",
+  readinessLast: "Latest readiness",
   signIn: "Sign in to your Performance Center",
 };
 
@@ -558,6 +586,35 @@ const fr: Copy = {
     "Les personnes de votre garage. Partagez ce que vous choisissez avec votre psychologue, passez des évaluations, contribuez à la recherche, imprimez votre rapport.",
   disclaimer:
     "Outils d'auto-suivi pour l'entraînement, pas un dispositif médical. En cas de douleur, de maladie ou de détresse, consultez un professionnel.",
+  crewLinksTitle: "Liens d'équipe",
+  crewLinksIntro:
+    "Donnez à votre entraîneur, kiné ou parent une vue en lecture seule de votre muret des stands. Vous choisissez ce que montre chaque lien et pouvez l'arrêter à tout moment. Un lien ne montre jamais votre journal, vos évaluations ni ce qui vient de votre psychologue.",
+  crewLabel: "Nom",
+  crewLabelPh: "ex. Coach Karim",
+  crewRoles: {
+    coach: "Entraîneur",
+    physio: "Kiné",
+    parent: "Parent",
+    other: "Autre",
+  } as Record<string, string>,
+  crewScopes: {
+    readiness: "Disponibilité et récupération",
+    training: "Charge d'entraînement",
+    competitions: "Compétitions et routine de course",
+    season: "Plan de saison",
+  } as Record<string, string>,
+  crewCreate: "Créer le lien",
+  crewCopy: "Copier le lien",
+  crewCopied: "Lien copié",
+  crewRevoke: "Arrêter",
+  crewViewed: (d: string) => `Ouvert le ${d}`,
+  crewNotViewed: "Pas encore ouvert",
+  crewPageTitle: (n: string) =>
+    n ? `Muret des stands de ${n}` : "Muret des stands",
+  crewPageIntro: (label: string) =>
+    `Vue en lecture seule partagée avec ${label}. L'athlète choisit ce qui apparaît ici et peut arrêter le partage à tout moment.`,
+  crewInvalid: "Ce lien n'est pas valide ou l'athlète a arrêté de le partager.",
+  readinessLast: "Dernière disponibilité",
   signIn: "Connectez-vous à votre Centre de performance",
 };
 
@@ -826,6 +883,34 @@ const ar: Copy = {
     "الأشخاص في ورشتك. شارك ما تختاره مع أخصائيك، اجتز التقييمات، ساهم في البحث، واطبع تقريرك.",
   disclaimer:
     "أدوات متابعة ذاتية للتدريب، وليست جهازًا طبيًا. في حال الألم أو المرض أو الضيق، استشر مختصًا.",
+  crewLinksTitle: "روابط الفريق",
+  crewLinksIntro:
+    "امنح مدربك أو معالجك الطبيعي أو أحد والديك عرضًا للقراءة فقط لجدار الصيانة. تختار ما يظهره كل رابط ويمكنك إيقافه في أي وقت. لا يُظهر الرابط أبدًا يومياتك أو تقييماتك أو أي شيء من أخصائيك.",
+  crewLabel: "الاسم",
+  crewLabelPh: "مثال: المدرب كريم",
+  crewRoles: {
+    coach: "مدرب",
+    physio: "معالج طبيعي",
+    parent: "وليّ",
+    other: "آخر",
+  } as Record<string, string>,
+  crewScopes: {
+    readiness: "الجاهزية والاسترجاع",
+    training: "حِمل التدريب",
+    competitions: "المنافسات وروتين السباق",
+    season: "خطة الموسم",
+  } as Record<string, string>,
+  crewCreate: "أنشئ الرابط",
+  crewCopy: "انسخ الرابط",
+  crewCopied: "تم نسخ الرابط",
+  crewRevoke: "إيقاف",
+  crewViewed: (d: string) => `فُتح في ${d}`,
+  crewNotViewed: "لم يُفتح بعد",
+  crewPageTitle: (n: string) => (n ? `جدار صيانة ${n}` : "جدار الصيانة"),
+  crewPageIntro: (label: string) =>
+    `عرض للقراءة فقط مشارك مع ${label}. يختار الرياضي ما يظهر هنا ويمكنه إيقاف المشاركة في أي وقت.`,
+  crewInvalid: "هذا الرابط غير صالح أو أوقف الرياضي مشاركته.",
+  readinessLast: "آخر جاهزية",
   signIn: "سجّل الدخول إلى مركز الأداء",
 };
 

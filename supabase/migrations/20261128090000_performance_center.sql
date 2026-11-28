@@ -194,3 +194,93 @@ BEGIN
 END $$;
 REVOKE ALL ON FUNCTION public.athlete_shared_overview(uuid) FROM PUBLIC, anon;
 GRANT EXECUTE ON FUNCTION public.athlete_shared_overview(uuid) TO authenticated;
+
+-- 7. Pit crew links: read-only access for a coach, physio or parent ---------
+-- The athlete creates one link per person and ticks what it shows. Never
+-- clinical content: no journal, no assessments, no sessions with the
+-- psychologist. Anyone holding the link sees the page (it is the secret),
+-- so it can be revoked at any time and records when it was last opened.
+CREATE TABLE IF NOT EXISTS public.athlete_crew_links (
+  id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+  athlete_id uuid NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
+  label text NOT NULL CHECK (length(label) BETWEEN 1 AND 80),
+  role text NOT NULL DEFAULT 'coach' CHECK (role IN ('coach', 'physio', 'parent', 'other')),
+  scopes text[] NOT NULL DEFAULT ARRAY['readiness', 'training', 'competitions']::text[]
+    CHECK (cardinality(scopes) >= 1
+           AND scopes <@ ARRAY['readiness', 'training', 'competitions', 'season']::text[]),
+  token text NOT NULL UNIQUE
+    DEFAULT replace(gen_random_uuid()::text, '-', '') || replace(gen_random_uuid()::text, '-', ''),
+  created_at timestamptz NOT NULL DEFAULT now(),
+  last_viewed_at timestamptz,
+  revoked_at timestamptz
+);
+CREATE INDEX IF NOT EXISTS idx_athlete_crew_links_athlete
+  ON public.athlete_crew_links (athlete_id, created_at DESC);
+ALTER TABLE public.athlete_crew_links ENABLE ROW LEVEL SECURITY;
+DROP POLICY IF EXISTS "own crew links" ON public.athlete_crew_links;
+CREATE POLICY "own crew links" ON public.athlete_crew_links FOR ALL TO authenticated
+  USING ((SELECT auth.uid()) = athlete_id) WITH CHECK ((SELECT auth.uid()) = athlete_id);
+-- The token is chosen by the database, never by the client: clients may
+-- only write these columns (a table-wide grant would include the token).
+-- Supabase's default privileges grant every column on new tables: revoke
+-- them first, or the column grants below would change nothing.
+REVOKE ALL ON public.athlete_crew_links FROM PUBLIC, anon, authenticated;
+GRANT SELECT, DELETE ON public.athlete_crew_links TO authenticated;
+GRANT INSERT (athlete_id, label, role, scopes) ON public.athlete_crew_links TO authenticated;
+GRANT UPDATE (label, role, scopes, revoked_at) ON public.athlete_crew_links TO authenticated;
+GRANT ALL ON public.athlete_crew_links TO service_role;
+
+-- What a crew link shows. NULL for an unknown or revoked link.
+CREATE OR REPLACE FUNCTION public.crew_view(_token text)
+RETURNS jsonb
+LANGUAGE plpgsql VOLATILE SECURITY DEFINER SET search_path = '' AS $$
+DECLARE
+  _l public.athlete_crew_links;
+  _out jsonb;
+BEGIN
+  IF _token IS NULL OR _token !~ '^[0-9a-f]{64}$' THEN RETURN NULL; END IF;
+  SELECT * INTO _l FROM public.athlete_crew_links WHERE token = _token AND revoked_at IS NULL;
+  IF NOT FOUND THEN RETURN NULL; END IF;
+  UPDATE public.athlete_crew_links SET last_viewed_at = now() WHERE id = _l.id;
+
+  _out := jsonb_build_object(
+    'label', _l.label, 'role', _l.role, 'scopes', to_jsonb(_l.scopes),
+    -- First name only: enough for the coach, nothing more.
+    'athlete', coalesce(split_part((SELECT p.full_name FROM public.profiles p WHERE p.id = _l.athlete_id), ' ', 1), ''));
+  IF 'readiness' = ANY(_l.scopes) THEN
+    _out := _out || jsonb_build_object('checkins', coalesce((
+      SELECT jsonb_agg(c ORDER BY c.created_at DESC) FROM (
+        SELECT created_at, score, sleep_hours, soreness, hrv_ms
+        FROM public.readiness_checkins WHERE user_id = _l.athlete_id
+          AND created_at > now() - interval '42 days'
+        ORDER BY created_at DESC LIMIT 60) c), '[]'::jsonb));
+  END IF;
+  IF 'training' = ANY(_l.scopes) THEN
+    _out := _out || jsonb_build_object('sessions', coalesce((
+      SELECT jsonb_agg(s ORDER BY s.session_date DESC) FROM (
+        SELECT session_date, kind, duration_minutes, rpe, load
+        FROM public.athlete_sessions WHERE user_id = _l.athlete_id
+          AND session_date > current_date - 56
+        ORDER BY session_date DESC LIMIT 150) s), '[]'::jsonb));
+  END IF;
+  IF 'competitions' = ANY(_l.scopes) THEN
+    _out := _out || jsonb_build_object('competitions', coalesce((
+      SELECT jsonb_agg(c ORDER BY c.event_date) FROM (
+        SELECT name, event_date, location, importance,
+               race_plan -> 'zone_low' AS zone_low, race_plan -> 'zone_high' AS zone_high,
+               race_plan -> 'routine' AS routine, race_plan -> 'cues' AS cues
+        FROM public.athlete_competitions WHERE user_id = _l.athlete_id
+          AND event_date >= current_date - 30
+        ORDER BY event_date LIMIT 12) c), '[]'::jsonb));
+  END IF;
+  IF 'season' = ANY(_l.scopes) THEN
+    _out := _out || jsonb_build_object('season', coalesce((
+      SELECT jsonb_agg(p ORDER BY p.starts_on) FROM (
+        SELECT name, kind, starts_on, ends_on, focus
+        FROM public.athlete_season_phases WHERE user_id = _l.athlete_id
+          AND ends_on > current_date - 60) p), '[]'::jsonb));
+  END IF;
+  RETURN _out;
+END $$;
+REVOKE ALL ON FUNCTION public.crew_view(text) FROM PUBLIC;
+GRANT EXECUTE ON FUNCTION public.crew_view(text) TO anon, authenticated, service_role;

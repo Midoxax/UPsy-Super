@@ -224,7 +224,7 @@ const PAGES: Record<string, { title: L3; description: L3 }> = {
 
 // Signed-in or one-off pages: never in search results.
 const PRIVATE =
-  /^\/(dashboard|admin|ops|auth|my-space|notifications|intake|session|booking|b|invite|unsubscribe|publish-profile|newsletter\/confirm|reset-password|league|passport|card|center\/progress|apply\/wizard|video)(\/|$)/;
+  /^\/(dashboard|admin|ops|auth|my-space|notifications|intake|session|booking|b|invite|unsubscribe|publish-profile|crew|newsletter\/confirm|reset-password|league|passport|card|center\/progress|apply\/wizard|video)(\/|$)/;
 
 const LOCALES = ["fr", "ar", "ber"] as const;
 

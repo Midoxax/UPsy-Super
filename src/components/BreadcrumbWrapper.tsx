@@ -100,8 +100,14 @@ export function BreadcrumbWrapper() {
 
   const cleanPath = stripLocalePrefix(location.pathname);
 
-  // Not on the home page, the 404, or the pitch deck (full-screen panels).
-  if (cleanPath === "/" || cleanPath === "/404" || cleanPath === "/pitch") {
+  // Not on the home page, the 404, the pitch deck (full-screen panels), or
+  // a crew link, whose last segment is its secret token.
+  if (
+    cleanPath === "/" ||
+    cleanPath === "/404" ||
+    cleanPath === "/pitch" ||
+    cleanPath.startsWith("/crew/")
+  ) {
     return null;
   }
 

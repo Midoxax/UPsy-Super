@@ -200,6 +200,7 @@ const PRIVATE_DISALLOW = [
   "notifications",
   "unsubscribe",
   "publish-profile",
+  "crew",
   "api",
 ].flatMap((p) => [`Disallow: /${p}`, `Disallow: /*/${p}`]);
 

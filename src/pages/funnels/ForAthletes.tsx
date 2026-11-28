@@ -8,11 +8,12 @@ import {
 } from "lucide-react";
 import { useLocale } from "@/contexts/LocaleContext";
 import FunnelPage, { type FunnelCopy } from "./FunnelPage";
+import PerformanceShowcase from "@/components/performance/PerformanceShowcase";
 
 const FR: FunnelCopy = {
   seoTitle: "Psychologie du sport et performance mentale | U.Psy",
   seoDescription:
-    "Préparation mentale pour sportifs au Maroc : score de performance mentale gratuit, psychologues du sport vérifiés en visio ou au cabinet, Athlete Hub pour le suivi entre les séances.",
+    "Préparation mentale pour sportifs au Maroc : score de performance mentale gratuit, psychologues du sport vérifiés en visio ou au cabinet, Centre de performance pour le suivi entre les séances.",
   eyebrow: "Sportifs · Performance mentale",
   title: "Vous entraînez le corps chaque jour.",
   titleAccent: "Entraînez aussi le mental.",
@@ -60,7 +61,7 @@ const FR: FunnelCopy = {
     },
     {
       title: "Suivez entre les séances",
-      body: "Athlete Hub : forme du jour, journal et protocoles, au même endroit.",
+      body: "Centre de performance : forme du jour, charge, plans de course et débriefs, au même endroit.",
     },
   ],
   featuresTitle: "Ce que vous obtenez",
@@ -77,8 +78,8 @@ const FR: FunnelCopy = {
     },
     {
       icon: Activity,
-      title: "Athlete Hub",
-      body: "Forme du jour, journal et protocoles pour garder le fil entre deux séances.",
+      title: "Centre de performance",
+      body: "Télémétrie, profil de performance, plans de course et débriefs pour garder le fil entre deux séances.",
     },
     {
       icon: Brain,
@@ -112,7 +113,7 @@ const FR: FunnelCopy = {
 const EN: FunnelCopy = {
   seoTitle: "Sport psychology and mental performance | U.Psy",
   seoDescription:
-    "Mental preparation for athletes in Morocco: a free mental performance score, verified sport psychologists by video or in person, and the Athlete Hub to follow up between sessions.",
+    "Mental preparation for athletes in Morocco: a free mental performance score, verified sport psychologists by video or in person, and the Performance Center to follow up between sessions.",
   eyebrow: "Athletes · Mental performance",
   title: "You train the body every day.",
   titleAccent: "Train the mind too.",
@@ -156,7 +157,7 @@ const EN: FunnelCopy = {
     },
     {
       title: "Follow up between sessions",
-      body: "Athlete Hub: daily readiness, journal and protocols in one place.",
+      body: "Performance Center: daily readiness, load, race plans and debriefs in one place.",
     },
   ],
   featuresTitle: "What you get",
@@ -173,8 +174,8 @@ const EN: FunnelCopy = {
     },
     {
       icon: Activity,
-      title: "Athlete Hub",
-      body: "Daily readiness, journal and protocols to keep momentum between sessions.",
+      title: "Performance Center",
+      body: "Telemetry, performance profile, race plans and debriefs to keep momentum between sessions.",
     },
     {
       icon: Brain,
@@ -208,7 +209,7 @@ const EN: FunnelCopy = {
 const AR: FunnelCopy = {
   seoTitle: "علم النفس الرياضي والأداء الذهني | U.Psy",
   seoDescription:
-    "تحضير ذهني للرياضيين في المغرب: مؤشر مجاني للأداء الذهني، أخصائيون نفسيون رياضيون موثَّقون عن بعد أو في العيادة، وAthlete Hub للمتابعة بين الجلسات.",
+    "تحضير ذهني للرياضيين في المغرب: مؤشر مجاني للأداء الذهني، أخصائيون نفسيون رياضيون موثَّقون عن بعد أو في العيادة، ومركز الأداء للمتابعة بين الجلسات.",
   eyebrow: "الرياضيون · الأداء الذهني",
   title: "تدرّب جسدك كل يوم.",
   titleAccent: "درّب ذهنك أيضاً.",
@@ -251,7 +252,7 @@ const AR: FunnelCopy = {
     },
     {
       title: "تابع بين الجلسات",
-      body: "Athlete Hub: الجاهزية اليومية، اليوميات والبروتوكولات في مكان واحد.",
+      body: "مركز الأداء: الجاهزية اليومية، الحِمل، خطط السباق والتقييم في مكان واحد.",
     },
   ],
   featuresTitle: "ما تحصل عليه",
@@ -268,8 +269,8 @@ const AR: FunnelCopy = {
     },
     {
       icon: Activity,
-      title: "Athlete Hub",
-      body: "الجاهزية اليومية واليوميات والبروتوكولات للحفاظ على الاستمرارية.",
+      title: "مركز الأداء",
+      body: "القياس عن بُعد، ملف الأداء، خطط السباق والتقييم للحفاظ على الاستمرارية.",
     },
     {
       icon: Brain,
@@ -307,6 +308,7 @@ export default function ForAthletes() {
     <FunnelPage
       path="/for-athletes"
       copy={COPY[locale as keyof typeof COPY] ?? FR}
+      extra={<PerformanceShowcase />}
     />
   );
 }

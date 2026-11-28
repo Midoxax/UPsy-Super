@@ -583,6 +583,42 @@ export type Database = {
         };
         Relationships: [];
       };
+      athlete_crew_links: {
+        Row: {
+          athlete_id: string;
+          created_at: string;
+          id: string;
+          label: string;
+          last_viewed_at: string | null;
+          revoked_at: string | null;
+          role: string;
+          scopes: string[];
+          token: string;
+        };
+        Insert: {
+          athlete_id: string;
+          created_at?: string;
+          id?: string;
+          label: string;
+          last_viewed_at?: string | null;
+          revoked_at?: string | null;
+          role?: string;
+          scopes?: string[];
+          token?: string;
+        };
+        Update: {
+          athlete_id?: string;
+          created_at?: string;
+          id?: string;
+          label?: string;
+          last_viewed_at?: string | null;
+          revoked_at?: string | null;
+          role?: string;
+          scopes?: string[];
+          token?: string;
+        };
+        Relationships: [];
+      };
       athlete_profile_snapshots: {
         Row: {
           created_at: string;
@@ -9569,6 +9605,10 @@ export type Database = {
           last_message: string | null;
           failures_24h: number;
         }[];
+      };
+      crew_view: {
+        Args: { _token: string };
+        Returns: Json;
       };
       newsletter_archive: {
         Args: { _limit?: number };

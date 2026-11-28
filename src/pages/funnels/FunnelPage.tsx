@@ -1,3 +1,4 @@
+import type { ReactNode } from "react";
 import type { LucideIcon } from "lucide-react";
 import { ArrowRight, Check } from "lucide-react";
 import SEOHead from "@/components/SEOHead";
@@ -39,9 +40,12 @@ export type FunnelCopy = {
 export default function FunnelPage({
   path,
   copy: c,
+  extra,
 }: {
   path: string;
   copy: FunnelCopy;
+  /** A page-specific section, shown after "What you get". */
+  extra?: ReactNode;
 }) {
   const { locale } = useLocale();
   const to = (href: string) => addLocalePrefix(href, locale);
@@ -169,6 +173,8 @@ export default function FunnelPage({
             ))}
           </div>
         </section>
+
+        {extra}
 
         {/* Trust */}
         <section className="container-custom pb-16 md:pb-20">

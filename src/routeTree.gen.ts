@@ -126,6 +126,7 @@ import { Route as CardTokenRouteImport } from './routes/card/$token'
 import { Route as CenterIndexRouteImport } from './routes/center/index'
 import { Route as CenterProgressRouteImport } from './routes/center/progress'
 import { Route as CenterSchoolsRouteImport } from './routes/center/schools'
+import { Route as CrewTokenRouteImport } from './routes/crew/$token'
 import { Route as DashboardIndexRouteImport } from './routes/dashboard/index'
 import { Route as DashboardClientRouteImport } from './routes/dashboard/client'
 import { Route as DashboardOrganizationRouteImport } from './routes/dashboard/organization'
@@ -185,6 +186,7 @@ import { Route as LocaleCardTokenRouteImport } from './routes/$locale/card/$toke
 import { Route as LocaleCenterIndexRouteImport } from './routes/$locale/center/index'
 import { Route as LocaleCenterProgressRouteImport } from './routes/$locale/center/progress'
 import { Route as LocaleCenterSchoolsRouteImport } from './routes/$locale/center/schools'
+import { Route as LocaleCrewTokenRouteImport } from './routes/$locale/crew/$token'
 import { Route as LocaleDashboardIndexRouteImport } from './routes/$locale/dashboard/index'
 import { Route as LocaleDashboardClientRouteImport } from './routes/$locale/dashboard/client'
 import { Route as LocaleDashboardOrganizationRouteImport } from './routes/$locale/dashboard/organization'
@@ -838,6 +840,11 @@ const CenterSchoolsRoute = CenterSchoolsRouteImport.update({
   path: '/center/schools',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CrewTokenRoute = CrewTokenRouteImport.update({
+  id: '/crew/$token',
+  path: '/crew/$token',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const DashboardIndexRoute = DashboardIndexRouteImport.update({
   id: '/dashboard/',
   path: '/dashboard/',
@@ -1145,6 +1152,11 @@ const LocaleCenterProgressRoute = LocaleCenterProgressRouteImport.update({
 const LocaleCenterSchoolsRoute = LocaleCenterSchoolsRouteImport.update({
   id: '/$locale/center/schools',
   path: '/$locale/center/schools',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LocaleCrewTokenRoute = LocaleCrewTokenRouteImport.update({
+  id: '/$locale/crew/$token',
+  path: '/$locale/crew/$token',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LocaleDashboardIndexRoute = LocaleDashboardIndexRouteImport.update({
@@ -1562,6 +1574,7 @@ export interface FileRoutesByFullPath {
   '/card/$token': typeof CardTokenRoute
   '/center/progress': typeof CenterProgressRoute
   '/center/schools': typeof CenterSchoolsRoute
+  '/crew/$token': typeof CrewTokenRoute
   '/dashboard/client': typeof DashboardClientRoute
   '/dashboard/organization': typeof DashboardOrganizationRoute
   '/dashboard/specialist': typeof DashboardSpecialistRoute
@@ -1622,6 +1635,7 @@ export interface FileRoutesByFullPath {
   '/$locale/card/$token': typeof LocaleCardTokenRoute
   '/$locale/center/progress': typeof LocaleCenterProgressRoute
   '/$locale/center/schools': typeof LocaleCenterSchoolsRoute
+  '/$locale/crew/$token': typeof LocaleCrewTokenRoute
   '/$locale/dashboard/client': typeof LocaleDashboardClientRoute
   '/$locale/dashboard/organization': typeof LocaleDashboardOrganizationRoute
   '/$locale/dashboard/specialist': typeof LocaleDashboardSpecialistRoute
@@ -1798,6 +1812,7 @@ export interface FileRoutesByTo {
   '/card/$token': typeof CardTokenRoute
   '/center/progress': typeof CenterProgressRoute
   '/center/schools': typeof CenterSchoolsRoute
+  '/crew/$token': typeof CrewTokenRoute
   '/dashboard/client': typeof DashboardClientRoute
   '/dashboard/organization': typeof DashboardOrganizationRoute
   '/dashboard/specialist': typeof DashboardSpecialistRoute
@@ -1857,6 +1872,7 @@ export interface FileRoutesByTo {
   '/$locale/card/$token': typeof LocaleCardTokenRoute
   '/$locale/center/progress': typeof LocaleCenterProgressRoute
   '/$locale/center/schools': typeof LocaleCenterSchoolsRoute
+  '/$locale/crew/$token': typeof LocaleCrewTokenRoute
   '/$locale/dashboard/client': typeof LocaleDashboardClientRoute
   '/$locale/dashboard/organization': typeof LocaleDashboardOrganizationRoute
   '/$locale/dashboard/specialist': typeof LocaleDashboardSpecialistRoute
@@ -2034,6 +2050,7 @@ export interface FileRoutesById {
   '/card/$token': typeof CardTokenRoute
   '/center/progress': typeof CenterProgressRoute
   '/center/schools': typeof CenterSchoolsRoute
+  '/crew/$token': typeof CrewTokenRoute
   '/dashboard/client': typeof DashboardClientRoute
   '/dashboard/organization': typeof DashboardOrganizationRoute
   '/dashboard/specialist': typeof DashboardSpecialistRoute
@@ -2094,6 +2111,7 @@ export interface FileRoutesById {
   '/$locale/card/$token': typeof LocaleCardTokenRoute
   '/$locale/center/progress': typeof LocaleCenterProgressRoute
   '/$locale/center/schools': typeof LocaleCenterSchoolsRoute
+  '/$locale/crew/$token': typeof LocaleCrewTokenRoute
   '/$locale/dashboard/client': typeof LocaleDashboardClientRoute
   '/$locale/dashboard/organization': typeof LocaleDashboardOrganizationRoute
   '/$locale/dashboard/specialist': typeof LocaleDashboardSpecialistRoute
@@ -2272,6 +2290,7 @@ export interface FileRouteTypes {
     | '/card/$token'
     | '/center/progress'
     | '/center/schools'
+    | '/crew/$token'
     | '/dashboard/client'
     | '/dashboard/organization'
     | '/dashboard/specialist'
@@ -2332,6 +2351,7 @@ export interface FileRouteTypes {
     | '/$locale/card/$token'
     | '/$locale/center/progress'
     | '/$locale/center/schools'
+    | '/$locale/crew/$token'
     | '/$locale/dashboard/client'
     | '/$locale/dashboard/organization'
     | '/$locale/dashboard/specialist'
@@ -2508,6 +2528,7 @@ export interface FileRouteTypes {
     | '/card/$token'
     | '/center/progress'
     | '/center/schools'
+    | '/crew/$token'
     | '/dashboard/client'
     | '/dashboard/organization'
     | '/dashboard/specialist'
@@ -2567,6 +2588,7 @@ export interface FileRouteTypes {
     | '/$locale/card/$token'
     | '/$locale/center/progress'
     | '/$locale/center/schools'
+    | '/$locale/crew/$token'
     | '/$locale/dashboard/client'
     | '/$locale/dashboard/organization'
     | '/$locale/dashboard/specialist'
@@ -2743,6 +2765,7 @@ export interface FileRouteTypes {
     | '/card/$token'
     | '/center/progress'
     | '/center/schools'
+    | '/crew/$token'
     | '/dashboard/client'
     | '/dashboard/organization'
     | '/dashboard/specialist'
@@ -2803,6 +2826,7 @@ export interface FileRouteTypes {
     | '/$locale/card/$token'
     | '/$locale/center/progress'
     | '/$locale/center/schools'
+    | '/$locale/crew/$token'
     | '/$locale/dashboard/client'
     | '/$locale/dashboard/organization'
     | '/$locale/dashboard/specialist'
@@ -2980,6 +3004,7 @@ export interface RootRouteChildren {
   CardTokenRoute: typeof CardTokenRoute
   CenterProgressRoute: typeof CenterProgressRoute
   CenterSchoolsRoute: typeof CenterSchoolsRoute
+  CrewTokenRoute: typeof CrewTokenRoute
   DashboardClientRoute: typeof DashboardClientRoute
   DashboardOrganizationRoute: typeof DashboardOrganizationRoute
   DashboardSpecialistRoute: typeof DashboardSpecialistRoute
@@ -3040,6 +3065,7 @@ export interface RootRouteChildren {
   LocaleCardTokenRoute: typeof LocaleCardTokenRoute
   LocaleCenterProgressRoute: typeof LocaleCenterProgressRoute
   LocaleCenterSchoolsRoute: typeof LocaleCenterSchoolsRoute
+  LocaleCrewTokenRoute: typeof LocaleCrewTokenRoute
   LocaleDashboardClientRoute: typeof LocaleDashboardClientRoute
   LocaleDashboardOrganizationRoute: typeof LocaleDashboardOrganizationRoute
   LocaleDashboardSpecialistRoute: typeof LocaleDashboardSpecialistRoute
@@ -3917,6 +3943,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CenterSchoolsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/crew/$token': {
+      id: '/crew/$token'
+      path: '/crew/$token'
+      fullPath: '/crew/$token'
+      preLoaderRoute: typeof CrewTokenRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/dashboard/': {
       id: '/dashboard/'
       path: '/dashboard'
@@ -4328,6 +4361,13 @@ declare module '@tanstack/react-router' {
       path: '/$locale/center/schools'
       fullPath: '/$locale/center/schools'
       preLoaderRoute: typeof LocaleCenterSchoolsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/$locale/crew/$token': {
+      id: '/$locale/crew/$token'
+      path: '/$locale/crew/$token'
+      fullPath: '/$locale/crew/$token'
+      preLoaderRoute: typeof LocaleCrewTokenRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/$locale/dashboard/': {
@@ -4900,6 +4940,7 @@ const rootRouteChildren: RootRouteChildren = {
   CardTokenRoute: CardTokenRoute,
   CenterProgressRoute: CenterProgressRoute,
   CenterSchoolsRoute: CenterSchoolsRoute,
+  CrewTokenRoute: CrewTokenRoute,
   DashboardClientRoute: DashboardClientRoute,
   DashboardOrganizationRoute: DashboardOrganizationRoute,
   DashboardSpecialistRoute: DashboardSpecialistRoute,
@@ -4963,6 +5004,7 @@ const rootRouteChildren: RootRouteChildren = {
   LocaleCardTokenRoute: LocaleCardTokenRoute,
   LocaleCenterProgressRoute: LocaleCenterProgressRoute,
   LocaleCenterSchoolsRoute: LocaleCenterSchoolsRoute,
+  LocaleCrewTokenRoute: LocaleCrewTokenRoute,
   LocaleDashboardClientRoute: LocaleDashboardClientRoute,
   LocaleDashboardOrganizationRoute: LocaleDashboardOrganizationRoute,
   LocaleDashboardSpecialistRoute: LocaleDashboardSpecialistRoute,

@@ -20,7 +20,7 @@ BEGIN
   PERFORM set_config('request.jwt.claim.sub', _id::text, true);
   PERFORM set_config('request.jwt.claims', json_build_object('sub', _id, 'role', 'authenticated')::text, true);
 END $$;
-GRANT EXECUTE ON FUNCTION pg_temp.expect(boolean, text), pg_temp.raises(text, text), pg_temp.as_user(uuid) TO authenticated;
+GRANT EXECUTE ON FUNCTION pg_temp.expect(boolean, text), pg_temp.raises(text, text), pg_temp.as_user(uuid) TO authenticated, anon;
 
 -- a: athlete · p: their psychologist · s: a stranger
 INSERT INTO auth.users (id, email) VALUES
@@ -104,6 +104,41 @@ SELECT pg_temp.expect((SELECT jsonb_array_length(o->'sessions') = 2
   'then load, profile and season, and no longer the check-ins');
 SELECT pg_temp.expect((SELECT count(*) FROM public.athlete_sessions) = 0,
   'the psychologist still cannot read the tables directly');
+
+-- Pit crew links: read-only, per scope, revocable, never clinical.
+SELECT pg_temp.as_user('00000000-0000-0000-0000-00000000bc01');
+INSERT INTO public.athlete_crew_links (athlete_id, label, role, scopes)
+  VALUES ('00000000-0000-0000-0000-00000000bc01', 'Coach Karim', 'coach', ARRAY['training', 'competitions']);
+SELECT pg_temp.raises($q$INSERT INTO public.athlete_crew_links (athlete_id, label, token)
+  VALUES ('00000000-0000-0000-0000-00000000bc01', 'x', repeat('a', 64))$q$, 'the client cannot choose the token');
+SELECT pg_temp.raises($q$INSERT INTO public.athlete_crew_links (athlete_id, label, scopes)
+  VALUES ('00000000-0000-0000-0000-00000000bc01', 'x', ARRAY['journal'])$q$, 'a crew link never carries the journal');
+SELECT pg_temp.expect((SELECT token ~ '^[0-9a-f]{64}$' FROM public.athlete_crew_links), 'the database picks a 64-hex token');
+CREATE TEMP TABLE crew_tok AS SELECT token FROM public.athlete_crew_links;
+GRANT SELECT ON crew_tok TO anon;
+SELECT pg_temp.as_user('00000000-0000-0000-0000-00000000bc03');
+SELECT pg_temp.expect((SELECT count(*) = 0 FROM public.athlete_crew_links), 'others do not see the links');
+RESET ROLE;
+
+SET LOCAL ROLE anon;
+SELECT pg_temp.expect((SELECT v->>'label' = 'Coach Karim'
+                              AND jsonb_array_length(v->'sessions') = 2
+                              AND v->'competitions'->0->>'name' = 'Open de Rabat'
+                              AND v->'competitions'->0->'cues'->>0 = 'smooth'
+                              AND NOT v ? 'checkins' AND NOT v ? 'season'
+                         FROM public.crew_view((SELECT token FROM crew_tok)) v),
+  'the coach sees training and competitions, nothing else, without an account');
+SELECT pg_temp.expect(public.crew_view(repeat('b', 64)) IS NULL AND public.crew_view('x') IS NULL,
+  'a wrong token shows nothing');
+RESET ROLE;
+SELECT pg_temp.expect((SELECT last_viewed_at IS NOT NULL FROM public.athlete_crew_links), 'the view is recorded');
+
+SET LOCAL ROLE authenticated;
+SELECT pg_temp.as_user('00000000-0000-0000-0000-00000000bc01');
+UPDATE public.athlete_crew_links SET revoked_at = now();
+RESET ROLE;
+SET LOCAL ROLE anon;
+SELECT pg_temp.expect(public.crew_view((SELECT token FROM crew_tok)) IS NULL, 'a revoked link shows nothing');
 RESET ROLE;
 
 ROLLBACK;
