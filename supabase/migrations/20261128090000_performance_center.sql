@@ -430,3 +430,29 @@ LANGUAGE sql STABLE SECURITY DEFINER SET search_path = '' AS $$
 $$;
 REVOKE ALL ON FUNCTION public.crew_squad() FROM PUBLIC, anon;
 GRANT EXECUTE ON FUNCTION public.crew_squad() TO authenticated;
+
+-- The invited coach is told, if they already have an account.
+CREATE OR REPLACE FUNCTION public.crew_link_invited() RETURNS trigger
+LANGUAGE plpgsql SECURITY DEFINER SET search_path = '' AS $$
+DECLARE
+  _to uuid;
+  _who text;
+BEGIN
+  IF NEW.invite_email IS NULL OR NEW.revoked_at IS NOT NULL
+     OR (TG_OP = 'UPDATE' AND OLD.invite_email IS NOT DISTINCT FROM NEW.invite_email) THEN
+    RETURN NEW;
+  END IF;
+  SELECT u.id INTO _to FROM auth.users u WHERE lower(u.email) = NEW.invite_email LIMIT 1;
+  IF _to IS NULL OR _to = NEW.athlete_id THEN RETURN NEW; END IF;
+  SELECT coalesce(nullif(split_part(p.full_name, ' ', 1), ''), 'Un athlète')
+    INTO _who FROM public.profiles p WHERE p.id = NEW.athlete_id;
+  PERFORM public.notify_user(_to, 'performance',
+    coalesce(_who, 'Un athlète') || ' vous ouvre son muret des stands',
+    'Vous voyez désormais, en lecture seule, ce que l''athlète a choisi de partager : disponibilité, charge, compétitions. Retrouvez-le dans votre écurie.',
+    '/athlete-hub#squad', true);
+  RETURN NEW;
+END $$;
+DROP TRIGGER IF EXISTS crew_link_invited ON public.athlete_crew_links;
+CREATE TRIGGER crew_link_invited AFTER INSERT OR UPDATE OF invite_email ON public.athlete_crew_links
+  FOR EACH ROW EXECUTE FUNCTION public.crew_link_invited();
+REVOKE ALL ON FUNCTION public.crew_link_invited() FROM PUBLIC, anon, authenticated;

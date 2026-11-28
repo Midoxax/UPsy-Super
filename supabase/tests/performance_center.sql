@@ -185,6 +185,10 @@ SELECT pg_temp.raises($q$INSERT INTO public.athlete_crew_links (athlete_id, labe
 SELECT set_config('request.jwt.claims', json_build_object('sub', '00000000-0000-0000-0000-00000000bc04',
   'role', 'authenticated', 'email', 'Karim@Club.ma')::text, true);
 SELECT set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-00000000bc04', true);
+SELECT pg_temp.expect((SELECT count(*) = 1 FROM public.notifications
+                        WHERE user_id = '00000000-0000-0000-0000-00000000bc04' AND type = 'performance'
+                          AND action_url = '/athlete-hub#squad' AND email_status = 'pending'),
+  'the invited coach is notified once, by email too');
 SELECT pg_temp.expect((SELECT count(*) = 1 AND bool_and(label = 'Coach Karim') FROM public.crew_squad()),
   'the coach sees the athlete who invited them');
 SELECT pg_temp.expect((SELECT (public.crew_view(token)) ? 'checkins' FROM public.crew_squad()),
