@@ -16,6 +16,7 @@ import {
   type PitWall as Wall,
 } from "@/lib/performance/metrics";
 import type { PerfCopy } from "@/lib/performance/copy";
+import WeeklyReportToggle from "./WeeklyReportToggle";
 
 export function StatusLight({
   label,
@@ -227,6 +228,8 @@ export default function PitWall({
           sub={hrv.n >= 7 ? `${c.stats.baseline}: ${hrv.mean}` : "ms"}
         />
       </div>
+
+      <WeeklyReportToggle c={c} />
 
       <p className="flex items-start gap-2 text-xs text-muted-foreground">
         <CalendarClock className="mt-0.5 h-3.5 w-3.5 shrink-0" />

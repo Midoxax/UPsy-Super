@@ -307,6 +307,9 @@ const en = {
     `Read-only view shared with ${label}. The athlete chooses what appears here and can stop sharing at any time.`,
   crewInvalid: "This link is not valid or the athlete has stopped sharing it.",
   readinessLast: "Latest readiness",
+  weeklyTitle: "Race engineer's weekly report",
+  weeklyDesc:
+    "Every Monday: last week's load, your readiness, the next competition and one thing to watch. Always in your notifications; by email if this is on.",
   signIn: "Sign in to your Performance Center",
 };
 
@@ -615,6 +618,9 @@ const fr: Copy = {
     `Vue en lecture seule partagée avec ${label}. L'athlète choisit ce qui apparaît ici et peut arrêter le partage à tout moment.`,
   crewInvalid: "Ce lien n'est pas valide ou l'athlète a arrêté de le partager.",
   readinessLast: "Dernière disponibilité",
+  weeklyTitle: "Rapport hebdomadaire de l'ingénieur",
+  weeklyDesc:
+    "Chaque lundi : la charge de la semaine passée, votre disponibilité, la prochaine compétition et un point à surveiller. Toujours dans vos notifications ; par email si c'est activé.",
   signIn: "Connectez-vous à votre Centre de performance",
 };
 
@@ -911,6 +917,9 @@ const ar: Copy = {
     `عرض للقراءة فقط مشارك مع ${label}. يختار الرياضي ما يظهر هنا ويمكنه إيقاف المشاركة في أي وقت.`,
   crewInvalid: "هذا الرابط غير صالح أو أوقف الرياضي مشاركته.",
   readinessLast: "آخر جاهزية",
+  weeklyTitle: "التقرير الأسبوعي لمهندس السباق",
+  weeklyDesc:
+    "كل اثنين: حِمل الأسبوع الماضي، جاهزيتك، المنافسة القادمة ونقطة للانتباه. دائمًا في إشعاراتك، وبالبريد إذا كان مفعّلًا.",
   signIn: "سجّل الدخول إلى مركز الأداء",
 };
 

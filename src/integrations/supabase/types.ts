@@ -5281,6 +5281,7 @@ export type Database = {
           updated_at: string;
           user_id: string;
           email_league: boolean;
+          email_performance: boolean;
         };
         Insert: {
           created_at?: string;
@@ -5292,6 +5293,7 @@ export type Database = {
           updated_at?: string;
           user_id: string;
           email_league?: boolean;
+          email_performance?: boolean;
         };
         Update: {
           created_at?: string;
@@ -5303,6 +5305,7 @@ export type Database = {
           updated_at?: string;
           user_id?: string;
           email_league?: boolean;
+          email_performance?: boolean;
         };
         Relationships: [];
       };

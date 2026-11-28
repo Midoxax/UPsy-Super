@@ -42,6 +42,8 @@ const PREF: Record<string, string | null> = {
   // Webinar notices go to registrants: confirmation, reminders, replay.
   training: null,
   league_training: null,
+  // The race engineer's weekly report (Performance Center).
+  performance: "email_performance",
 };
 const LEAGUE_TYPES = new Set([
   "league",
@@ -65,6 +67,7 @@ const EYEBROW: Record<string, string> = {
   shop_admin: "Administration U.Psy",
   training: "Formation U.Psy",
   league_training: "Formation LSSPM",
+  performance: "Centre de performance U.Psy",
 };
 
 type Row = {

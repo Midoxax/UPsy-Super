@@ -141,4 +141,36 @@ SET LOCAL ROLE anon;
 SELECT pg_temp.expect(public.crew_view((SELECT token FROM crew_tok)) IS NULL, 'a revoked link shows nothing');
 RESET ROLE;
 
+
+-- The weekly report: one per athlete and week, in their language, emailed
+-- unless they opted out.
+UPDATE auth.users SET raw_user_meta_data = '{"locale":"en"}' WHERE id = '00000000-0000-0000-0000-00000000bc03';
+INSERT INTO public.readiness_checkins (user_id, mood, sleep, stress, energy, cognitive_load, score, created_at)
+  VALUES ('00000000-0000-0000-0000-00000000bc03', 6, 6, 5, 6, 5, 61, date_trunc('week', now()) - interval '3 days');
+INSERT INTO public.notification_preferences (user_id, email_performance)
+  VALUES ('00000000-0000-0000-0000-00000000bc03', false)
+  ON CONFLICT (user_id) DO UPDATE SET email_performance = false;
+INSERT INTO public.athlete_sessions (user_id, session_date, kind, duration_minutes, rpe)
+  VALUES ('00000000-0000-0000-0000-00000000bc01', date_trunc('week', current_date)::date - 3, 'training', 90, 8),
+         ('00000000-0000-0000-0000-00000000bc01', date_trunc('week', current_date)::date - 10, 'training', 30, 5);
+SELECT pg_temp.expect(public.performance_weekly_report() >= 2, 'the report goes to each active athlete');
+SELECT pg_temp.expect(public.performance_weekly_report() = 0, 'and only once a week');
+SELECT pg_temp.expect((SELECT title LIKE 'Votre semaine : charge %' AND body LIKE '%UA sur %séances%'
+                              AND body LIKE '%Open de Rabat dans%' AND email_status = 'pending'
+                              AND action_url = '/athlete-hub#pit'
+                         FROM public.notifications
+                        WHERE user_id = '00000000-0000-0000-0000-00000000bc01' AND type = 'performance'),
+  'in French by default, with load, next competition and the pit wall link, emailed');
+-- Last week (Mon-Sun) carries 720 AU or more, the week before 150: a spike.
+SELECT pg_temp.expect((SELECT body LIKE '%' || chr(10) || 'À surveiller : forte hausse de la charge%'
+                         FROM public.notifications
+                        WHERE user_id = '00000000-0000-0000-0000-00000000bc01' AND type = 'performance'),
+  'a load spike is the thing to watch');
+SELECT pg_temp.expect((SELECT title LIKE 'Your week: load 0 AU, readiness 61' AND email_status IS NULL
+                         FROM public.notifications
+                        WHERE user_id = '00000000-0000-0000-0000-00000000bc03' AND type = 'performance'),
+  'in English for an English user, in-app only after opting out of the email');
+SELECT pg_temp.expect(NOT has_function_privilege('authenticated', 'public.performance_weekly_report()', 'EXECUTE'),
+  'only the scheduler sends the report');
+
 ROLLBACK;

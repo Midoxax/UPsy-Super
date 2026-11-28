@@ -284,3 +284,123 @@ BEGIN
 END $$;
 REVOKE ALL ON FUNCTION public.crew_view(text) FROM PUBLIC;
 GRANT EXECUTE ON FUNCTION public.crew_view(text) TO anon, authenticated, service_role;
+
+-- 8. The race engineer's weekly report -------------------------------------
+-- Every Monday morning, each athlete active in the last 14 days gets a short
+-- debrief of the past week: load vs the week before, average readiness and
+-- its change, the next competition, and one thing to watch. In-app always;
+-- by email unless they switch it off (notification_preferences).
+ALTER TABLE public.notification_preferences
+  ADD COLUMN IF NOT EXISTS email_performance boolean NOT NULL DEFAULT true;
+
+CREATE TABLE IF NOT EXISTS public.performance_reports (
+  user_id uuid NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
+  week date NOT NULL,
+  created_at timestamptz NOT NULL DEFAULT now(),
+  PRIMARY KEY (user_id, week)
+);
+ALTER TABLE public.performance_reports ENABLE ROW LEVEL SECURITY;
+REVOKE ALL ON public.performance_reports FROM PUBLIC, anon, authenticated;
+GRANT ALL ON public.performance_reports TO service_role;
+
+CREATE OR REPLACE FUNCTION public.performance_weekly_report()
+RETURNS integer
+LANGUAGE plpgsql SECURITY DEFINER SET search_path = '' AS $$
+DECLARE
+  _week date := date_trunc('week', current_date)::date; -- this Monday
+  _u record;
+  _load int; _prev_load int; _n int;
+  _ready int; _prev_ready int;
+  _race text; _race_days int;
+  _lang text; _email boolean;
+  _title text; _body text; _watch text;
+  _sent int := 0;
+BEGIN
+  FOR _u IN
+    SELECT DISTINCT user_id FROM (
+      SELECT user_id FROM public.athlete_sessions WHERE session_date >= current_date - 14
+      UNION
+      SELECT user_id FROM public.readiness_checkins WHERE created_at >= now() - interval '14 days'
+    ) a
+  LOOP
+    -- Once per week, whatever the number of runs.
+    INSERT INTO public.performance_reports (user_id, week) VALUES (_u.user_id, _week)
+      ON CONFLICT DO NOTHING;
+    IF NOT FOUND THEN CONTINUE; END IF;
+
+    SELECT coalesce(sum(load), 0), count(*) INTO _load, _n FROM public.athlete_sessions
+      WHERE user_id = _u.user_id AND session_date >= _week - 7 AND session_date < _week;
+    SELECT coalesce(sum(load), 0) INTO _prev_load FROM public.athlete_sessions
+      WHERE user_id = _u.user_id AND session_date >= _week - 14 AND session_date < _week - 7;
+    SELECT round(avg(score)) INTO _ready FROM public.readiness_checkins
+      WHERE user_id = _u.user_id AND created_at >= _week - 7 AND created_at < _week;
+    SELECT round(avg(score)) INTO _prev_ready FROM public.readiness_checkins
+      WHERE user_id = _u.user_id AND created_at >= _week - 14 AND created_at < _week - 7;
+    SELECT name, event_date - current_date INTO _race, _race_days FROM public.athlete_competitions
+      WHERE user_id = _u.user_id AND event_date >= current_date ORDER BY event_date LIMIT 1;
+
+    SELECT CASE WHEN u.raw_user_meta_data->>'locale' IN ('en', 'ar') THEN u.raw_user_meta_data->>'locale' ELSE 'fr' END
+      INTO _lang FROM auth.users u WHERE u.id = _u.user_id;
+    SELECT coalesce((SELECT p.email_performance FROM public.notification_preferences p
+                      WHERE p.user_id = _u.user_id), true) INTO _email;
+
+    -- One thing to watch, most important first.
+    _watch := CASE
+      WHEN _prev_load > 0 AND _load > _prev_load * 1.5 THEN 'spike'
+      WHEN _ready IS NOT NULL AND _prev_ready IS NOT NULL AND _ready <= _prev_ready - 8 THEN 'readiness'
+      WHEN _race_days IS NOT NULL AND _race_days <= 7 THEN 'race'
+      ELSE 'steady' END;
+
+    IF _lang = 'en' THEN
+      _title := 'Your week: load ' || _load || ' AU' || coalesce(', readiness ' || _ready, '');
+      _body := 'Load: ' || _load || ' AU over ' || _n || ' sessions'
+        || CASE WHEN _prev_load > 0 THEN ' (' || to_char(round(100.0 * (_load - _prev_load) / _prev_load), 'FMSG999') || ' % on the week before).' ELSE '.' END
+        || coalesce(E'\nAverage readiness: ' || _ready || '/100'
+             || CASE WHEN _prev_ready IS NOT NULL THEN ' (' || to_char(_ready - _prev_ready, 'FMSG99') || ' pts).' ELSE '.' END, '')
+        || coalesce(E'\nNext competition: ' || _race || ' in ' || _race_days || ' days.', '')
+        || E'\n' || CASE _watch
+             WHEN 'spike' THEN 'To watch: a sharp rise in load. Talk to your coach before adding more.'
+             WHEN 'readiness' THEN 'To watch: readiness is down. Make recovery the priority.'
+             WHEN 'race' THEN 'To watch: competition week. Review your race plan and routine.'
+             ELSE 'A steady week: keep the plan.' END;
+    ELSIF _lang = 'ar' THEN
+      _title := 'أسبوعك: الحِمل ' || _load || ' و.ع' || coalesce('، الجاهزية ' || _ready, '');
+      _body := 'الحِمل: ' || _load || ' و.ع في ' || _n || ' حصص'
+        || CASE WHEN _prev_load > 0 THEN ' (' || to_char(round(100.0 * (_load - _prev_load) / _prev_load), 'FMSG999') || ' % مقارنة بالأسبوع السابق).' ELSE '.' END
+        || coalesce(E'\nمتوسط الجاهزية: ' || _ready || '/100'
+             || CASE WHEN _prev_ready IS NOT NULL THEN ' (' || to_char(_ready - _prev_ready, 'FMSG99') || ' نقاط).' ELSE '.' END, '')
+        || coalesce(E'\nالمنافسة القادمة: ' || _race || ' بعد ' || _race_days || ' أيام.', '')
+        || E'\n' || CASE _watch
+             WHEN 'spike' THEN 'للانتباه: ارتفاع حاد في الحِمل. تحدث مع مدربك قبل الزيادة.'
+             WHEN 'readiness' THEN 'للانتباه: الجاهزية في انخفاض. الأولوية للاسترجاع.'
+             WHEN 'race' THEN 'للانتباه: أسبوع منافسة. راجع خطة السباق والروتين.'
+             ELSE 'أسبوع مستقر: حافظ على الخطة.' END;
+    ELSE
+      _title := 'Votre semaine : charge ' || _load || ' UA' || coalesce(', disponibilité ' || _ready, '');
+      _body := 'Charge : ' || _load || ' UA sur ' || _n || ' séances'
+        || CASE WHEN _prev_load > 0 THEN ' (' || to_char(round(100.0 * (_load - _prev_load) / _prev_load), 'FMSG999') || ' % par rapport à la semaine précédente).' ELSE '.' END
+        || coalesce(E'\nDisponibilité moyenne : ' || _ready || '/100'
+             || CASE WHEN _prev_ready IS NOT NULL THEN ' (' || to_char(_ready - _prev_ready, 'FMSG99') || ' pts).' ELSE '.' END, '')
+        || coalesce(E'\nProchaine compétition : ' || _race || ' dans ' || _race_days || ' jours.', '')
+        || E'\n' || CASE _watch
+             WHEN 'spike' THEN 'À surveiller : forte hausse de la charge. Parlez-en à votre entraîneur avant d''en ajouter.'
+             WHEN 'readiness' THEN 'À surveiller : la disponibilité baisse. Priorité à la récupération.'
+             WHEN 'race' THEN 'À surveiller : semaine de compétition. Relisez votre plan de course et votre routine.'
+             ELSE 'Semaine stable : on garde le plan.' END;
+    END IF;
+
+    PERFORM public.notify_user(_u.user_id, 'performance', _title, _body, '/athlete-hub#pit', _email);
+    _sent := _sent + 1;
+  END LOOP;
+  RETURN _sent;
+END $$;
+REVOKE ALL ON FUNCTION public.performance_weekly_report() FROM PUBLIC, anon, authenticated;
+GRANT EXECUTE ON FUNCTION public.performance_weekly_report() TO service_role;
+
+-- Mondays 07:10 UTC (08:10 in Casablanca).
+DO $$
+BEGIN
+  IF to_regnamespace('cron') IS NULL THEN RETURN; END IF;
+  PERFORM cron.schedule('performance-weekly-report', '10 7 * * 1',
+                        'SELECT public.performance_weekly_report();');
+END $$;
